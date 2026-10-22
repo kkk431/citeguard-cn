@@ -94,7 +94,8 @@ def test_judge_uses_cache_on_second_call(monkeypatch, isolated_cache):
 
     assert first == second
     assert len(calls) == 1
-    assert list((isolated_cache / "support").glob("*.json"))
+    # Cache is namespaced by prompt version so prompt changes never reuse old verdicts.
+    assert list((isolated_cache / "support").glob(f"v{sp.PROMPT_VERSION}/*.json"))
 
 
 def test_summarize_support_counts():

@@ -193,3 +193,30 @@ def test_health_reports_supported_suffixes(client):
     assert payload["ok"] is True
     assert ".docx" in payload["supported"]
     assert ".pdf" in payload["supported"]
+
+
+def test_csv_export_has_bom_and_one_row_per_reference(client):
+    resp = client.post(
+        "/api/analyze",
+        files={"file": ("paper.docx", _docx_bytes(), "application/vnd.openxmlformats-officedocument.wordprocessingml.document")},
+    )
+    job = wait_for_job(client, resp.json()["job_id"])
+
+    csv_resp = client.get(f"/api/report/{job['id']}/export?format=csv")
+
+    assert csv_resp.status_code == 200
+    assert "text/csv" in csv_resp.headers["content-type"]
+    body = csv_resp.content.decode("utf-8-sig")
+    lines = [ln for ln in body.splitlines() if ln.strip()]
+    assert lines[0].startswith("序号,结论,支持度")
+    assert len(lines) == 2  # header + one reference
+
+
+def test_unknown_export_format_is_rejected(client):
+    resp = client.post(
+        "/api/analyze",
+        files={"file": ("paper.docx", _docx_bytes(), "application/vnd.openxmlformats-officedocument.wordprocessingml.document")},
+    )
+    job = wait_for_job(client, resp.json()["job_id"])
+
+    assert client.get(f"/api/report/{job['id']}/export?format=xlsx").status_code == 400

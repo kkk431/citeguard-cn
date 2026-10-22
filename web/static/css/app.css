@@ -221,3 +221,9 @@ textarea:focus,input:focus{outline:none;border-color:var(--accent);background:va
 .lib-banner.on{border-left-color:var(--ok);background:var(--ok-soft);color:var(--ok)}
 .lib-banner a{color:var(--accent)}
 #library-summary .mono-sm{line-height:1.8}
+
+/* batch upload results */
+.batch-results{margin-top:14px;border-top:1px solid var(--line);padding-top:12px}
+.batch-row{display:flex;align-items:center;gap:12px;padding:7px 0;border-bottom:1px solid var(--line);font-size:13px}
+.batch-row:last-child{border-bottom:none}
+.batch-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink-2)}

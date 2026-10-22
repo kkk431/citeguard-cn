@@ -16,3 +16,4 @@ node_modules/
 dist/
 *.zip
 data/library/
+data/experiments/support_prompt_cache/

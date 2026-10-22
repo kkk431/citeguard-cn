@@ -44,13 +44,13 @@ full              0.9684
 
 | 指标 | Macro-F1 | Accuracy |
 |---|---|---|
-| 支持度四分类（deepseek-chat，temperature 0） | 0.7951 | 0.8100 |
+| 支持度四分类（deepseek-chat，temperature 0，prompt v3） | 0.9005 | 0.8900 |
 
 ```
 混淆矩阵（行=真实，列=预测）            support partial contradict no_evidence
-support        [ 40,   0,   0,   0 ]
-partial        [ 12,  11,   0,   2 ]
-contradict     [  4,   1,  10,   0 ]
+support        [ 38,   2,   0,   0 ]
+partial        [  7,  18,   0,   0 ]
+contradict     [  2,   0,  13,   0 ]
 no_evidence    [  0,   0,   0,  20 ]
 ```
 

@@ -15,7 +15,7 @@ BASE = Path(__file__).resolve().parent          # citeguard/web
 ROOT = BASE.parent                               # citeguard
 sys.path.insert(0, str(ROOT / "src"))
 
-from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile  # noqa: E402
+from fastapi import FastAPI, File, Form, HTTPException, Request, Response, UploadFile  # noqa: E402
 from fastapi.responses import FileResponse, HTMLResponse, JSONResponse  # noqa: E402
 from fastapi.staticfiles import StaticFiles  # noqa: E402
 from fastapi.templating import Jinja2Templates  # noqa: E402
@@ -208,13 +208,99 @@ def report_json(job_id: str):
 
 @app.get("/api/report/{job_id}/export")
 def export_report(job_id: str, format: str = "html"):
+    if format == "csv":
+        report = _load_report(job_id)
+        if report is None:
+            raise HTTPException(status_code=404, detail="report not ready")
+        text = _report_to_csv(report)
+        filename = f"citeguard-{job_id}.csv"
+        return Response(
+            content=("\ufeff" + text).encode("utf-8"),  # BOM so Excel reads Chinese
+            media_type="text/csv; charset=utf-8",
+            headers={"Content-Disposition": f'attachment; filename="{filename}"'},
+        )
     if format not in {"html", "md", "json"}:
-        raise HTTPException(status_code=400, detail="format must be html/md/json")
+        raise HTTPException(status_code=400, detail="format must be html/md/json/csv")
     p = config.DATA_DIR / "jobs" / job_id / f"report.{format}"
     if not p.exists():
         raise HTTPException(status_code=404, detail="export not ready")
     media = {"html": "text/html; charset=utf-8", "md": "text/markdown; charset=utf-8", "json": "application/json"}
     return FileResponse(p, media_type=media[format], filename=f"citeguard-{job_id}.{format}")
+
+
+def _report_to_csv(report: dict) -> str:
+    """Flat one-row-per-reference export for teachers / spreadsheet workflows."""
+    import csv
+    import io
+
+    status_label = {
+        "Exact": "真实一致",
+        "Minor": "元数据偏差",
+        "Major": "疑似虚构或错配",
+        "Unverified": "未找到匹配",
+        "Unknown": "无法核验",
+    }
+    support_label = {
+        "support": "支持",
+        "partial": "部分支持",
+        "contradict": "矛盾",
+        "no_evidence": "无证据",
+        "not_checked": "未检测",
+    }
+    buf = io.StringIO()
+    writer = csv.writer(buf)
+    writer.writerow(
+        [
+            "序号",
+            "结论",
+            "支持度",
+            "题名",
+            "作者",
+            "年份",
+            "来源",
+            "卷",
+            "期",
+            "页码",
+            "DOI",
+            "合规分",
+            "格式问题",
+            "修改建议",
+            "引用句",
+            "证据链接",
+            "原始条目",
+        ]
+    )
+    for item in report.get("references", []):
+        p = item.get("parsed") or {}
+        v = item.get("verify") or {}
+        c = item.get("compliance") or {}
+        sup = item.get("support") or {}
+        best = v.get("best") or {}
+        issues = c.get("issues") or []
+        errors = [f"[{i.get('level')}] {i.get('message')}" for i in issues]
+        suggestions = [i.get("suggestion", "") for i in issues if i.get("suggestion")]
+        writer.writerow(
+            [
+                item.get("index", ""),
+                status_label.get(v.get("status"), v.get("status", "")),
+                support_label.get(sup.get("label"), sup.get("label", "")),
+                p.get("title", ""),
+                ", ".join(p.get("authors") or []),
+                p.get("year", ""),
+                p.get("venue", ""),
+                p.get("volume", ""),
+                p.get("issue", ""),
+                p.get("pages", ""),
+                p.get("doi", ""),
+                c.get("score", ""),
+                "；".join(errors),
+                "；".join(suggestions),
+                sup.get("claim", ""),
+                best.get("url", "") or (f"https://doi.org/{best.get('doi')}" if best.get("doi") else ""),
+                item.get("raw", ""),
+            ]
+        )
+    return buf.getvalue()
 
 
 @app.get("/report/{job_id}", response_class=HTMLResponse)

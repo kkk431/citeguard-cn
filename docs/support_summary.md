@@ -4,25 +4,27 @@
 
 ## 一句话结论
 
-在自建中文引文支持度评测集 **ClaimSupport-CN（100 条，标签由构造决定）** 上，产品自带的 `judge_support`（DeepSeek `deepseek-chat`，temperature 0）取得 **macro-F1 0.7951 / accuracy 0.810**，`no_evidence` 与 `support` 识别接近满分；主要误差集中在 **partial↔support**（证据只支持部分论断时 judge 倾向于判 support），说明「部分支持」的边界最需要校准。
+在自建中文引文支持度评测集 **ClaimSupport-CN（100 条，标签由构造决定）** 上，产品自带的 `judge_support`（DeepSeek `deepseek-chat`，temperature 0，prompt v3）取得 **macro-F1 0.9005 / accuracy 0.890**；`no_evidence` 识别满分，`contradict` F1 0.929，主要剩余误差仍是 **partial↔support**（7 条 partial 被判 support、2 条 support 被判 partial），但已从 prompt v1 的 12 条混淆降到 9 条。
+
+> 版本记录：prompt v1（`8a4850d4…`）macro-F1 0.7951 / acc 0.810；v2 加入「先摘证据、再判定」与边界规则后 0.8757/0.870（含论文题目上下文）；v3 去掉题目上下文、只给引用句+证据片段后 **0.9005/0.890**（`cb86c4fa…`）。
 
 ## 主表（per-class）
 
 | 类别 | 支持数 | Precision | Recall | F1 | 预测数 |
 |---|---|---|---|---|---|
-| support | 40 | 0.7143 | 1.0000 | 0.8333 | 56 |
-| partial | 25 | 0.9167 | 0.4400 | 0.5946 | 12 |
-| contradict | 15 | 1.0000 | 0.6667 | 0.8000 | 10 |
-| no_evidence | 20 | 0.9091 | 1.0000 | 0.9524 | 22 |
-| **macro / overall** | 100 | — | — | **0.7951** | accuracy **0.8100** |
+| support | 40 | 0.8085 | 0.9500 | 0.8736 | 47 |
+| partial | 25 | 0.9000 | 0.7200 | 0.8000 | 20 |
+| contradict | 15 | 1.0000 | 0.8667 | 0.9286 | 13 |
+| no_evidence | 20 | 1.0000 | 1.0000 | 1.0000 | 20 |
+| **macro / overall** | 100 | — | — | **0.9005** | accuracy **0.8900** |
 
 ## 混淆矩阵（行 = 真实，列 = 预测）
 
 ```text
               pred support  partial  contradict  no_evidence
-true support            40        0           0            0
-true partial            12       11           0            2
-true contradict          4        1          10            0
+true support            38        2           0            0
+true partial             7       18           0            0
+true contradict          2        0          13            0
 true no_evidence         0        0           0           20
 ```
 
@@ -45,7 +47,7 @@ DEEPSEEK_API_KEY=... PYTHONPATH=src python3 scripts/evaluate_support.py   # 评�
 
 ## 评测证据
 
-- judge：`citeguard.support.judge_support`，`deepseek-chat`，temperature 0，`prompt_sha256=8a4850d4…`；100/100 判定成功，0 次 API 失败。
+- judge：`citeguard.support.judge_support`，`deepseek-chat`，temperature 0，`prompt_sha256=cb86c4fa…`（prompt v3）；100/100 判定成功，0 次 API 失败。
 - 结果记录数据集 SHA-256、per-class、混淆矩阵与逐条预测（`results.json` / `predictions.csv`）。
 
 ## 已知局限

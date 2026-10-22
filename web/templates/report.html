@@ -11,6 +11,7 @@
     {% if report %}
     <button class="btn btn-ghost btn-sm" type="button" id="copy-suggestions">复制修改建议</button>
     <button class="btn btn-ghost btn-sm" type="button" id="print-report">打印 / 存 PDF</button>
+    <a class="btn btn-ghost btn-sm" href="/api/report/{{ job.id }}/export?format=csv">导出 CSV</a>
     <a class="btn btn-ghost btn-sm" href="/api/report/{{ job.id }}/export?format=html">导出 HTML</a>
     <a class="btn btn-ghost btn-sm" href="/api/report/{{ job.id }}/export?format=md">导出 Markdown</a>
     <a class="btn btn-ghost btn-sm" href="/api/report/{{ job.id }}/export?format=json">导出 JSON</a>

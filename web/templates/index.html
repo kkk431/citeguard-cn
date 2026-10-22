@@ -29,9 +29,9 @@
     {% endif %}
     <form id="upload-form" enctype="multipart/form-data">
       <label id="dropzone" class="dropzone" for="file-input">
-        <input id="file-input" type="file" name="file" accept=".pdf,.docx,.txt,.md" hidden>
+        <input id="file-input" type="file" name="file" accept=".pdf,.docx,.txt,.md" multiple hidden>
         <div class="dz-title">拖入论文，或点击选择文件</div>
-        <div class="dz-sub">PDF / Word（.docx）/ TXT / MD · 分析后删除原文件</div>
+        <div class="dz-sub">PDF / Word（.docx）/ TXT / MD · 可一次选多篇批量体检 · 分析后删除原文件</div>
         <div class="dz-file" id="dz-file"></div>
       </label>
       <div class="or"><span>或粘贴正文与参考文献</span></div>
@@ -53,6 +53,7 @@
         <button type="button" class="btn btn-ghost" id="sample-btn">用示例论文试试</button>
         <span class="mono-sm" id="upload-hint" style="margin-left:auto;align-self:center"></span>
       </div>
+      <div id="batch-results" class="batch-results hidden"></div>
     </form>
   </div>
 </section>
