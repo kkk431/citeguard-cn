@@ -40,3 +40,7 @@ SUPPORT_MAX_REFS_LIMIT = 200
 
 # Upload guard for the web app.
 MAX_UPLOAD_MB = int(os.environ.get("CITEGUARD_MAX_UPLOAD_MB", "30"))
+
+# User-supplied reference library (RIS / EndNote / BibTeX / CSL-JSON / plain list).
+LIBRARY_DIR = DATA_DIR / "library"
+LIBRARY_FILE = LIBRARY_DIR / "library.json"

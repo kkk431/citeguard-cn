@@ -15,3 +15,4 @@ data/citebench_cn/cache/
 node_modules/
 dist/
 *.zip
+data/library/

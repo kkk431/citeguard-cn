@@ -1,4 +1,4 @@
-"""Concurrent verification: order preservation and progress reporting."""
+﻿"""Concurrent verification: order preservation and progress reporting."""
 from __future__ import annotations
 
 import time
@@ -13,7 +13,7 @@ REFS = [
 
 
 def test_results_keep_input_order(monkeypatch):
-    def fake_verify(ref, use_arxiv=True):
+    def fake_verify(ref, use_arxiv=True, library=None):
         # Later entries finish sooner; order must still follow the input list.
         time.sleep((12 - ref.index) * 0.01)
         return mv.VerifyResult(status="Exact", notes=[f"ref-{ref.index}"])
@@ -38,7 +38,7 @@ def test_progress_callback_is_called_for_every_reference(monkeypatch):
 
 
 def test_single_failure_degrades_to_unknown(monkeypatch):
-    def boom(ref, use_arxiv=True):
+    def boom(ref, use_arxiv=True, library=None):
         if ref.index == 3:
             raise RuntimeError("network exploded")
         return mv.VerifyResult(status="Exact")

@@ -1,4 +1,4 @@
-"""Tests for multi-source metadata verification (all HTTP is faked)."""
+﻿"""Tests for multi-source metadata verification (all HTTP is faked)."""
 from __future__ import annotations
 
 import pytest
@@ -217,7 +217,7 @@ def test_lookup_doi_status_not_found(monkeypatch, isolated_cache):
 def test_verify_many_reports_progress(monkeypatch):
     seen: list[tuple[int, int]] = []
 
-    def fake_verify(ref, use_arxiv=True):
+    def fake_verify(ref, use_arxiv=True, library=None):
         return VerifyResult(status="Exact", title_sim=1.0)
 
     monkeypatch.setattr(mv, "verify_reference", fake_verify)

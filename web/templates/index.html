@@ -22,6 +22,11 @@
 
 <section class="wrap section">
   <div class="panel">
+    {% if library_count %}
+    <div class="lib-banner on">已导入 <b>{{ library_count }}</b> 条本地题录：中文文献会优先用你自己的题录比对 · <a href="/library">管理 / 追加</a></div>
+    {% else %}
+    <div class="lib-banner">中文文献在 OpenAlex / Crossref 里覆盖很少 → <a href="/library">导入自己的题录库</a>，让中文文献也能被核验（数据只留本机）</div>
+    {% endif %}
     <form id="upload-form" enctype="multipart/form-data">
       <label id="dropzone" class="dropzone" for="file-input">
         <input id="file-input" type="file" name="file" accept=".pdf,.docx,.txt,.md" hidden>

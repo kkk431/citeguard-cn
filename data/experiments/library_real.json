@@ -1,0 +1,1659 @@
+{
+  "summary": {
+    "papers": 10,
+    "refs": 224,
+    "library_entries": 223,
+    "library_hits": 223,
+    "status": {
+      "Exact": 189,
+      "Minor": 35
+    },
+    "definite_verdicts": 224,
+    "definite_rate": 1.0,
+    "field_mismatch_detected": 34
+  },
+  "rows": [
+    {
+      "paper": "n阶复线性微分方程的无穷φ-级解",
+      "title": "On the Infinite φ-Order Solutions of Second Order Linear Differential Equations",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "n阶复线性微分方程的无穷φ-级解",
+      "title": "Meromorphic Functions of Finite φ-Order and Linear q-Differ- ence Equations",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "n阶复线性微分方程的无穷φ-级解",
+      "title": "Value Distribution of Meromorphic Functions",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "n阶复线性微分方程的无穷φ-级解",
+      "title": "Meromorphic Functions",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "n阶复线性微分方程的无穷φ-级解",
+      "title": "Finite Order Solutions of Second Order Linear Differential Equations",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "n阶复线性微分方程的无穷φ-级解",
+      "title": "Some Further Results on the Zeros and Growths of Entire Solutions of Second Orde",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "n阶复线性微分方程的无穷φ-级解",
+      "title": "Nevanlinna Theory and Complex Differential Equations",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "n阶复线性微分方程的无穷φ-级解",
+      "title": "On the Number of Linearly Independent Admissible Solutions to Linear Differentia",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "n阶复线性微分方程的无穷φ-级解",
+      "title": "Uniqueness Theory of Meromorphic Functions",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "title": "累积生态风险与青少年的学业和社交能力: 子女责任感的风 险补偿与调节效应",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "title": "累积生态风险与高职生学习倦怠: 消极自我图式和网络成瘾的中介作用",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "title": "青少年压力与吸烟行为的关系: 应对方式的中介作用",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "title": "父母风险因素对青少年危险行为影响",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "title": "累积生态风险对河南省大学生健康危险行为的影响",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "title": "儿童少年卫生学",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "title": "中国青少年健康相关/危险行为调查综合报告2005",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "title": "累积生态风险对大学生运动拖延影响: 基于自我控制的中介效应和锻炼氛围的调节效应",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "title": "累积生态风险对大学生健康生活方式的影响",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "title": "累积生态风险与青少年网络成瘾: 心理需要满足和积极结果预期的 中介作用",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "title": "自我图式与心理健康",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "title": "累积生态风险与青少年健康危险行为",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "title": "心理卫生评定量表手册 增订版",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "title": "家庭经济困难与青少年社会适应的关系: 应对效能的补偿、中介和调节效应",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "title": "压力与网络成瘾的关系: 家庭支持和朋友支持的调节作用",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "title": "初中生聚集性危害健康行为发展轨迹及与自尊和孤独感的关 联",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "title": "北京市1138名大学生健康危险行为状况",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "title": "同伴侵害与初中生病理性网络游戏使用的关系: 中介效应与调节效应",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "title": "Learned Helplessness in Humans: Critique and Reformulation",
+      "status": "Minor",
+      "from_library": true,
+      "mismatches": [
+        "authors_order"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "title": "Clinical Handbook of Psychological Disorders: A Step-by-Step Treatment Manual (4",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "title": "Cognitive Models of Depression",
+      "status": "Minor",
+      "from_library": true,
+      "mismatches": [
+        "authors_order"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "title": "Toward an Experimental Ecology of Human Development",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "title": "Lay Theories of Health, Self-Rated Health, and Health Behavior Intentions",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "title": "Cumulative Ecological Risk and Problematic Mobile Social Media Use among College",
+      "status": "Minor",
+      "from_library": true,
+      "mismatches": [
+        "authors_order"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "title": "Schemas, Sexuality, and Romantic Attachment",
+      "status": "Minor",
+      "from_library": true,
+      "mismatches": [
+        "authors_order"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "title": "Implicit Theories and Their Role in Judgments and Reactions: A Word from Two Per",
+      "status": "Minor",
+      "from_library": true,
+      "mismatches": [
+        "authors_order"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "title": "Cumulative Risk and Child Development",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "title": "The Brief Core Schema Scales (BCSS): Psychometric Properties and Associations wi",
+      "status": "Minor",
+      "from_library": true,
+      "mismatches": [
+        "authors"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "title": "Cumulative Environmental Risk and Youth Maladjustment: The Role of Youth Attribu",
+      "status": "Minor",
+      "from_library": true,
+      "mismatches": [
+        "authors_order"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "title": "Gratitude and Suicidal Ideation and Suicide Attempts among Chinese Adolescents: ",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "title": "Self-Efficacy as a Moderator of the Planning-Be- haviour Relationship in Interve",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "title": "Self-Schemata and Processing Information about the Self",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "title": "Ordinary Magic: Resilience Processes in Development",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "title": "Protecting Adolescents from Harm",
+      "status": "Minor",
+      "from_library": true,
+      "mismatches": [
+        "authors_order"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "title": "A Dual Systems Model of Adolescent Risk‐Taking",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "title": "An Attributional Theory of Achievement Motivation and Emotion",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "title": "Global Health Risks: Mortality and Burden of Disease Attributable to Selected Ma",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
+      "title": "早期亲子互动常用观察法评估量表研究进展",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
+      "title": "父母“低头族”与初中生手机成瘾的交叉滞后分析",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
+      "title": "父母低头行为量表在我国青少年群体中的初步修订",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
+      "title": "学龄前儿童(3-6 岁)运动指南",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
+      "title": "3-6岁幼儿安全感量表的编制",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
+      "title": "家庭嘈杂度对幼儿社会退缩行为的影响: 父母低头行为与幼儿媒介沉迷的链式中介作用",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
+      "title": "幼儿气质与问题性媒体使用: 数码自我调节的中介作用与父母数码调解的调节作用",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
+      "title": "共同方法偏差检验: 问题与建议",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
+      "title": "父母手机使用对儿童语言和行为发育的影响",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
+      "title": "The Influence of Sociodemographic Factors on Mobile Device Use among Young Child",
+      "status": "Minor",
+      "from_library": true,
+      "mismatches": [
+        "authors_order"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
+      "title": "Self-Efficacy: Toward a Unifying Theory of Behavioral Change",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
+      "title": "Social Learning Theory of Aggression",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
+      "title": "Current Patterns of Parental Authority",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
+      "title": "Family Therapy in Clinical Practice",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
+      "title": "Parent-Child Attachment and Emotion Regulation",
+      "status": "Minor",
+      "from_library": true,
+      "mismatches": [
+        "authors_order"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
+      "title": "Interpersonal Expectations, Expectancy Violations, and Emotional Communication",
+      "status": "Minor",
+      "from_library": true,
+      "mismatches": [
+        "authors_order"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
+      "title": "Smartphone Addiction and Victimization Predicts Sleep Problems and Depression am",
+      "status": "Minor",
+      "from_library": true,
+      "mismatches": [
+        "authors"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
+      "title": "Understanding Families as Systems",
+      "status": "Minor",
+      "from_library": true,
+      "mismatches": [
+        "authors_order"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
+      "title": "“Media Time = Family Time”",
+      "status": "Minor",
+      "from_library": true,
+      "mismatches": [
+        "authors_order"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
+      "title": "Masters of Media: A Longitudinal Study of Parental Media Efficacy, Media Monitor",
+      "status": "Minor",
+      "from_library": true,
+      "mismatches": [
+        "authors"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
+      "title": "Tantrums, Toddlers and Technology: Temperament, Media Emotion Regulation, and Pr",
+      "status": "Minor",
+      "from_library": true,
+      "mismatches": [
+        "authors"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
+      "title": "Influence of Adolescents’ Smartphone Addiction on Mental and Emotional Developme",
+      "status": "Minor",
+      "from_library": true,
+      "mismatches": [
+        "authors_order"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
+      "title": "Interactional Theory of Childhood Problematic Media Use",
+      "status": "Minor",
+      "from_library": true,
+      "mismatches": [
+        "authors_order"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
+      "title": "Development and Vali- dation of the Problematic Media Use Measure: A Parent Repo",
+      "status": "Minor",
+      "from_library": true,
+      "mismatches": [
+        "authors"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
+      "title": "Adolescents' Perceptions of Communication with Parents Relative to Specific Aspe",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
+      "title": "As Predictives of Digital Game Addiction in Early Childhood; Digital Parenting, ",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
+      "title": "Quality of Mother-Child Interaction before, during, and after Smartphone Use",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
+      "title": "Maternal Phubbing and Problematic Media Use in Preschoolers: The Independent and",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
+      "title": "Parent Distraction with Phones, Reasons for Use, and Impacts on Parenting and Ch",
+      "status": "Minor",
+      "from_library": true,
+      "mismatches": [
+        "authors_order"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
+      "title": "Smartphone Use Is a Risk Factor for Pediatric Dry Eye Disease According to Regio",
+      "status": "Minor",
+      "from_library": true,
+      "mismatches": [
+        "authors_order"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
+      "title": "“Mom, Dad, Look at Me”: The Development of the Parental Phubbing Scale",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
+      "title": "Examining the Relationship between Problematic Media Use and Screen Time in Chil",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
+      "title": "Parental Psycho- logical Problems Were Associated with Higher Screen Time and th",
+      "status": "Minor",
+      "from_library": true,
+      "mismatches": [
+        "authors"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
+      "title": "Young Children’s Use of Smartphones and Tablets",
+      "status": "Minor",
+      "from_library": true,
+      "mismatches": [
+        "authors"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
+      "title": "Problematic Media Use among Children up to the Age of 10: A Systematic Liter- at",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
+      "title": "Preschoolers’ Responses to Social Comparisons Involving Relative Failure",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
+      "title": "Family Correlates of Adolescent Self-Monitoring and Social Competence",
+      "status": "Minor",
+      "from_library": true,
+      "mismatches": [
+        "authors"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
+      "title": "Attachment Security and Problematic Media Use in Infancy: A Longitudinal Study i",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
+      "title": "Problematic Media Use in Early Childhood: The Role of Parent-Child Relationships",
+      "status": "Minor",
+      "from_library": true,
+      "mismatches": [
+        "authors"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
+      "title": "Mother Phubbing and Child Problematic Media Use: The Role of Mother- Child Relat",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "title": "浪漫依恋研究及其对中国化研究的启示",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "title": "成人依恋对亲密关系满意度的影响: 冲突应对方式的中介作用及干预",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "title": "大学生恋人的关系信念、冲突应对方式对其亲密关系质量的影响",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "title": "大学生情侣成人依恋与亲密关系质量: 归因的中介作用",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "title": "童年期虐待对主观幸福感的影响: 不安全型依恋与幸福恐惧的链式中介作用",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "title": "成人依恋、亲密关系动机与大学生亲密关系质量的相关研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "title": "成人依恋与亲密关系满意度的关系: 自传体记忆的中介效应与情绪调节策略的调节效应",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "title": "依恋内部工作模式的研究概述及探讨",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "title": "共同方法变异的影响及其统计控制途径的模型分析",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "title": "成人依恋、关系内隐理论与恋爱冲突解决策略的研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "title": "自传体记忆功能对失独者延长哀伤的影响: 家族主义情感的调节作用",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "title": "I’ll Keep You in Mind: The Intimacy Function of Autobiographical Memory",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "title": "Associations between the Broad Autism Phenotype, Adult Attachment, and Relations",
+      "status": "Minor",
+      "from_library": true,
+      "mismatches": [
+        "authors_order"
+      ]
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "title": "Extending the Study of Autobiographical Memory: Thinking Back about Life across ",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "title": "A TALE of Three Functions: The Self-Reported Uses of Autobio- graphical Memory",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "title": "Analyzing Stability and Change in Dyadic Attachment: The Multi-Rater Latent Stat",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "title": "Attachment and Loss: Vol",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "title": "Intimate Relationships",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "title": "Romantic Relationship Memory Effects on Future Romantic Relationship Forecasts: ",
+      "status": "Minor",
+      "from_library": true,
+      "mismatches": [
+        "authors_order"
+      ]
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "title": "Adult Attachment, Working Models, and Relationship Quality in Dating Couples",
+      "status": "Minor",
+      "from_library": true,
+      "mismatches": [
+        "authors_order"
+      ]
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "title": "The Construction of Autobiographical Memories in the Self-Memory Sys- tem",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "title": "Attachment, Trust, and Satisfaction in Relationships: Investigating Actor, Partn",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "title": "Romantic Love Conceptualized as an Attachment Process",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "title": "Thrice-Told Tales: Married Couples Tell Their Stories",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "title": "Voicing Conflict: Preferred Conflict Strategies among Incremental and Entity The",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "title": "Implicit Theories of Relationships: Assessment and Prediction of Romantic Relati",
+      "status": "Minor",
+      "from_library": true,
+      "mismatches": [
+        "authors_order"
+      ]
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "title": "Implicit Theories of Relationships and Coping in Romantic Relationships",
+      "status": "Minor",
+      "from_library": true,
+      "mismatches": [
+        "authors_order"
+      ]
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "title": "Implicit Theories of Relationships: Orientations toward Evaluation and Cul- tiva",
+      "status": "Minor",
+      "from_library": true,
+      "mismatches": [
+        "authors_order"
+      ]
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "title": "Attachment Patterns and Autobiographical Episodic Memory Functioning: A Systemic",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "title": "Security in Infancy, Childhood, and Adulthood: A Move to the Level of Repre- sen",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "title": "Rumination as a Mechanism Linking Stressful Life Events to Symptoms of Depressio",
+      "status": "Minor",
+      "from_library": true,
+      "mismatches": [
+        "authors_order"
+      ]
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "title": "Attachment in Adulthood: Structure, Dynamics, and Change",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "title": "Attachment Memories, Models and Information Processing",
+      "status": "Minor",
+      "from_library": true,
+      "mismatches": [
+        "authors_order"
+      ]
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "title": "Marital Satisfaction and Quality of Life among Married Women: Moderating Role of",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "title": "神经模糊系统及其应用",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "title": "Fuzzy Sparse Subspace Clustering for Infrared Image Segmentation",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "title": "Joint Sample Position Based Noise Filtering and Mean Shift Clus- tering for Imba",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "title": "Structural-Spectral Graph Convolution with Evidential Edge Learning for Hyperspe",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "title": "An Ensemble Clustering Method via Learning the CA Matrix with Fuzzy Neighbors",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "title": "Enhanced One-Step Incomplete Multiview Fuzzy Clustering with Dual Representation",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "title": "A Novel Fuzzy Clustering Algorithm Based on a Fuzzy Scatter Matrix with Opti- ma",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "title": "Generalized Fuzzy C-Means Clustering Algorithm with Improved Fuzzy Partitions",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "title": "Projective ART for Clustering Data Sets in High Dimensional Spaces",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "title": "Enhanced Soft Subspace Clustering Integrating Within-Cluster and Between-Cluster",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "title": "Automatic Subspace Clustering of High Dimensional Data for Data Mining Applicati",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "title": "Entropy-Based Subspace Clustering for Mining Numerical Data",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "title": "Mafia: Efficient and Scalable Subspace Clustering for Very Large Data Sets",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "title": "Finding Generalized Projected Clusters in High Dimensional Spaces",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "title": "Fast Algorithms for Projected Clustering",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "title": "FINDIT: A Fast and Intelligent Subspace Clustering Algorithm Using Dimension Vot",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "title": "A Convergence Theorem for the Fuzzy Subspace Clustering (FSC) Algorithm",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "title": "Subspace Clustering of Text Documents with Feature Weighting K- Means Algorithm",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "title": "Fuzzy Clustering with the Entropy of Attribute Weights",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "title": "Subspace Clustering of High Dimensional Data",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "title": "Locally Adaptive Metrics for Clustering High Dimensional Data",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "title": "Cluster Ensembles—A Knowledge Reuse Framework for Combining Multiple Partitions",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "title": "Fuzzy Partition Based Soft Subspace Clustering and Its Applications in High Dime",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "title": "Optimality Test for Generalized FCM and Its Application to Parameter Selection",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "title": "Analysis of the Weighting Exponent in the FCM",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "title": "Localized Feature Selection for Clustering",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "title": "Davies Bouldin Index Based Hierarchical Initialization K-Means",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "中小电商企业ERP与CRM系统集成障碍与优化路径研究",
+      "title": "ERP系统实施与企业成本粘性",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "中小电商企业ERP与CRM系统集成障碍与优化路径研究",
+      "title": "面向企业信息化系统集成的中台架构研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "中小电商企业ERP与CRM系统集成障碍与优化路径研究",
+      "title": "电子商务投资与企业绩效——基于客户关系管理的视角",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "中小电商企业ERP与CRM系统集成障碍与优化路径研究",
+      "title": "中小企业ERP应用现状分析",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "中小电商企业ERP与CRM系统集成障碍与优化路径研究",
+      "title": "ERP系统在企业财务管理应用中存在的问题及对策",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "中小电商企业ERP与CRM系统集成障碍与优化路径研究",
+      "title": "客户关系管理在企业市场营销中的作用",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "中小电商企业ERP与CRM系统集成障碍与优化路径研究",
+      "title": "客户关系管理理论综述",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "中小电商企业ERP与CRM系统集成障碍与优化路径研究",
+      "title": "ERP系统在中小电商企业客户关系管理中的优化作用研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "中小电商企业ERP与CRM系统集成障碍与优化路径研究",
+      "title": "小微企业如何提升信息沟通绩效——基于社会化客户关系管理能力与社交媒体可见度 的研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "中小电商企业ERP与CRM系统集成障碍与优化路径研究",
+      "title": "The Processes of Technological Innovation",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "中小电商企业ERP与CRM系统集成障碍与优化路径研究",
+      "title": "ERP环境下基于系统参数的风险管理系统构建研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "中小电商企业ERP与CRM系统集成障碍与优化路径研究",
+      "title": "基于ERP平台的战略成本管理保障体系建设",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "中小电商企业ERP与CRM系统集成障碍与优化路径研究",
+      "title": "基于信息系统环境的企业内部控制优化——以冠昊生物公司为例",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "人工智能在电子商务领域应用的研究图景与热点分析——基于国际核心文献的计量",
+      "title": "Bibliometric Examination of Artificial Intelligence within the Framework of E-Co",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "人工智能在电子商务领域应用的研究图景与热点分析——基于国际核心文献的计量",
+      "title": "AI-Based Chatbots in Customer Service and Their Effects on User Com- pliance",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "人工智能在电子商务领域应用的研究图景与热点分析——基于国际核心文献的计量",
+      "title": "Knowledge Evolutionary Process of Artificial Intelligence in E-Commerce: Main Pa",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "人工智能在电子商务领域应用的研究图景与热点分析——基于国际核心文献的计量",
+      "title": "Generative Artificial Intelligence and Internationalization Green Innovation: Ro",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "人工智能在电子商务领域应用的研究图景与热点分析——基于国际核心文献的计量",
+      "title": "Online Recommenda- tion Systems: Factors Influencing Use in E-Commerce",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "人工智能在电子商务领域应用的研究图景与热点分析——基于国际核心文献的计量",
+      "title": "Data-Intensive Inventory Forecasting with Artificial Intelligence Models for Cro",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "人工智能在电子商务领域应用的研究图景与热点分析——基于国际核心文献的计量",
+      "title": "AI-Driven Anomaly Detection in E-Commerce Services: A Deep Learning and NLP Appr",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "人工智能在电子商务领域应用的研究图景与热点分析——基于国际核心文献的计量",
+      "title": "I, Chatbot! The Impact of Anthropomorphism and Gaze Direction on Willingness to ",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "人工智能在电子商务领域应用的研究图景与热点分析——基于国际核心文献的计量",
+      "title": "Optimization of Consumer Engagement with Artificial Intelligence Elements on Ele",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "人工智能在电子商务领域应用的研究图景与热点分析——基于国际核心文献的计量",
+      "title": "AI-Based Chatbots in Customer Service and Their Effects on User Com- pliance",
+      "status": "Minor",
+      "from_library": true,
+      "mismatches": [
+        "year"
+      ]
+    },
+    {
+      "paper": "人工智能在电子商务领域应用的研究图景与热点分析——基于国际核心文献的计量",
+      "title": "What Prompts Consumers to Purchase Online? A Machine Learning Approach",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "人工智能在电子商务领域应用的研究图景与热点分析——基于国际核心文献的计量",
+      "title": "Investigating the Moderating Role of AI-Enabled Services on Flow and Awe Experi-",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "人工智能在电子商务领域应用的研究图景与热点分析——基于国际核心文献的计量",
+      "title": "Harnessing AI Potential in E-Commerce: Improving User Engagement and Sales throu",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "人工智能在电子商务领域应用的研究图景与热点分析——基于国际核心文献的计量",
+      "title": "A Large Language Model and Qualitative Comparative Analysis-Based Study of Trust",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "人工智能在电子商务领域应用的研究图景与热点分析——基于国际核心文献的计量",
+      "title": "Enhanced E-Commerce Personalization through AI-Powered Content Generation Tools",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "内容电商场景下传媒生产的要素重构与交易闭环机制",
+      "title": "直播电商下厂家、MCN机构及主播动态运营策略",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "内容电商场景下传媒生产的要素重构与交易闭环机制",
+      "title": "内容电商运营的基本路径研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "内容电商场景下传媒生产的要素重构与交易闭环机制",
+      "title": "数据与用户双驱动: 传统媒体发展数字经济探析",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "内容电商场景下传媒生产的要素重构与交易闭环机制",
+      "title": "电子商务平台经营者的数据保护义务",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "内容电商场景下传媒生产的要素重构与交易闭环机制",
+      "title": "电商直播中消费者注意力的生产与控制",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "内容电商场景下传媒生产的要素重构与交易闭环机制",
+      "title": "算法行动者对短视频平台注意力市场的建构",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "内容电商场景下传媒生产的要素重构与交易闭环机制",
+      "title": "平台算法推荐下消费者理性决策的理论依据与实践路径",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "内容电商场景下传媒生产的要素重构与交易闭环机制",
+      "title": "平台经济的数字化发展和数字信任",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "内容电商场景下传媒生产的要素重构与交易闭环机制",
+      "title": "基于互动仪式链的网络直播消费者决策机制与优化研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "内容电商场景下传媒生产的要素重构与交易闭环机制",
+      "title": "价值链转移视角下内容电商发展策略探讨",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "内容电商场景下传媒生产的要素重构与交易闭环机制",
+      "title": "推荐算法驱动内容平台价值创造的机理: 相关还是因果?",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "电子商务平台数据安全困境及优化路径",
+      "title": "大数据背景下电子商务企业管理问题及对策",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "电子商务平台数据安全困境及优化路径",
+      "title": "滥用市场支配地位侵犯隐私行为的反垄断法规制",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "电子商务平台数据安全困境及优化路径",
+      "title": "消法视角下的电子商务平台安全保障义务",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "电子商务平台数据安全困境及优化路径",
+      "title": "监管与市场调节下大数据杀熟治理的演化博弈研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "电子商务平台数据安全困境及优化路径",
+      "title": "电子商务平台治理的理念转型与制度调适",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "电子商务平台数据安全困境及优化路径",
+      "title": "数字化背景下平台经济发展合规路径探索",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "电子商务平台数据安全困境及优化路径",
+      "title": "数字平台监管模式的系统论重构",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "电子商务平台数据安全困境及优化路径",
+      "title": "数字经济时代中国政府监管转型研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "电子商务平台数据安全困境及优化路径",
+      "title": "“共享性链接”: 平台经济跨部门协同监管何以可能——基于 B 市 S 区互联网经济协同监管平台 DOI: 10.12677/ecl.2026.15101144 ",
+      "status": "Minor",
+      "from_library": false,
+      "mismatches": [
+        "authors",
+        "venue",
+        "volume",
+        "pages",
+        "title_language"
+      ]
+    },
+    {
+      "paper": "电子商务平台数据安全困境及优化路径",
+      "title": "最小必要原则在平台处理个人信息实践中的适用",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "电子商务平台数据安全困境及优化路径",
+      "title": "大数据驱动下的电商行业发展与应用研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "电子商务平台数据安全困境及优化路径",
+      "title": "数据网络外部性与垄断平台数据收集",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "电子商务平台数据安全困境及优化路径",
+      "title": "以智慧监管助推平台经济规范健康发展",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "电子商务平台数据安全困境及优化路径",
+      "title": "人工智能时代联邦学习隐私保护的局限及克服",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "title": "中国直播电商经济的时空演变特征与区域发展模式",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "title": "古典园林在现代景观设计中的作用",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "title": "全域电商视域下的传统园林IP价值重构与产业链延伸策略",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "title": "“新零售”背景下生鲜电商商业模式比较分析——以盒马鲜生和每日优鲜为例",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "title": "“景观即商品”: 城乡景观商品化与电商营销模式研究——基于农旅产品包装与线上传播视角",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "title": "乡村文化景观传承的价值、困境与实施策略",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "title": "依托电商平台的地方文旅IP打造与商业转化研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "title": "基于耦合法的风景园林减量设计策略",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "title": "年轻人用创意让古典园林破圈",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "title": "2024年全国花卉零售市场总规模已近2200亿|“2025全国花卉产销形势分析”专题",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "title": "“带货”更是“带路”浏阳柏加镇按下电商经济发展“快进键”",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "title": "苏州园林景区经营管理模式优化研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "title": "短视频营销对游客文创产品购买意愿的影响研究——以南京钟山风景区为例",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "title": "乡村振兴背景下花木电商发展路径探析——以沭阳县双荡村为例",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "title": "文旅融合视角下的乡村景观规划与设计指南",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "title": "农文旅融合背景下农村电子商务发展研究: 以洛阳为例",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "title": "数字生态下县域花木电商发展路径研究——以沭阳县为例",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "title": "中国古典园林的文化基因",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "title": "活力中国调研行|花乡沭阳打包出售整座“梦想花园”, 还附带“大师级园丁”",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "title": "AI与大数据在电商供应链优化中的应用效果及经济价值评估",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "title": "我国直播电商供应链管理研究——基于CiteSpace的可视化分析",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "title": "数字经济时代跨境电商高质量人才供给体系的构建研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "title": "数字经济赋能林产品贸易发展对策研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "title": "数字媒体技术人才培养模式改革与实践",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    }
+  ]
+}

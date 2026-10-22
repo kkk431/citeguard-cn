@@ -149,6 +149,21 @@
       }
     }
 
+    const libraryEl = document.getElementById("library-summary");
+    if (libraryEl) {
+      const entries = s.library_entries || 0;
+      const hits = s.library_hits || 0;
+      if (entries) {
+        libraryEl.classList.remove("hidden");
+        libraryEl.innerHTML =
+          '<div class="mono-sm">本地题录库：<b>' + entries + "</b> 条 · 本次命中 <b>" + hits + "</b> 条" +
+          (hits ? "" : "（没有命中：可到「题录库」追加对应年份的导出）") +
+          " · <a href=\"/library\">管理题录库</a></div>";
+      } else {
+        libraryEl.classList.add("hidden");
+      }
+    }
+
     const chips = [["all", "全部", s.total || 0]].concat(
       ["Exact", "Minor", "Major", "Unverified", "Unknown"].map(function (k) {
         return [k, STATUS[k].label, s[k] || 0];
@@ -353,6 +368,10 @@
         const sup = item.support;
         const supInfo = sup ? SUPPORT[sup.label] : null;
         const supPill = '<span class="pill ' + (supInfo ? supInfo.cls : "unknown") + '"><i></i>支持度 ' + (supInfo ? supInfo.label : "未检测") + "</span>";
+        const sources = v.sources || [];
+        const localPill = sources.indexOf("local") !== -1
+          ? '<span class="pill ok"><i></i>本地题录库</span>'
+          : "";
         const supBlock = supInfo
           ? '<div class="ref-raw" style="margin-top:8px">引用句：' + esc(sup.claim || "") + "</div>" +
             '<div class="ref-evidence">判定理由：' + esc(sup.reason || "") +
@@ -378,6 +397,7 @@
               '<span class="ref-idx">[' + (item.index || "") + "]</span>" +
               '<span class="pill ' + st.cls + '"><i></i>' + st.label + "</span>" +
               supPill +
+              localPill +
               '<span class="ref-title">' + esc(p.title || short(item.raw, 80)) + "</span>" +
               '<span class="mono-sm">合规 ' + (c.score == null ? "—" : c.score) + "/100</span>" +
             "</div>" +

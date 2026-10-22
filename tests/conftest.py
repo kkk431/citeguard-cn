@@ -35,6 +35,18 @@ def offline_environment(monkeypatch):
     yield
 
 
+@pytest.fixture(autouse=True)
+def isolated_local_library(tmp_path, monkeypatch):
+    """Never read or write the developer's real local reference library."""
+    from citeguard import config
+
+    lib_dir = tmp_path / "library"
+    lib_dir.mkdir(parents=True, exist_ok=True)
+    monkeypatch.setattr(config, "LIBRARY_DIR", lib_dir)
+    monkeypatch.setattr(config, "LIBRARY_FILE", lib_dir / "library.json")
+    yield
+
+
 @pytest.fixture
 def isolated_project(tmp_path, monkeypatch):
     """Redirect all mutable project directories (jobs/cache/uploads) to tmp_path.

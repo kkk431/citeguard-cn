@@ -13,7 +13,7 @@ from typing import Callable, Optional
 from . import config
 from .gbt7714 import check_reference_list
 from .jobs import manager
-from .metadata_verify import verify_many
+from .metadata_verify import VerifyResult, local_library_verdict, verify_many
 from .pdf_extract import extract_text, split_references
 from .reference_parser import parse_intext_citations, parse_reference_list
 from .report import build_report, save_report
@@ -35,6 +35,8 @@ def analyze_text(
     progress: Progress = None,
     online: bool = True,
     use_arxiv: bool = True,
+    library=None,
+    max_refs: int = 0,
 ) -> dict:
     """Run the whole analysis on already-extracted text and return the report."""
     def step(pct: int, stage: str) -> None:
@@ -54,6 +56,8 @@ def analyze_text(
     refs = parse_reference_list(refs_text)
     if not refs:
         raise ValueError("没有解析到参考文献，请检查格式或改用 --refs 方式")
+    if max_refs and max_refs > 0:
+        refs = refs[:max_refs]
     step(12, f"解析到 {len(refs)} 条引文")
 
     intext = parse_intext_citations(body)
@@ -62,10 +66,15 @@ def analyze_text(
         def verify_progress(i: int, n: int) -> None:
             step(15 + int(70 * i / max(n, 1)), f"多源核验 {i}/{n}")
 
-        verify_results = verify_many(refs, progress_cb=verify_progress, use_arxiv=use_arxiv)
+        verify_results = verify_many(
+            refs, progress_cb=verify_progress, use_arxiv=use_arxiv, library=library
+        )
     else:
-        verify_results = [None] * len(refs)  # type: ignore[list-item]
-        step(85, "已跳过在线核验（--no-verify）")
+        # Offline mode still uses the user's library; everything else is Unknown.
+        verify_results = [
+            local_library_verdict(ref, library) or VerifyResult(status="Unknown") for ref in refs
+        ]
+        step(85, "已跳过在线核验（--no-verify）" if library is None else "已跳过在线核验，仅比对本地题录库")
 
     step(88, "检查 GB/T 7714-2025 字段")
     compliance = check_reference_list(refs)
@@ -89,6 +98,14 @@ def analyze_text(
         support_results,
         support_meta,
     )
+    # How much of this report came from the user's own library, and how big it is.
+    local_hits = sum(
+        1
+        for v in verify_results
+        if v is not None and "local" in getattr(v, "sources", [])
+    )
+    report["stats"]["library_entries"] = len(library) if library is not None else 0
+    report["stats"]["library_hits"] = local_hits
     return report
 
 
@@ -189,17 +206,29 @@ def run_job(
     file_path: str | None = None,
     text: str | None = None,
     support_max: int | None = None,
+    library=None,
 ) -> dict:
     """Run the analysis for a web job and write report.json/html/md to disk."""
     if file_path:
         manager.update(job_id, progress=4, stage="读取文件")
         text = extract_text(file_path)
 
+    if library is None:
+        from .local_library import Library
+
+        library = Library.load(config.LIBRARY_FILE)
+
     def progress(pct: int, stage: str) -> None:
         manager.update(job_id, progress=pct, stage=stage)
 
     source_name = Path(file_path).name if file_path else "粘贴文本"
-    report = analyze_text(text or "", source_name, support_max=support_max, progress=progress)
+    report = analyze_text(
+        text or "",
+        source_name,
+        support_max=support_max,
+        progress=progress,
+        library=library,
+    )
     report["job_id"] = job_id
 
     out_dir = config.DATA_DIR / "jobs" / job_id

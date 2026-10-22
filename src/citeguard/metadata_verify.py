@@ -641,7 +641,64 @@ def _best_scored(
     return ts, ym, am, best
 
 
-def verify_reference(ref: Reference, use_arxiv: bool = True) -> VerifyResult:
+def local_library_verdict(
+    ref: Reference, library: Optional["Library"] = None  # noqa: F821 - lazy type
+) -> Optional[VerifyResult]:
+    """Verify against the user's own reference library only (no network).
+
+    Returns ``None`` when the library has no usable record for this reference;
+    callers then fall back to the online sources.
+    """
+    if library is None or not ref.title:
+        return None
+    local_hits = library.search(ref.title, ref.year)
+    if not local_hits:
+        return None
+    sim, entry = local_hits[0]
+    from .local_library import entry_to_candidate
+
+    cand = entry_to_candidate(entry)
+    if sim >= 0.90:
+        mism = _field_mismatches(ref, cand)
+        if sim < 0.95:
+            # The library holds the exact record; a near-but-not-equal title
+            # means the citation's title was altered.
+            mism.append("title_partial")
+        status = "Minor" if mism else "Exact"
+        note = f"本地题录库命中（题名相似度 {sim:.2f}）" + (
+            f"；字段差异：{','.join(mism)}" if mism else "；字段一致"
+        )
+        return VerifyResult(
+            status=status,
+            best=cand,
+            title_sim=round(sim, 4),
+            year_match=_year_match(ref.year, cand.year),
+            author_match=round(_author_overlap(ref.authors, cand.authors), 4),
+            doi_status="local",
+            mismatches=mism,
+            notes=[note],
+            sources=["local"],
+        )
+    if sim >= 0.78:
+        return VerifyResult(
+            status="Minor",
+            best=cand,
+            title_sim=round(sim, 4),
+            year_match=_year_match(ref.year, cand.year),
+            author_match=round(_author_overlap(ref.authors, cand.authors), 4),
+            doi_status="local",
+            mismatches=["title"],
+            notes=[f"本地题录库近似命中（题名相似度 {sim:.2f}）"],
+            sources=["local"],
+        )
+    return None
+
+
+def verify_reference(
+    ref: Reference,
+    use_arxiv: bool = True,
+    library: Optional["Library"] = None,  # noqa: F821 - imported lazily to avoid a cycle
+) -> VerifyResult:
     """Verify one reference.
 
     Decision rules (v1):
@@ -653,6 +710,12 @@ def verify_reference(ref: Reference, use_arxiv: bool = True) -> VerifyResult:
     """
     notes: list[str] = []
     sources: list[str] = []
+
+    # 0) User-supplied local library first: it is the user's own licensed
+    # metadata, so it can verify Chinese references that open indexes miss.
+    local = local_library_verdict(ref, library)
+    if local is not None:
+        return local
 
     # 1) DOI anchor.
     if ref.doi:
@@ -827,6 +890,7 @@ def verify_many(
     use_arxiv: bool = True,
     progress_cb: Optional[Callable[[int, int], None]] = None,
     workers: Optional[int] = None,
+    library: Optional["Library"] = None,  # noqa: F821 - lazy import in verify_reference
 ) -> list[VerifyResult]:
     """Verify references concurrently, preserving input order.
 
@@ -847,7 +911,7 @@ def verify_many(
     def one(index: int, ref: Reference) -> None:
         nonlocal done
         try:
-            result = verify_reference(ref, use_arxiv=use_arxiv)
+            result = verify_reference(ref, use_arxiv=use_arxiv, library=library)
         except Exception:  # noqa: BLE001 - never let one bad entry kill the run
             result = VerifyResult(status="Unknown", notes=["verification crashed"])
         with lock:

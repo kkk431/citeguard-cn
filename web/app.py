@@ -22,6 +22,7 @@ from fastapi.templating import Jinja2Templates  # noqa: E402
 
 from citeguard import config  # noqa: E402
 from citeguard.jobs import manager  # noqa: E402
+from citeguard.local_library import Library, parse_library_text  # noqa: E402
 from citeguard.pdf_extract import SUPPORTED_SUFFIXES  # noqa: E402
 from citeguard.pipeline import run_job  # noqa: E402
 
@@ -72,9 +73,76 @@ def _load_report(job_id: str) -> dict | None:
 
 @app.get("/", response_class=HTMLResponse)
 def index(request: Request):
+    library = Library.load(config.LIBRARY_FILE)
     return templates.TemplateResponse(
-        request, "index.html", {"recent": manager.recent(6), "active": "home"}
+        request,
+        "index.html",
+        {"recent": manager.recent(6), "active": "home", "library_count": len(library)},
     )
+
+
+@app.get("/library", response_class=HTMLResponse)
+def library_page(request: Request):
+    library = Library.load(config.LIBRARY_FILE)
+    sources: dict[str, int] = {}
+    for entry in library.entries:
+        sources[entry.source] = sources.get(entry.source, 0) + 1
+    return templates.TemplateResponse(
+        request,
+        "library.html",
+        {
+            "active": "library",
+            "count": len(library),
+            "sources": sorted(sources.items()),
+            "sample": [entry.to_dict() for entry in library.entries[:20]],
+            "path": str(config.LIBRARY_FILE),
+        },
+    )
+
+
+@app.post("/api/library/import")
+def library_import(file: UploadFile = File(...)):
+    filename = file.filename or "library.ris"
+    suffix = Path(filename).suffix.lower()
+    if suffix not in {".ris", ".bib", ".json", ".csl", ".txt", ".enw"}:
+        raise HTTPException(status_code=400, detail="仅支持 RIS / BibTeX / EndNote / CSL-JSON / 纯文本题录")
+    raw = file.file.read(MAX_UPLOAD_BYTES + 1)
+    if len(raw) > MAX_UPLOAD_BYTES:
+        raise HTTPException(status_code=413, detail=f"文件超过 {config.MAX_UPLOAD_MB} MB 上限")
+    text = ""
+    for encoding in ("utf-8-sig", "utf-8", "gb18030"):
+        try:
+            text = raw.decode(encoding)
+            break
+        except UnicodeDecodeError:
+            continue
+    if not text:
+        text = raw.decode("utf-8", errors="replace")
+    entries = parse_library_text(text, filename)
+    if not entries:
+        raise HTTPException(status_code=400, detail="没有解析到任何题录，请检查导出格式")
+    library = Library.load(config.LIBRARY_FILE)
+    before = len(library)
+    library.add(entries)
+    library.save(config.LIBRARY_FILE)
+    return {
+        "imported": len(entries),
+        "before": before,
+        "count": len(library),
+        "format_guess": entries[0].source if entries else "",
+    }
+
+
+@app.post("/api/library/clear")
+def library_clear():
+    Library().save(config.LIBRARY_FILE)
+    return {"count": 0}
+
+
+@app.get("/api/library")
+def library_api():
+    library = Library.load(config.LIBRARY_FILE)
+    return {"count": len(library), "sample": [e.to_dict() for e in library.entries[:5]]}
 
 
 @app.post("/api/analyze")
