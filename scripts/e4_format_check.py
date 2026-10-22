@@ -671,8 +671,8 @@ CATEGORY_LABELS = {
 
 EXPECTED_RULE = {
     "missing_volume_issue": "volume/issue 缺失 → 提示补卷/期",
-    "hyphen_pages": "连接号规范检查（当前规则层无此规则）",
-    "four_authors_no_et_al": "作者超过 3 人应写「等」（当前规则层无此规则）",
+    "hyphen_pages": "页码连接号：标准原文的破折号规定未核实，规则层不改单条，只在全文混用时提示（见 check_reference_list）",
+    "four_authors_no_et_al": "作者超过 3 人应写「等」（规则层已支持：作者数 >3 且无「等」→ error）",
     "missing_doi": "doi 缺失 → 提示补 DOI",
     "volume_issue_swap": "卷/期语义校验（需元数据，格式层无此规则）",
     "thesis_type_code": "类型码错误 → 应报 [D] 字段不符",
@@ -789,6 +789,13 @@ def _detect(case: dict) -> dict:
             if issue["field"] == "doi":
                 strict = True
                 matched.append(issue)
+    elif category == "four_authors_no_et_al":
+        # Rule added after the first run of this experiment: >3 authors without
+        # 等/et al is an error now.
+        for issue in new_issues:
+            if issue["field"] == "authors" and issue["level"] == "error":
+                strict = True
+                matched.append(issue)
     elif category == "thesis_type_code":
         # The rule layer cannot say "wrong type code"; it can only report the
         # required [D] fields that are missing. Count that as indirect only.
@@ -796,7 +803,7 @@ def _detect(case: dict) -> dict:
             if issue["level"] == "error" and issue["field"] in {"place", "institution", "doc_type"}:
                 indirect = True
                 matched.append(issue)
-    # hyphen_pages / four_authors_no_et_al / volume_issue_swap: no rule can fire;
+    # hyphen_pages / volume_issue_swap: no single-reference rule can fire;
     # keeping ``new_issues`` in the record makes the miss auditable.
     return {
         "detected_strict": strict,

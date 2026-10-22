@@ -1,20 +1,20 @@
 {
   "experiment": "E4",
   "title": "GB/T 7714-2025 格式合规检查（真实中文文献）",
-  "generated_at": "2026-10-22T14:30:48+00:00",
+  "generated_at": "2026-10-22T16:08:11+00:00",
   "seed": 20261022,
   "code_snapshot": {
     "src/citeguard/gbt7714.py": {
-      "sha256_16": "0c86cfb0351bc67b",
-      "mtime": "2026-10-22T22:14:24"
+      "sha256_16": "35c6f8e33e57cf89",
+      "mtime": "2026-10-23T00:08:07"
     },
     "src/citeguard/reference_parser.py": {
-      "sha256_16": "dcaf624b75d7edc0",
-      "mtime": "2026-10-22T22:24:09"
+      "sha256_16": "651a0dc5e86a1be4",
+      "mtime": "2026-10-23T00:03:39"
     },
     "src/citeguard/metadata_verify.py": {
-      "sha256_16": "f4cf038868ac4491",
-      "mtime": "2026-10-22T22:19:40"
+      "sha256_16": "29f72df3ca58631d",
+      "mtime": "2026-10-22T23:27:38"
     }
   },
   "provenance": {
@@ -55,7 +55,7 @@
       "cache_hits": 2,
       "errors": []
     },
-    "generated_at": "2026-10-22T14:30:48+00:00"
+    "generated_at": "2026-10-22T16:08:11+00:00"
   },
   "corpus_sha256": "abdd4c9a9d11fd676ea4745e284615c845165aea42d9891d58cc226f40667acb",
   "metrics": {
@@ -230,12 +230,12 @@
   "drift": {
     "n": 30,
     "categories": 6,
-    "strict_detected": 10,
-    "strict_rate": 0.3333,
+    "strict_detected": 15,
+    "strict_rate": 0.5,
     "indirect_detected": 5,
-    "strict_plus_indirect": 15,
-    "strict_plus_indirect_rate": 0.5,
-    "missed": 15,
+    "strict_plus_indirect": 20,
+    "strict_plus_indirect_rate": 0.6667,
+    "missed": 10,
     "by_category": [
       {
         "category": "missing_volume_issue",
@@ -269,7 +269,7 @@
       {
         "category": "hyphen_pages",
         "label": "页码用连字符 1-5（规范为 1–5）",
-        "expected": "连接号规范检查（当前规则层无此规则）",
+        "expected": "页码连接号：标准原文的破折号规定未核实，规则层不改单条，只在全文混用时提示（见 check_reference_list）",
         "n": 5,
         "strict": 0,
         "indirect": 0,
@@ -292,23 +292,27 @@
       {
         "category": "four_authors_no_et_al",
         "label": "4 名作者未用「等」",
-        "expected": "作者超过 3 人应写「等」（当前规则层无此规则）",
+        "expected": "作者超过 3 人应写「等」（规则层已支持：作者数 >3 且无「等」→ error）",
         "n": 5,
-        "strict": 0,
+        "strict": 5,
         "indirect": 0,
-        "miss": 5,
+        "miss": 0,
         "examples": [
           {
             "id": "drift-03",
-            "verdict": "miss",
-            "matched": [],
-            "new_issue_count": 0
+            "verdict": "strict",
+            "matched": [
+              "作者超过 3 位未用「等」/ et al 省略"
+            ],
+            "new_issue_count": 1
           },
           {
             "id": "drift-09",
-            "verdict": "miss",
-            "matched": [],
-            "new_issue_count": 0
+            "verdict": "strict",
+            "matched": [
+              "作者超过 3 位未用「等」/ et al 省略"
+            ],
+            "new_issue_count": 1
           }
         ]
       },
@@ -8456,14 +8460,35 @@
         "publisher": "",
         "institution": ""
       },
-      "score": 100,
-      "issues": [],
+      "score": 88,
+      "issues": [
+        {
+          "level": "error",
+          "field": "authors",
+          "message": "作者超过 3 位未用「等」/ et al 省略",
+          "suggestion": "GB/T 7714 顺序编码制：3 位以内全部著录，超过 3 位著录前 3 位后加「等」或 et al"
+        }
+      ],
       "detection": {
-        "detected_strict": false,
+        "detected_strict": true,
         "detected_indirect": false,
-        "verdict": "miss",
-        "matched_issues": [],
-        "new_issues": []
+        "verdict": "strict",
+        "matched_issues": [
+          {
+            "level": "error",
+            "field": "authors",
+            "message": "作者超过 3 位未用「等」/ et al 省略",
+            "suggestion": "GB/T 7714 顺序编码制：3 位以内全部著录，超过 3 位著录前 3 位后加「等」或 et al"
+          }
+        ],
+        "new_issues": [
+          {
+            "level": "error",
+            "field": "authors",
+            "message": "作者超过 3 位未用「等」/ et al 省略",
+            "suggestion": "GB/T 7714 顺序编码制：3 位以内全部著录，超过 3 位著录前 3 位后加「等」或 et al"
+          }
+        ]
       }
     },
     {
@@ -8754,14 +8779,35 @@
         "publisher": "",
         "institution": ""
       },
-      "score": 100,
-      "issues": [],
+      "score": 88,
+      "issues": [
+        {
+          "level": "error",
+          "field": "authors",
+          "message": "作者超过 3 位未用「等」/ et al 省略",
+          "suggestion": "GB/T 7714 顺序编码制：3 位以内全部著录，超过 3 位著录前 3 位后加「等」或 et al"
+        }
+      ],
       "detection": {
-        "detected_strict": false,
+        "detected_strict": true,
         "detected_indirect": false,
-        "verdict": "miss",
-        "matched_issues": [],
-        "new_issues": []
+        "verdict": "strict",
+        "matched_issues": [
+          {
+            "level": "error",
+            "field": "authors",
+            "message": "作者超过 3 位未用「等」/ et al 省略",
+            "suggestion": "GB/T 7714 顺序编码制：3 位以内全部著录，超过 3 位著录前 3 位后加「等」或 et al"
+          }
+        ],
+        "new_issues": [
+          {
+            "level": "error",
+            "field": "authors",
+            "message": "作者超过 3 位未用「等」/ et al 省略",
+            "suggestion": "GB/T 7714 顺序编码制：3 位以内全部著录，超过 3 位著录前 3 位后加「等」或 et al"
+          }
+        ]
       }
     },
     {
@@ -9052,14 +9098,35 @@
         "publisher": "",
         "institution": ""
       },
-      "score": 100,
-      "issues": [],
+      "score": 88,
+      "issues": [
+        {
+          "level": "error",
+          "field": "authors",
+          "message": "作者超过 3 位未用「等」/ et al 省略",
+          "suggestion": "GB/T 7714 顺序编码制：3 位以内全部著录，超过 3 位著录前 3 位后加「等」或 et al"
+        }
+      ],
       "detection": {
-        "detected_strict": false,
+        "detected_strict": true,
         "detected_indirect": false,
-        "verdict": "miss",
-        "matched_issues": [],
-        "new_issues": []
+        "verdict": "strict",
+        "matched_issues": [
+          {
+            "level": "error",
+            "field": "authors",
+            "message": "作者超过 3 位未用「等」/ et al 省略",
+            "suggestion": "GB/T 7714 顺序编码制：3 位以内全部著录，超过 3 位著录前 3 位后加「等」或 et al"
+          }
+        ],
+        "new_issues": [
+          {
+            "level": "error",
+            "field": "authors",
+            "message": "作者超过 3 位未用「等」/ et al 省略",
+            "suggestion": "GB/T 7714 顺序编码制：3 位以内全部著录，超过 3 位著录前 3 位后加「等」或 et al"
+          }
+        ]
       }
     },
     {
@@ -9350,14 +9417,35 @@
         "publisher": "",
         "institution": ""
       },
-      "score": 100,
-      "issues": [],
+      "score": 88,
+      "issues": [
+        {
+          "level": "error",
+          "field": "authors",
+          "message": "作者超过 3 位未用「等」/ et al 省略",
+          "suggestion": "GB/T 7714 顺序编码制：3 位以内全部著录，超过 3 位著录前 3 位后加「等」或 et al"
+        }
+      ],
       "detection": {
-        "detected_strict": false,
+        "detected_strict": true,
         "detected_indirect": false,
-        "verdict": "miss",
-        "matched_issues": [],
-        "new_issues": []
+        "verdict": "strict",
+        "matched_issues": [
+          {
+            "level": "error",
+            "field": "authors",
+            "message": "作者超过 3 位未用「等」/ et al 省略",
+            "suggestion": "GB/T 7714 顺序编码制：3 位以内全部著录，超过 3 位著录前 3 位后加「等」或 et al"
+          }
+        ],
+        "new_issues": [
+          {
+            "level": "error",
+            "field": "authors",
+            "message": "作者超过 3 位未用「等」/ et al 省略",
+            "suggestion": "GB/T 7714 顺序编码制：3 位以内全部著录，超过 3 位著录前 3 位后加「等」或 et al"
+          }
+        ]
       }
     },
     {
@@ -9648,14 +9736,35 @@
         "publisher": "",
         "institution": ""
       },
-      "score": 100,
-      "issues": [],
+      "score": 88,
+      "issues": [
+        {
+          "level": "error",
+          "field": "authors",
+          "message": "作者超过 3 位未用「等」/ et al 省略",
+          "suggestion": "GB/T 7714 顺序编码制：3 位以内全部著录，超过 3 位著录前 3 位后加「等」或 et al"
+        }
+      ],
       "detection": {
-        "detected_strict": false,
+        "detected_strict": true,
         "detected_indirect": false,
-        "verdict": "miss",
-        "matched_issues": [],
-        "new_issues": []
+        "verdict": "strict",
+        "matched_issues": [
+          {
+            "level": "error",
+            "field": "authors",
+            "message": "作者超过 3 位未用「等」/ et al 省略",
+            "suggestion": "GB/T 7714 顺序编码制：3 位以内全部著录，超过 3 位著录前 3 位后加「等」或 et al"
+          }
+        ],
+        "new_issues": [
+          {
+            "level": "error",
+            "field": "authors",
+            "message": "作者超过 3 位未用「等」/ et al 省略",
+            "suggestion": "GB/T 7714 顺序编码制：3 位以内全部著录，超过 3 位著录前 3 位后加「等」或 et al"
+          }
+        ]
       }
     },
     {

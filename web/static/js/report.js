@@ -406,7 +406,7 @@
             '<div class="ref-evidence">' + evidence.map(function (x) { return "<span>" + x + "</span>"; }).join("") + "</div>" +
             supBlock +
             noteBlock +
-            (issues ? '<ul class="issues">' + issues + "</ul>" : '<div class="clean">新国标字段检查未发现问题</div>') +
+            (issues ? '<ul class="issues">' + issues + "</ul>" : '<div class="clean">本规则集未发现字段/标点问题（不覆盖页码连接号、卷期互换等排版与语义错误）</div>') +
             suggestBlock +
           "</article>"
         );

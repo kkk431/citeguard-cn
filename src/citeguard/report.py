@@ -232,7 +232,7 @@ def render_html(report: dict) -> str:
                 {f' · <a href="{html.escape(evidence)}" target="_blank">查看证据</a>' if evidence else ''}
               </div>
               {support_html}
-              {f'<ul class="issues">{issue_html}</ul>' if issue_html else '<div class="ok">新国标字段检查未发现问题</div>'}
+              {f'<ul class="issues">{issue_html}</ul>' if issue_html else '<div class="ok">本规则集未发现字段/标点问题（不覆盖排版与语义错误）</div>'}
               {f'<div class="suggested"><span>按数据库元数据生成的规范条目（核对后替换）</span><code>{html.escape(item["suggested_entry"])}</code></div>' if item.get("suggested_entry") else ''}
             </div>
             """
