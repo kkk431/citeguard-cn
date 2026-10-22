@@ -29,6 +29,14 @@ DEEPSEEK_MODEL = os.environ.get("DEEPSEEK_MODEL", "deepseek-chat")
 
 HTTP_TIMEOUT = float(os.environ.get("CITEGUARD_HTTP_TIMEOUT", "20"))
 API_SLEEP = float(os.environ.get("CITEGUARD_API_SLEEP", "0.12"))
+# Parallel metadata lookups; keep modest to respect OpenAlex/Crossref politeness.
+VERIFY_WORKERS = int(os.environ.get("CITEGUARD_VERIFY_WORKERS", "4"))
 
 # Claim-support judge (optional; DeepSeek API is used only as a judge).
-SUPPORT_MAX_REFS = int(os.environ.get("CITEGUARD_SUPPORT_MAX_REFS", "12"))
+# Per-job override is available through the web form / CLI flag; this is the
+# default cap on how many references get an LLM support verdict.
+SUPPORT_MAX_REFS = int(os.environ.get("CITEGUARD_SUPPORT_MAX_REFS", "30"))
+SUPPORT_MAX_REFS_LIMIT = 200
+
+# Upload guard for the web app.
+MAX_UPLOAD_MB = int(os.environ.get("CITEGUARD_MAX_UPLOAD_MB", "30"))

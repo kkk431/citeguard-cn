@@ -1,0 +1,248 @@
+{
+  "generated_at": "2026-10-22T14:16:48+00:00",
+  "seed": 20261022,
+  "n": 12,
+  "sampling": "random stratified: half DOI-bearing, half no-DOI, seed fixed",
+  "refs": [
+    {
+      "id": "cbcn-0212",
+      "label": "Minor",
+      "doi_present": true,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "elapsed_ms": 1528.7,
+      "network_requests": 2,
+      "network_failures": 0,
+      "network_infra_failures": 0
+    },
+    {
+      "id": "cbcn-0250",
+      "label": "Exact",
+      "doi_present": false,
+      "status": "Exact",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "elapsed_ms": 1791.1,
+      "network_requests": 2,
+      "network_failures": 1,
+      "network_infra_failures": 1
+    },
+    {
+      "id": "cbcn-0001",
+      "label": "Exact",
+      "doi_present": false,
+      "status": "Exact",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "elapsed_ms": 1398.9,
+      "network_requests": 2,
+      "network_failures": 1,
+      "network_infra_failures": 1
+    },
+    {
+      "id": "cbcn-0060",
+      "label": "Exact",
+      "doi_present": false,
+      "status": "Exact",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "elapsed_ms": 1436.2,
+      "network_requests": 2,
+      "network_failures": 1,
+      "network_infra_failures": 1
+    },
+    {
+      "id": "cbcn-0111",
+      "label": "Minor",
+      "doi_present": false,
+      "status": "Minor",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "elapsed_ms": 1417.5,
+      "network_requests": 2,
+      "network_failures": 1,
+      "network_infra_failures": 1
+    },
+    {
+      "id": "cbcn-0110",
+      "label": "Minor",
+      "doi_present": false,
+      "status": "Minor",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "elapsed_ms": 1364.5,
+      "network_requests": 2,
+      "network_failures": 1,
+      "network_infra_failures": 1
+    },
+    {
+      "id": "cbcn-0017",
+      "label": "Major",
+      "doi_present": true,
+      "status": "Major",
+      "doi_status": "not_found",
+      "title_sim": 0.0,
+      "has_candidate": false,
+      "elapsed_ms": 2337.0,
+      "network_requests": 3,
+      "network_failures": 3,
+      "network_infra_failures": 0
+    },
+    {
+      "id": "cbcn-0129",
+      "label": "Major",
+      "doi_present": true,
+      "status": "Major",
+      "doi_status": "not_found",
+      "title_sim": 0.0,
+      "has_candidate": false,
+      "elapsed_ms": 2254.6,
+      "network_requests": 3,
+      "network_failures": 3,
+      "network_infra_failures": 0
+    },
+    {
+      "id": "cbcn-0062",
+      "label": "Minor",
+      "doi_present": true,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "elapsed_ms": 1553.4,
+      "network_requests": 2,
+      "network_failures": 0,
+      "network_infra_failures": 0
+    },
+    {
+      "id": "cbcn-0227",
+      "label": "Minor",
+      "doi_present": false,
+      "status": "Minor",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "elapsed_ms": 1235.9,
+      "network_requests": 2,
+      "network_failures": 1,
+      "network_infra_failures": 1
+    },
+    {
+      "id": "cbcn-0098",
+      "label": "Exact",
+      "doi_present": true,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "elapsed_ms": 1560.8,
+      "network_requests": 2,
+      "network_failures": 0,
+      "network_infra_failures": 0
+    },
+    {
+      "id": "cbcn-0249",
+      "label": "Minor",
+      "doi_present": true,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "elapsed_ms": 1572.3,
+      "network_requests": 2,
+      "network_failures": 0,
+      "network_infra_failures": 0
+    }
+  ],
+  "latency": {
+    "all": {
+      "n": 12,
+      "mean_ms": 1620.9,
+      "median_ms": 1541.1,
+      "p90_ms": 2254.6,
+      "p95_ms": 2254.6,
+      "max_ms": 2337.0,
+      "min_ms": 1235.9
+    },
+    "doi_present": {
+      "n": 6,
+      "mean_ms": 1801.1,
+      "median_ms": 1566.5,
+      "p90_ms": 2254.6,
+      "p95_ms": 2337.0,
+      "max_ms": 2337.0,
+      "min_ms": 1528.7
+    },
+    "no_doi": {
+      "n": 6,
+      "mean_ms": 1440.7,
+      "median_ms": 1408.2,
+      "p90_ms": 1436.2,
+      "p95_ms": 1791.1,
+      "max_ms": 1791.1,
+      "min_ms": 1235.9
+    }
+  },
+  "counters": {
+    "http_requests": 26,
+    "http_non_200": 12,
+    "http_404": 6,
+    "infra_failures": 6,
+    "failure_rate_all_non_200": 0.4615,
+    "infra_failure_rate": 0.2308,
+    "by_host": {
+      "api.crossref.org": {
+        "requests": 14,
+        "non_200": 4,
+        "http_404": 4,
+        "infra_failures": 0
+      },
+      "api.openalex.org": {
+        "requests": 12,
+        "non_200": 8,
+        "http_404": 2,
+        "infra_failures": 6
+      }
+    },
+    "http_statuses": {
+      "200": 14,
+      "429": 6,
+      "404": 6
+    },
+    "api_lookups": 24,
+    "cache_hits": 0,
+    "cache_misses": 24,
+    "field_compares": 10,
+    "sample_request_urls": [
+      "https://api.crossref.org/works/10.33142/jscs.v5i3.16935",
+      "https://api.openalex.org/works/https://doi.org/10.33142/jscs.v5i3.16935",
+      "https://api.openalex.org/works",
+      "https://api.crossref.org/works",
+      "https://api.openalex.org/works",
+      "https://api.crossref.org/works",
+      "https://api.openalex.org/works",
+      "https://api.crossref.org/works",
+      "https://api.openalex.org/works",
+      "https://api.crossref.org/works",
+      "https://api.openalex.org/works",
+      "https://api.crossref.org/works"
+    ]
+  },
+  "request_ms": {
+    "n": 26,
+    "mean_ms": 669.9,
+    "median_ms": 820.9,
+    "p90_ms": 1047.0,
+    "p95_ms": 1090.1,
+    "max_ms": 1409.8,
+    "min_ms": 188.1
+  },
+  "reused": false
+}

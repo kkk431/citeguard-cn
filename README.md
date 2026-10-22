@@ -4,13 +4,15 @@
 
 CiteGuard-CN 是一个开源的中文引文核验工作台，面向毕业论文、课程论文与期刊投稿场景。它把「中文引文解析 → 多源元数据核验 → 引用支持度判定 → 新国标规则检查」串成一条可复现的流水线，并附带一个 250 条的中文评测基准 **CiteBench-CN**。
 
+支持的输入：**PDF**（需有文字层）、**Word（.docx）**（含放在表格里的参考文献表）、**纯文本 / Markdown**。旧版 `.doc` 请先另存为 `.docx` 或 PDF；扫描件需先 OCR。
+
 ## 它做什么
 
 | 检查 | 做法 | 输出 |
 |---|---|---|
-| **引文真实性** | 解析 DOI / 题名，查 OpenAlex → Crossref → arXiv；DOI 404 视为虚构，DOI 命中但题名对不上视为张冠李戴 | `Exact` / `Minor` / `Major` + 证据链接 |
+| **引文真实性** | 解析 DOI / 题名，查 OpenAlex → Crossref → arXiv；DOI 全系统不存在、或 DOI 指向另一篇文献才判「疑似虚构」 | `真实一致` / `元数据偏差` / `疑似虚构或错配` / `未找到匹配` / `无法核验` + 证据链接 |
 | **引用支持度** | 抽取正文引用句 + 被引论文摘要，交给可选的 LLM judge | `支持` / `部分支持` / `矛盾` / `无证据` / `未检测` |
-| **新国标格式** | 按 GB/T 7714-2025 的 14 类文献类型检查字段、作者名、永久标识符 | 逐条「缺什么 / 错在哪 / 怎么改」 |
+| **新国标格式** | 按 GB/T 7714-2025 的 17 个类型码检查字段、作者名、永久标识符，并可一键生成规范条目 | 逐条「缺什么 / 错在哪 / 怎么改」 |
 
 ## 实测结果
 
@@ -36,21 +38,39 @@ full              0.9684
 
 > 评测集、数据卡、评测脚本与 DeepSeek 基线都在 `data/citebench_cn/` 与 `scripts/` 下；`seed=20261022`，重建字节级一致（SHA-256 `1a8e466b…`）。
 
+支持度判定（可选）：
+
+在自建 ClaimSupport-CN（100 条：支持 40 / 部分支持 25 / 矛盾 15 / 无证据 20，标签由构造决定）上：
+
+| 指标 | Macro-F1 | Accuracy |
+|---|---|---|
+| 支持度四分类（deepseek-chat，temperature 0） | 0.7951 | 0.8100 |
+
+```
+混淆矩阵（行=真实，列=预测）            support partial contradict no_evidence
+support        [ 40,   0,   0,   0 ]
+partial        [ 12,  11,   0,   2 ]
+contradict     [  4,   1,  10,   0 ]
+no_evidence    [  0,   0,   0,  20 ]
+```
+
+> 误差集中在 partial ↔ support；该数据集为程序化构造（构造规则自检 100/100，20% 抽样复核 0 失败），标签由构造决定，不是人工双标，因此不报告 κ。
+
 ## 架构
 
 ```
-输入 PDF/TXT
+输入 PDF / DOCX / 文本
   → ① 中文引文解析器（自研）：正文夹注 ↔ 文后参考文献表对齐
   → ② 多源元数据核验（自研编排）：OpenAlex(CC0) → Crossref → arXiv(CC0)
-  → ③ 引用支持度判定（自研 + 可选 LLM judge）：claim 抽取 → 摘要证据 → 四分类
-  → ④ GB/T 7714-2025 规则引擎（自研）：14 类文献类型字段检查
+  → ③ 引用支持度判定（自研编排 + 可插拔 LLM judge）：claim 抽取 → 摘要证据 → 四分类
+  → ④ GB/T 7714-2025 规则引擎（自研）：17 个类型码 / 13 类必备字段模板
   → ⑤ 证据报告（Web / HTML / Markdown / JSON）
 ```
 
 ## 快速开始
 
 ```bash
-python3 -m pip install -r requirements.txt
+python3 -m pip install -r requirements.lock.txt   # 锁定版本；也可用 requirements.txt 取兼容范围
 
 # CLI：分析一篇论文
 PYTHONPATH=src python3 -m citeguard.cli --input web/static/samples/sample_paper.txt --out out/demo
@@ -85,9 +105,13 @@ citeguard/
 ├── src/citeguard/        # 核心包：解析 / 核验 / 规则 / 支持度 / 报告
 ├── web/                  # FastAPI + Jinja2 工作台（4 个页面）
 ├── scripts/              # 评测、基线、样例、复现、自检
+├── tests/                # pytest 用例
+├── docker/               # Dockerfile + compose
 ├── data/citebench_cn/    # CiteBench-CN 数据集、结果、数据卡
-├── docs/                 # 评测规划、PPT 一页纸
-├── requirements.txt
+├── data/claimsupport_cn/ # ClaimSupport-CN 数据集、结果、数据卡
+├── docs/                 # 评测规划、一页纸、部署文档
+├── requirements.txt      # 兼容范围
+├── requirements.lock.txt # 锁定版本（可复现）
 ├── reproduce.sh
 ├── LICENSE               # Apache-2.0
 ├── NOTICE
@@ -100,20 +124,64 @@ citeguard/
 |---|---|---|
 | 本项目代码 | — | Apache-2.0 |
 | CiteBench-CN | 中文引文核验评测集 | CC-BY-4.0 |
+| ClaimSupport-CN | 中文引用支持度评测集 | CC-BY-4.0 |
 | OpenAlex | 文献元数据 | CC0 1.0 |
 | arXiv 元数据 | 预印本元数据 | CC0 1.0 |
 | Crossref | DOI 元数据 | 元数据开放；摘要版权归出版商 |
-| Qwen3-8B / Qwen3-Embedding / Reranker | 主模型 / 检索 | Apache-2.0 |
-| bge-m3 | 多语嵌入 | MIT |
-| PaddleOCR / Docling | OCR / PDF 解析 | Apache-2.0 / MIT |
+| FastAPI / Starlette / Uvicorn / Jinja2 | Web 后端与模板 | MIT / BSD-3-Clause |
+| pdfplumber / pdfminer.six / pypdf | PDF 文本层抽取 | MIT / BSD-3-Clause |
+| python-docx | Word（.docx）解析 | MIT |
+| rapidfuzz | 题名相似度 | MIT |
+
+**候选资源（本期未集成，仅路线图）**：Qwen3-8B（Apache-2.0）、Qwen3-Embedding / Reranker（Apache-2.0）、bge-m3（MIT）、PaddleOCR（Apache-2.0）、Docling（MIT）。支持度 judge 走 OpenAI 兼容接口，切换到这些本地后端只需改 `DEEPSEEK_BASE_URL` / `DEEPSEEK_MODEL`。
 
 完整清单见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
 
 > 不使用知网 / 万方全文；不 re-host NC/ND 数据；CiteBench-CN 只包含自建标注与公开元数据 ID，不含第三方全文或摘要。
 
+## 开放成果
+
+| 成果 | 内容 | 许可 |
+|---|---|---|
+| 代码仓 | 本仓库（解析器 / 核验器 / GB-T 规则引擎 / Web 工作台 / 评测脚本 / 测试） | Apache-2.0 |
+| CiteBench-CN | 250 条中文引文真实性评测集 + 数据卡 + 评测结果 | CC-BY-4.0 |
+| ClaimSupport-CN | 100 条中文引用支持度评测集 + 数据卡 + judge 结果 | CC-BY-4.0 |
+| 上游贡献 | RefChecker PR #77：修复 BibTeX 裸值（`year = 2017`）被丢弃导致年份校验失效 | [PR](https://github.com/markrussinovich/refchecker/pull/77) |
+
+复现（约 30 分钟，需联网取一次元数据，之后走本地缓存）：
+
+```bash
+pip install -r requirements.lock.txt
+bash reproduce.sh                     # 构建数据集 → 评测 → 一致性校验（可选 DeepSeek 基线/支持度）
+```
+
+## 核验结论怎么读
+
+| 结论 | 含义 | 建议动作 |
+|---|---|---|
+| **真实一致** | DOI/题名在 OpenAlex/Crossref/arXiv 命中，且年份、作者、来源、卷期页一致 | 无需处理 |
+| **元数据偏差** | 文献存在，但年份/作者顺序/来源/卷期/页码与数据库不一致 | 按提示逐项核对（作者顺序、年份最常见） |
+| **疑似虚构或错配** | 证据很强：DOI 在 DOI 系统也不存在，或 DOI 指向的是另一篇文献 | 优先处理，极可能是编造或张冠李戴 |
+| **未找到匹配记录** | 数据库里没有足够相似的记录 | **不等于造假**：可能是中文期刊未被 OpenAlex/Crossref 收录，也可能是引文有误；用卡片上的百度学术 / Google Scholar / Crossref 链接人工核对 |
+| **无法核验** | 本次查询失败（网络/数据源问题） | 稍后重跑 |
+
+> 设计取舍：**宁可说「未核实」，也不误指控**。在 224 条真实发表的中文参考文献上实测，改进前判「疑似虚构」的比例是 45.1%（几乎全是误报），改进后为 **0%**；代价是 45.1% 的中文文献只能给「未找到匹配记录」。详见 [docs/real_data_eval.md](docs/real_data_eval.md)。
+
+## 真实论文实测
+
+| 指标 | 结果 |
+|---|---|
+| 参考文献解析干净率（10 篇真实论文 + PDF 路径） | **99.2%** |
+| 真实已发表文献被误判「疑似虚构」 | **0 / 224** |
+| 单篇 40 条引文的核验耗时 | 并发 4 线程，约 1～2 分钟（含缓存） |
+
 ## 已知局限
 
-- 中文文献在 OpenAlex / Crossref 的摘要覆盖有限，部分条目支持度会显示「未检测」。
+- 中文文献在 OpenAlex / Crossref 的覆盖率有限：约 45% 的中文参考文献会显示「未找到匹配记录」，需要人工核对（这是国际开放元数据对中文期刊覆盖不足的客观限制，不是引文本身的问题）。
+- 摘要覆盖更少，部分条目支持度会显示「未检测」。
+- 支持度判定默认只判前 30 条有摘要且被正文引用的文献（可在上传时选 10/30/80/全部或关闭），未判定的条目会写明原因。
+- 扫描件（无文字层 PDF）需先 OCR；旧版 `.doc` 需另存为 `.docx`。
+- 两栏排版、复杂表格版式仍可能影响抽取（已按页面中线做两栏切分，但非通用版面分析）。
 - 作者顺序、机构作者、拼音/中文别名会造成少量误判。
 - 支持度判定为辅助提示，不构成学术结论。
 - GB/T 7714-2025 规则引擎基于公开规则事实编码，未复制标准原文；请以国家标准原文与人工复核为准。
@@ -123,3 +191,14 @@ citeguard/
 - OpenAlex（CC0）、Crossref、arXiv 提供开放元数据。
 - 方法对标：OpenScholar（Nature 2025）、RefChecker（MIT）、CiteCheck、DeepSciVerify、CNCV、PaperQA2、LitSearch。
 - Qwen3 技术报告（arXiv:2505.09388）。
+
+## 引用
+
+```bibtex
+@software{citeguard2026,
+  title = {CiteGuard-CN: 中文论文引文核验工作台与 CiteBench-CN 评测集},
+  year  = {2026},
+  url   = {https://github.com/kkk431/citeguard-cn},
+  note  = {Apache-2.0 (code) / CC-BY-4.0 (datasets)}
+}
+```

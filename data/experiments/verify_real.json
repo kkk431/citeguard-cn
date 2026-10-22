@@ -1,0 +1,4574 @@
+{
+  "summary": {
+    "papers": 10,
+    "refs": 224,
+    "status": {
+      "Minor": 49,
+      "Exact": 74,
+      "Unverified": 101
+    },
+    "major_reasons": {},
+    "major_rate": 0.0,
+    "unknown_rate": 0.0
+  },
+  "rows": [
+    {
+      "paper": "n阶复线性微分方程的无穷φ-级解",
+      "raw": "[1] Yu, H. and Li, X. (2025) On the Infinite φ-Order Solutions of Second Order Linear Differential Equations. Computational Methods and Function Theory, 25, 645-662. https://doi.org/10.1007/s40315-024-00548-1",
+      "title": "On the Infinite φ-Order Solutions of Second Order Linear Differential Equations",
+      "authors": [
+        "Yu",
+        " H.",
+        "Li"
+      ],
+      "year": 2025,
+      "venue": "Computational Methods and Function Theory, 25, 645-662. http",
+      "doi": "10.1007/s40315-024-00548-1",
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 0.9504,
+      "mismatches": [
+        "year"
+      ],
+      "notes": [
+        "DOI 10.1007/s40315-024-00548-1 resolved",
+        "DOI resolved; metadata mismatch: year"
+      ]
+    },
+    {
+      "paper": "n阶复线性微分方程的无穷φ-级解",
+      "raw": "[2] Heittokangas, J., Wang, J., Wen, Z.T. and Yu, H. (2021) Meromorphic Functions of Finite φ-Order and Linear q-Difference Equations. Journal of Difference Equations and Applications, 27, 1280-1309. https://doi.org/10.1",
+      "title": "Meromorphic Functions of Finite φ-Order and Linear q-Difference Equations",
+      "authors": [
+        "Heittokangas",
+        " J.",
+        " Wang"
+      ],
+      "year": 2021,
+      "venue": "Journal of Difference Equations and Applications, 27, 1280-1",
+      "doi": "10.1080/10236198.2021.1982919",
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [
+        "venue"
+      ],
+      "notes": [
+        "DOI 10.1080/10236198.2021.1982919 resolved",
+        "DOI resolved; metadata mismatch: venue"
+      ]
+    },
+    {
+      "paper": "n阶复线性微分方程的无穷φ-级解",
+      "raw": "[3] Zheng, J.H. (2010) Value Distribution of Meromorphic Functions. Springer. https://doi.org/10.1007/978-3-642-12909-4",
+      "title": "Value Distribution of Meromorphic Functions",
+      "authors": [
+        "Zheng",
+        " J.H."
+      ],
+      "year": 2010,
+      "venue": "",
+      "doi": "10.1007/978-3-642-12909-4",
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [
+        "year"
+      ],
+      "notes": [
+        "DOI 10.1007/978-3-642-12909-4 resolved",
+        "DOI resolved; metadata mismatch: year"
+      ]
+    },
+    {
+      "paper": "n阶复线性微分方程的无穷φ-级解",
+      "raw": "[4] Hayman, W.K. (1964) Meromorphic Functions. Clarendon.",
+      "title": "Meromorphic Functions",
+      "authors": [
+        "Hayman",
+        " W.K."
+      ],
+      "year": 1964,
+      "venue": "Clarendon",
+      "doi": "",
+      "status": "Minor",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "mismatches": [
+        "authors",
+        "venue"
+      ],
+      "notes": [
+        "title matched; mismatch: authors,venue"
+      ]
+    },
+    {
+      "paper": "n阶复线性微分方程的无穷φ-级解",
+      "raw": "[5] Gundersen, G.G. (1988) Finite Order Solutions of Second Order Linear Differential Equations. Transactions of the American Mathematical Society, 305, 415-429. https://doi.org/10.2307/2001061",
+      "title": "Finite Order Solutions of Second Order Linear Differential Equations",
+      "authors": [
+        "Gundersen",
+        " G.G."
+      ],
+      "year": 1988,
+      "venue": "Transactions of the American Mathematical Society, 305, 415-",
+      "doi": "10.2307/2001061",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.2307/2001061 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "n阶复线性微分方程的无穷φ-级解",
+      "raw": "[6] Chen, Z.X. and Yang, C.C. (1999) Some Further Results on the Zeros and Growths of Entire Solutions of Second Order Linear Differential Equations. Kodai Mathematical Journal, 22, 273-285. https://doi.org/10.2996/kmj/1",
+      "title": "Some Further Results on the Zeros and Growths of Entire Solutions of Second Order Linear Differential Equations",
+      "authors": [
+        "Chen",
+        " Z.X.",
+        "Yang"
+      ],
+      "year": 1999,
+      "venue": "Kodai Mathematical Journal, 22, 273-285. https://doi.org/10.",
+      "doi": "10.2996/kmj/1138044047",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.2996/kmj/1138044047 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "n阶复线性微分方程的无穷φ-级解",
+      "raw": "[7] Laine, I. (1993) Nevanlinna Theory and Complex Differential Equations. Walter de Gruyter. https://doi.org/10.1515/9783110863147",
+      "title": "Nevanlinna Theory and Complex Differential Equations",
+      "authors": [
+        "Laine",
+        " I."
+      ],
+      "year": 1993,
+      "venue": "Walter de Gruyter. https://doi.org/10.1515/9783110863147",
+      "doi": "10.1515/9783110863147",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1515/9783110863147 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "n阶复线性微分方程的无穷φ-级解",
+      "raw": "[8] Heittokangas, J., Yu, H. and Zemirni, M.A. (2021) On the Number of Linearly Independent Admissible Solutions to Linear Differential and Linear Difference Equations. Canadian Journal of Mathematics, 73, 1556-1591. htt",
+      "title": "On the Number of Linearly Independent Admissible Solutions to Linear Differential and Linear Difference Equations",
+      "authors": [
+        "Heittokangas",
+        " J.",
+        " Yu"
+      ],
+      "year": 2021,
+      "venue": "Canadian Journal of Mathematics, 73, 1556-1591. https://doi.",
+      "doi": "10.4153/s0008414x20000607",
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [
+        "year"
+      ],
+      "notes": [
+        "DOI 10.4153/s0008414x20000607 resolved",
+        "DOI resolved; metadata mismatch: year"
+      ]
+    },
+    {
+      "paper": "n阶复线性微分方程的无穷φ-级解",
+      "raw": "[9] Yi, H.X. and Yang, C.C. (2003) Uniqueness Theory of Meromorphic Functions. Kluwer. https://doi.org/10.1007/978-94-017-3626-8 投稿 为你推荐 友情链接 科研出版社 开放图书馆 汉斯出版社 所有期刊 学科分类 书籍出版 联系我们 汉斯期刊 最新文章 同行评议 文章费用 审稿/编委 作者须知 投稿须知 稿件跟踪",
+      "title": "Uniqueness Theory of Meromorphic Functions",
+      "authors": [
+        "Yi",
+        " H.X.",
+        "Yang"
+      ],
+      "year": 2003,
+      "venue": "",
+      "doi": "10.1007/978-94-017-3626-8",
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [
+        "authors_order"
+      ],
+      "notes": [
+        "DOI 10.1007/978-94-017-3626-8 resolved",
+        "DOI resolved; metadata mismatch: authors_order"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "raw": "[1] 鲍振宙, 李董平, 张卫, 王艳辉, 孙文强, 赵力燕(2014). 累积生态风险与青少年的学业和社交能力: 子女责任感的风险补偿与调节效应. 心理发展与教育, 30(5), 482-495.",
+      "title": "累积生态风险与青少年的学业和社交能力: 子女责任感的风险补偿与调节效应",
+      "authors": [
+        "鲍振宙",
+        " 李董平",
+        " 张卫"
+      ],
+      "year": 2014,
+      "venue": "心理发展与教育",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.2933,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.29); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "raw": "[2] 陈建文, 刘艳, 谭千保(2022). 累积生态风险与高职生学习倦怠: 消极自我图式和网络成瘾的中介作用. 心理发展与教育, 38(4), 576-583.",
+      "title": "累积生态风险与高职生学习倦怠: 消极自我图式和网络成瘾的中介作用",
+      "authors": [
+        "陈建文",
+        " 刘艳",
+        " 谭千保"
+      ],
+      "year": 2022,
+      "venue": "心理发展与教育",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.3175,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.32); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "raw": "[3] 冯永辉(2016). 青少年压力与吸烟行为的关系: 应对方式的中介作用. 中国临床心理学杂志, 24(1), 77-80.",
+      "title": "青少年压力与吸烟行为的关系: 应对方式的中介作用",
+      "authors": [
+        "冯永辉"
+      ],
+      "year": 2016,
+      "venue": "中国临床心理学杂志",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.2857,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.29); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "raw": "[4] 高佳源, 刘恺, 闵文斌, 杨洁, 聂景春(2020). 父母风险因素对青少年危险行为影响. 中国公共卫生, 36(9), 1335-1338.",
+      "title": "父母风险因素对青少年危险行为影响",
+      "authors": [
+        "高佳源",
+        " 刘恺",
+        " 闵文斌"
+      ],
+      "year": 2020,
+      "venue": "中国公共卫生",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.375,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.38); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "raw": "[5] 胡万里, 陈志伟, 秦宏展, 娄文慧, 娄晓民, 吴翠平(2023). 累积生态风险对河南省大学生健康危险行为的影响. 中国学校卫生, 44(11), 1636-1640.",
+      "title": "累积生态风险对河南省大学生健康危险行为的影响",
+      "authors": [
+        "胡万里",
+        " 陈志伟",
+        " 秦宏展"
+      ],
+      "year": 2023,
+      "venue": "中国学校卫生",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.375,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.38); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "raw": "[6] 季成叶(2006). 儿童少年卫生学. 北京大学医学出版社.",
+      "title": "儿童少年卫生学",
+      "authors": [
+        "季成叶"
+      ],
+      "year": 2006,
+      "venue": "",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.56,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.56); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "raw": "[7] 季成叶(2007). 中国青少年健康相关/危险行为调查综合报告2005. 北京大学医学出版社.",
+      "title": "中国青少年健康相关/危险行为调查综合报告2005",
+      "authors": [
+        "季成叶"
+      ],
+      "year": 2007,
+      "venue": "",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.3684,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.37); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "raw": "[8] 金豆, 董亚琦(2024). 累积生态风险对大学生运动拖延影响: 基于自我控制的中介效应和锻炼氛围的调节效应. 福建体育科技, 43(1), 119-124.",
+      "title": "累积生态风险对大学生运动拖延影响: 基于自我控制的中介效应和锻炼氛围的调节效应",
+      "authors": [
+        "金豆",
+        " 董亚琦"
+      ],
+      "year": 2024,
+      "venue": "福建体育科技",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.4615,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.46); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "raw": "[9] 靳明, 王静(2022). 累积生态风险对大学生健康生活方式的影响. 中国学校卫生, 43(3), 350-354.",
+      "title": "累积生态风险对大学生健康生活方式的影响",
+      "authors": [
+        "靳明",
+        " 王静"
+      ],
+      "year": 2022,
+      "venue": "中国学校卫生",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.4878,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.49); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "raw": "[10] 李董平, 周月月, 赵力燕, 王艳辉, 孙文强(2016). 累积生态风险与青少年网络成瘾: 心理需要满足和积极结果预期的中介作用. 心理学报, 48(12), 1519-1537.",
+      "title": "累积生态风险与青少年网络成瘾: 心理需要满足和积极结果预期的中介作用",
+      "authors": [
+        "李董平",
+        " 周月月",
+        " 赵力燕"
+      ],
+      "year": 2016,
+      "venue": "心理学报",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.4286,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.43); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "raw": "[11] 廖明英, 陈旭(2006). 自我图式与心理健康. 中国临床康复, 10(30), 150-153.",
+      "title": "自我图式与心理健康",
+      "authors": [
+        "廖明英",
+        " 陈旭"
+      ],
+      "year": 2006,
+      "venue": "中国临床康复",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.5,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.50); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "raw": "[12] 刘宇潇(2020). 累积生态风险与青少年健康危险行为. 硕士学位论文, 武汉: 华中师范大学.",
+      "title": "累积生态风险与青少年健康危险行为",
+      "authors": [
+        "刘宇潇"
+      ],
+      "year": 2020,
+      "venue": "硕士学位论文, 武汉: 华中师范大学",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.2857,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.29); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "raw": "[13] 汪向东, 王希林, 马弘, 等(1993). 心理卫生评定量表手册 增订版. 中国心理卫生杂志社.",
+      "title": "心理卫生评定量表手册 增订版",
+      "authors": [
+        "汪向东",
+        " 王希林",
+        " 马弘"
+      ],
+      "year": 1993,
+      "venue": "中国心理卫生杂志社",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.32,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.32); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "raw": "[14] 王建平, 李董平, 张卫(2010). 家庭经济困难与青少年社会适应的关系: 应对效能的补偿、中介和调节效应. 北京师范大学学报(社会科学版), (4), 22-32.",
+      "title": "家庭经济困难与青少年社会适应的关系: 应对效能的补偿、中介和调节效应",
+      "authors": [
+        "王建平",
+        " 李董平",
+        " 张卫"
+      ],
+      "year": 2010,
+      "venue": "北京师范大学学报(社会科学版), (4), 22-32",
+      "doi": "",
+      "status": "Exact",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "title matched; fields matched"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "raw": "[15] 魏华, 周宗奎, 张永欣, 丁倩(2018). 压力与网络成瘾的关系: 家庭支持和朋友支持的调节作用. 心理与行为研究, 16(2), 266-271.",
+      "title": "压力与网络成瘾的关系: 家庭支持和朋友支持的调节作用",
+      "authors": [
+        "魏华",
+        " 周宗奎",
+        " 张永欣"
+      ],
+      "year": 2018,
+      "venue": "心理与行为研究",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.2051,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.21); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "raw": "[16] 徐涛, 刘吕豪, 陈佳佳, 王永生, 张天成, 杨雪晶(2026). 初中生聚集性危害健康行为发展轨迹及与自尊和孤独感的关联. 中国学校卫生, 47(2), 189-193.",
+      "title": "初中生聚集性危害健康行为发展轨迹及与自尊和孤独感的关联",
+      "authors": [
+        "徐涛",
+        " 刘吕豪",
+        " 陈佳佳"
+      ],
+      "year": 2026,
+      "venue": "中国学校卫生",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.3137,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.31); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "raw": "[17] 翟蕾, 孙冰洁, 王晓智, 张莉, 申跃峰(2007). 北京市1138名大学生健康危险行为状况. 中国学校卫生, 28(3), 264-266.",
+      "title": "北京市1138名大学生健康危险行为状况",
+      "authors": [
+        "翟蕾",
+        " 孙冰洁",
+        " 王晓智"
+      ],
+      "year": 2007,
+      "venue": "中国学校卫生",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.2373,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.24); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "raw": "[18] 周莎莎, 喻承甫, 许倩, 魏昶, 林枝(2014). 同伴侵害与初中生病理性网络游戏使用的关系: 中介效应与调节效应. 教育测量与评价(理论版), (10), 43-48.",
+      "title": "同伴侵害与初中生病理性网络游戏使用的关系: 中介效应与调节效应",
+      "authors": [
+        "周莎莎",
+        " 喻承甫",
+        " 许倩"
+      ],
+      "year": 2014,
+      "venue": "教育测量与评价(理论版), (10), 43-48",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.3662,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.37); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "raw": "[19] Abramson, L. Y., Seligman, M. E., & Teasdale, J. D. (1978). Learned Helplessness in Humans: Critique and Reformulation. Journal of Abnormal Psychology, 87, 49-74. https://doi.org/10.1037/0021-843x.87.1.49",
+      "title": "Learned Helplessness in Humans: Critique and Reformulation",
+      "authors": [
+        "Abramson",
+        " L. Y.",
+        " Seligman"
+      ],
+      "year": 1978,
+      "venue": "Journal of Abnormal Psychology, 87, 49-74. https://doi.org/1",
+      "doi": "10.1037/0021-843x.87.1.49",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1037/0021-843x.87.1.49 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "raw": "[20] Andrews, G. (2009). Clinical Handbook of Psychological Disorders: A Step-by-Step Treatment Manual (4th ed.). Guilford Press.",
+      "title": "Clinical Handbook of Psychological Disorders: A Step-by-Step Treatment Manual (4th ed.)",
+      "authors": [
+        "Andrews",
+        " G."
+      ],
+      "year": 2009,
+      "venue": "",
+      "doi": "",
+      "status": "Exact",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "title matched; fields matched"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "raw": "[21] Beck, A. T. (1987). Cognitive Models of Depression. Journal of Cognitive Psychotherapy, 1, 5-37.",
+      "title": "Cognitive Models of Depression",
+      "authors": [
+        "Beck",
+        " A. T."
+      ],
+      "year": 1987,
+      "venue": "Journal of Cognitive Psychotherapy, 1, 5-37",
+      "doi": "",
+      "status": "Minor",
+      "doi_status": "none",
+      "title_sim": 0.9286,
+      "mismatches": [
+        "year",
+        "venue",
+        "pages"
+      ],
+      "notes": [
+        "title matched; mismatch: year,venue,pages"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "raw": "[22] Bronfenbrenner, U. (1977). Toward an Experimental Ecology of Human Development. American Psychologist, 32, 513-531. https://doi.org/10.1037/0003-066x.32.7.513",
+      "title": "Toward an Experimental Ecology of Human Development",
+      "authors": [
+        "Bronfenbrenner",
+        " U."
+      ],
+      "year": 1977,
+      "venue": "American Psychologist, 32, 513-531. https://doi.org/10.1037/",
+      "doi": "10.1037/0003-066x.32.7.513",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1037/0003-066x.32.7.513 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "raw": "[23] Bunda, K., & Busseri, M. A. (2019). Lay Theories of Health, Self-Rated Health, and Health Behavior Intentions. Journal of Health Psychology, 24, 979-988. https://doi.org/10.1177/1359105316689143",
+      "title": "Lay Theories of Health, Self-Rated Health, and Health Behavior Intentions",
+      "authors": [
+        "Bunda",
+        " K.",
+        "Busseri"
+      ],
+      "year": 2019,
+      "venue": "Journal of Health Psychology, 24, 979-988. https://doi.org/1",
+      "doi": "10.1177/1359105316689143",
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [
+        "year"
+      ],
+      "notes": [
+        "DOI 10.1177/1359105316689143 resolved",
+        "DOI resolved; metadata mismatch: year"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "raw": "[24] Chen, C. J., & Xie, J. (2026). Cumulative Ecological Risk and Problematic Mobile Social Media Use among College Students: The Mediating Role of Fear of Missing Out and the Moderating Role of Core Self-Evaluations. C",
+      "title": "Cumulative Ecological Risk and Problematic Mobile Social Media Use among College Students: The Mediating Role of Fear of",
+      "authors": [
+        "Chen",
+        " C. J.",
+        "Xie"
+      ],
+      "year": 2026,
+      "venue": "Current Psychology, 45, Article No. 1139. https://doi.org/10",
+      "doi": "10.1007/s12144-026-09706-1",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1007/s12144-026-09706-1 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "raw": "[25] Cyranowski, J. M., & Andersen, B. L. (1998). Schemas, Sexuality, and Romantic Attachment. Journal of Personality and Social Psychology, 74, 1364-1379. https://doi.org/10.1037/0022-3514.74.5.1364",
+      "title": "Schemas, Sexuality, and Romantic Attachment",
+      "authors": [
+        "Cyranowski",
+        " J. M.",
+        "Andersen"
+      ],
+      "year": 1998,
+      "venue": "Journal of Personality and Social Psychology, 74, 1364-1379.",
+      "doi": "10.1037/0022-3514.74.5.1364",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1037/0022-3514.74.5.1364 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "raw": "[26] Dweck, C. S., Chiu, C., & Hong, Y. (1995). Implicit Theories and Their Role in Judgments and Reactions: A Word from Two Perspectives. Psychological Inquiry, 6, 267-285. https://doi.org/10.1207/s15327965pli0604_1",
+      "title": "Implicit Theories and Their Role in Judgments and Reactions: A Word from Two Perspectives",
+      "authors": [
+        "Dweck",
+        " C. S.",
+        " Chiu"
+      ],
+      "year": 1995,
+      "venue": "Psychological Inquiry, 6, 267-285. https://doi.org/10.1207/s",
+      "doi": "10.1207/s15327965pli0604_1",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1207/s15327965pli0604_1 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "raw": "[27] Evans, G. W., Li, D., & Whipple, S. S. (2013). Cumulative Risk and Child Development. Psychological Bulletin, 139, 1342-1396. https://doi.org/10.1037/a0031808",
+      "title": "Cumulative Risk and Child Development",
+      "authors": [
+        "Evans",
+        " G. W.",
+        " Li"
+      ],
+      "year": 2013,
+      "venue": "Psychological Bulletin, 139, 1342-1396. https://doi.org/10.1",
+      "doi": "10.1037/a0031808",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1037/a0031808 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "raw": "[28] Fowler, D., Freeman, D., Smith, B., Kuipers, E., Bebbington, P., Bashforth, H. et al. (2006). The Brief Core Schema Scales (BCSS): Psychometric Properties and Associations with Paranoia and Grandiosity in Non-Clinic",
+      "title": "The Brief Core Schema Scales (BCSS): Psychometric Properties and Associations with Paranoia and Grandiosity in Non-Clini",
+      "authors": [
+        "Fowler",
+        " D.",
+        " Freeman"
+      ],
+      "year": 2006,
+      "venue": "Psychological Medicine, 36, 749-759. https://doi.org/10.1017",
+      "doi": "10.1017/s0033291706007355",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1017/s0033291706007355 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "raw": "[29] Gerard, J. M., & Buehler, C. (2004). Cumulative Environmental Risk and Youth Maladjustment: The Role of Youth Attributes. Child Development, 75, 1832-1849. https://doi.org/10.1111/j.1467-8624.2004.00820.x",
+      "title": "Cumulative Environmental Risk and Youth Maladjustment: The Role of Youth Attributes",
+      "authors": [
+        "Gerard",
+        " J. M.",
+        "Buehler"
+      ],
+      "year": 2004,
+      "venue": "Child Development, 75, 1832-1849. https://doi.org/10.1111/j.",
+      "doi": "10.1111/j.1467-8624.2004.00820.x",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1111/j.1467-8624.2004.00820.x resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "raw": "[30] Li, D., Zhang, W., Li, X., Li, N., & Ye, B. (2012). Gratitude and Suicidal Ideation and Suicide Attempts among Chinese Adolescents: Direct, Mediated, and Moderated Effects. Journal of Adolescence, 35, 55-66. https:/",
+      "title": "Gratitude and Suicidal Ideation and Suicide Attempts among Chinese Adolescents: Direct, Mediated, and Moderated Effects",
+      "authors": [
+        "Li",
+        " D.",
+        " Zhang"
+      ],
+      "year": 2012,
+      "venue": "Journal of Adolescence, 35, 55-66. https://doi.org/10.1016/j",
+      "doi": "10.1016/j.adolescence.2011.06.005",
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [
+        "year"
+      ],
+      "notes": [
+        "DOI 10.1016/j.adolescence.2011.06.005 resolved",
+        "DOI resolved; metadata mismatch: year"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "raw": "[31] Luszczynska, A., Schwarzer, R., Lippke, S., & Mazurkiewicz, M. (2011). Self-Efficacy as a Moderator of the Planning-Behaviour Relationship in Interventions Designed to Promote Physical Activity. Psychology & Health,",
+      "title": "Self-Efficacy as a Moderator of the Planning-Behaviour Relationship in Interventions Designed to Promote Physical Activi",
+      "authors": [
+        "Luszczynska",
+        " A.",
+        " Schwarzer"
+      ],
+      "year": 2011,
+      "venue": "Psychology & Health, 26, 151-166. https://doi.org/10.1080/08",
+      "doi": "10.1080/08870446.2011.531571",
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [
+        "venue"
+      ],
+      "notes": [
+        "DOI 10.1080/08870446.2011.531571 resolved",
+        "DOI resolved; metadata mismatch: venue"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "raw": "[32] Markus, H. (1977). Self-Schemata and Processing Information about the Self. Journal of Personality and Social Psychology, 35, 63-78. https://doi.org/10.1037/0022-3514.35.2.63",
+      "title": "Self-Schemata and Processing Information about the Self",
+      "authors": [
+        "Markus",
+        " H."
+      ],
+      "year": 1977,
+      "venue": "Journal of Personality and Social Psychology, 35, 63-78. htt",
+      "doi": "10.1037/0022-3514.35.2.63",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1037/0022-3514.35.2.63 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "raw": "[33] Masten, A. S. (2001). Ordinary Magic: Resilience Processes in Development. American Psychologist, 56, 227-238. https://doi.org/10.1037/0003-066x.56.3.227",
+      "title": "Ordinary Magic: Resilience Processes in Development",
+      "authors": [
+        "Masten",
+        " A. S."
+      ],
+      "year": 2001,
+      "venue": "American Psychologist, 56, 227-238. https://doi.org/10.1037/",
+      "doi": "10.1037/0003-066x.56.3.227",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1037/0003-066x.56.3.227 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "raw": "[34] Resnick, M. D., Bearman, P. S., Blum, R. W. et al. (1997). Protecting Adolescents from Harm. Journal of the American Medical Association, 278, 823-832. https://doi.org/10.1001/jama.1997.03550100049038",
+      "title": "Protecting Adolescents from Harm",
+      "authors": [
+        "Resnick",
+        " M. D.",
+        " Bearman"
+      ],
+      "year": 1997,
+      "venue": "Journal of the American Medical Association, 278, 823-832. h",
+      "doi": "10.1001/jama.1997.03550100049038",
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [
+        "pages"
+      ],
+      "notes": [
+        "DOI 10.1001/jama.1997.03550100049038 resolved",
+        "DOI resolved; metadata mismatch: pages"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "raw": "[35] Steinberg, L. (2010). A Dual Systems Model of Adolescent Risk‐Taking. Developmental Psychobiology, 52, 216-224. https://doi.org/10.1002/dev.20445",
+      "title": "A Dual Systems Model of Adolescent Risk‐Taking",
+      "authors": [
+        "Steinberg",
+        " L."
+      ],
+      "year": 2010,
+      "venue": "Developmental Psychobiology, 52, 216-224. https://doi.org/10",
+      "doi": "10.1002/dev.20445",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1002/dev.20445 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "raw": "[36] Weiner, B. (1985). An Attributional Theory of Achievement Motivation and Emotion. Psychological Review, 92, 548-573. https://doi.org/10.1037/0033-295x.92.4.548",
+      "title": "An Attributional Theory of Achievement Motivation and Emotion",
+      "authors": [
+        "Weiner",
+        " B."
+      ],
+      "year": 1985,
+      "venue": "Psychological Review, 92, 548-573. https://doi.org/10.1037/0",
+      "doi": "10.1037/0033-295x.92.4.548",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1037/0033-295x.92.4.548 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "raw": "[37] World Health Organization (2009). Global Health Risks: Mortality and Burden of Disease Attributable to Selected Major Risks. https://apps.who.int/iris/handle/10665/44203 投稿 为你推荐 友情链接 科研出版社 开放图书馆 汉斯出版社 所有期刊 学科分类 书籍出版",
+      "title": "Global Health Risks: Mortality and Burden of Disease Attributable to Selected Major Risks",
+      "authors": [
+        "World Health Organization"
+      ],
+      "year": 2009,
+      "venue": "",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.557,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.56); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作用",
+      "raw": "[1] 丁美琦, 许梦雪, 朱宗涵, 关宏岩(2018). 早期亲子互动常用观察法评估量表研究进展. 中国儿童保健杂志, 26(6), 641-644.",
+      "title": "早期亲子互动常用观察法评估量表研究进展",
+      "authors": [
+        "丁美琦",
+        " 许梦雪",
+        " 朱宗涵"
+      ],
+      "year": 2018,
+      "venue": "中国儿童保健杂志",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.3448,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.34); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作用",
+      "raw": "[2] 丁倩, 孔令龙, 张永欣, 周宗奎, 胡伟(2018). 父母“低头族”与初中生手机成瘾的交叉滞后分析. 中国临床心理学杂志, 26(5), 952-955.",
+      "title": "父母“低头族”与初中生手机成瘾的交叉滞后分析",
+      "authors": [
+        "丁倩",
+        " 孔令龙",
+        " 张永欣"
+      ],
+      "year": 2018,
+      "venue": "中国临床心理学杂志",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.3333,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.33); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作用",
+      "raw": "[3] 丁倩, 王兆琪, 张永欣(2020). 父母低头行为量表在我国青少年群体中的初步修订. 中国临床心理学杂志, 28(5), 942-945, 896.",
+      "title": "父母低头行为量表在我国青少年群体中的初步修订",
+      "authors": [
+        "丁倩",
+        " 王兆琪",
+        " 张永欣"
+      ],
+      "year": 2020,
+      "venue": "中国临床心理学杂志",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.1765,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.18); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作用",
+      "raw": "[4] 关宏岩, 赵星, 屈莎, 吴建新, 杨玉凤, 郭建军, 等(2020). 学龄前儿童(3-6岁)运动指南. 中国儿童保健杂志, 28(6), 714-720.",
+      "title": "学龄前儿童(3-6岁)运动指南",
+      "authors": [
+        "关宏岩",
+        " 赵星",
+        " 屈莎"
+      ],
+      "year": 2020,
+      "venue": "中国儿童保健杂志",
+      "doi": "",
+      "status": "Minor",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "mismatches": [
+        "authors_order"
+      ],
+      "notes": [
+        "title matched; mismatch: authors_order"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作用",
+      "raw": "[5] 洪艳丽(2012). 3-6岁幼儿安全感量表的编制. 硕士学位论文, 南昌: 江西师范大学.",
+      "title": "3-6岁幼儿安全感量表的编制",
+      "authors": [
+        "洪艳丽"
+      ],
+      "year": 2012,
+      "venue": "硕士学位论文, 南昌: 江西师范大学",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.5217,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.52); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作用",
+      "raw": "[6] 李静静, 丁洁(2025). 家庭嘈杂度对幼儿社会退缩行为的影响: 父母低头行为与幼儿媒介沉迷的链式中介作用. 陕西学前师范学院学报, 41(5), 67-77.",
+      "title": "家庭嘈杂度对幼儿社会退缩行为的影响: 父母低头行为与幼儿媒介沉迷的链式中介作用",
+      "authors": [
+        "李静静",
+        " 丁洁"
+      ],
+      "year": 2025,
+      "venue": "陕西学前师范学院学报",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.0519,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.05); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作用",
+      "raw": "[7] 刘千明(2025). 幼儿气质与问题性媒体使用: 数码自我调节的中介作用与父母数码调解的调节作用. 硕士学位论文, 上海: 上海师范大学.",
+      "title": "幼儿气质与问题性媒体使用: 数码自我调节的中介作用与父母数码调解的调节作用",
+      "authors": [
+        "刘千明"
+      ],
+      "year": 2025,
+      "venue": "硕士学位论文, 上海: 上海师范大学",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.4194,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.42); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作用",
+      "raw": "[8] 汤丹丹, 温忠麟(2020). 共同方法偏差检验: 问题与建议. 心理科学, 43(1), 215-223.",
+      "title": "共同方法偏差检验: 问题与建议",
+      "authors": [
+        "汤丹丹",
+        " 温忠麟"
+      ],
+      "year": 2020,
+      "venue": "心理科学",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.3704,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.37); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作用",
+      "raw": "[9] 周机利, 黄海, 陈银杏, 胡梦岩, 周春燕(2020). 父母手机使用对儿童语言和行为发育的影响. 中国学校卫生, 41(3), 471-476.",
+      "title": "父母手机使用对儿童语言和行为发育的影响",
+      "authors": [
+        "周机利",
+        " 黄海",
+        " 陈银杏"
+      ],
+      "year": 2020,
+      "venue": "中国学校卫生",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.45,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.45); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作用",
+      "raw": "[10] Abdullah, N. N., Mohamed, S., Abu Bakar, K., & Satari, N. (2022). The Influence of Sociodemographic Factors on Mobile Device Use among Young Children in Putrajaya, Malaysia. Children, 9, Article 228. https://doi.org",
+      "title": "The Influence of Sociodemographic Factors on Mobile Device Use among Young Children in Putrajaya, Malaysia",
+      "authors": [
+        "Abdullah",
+        " N. N.",
+        " Mohamed"
+      ],
+      "year": 2022,
+      "venue": "Children, 9, Article 228. https://doi.org/10.3390/children90",
+      "doi": "10.3390/children9020228",
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [
+        "pages"
+      ],
+      "notes": [
+        "DOI 10.3390/children9020228 resolved",
+        "DOI resolved; metadata mismatch: pages"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作用",
+      "raw": "[11] Bandura, A. (1977). Self-Efficacy: Toward a Unifying Theory of Behavioral Change. Psychological Review, 84, 191-215. https://doi.org/10.1037/0033-295X.84.2.191",
+      "title": "Self-Efficacy: Toward a Unifying Theory of Behavioral Change",
+      "authors": [
+        "Bandura",
+        " A."
+      ],
+      "year": 1977,
+      "venue": "Psychological Review, 84, 191-215. https://doi.org/10.1037/0",
+      "doi": "10.1037/0033-295X.84.2.191",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1037/0033-295X.84.2.191 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作用",
+      "raw": "[12] Bandura, A. (1978). Social Learning Theory of Aggression. Journal of Communication, 28, 12-29. https://doi.org/10.1111/j.1460-2466.1978.tb01621.x",
+      "title": "Social Learning Theory of Aggression",
+      "authors": [
+        "Bandura",
+        " A."
+      ],
+      "year": 1978,
+      "venue": "Journal of Communication, 28, 12-29. https://doi.org/10.1111",
+      "doi": "10.1111/j.1460-2466.1978.tb01621.x",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1111/j.1460-2466.1978.tb01621.x resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作用",
+      "raw": "[13] Baumrind, D. (1971). Current Patterns of Parental Authority. Developmental Psychology Monographs, 4, 1-103. https://doi.org/10.1037/h0030372",
+      "title": "Current Patterns of Parental Authority",
+      "authors": [
+        "Baumrind",
+        " D."
+      ],
+      "year": 1971,
+      "venue": "Developmental Psychology Monographs, 4, 1-103. https://doi.o",
+      "doi": "10.1037/h0030372",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1037/h0030372 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作用",
+      "raw": "[14] Bowen, M. (1993). Family Therapy in Clinical Practice. Bloomsbury Publishing PLC.",
+      "title": "Family Therapy in Clinical Practice",
+      "authors": [
+        "Bowen",
+        " M."
+      ],
+      "year": 1993,
+      "venue": "",
+      "doi": "",
+      "status": "Minor",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "mismatches": [
+        "year"
+      ],
+      "notes": [
+        "title matched; mismatch: year"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作用",
+      "raw": "[15] Brumariu, L. E. (2015). Parent-Child Attachment and Emotion Regulation. New Directions for Child and Adolescent Development, 2015, 31-45. https://doi.org/10.1002/cad.20098",
+      "title": "Parent-Child Attachment and Emotion Regulation",
+      "authors": [
+        "Brumariu",
+        " L. E."
+      ],
+      "year": 2015,
+      "venue": "New Directions for Child and Adolescent Development, 2015, 3",
+      "doi": "10.1002/cad.20098",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1002/cad.20098 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作用",
+      "raw": "[16] Burgoon, J. K. (1993). Interpersonal Expectations, Expectancy Violations, and Emotional Communication. Journal of Language and Social Psychology, 12, 30-48. https://doi.org/10.1177/0261927x93121003",
+      "title": "Interpersonal Expectations, Expectancy Violations, and Emotional Communication",
+      "authors": [
+        "Burgoon",
+        " J. K."
+      ],
+      "year": 1993,
+      "venue": "Journal of Language and Social Psychology, 12, 30-48. https:",
+      "doi": "10.1177/0261927x93121003",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1177/0261927x93121003 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作用",
+      "raw": "[17] Chang, F. C., Chiu, C. H., Chen, P. H., Chiang, J. T., Miao, N. F., Chuang, H. Y. et al. (2022). Smartphone Addiction and Victimization Predicts Sleep Problems and Depression among Children. Journal of Pediatric Nur",
+      "title": "Smartphone Addiction and Victimization Predicts Sleep Problems and Depression among Children",
+      "authors": [
+        "Chang",
+        " F. C.",
+        " Chiu"
+      ],
+      "year": 2022,
+      "venue": "Journal of Pediatric Nursing, 64, e24-e31. https://doi.org/1",
+      "doi": "10.1016/j.pedn.2022.01.009",
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [
+        "pages"
+      ],
+      "notes": [
+        "DOI 10.1016/j.pedn.2022.01.009 resolved",
+        "DOI resolved; metadata mismatch: pages"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作用",
+      "raw": "[18] Cox, M. J., & Paley, B. (2003). Understanding Families as Systems. Current Directions in Psychological Science, 12, 193-196. https://doi.org/10.1111/1467-8721.01259",
+      "title": "Understanding Families as Systems",
+      "authors": [
+        "Cox",
+        " M. J.",
+        "Paley"
+      ],
+      "year": 2003,
+      "venue": "Current Directions in Psychological Science, 12, 193-196. ht",
+      "doi": "10.1111/1467-8721.01259",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1111/1467-8721.01259 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作用",
+      "raw": "[19] Coyne, S. M., Padilla-Walker, L. M., Fraser, A. M., Fellows, K., & Day, R. D. (2014). “Media Time = Family Time”. Journal of Adolescent Research, 29, 663-688. https://doi.org/10.1177/0743558414538316",
+      "title": "“Media Time = Family Time”",
+      "authors": [
+        "Coyne",
+        " S. M.",
+        " Padilla-Walker"
+      ],
+      "year": 2014,
+      "venue": "Journal of Adolescent Research, 29, 663-688. https://doi.org",
+      "doi": "10.1177/0743558414538316",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1177/0743558414538316 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作用",
+      "raw": "[20] Coyne, S. M., Rogers, A., Holmgren, H. G., Booth, M. A., Van Alfen, M., Harris, H. et al. (2023). Masters of Media: A Longitudinal Study of Parental Media Efficacy, Media Monitoring, and Child Problematic Media Use ",
+      "title": "Masters of Media: A Longitudinal Study of Parental Media Efficacy, Media Monitoring, and Child Problematic Media Use acr",
+      "authors": [
+        "Coyne",
+        " S. M.",
+        " Rogers"
+      ],
+      "year": 2023,
+      "venue": "Journal of Children and Media, 17, 318-335. https://doi.org/",
+      "doi": "10.1080/17482798.2023.2200958",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1080/17482798.2023.2200958 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作用",
+      "raw": "[21] Coyne, S. M., Shawcroft, J., Gale, M., Gentile, D. A., Etherington, J. T., Holmgren, H. et al. (2021). Tantrums, Toddlers and Technology: Temperament, Media Emotion Regulation, and Problematic Media Use in Early Chi",
+      "title": "Tantrums, Toddlers and Technology: Temperament, Media Emotion Regulation, and Problematic Media Use in Early Childhood",
+      "authors": [
+        "Coyne",
+        " S. M.",
+        " Shawcroft"
+      ],
+      "year": 2021,
+      "venue": "Computers in Human Behavior, 120, Article ID: 106762. https:",
+      "doi": "10.1016/j.chb.2021.106762",
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [
+        "pages"
+      ],
+      "notes": [
+        "DOI 10.1016/j.chb.2021.106762 resolved",
+        "DOI resolved; metadata mismatch: pages"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作用",
+      "raw": "[22] Dhamayanti, M., Dwiwina, R. G., & Adawiyah, R. (2019). Influence of Adolescents’ Smartphone Addiction on Mental and Emotional Development in West Java, Indonesia. Majalah Kedokteran Bandung, 51, 46-52. https://doi.o",
+      "title": "Influence of Adolescents’ Smartphone Addiction on Mental and Emotional Development in West Java, Indonesia",
+      "authors": [
+        "Dhamayanti",
+        " M.",
+        " Dwiwina"
+      ],
+      "year": 2019,
+      "venue": "Majalah Kedokteran Bandung, 51, 46-52. https://doi.org/10.15",
+      "doi": "10.15395/mkb.v51n1.1577",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.15395/mkb.v51n1.1577 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作用",
+      "raw": "[23] Domoff, S. E., Borgen, A. L., & Radesky, J. S. (2020). Interactional Theory of Childhood Problematic Media Use. Human Behavior and Emerging Technologies, 2, 343-353. https://doi.org/10.1002/hbe2.217",
+      "title": "Interactional Theory of Childhood Problematic Media Use",
+      "authors": [
+        "Domoff",
+        " S. E.",
+        " Borgen"
+      ],
+      "year": 2020,
+      "venue": "Human Behavior and Emerging Technologies, 2, 343-353. https:",
+      "doi": "10.1002/hbe2.217",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1002/hbe2.217 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作用",
+      "raw": "[24] Domoff, S. E., Harrison, K., Gearhardt, A. N., Gentile, D. A., Lumeng, J. C., & Miller, A. L. (2019). Development and Validation of the Problematic Media Use Measure: A Parent Report Measure of Screen Media “Addicti",
+      "title": "Development and Validation of the Problematic Media Use Measure: A Parent Report Measure of Screen Media “Addiction” in ",
+      "authors": [
+        "Domoff",
+        " S. E.",
+        " Harrison"
+      ],
+      "year": 2019,
+      "venue": "Psychology of Popular Media Culture, 8, 2-11. https://doi.or",
+      "doi": "10.1037/ppm0000163",
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [
+        "year"
+      ],
+      "notes": [
+        "DOI 10.1037/ppm0000163 resolved",
+        "DOI resolved; metadata mismatch: year"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作用",
+      "raw": "[25] Jackson, S., Bijstra, J., Oostra, L., & Bosma, H. (1998). Adolescents' Perceptions of Communication with Parents Relative to Specific Aspects of Relationships with Parents and Personal Development. Journal of Adoles",
+      "title": "Adolescents' Perceptions of Communication with Parents Relative to Specific Aspects of Relationships with Parents and Pe",
+      "authors": [
+        "Jackson",
+        " S.",
+        " Bijstra"
+      ],
+      "year": 1998,
+      "venue": "Journal of Adolescence, 21, 305-322. https://doi.org/10.1006",
+      "doi": "10.1006/jado.1998.0155",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1006/jado.1998.0155 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作用",
+      "raw": "[26] Kay, M. A., & Saglam, M. (2025). As Predictives of Digital Game Addiction in Early Childhood; Digital Parenting, Family Relations and Social Competence. Annales Médico-Psychologiques, 183, 429-438. https://doi.org/1",
+      "title": "As Predictives of Digital Game Addiction in Early Childhood; Digital Parenting, Family Relations and Social Competence",
+      "authors": [
+        "Kay",
+        " M. A.",
+        "Saglam"
+      ],
+      "year": 2025,
+      "venue": "Annales Médico-Psychologiques, 183, 429-438. https://doi.org",
+      "doi": "10.1016/j.amp.2024.11.003",
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [
+        "venue"
+      ],
+      "notes": [
+        "DOI 10.1016/j.amp.2024.11.003 resolved",
+        "DOI resolved; metadata mismatch: venue"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作用",
+      "raw": "[27] Konrad, C., Hillmann, M., Rispler, J., Niehaus, L., Neuhoff, L., & Barr, R. (2021). Quality of Mother-Child Interaction before, during, and after Smartphone Use. Frontiers in Psychology, 12, Article 616656. https://",
+      "title": "Quality of Mother-Child Interaction before, during, and after Smartphone Use",
+      "authors": [
+        "Konrad",
+        " C.",
+        " Hillmann"
+      ],
+      "year": 2021,
+      "venue": "Frontiers in Psychology, 12, Article 616656. https://doi.org",
+      "doi": "10.3389/fpsyg.2021.616656",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.3389/fpsyg.2021.616656 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作用",
+      "raw": "[28] Li, X., Fu, Y., Weng, W., Liu, M., & Li, Y. (2024). Maternal Phubbing and Problematic Media Use in Preschoolers: The Independent and Interactive Moderating Role of Children’s Negative Affectivity and Effortful Contr",
+      "title": "Maternal Phubbing and Problematic Media Use in Preschoolers: The Independent and Interactive Moderating Role of Children",
+      "authors": [
+        "Li",
+        " X.",
+        " Fu"
+      ],
+      "year": 2024,
+      "venue": "Psychology Research and Behavior Management, 17, 3083-3100. ",
+      "doi": "10.2147/prbm.s471208",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.2147/prbm.s471208 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作用",
+      "raw": "[29] McDaniel, B. T. (2019). Parent Distraction with Phones, Reasons for Use, and Impacts on Parenting and Child Outcomes: A Review of the Emerging Research. Human Behavior and Emerging Technologies, 1, 72-80. https://do",
+      "title": "Parent Distraction with Phones, Reasons for Use, and Impacts on Parenting and Child Outcomes: A Review of the Emerging R",
+      "authors": [
+        "McDaniel",
+        " B. T."
+      ],
+      "year": 2019,
+      "venue": "Human Behavior and Emerging Technologies, 1, 72-80. https://",
+      "doi": "10.1002/hbe2.139",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1002/hbe2.139 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作用",
+      "raw": "[30] Moon, J. H., Kim, K. W., & Moon, N. J. (2016). Smartphone Use Is a Risk Factor for Pediatric Dry Eye Disease According to Region and Age: A Case Control Study. BMC Ophthalmology, 16, Article No. 188. https://doi.org",
+      "title": "Smartphone Use Is a Risk Factor for Pediatric Dry Eye Disease According to Region and Age: A Case Control Study",
+      "authors": [
+        "Moon",
+        " J. H.",
+        " Kim"
+      ],
+      "year": 2016,
+      "venue": "BMC Ophthalmology, 16, Article No. 188. https://doi.org/10.1",
+      "doi": "10.1186/s12886-016-0364-4",
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [
+        "pages"
+      ],
+      "notes": [
+        "DOI 10.1186/s12886-016-0364-4 resolved",
+        "DOI resolved; metadata mismatch: pages"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作用",
+      "raw": "[31] Pancani, L., Gerosa, T., Gui, M., & Riva, P. (2021). “Mom, Dad, Look at Me”: The Development of the Parental Phubbing Scale. Journal of Social and Personal Relationships, 38, 435-458. https://doi.org/10.1177/0265407",
+      "title": "“Mom, Dad, Look at Me”: The Development of the Parental Phubbing Scale",
+      "authors": [
+        "Pancani",
+        " L.",
+        " Gerosa"
+      ],
+      "year": 2021,
+      "venue": "Journal of Social and Personal Relationships, 38, 435-458. h",
+      "doi": "10.1177/0265407520964866",
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [
+        "year"
+      ],
+      "notes": [
+        "DOI 10.1177/0265407520964866 resolved",
+        "DOI resolved; metadata mismatch: year"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作用",
+      "raw": "[32] Polat, P. (2025). Examining the Relationship between Problematic Media Use and Screen Time in Children Aged 5-6. Cukurova University Faculty of Education Journal, 54, 715-738. https://doi.org/10.14812/cuefd.1671077",
+      "title": "Examining the Relationship between Problematic Media Use and Screen Time in Children Aged 5-6",
+      "authors": [
+        "Polat",
+        " P."
+      ],
+      "year": 2025,
+      "venue": "Cukurova University Faculty of Education Journal, 54, 715-73",
+      "doi": "10.14812/cuefd.1671077",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.14812/cuefd.1671077 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作用",
+      "raw": "[33] Pulkki‐Råback, L., Barnes, J. D., Elovainio, M., Hakulinen, C., Sourander, A., Tremblay, M. S. et al. (2022). Parental Psychological Problems Were Associated with Higher Screen Time and the Use of Mature‐Rated Media",
+      "title": "Parental Psychological Problems Were Associated with Higher Screen Time and the Use of Mature‐Rated Media in Children",
+      "authors": [
+        "Pulkki‐Råback",
+        " L.",
+        " Barnes"
+      ],
+      "year": 2022,
+      "venue": "Acta Paediatrica, 111, 825-833. https://doi.org/10.1111/apa.",
+      "doi": "10.1111/apa.16253",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1111/apa.16253 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作用",
+      "raw": "[34] Radesky, J. S., Weeks, H. M., Ball, R., Schaller, A., Yeo, S., Durnez, J. et al. (2020). Young Children’s Use of Smartphones and Tablets. Pediatrics, 146, e20193518. https://doi.org/10.1542/peds.2019-3518",
+      "title": "Young Children’s Use of Smartphones and Tablets",
+      "authors": [
+        "Radesky",
+        " J. S.",
+        " Weeks"
+      ],
+      "year": 2020,
+      "venue": "Pediatrics, 146, e20193518. https://doi.org/10.1542/peds.201",
+      "doi": "10.1542/peds.2019-3518",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1542/peds.2019-3518 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作用",
+      "raw": "[35] Rega, V., Gioia, F., & Boursier, V. (2023). Problematic Media Use among Children up to the Age of 10: A Systematic Literature Review. International Journal of Environmental Research and Public Health, 20, Article 58",
+      "title": "Problematic Media Use among Children up to the Age of 10: A Systematic Literature Review",
+      "authors": [
+        "Rega",
+        " V.",
+        " Gioia"
+      ],
+      "year": 2023,
+      "venue": "International Journal of Environmental Research and Public H",
+      "doi": "10.3390/ijerph20105854",
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [
+        "pages"
+      ],
+      "notes": [
+        "DOI 10.3390/ijerph20105854 resolved",
+        "DOI resolved; metadata mismatch: pages"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作用",
+      "raw": "[36] Rhodes, M., & Brickman, D. (2008). Preschoolers’ Responses to Social Comparisons Involving Relative Failure. Psychological Science, 19, 968-972. https://doi.org/10.1111/j.1467-9280.2008.02184.x",
+      "title": "Preschoolers’ Responses to Social Comparisons Involving Relative Failure",
+      "authors": [
+        "Rhodes",
+        " M.",
+        "Brickman"
+      ],
+      "year": 2008,
+      "venue": "Psychological Science, 19, 968-972. https://doi.org/10.1111/",
+      "doi": "10.1111/j.1467-9280.2008.02184.x",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1111/j.1467-9280.2008.02184.x resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作用",
+      "raw": "[37] Schoenrock, C. J., Bell, N. J., Sun, S., & Avery, A. W. (1999). Family Correlates of Adolescent Self-Monitoring and Social Competence. The Journal of Psychology, 133, 377-393. https://doi.org/10.1080/002239899095997",
+      "title": "Family Correlates of Adolescent Self-Monitoring and Social Competence",
+      "authors": [
+        "Schoenrock",
+        " C. J.",
+        " Bell"
+      ],
+      "year": 1999,
+      "venue": "The Journal of Psychology, 133, 377-393. https://doi.org/10.",
+      "doi": "10.1080/00223989909599750",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1080/00223989909599750 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作用",
+      "raw": "[38] Shawcroft, J., Coyne, S. M., Linder, L., Clifford, B. N., & McDaniel, B. T. (2024). Attachment Security and Problematic Media Use in Infancy: A Longitudinal Study in the United States. Infancy, 29, 137-154. https://",
+      "title": "Attachment Security and Problematic Media Use in Infancy: A Longitudinal Study in the United States",
+      "authors": [
+        "Shawcroft",
+        " J.",
+        " Coyne"
+      ],
+      "year": 2024,
+      "venue": "Infancy, 29, 137-154. https://doi.org/10.1111/infa.12570",
+      "doi": "10.1111/infa.12570",
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [
+        "year"
+      ],
+      "notes": [
+        "DOI 10.1111/infa.12570 resolved",
+        "DOI resolved; metadata mismatch: year"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作用",
+      "raw": "[39] Swit, C. S., Coyne, S. M., Shawcroft, J., Gath, M., Barr, R., Holmgren, H. G. et al. (2023). Problematic Media Use in Early Childhood: The Role of Parent-Child Relationships and Parental Wellbeing in Families in New",
+      "title": "Problematic Media Use in Early Childhood: The Role of Parent-Child Relationships and Parental Wellbeing in Families in N",
+      "authors": [
+        "Swit",
+        " C. S.",
+        " Coyne"
+      ],
+      "year": 2023,
+      "venue": "Journal of Children and Media, 17, 443-466. https://doi.org/",
+      "doi": "10.1080/17482798.2023.2230321",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1080/17482798.2023.2230321 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作用",
+      "raw": "[40] Zhang, J., Liu, M., Zhang, Q., & Li, Y. (2024). Mother Phubbing and Child Problematic Media Use: The Role of Mother-Child Relationship and Paternal Coparenting. Psychology Research and Behavior Management, 17, 3327-",
+      "title": "Mother Phubbing and Child Problematic Media Use: The Role of Mother-Child Relationship and Paternal Coparenting",
+      "authors": [
+        "Zhang",
+        " J.",
+        " Liu"
+      ],
+      "year": 2024,
+      "venue": "",
+      "doi": "10.2147/prbm.s431065",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.2147/prbm.s431065 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "raw": "[1] 陈燕蕾, 陈红(2008). 浪漫依恋研究及其对中国化研究的启示. 西南大学学报(社会科学版), 34(3), 14-18.",
+      "title": "浪漫依恋研究及其对中国化研究的启示",
+      "authors": [
+        "陈燕蕾",
+        " 陈红"
+      ],
+      "year": 2008,
+      "venue": "西南大学学报(社会科学版)",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.4103,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.41); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "raw": "[2] 郭子玲(2023). 成人依恋对亲密关系满意度的影响: 冲突应对方式的中介作用及干预. 硕士学位论文, 武汉, 华中师范大学.",
+      "title": "成人依恋对亲密关系满意度的影响: 冲突应对方式的中介作用及干预",
+      "authors": [
+        "郭子玲"
+      ],
+      "year": 2023,
+      "venue": "硕士学位论文, 武汉, 华中师范大学",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.1905,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.19); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "raw": "[3] 韩易静(2015). 大学生恋人的关系信念、冲突应对方式对其亲密关系质量的影响. 硕士学位论文, 杭州: 浙江理工大学.",
+      "title": "大学生恋人的关系信念、冲突应对方式对其亲密关系质量的影响",
+      "authors": [
+        "韩易静"
+      ],
+      "year": 2015,
+      "venue": "硕士学位论文, 杭州: 浙江理工大学",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.4681,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.47); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "raw": "[4] 侯静, 宋蕾(2019). 大学生情侣成人依恋与亲密关系质量: 归因的中介作用. 首都师范大学学报(社会科学版), (2), 169-180.",
+      "title": "大学生情侣成人依恋与亲密关系质量: 归因的中介作用",
+      "authors": [
+        "侯静",
+        " 宋蕾"
+      ],
+      "year": 2019,
+      "venue": "首都师范大学学报(社会科学版), (2), 169-180",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.4583,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.46); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "raw": "[5] 黄粤洋, 陈程, 杨希, 陶金花(2024). 童年期虐待对主观幸福感的影响: 不安全型依恋与幸福恐惧的链式中介作用. 中国临床心理学杂志, 32(5), 1041-1045.",
+      "title": "童年期虐待对主观幸福感的影响: 不安全型依恋与幸福恐惧的链式中介作用",
+      "authors": [
+        "黄粤洋",
+        " 陈程",
+        " 杨希"
+      ],
+      "year": 2024,
+      "venue": "中国临床心理学杂志",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.4528,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.45); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "raw": "[6] 邱莎莎(2010). 成人依恋、亲密关系动机与大学生亲密关系质量的相关研究. 硕士学位论文, 西安: 陕西师范大学.",
+      "title": "成人依恋、亲密关系动机与大学生亲密关系质量的相关研究",
+      "authors": [
+        "邱莎莎"
+      ],
+      "year": 2010,
+      "venue": "硕士学位论文, 西安: 陕西师范大学",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.3288,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.33); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "raw": "[7] 孙慧喆(2022). 成人依恋与亲密关系满意度的关系: 自传体记忆的中介效应与情绪调节策略的调节效应. 硕士学位论文, 郑州: 河南大学.",
+      "title": "成人依恋与亲密关系满意度的关系: 自传体记忆的中介效应与情绪调节策略的调节效应",
+      "authors": [
+        "孙慧喆"
+      ],
+      "year": 2022,
+      "venue": "硕士学位论文, 郑州: 河南大学",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.2545,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.25); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "raw": "[8] 王争艳, 刘迎泽, 杨叶(2005). 依恋内部工作模式的研究概述及探讨. 心理科学进展, 13(5), 629-639.",
+      "title": "依恋内部工作模式的研究概述及探讨",
+      "authors": [
+        "王争艳",
+        " 刘迎泽",
+        " 杨叶"
+      ],
+      "year": 2005,
+      "venue": "心理科学进展",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.3704,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.37); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "raw": "[9] 熊红星, 张璟, 叶宝娟, 等(2012). 共同方法变异的影响及其统计控制途径的模型分析. 心理科学进展, 20(5), 757-769.",
+      "title": "共同方法变异的影响及其统计控制途径的模型分析",
+      "authors": [
+        "熊红星",
+        " 张璟",
+        " 叶宝娟"
+      ],
+      "year": 2012,
+      "venue": "心理科学进展",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.439,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.44); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "raw": "[10] 杨慧慧(2008). 成人依恋、关系内隐理论与恋爱冲突解决策略的研究. 硕士学位论文, 杭州: 杭州师范大学。",
+      "title": "成人依恋、关系内隐理论与恋爱冲突解决策略的研究",
+      "authors": [
+        "杨慧慧"
+      ],
+      "year": 2008,
+      "venue": "硕士学位论文, 杭州: 杭州师范大学",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.2439,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.24); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "raw": "[11] 张宇迪, 贾晓明(2019). 自传体记忆功能对失独者延长哀伤的影响: 家族主义情感的调节作用. 心理发展与教育, 35(5), 540-548.",
+      "title": "自传体记忆功能对失独者延长哀伤的影响: 家族主义情感的调节作用",
+      "authors": [
+        "张宇迪",
+        " 贾晓明"
+      ],
+      "year": 2019,
+      "venue": "心理发展与教育",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.3509,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.35); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "raw": "[12] Alea, N., & Bluck, S. (2007). I’ll Keep You in Mind: The Intimacy Function of Autobiographical Memory. Applied Cognitive Psychology, 21, 1091-1111. https://doi.org/10.1002/acp.1316",
+      "title": "I’ll Keep You in Mind: The Intimacy Function of Autobiographical Memory",
+      "authors": [
+        "Alea",
+        " N.",
+        "Bluck"
+      ],
+      "year": 2007,
+      "venue": "Applied Cognitive Psychology, 21, 1091-1111. https://doi.org",
+      "doi": "10.1002/acp.1316",
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [
+        "year"
+      ],
+      "notes": [
+        "DOI 10.1002/acp.1316 resolved",
+        "DOI resolved; metadata mismatch: year"
+      ]
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "raw": "[13] Beffel, J. H., Cary, K. M., Nuttall, A. K., Chopik, W. J., & Maas, M. K. (2021). Associations between the Broad Autism Phenotype, Adult Attachment, and Relationship Satisfaction among Emerging Adults. Personality an",
+      "title": "Associations between the Broad Autism Phenotype, Adult Attachment, and Relationship Satisfaction among Emerging Adults",
+      "authors": [
+        "Beffel",
+        " J. H.",
+        " Cary"
+      ],
+      "year": 2021,
+      "venue": "Personality and Individual Differences, 168, Article ID: 110",
+      "doi": "10.1016/j.paid.2020.110409",
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [
+        "pages"
+      ],
+      "notes": [
+        "DOI 10.1016/j.paid.2020.110409 resolved",
+        "DOI resolved; metadata mismatch: pages"
+      ]
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "raw": "[14] Bluck, S., & Habermas, T. (2001). Extending the Study of Autobiographical Memory: Thinking Back about Life across the Life Span. Review of General Psychology, 5, 135-147. https://doi.org/10.1037/1089-2680.5.2.135",
+      "title": "Extending the Study of Autobiographical Memory: Thinking Back about Life across the Life Span",
+      "authors": [
+        "Bluck",
+        " S.",
+        "Habermas"
+      ],
+      "year": 2001,
+      "venue": "Review of General Psychology, 5, 135-147. https://doi.org/10",
+      "doi": "10.1037/1089-2680.5.2.135",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1037/1089-2680.5.2.135 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "raw": "[15] Bluck, S., Alea, N., Habermas, T., & Rubin, D. C. (2005). A TALE of Three Functions: The Self-Reported Uses of Autobiographical Memory. Social Cognition, 23, 91-117. https://doi.org/10.1521/soco.23.1.91.59198",
+      "title": "A TALE of Three Functions: The Self-Reported Uses of Autobiographical Memory",
+      "authors": [
+        "Bluck",
+        " S.",
+        " Alea"
+      ],
+      "year": 2005,
+      "venue": "Social Cognition, 23, 91-117. https://doi.org/10.1521/soco.2",
+      "doi": "10.1521/soco.23.1.91.59198",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1521/soco.23.1.91.59198 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "raw": "[16] Bohn, J., Holtmann, J., Ulitzsch, E., Koch, T., Luhmann, M., & Eid, M. (2021). Analyzing Stability and Change in Dyadic Attachment: The Multi-Rater Latent State-Trait Model with Autoregressive Effects. Frontiers in ",
+      "title": "Analyzing Stability and Change in Dyadic Attachment: The Multi-Rater Latent State-Trait Model with Autoregressive Effect",
+      "authors": [
+        "Bohn",
+        " J.",
+        " Holtmann"
+      ],
+      "year": 2021,
+      "venue": "Frontiers in Psychology, 12, Article 604526. https://doi.org",
+      "doi": "10.3389/fpsyg.2021.604526",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.3389/fpsyg.2021.604526 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "raw": "[17] Bowlby, J. (1969). Attachment and Loss: Vol. 1. Attachment. Basic Books.",
+      "title": "Attachment and Loss: Vol",
+      "authors": [
+        "Bowlby",
+        " J."
+      ],
+      "year": 1969,
+      "venue": "",
+      "doi": "",
+      "status": "Minor",
+      "doi_status": "none",
+      "title_sim": 0.9756,
+      "mismatches": [
+        "authors"
+      ],
+      "notes": [
+        "title matched; mismatch: authors"
+      ]
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "raw": "[18] Brehm, S. S., Miller, R. S., Perlling, D., & Campbell, S. M. (2002). Intimate Relationships. McGraw-Hill.",
+      "title": "Intimate Relationships",
+      "authors": [
+        "Brehm",
+        " S. S.",
+        " Miller"
+      ],
+      "year": 2002,
+      "venue": "McGraw-Hill",
+      "doi": "",
+      "status": "Minor",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "mismatches": [
+        "year",
+        "authors",
+        "venue"
+      ],
+      "notes": [
+        "title matched; mismatch: year,authors,venue"
+      ]
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "raw": "[19] Caperton, D. D. (2014). Romantic Relationship Memory Effects on Future Romantic Relationship Forecasts: Differences by Attachment. Ph.D. Thesis, Western Washington University.",
+      "title": "Romantic Relationship Memory Effects on Future Romantic Relationship Forecasts: Differences by Attachment",
+      "authors": [
+        "Caperton",
+        " D. D."
+      ],
+      "year": 2014,
+      "venue": "Ph.D. Thesis, Western Washington University",
+      "doi": "",
+      "status": "Minor",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "mismatches": [
+        "year"
+      ],
+      "notes": [
+        "title matched; mismatch: year"
+      ]
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "raw": "[20] Collins, N. L., & Read, S. J. (1990). Adult Attachment, Working Models, and Relationship Quality in Dating Couples. Journal of Personality and Social Psychology, 58, 644-663. https://doi.org/10.1037/0022-3514.58.4.6",
+      "title": "Adult Attachment, Working Models, and Relationship Quality in Dating Couples",
+      "authors": [
+        "Collins",
+        " N. L.",
+        "Read"
+      ],
+      "year": 1990,
+      "venue": "Journal of Personality and Social Psychology, 58, 644-663. h",
+      "doi": "10.1037/0022-3514.58.4.644",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1037/0022-3514.58.4.644 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "raw": "[21] Conway, M. A., & Pleydell-Pearce, C. W. (2000). The Construction of Autobiographical Memories in the Self-Memory System. Psychological Review, 107, 261-288. https://doi.org/10.1037/0033-295x.107.2.261",
+      "title": "The Construction of Autobiographical Memories in the Self-Memory System",
+      "authors": [
+        "Conway",
+        " M. A.",
+        "Pleydell-Pearce"
+      ],
+      "year": 2000,
+      "venue": "Psychological Review, 107, 261-288. https://doi.org/10.1037/",
+      "doi": "10.1037/0033-295x.107.2.261",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1037/0033-295x.107.2.261 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "raw": "[22] Fitzpatrick, J., & Lafontaine, M. (2017). Attachment, Trust, and Satisfaction in Relationships: Investigating Actor, Partner, and Mediating Effects. Personal Relationships, 24, 640-662. https://doi.org/10.1111/pere.",
+      "title": "Attachment, Trust, and Satisfaction in Relationships: Investigating Actor, Partner, and Mediating Effects",
+      "authors": [
+        "Fitzpatrick",
+        " J.",
+        "Lafontaine"
+      ],
+      "year": 2017,
+      "venue": "Personal Relationships, 24, 640-662. https://doi.org/10.1111",
+      "doi": "10.1111/pere.12203",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1111/pere.12203 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "raw": "[23] Hazan, C., & Shaver, P. (1987). Romantic Love Conceptualized as an Attachment Process. Journal of Personality and Social Psychology, 52, 511-524. https://doi.org/10.1037/0022-3514.52.3.511",
+      "title": "Romantic Love Conceptualized as an Attachment Process",
+      "authors": [
+        "Hazan",
+        " C.",
+        "Shaver"
+      ],
+      "year": 1987,
+      "venue": "Journal of Personality and Social Psychology, 52, 511-524. h",
+      "doi": "10.1037/0022-3514.52.3.511",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1037/0022-3514.52.3.511 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "raw": "[24] Holmberg, D., Orbuch, T. L., & Veroff, J. (2004). Thrice-Told Tales: Married Couples Tell Their Stories. Lawrence Erlbaum Associates.",
+      "title": "Thrice-Told Tales: Married Couples Tell Their Stories",
+      "authors": [
+        "Holmberg",
+        " D.",
+        " Orbuch"
+      ],
+      "year": 2004,
+      "venue": "Lawrence Erlbaum Associates",
+      "doi": "",
+      "status": "Minor",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "mismatches": [
+        "year"
+      ],
+      "notes": [
+        "title matched; mismatch: year"
+      ]
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "raw": "[25] Kammrath, L. K., & Dweck, C. (2006). Voicing Conflict: Preferred Conflict Strategies among Incremental and Entity Theorists. Personality and Social Psychology Bulletin, 32, 1497-1508. https://doi.org/10.1177/0146167",
+      "title": "Voicing Conflict: Preferred Conflict Strategies among Incremental and Entity Theorists",
+      "authors": [
+        "Kammrath",
+        " L. K.",
+        "Dweck"
+      ],
+      "year": 2006,
+      "venue": "Personality and Social Psychology Bulletin, 32, 1497-1508. h",
+      "doi": "10.1177/0146167206291476",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1177/0146167206291476 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "raw": "[26] Knee, C. R. (1998). Implicit Theories of Relationships: Assessment and Prediction of Romantic Relationship Initiation, Coping, and Longevity. Journal of Personality and Social Psychology, 74, 360-370. https://doi.or",
+      "title": "Implicit Theories of Relationships: Assessment and Prediction of Romantic Relationship Initiation, Coping, and Longevity",
+      "authors": [
+        "Knee",
+        " C. R."
+      ],
+      "year": 1998,
+      "venue": "Journal of Personality and Social Psychology, 74, 360-370. h",
+      "doi": "10.1037/0022-3514.74.2.360",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1037/0022-3514.74.2.360 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "raw": "[27] Knee, C. R., & Canevello, A. (2006). Implicit Theories of Relationships and Coping in Romantic Relationships. In K. D. Vohs, & E. J. Finkel (Eds.), Self and Relationships: Connecting Intrapersonal and Interpersonal ",
+      "title": "Implicit Theories of Relationships and Coping in Romantic Relationships",
+      "authors": [
+        "Knee",
+        " C. R.",
+        "Canevello"
+      ],
+      "year": 2006,
+      "venue": "",
+      "doi": "",
+      "status": "Exact",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "title matched; fields matched"
+      ]
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "raw": "[28] Knee, C. R., Patrick, H., & Lonsbary, C. (2003). Implicit Theories of Relationships: Orientations toward Evaluation and Cultivation. Personality and Social Psychology Review, 7, 41-55. https://doi.org/10.1207/s15327",
+      "title": "Implicit Theories of Relationships: Orientations toward Evaluation and Cultivation",
+      "authors": [
+        "Knee",
+        " C. R.",
+        " Patrick"
+      ],
+      "year": 2003,
+      "venue": "Personality and Social Psychology Review, 7, 41-55. https://",
+      "doi": "10.1207/s15327957pspr0701_3",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1207/s15327957pspr0701_3 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "raw": "[29] Lau-Zhu, A., Williams, F., & Steel, C. (2023). Attachment Patterns and Autobiographical Episodic Memory Functioning: A Systemic Review of Adult Studies to Advance Clinical Psychological Science. Clinical Psychology ",
+      "title": "Attachment Patterns and Autobiographical Episodic Memory Functioning: A Systemic Review of Adult Studies to Advance Clin",
+      "authors": [
+        "Lau-Zhu",
+        " A.",
+        " Williams"
+      ],
+      "year": 2023,
+      "venue": "Clinical Psychology Review, 101, Article ID: 102254. https:/",
+      "doi": "10.1016/j.cpr.2023.102254",
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [
+        "pages"
+      ],
+      "notes": [
+        "DOI 10.1016/j.cpr.2023.102254 resolved",
+        "DOI resolved; metadata mismatch: pages"
+      ]
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "raw": "[30] Main, M., Kaplan, N., & Cassidy, J. (1985). Security in Infancy, Childhood, and Adulthood: A Move to the Level of Representation. Monographs of the Society for Research in Child Development, 50, 66-104. https://doi.",
+      "title": "Security in Infancy, Childhood, and Adulthood: A Move to the Level of Representation",
+      "authors": [
+        "Main",
+        " M.",
+        " Kaplan"
+      ],
+      "year": 1985,
+      "venue": "Monographs of the Society for Research in Child Development,",
+      "doi": "10.2307/3333827",
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [
+        "pages"
+      ],
+      "notes": [
+        "DOI 10.2307/3333827 resolved",
+        "DOI resolved; metadata mismatch: pages"
+      ]
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "raw": "[31] Michl, L. C., McLaughlin, K. A., Shepherd, K., & Nolen-Hoeksema, S. (2013). Rumination as a Mechanism Linking Stressful Life Events to Symptoms of Depression and Anxiety: Longitudinal Evidence in Early Adolescents a",
+      "title": "Rumination as a Mechanism Linking Stressful Life Events to Symptoms of Depression and Anxiety: Longitudinal Evidence in ",
+      "authors": [
+        "Michl",
+        " L. C.",
+        " McLaughlin"
+      ],
+      "year": 2013,
+      "venue": "Journal of Abnormal Psychology, 122, 339-352. https://doi.or",
+      "doi": "10.1037/a0031994",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1037/a0031994 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "raw": "[32] Mikulincer, M., & Shaver, P. R. (2010). Attachment in Adulthood: Structure, Dynamics, and Change. Guilford Press.",
+      "title": "Attachment in Adulthood: Structure, Dynamics, and Change",
+      "authors": [
+        "Mikulincer",
+        " M.",
+        "Shaver"
+      ],
+      "year": 2010,
+      "venue": "",
+      "doi": "",
+      "status": "Minor",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "mismatches": [
+        "year"
+      ],
+      "notes": [
+        "title matched; mismatch: year"
+      ]
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "raw": "[33] Miller, J. B., & Noirot, M. (1999). Attachment Memories, Models and Information Processing. Journal of Social and Personal Relationships, 16, 147-173. https://doi.org/10.1177/0265407599162002",
+      "title": "Attachment Memories, Models and Information Processing",
+      "authors": [
+        "Miller",
+        " J. B.",
+        "Noirot"
+      ],
+      "year": 1999,
+      "venue": "Journal of Social and Personal Relationships, 16, 147-173. h",
+      "doi": "10.1177/0265407599162002",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1177/0265407599162002 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "raw": "[34] Shafique, A., Yousaf, K., & Irfan, A. (2023). Marital Satisfaction and Quality of Life among Married Women: Moderating Role of Attachment Styles. Bahria Journal of Professional Psychology, 22, 27-53. https://doi.org",
+      "title": "Marital Satisfaction and Quality of Life among Married Women: Moderating Role of Attachment Styles",
+      "authors": [
+        "Shafique",
+        " A.",
+        " Yousaf"
+      ],
+      "year": 2023,
+      "venue": "",
+      "doi": "10.58800/oglm4067",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.58800/oglm4067 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "raw": "[1] 王士同. 神经模糊系统及其应用[M]. 北京: 北京航空航天大学出版社, 1998.",
+      "title": "神经模糊系统及其应用",
+      "authors": [
+        "王士同"
+      ],
+      "year": 1998,
+      "venue": "",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.4211,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.42); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "raw": "[2] Chen, Y., Wang, Z. and Bai, X. (2023) Fuzzy Sparse Subspace Clustering for Infrared Image Segmentation. IEEE Transactions on Image Processing, 32, 2132-2146. https://doi.org/10.1109/tip.2023.3263102",
+      "title": "Fuzzy Sparse Subspace Clustering for Infrared Image Segmentation",
+      "authors": [
+        "Chen",
+        " Y.",
+        " Wang"
+      ],
+      "year": 2023,
+      "venue": "IEEE Transactions on Image Processing, 32, 2132-2146. https:",
+      "doi": "10.1109/tip.2023.3263102",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1109/tip.2023.3263102 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "raw": "[3] Duan, L., Xue, W., Huang, J. and Zheng, X. (2024) Joint Sample Position Based Noise Filtering and Mean Shift Clustering for Imbalanced Classification Learning. Tsinghua Science and Technology, 29, 216-231. https://do",
+      "title": "Joint Sample Position Based Noise Filtering and Mean Shift Clustering for Imbalanced Classification Learning",
+      "authors": [
+        "Duan",
+        " L.",
+        " Xue"
+      ],
+      "year": 2024,
+      "venue": "Tsinghua Science and Technology, 29, 216-231. https://doi.or",
+      "doi": "10.26599/tst.2023.9010006",
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [
+        "year",
+        "venue"
+      ],
+      "notes": [
+        "DOI 10.26599/tst.2023.9010006 resolved",
+        "DOI resolved; metadata mismatch: year,venue"
+      ]
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "raw": "[4] Qi, J., Jia, Y., Liu, H. and Hou, J. (2025) Structural-Spectral Graph Convolution with Evidential Edge Learning for Hyperspectral Image Clustering. IEEE Transactions on Image Processing, 34, 7919-7929. https://doi.or",
+      "title": "Structural-Spectral Graph Convolution with Evidential Edge Learning for Hyperspectral Image Clustering",
+      "authors": [
+        "Qi",
+        " J.",
+        " Jia"
+      ],
+      "year": 2025,
+      "venue": "IEEE Transactions on Image Processing, 34, 7919-7929. https:",
+      "doi": "10.1109/tip.2025.3636098",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1109/tip.2025.3636098 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "raw": "[5] Bian, Z., Yu, L., Qu, J., Deng, Z. and Wang, S. (2025) An Ensemble Clustering Method via Learning the CA Matrix with Fuzzy Neighbors. Information Fusion, 120, Article 103105. https://doi.org/10.1016/j.inffus.2025.103",
+      "title": "An Ensemble Clustering Method via Learning the CA Matrix with Fuzzy Neighbors",
+      "authors": [
+        "Bian",
+        " Z.",
+        " Yu"
+      ],
+      "year": 2025,
+      "venue": "Information Fusion, 120, Article 103105. https://doi.org/10.",
+      "doi": "10.1016/j.inffus.2025.103105",
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [
+        "pages"
+      ],
+      "notes": [
+        "DOI 10.1016/j.inffus.2025.103105 resolved",
+        "DOI resolved; metadata mismatch: pages"
+      ]
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "raw": "[6] Zhang, W., Deng, Z., Ding, W., Zhou, J., Zhang, T., Choi, K., et al. (2026) Enhanced One-Step Incomplete Multiview Fuzzy Clustering with Dual Representation Learning. IEEE Transactions on Fuzzy Systems, 34, 966-980. ",
+      "title": "Enhanced One-Step Incomplete Multiview Fuzzy Clustering with Dual Representation Learning",
+      "authors": [
+        "Zhang",
+        " W.",
+        " Deng"
+      ],
+      "year": 2026,
+      "venue": "IEEE Transactions on Fuzzy Systems, 34, 966-980. https://doi",
+      "doi": "10.1109/tfuzz.2026.3651747",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1109/tfuzz.2026.3651747 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "raw": "[7] Wu, K., Yu, J. and Yang, M. (2005) A Novel Fuzzy Clustering Algorithm Based on a Fuzzy Scatter Matrix with Optimality Tests. Pattern Recognition Letters, 26, 639-652. https://doi.org/10.1016/j.patrec.2004.09.016",
+      "title": "A Novel Fuzzy Clustering Algorithm Based on a Fuzzy Scatter Matrix with Optimality Tests",
+      "authors": [
+        "Wu",
+        " K.",
+        " Yu"
+      ],
+      "year": 2005,
+      "venue": "Pattern Recognition Letters, 26, 639-652. https://doi.org/10",
+      "doi": "10.1016/j.patrec.2004.09.016",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1016/j.patrec.2004.09.016 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "raw": "[8] Zhu, L., Chung, F.-L. and Wang, S. (2009) Generalized Fuzzy C-Means Clustering Algorithm with Improved Fuzzy Partitions. IEEE Transactions on Systems, Man, and Cybernetics, Part B (Cybernetics), 39, 578-591. https://",
+      "title": "Generalized Fuzzy C-Means Clustering Algorithm with Improved Fuzzy Partitions",
+      "authors": [
+        "Zhu",
+        " L.",
+        " Chung"
+      ],
+      "year": 2009,
+      "venue": "IEEE Transactions on Systems, Man, and Cybernetics, Part B (",
+      "doi": "10.1109/tsmcb.2008.2004818",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1109/tsmcb.2008.2004818 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "raw": "[9] Cao, Y. and Wu, J. (2002) Projective ART for Clustering Data Sets in High Dimensional Spaces. Neural Networks, 15, 105-120. https://doi.org/10.1016/s0893-6080(01)00108-3",
+      "title": "Projective ART for Clustering Data Sets in High Dimensional Spaces",
+      "authors": [
+        "Cao",
+        " Y.",
+        "Wu"
+      ],
+      "year": 2002,
+      "venue": "Neural Networks, 15, 105-120. https://doi.org/10.1016/s0893-",
+      "doi": "10.1016/s0893-6080(01)00108-3",
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [
+        "volume"
+      ],
+      "notes": [
+        "DOI 10.1016/s0893-6080(01)00108-3 resolved",
+        "DOI resolved; metadata mismatch: volume"
+      ]
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "raw": "[10] Deng, Z., Choi, K., Chung, F. and Wang, S. (2010) Enhanced Soft Subspace Clustering Integrating Within-Cluster and Between-Cluster Information. Pattern Recognition, 43, 767-781. https://doi.org/10.1016/j.patcog.2009",
+      "title": "Enhanced Soft Subspace Clustering Integrating Within-Cluster and Between-Cluster Information",
+      "authors": [
+        "Deng",
+        " Z.",
+        " Choi"
+      ],
+      "year": 2010,
+      "venue": "Pattern Recognition, 43, 767-781. https://doi.org/10.1016/j.",
+      "doi": "10.1016/j.patcog.2009.09.010",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1016/j.patcog.2009.09.010 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "raw": "[11] Agrawal, R., Gehrke, J., Gunopulos, D. and Raghavan, P. (1998) Automatic Subspace Clustering of High Dimensional Data for Data Mining Applications. Proceedings of the 1998 ACM SIGMOD International Conference on Mana",
+      "title": "Automatic Subspace Clustering of High Dimensional Data for Data Mining Applications",
+      "authors": [
+        "Agrawal",
+        " R.",
+        " Gehrke"
+      ],
+      "year": 1998,
+      "venue": "Proceedings of the 1998 ACM SIGMOD International Conference ",
+      "doi": "10.1145/276304.276314",
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [
+        "venue",
+        "pages"
+      ],
+      "notes": [
+        "DOI 10.1145/276304.276314 resolved",
+        "DOI resolved; metadata mismatch: venue,pages"
+      ]
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "raw": "[12] Cheng, C., Fu, A.W. and Zhang, Y. (1999) Entropy-Based Subspace Clustering for Mining Numerical Data. Proceedings of the Fifth ACM SIGKDD International Conference on Knowledge Discovery and Data Mining, San Diego, 1",
+      "title": "Entropy-Based Subspace Clustering for Mining Numerical Data",
+      "authors": [
+        "Cheng",
+        " C.",
+        " Fu"
+      ],
+      "year": 1999,
+      "venue": "Proceedings of the Fifth ACM SIGKDD International Conference",
+      "doi": "10.1145/312129.312199",
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [
+        "venue",
+        "pages"
+      ],
+      "notes": [
+        "DOI 10.1145/312129.312199 resolved",
+        "DOI resolved; metadata mismatch: venue,pages"
+      ]
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "raw": "[13] Goil, S., Nagesh, H. and Choudhary, A. (1999) Mafia: Efficient and Scalable Subspace Clustering for Very Large Data Sets. Technical Report CPDC-TR-9906-010, Northwest University.",
+      "title": "Mafia: Efficient and Scalable Subspace Clustering for Very Large Data Sets",
+      "authors": [
+        "Goil",
+        " S.",
+        " Nagesh"
+      ],
+      "year": 1999,
+      "venue": "Technical Report CPDC-TR-9906-010, Northwest University",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.6618,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.66); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "raw": "[14] Aggarwal, C.C. and Yu, P.S. (2000) Finding Generalized Projected Clusters in High Dimensional Spaces. Proceedings of the 2000 ACM SIGMOD International Conference on Management of Data, Dallas, 15-18 May 2000, 70-81.",
+      "title": "Finding Generalized Projected Clusters in High Dimensional Spaces",
+      "authors": [
+        "Aggarwal",
+        " C.C.",
+        "Yu"
+      ],
+      "year": 2000,
+      "venue": "Proceedings of the 2000 ACM SIGMOD International Conference ",
+      "doi": "10.1145/342009.335383",
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [
+        "venue",
+        "pages"
+      ],
+      "notes": [
+        "DOI 10.1145/342009.335383 resolved",
+        "DOI resolved; metadata mismatch: venue,pages"
+      ]
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "raw": "[15] Aggarwal, C.C., Wolf, J.L., Yu, P.S., Procopiuc, C. and Park, J.S. (1999) Fast Algorithms for Projected Clustering. Proceedings of the 1999 ACM SIGMOD International Conference on Management of Data, Philadelphia, 31",
+      "title": "Fast Algorithms for Projected Clustering",
+      "authors": [
+        "Aggarwal",
+        " C.C.",
+        " Wolf"
+      ],
+      "year": 1999,
+      "venue": "Proceedings of the 1999 ACM SIGMOD International Conference ",
+      "doi": "10.1145/304182.304188",
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [
+        "venue"
+      ],
+      "notes": [
+        "DOI 10.1145/304182.304188 resolved",
+        "DOI resolved; metadata mismatch: venue"
+      ]
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "raw": "[16] Woo, K., Lee, J., Kim, M. and Lee, Y. (2004) FINDIT: A Fast and Intelligent Subspace Clustering Algorithm Using Dimension Voting. Information and Software Technology, 46, 255-271. https://doi.org/10.1016/j.infsof.20",
+      "title": "FINDIT: A Fast and Intelligent Subspace Clustering Algorithm Using Dimension Voting",
+      "authors": [
+        "Woo",
+        " K.",
+        " Lee"
+      ],
+      "year": 2004,
+      "venue": "Information and Software Technology, 46, 255-271. https://do",
+      "doi": "10.1016/j.infsof.2003.07.003",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1016/j.infsof.2003.07.003 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "raw": "[17] Gan, G. and Wu, J. (2008) A Convergence Theorem for the Fuzzy Subspace Clustering (FSC) Algorithm. Pattern Recognition, 41, 1939-1947. https://doi.org/10.1016/j.patcog.2007.11.011",
+      "title": "A Convergence Theorem for the Fuzzy Subspace Clustering (FSC) Algorithm",
+      "authors": [
+        "Gan",
+        " G.",
+        "Wu"
+      ],
+      "year": 2008,
+      "venue": "Pattern Recognition, 41, 1939-1947. https://doi.org/10.1016/",
+      "doi": "10.1016/j.patcog.2007.11.011",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1016/j.patcog.2007.11.011 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "raw": "[18] Jing, L., Ng, M.K., Xu, J. and Huang, J.Z. (2005) Subspace Clustering of Text Documents with Feature Weighting K-Means Algorithm. In: Ho, T.B., Cheung, D. and Liu, H. Eds., Lecture Notes in Computer Science, Springe",
+      "title": "Subspace Clustering of Text Documents with Feature Weighting K-Means Algorithm",
+      "authors": [
+        "Jing",
+        " L.",
+        " Ng"
+      ],
+      "year": 2005,
+      "venue": "",
+      "doi": "10.1007/11430919_94",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1007/11430919_94 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "raw": "[19] Zhou, J., Chen, L., Chen, C.L.P., Zhang, Y. and Li, H. (2016) Fuzzy Clustering with the Entropy of Attribute Weights. Neurocomputing, 198, 125-134. https://doi.org/10.1016/j.neucom.2015.09.127",
+      "title": "Fuzzy Clustering with the Entropy of Attribute Weights",
+      "authors": [
+        "Zhou",
+        " J.",
+        " Chen"
+      ],
+      "year": 2016,
+      "venue": "Neurocomputing, 198, 125-134. https://doi.org/10.1016/j.neuc",
+      "doi": "10.1016/j.neucom.2015.09.127",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1016/j.neucom.2015.09.127 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "raw": "[20] Domeniconi, C., Papadopoulos, D., Gunopulos, D. and Ma, S. (2004) Subspace Clustering of High Dimensional Data. Proceedings of the 2004 SIAM International Conference on Data Mining, 517-521. https://doi.org/10.1137/",
+      "title": "Subspace Clustering of High Dimensional Data",
+      "authors": [
+        "Domeniconi",
+        " C.",
+        " Papadopoulos"
+      ],
+      "year": 2004,
+      "venue": "Proceedings of the 2004 SIAM International Conference on Dat",
+      "doi": "10.1137/1.9781611972740.58",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1137/1.9781611972740.58 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "raw": "[21] Domeniconi, C., Gunopulos, D., Ma, S., Yan, B., Al-Razgan, M. and Papadopoulos, D. (2007) Locally Adaptive Metrics for Clustering High Dimensional Data. Data Mining and Knowledge Discovery, 14, 63-97. https://doi.or",
+      "title": "Locally Adaptive Metrics for Clustering High Dimensional Data",
+      "authors": [
+        "Domeniconi",
+        " C.",
+        " Gunopulos"
+      ],
+      "year": 2007,
+      "venue": "Data Mining and Knowledge Discovery, 14, 63-97. https://doi.",
+      "doi": "10.1007/s10618-006-0060-8",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1007/s10618-006-0060-8 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "raw": "[22] Strehl, A. and J. Ghosh. (2002) Cluster Ensembles—A Knowledge Reuse Framework for Combining Multiple Partitions. Journal of Machine Learning Research, 3, 583-617.",
+      "title": "Cluster Ensembles—A Knowledge Reuse Framework for Combining Multiple Partitions",
+      "authors": [
+        "Strehl",
+        " A.",
+        "J. Ghosh."
+      ],
+      "year": 2002,
+      "venue": "Journal of Machine Learning Research, 3, 583-617",
+      "doi": "",
+      "status": "Minor",
+      "doi_status": "none",
+      "title_sim": 0.9185,
+      "mismatches": [
+        "pages"
+      ],
+      "notes": [
+        "title matched; mismatch: pages"
+      ]
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "raw": "[23] Wang, J., Wang, S., Chung, F. and Deng, Z. (2013) Fuzzy Partition Based Soft Subspace Clustering and Its Applications in High Dimensional Data. Information Sciences, 246, 133-154. https://doi.org/10.1016/j.ins.2013.",
+      "title": "Fuzzy Partition Based Soft Subspace Clustering and Its Applications in High Dimensional Data",
+      "authors": [
+        "Wang",
+        " J.",
+        " Wang"
+      ],
+      "year": 2013,
+      "venue": "Information Sciences, 246, 133-154. https://doi.org/10.1016/",
+      "doi": "10.1016/j.ins.2013.05.029",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1016/j.ins.2013.05.029 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "raw": "[24] Yu, J. and Yang, M.-S. (2005) Optimality Test for Generalized FCM and Its Application to Parameter Selection. IEEE Transactions on Fuzzy Systems, 13, 164-176. https://doi.org/10.1109/tfuzz.2004.836065",
+      "title": "Optimality Test for Generalized FCM and Its Application to Parameter Selection",
+      "authors": [
+        "Yu",
+        " J.",
+        "Yang"
+      ],
+      "year": 2005,
+      "venue": "IEEE Transactions on Fuzzy Systems, 13, 164-176. https://doi",
+      "doi": "10.1109/tfuzz.2004.836065",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1109/tfuzz.2004.836065 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "raw": "[25] Yu, J., Cheng, Q. and Huang, H. (2004) Analysis of the Weighting Exponent in the FCM. IEEE Transactions on Systems, Man and Cybernetics, Part B (Cybernetics), 34, 634-639. https://doi.org/10.1109/tsmcb.2003.810951",
+      "title": "Analysis of the Weighting Exponent in the FCM",
+      "authors": [
+        "Yu",
+        " J.",
+        " Cheng"
+      ],
+      "year": 2004,
+      "venue": "IEEE Transactions on Systems, Man and Cybernetics, Part B (C",
+      "doi": "10.1109/tsmcb.2003.810951",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1109/tsmcb.2003.810951 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "raw": "[26] Li, Y., Dong, M. and Hua, J. (2008) Localized Feature Selection for Clustering. Pattern Recognition Letters, 29, 10-18. https://doi.org/10.1016/j.patrec.2007.08.012",
+      "title": "Localized Feature Selection for Clustering",
+      "authors": [
+        "Li",
+        " Y.",
+        " Dong"
+      ],
+      "year": 2008,
+      "venue": "Pattern Recognition Letters, 29, 10-18. https://doi.org/10.1",
+      "doi": "10.1016/j.patrec.2007.08.012",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1016/j.patrec.2007.08.012 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "解模糊约束软子空间聚类",
+      "raw": "[27] Xiao, J., Lu, J. and Li, X. (2017) Davies Bouldin Index Based Hierarchical Initialization K-Means. Intelligent Data Analysis, 21, 1327-1338. https://doi.org/10.3233/ida-163129 投稿 为你推荐 友情链接 科研出版社 开放图书馆 汉斯出版社 所有期刊 学科分",
+      "title": "Davies Bouldin Index Based Hierarchical Initialization K-Means",
+      "authors": [
+        "Xiao",
+        " J.",
+        " Lu"
+      ],
+      "year": 2017,
+      "venue": "",
+      "doi": "10.3233/ida-163129",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.3233/ida-163129 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "中小电商企业ERP与CRM系统集成障碍与优化路径研究",
+      "raw": "[1] 李鹤尊, 孙健, 安娜. ERP系统实施与企业成本粘性[J]. 会计研究, 2020(11): 47-59.",
+      "title": "ERP系统实施与企业成本粘性",
+      "authors": [
+        "李鹤尊",
+        "孙健",
+        "安娜"
+      ],
+      "year": 2020,
+      "venue": "会计研究",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.4706,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.47); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "中小电商企业ERP与CRM系统集成障碍与优化路径研究",
+      "raw": "[2] 易中文, 胡东滨, 曹文治. 面向企业信息化系统集成的中台架构研究[J]. 科技管理研究, 2021, 41(1): 166-174.",
+      "title": "面向企业信息化系统集成的中台架构研究",
+      "authors": [
+        "易中文",
+        "胡东滨",
+        "曹文治"
+      ],
+      "year": 2021,
+      "venue": "科技管理研究",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.55,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.55); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "中小电商企业ERP与CRM系统集成障碍与优化路径研究",
+      "raw": "[3] 刘璞, 李晗, 周平. 电子商务投资与企业绩效——基于客户关系管理的视角[J]. 河北经贸大学学报, 2019, 40(6): 90-100.",
+      "title": "电子商务投资与企业绩效——基于客户关系管理的视角",
+      "authors": [
+        "刘璞",
+        "李晗",
+        "周平"
+      ],
+      "year": 2019,
+      "venue": "河北经贸大学学报",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.3902,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.39); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "中小电商企业ERP与CRM系统集成障碍与优化路径研究",
+      "raw": "[4] 包根梅. 中小企业ERP应用现状分析[J]. 开发研究, 2011(2): 147-149.",
+      "title": "中小企业ERP应用现状分析",
+      "authors": [
+        "包根梅"
+      ],
+      "year": 2011,
+      "venue": "开发研究",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.5,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.50); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "中小电商企业ERP与CRM系统集成障碍与优化路径研究",
+      "raw": "[5] 周世良. ERP系统在企业财务管理应用中存在的问题及对策[J]. 产业创新研究, 2023(10): 146-149.",
+      "title": "ERP系统在企业财务管理应用中存在的问题及对策",
+      "authors": [
+        "周世良"
+      ],
+      "year": 2023,
+      "venue": "产业创新研究",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.6829,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.68); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "中小电商企业ERP与CRM系统集成障碍与优化路径研究",
+      "raw": "[6] 聂梓. 客户关系管理在企业市场营销中的作用[J]. 企业改革与管理, 2017(3): 125-126.",
+      "title": "客户关系管理在企业市场营销中的作用",
+      "authors": [
+        "聂梓"
+      ],
+      "year": 2017,
+      "venue": "企业改革与管理",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.75,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.75); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "中小电商企业ERP与CRM系统集成障碍与优化路径研究",
+      "raw": "[7] 刘艳艳. 客户关系管理理论综述[J]. 职业, 2014(14): 176-177.",
+      "title": "客户关系管理理论综述",
+      "authors": [
+        "刘艳艳"
+      ],
+      "year": 2014,
+      "venue": "职业",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.6897,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.69); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "中小电商企业ERP与CRM系统集成障碍与优化路径研究",
+      "raw": "[8] 江炜. ERP系统在中小电商企业客户关系管理中的优化作用研究[J]. 电子商务评论, 2025, 14(12): 6258-6264.",
+      "title": "ERP系统在中小电商企业客户关系管理中的优化作用研究",
+      "authors": [
+        "江炜"
+      ],
+      "year": 2025,
+      "venue": "电子商务评论",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.5455,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.55); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "中小电商企业ERP与CRM系统集成障碍与优化路径研究",
+      "raw": "[9] 曾雪云, 郝宁华, 时准. 小微企业如何提升信息沟通绩效——基于社会化客户关系管理能力与社交媒体可见度的研究[J]. 经济理论与经济管理, 2021, 41(2): 98-112.",
+      "title": "小微企业如何提升信息沟通绩效——基于社会化客户关系管理能力与社交媒体可见度的研究",
+      "authors": [
+        "曾雪云",
+        "郝宁华",
+        "时准"
+      ],
+      "year": 2021,
+      "venue": "经济理论与经济管理",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.2581,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.26); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "中小电商企业ERP与CRM系统集成障碍与优化路径研究",
+      "raw": "[10] Tornatzky, L.G. and Fleischer, M. (1990) The Processes of Technological Innovation. Lexington Books.",
+      "title": "The Processes of Technological Innovation",
+      "authors": [
+        "Tornatzky",
+        " L.G.",
+        "Fleischer"
+      ],
+      "year": 1990,
+      "venue": "",
+      "doi": "",
+      "status": "Minor",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "mismatches": [
+        "year",
+        "authors"
+      ],
+      "notes": [
+        "title matched; mismatch: year,authors"
+      ]
+    },
+    {
+      "paper": "中小电商企业ERP与CRM系统集成障碍与优化路径研究",
+      "raw": "[11] 陈旭, 李莲. ERP环境下基于系统参数的风险管理系统构建研究[J]. 会计之友, 2013(9): 18-21.",
+      "title": "ERP环境下基于系统参数的风险管理系统构建研究",
+      "authors": [
+        "陈旭",
+        "李莲"
+      ],
+      "year": 2013,
+      "venue": "会计之友",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.5714,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.57); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "中小电商企业ERP与CRM系统集成障碍与优化路径研究",
+      "raw": "[12] 刘依恬. 基于ERP平台的战略成本管理保障体系建设[J]. 财务与会计, 2015(11): 40-42.",
+      "title": "基于ERP平台的战略成本管理保障体系建设",
+      "authors": [
+        "刘依恬"
+      ],
+      "year": 2015,
+      "venue": "财务与会计",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.5,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.50); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "中小电商企业ERP与CRM系统集成障碍与优化路径研究",
+      "raw": "[13] 吴玉烁. 基于信息系统环境的企业内部控制优化——以冠昊生物公司为例[J]. 财会通讯, 2017(26): 118-122. 投稿 为你推荐 友情链接 科研出版社 开放图书馆 汉斯出版社 所有期刊 学科分类 书籍出版 联系我们 汉斯期刊 最新文章 同行评议 文章费用 审稿/编委 作者须知 投稿须知 稿件跟踪 常见问题 特别约稿 关于我们 开放获取 出版协议 保存/撤销 隐私保护 版权所有:汉斯出版社 (Hans Publish",
+      "title": "基于信息系统环境的企业内部控制优化——以冠昊生物公司为例",
+      "authors": [
+        "吴玉烁"
+      ],
+      "year": 2017,
+      "venue": "财会通讯",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.4912,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.49); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "人工智能在电子商务领域应用的研究图景与热点分析——基于国际核心文献的计量分析",
+      "raw": "[1] Dat Van, N. (2025) Bibliometric Examination of Artificial Intelligence within the Framework of E-Commerce Technology from 1996 to 2024. Journal of Logistics, Informatics and Service Science, 12, 138-150. https://www.",
+      "title": "Bibliometric Examination of Artificial Intelligence within the Framework of E-Commerce Technology from 1996 to 2024",
+      "authors": [
+        "Dat Van",
+        " N."
+      ],
+      "year": 2025,
+      "venue": "Journal of Logistics, Informatics and Service Science, 12, 1",
+      "doi": "",
+      "status": "Exact",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "title matched; fields matched"
+      ]
+    },
+    {
+      "paper": "人工智能在电子商务领域应用的研究图景与热点分析——基于国际核心文献的计量分析",
+      "raw": "[2] Adam, M., Wessel, M. and Benlian, A. (2020) AI-Based Chatbots in Customer Service and Their Effects on User Compliance. Electronic Markets, 31, 427-445. https://doi.org/10.1007/s12525-020-00414-7",
+      "title": "AI-Based Chatbots in Customer Service and Their Effects on User Compliance",
+      "authors": [
+        "Adam",
+        " M.",
+        " Wessel"
+      ],
+      "year": 2020,
+      "venue": "Electronic Markets, 31, 427-445. https://doi.org/10.1007/s12",
+      "doi": "10.1007/s12525-020-00414-7",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1007/s12525-020-00414-7 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "人工智能在电子商务领域应用的研究图景与热点分析——基于国际核心文献的计量分析",
+      "raw": "[3] He, X. and Liu, Y. (2024) Knowledge Evolutionary Process of Artificial Intelligence in E-Commerce: Main Path Analysis and Science Mapping Analysis. Expert Systems with Applications, 238, Article ID: 121801. https://d",
+      "title": "Knowledge Evolutionary Process of Artificial Intelligence in E-Commerce: Main Path Analysis and Science Mapping Analysis",
+      "authors": [
+        "He",
+        " X.",
+        "Liu"
+      ],
+      "year": 2024,
+      "venue": "Expert Systems with Applications, 238, Article ID: 121801. h",
+      "doi": "10.1016/j.eswa.2023.121801",
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [
+        "pages"
+      ],
+      "notes": [
+        "DOI 10.1016/j.eswa.2023.121801 resolved",
+        "DOI resolved; metadata mismatch: pages"
+      ]
+    },
+    {
+      "paper": "人工智能在电子商务领域应用的研究图景与热点分析——基于国际核心文献的计量分析",
+      "raw": "[4] Wang, S. and Zhang, H. (2025) Generative Artificial Intelligence and Internationalization Green Innovation: Roles of Supply Chain Innovations and AI Regulation for SMEs. Technology in Society, 82, Article ID: 102898.",
+      "title": "Generative Artificial Intelligence and Internationalization Green Innovation: Roles of Supply Chain Innovations and AI R",
+      "authors": [
+        "Wang",
+        " S.",
+        "Zhang"
+      ],
+      "year": 2025,
+      "venue": "Technology in Society, 82, Article ID: 102898. https://doi.o",
+      "doi": "10.1016/j.techsoc.2025.102898",
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [
+        "pages"
+      ],
+      "notes": [
+        "DOI 10.1016/j.techsoc.2025.102898 resolved",
+        "DOI resolved; metadata mismatch: pages"
+      ]
+    },
+    {
+      "paper": "人工智能在电子商务领域应用的研究图景与热点分析——基于国际核心文献的计量分析",
+      "raw": "[5] Cabrera-Sánchez, J., Ramos-de-Luna, I., Carvajal-Trujillo, E. and Villarejo-Ramos, Á.F. (2020) Online Recommendation Systems: Factors Influencing Use in E-Commerce. Sustainability, 12, Article No. 8888. https://doi.o",
+      "title": "Online Recommendation Systems: Factors Influencing Use in E-Commerce",
+      "authors": [
+        "Cabrera-Sánchez",
+        " J.",
+        " Ramos-de-Luna"
+      ],
+      "year": 2020,
+      "venue": "Sustainability, 12, Article No. 8888. https://doi.org/10.339",
+      "doi": "10.3390/su12218888",
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [
+        "pages"
+      ],
+      "notes": [
+        "DOI 10.3390/su12218888 resolved",
+        "DOI resolved; metadata mismatch: pages"
+      ]
+    },
+    {
+      "paper": "人工智能在电子商务领域应用的研究图景与热点分析——基于国际核心文献的计量分析",
+      "raw": "[6] Tang, Y.M., Chau, K.Y., Lau, Y. and Zheng, Z. (2023) Data-Intensive Inventory Forecasting with Artificial Intelligence Models for Cross-Border E-Commerce Service Automation. Applied Sciences, 13, Article No. 3051. ht",
+      "title": "Data-Intensive Inventory Forecasting with Artificial Intelligence Models for Cross-Border E-Commerce Service Automation",
+      "authors": [
+        "Tang",
+        " Y.M.",
+        " Chau"
+      ],
+      "year": 2023,
+      "venue": "Applied Sciences, 13, Article No. 3051. https://doi.org/10.3",
+      "doi": "10.3390/app13053051",
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [
+        "pages"
+      ],
+      "notes": [
+        "DOI 10.3390/app13053051 resolved",
+        "DOI resolved; metadata mismatch: pages"
+      ]
+    },
+    {
+      "paper": "人工智能在电子商务领域应用的研究图景与热点分析——基于国际核心文献的计量分析",
+      "raw": "[7] Mah, P.M., Skalna, I. and Pelech-Pilichowski, T. (2025) AI-Driven Anomaly Detection in E-Commerce Services: A Deep Learning and NLP Approach to the Isolation Forest Algorithm Trees. Journal of Theoretical and Applied",
+      "title": "AI-Driven Anomaly Detection in E-Commerce Services: A Deep Learning and NLP Approach to the Isolation Forest Algorithm T",
+      "authors": [
+        "Mah",
+        " P.M.",
+        " Skalna"
+      ],
+      "year": 2025,
+      "venue": "Journal of Theoretical and Applied Electronic Commerce Resea",
+      "doi": "10.3390/jtaer20030214",
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [
+        "pages"
+      ],
+      "notes": [
+        "DOI 10.3390/jtaer20030214 resolved",
+        "DOI resolved; metadata mismatch: pages"
+      ]
+    },
+    {
+      "paper": "人工智能在电子商务领域应用的研究图景与热点分析——基于国际核心文献的计量分析",
+      "raw": "[8] Pizzi, G., Vannucci, V., Mazzoli, V. and Donvito, R. (2023) I, Chatbot! The Impact of Anthropomorphism and Gaze Direction on Willingness to Disclose Personal Information and Behavioral Intentions. Psychology & Market",
+      "title": "I, Chatbot! The Impact of Anthropomorphism and Gaze Direction on Willingness to Disclose Personal Information and Behavi",
+      "authors": [
+        "Pizzi",
+        " G.",
+        " Vannucci"
+      ],
+      "year": 2023,
+      "venue": "Psychology & Marketing, 40, 1372-1387. https://doi.org/10.10",
+      "doi": "10.1002/mar.21813",
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [
+        "venue"
+      ],
+      "notes": [
+        "DOI 10.1002/mar.21813 resolved",
+        "DOI resolved; metadata mismatch: venue"
+      ]
+    },
+    {
+      "paper": "人工智能在电子商务领域应用的研究图景与热点分析——基于国际核心文献的计量分析",
+      "raw": "[9] Asante, I.O., Jiang, Y., Hossin, A.M., et al. (2023) Optimization of Consumer Engagement with Artificial Intelligence Elements on Electronic Commerce Platforms. Journal of Electronic Commerce Research, 24, 7-28.",
+      "title": "Optimization of Consumer Engagement with Artificial Intelligence Elements on Electronic Commerce Platforms",
+      "authors": [
+        "Asante",
+        " I.O.",
+        " Jiang"
+      ],
+      "year": 2023,
+      "venue": "Journal of Electronic Commerce Research, 24, 7-28",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.6178,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.62); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "人工智能在电子商务领域应用的研究图景与热点分析——基于国际核心文献的计量分析",
+      "raw": "[10] Adam, M., Wessel, M. and Benlian, A. (2021) AI-Based Chatbots in Customer Service and Their Effects on User Compliance. Electronic Markets, 31, 427-445. https://doi.org/10.1007/s12525-020-00414-7",
+      "title": "AI-Based Chatbots in Customer Service and Their Effects on User Compliance",
+      "authors": [
+        "Adam",
+        " M.",
+        " Wessel"
+      ],
+      "year": 2021,
+      "venue": "Electronic Markets, 31, 427-445. https://doi.org/10.1007/s12",
+      "doi": "10.1007/s12525-020-00414-7",
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [
+        "year"
+      ],
+      "notes": [
+        "DOI 10.1007/s12525-020-00414-7 resolved",
+        "DOI resolved; metadata mismatch: year"
+      ]
+    },
+    {
+      "paper": "人工智能在电子商务领域应用的研究图景与热点分析——基于国际核心文献的计量分析",
+      "raw": "[11] Trivedi, S.K., Patra, P., Srivastava, P.R., Zhang, J.Z. and Zheng, L.J. (2022) What Prompts Consumers to Purchase Online? A Machine Learning Approach. Electronic Commerce Research, 24, 2953-2989. https://doi.org/10.",
+      "title": "What Prompts Consumers to Purchase Online? A Machine Learning Approach",
+      "authors": [
+        "Trivedi",
+        " S.K.",
+        " Patra"
+      ],
+      "year": 2022,
+      "venue": "Electronic Commerce Research, 24, 2953-2989. https://doi.org",
+      "doi": "10.1007/s10660-022-09624-x",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1007/s10660-022-09624-x resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "人工智能在电子商务领域应用的研究图景与热点分析——基于国际核心文献的计量分析",
+      "raw": "[12] Kautish, P. and Khare, A. (2022) Investigating the Moderating Role of AI-Enabled Services on Flow and Awe Experience. International Journal of Information Management, 66, Article ID: 102519. https://doi.org/10.1016/",
+      "title": "Investigating the Moderating Role of AI-Enabled Services on Flow and Awe Experience",
+      "authors": [
+        "Kautish",
+        " P.",
+        "Khare"
+      ],
+      "year": 2022,
+      "venue": "International Journal of Information Management, 66, Article",
+      "doi": "10.1016/j.ijinfomgt.2022.102519",
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [
+        "pages"
+      ],
+      "notes": [
+        "DOI 10.1016/j.ijinfomgt.2022.102519 resolved",
+        "DOI resolved; metadata mismatch: pages"
+      ]
+    },
+    {
+      "paper": "人工智能在电子商务领域应用的研究图景与热点分析——基于国际核心文献的计量分析",
+      "raw": "[13] Zhang, Q. and Xiong, Y. (2024) Harnessing AI Potential in E-Commerce: Improving User Engagement and Sales through Deep Learning-Based Product Recommendations. Current Psychology, 43, 30379-30401. https://doi.org/10.",
+      "title": "Harnessing AI Potential in E-Commerce: Improving User Engagement and Sales through Deep Learning-Based Product Recommend",
+      "authors": [
+        "Zhang",
+        " Q.",
+        "Xiong"
+      ],
+      "year": 2024,
+      "venue": "Current Psychology, 43, 30379-30401. https://doi.org/10.1007",
+      "doi": "10.1007/s12144-024-06649-3",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1007/s12144-024-06649-3 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "人工智能在电子商务领域应用的研究图景与热点分析——基于国际核心文献的计量分析",
+      "raw": "[14] Davoodi, L. and Mezei, J. (2024) A Large Language Model and Qualitative Comparative Analysis-Based Study of Trust in E-Commerce. Applied Sciences, 14, Article No. 10069. https://doi.org/10.3390/app142110069",
+      "title": "A Large Language Model and Qualitative Comparative Analysis-Based Study of Trust in E-Commerce",
+      "authors": [
+        "Davoodi",
+        " L.",
+        "Mezei"
+      ],
+      "year": 2024,
+      "venue": "Applied Sciences, 14, Article No. 10069. https://doi.org/10.",
+      "doi": "10.3390/app142110069",
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [
+        "pages"
+      ],
+      "notes": [
+        "DOI 10.3390/app142110069 resolved",
+        "DOI resolved; metadata mismatch: pages"
+      ]
+    },
+    {
+      "paper": "人工智能在电子商务领域应用的研究图景与热点分析——基于国际核心文献的计量分析",
+      "raw": "[15] Wasilewski, A., Chawla, Y. and Pralat, E. (2025) Enhanced E-Commerce Personalization through AI-Powered Content Generation Tools. IEEE Access, 13, 48083-48095. https://doi.org/10.1109/access.2025.3550956 投稿 为你推荐 友情链",
+      "title": "Enhanced E-Commerce Personalization through AI-Powered Content Generation Tools",
+      "authors": [
+        "Wasilewski",
+        " A.",
+        " Chawla"
+      ],
+      "year": 2025,
+      "venue": "",
+      "doi": "10.1109/access.2025.3550956",
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.1109/access.2025.3550956 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "paper": "内容电商场景下传媒生产的要素重构与交易闭环机制",
+      "raw": "[1] 郭文强, 梁蕴泽, 雷明. 直播电商下厂家、MCN机构及主播动态运营策略[J]. 管理工程报, 2024, 38(6): 275-289.",
+      "title": "直播电商下厂家、MCN机构及主播动态运营策略",
+      "authors": [
+        "郭文强",
+        "梁蕴泽",
+        "雷明"
+      ],
+      "year": 2024,
+      "venue": "管理工程报",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.2727,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.27); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "内容电商场景下传媒生产的要素重构与交易闭环机制",
+      "raw": "[2] 李双. 内容电商运营的基本路径研究[J]. 商贸流通, 2021(20): 108-109.",
+      "title": "内容电商运营的基本路径研究",
+      "authors": [
+        "李双"
+      ],
+      "year": 2021,
+      "venue": "商贸流通",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.4706,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.47); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "内容电商场景下传媒生产的要素重构与交易闭环机制",
+      "raw": "[3] 黄洪珍, 吴羽洁. 数据与用户双驱动: 传统媒体发展数字经济探析[J]. 新闻战线, 2024(14): 72-74.",
+      "title": "数据与用户双驱动: 传统媒体发展数字经济探析",
+      "authors": [
+        "黄洪珍",
+        "吴羽洁"
+      ],
+      "year": 2024,
+      "venue": "新闻战线",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.4,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.40); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "内容电商场景下传媒生产的要素重构与交易闭环机制",
+      "raw": "[4] 马更新. 电子商务平台经营者的数据保护义务[J]. 陕西师范大学学报(哲学社会科版), 2025, 54(2): 150-164.",
+      "title": "电子商务平台经营者的数据保护义务",
+      "authors": [
+        "马更新"
+      ],
+      "year": 2025,
+      "venue": "陕西师范大学学报(哲学社会科版)",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.4375,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.44); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "内容电商场景下传媒生产的要素重构与交易闭环机制",
+      "raw": "[5] 王艺璇, 安真真. 电商直播中消费者注意力的生产与控制[J]. 中国青年研究, 2021(2): 14-21.",
+      "title": "电商直播中消费者注意力的生产与控制",
+      "authors": [
+        "王艺璇",
+        "安真真"
+      ],
+      "year": 2021,
+      "venue": "中国青年研究",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.439,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.44); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "内容电商场景下传媒生产的要素重构与交易闭环机制",
+      "raw": "[6] 国秋华, 彭璐瑶. 算法行动者对短视频平台注意力市场的建构[J]. 中国编辑, 2021(9): 23-27.",
+      "title": "算法行动者对短视频平台注意力市场的建构",
+      "authors": [
+        "国秋华",
+        "彭璐瑶"
+      ],
+      "year": 2021,
+      "venue": "中国编辑",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.3077,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.31); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "内容电商场景下传媒生产的要素重构与交易闭环机制",
+      "raw": "[7] 宋玉茹, 平台算法推荐下消费者理性决策的理论依据与实践路径[J]. 价格理论与实践, 2025(6): 106-111.",
+      "title": "平台算法推荐下消费者理性决策的理论依据与实践路径",
+      "authors": [
+        "宋玉茹"
+      ],
+      "year": 2025,
+      "venue": "价格理论与实践",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.381,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.38); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "内容电商场景下传媒生产的要素重构与交易闭环机制",
+      "raw": "[8] 邱志刚, 王子悦, 曾成. 平台经济的数字化发展和数字信任[J]. 经济管理学刊, 2023, 2(2): 241-284.",
+      "title": "平台经济的数字化发展和数字信任",
+      "authors": [
+        "邱志刚",
+        "王子悦",
+        "曾成"
+      ],
+      "year": 2023,
+      "venue": "经济管理学刊",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.3529,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.35); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "内容电商场景下传媒生产的要素重构与交易闭环机制",
+      "raw": "[9] 王晴, 张毅, 朱娟. 基于互动仪式链的网络直播消费者决策机制与优化研究[J]. 新媒体研究, 2025(9): 64-67.",
+      "title": "基于互动仪式链的网络直播消费者决策机制与优化研究",
+      "authors": [
+        "王晴",
+        "张毅",
+        "朱娟"
+      ],
+      "year": 2025,
+      "venue": "新媒体研究",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.4082,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.41); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "内容电商场景下传媒生产的要素重构与交易闭环机制",
+      "raw": "[10] 戴明禹. 价值链转移视角下内容电商发展策略探讨[J]. 商业经济研究, 2017(22): 81-84.",
+      "title": "价值链转移视角下内容电商发展策略探讨",
+      "authors": [
+        "戴明禹"
+      ],
+      "year": 2017,
+      "venue": "商业经济研究",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.45,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.45); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "内容电商场景下传媒生产的要素重构与交易闭环机制",
+      "raw": "[11] 江积海, 周彩虹, 王烽权. 推荐算法驱动内容平台价值创造的机理: 相关还是因果? [J]. 外国经济与管理, 2025, 47(2): 3-19. 投稿 为你推荐 友情链接 科研出版社 开放图书馆 汉斯出版社 所有期刊 学科分类 书籍出版 联系我们 汉斯期刊 最新文章 同行评议 文章费用 审稿/编委 作者须知 投稿须知 稿件跟踪 常见问题 特别约稿 关于我们 开放获取 出版协议 保存/撤销 隐私保护 版权所有:汉斯出版社 (",
+      "title": "推荐算法驱动内容平台价值创造的机理: 相关还是因果?",
+      "authors": [
+        "江积海",
+        "周彩虹",
+        "王烽权"
+      ],
+      "year": 2025,
+      "venue": "外国经济与管理",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.2727,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.27); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "电子商务平台数据安全困境及优化路径",
+      "raw": "[1] 李增辉, 赵甜. 大数据背景下电子商务企业管理问题及对策[J]. 商场现代化, 2025(9): 39-41.",
+      "title": "大数据背景下电子商务企业管理问题及对策",
+      "authors": [
+        "李增辉",
+        "赵甜"
+      ],
+      "year": 2025,
+      "venue": "商场现代化",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.766,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.77); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "电子商务平台数据安全困境及优化路径",
+      "raw": "[2] 孙晋, 万召宗. 滥用市场支配地位侵犯隐私行为的反垄断法规制[J]. 财经法学, 2021(5): 3-16.",
+      "title": "滥用市场支配地位侵犯隐私行为的反垄断法规制",
+      "authors": [
+        "孙晋",
+        "万召宗"
+      ],
+      "year": 2021,
+      "venue": "财经法学",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.65,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.65); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "电子商务平台数据安全困境及优化路径",
+      "raw": "[3] 蓝寿荣. 消法视角下的电子商务平台安全保障义务[J]. 政法论丛, 2023(2): 37-46.",
+      "title": "消法视角下的电子商务平台安全保障义务",
+      "authors": [
+        "蓝寿荣"
+      ],
+      "year": 2023,
+      "venue": "政法论丛",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.25,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.25); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "电子商务平台数据安全困境及优化路径",
+      "raw": "[4] 熊浩, 张晨, 鄢慧丽. 监管与市场调节下大数据杀熟治理的演化博弈研究[J/OL]. 海南大学学报(社会科学版), 2025. https://doi.org/10.15886/j.cnki.hnus.202410.0119, 2026-04-28.",
+      "title": "监管与市场调节下大数据杀熟治理的演化博弈研究",
+      "authors": [
+        "熊浩",
+        "张晨",
+        "鄢慧丽"
+      ],
+      "year": 2025,
+      "venue": "海南大学学报(社会科学版)",
+      "doi": "10.15886/j.cnki.hnus.202410.0119",
+      "status": "Unverified",
+      "doi_status": "exists_elsewhere",
+      "title_sim": 0.0,
+      "mismatches": [],
+      "notes": [
+        "DOI 10.15886/j.cnki.hnus.202410.0119 exists but is not registered with Crossref",
+        "DOI 由其他注册机构签发，无 Crossref 元数据可比对"
+      ]
+    },
+    {
+      "paper": "电子商务平台数据安全困境及优化路径",
+      "raw": "[5] 张钦昱. 电子商务平台治理的理念转型与制度调适[J]. 法学评论, 2025, 43(6): 145-156.",
+      "title": "电子商务平台治理的理念转型与制度调适",
+      "authors": [
+        "张钦昱"
+      ],
+      "year": 2025,
+      "venue": "法学评论",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.4615,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.46); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "电子商务平台数据安全困境及优化路径",
+      "raw": "[6] 越嫘. 数字化背景下平台经济发展合规路径探索[J]. 金融客, 2024(3): 30-32+3.",
+      "title": "数字化背景下平台经济发展合规路径探索",
+      "authors": [
+        "越嫘"
+      ],
+      "year": 2024,
+      "venue": "金融客",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.5556,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.56); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "电子商务平台数据安全困境及优化路径",
+      "raw": "[7] 余成峰. 数字平台监管模式的系统论重构[J]. 中国法学, 2025(5): 84-103.",
+      "title": "数字平台监管模式的系统论重构",
+      "authors": [
+        "余成峰"
+      ],
+      "year": 2025,
+      "venue": "中国法学",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.4444,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.44); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "电子商务平台数据安全困境及优化路径",
+      "raw": "[8] 王岭. 数字经济时代中国政府监管转型研究[J]. 管理世界, 2024, 40(3): 110-126+204+127.",
+      "title": "数字经济时代中国政府监管转型研究",
+      "authors": [
+        "王岭"
+      ],
+      "year": 2024,
+      "venue": "管理世界",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.6471,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.65); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "电子商务平台数据安全困境及优化路径",
+      "raw": "[9] 蒋敏娟, 汪睿. “共享性链接”: 平台经济跨部门协同监管何以可能——基于B市S区互联网经济协同监管平台的案例研究[J]. 甘肃行政学院学报, 2026(1): 49-59.",
+      "title": "“共享性链接”: 平台经济跨部门协同监管何以可能——基于B市S区互联网经济协同监管平台的案例研究",
+      "authors": [
+        "蒋敏娟",
+        "汪睿"
+      ],
+      "year": 2026,
+      "venue": "甘肃行政学院学报",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.2973,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.30); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "电子商务平台数据安全困境及优化路径",
+      "raw": "[10] 武腾. 最小必要原则在平台处理个人信息实践中的适用[J]. 法学研究, 2021, 43(6): 71-89.",
+      "title": "最小必要原则在平台处理个人信息实践中的适用",
+      "authors": [
+        "武腾"
+      ],
+      "year": 2021,
+      "venue": "法学研究",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.4,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.40); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "电子商务平台数据安全困境及优化路径",
+      "raw": "[11] 潘春会. 大数据驱动下的电商行业发展与应用研究[J]. 活力, 2024, 42(3): 28-30.",
+      "title": "大数据驱动下的电商行业发展与应用研究",
+      "authors": [
+        "潘春会"
+      ],
+      "year": 2024,
+      "venue": "活力",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.5946,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.59); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "电子商务平台数据安全困境及优化路径",
+      "raw": "[12] 李三希, 刘希, 张明圣. 数据网络外部性与垄断平台数据收集[J]. 经济研究, 2025, 60(10): 61-82.",
+      "title": "数据网络外部性与垄断平台数据收集",
+      "authors": [
+        "李三希",
+        "刘希",
+        "张明圣"
+      ],
+      "year": 2025,
+      "venue": "经济研究",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.3333,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.33); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "电子商务平台数据安全困境及优化路径",
+      "raw": "[13] 陆进宇, 赵花蕊, 马晓威, 等. 以智慧监管助推平台经济规范健康发展[J]. 中国信息化, 2023(7): 5-8.",
+      "title": "以智慧监管助推平台经济规范健康发展",
+      "authors": [
+        "陆进宇",
+        "赵花蕊",
+        "马晓威"
+      ],
+      "year": 2023,
+      "venue": "中国信息化",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.4,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.40); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "电子商务平台数据安全困境及优化路径",
+      "raw": "[14] 刘泽刚. 人工智能时代联邦学习隐私保护的局限及克服[J]. 中外法学, 2025, 37(1): 65-84. 投稿 为你推荐 友情链接 科研出版社 开放图书馆 汉斯出版社 所有期刊 学科分类 书籍出版 联系我们 汉斯期刊 最新文章 同行评议 文章费用 审稿/编委 作者须知 投稿须知 稿件跟踪 常见问题 特别约稿 关于我们 开放获取 出版协议 保存/撤销 隐私保护 版权所有:汉斯出版社 (Hans Publishers) Co",
+      "title": "人工智能时代联邦学习隐私保护的局限及克服",
+      "authors": [
+        "刘泽刚"
+      ],
+      "year": 2025,
+      "venue": "中外法学",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.5,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.50); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "raw": "[1] 张英浩, 盛科荣, 孙威, 等. 中国直播电商经济的时空演变特征与区域发展模式[J]. 地理学报, 2026, 81(4): 1157-1177.",
+      "title": "中国直播电商经济的时空演变特征与区域发展模式",
+      "authors": [
+        "张英浩",
+        "盛科荣",
+        "孙威"
+      ],
+      "year": 2026,
+      "venue": "地理学报",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.3913,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.39); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "raw": "[2] 迟妍. 古典园林在现代景观设计中的作用[J]. 陶瓷, 2022(4): 167-169.",
+      "title": "古典园林在现代景观设计中的作用",
+      "authors": [
+        "迟妍"
+      ],
+      "year": 2022,
+      "venue": "陶瓷",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.7568,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.76); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "raw": "[3] 沈添天. 全域电商视域下的传统园林IP价值重构与产业链延伸策略[J]. 电子商务评论, 2026, 15(2): 955-961.",
+      "title": "全域电商视域下的传统园林IP价值重构与产业链延伸策略",
+      "authors": [
+        "沈添天"
+      ],
+      "year": 2026,
+      "venue": "电子商务评论",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.4,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.40); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "raw": "[4] 邢惠淳. “新零售”背景下生鲜电商商业模式比较分析——以盒马鲜生和每日优鲜为例[J]. 商业经济研究, 2019(4): 85-87.",
+      "title": "“新零售”背景下生鲜电商商业模式比较分析——以盒马鲜生和每日优鲜为例",
+      "authors": [
+        "邢惠淳"
+      ],
+      "year": 2019,
+      "venue": "商业经济研究",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.4364,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.44); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "raw": "[5] 黄洪博. “景观即商品”: 城乡景观商品化与电商营销模式研究——基于农旅产品包装与线上传播视角[J]. 电子商务评论, 2025, 14(8): 3060-3065.",
+      "title": "“景观即商品”: 城乡景观商品化与电商营销模式研究——基于农旅产品包装与线上传播视角",
+      "authors": [
+        "黄洪博"
+      ],
+      "year": 2025,
+      "venue": "电子商务评论",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.3636,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.36); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "raw": "[6] 王振东. 乡村文化景观传承的价值、困境与实施策略[J]. 农业经济, 2025(5): 124-125.",
+      "title": "乡村文化景观传承的价值、困境与实施策略",
+      "authors": [
+        "王振东"
+      ],
+      "year": 2025,
+      "venue": "农业经济",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.55,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.55); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "raw": "[7] 唐兴鹏. 依托电商平台的地方文旅IP打造与商业转化研究[J]. 电子商务评论, 2025, 14(9): 1553-1558.",
+      "title": "依托电商平台的地方文旅IP打造与商业转化研究",
+      "authors": [
+        "唐兴鹏"
+      ],
+      "year": 2025,
+      "venue": "电子商务评论",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.3556,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.36); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "raw": "[8] 成玉宁, 袁旸洋, 成实. 基于耦合法的风景园林减量设计策略[J]. 中国园林, 2013, 29(8): 9-12.",
+      "title": "基于耦合法的风景园林减量设计策略",
+      "authors": [
+        "成玉宁",
+        "袁旸洋",
+        "成实"
+      ],
+      "year": 2013,
+      "venue": "中国园林",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.6452,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.65); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "raw": "[9] 王志高. 年轻人用创意让古典园林破圈[EB/OL]. 中国旅游报. 2025-06-19. \" target=\"_blank\" >https://www.ctnews.com.cn/guandian/content/2025-06/19/content_175280.html, 2026-05-10.",
+      "title": "年轻人用创意让古典园林破圈",
+      "authors": [
+        "王志高"
+      ],
+      "year": 2025,
+      "venue": "",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.2857,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.29); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "raw": "[10] 华新. 2024年全国花卉零售市场总规模已近2200亿|“2025全国花卉产销形势分析”专题[EB/OL]. 中国花卉协会. 2025-06-25. \" target=\"_blank\" >https://www.chinahhxh.com/hhxh/magazineNewsDetail.html?id=73&subCategoryId=15&contentId=1234, 2026-05-10.",
+      "title": "2024年全国花卉零售市场总规模已近2200亿|“2025全国花卉产销形势分析”专题",
+      "authors": [
+        "华新"
+      ],
+      "year": 2025,
+      "venue": "",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.2623,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.26); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "raw": "[11] 余嘉乐. “带货”更是“带路”浏阳柏加镇按下电商经济发展“快进键” [EB/OL]. 人民网-湖南频道. 2024-10-17. \" target=\"_blank\" >http://hn.people.com.cn/n2/2024/1017/c356887-41011560.html, 2026-05-10.",
+      "title": "“带货”更是“带路”浏阳柏加镇按下电商经济发展“快进键”",
+      "authors": [
+        "余嘉乐"
+      ],
+      "year": 2024,
+      "venue": "",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.3043,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.30); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "raw": "[12] 钱雅琴. 苏州园林景区经营管理模式优化研究[D]: [硕士学位论文]. 苏州: 苏州大学, 2021.",
+      "title": "苏州园林景区经营管理模式优化研究",
+      "authors": [
+        "钱雅琴"
+      ],
+      "year": 2021,
+      "venue": "",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.4865,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.49); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "raw": "[13] 钱皓宇. 短视频营销对游客文创产品购买意愿的影响研究——以南京钟山风景区为例[J]. 电子商务评论, 2025, 14(8): 1944-1949.",
+      "title": "短视频营销对游客文创产品购买意愿的影响研究——以南京钟山风景区为例",
+      "authors": [
+        "钱皓宇"
+      ],
+      "year": 2025,
+      "venue": "电子商务评论",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.4746,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.47); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "raw": "[14] 马浩杰, 史妍欣, 陈沁文. 乡村振兴背景下花木电商发展路径探析——以沭阳县双荡村为例[J]. 现代营销, 2023(33): 107-109.",
+      "title": "乡村振兴背景下花木电商发展路径探析——以沭阳县双荡村为例",
+      "authors": [
+        "马浩杰",
+        "史妍欣",
+        "陈沁文"
+      ],
+      "year": 2023,
+      "venue": "现代营销",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.6275,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.63); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "raw": "[15] 石倩倩. 文旅融合视角下的乡村景观规划与设计指南[J]. 现代园艺, 2024, 47(24): 107-109.",
+      "title": "文旅融合视角下的乡村景观规划与设计指南",
+      "authors": [
+        "石倩倩"
+      ],
+      "year": 2024,
+      "venue": "现代园艺",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.5405,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.54); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "raw": "[16] 李会聪. 农文旅融合背景下农村电子商务发展研究: 以洛阳为例[J]. 山西农经, 2024(15): 29-31.",
+      "title": "农文旅融合背景下农村电子商务发展研究: 以洛阳为例",
+      "authors": [
+        "李会聪"
+      ],
+      "year": 2024,
+      "venue": "山西农经",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.5833,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.58); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "raw": "[17] 高一曼. 数字生态下县域花木电商发展路径研究——以沭阳县为例[J]. 电子商务评论, 2025, 14(8): 1704-1709.",
+      "title": "数字生态下县域花木电商发展路径研究——以沭阳县为例",
+      "authors": [
+        "高一曼"
+      ],
+      "year": 2025,
+      "venue": "电子商务评论",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.44,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.44); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "raw": "[18] 刘洁, 李志民. 中国古典园林的文化基因[J]. 西南师范大学学报(自然科学版), 2014, 39(10): 76-80.",
+      "title": "中国古典园林的文化基因",
+      "authors": [
+        "刘洁",
+        "李志民"
+      ],
+      "year": 2014,
+      "venue": "西南师范大学学报(自然科学版)",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.5833,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.58); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "raw": "[19] 孙旭晖, 颜颖. 活力中国调研行|花乡沭阳打包出售整座“梦想花园”, 还附带“大师级园丁” [EB/OL]. 交汇点新闻/中国江苏网. 2025-10-30. https://jsnews.jschina.com.cn/jsyw/202510/t20251030_s6902d7b0e4b04ae77b0a3a23.shtml, 2026-05-10.",
+      "title": "活力中国调研行|花乡沭阳打包出售整座“梦想花园”, 还附带“大师级园丁”",
+      "authors": [
+        "孙旭晖",
+        "颜颖"
+      ],
+      "year": 2025,
+      "venue": "",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.1905,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.19); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "raw": "[20] 董翰松. AI与大数据在电商供应链优化中的应用效果及经济价值评估[J]. 电子商务评论, 2025, 14(12): 3031-3040.",
+      "title": "AI与大数据在电商供应链优化中的应用效果及经济价值评估",
+      "authors": [
+        "董翰松"
+      ],
+      "year": 2025,
+      "venue": "电子商务评论",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.6522,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.65); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "raw": "[21] 赵沛婷. 我国直播电商供应链管理研究——基于CiteSpace的可视化分析[J]. 电子商务评论, 2024, 13(4): 265-274.",
+      "title": "我国直播电商供应链管理研究——基于CiteSpace的可视化分析",
+      "authors": [
+        "赵沛婷"
+      ],
+      "year": 2024,
+      "venue": "电子商务评论",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.6349,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.63); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "raw": "[22] 常佳泞, 向婕. 数字经济时代跨境电商高质量人才供给体系的构建研究[J]. 电子商务评论, 2025, 14(11): 371-375.",
+      "title": "数字经济时代跨境电商高质量人才供给体系的构建研究",
+      "authors": [
+        "常佳泞",
+        "向婕"
+      ],
+      "year": 2025,
+      "venue": "电子商务评论",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.48,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.48); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "raw": "[23] 朱黎明. 数字经济赋能林产品贸易发展对策研究[J]. 林产工业, 2026, 63(2): 109-114.",
+      "title": "数字经济赋能林产品贸易发展对策研究",
+      "authors": [
+        "朱黎明"
+      ],
+      "year": 2026,
+      "venue": "林产工业",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.7429,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.74); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "raw": "[24] 章化冰, 俞定国, 张帆, 等. 数字媒体技术人才培养模式改革与实践[J]. 教育进展, 2026, 16(3): 430-436. 投稿 为你推荐 友情链接 科研出版社 开放图书馆 汉斯出版社 所有期刊 学科分类 书籍出版 联系我们 汉斯期刊 最新文章 同行评议 文章费用 审稿/编委 作者须知 投稿须知 稿件跟踪 常见问题 特别约稿 关于我们 开放获取 出版协议 保存/撤销 隐私保护 版权所有:汉斯出版社 (Hans Pub",
+      "title": "数字媒体技术人才培养模式改革与实践",
+      "authors": [
+        "章化冰",
+        "俞定国",
+        "张帆"
+      ],
+      "year": 2026,
+      "venue": "教育进展",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.625,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.62); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    }
+  ]
+}

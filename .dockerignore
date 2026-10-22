@@ -1,0 +1,24 @@
+# Docker build context = citeguard/. Keep secrets and runtime state out of the image.
+.git
+.gitignore
+.github
+.pylibs
+.venv
+venv
+dist
+out
+__pycache__
+*.pyc
+*.pyo
+*.log
+.env
+.env.*
+!.env.example
+data/jobs
+data/cache
+data/uploads
+data/citebench_cn/cache
+data/experiments
+tests
+pytest.ini
+docker

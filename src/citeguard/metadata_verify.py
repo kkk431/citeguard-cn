@@ -11,9 +11,11 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+import threading
 import time
 import unicodedata
 import xml.etree.ElementTree as ET
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any, Callable, Optional
@@ -45,7 +47,7 @@ class Candidate:
 
 @dataclass
 class VerifyResult:
-    status: str  # Exact / Minor / Major / Unknown
+    status: str  # Exact / Minor / Major / Unverified / Unknown
     best: Optional[Candidate] = None
     title_sim: float = 0.0
     year_match: bool = False
@@ -228,6 +230,35 @@ def _cache_path(key: str) -> Path:
     return config.CACHE_DIR / f"{h}.json"
 
 
+def _request(url: str, params: Optional[dict] = None, tries: int = 3):
+    """GET with retries on rate limits / transient server errors.
+
+    Returns the final ``requests.Response`` or raises the last transport error.
+    ``tries`` total attempts with linear backoff (0.8s, 1.6s, ...).
+    """
+    last_error: Optional[Exception] = None
+    response = None
+    for attempt in range(max(1, tries)):
+        try:
+            response = requests.get(
+                url,
+                params=params,
+                timeout=config.HTTP_TIMEOUT,
+                headers={"User-Agent": config.USER_AGENT},
+            )
+        except Exception as exc:  # noqa: BLE001 - retry transport errors
+            last_error = exc
+            time.sleep(0.8 * (attempt + 1))
+            continue
+        if response.status_code in {429, 500, 502, 503, 504} and attempt + 1 < tries:
+            time.sleep(0.8 * (attempt + 1))
+            continue
+        return response
+    if last_error is not None:
+        raise last_error
+    return response  # type: ignore[return-value]
+
+
 def _cached_json(url: str, params: Optional[dict] = None) -> Optional[Any]:
     key = url + "?" + json.dumps(params or {}, sort_keys=True, ensure_ascii=False)
     cp = _cache_path(key)
@@ -237,12 +268,7 @@ def _cached_json(url: str, params: Optional[dict] = None) -> Optional[Any]:
         except Exception:
             pass
     try:
-        resp = requests.get(
-            url,
-            params=params,
-            timeout=config.HTTP_TIMEOUT,
-            headers={"User-Agent": config.USER_AGENT},
-        )
+        resp = _request(url, params)
         if resp.status_code != 200:
             return None
         data = resp.json()
@@ -262,12 +288,7 @@ def _cached_text(url: str, params: Optional[dict] = None) -> Optional[str]:
         except Exception:
             pass
     try:
-        resp = requests.get(
-            url,
-            params=params,
-            timeout=config.HTTP_TIMEOUT,
-            headers={"User-Agent": config.USER_AGENT},
-        )
+        resp = _request(url, params)
         if resp.status_code != 200:
             return None
         text = resp.text
@@ -485,7 +506,9 @@ def lookup_doi_status(doi: str) -> tuple[list[Candidate], str]:
     cands = lookup_doi(doi)
     if cands:
         return cands, "resolved"
-    cp = _cache_path("DOI_STATUS::" + doi)
+    # v2: "not_found" now also consults the global DOI handle system, so old
+    # cache entries must not short-circuit the new logic.
+    cp = _cache_path("DOI_STATUS::v2::" + doi)
     if cp.exists():
         try:
             return [], json.loads(cp.read_text(encoding="utf-8")).get("status", "not_found")
@@ -493,11 +516,7 @@ def lookup_doi_status(doi: str) -> tuple[list[Candidate], str]:
             pass
     status = "error"
     try:
-        resp = requests.get(
-            f"https://api.crossref.org/works/{doi}",
-            timeout=config.HTTP_TIMEOUT,
-            headers={"User-Agent": config.USER_AGENT},
-        )
+        resp = _request(f"https://api.crossref.org/works/{doi}")
         if resp.status_code == 404:
             status = "not_found"
         elif resp.status_code == 200:
@@ -506,12 +525,50 @@ def lookup_doi_status(doi: str) -> tuple[list[Candidate], str]:
             status = "error"
     except Exception:
         status = "error"
-    try:
-        cp.write_text(json.dumps({"status": status}), encoding="utf-8")
-    except Exception:
-        pass
+    if status == "not_found":
+        # DOI 404 at Crossref only means "not registered with Crossref". DOIs are
+        # also issued by other registration agencies (DataCite, CNKI, JaLC, ...),
+        # so ask the global handle system before calling a DOI fabricated.
+        handle = _doi_handle_status(doi)
+        if handle == "exists":
+            status = "exists_elsewhere"
+        elif handle == "error":
+            status = "error"
+    if status != "error":
+        # Transient failures must not be cached: a rate-limited lookup would
+        # otherwise stay "error" forever and hide the real verdict.
+        try:
+            cp.write_text(json.dumps({"status": status}), encoding="utf-8")
+        except Exception:
+            pass
     time.sleep(config.API_SLEEP)
     return [], status
+
+
+def _doi_handle_status(doi: str) -> str:
+    """Check whether a DOI exists in any registration agency: exists/missing/error."""
+    key = _cache_path("DOI_HANDLE::" + doi)
+    if key.exists():
+        try:
+            return json.loads(key.read_text(encoding="utf-8")).get("status", "error")
+        except Exception:
+            pass
+    status = "error"
+    try:
+        resp = _request(f"https://doi.org/api/handles/{doi}")
+        if resp.status_code == 200:
+            status = "exists"
+        elif resp.status_code == 404:
+            status = "missing"
+    except Exception:
+        status = "error"
+    if status != "error":
+        try:
+            key.write_text(json.dumps({"status": status}), encoding="utf-8")
+        except Exception:
+            pass
+    time.sleep(config.API_SLEEP)
+    return status
 
 
 # ---------------------------------------------------------------------------
@@ -534,6 +591,54 @@ def _pick_best(ref: Reference, candidates: list[Candidate]) -> Candidate:
         if c.abstract and title_sim(ref.title, c.title) >= max(0.85, top_sim - 0.03):
             return c
     return top
+
+
+def _title_candidates(
+    ref: Reference, use_arxiv: bool = True, sources: Optional[list[str]] = None
+) -> list[Candidate]:
+    """Search OpenAlex/Crossref (then arXiv) by title."""
+    candidates: list[Candidate] = []
+    if not ref.title or len(norm_title(ref.title)) < 3:
+        return candidates
+    oa = search_openalex(ref.title)
+    if oa:
+        candidates.extend(oa)
+        if sources is not None:
+            sources.append("openalex")
+    cr = search_crossref(ref.title)
+    if cr:
+        candidates.extend(cr)
+        if sources is not None:
+            sources.append("crossref")
+    if use_arxiv and not oa and not cr:
+        ax = search_arxiv(ref.title)
+        if ax:
+            candidates.extend(ax)
+            if sources is not None:
+                sources.append("arxiv")
+    return candidates
+
+
+def _best_scored(
+    ref: Reference, candidates: list[Candidate]
+) -> Optional[tuple[float, bool, float, Candidate]]:
+    """Return (title_sim, year_match, author_overlap, candidate) for the best match."""
+    scored: list[tuple[float, bool, float, Candidate]] = []
+    for c in candidates:
+        if not c.title:
+            continue
+        ts = title_sim(ref.title, c.title)
+        ym = _year_match(ref.year, c.year)
+        am = _author_overlap(ref.authors, c.authors)
+        scored.append((ts, ym, am, c))
+    if not scored:
+        return None
+    scored.sort(key=lambda x: (x[0], x[1], x[2]), reverse=True)
+    ts, ym, am, best = scored[0]
+    for ts2, ym2, am2, c in scored:
+        if c.abstract and ts2 >= max(0.85, ts - 0.03):
+            return ts2, ym2, am2, c
+    return ts, ym, am, best
 
 
 def verify_reference(ref: Reference, use_arxiv: bool = True) -> VerifyResult:
@@ -559,6 +664,7 @@ def verify_reference(ref: Reference, use_arxiv: bool = True) -> VerifyResult:
 
         doi_status = "not_found"
         doi_cands: list[Candidate] = []
+        exists_elsewhere = False
         for d in dict.fromkeys(doi_variants):
             cands, status = lookup_doi_status(d)
             if status == "resolved":
@@ -566,6 +672,11 @@ def verify_reference(ref: Reference, use_arxiv: bool = True) -> VerifyResult:
                 doi_status = "resolved"
                 notes.append(f"DOI {d} resolved")
                 break
+            if status == "exists_elsewhere":
+                exists_elsewhere = True
+                doi_status = "exists_elsewhere"
+                notes.append(f"DOI {d} exists but is not registered with Crossref")
+                continue
             if status == "error":
                 doi_status = "error"
                 break
@@ -580,8 +691,27 @@ def verify_reference(ref: Reference, use_arxiv: bool = True) -> VerifyResult:
             return VerifyResult(
                 status="Major",
                 doi_status="not_found",
-                notes=notes + ["DOI 不存在（Crossref 404）"],
-                sources=["crossref:doi:miss"],
+                notes=notes + ["DOI 不存在（Crossref 404，DOI 系统也无记录）"],
+                sources=["crossref:doi:miss", "doi.org:handle:miss"],
+            )
+        if exists_elsewhere and not doi_cands:
+            # Registered with another agency (CNKI, DataCite, ...): the DOI is
+            # real, but there is no Crossref metadata to compare against.
+            return VerifyResult(
+                status="Unverified",
+                doi_status="exists_elsewhere",
+                notes=notes + ["DOI 由其他注册机构签发，无 Crossref 元数据可比对"],
+                sources=["doi.org:handle"],
+            )
+
+        if not doi_cands:
+            # DOI resolved but the metadata endpoints returned nothing parsable:
+            # do not guess, degrade to Unknown instead of crashing downstream.
+            return VerifyResult(
+                status="Unknown",
+                doi_status="resolved",
+                notes=notes + ["DOI resolved but no metadata returned"],
+                sources=["crossref:doi", "openalex:doi"],
             )
 
         best = _pick_best(ref, doi_cands)
@@ -596,6 +726,26 @@ def verify_reference(ref: Reference, use_arxiv: bool = True) -> VerifyResult:
                 # not a fabrication; keep it as Minor.
                 mism.append("title_language")
             else:
+                # The DOI may simply be wrong (copy/paste error) while the cited
+                # paper is real: search by title before accusing the reference.
+                rescue_cands = _title_candidates(ref, use_arxiv)
+                rescue = _best_scored(ref, rescue_cands)
+                if rescue is not None and rescue[0] >= 0.78:
+                    r_ts, r_ym, r_am, r_best = rescue
+                    return VerifyResult(
+                        status="Minor" if r_ts < 0.90 else "Minor",
+                        best=r_best,
+                        title_sim=round(r_ts, 4),
+                        year_match=r_ym,
+                        author_match=round(r_am, 4),
+                        doi_status="resolved",
+                        mismatches=["doi"],
+                        notes=notes
+                        + [
+                            f"DOI 指向另一篇文献，但题名检索命中（相似度 {r_ts:.2f}）：更可能是 DOI 抄错"
+                        ],
+                        sources=sources + ["openalex:title", "crossref:title"],
+                    )
                 return VerifyResult(
                     status="Major",
                     best=best,
@@ -628,54 +778,16 @@ def verify_reference(ref: Reference, use_arxiv: bool = True) -> VerifyResult:
         )
 
     # 2) No DOI: title search.
-    candidates: list[Candidate] = []
-    if ref.title and len(norm_title(ref.title)) >= 3:
-        oa = search_openalex(ref.title)
-        if oa:
-            candidates.extend(oa)
-            sources.append("openalex")
-        cr = search_crossref(ref.title)
-        if cr:
-            candidates.extend(cr)
-            sources.append("crossref")
-        if use_arxiv and not oa and not cr:
-            ax = search_arxiv(ref.title)
-            if ax:
-                candidates.extend(ax)
-                sources.append("arxiv")
-
-    if not candidates:
+    candidates = _title_candidates(ref, use_arxiv, sources)
+    best_scored = _best_scored(ref, candidates)
+    if best_scored is None:
         return VerifyResult(
-            status="Major",
+            status="Unverified",
             doi_status="none",
-            notes=notes + ["title not found in open sources"],
+            notes=notes + ["title search returned no usable candidate"],
             sources=sources,
         )
-
-    scored: list[tuple[float, bool, float, Candidate]] = []
-    for c in candidates:
-        if not c.title:
-            continue
-        ts = title_sim(ref.title, c.title)
-        ym = _year_match(ref.year, c.year)
-        am = _author_overlap(ref.authors, c.authors)
-        scored.append((ts, ym, am, c))
-    if not scored:
-        return VerifyResult(
-            status="Major",
-            doi_status="none",
-            notes=notes + ["candidates without titles"],
-            sources=sources,
-        )
-
-    scored.sort(key=lambda x: (x[0], x[1], x[2]), reverse=True)
-    ts, ym, am, best = scored[0]
-    # Prefer an abstract-bearing candidate when the title similarities are close;
-    # this keeps the claim-support step usable without changing the verdict.
-    for ts2, ym2, am2, c in scored:
-        if c.abstract and ts2 >= max(0.85, ts - 0.03):
-            ts, ym, am, best = ts2, ym2, am2, c
-            break
+    ts, ym, am, best = best_scored
 
     if ts >= 0.90:
         mism = _field_mismatches(ref, best)
@@ -686,9 +798,15 @@ def verify_reference(ref: Reference, use_arxiv: bool = True) -> VerifyResult:
         mism = ["title"]
         notes.append(f"partial title match ({ts:.2f})")
     else:
-        status = "Major"
-        mism = ["title"]
-        notes.append(f"best title similarity only {ts:.2f}")
+        # A weak best match is *not* evidence of a fabricated citation: most
+        # Chinese journal articles are simply not indexed. Report "unverified"
+        # so the user checks by hand instead of seeing a false accusation.
+        status = "Unverified"
+        mism = []
+        notes.append(
+            f"no close title match in OpenAlex/Crossref/arXiv (best {ts:.2f}); "
+            "the article may be unindexed or the reference may be wrong — check manually"
+        )
 
     return VerifyResult(
         status=status,
@@ -708,15 +826,42 @@ def verify_many(
     progress: bool = True,
     use_arxiv: bool = True,
     progress_cb: Optional[Callable[[int, int], None]] = None,
+    workers: Optional[int] = None,
 ) -> list[VerifyResult]:
-    results: list[VerifyResult] = []
-    for i, ref in enumerate(refs, 1):
-        results.append(verify_reference(ref, use_arxiv=use_arxiv))
+    """Verify references concurrently, preserving input order.
+
+    Network latency dominates, so a small thread pool gives a multi-fold speedup
+    on long reference lists. The default is conservative (4) to stay inside the
+    polite-pool guidance of OpenAlex/Crossref; override with
+    ``CITEGUARD_VERIFY_WORKERS``.
+    """
+    total = len(refs)
+    if total == 0:
+        return []
+    if workers is None:
+        workers = max(1, min(config.VERIFY_WORKERS, total))
+    results: list[Optional[VerifyResult]] = [None] * total
+    lock = threading.Lock()
+    done = 0
+
+    def one(index: int, ref: Reference) -> None:
+        nonlocal done
+        try:
+            result = verify_reference(ref, use_arxiv=use_arxiv)
+        except Exception:  # noqa: BLE001 - never let one bad entry kill the run
+            result = VerifyResult(status="Unknown", notes=["verification crashed"])
+        with lock:
+            results[index] = result
+            done += 1
+            current = done
         if progress_cb is not None:
             try:
-                progress_cb(i, len(refs))
+                progress_cb(current, total)
             except Exception:
                 pass
-        if progress and (i % 10 == 0 or i == len(refs)):
-            print(f"  verified {i}/{len(refs)}", flush=True)
-    return results
+        if progress and (current % 10 == 0 or current == total):
+            print(f"  verified {current}/{total}", flush=True)
+
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        list(pool.map(lambda pair: one(*pair), enumerate(refs)))
+    return [r if r is not None else VerifyResult(status="Unknown") for r in results]

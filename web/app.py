@@ -6,8 +6,9 @@ Run (from the citeguard/ directory):
 from __future__ import annotations
 
 import json
-import shutil
 import sys
+import time
+from contextlib import asynccontextmanager
 from pathlib import Path
 
 BASE = Path(__file__).resolve().parent          # citeguard/web
@@ -21,15 +22,38 @@ from fastapi.templating import Jinja2Templates  # noqa: E402
 
 from citeguard import config  # noqa: E402
 from citeguard.jobs import manager  # noqa: E402
+from citeguard.pdf_extract import SUPPORTED_SUFFIXES  # noqa: E402
 from citeguard.pipeline import run_job  # noqa: E402
-
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.2.0")
-app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
-templates = Jinja2Templates(directory=str(BASE / "templates"))
 
 UPLOAD_DIR = config.DATA_DIR / "uploads"
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
-ALLOWED_SUFFIXES = {".pdf", ".txt", ".md"}
+ALLOWED_SUFFIXES = set(SUPPORTED_SUFFIXES) | {".doc"}
+MAX_UPLOAD_BYTES = config.MAX_UPLOAD_MB * 1024 * 1024
+UPLOAD_MAX_AGE_SECONDS = 24 * 3600
+
+
+def _cleanup_uploads(max_age_seconds: int = UPLOAD_MAX_AGE_SECONDS) -> None:
+    """Remove uploaded copies left behind by crashed/aborted jobs."""
+    now = time.time()
+    for path in UPLOAD_DIR.glob("*"):
+        try:
+            if path.is_file() and now - path.stat().st_mtime > max_age_seconds:
+                path.unlink(missing_ok=True)
+        except OSError:
+            continue
+
+
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
+    # Startup hygiene: old job records/reports and stale uploads.
+    manager.cleanup()
+    _cleanup_uploads()
+    yield
+
+
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.3.0", lifespan=lifespan)
+app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
+templates = Jinja2Templates(directory=str(BASE / "templates"))
 
 
 def _report_path(job_id: str) -> Path:
@@ -54,21 +78,47 @@ def index(request: Request):
 
 
 @app.post("/api/analyze")
-def analyze(file: UploadFile | None = File(default=None), text: str | None = Form(default=None)):
+def analyze(
+    file: UploadFile | None = File(default=None),
+    text: str | None = Form(default=None),
+    support_max: int | None = Form(default=None),
+):
     if file is None and not text:
         raise HTTPException(status_code=400, detail="请上传文件或粘贴文本")
+    suffix = ""
+    if file is not None:
+        suffix = Path(file.filename or "").suffix.lower()
+        if suffix not in ALLOWED_SUFFIXES:
+            raise HTTPException(
+                status_code=400, detail="仅支持 PDF / DOCX / TXT / MD（旧版 .doc 请先另存为 .docx）"
+            )
     filename = file.filename if file is not None else "pasted-text.txt"
     job = manager.create(filename=filename)
     if file is not None:
-        suffix = Path(file.filename or "paper.pdf").suffix.lower()
-        if suffix not in ALLOWED_SUFFIXES:
-            raise HTTPException(status_code=400, detail="仅支持 PDF / TXT / MD")
         dst = UPLOAD_DIR / f"{job['id']}{suffix}"
-        with dst.open("wb") as fh:
-            shutil.copyfileobj(file.file, fh)
-        manager.submit(job["id"], run_job, file_path=str(dst))
+        written = 0
+        try:
+            with dst.open("wb") as fh:
+                while True:
+                    chunk = file.file.read(1024 * 1024)
+                    if not chunk:
+                        break
+                    written += len(chunk)
+                    if written > MAX_UPLOAD_BYTES:
+                        raise HTTPException(
+                            status_code=413,
+                            detail=f"文件超过 {config.MAX_UPLOAD_MB} MB 上限，请压缩或拆分后再传",
+                        )
+                    fh.write(chunk)
+            if written == 0:
+                raise HTTPException(status_code=400, detail="上传的文件是空的")
+        except HTTPException:
+            dst.unlink(missing_ok=True)
+            manager.discard(job["id"])
+            raise
+        manager.submit(job["id"], run_job, file_path=str(dst), support_max=support_max)
     else:
-        manager.submit(job["id"], run_job, text=text)
+        manager.submit(job["id"], run_job, text=text, support_max=support_max)
     return JSONResponse({"job_id": job["id"]}, status_code=202)
 
 
@@ -133,4 +183,4 @@ def benchmark_api():
 
 @app.get("/api/health")
 def health():
-    return {"ok": True, "version": "0.2.0"}
+    return {"ok": True, "version": "0.3.0", "supported": sorted(ALLOWED_SUFFIXES)}

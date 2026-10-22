@@ -5,7 +5,7 @@
     <div class="kicker">中文论文 · 引文体检</div>
     <h1>给中文论文做一次<br>引文体检</h1>
     <p class="lede">上传论文，逐条核对参考文献是否真实存在、是否真的支持正文那句话，并检查 GB/T 7714-2025 著录格式。每条结论都带证据链接。</p>
-    <p class="lede" style="color:var(--muted);font-size:13px">支持 PDF / TXT / MD · 文件仅用于本次分析，分析后删除 · 可本地部署</p>
+    <p class="lede" style="color:var(--muted);font-size:13px">支持 PDF / Word（.docx）/ TXT / MD · 单文件 ≤30 MB · 文件仅用于本次分析，分析后删除 · 可本地部署</p>
   </div>
   <aside class="preview" aria-hidden="true">
     <div class="preview-head"><b>报告摘要</b><span>DEMO</span></div>
@@ -24,13 +24,25 @@
   <div class="panel">
     <form id="upload-form" enctype="multipart/form-data">
       <label id="dropzone" class="dropzone" for="file-input">
-        <input id="file-input" type="file" name="file" accept=".pdf,.txt,.md" hidden>
+        <input id="file-input" type="file" name="file" accept=".pdf,.docx,.txt,.md" hidden>
         <div class="dz-title">拖入论文，或点击选择文件</div>
-        <div class="dz-sub">PDF / TXT / MD · 分析后删除原文件</div>
+        <div class="dz-sub">PDF / Word（.docx）/ TXT / MD · 分析后删除原文件</div>
         <div class="dz-file" id="dz-file"></div>
       </label>
       <div class="or"><span>或粘贴正文与参考文献</span></div>
       <textarea id="paste-text" name="text" rows="5" placeholder="把论文正文和「参考文献」部分一起粘进来。"></textarea>
+      <div class="upload-options">
+        <label class="opt" for="support-max">
+          <span>引用支持度判定条数</span>
+          <select id="support-max" name="support_max">
+            <option value="10">10 条（快）</option>
+            <option value="30" selected>30 条（推荐）</option>
+            <option value="80">80 条（慢）</option>
+            <option value="0">不判定，只看真实性与格式</option>
+          </select>
+        </label>
+        <span class="opt-hint">支持度需要用大模型逐条比对「引用句 ↔ 被引论文摘要」；条数越多越慢，可先看真实性与格式。</span>
+      </div>
       <div class="upload-actions">
         <button type="submit" class="btn btn-primary" id="start-btn">开始体检</button>
         <button type="button" class="btn btn-ghost" id="sample-btn">用示例论文试试</button>

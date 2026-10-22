@@ -1,0 +1,27 @@
+# 中国肺癌发病死亡的估计和流行趋势研究
+
+> 来源：Zhongguo fei ai za zhi = Chinese journal of lung cancer 2010｜DOI: 10.3779/j.issn.1009-3419.2010.05.20｜PMC6000694｜许可: cc by。本文件为公开论文的节选：标题/摘要/正文段落来自欧洲 PMC 全文 XML，文后引用列表取原文文献表中可渲染的前 9 条（原文 17 条，题名/年份缺失的政府报告等条目已跳过）并按 GB/T 7714 风格重排（字段全部来自原文，仅统一标点与类型标识）；仅用于内部可用性自测。
+
+## 摘要
+背景与目的本研究旨在探讨我国肺癌的流行特征，对发病和死亡进行估计。方法对全国肿瘤登记中心收集的全国各肿瘤登记处1988年-2005年18年间上报的肺癌发病和死亡登记的数据资料进行整理。利用2004年和2005年全国第三次死因回顾抽样调查数据中肺癌的死亡率，结合同时期肿瘤登记数据的死亡发病比，估计目前我国肺癌的发病率。选取数据较为齐全的北京、上海、湖北武汉、黑龙江哈尔滨、河北磁县、江苏启东、浙江嘉善、广西扶绥、福建长乐、河南林州10个登记处的资料，通过肺癌发病率的年变化率计算，分析18年间肺癌流行趋势。结果2005年我国肺癌新发病例数为536 407人，死亡病例数475 768人，通过对10个登记处18年发病死亡数据分析，登记点肺癌发病率呈现逐年上升趋势，年平均增长1.63%，但年龄调整后每年降低0.55%。结论肺癌是影响我国居民健康的主要恶性肿瘤，发病和死亡呈现逐年上升趋势，主要的原因是人口老龄化导致的，必须采用积极有效的防治措施。
+
+## 1 引言
+
+肺癌是常见的恶性肿瘤，根据全国肿瘤防治研究办公室调查[1]统计，20世纪70年代中期开展的全国第一次死因回顾调查表明，我国肺癌死亡率为5.47/10万，在癌症死因中，排在胃癌、食管癌、肝癌及宫颈癌之后，居第5位，占全部癌症死亡7.43%。与同期其它国家的肺癌死亡率水平相比，处于较低水平。90年代初的全国第二次死因抽样调查[2]结果中，肺癌死亡率为17.27/10万，居癌症死因第3位，仅次于胃癌和食管癌。21世纪，卫生部开展了第三次死因回顾调查[3]发现，肺癌的死亡率明显升高。
+
+由于人口老龄化的加剧，经济快速增长带来的工业化、城市化进程的高速发展而导致的环境恶化，以及吸烟率居高不下，肺癌的危害正逐渐显现。作为我国重要的恶性肿瘤之一的肺癌，已经被卫生部列为今后癌症防治的重点[4]。然而，由于肿瘤登记系统尚不健全，肺癌的负担情况还不清楚，为癌症防治策略的制定带来阻碍。此研究旨在通过目前现有的登记资料和死因调查结果，通过科学的统计方法对我国目前的肺癌发病死亡及趋势进行评估，为基础临床和病因学研究提供可靠的信息。
+
+本研究资料取自以及全国第三次死因回顾抽样调查数据中160个具有全国代表性的死因监测点（其中2个调查点因为质量问题被去除）的不同地区、性别、年龄的肺癌死亡资料，以及《中国部分市、县恶性肿瘤的发病与死亡》第1、2、3卷和2003年、2004年和2005年肿瘤登记年报中肺癌的发病、死亡和人口数据。在目前45个登记处的资料基础上，选取2004年和2005年资料完整性可靠性较好的32个登记处资料进行汇总整理。1988年-2005年间长期资料齐全的10个登记处的资料进行合并[5-10]，分别是北京、上海、武汉、哈尔滨、河北磁县、江苏启东、浙江嘉善、广西扶绥、福建长乐、河南林州，以分析登记地区汇总的肺癌发病率和死亡率的变化。
+
+肺癌死亡率随年龄增加而增加，城市地区的男性女性在80岁-84岁年龄段死亡率均最高，分别为716.86/10万和318.26/10万。农村地区，男性也是在80岁-84岁年龄段达到最高，为400.06/10万，女性则在85岁以上组最高，为205.92/10万（[1]）。
+
+## 参考文献
+[1] National Ofce for Cancer Prevention and Control. Investigation of China Cancer Mortality (1973-1975)[J]. People's Medical Publishing House, 1980.
+[2] Dong ZW, Qiao YL, Li LD. Report of Chinese cancer control strategy[J]. Bullet Chin Cancer, 2002, 11(5): 250-260.
+[3] Zhang SW, Chen WQ, Kong LZ. An annual report: cancer incidence in 35 Cancer Registries in China, 2003[J]. Bullet Chin Cancer, 2007, 16(7): 494-507.
+[4] Chen WQ, Zh SW, Kong LZ. An annual report: cancer incidence in 35 Cancer Registries in China, 2003[J]. Bullet Chin Cancer, 2007, 16(8): 586-597.
+[5] Lu FZ, Zh SW, Chen YH. A primary analysis of Cancer Registration in China[J]. Bullet Chin Cancer, 2004, 13(3): 134-141.
+[6] Peter Boyle, Bernard Levin. World Cancer Report 2008[J]. France, 2008.
+[7] World Cancer Research Fund, American Institute for Cancer Research. Food, Nutrition and the Prevention of Cancer: a Global Perspective[J]. Washington DC, American Institute for Cancer Research, 1997: 130-147. DOI: 10.1016/s0899-9007(99)00021-0.
+[8] Lubin JH, Wang ZY, Bioce J Jr. Risk of lung cancer and residential radon: Pooled results of two studies in China[J]. Chin J Radiol Health, 2003, 12(4): 193-197.
+[9] Zhang WS, Jiang CQ, Lam T Hing. A prospective cohort study on the comparison of risk of occupational dust exposure and smoking to death[J]. Chin J Epidemiol, 2004, 25(9): 748-752.

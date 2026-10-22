@@ -7,8 +7,11 @@ out/
 data/cache/
 data/jobs/
 data/uploads/
+data/real_corpus/
 data/citebench_cn/cache/
 *.log
 .env
 .DS_Store
 node_modules/
+dist/
+*.zip

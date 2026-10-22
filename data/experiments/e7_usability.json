@@ -1,0 +1,1378 @@
+{
+  "experiment": "E7",
+  "title": "Web 工作台内部可用性自测",
+  "disclaimer": "本结果为团队内部可用性自测（internal usability self-test），不是用户实测、不是受试者调研、没有招募任何用户；操作由实验执行者通过 HTTP 客户端按前端调用序列完成，步数按前端交互步骤计，耗时为本机单次实测，不可外推为用户体验结论。",
+  "generated_at": "2026-10-22T14:25:50+00:00",
+  "code_snapshot": {
+    "web/app.py": {
+      "sha256_16": "34842d95b45f3d59",
+      "mtime": "2026-10-22T22:21:11"
+    },
+    "src/citeguard/pipeline.py": {
+      "sha256_16": "b271e23ee65bdb07",
+      "mtime": "2026-10-22T22:24:51"
+    },
+    "src/citeguard/report.py": {
+      "sha256_16": "b88b69d78d37baf6",
+      "mtime": "2026-10-22T22:19:40"
+    },
+    "src/citeguard/gbt7714.py": {
+      "sha256_16": "0c86cfb0351bc67b",
+      "mtime": "2026-10-22T22:14:24"
+    },
+    "src/citeguard/reference_parser.py": {
+      "sha256_16": "dcaf624b75d7edc0",
+      "mtime": "2026-10-22T22:24:09"
+    },
+    "src/citeguard/metadata_verify.py": {
+      "sha256_16": "f4cf038868ac4491",
+      "mtime": "2026-10-22T22:19:40"
+    }
+  },
+  "environment": {
+    "base_url": "http://127.0.0.1:8011",
+    "server": "uvicorn web.app:app --port 8011 (local)",
+    "client": "Python 3.12.14 requests",
+    "llm_judge_enabled": true,
+    "llm_judge_enabled_source": "server-side report.stats.support_meta.judge_available（driver 进程未设 key，服务进程已设；支持度实际判定 15 条）",
+    "driver_env_has_key": false
+  },
+  "documents": [
+    {
+      "filename": "sample_paper.txt",
+      "job_id": "d5c4c938ccf3",
+      "http_index_ok": true,
+      "submit_status": 202,
+      "submit_ms": 26.0,
+      "job_status": "done",
+      "total_ms": 4134.1,
+      "normalized_total_s": 4.13,
+      "steps": [
+        {
+          "step": 1,
+          "name": "打开工作台首页",
+          "detail": "",
+          "t_ms": 0.1
+        },
+        {
+          "step": 2,
+          "name": "选择文件",
+          "detail": "sample_paper.txt",
+          "t_ms": 51.0
+        },
+        {
+          "step": 3,
+          "name": "点击「开始体检」并上传",
+          "detail": "HTTP 202",
+          "t_ms": 77.4
+        },
+        {
+          "step": 4,
+          "name": "进入报告页并轮询进度",
+          "detail": "job=d5c4c938ccf3",
+          "t_ms": 86.1
+        },
+        {
+          "step": 5,
+          "name": "分析完成",
+          "detail": "done after 4134.1 ms",
+          "t_ms": 4134.1
+        },
+        {
+          "step": 6,
+          "name": "阅读报告页",
+          "detail": "HTTP 200, 52209 bytes",
+          "t_ms": 4173.8
+        },
+        {
+          "step": 7,
+          "name": "调用报告 JSON",
+          "detail": "HTTP 200",
+          "t_ms": 4186.1
+        },
+        {
+          "step": 8,
+          "name": "导出报告",
+          "detail": "html/md/json = [200, 200, 200]",
+          "t_ms": 4261.6
+        }
+      ],
+      "step_count": 8,
+      "stages": [
+        {
+          "t_ms": 86.1,
+          "status": "running",
+          "progress": 4,
+          "stage": "读取文件"
+        },
+        {
+          "t_ms": 591.8,
+          "status": "running",
+          "progress": 38,
+          "stage": "多源核验 4/12"
+        },
+        {
+          "t_ms": 1096.5,
+          "status": "running",
+          "progress": 73,
+          "stage": "多源核验 10/12"
+        },
+        {
+          "t_ms": 1606.0,
+          "status": "running",
+          "progress": 73,
+          "stage": "多源核验 10/12"
+        },
+        {
+          "t_ms": 2111.5,
+          "status": "running",
+          "progress": 73,
+          "stage": "多源核验 10/12"
+        },
+        {
+          "t_ms": 2617.4,
+          "status": "running",
+          "progress": 79,
+          "stage": "多源核验 11/12"
+        },
+        {
+          "t_ms": 3124.0,
+          "status": "running",
+          "progress": 79,
+          "stage": "多源核验 11/12"
+        },
+        {
+          "t_ms": 3628.5,
+          "status": "running",
+          "progress": 79,
+          "stage": "多源核验 11/12"
+        },
+        {
+          "t_ms": 4134.0,
+          "status": "done",
+          "progress": 100,
+          "stage": "完成"
+        }
+      ],
+      "stage_transitions": 5,
+      "report_page_status": 200,
+      "report_json_status": 200,
+      "exports": {
+        "html": {
+          "status": 200,
+          "bytes": 24486
+        },
+        "md": {
+          "status": 200,
+          "bytes": 2749
+        },
+        "json": {
+          "status": 200,
+          "bytes": 52260
+        }
+      },
+      "stats": {
+        "total": 12,
+        "intext_citations": 12,
+        "Exact": 8,
+        "Minor": 2,
+        "Major": 2,
+        "Unknown": 0,
+        "avg_compliance": 96.3,
+        "risk_index": 25.0,
+        "support": {
+          "support": 8,
+          "partial": 0,
+          "contradict": 0,
+          "no_evidence": 2,
+          "not_checked": 2
+        },
+        "support_meta": {
+          "judge_available": true,
+          "cap": 30,
+          "candidates": 10,
+          "judged": 10,
+          "skipped_by_cap": 0,
+          "skipped_no_abstract": 2,
+          "skipped_no_claim": 0
+        }
+      },
+      "reference_count": 12,
+      "format_issue_count": 11,
+      "statuses": {
+        "Exact": 8,
+        "Minor": 2,
+        "Major": 2,
+        "Unknown": 0
+      },
+      "support_counts": {
+        "support": 8,
+        "partial": 0,
+        "contradict": 0,
+        "no_evidence": 2,
+        "not_checked": 2
+      }
+    },
+    {
+      "filename": "paper_b_lung_cancer_screening_2018.txt",
+      "job_id": "1d0919a40d98",
+      "http_index_ok": true,
+      "submit_status": 202,
+      "submit_ms": 10.5,
+      "job_status": "done",
+      "total_ms": 28907.8,
+      "normalized_total_s": 28.91,
+      "steps": [
+        {
+          "step": 1,
+          "name": "打开工作台首页",
+          "detail": "",
+          "t_ms": 0.1
+        },
+        {
+          "step": 2,
+          "name": "选择文件",
+          "detail": "paper_b_lung_cancer_screening_2018.txt",
+          "t_ms": 38.0
+        },
+        {
+          "step": 3,
+          "name": "点击「开始体检」并上传",
+          "detail": "HTTP 202",
+          "t_ms": 49.7
+        },
+        {
+          "step": 4,
+          "name": "进入报告页并轮询进度",
+          "detail": "job=1d0919a40d98",
+          "t_ms": 55.0
+        },
+        {
+          "step": 5,
+          "name": "分析完成",
+          "detail": "done after 28907.8 ms",
+          "t_ms": 28907.8
+        },
+        {
+          "step": 6,
+          "name": "阅读报告页",
+          "detail": "HTTP 200, 50649 bytes",
+          "t_ms": 28933.6
+        },
+        {
+          "step": 7,
+          "name": "调用报告 JSON",
+          "detail": "HTTP 200",
+          "t_ms": 28943.5
+        },
+        {
+          "step": 8,
+          "name": "导出报告",
+          "detail": "html/md/json = [200, 200, 200]",
+          "t_ms": 29000.8
+        }
+      ],
+      "step_count": 8,
+      "stages": [
+        {
+          "t_ms": 55.0,
+          "status": "running",
+          "progress": 4,
+          "stage": "读取文件"
+        },
+        {
+          "t_ms": 560.0,
+          "status": "running",
+          "progress": 12,
+          "stage": "解析到 12 条引文"
+        },
+        {
+          "t_ms": 1067.2,
+          "status": "running",
+          "progress": 12,
+          "stage": "解析到 12 条引文"
+        },
+        {
+          "t_ms": 1573.9,
+          "status": "running",
+          "progress": 12,
+          "stage": "解析到 12 条引文"
+        },
+        {
+          "t_ms": 2091.2,
+          "status": "running",
+          "progress": 20,
+          "stage": "多源核验 1/12"
+        },
+        {
+          "t_ms": 2596.9,
+          "status": "running",
+          "progress": 20,
+          "stage": "多源核验 1/12"
+        },
+        {
+          "t_ms": 3103.2,
+          "status": "running",
+          "progress": 20,
+          "stage": "多源核验 1/12"
+        },
+        {
+          "t_ms": 3609.0,
+          "status": "running",
+          "progress": 20,
+          "stage": "多源核验 1/12"
+        },
+        {
+          "t_ms": 4115.3,
+          "status": "running",
+          "progress": 26,
+          "stage": "多源核验 2/12"
+        },
+        {
+          "t_ms": 4620.2,
+          "status": "running",
+          "progress": 26,
+          "stage": "多源核验 2/12"
+        },
+        {
+          "t_ms": 5129.5,
+          "status": "running",
+          "progress": 26,
+          "stage": "多源核验 2/12"
+        },
+        {
+          "t_ms": 5634.4,
+          "status": "running",
+          "progress": 26,
+          "stage": "多源核验 2/12"
+        },
+        {
+          "t_ms": 6142.2,
+          "status": "running",
+          "progress": 32,
+          "stage": "多源核验 3/12"
+        },
+        {
+          "t_ms": 6647.0,
+          "status": "running",
+          "progress": 32,
+          "stage": "多源核验 3/12"
+        },
+        {
+          "t_ms": 7152.0,
+          "status": "running",
+          "progress": 32,
+          "stage": "多源核验 3/12"
+        },
+        {
+          "t_ms": 7657.3,
+          "status": "running",
+          "progress": 38,
+          "stage": "多源核验 4/12"
+        },
+        {
+          "t_ms": 8162.1,
+          "status": "running",
+          "progress": 38,
+          "stage": "多源核验 4/12"
+        },
+        {
+          "t_ms": 8667.1,
+          "status": "running",
+          "progress": 38,
+          "stage": "多源核验 4/12"
+        },
+        {
+          "t_ms": 9172.2,
+          "status": "running",
+          "progress": 38,
+          "stage": "多源核验 4/12"
+        },
+        {
+          "t_ms": 9677.6,
+          "status": "running",
+          "progress": 44,
+          "stage": "多源核验 5/12"
+        },
+        {
+          "t_ms": 10186.2,
+          "status": "running",
+          "progress": 44,
+          "stage": "多源核验 5/12"
+        },
+        {
+          "t_ms": 10691.6,
+          "status": "running",
+          "progress": 44,
+          "stage": "多源核验 5/12"
+        },
+        {
+          "t_ms": 11200.2,
+          "status": "running",
+          "progress": 44,
+          "stage": "多源核验 5/12"
+        },
+        {
+          "t_ms": 11705.1,
+          "status": "running",
+          "progress": 50,
+          "stage": "多源核验 6/12"
+        },
+        {
+          "t_ms": 12209.6,
+          "status": "running",
+          "progress": 50,
+          "stage": "多源核验 6/12"
+        },
+        {
+          "t_ms": 12715.8,
+          "status": "running",
+          "progress": 50,
+          "stage": "多源核验 6/12"
+        },
+        {
+          "t_ms": 13222.3,
+          "status": "running",
+          "progress": 55,
+          "stage": "多源核验 7/12"
+        },
+        {
+          "t_ms": 13727.3,
+          "status": "running",
+          "progress": 55,
+          "stage": "多源核验 7/12"
+        },
+        {
+          "t_ms": 14234.0,
+          "status": "running",
+          "progress": 55,
+          "stage": "多源核验 7/12"
+        },
+        {
+          "t_ms": 14743.4,
+          "status": "running",
+          "progress": 55,
+          "stage": "多源核验 7/12"
+        },
+        {
+          "t_ms": 15248.6,
+          "status": "running",
+          "progress": 61,
+          "stage": "多源核验 8/12"
+        },
+        {
+          "t_ms": 15753.7,
+          "status": "running",
+          "progress": 61,
+          "stage": "多源核验 8/12"
+        },
+        {
+          "t_ms": 16259.3,
+          "status": "running",
+          "progress": 61,
+          "stage": "多源核验 8/12"
+        },
+        {
+          "t_ms": 16763.7,
+          "status": "running",
+          "progress": 61,
+          "stage": "多源核验 8/12"
+        },
+        {
+          "t_ms": 17269.9,
+          "status": "running",
+          "progress": 67,
+          "stage": "多源核验 9/12"
+        },
+        {
+          "t_ms": 17775.7,
+          "status": "running",
+          "progress": 67,
+          "stage": "多源核验 9/12"
+        },
+        {
+          "t_ms": 18282.2,
+          "status": "running",
+          "progress": 67,
+          "stage": "多源核验 9/12"
+        },
+        {
+          "t_ms": 18787.1,
+          "status": "running",
+          "progress": 67,
+          "stage": "多源核验 9/12"
+        },
+        {
+          "t_ms": 19292.3,
+          "status": "running",
+          "progress": 73,
+          "stage": "多源核验 10/12"
+        },
+        {
+          "t_ms": 19796.6,
+          "status": "running",
+          "progress": 73,
+          "stage": "多源核验 10/12"
+        },
+        {
+          "t_ms": 20305.0,
+          "status": "running",
+          "progress": 73,
+          "stage": "多源核验 10/12"
+        },
+        {
+          "t_ms": 20811.4,
+          "status": "running",
+          "progress": 79,
+          "stage": "多源核验 11/12"
+        },
+        {
+          "t_ms": 21316.5,
+          "status": "running",
+          "progress": 88,
+          "stage": "检查 GB/T 7714-2025 字段"
+        },
+        {
+          "t_ms": 21822.7,
+          "status": "running",
+          "progress": 88,
+          "stage": "检查 GB/T 7714-2025 字段"
+        },
+        {
+          "t_ms": 22328.0,
+          "status": "running",
+          "progress": 90,
+          "stage": "支持度判定 1/1"
+        },
+        {
+          "t_ms": 22834.3,
+          "status": "running",
+          "progress": 90,
+          "stage": "支持度判定 1/1"
+        },
+        {
+          "t_ms": 23339.4,
+          "status": "running",
+          "progress": 90,
+          "stage": "支持度判定 1/1"
+        },
+        {
+          "t_ms": 23844.6,
+          "status": "running",
+          "progress": 90,
+          "stage": "支持度判定 1/1"
+        },
+        {
+          "t_ms": 24351.5,
+          "status": "running",
+          "progress": 90,
+          "stage": "支持度判定 1/1"
+        },
+        {
+          "t_ms": 24856.3,
+          "status": "running",
+          "progress": 90,
+          "stage": "支持度判定 1/1"
+        },
+        {
+          "t_ms": 25360.6,
+          "status": "running",
+          "progress": 90,
+          "stage": "支持度判定 1/1"
+        },
+        {
+          "t_ms": 25866.1,
+          "status": "running",
+          "progress": 90,
+          "stage": "支持度判定 1/1"
+        },
+        {
+          "t_ms": 26370.3,
+          "status": "running",
+          "progress": 90,
+          "stage": "支持度判定 1/1"
+        },
+        {
+          "t_ms": 26877.4,
+          "status": "running",
+          "progress": 90,
+          "stage": "支持度判定 1/1"
+        },
+        {
+          "t_ms": 27383.5,
+          "status": "running",
+          "progress": 91,
+          "stage": "支持度判定 2/2"
+        },
+        {
+          "t_ms": 27891.3,
+          "status": "running",
+          "progress": 91,
+          "stage": "支持度判定 3/3"
+        },
+        {
+          "t_ms": 28401.8,
+          "status": "running",
+          "progress": 91,
+          "stage": "支持度判定 3/3"
+        },
+        {
+          "t_ms": 28907.8,
+          "status": "done",
+          "progress": 100,
+          "stage": "完成"
+        }
+      ],
+      "stage_transitions": 18,
+      "report_page_status": 200,
+      "report_json_status": 200,
+      "exports": {
+        "html": {
+          "status": 200,
+          "bytes": 24547
+        },
+        "md": {
+          "status": 200,
+          "bytes": 2648
+        },
+        "json": {
+          "status": 200,
+          "bytes": 54809
+        }
+      },
+      "stats": {
+        "total": 12,
+        "intext_citations": 4,
+        "Exact": 0,
+        "Minor": 11,
+        "Major": 1,
+        "Unknown": 0,
+        "avg_compliance": 95.0,
+        "risk_index": 54.2,
+        "support": {
+          "support": 1,
+          "partial": 2,
+          "contradict": 0,
+          "no_evidence": 1,
+          "not_checked": 8
+        },
+        "support_meta": {
+          "judge_available": true,
+          "cap": 30,
+          "candidates": 4,
+          "judged": 4,
+          "skipped_by_cap": 0,
+          "skipped_no_abstract": 1,
+          "skipped_no_claim": 7
+        }
+      },
+      "reference_count": 12,
+      "format_issue_count": 15,
+      "statuses": {
+        "Exact": 0,
+        "Minor": 11,
+        "Major": 1,
+        "Unknown": 0
+      },
+      "support_counts": {
+        "support": 1,
+        "partial": 2,
+        "contradict": 0,
+        "no_evidence": 1,
+        "not_checked": 8
+      }
+    },
+    {
+      "filename": "paper_c_lung_cancer_projection_2010.txt",
+      "job_id": "13e2837c9597",
+      "http_index_ok": true,
+      "submit_status": 202,
+      "submit_ms": 9.3,
+      "job_status": "done",
+      "total_ms": 13709.0,
+      "normalized_total_s": 13.71,
+      "steps": [
+        {
+          "step": 1,
+          "name": "打开工作台首页",
+          "detail": "",
+          "t_ms": 0.1
+        },
+        {
+          "step": 2,
+          "name": "选择文件",
+          "detail": "paper_c_lung_cancer_projection_2010.txt",
+          "t_ms": 27.1
+        },
+        {
+          "step": 3,
+          "name": "点击「开始体检」并上传",
+          "detail": "HTTP 202",
+          "t_ms": 40.4
+        },
+        {
+          "step": 4,
+          "name": "进入报告页并轮询进度",
+          "detail": "job=13e2837c9597",
+          "t_ms": 46.0
+        },
+        {
+          "step": 5,
+          "name": "分析完成",
+          "detail": "done after 13709.0 ms",
+          "t_ms": 13709.0
+        },
+        {
+          "step": 6,
+          "name": "阅读报告页",
+          "detail": "HTTP 200, 32234 bytes",
+          "t_ms": 13732.8
+        },
+        {
+          "step": 7,
+          "name": "调用报告 JSON",
+          "detail": "HTTP 200",
+          "t_ms": 13742.7
+        },
+        {
+          "step": 8,
+          "name": "导出报告",
+          "detail": "html/md/json = [200, 200, 200]",
+          "t_ms": 13802.2
+        }
+      ],
+      "step_count": 8,
+      "stages": [
+        {
+          "t_ms": 46.0,
+          "status": "running",
+          "progress": 4,
+          "stage": "读取文件"
+        },
+        {
+          "t_ms": 551.8,
+          "status": "running",
+          "progress": 12,
+          "stage": "解析到 9 条引文"
+        },
+        {
+          "t_ms": 1060.2,
+          "status": "running",
+          "progress": 12,
+          "stage": "解析到 9 条引文"
+        },
+        {
+          "t_ms": 1564.6,
+          "status": "running",
+          "progress": 22,
+          "stage": "多源核验 1/9"
+        },
+        {
+          "t_ms": 2069.7,
+          "status": "running",
+          "progress": 22,
+          "stage": "多源核验 1/9"
+        },
+        {
+          "t_ms": 2574.8,
+          "status": "running",
+          "progress": 22,
+          "stage": "多源核验 1/9"
+        },
+        {
+          "t_ms": 3081.1,
+          "status": "running",
+          "progress": 30,
+          "stage": "多源核验 2/9"
+        },
+        {
+          "t_ms": 3586.6,
+          "status": "running",
+          "progress": 30,
+          "stage": "多源核验 2/9"
+        },
+        {
+          "t_ms": 4092.5,
+          "status": "running",
+          "progress": 30,
+          "stage": "多源核验 2/9"
+        },
+        {
+          "t_ms": 4598.3,
+          "status": "running",
+          "progress": 46,
+          "stage": "多源核验 4/9"
+        },
+        {
+          "t_ms": 5109.9,
+          "status": "running",
+          "progress": 46,
+          "stage": "多源核验 4/9"
+        },
+        {
+          "t_ms": 5616.9,
+          "status": "running",
+          "progress": 46,
+          "stage": "多源核验 4/9"
+        },
+        {
+          "t_ms": 6122.9,
+          "status": "running",
+          "progress": 46,
+          "stage": "多源核验 4/9"
+        },
+        {
+          "t_ms": 6628.9,
+          "status": "running",
+          "progress": 53,
+          "stage": "多源核验 5/9"
+        },
+        {
+          "t_ms": 7133.9,
+          "status": "running",
+          "progress": 53,
+          "stage": "多源核验 5/9"
+        },
+        {
+          "t_ms": 7639.6,
+          "status": "running",
+          "progress": 53,
+          "stage": "多源核验 5/9"
+        },
+        {
+          "t_ms": 8143.9,
+          "status": "running",
+          "progress": 61,
+          "stage": "多源核验 6/9"
+        },
+        {
+          "t_ms": 8650.2,
+          "status": "running",
+          "progress": 61,
+          "stage": "多源核验 6/9"
+        },
+        {
+          "t_ms": 9155.5,
+          "status": "running",
+          "progress": 61,
+          "stage": "多源核验 6/9"
+        },
+        {
+          "t_ms": 9660.6,
+          "status": "running",
+          "progress": 69,
+          "stage": "多源核验 7/9"
+        },
+        {
+          "t_ms": 10165.1,
+          "status": "running",
+          "progress": 69,
+          "stage": "多源核验 7/9"
+        },
+        {
+          "t_ms": 10672.1,
+          "status": "running",
+          "progress": 69,
+          "stage": "多源核验 7/9"
+        },
+        {
+          "t_ms": 11178.2,
+          "status": "running",
+          "progress": 77,
+          "stage": "多源核验 8/9"
+        },
+        {
+          "t_ms": 11683.7,
+          "status": "running",
+          "progress": 77,
+          "stage": "多源核验 8/9"
+        },
+        {
+          "t_ms": 12189.4,
+          "status": "running",
+          "progress": 94,
+          "stage": "支持度判定 0/0"
+        },
+        {
+          "t_ms": 12696.1,
+          "status": "running",
+          "progress": 94,
+          "stage": "支持度判定 0/0"
+        },
+        {
+          "t_ms": 13203.3,
+          "status": "running",
+          "progress": 94,
+          "stage": "支持度判定 0/0"
+        },
+        {
+          "t_ms": 13709.0,
+          "status": "done",
+          "progress": 100,
+          "stage": "完成"
+        }
+      ],
+      "stage_transitions": 11,
+      "report_page_status": 200,
+      "report_json_status": 200,
+      "exports": {
+        "html": {
+          "status": 200,
+          "bytes": 20817
+        },
+        "md": {
+          "status": 200,
+          "bytes": 2248
+        },
+        "json": {
+          "status": 200,
+          "bytes": 32091
+        }
+      },
+      "stats": {
+        "total": 9,
+        "intext_citations": 6,
+        "Exact": 0,
+        "Minor": 2,
+        "Major": 7,
+        "Unknown": 0,
+        "avg_compliance": 90.7,
+        "risk_index": 88.9,
+        "support": {
+          "support": 0,
+          "partial": 0,
+          "contradict": 0,
+          "no_evidence": 1,
+          "not_checked": 8
+        },
+        "support_meta": {
+          "judge_available": true,
+          "cap": 30,
+          "candidates": 1,
+          "judged": 1,
+          "skipped_by_cap": 0,
+          "skipped_no_abstract": 8,
+          "skipped_no_claim": 0
+        }
+      },
+      "reference_count": 9,
+      "format_issue_count": 21,
+      "statuses": {
+        "Exact": 0,
+        "Minor": 2,
+        "Major": 7,
+        "Unknown": 0
+      },
+      "support_counts": {
+        "support": 0,
+        "partial": 0,
+        "contradict": 0,
+        "no_evidence": 1,
+        "not_checked": 8
+      }
+    }
+  ],
+  "contract_probes": {
+    "health": {
+      "ok": true,
+      "version": "0.3.0",
+      "supported": [
+        ".doc",
+        ".docx",
+        ".md",
+        ".pdf",
+        ".txt"
+      ]
+    },
+    "docx_upload": {
+      "status": 202,
+      "detail": "{\"job_id\":\"6b0959de3ea6\"}",
+      "ui_claim": "index.html 文案：支持 PDF / Word（.docx）/ TXT / MD"
+    },
+    "doc_legacy_upload": {
+      "submit_status": 202,
+      "job_status": "error",
+      "error": "ValueError: 暂不支持旧版 .doc 格式：请在 Word 中「另存为」.docx 或导出 PDF 后再分析。",
+      "detail": "上传被接受后异步失败；用户需要等待后才看到错误"
+    },
+    "support_max_honoured": {
+      "requested": 0,
+      "job_status": "done",
+      "support_counts": {
+        "support": 0,
+        "partial": 0,
+        "contradict": 0,
+        "no_evidence": 0,
+        "not_checked": 4
+      },
+      "support_meta": {
+        "judge_available": true,
+        "cap": 0,
+        "candidates": 4,
+        "judged": 0,
+        "skipped_by_cap": 4,
+        "skipped_no_abstract": 0,
+        "skipped_no_claim": 0
+      },
+      "judged": 0
+    },
+    "unknown_report_page": {
+      "status": 404,
+      "detail": "{\"detail\":\"job not found\"}"
+    },
+    "ui_polling": {
+      "interval_ms": 1400,
+      "detail": "report.js pollJob() 固定 1.4s 轮询，完成后整页 reload；无取消按钮"
+    }
+  },
+  "ux_issues": [
+    {
+      "id": "UX1",
+      "severity": "medium",
+      "title": "旧版 .doc 上传被接受后才异步失败",
+      "evidence": "POST /api/analyze(.doc) -> 202，任务状态 error：ValueError: 暂不支持旧版 .doc 格式：请在 Word 中「另存为」.docx 或导出 PDF 后再分析。；web/app.py 允许 .doc，pdf_extract.extract_text 明确拒绝",
+      "impact": "用户要等到任务跑起来才看到「请另存为 .docx」，且失败任务留在最近任务列表里，需重来一遍。"
+    },
+    {
+      "id": "UX2",
+      "severity": "medium",
+      "title": "进度反馈粒度粗、无法取消、完成后整页刷新",
+      "evidence": "前端固定 1.4s 轮询（report.js pollJob），本次报告页共记录 5 次进度跳变；无取消/停止按钮；完成后 location.reload()",
+      "impact": "长任务期间无法干预；刷新会丢失当前视图；大文件上传也没有上传进度条。"
+    },
+    {
+      "id": "UX3",
+      "severity": "low",
+      "title": "未知任务 id 返回 JSON 错误而非友好页面",
+      "evidence": "GET /report/doesnotexist -> 404：{\"detail\":\"job not found\"}",
+      "impact": "从旧链接/被清理的任务进入时看到裸 JSON，缺少返回工作台的引导。"
+    },
+    {
+      "id": "UX4",
+      "severity": "medium",
+      "title": "「未检出问题」的呈现强于规则层真实能力",
+      "evidence": "E4 实测：30 条格式漂移中 15 条（页码连字符 / 4 作者未用「等」/ 卷期互换）规则层完全无提示；报告页对无 issue 的条目标注「新国标字段检查未发现问题」",
+      "impact": "用户会把「规则没查到」理解为「格式没问题」，对合规结论过度信任；建议文案改为「未发现本规则集覆盖的问题」。"
+    }
+  ],
+  "manual_check": {
+    "n": 12,
+    "elapsed_s": 30.2,
+    "per_ref_s": 2.5,
+    "fetch_ms": 3326.6,
+    "timer": "计时区间：第二次批量取数（Crossref/DOI 缓存已就绪）开始 -> 逐条判定落盘；区间内包含阅读与判断。区间外还有：首次批量取数 8.7 s、对外部期刊站点按题名检索 1 次（未计时）。执行者为单人（AI 助手），非用户研究。",
+    "operator": "single operator (the engineer running this experiment; no participants were recruited)",
+    "agreement_with_tool": 11,
+    "agreement_rate": 0.9167,
+    "rows": [
+      {
+        "index": 1,
+        "raw": "[1] YuanQin YANG, JianNong QUAN, Yaqiang Wang等. 我国雾-霾成因及其治理的思考[J]. Chinese Science Bulletin (Chinese Version), 2013, 58(13): 1178-1187. DOI: 10.1360/972013-150.",
+        "parsed": {
+          "title": "我国雾-霾成因及其治理的思考",
+          "authors": [
+            "YuanQin YANG",
+            "JianNong QUAN",
+            "Yaqiang Wang"
+          ],
+          "year": 2013,
+          "venue": "Chinese Science Bulletin (Chinese Version)",
+          "volume": "58",
+          "issue": "13",
+          "pages": "1178-1187",
+          "doi": "10.1360/972013-150"
+        },
+        "tool_status": "Exact",
+        "manual_label": "Exact",
+        "manual_note": "Crossref 200：题名/年/卷(期)/页码一致；来源写作 Chinese Science Bulletin (Chinese Version)，与 Crossref 的 Chinese Science Bulletin 为同一刊，DOI 句柄存在。"
+      },
+      {
+        "index": 2,
+        "raw": "[2] 熊金波, Jinbo Xiong, 聂力等. 肠道菌群在鱼类疾病和免疫中作用的研究进展[J]. 动物学研究, 2019, 40(2): 70-76. DOI: 10.24272/j.issn.2095-8137.2018.069.",
+        "parsed": {
+          "title": "肠道菌群在鱼类疾病和免疫中作用的研究进展",
+          "authors": [
+            "熊金波",
+            "Jinbo Xiong",
+            "聂力"
+          ],
+          "year": 2019,
+          "venue": "动物学研究",
+          "volume": "40",
+          "issue": "2",
+          "pages": "70-76",
+          "doi": "10.24272/j.issn.2095-8137.2018.069"
+        },
+        "tool_status": "Exact",
+        "manual_label": "Exact",
+        "manual_note": "Crossref 200：题名/年/卷(期)/页码一致；作者中英双写属该刊常态，DOI 句柄存在。"
+      },
+      {
+        "index": 3,
+        "raw": "[3] 大岩 张. 中西医结合治疗心血管疾病伴随焦虑症患者的临床分析[J]. 亚洲临床医学杂志, 2020, 3(4): 10-10. DOI: 10.26549/yzlcyxzz.v3i4.3108.",
+        "parsed": {
+          "title": "中西医结合治疗心血管疾病伴随焦虑症患者的临床分析",
+          "authors": [
+            "大岩 张"
+          ],
+          "year": 2020,
+          "venue": "亚洲临床医学杂志",
+          "volume": "3",
+          "issue": "4",
+          "pages": "10-10",
+          "doi": "10.26549/yzlcyxzz.v3i4.3108"
+        },
+        "tool_status": "Exact",
+        "manual_label": "Exact",
+        "manual_note": "Crossref 200：题名/年/卷(期)一致；页码写作 10-10，Crossref 为单页 10，语义相同；DOI 句柄存在。"
+      },
+      {
+        "index": 4,
+        "raw": "[4] Richard R. Orlandi, Todd T. Kingdom, Peter H. Hwang等. 过敏和鼻科学国际共识声明 : 鼻窦炎[J]. International Forum of Allergy & Rhinology, 2016, 6(S1). DOI: 10.1002/alr.21695_c.",
+        "parsed": {
+          "title": "过敏和鼻科学国际共识声明 : 鼻窦炎",
+          "authors": [
+            "Richard R. Orlandi",
+            "Todd T. Kingdom",
+            "Peter H. Hwang"
+          ],
+          "year": 2016,
+          "venue": "International Forum of Allergy & Rhinology",
+          "volume": "",
+          "issue": "",
+          "pages": "",
+          "doi": "10.1002/alr.21695_c"
+        },
+        "tool_status": "Exact",
+        "manual_label": "Exact",
+        "manual_note": "Crossref 200：题名/年一致，卷期 6(S1) 与 Crossref 记录一致（原文页码为空，两侧均空）；DOI 句柄存在。"
+      },
+      {
+        "index": 5,
+        "raw": "[5] 彭少明, Shaoming Peng, 郑小康等. 黄河流域水资源-能源-粮食的协同优化[J]. DOAJ (DOAJ: Directory of Open Access Journals), 2017, . DOI: 10.14042/j.cnki.32.1309.2017.05.005.",
+        "parsed": {
+          "title": "黄河流域水资源-能源-粮食的协同优化",
+          "authors": [
+            "彭少明",
+            "Shaoming Peng",
+            "郑小康"
+          ],
+          "year": 2017,
+          "venue": "DOAJ (DOAJ: Directory of Open Access Journals)",
+          "volume": "",
+          "issue": "",
+          "pages": "",
+          "doi": "10.14042/j.cnki.32.1309.2017.05.005"
+        },
+        "tool_status": "Exact",
+        "manual_label": "Minor",
+        "manual_note": "Crossref 404（该 DOI 由 ChinaDOI 注册，句柄存在）。人工按题名检索期刊站点：该文实为《水科学进展》2017, 28(5)，而条目的来源被著录为“DOAJ (DOAJ: Directory of Open Access Journals)”（索引库而非期刊），且缺卷/期/页码。人工判 Minor；工具判 Exact，属上游 OpenAlex 记录来源为 DOAJ 导致的漏检。"
+      },
+      {
+        "index": 6,
+        "raw": "[6] Xiao-Long Ren, L LinYuan. 网络重要节点排序方法综述[J]. Chinese Science Bulletin (Chinese Version), 2014, 59(13): 1175-1197. DOI: 10.1360/972013-1280.",
+        "parsed": {
+          "title": "网络重要节点排序方法综述",
+          "authors": [
+            "Xiao-Long Ren",
+            "L LinYuan"
+          ],
+          "year": 2014,
+          "venue": "Chinese Science Bulletin (Chinese Version)",
+          "volume": "59",
+          "issue": "13",
+          "pages": "1175-1197",
+          "doi": "10.1360/972013-1280"
+        },
+        "tool_status": "Exact",
+        "manual_label": "Exact",
+        "manual_note": "Crossref 200：题名/年/卷(期)/页码一致；来源为同一刊的全称变体；DOI 句柄存在。"
+      },
+      {
+        "index": 7,
+        "raw": "[7] Cécile Tannier, Isabelle Thomas, Gilles Vuidel等. A Fractal Approach to Identifying Urban Boundaries. 城市边界识别的分形方法[J]. Geographical Analysis, 2011, 43(2): 211-227. DOI: 10.1111/j.1538-4632.2011.00814.x.",
+        "parsed": {
+          "title": "A Fractal Approach to Identifying Urban Boundaries. 城市边界识别的分形方法",
+          "authors": [
+            "Cécile Tannier",
+            "Isabelle Thomas",
+            "Gilles Vuidel"
+          ],
+          "year": 2011,
+          "venue": "Geographical Analysis",
+          "volume": "43",
+          "issue": "2",
+          "pages": "211-227",
+          "doi": "10.1111/j.1538-4632.2011.00814.x"
+        },
+        "tool_status": "Exact",
+        "manual_label": "Exact",
+        "manual_note": "Crossref 200：中英文题名/年/卷(期)/页码一致；DOI 句柄存在。"
+      },
+      {
+        "index": 8,
+        "raw": "[8] 包寅武, Yin-Wu Bao, 袁圆等. 应用动物模型探索肾脏疾病作用机制和潜在治疗靶点[J]. 动物学研究, 2018, 39(2): 72-86. DOI: 10.24272/j.issn.2095-8137.2017.055.",
+        "parsed": {
+          "title": "应用动物模型探索肾脏疾病作用机制和潜在治疗靶点",
+          "authors": [
+            "包寅武",
+            "Yin-Wu Bao",
+            "袁圆"
+          ],
+          "year": 2018,
+          "venue": "动物学研究",
+          "volume": "39",
+          "issue": "2",
+          "pages": "72-86",
+          "doi": "10.24272/j.issn.2095-8137.2017.055"
+        },
+        "tool_status": "Exact",
+        "manual_label": "Exact",
+        "manual_note": "Crossref 200：题名/年/卷(期)/页码一致；作者中英双写；DOI 句柄存在。"
+      },
+      {
+        "index": 9,
+        "raw": "[9] YuanQin YANG, JianNong QUAN, Yaqiang Wang等. 我国雾-霾成因及其治理的思考[J]. Chinese Science Bulletin (Chinese Version), 2014, 58(13): 1178-1187. DOI: 10.1360/972013-150.",
+        "parsed": {
+          "title": "我国雾-霾成因及其治理的思考",
+          "authors": [
+            "YuanQin YANG",
+            "JianNong QUAN",
+            "Yaqiang Wang"
+          ],
+          "year": 2014,
+          "venue": "Chinese Science Bulletin (Chinese Version)",
+          "volume": "58",
+          "issue": "13",
+          "pages": "1178-1187",
+          "doi": "10.1360/972013-150"
+        },
+        "tool_status": "Minor",
+        "manual_label": "Minor",
+        "manual_note": "年份漂移：条目 2014，Crossref 记录 2013；其余字段一致。"
+      },
+      {
+        "index": 10,
+        "raw": "[10] 熊金波, Jinbo Xiong, 聂力等. 肠道菌群在鱼类疾病和免疫中作用的研究进展[J]. 动物学研究, 2020, 40(2): 70-76. DOI: 10.24272/j.issn.2095-8137.2018.069.",
+        "parsed": {
+          "title": "肠道菌群在鱼类疾病和免疫中作用的研究进展",
+          "authors": [
+            "熊金波",
+            "Jinbo Xiong",
+            "聂力"
+          ],
+          "year": 2020,
+          "venue": "动物学研究",
+          "volume": "40",
+          "issue": "2",
+          "pages": "70-76",
+          "doi": "10.24272/j.issn.2095-8137.2018.069"
+        },
+        "tool_status": "Minor",
+        "manual_label": "Minor",
+        "manual_note": "年份漂移：条目 2020，Crossref 记录 2019；其余字段一致。"
+      },
+      {
+        "index": 11,
+        "raw": "[11] 大岩 张. 面向复杂场景的多模态文献理解方法研究[J]. 亚洲临床医学杂志, 2020, 3(4): 10-10. DOI: 10.9999/fake.0001.2024.",
+        "parsed": {
+          "title": "面向复杂场景的多模态文献理解方法研究",
+          "authors": [
+            "大岩 张"
+          ],
+          "year": 2020,
+          "venue": "亚洲临床医学杂志",
+          "volume": "3",
+          "issue": "4",
+          "pages": "10-10",
+          "doi": "10.9999/fake.0001.2024"
+        },
+        "tool_status": "Major",
+        "manual_label": "Major",
+        "manual_note": "DOI 10.9999/fake.0001.2024 句柄不存在（handle API 404），题名在 Crossref 无记录，判疑似虚构。"
+      },
+      {
+        "index": 12,
+        "raw": "[12] Richard R. Orlandi, Todd T. Kingdom, Peter H. Hwang等. 面向复杂场景的学术可信计算方法研究[J]. International Forum of Allergy & Rhinology, 2016, 6(S1). DOI: 10.9999/fake.0002.2024.",
+        "parsed": {
+          "title": "面向复杂场景的学术可信计算方法研究",
+          "authors": [
+            "Richard R. Orlandi",
+            "Todd T. Kingdom",
+            "Peter H. Hwang"
+          ],
+          "year": 2016,
+          "venue": "International Forum of Allergy & Rhinology",
+          "volume": "",
+          "issue": "",
+          "pages": "",
+          "doi": "10.9999/fake.0002.2024"
+        },
+        "tool_status": "Major",
+        "manual_label": "Major",
+        "manual_note": "DOI 10.9999/fake.0002.2024 句柄不存在（handle API 404），题名在 Crossref 无记录，判疑似虚构。"
+      }
+    ],
+    "verdicts": {
+      "1": {
+        "label": "Exact",
+        "note": "Crossref 200：题名/年/卷(期)/页码一致；来源写作 Chinese Science Bulletin (Chinese Version)，与 Crossref 的 Chinese Science Bulletin 为同一刊，DOI 句柄存在。"
+      },
+      "2": {
+        "label": "Exact",
+        "note": "Crossref 200：题名/年/卷(期)/页码一致；作者中英双写属该刊常态，DOI 句柄存在。"
+      },
+      "3": {
+        "label": "Exact",
+        "note": "Crossref 200：题名/年/卷(期)一致；页码写作 10-10，Crossref 为单页 10，语义相同；DOI 句柄存在。"
+      },
+      "4": {
+        "label": "Exact",
+        "note": "Crossref 200：题名/年一致，卷期 6(S1) 与 Crossref 记录一致（原文页码为空，两侧均空）；DOI 句柄存在。"
+      },
+      "5": {
+        "label": "Minor",
+        "note": "Crossref 404（该 DOI 由 ChinaDOI 注册，句柄存在）。人工按题名检索期刊站点：该文实为《水科学进展》2017, 28(5)，而条目的来源被著录为“DOAJ (DOAJ: Directory of Open Access Journals)”（索引库而非期刊），且缺卷/期/页码。人工判 Minor；工具判 Exact，属上游 OpenAlex 记录来源为 DOAJ 导致的漏检。"
+      },
+      "6": {
+        "label": "Exact",
+        "note": "Crossref 200：题名/年/卷(期)/页码一致；来源为同一刊的全称变体；DOI 句柄存在。"
+      },
+      "7": {
+        "label": "Exact",
+        "note": "Crossref 200：中英文题名/年/卷(期)/页码一致；DOI 句柄存在。"
+      },
+      "8": {
+        "label": "Exact",
+        "note": "Crossref 200：题名/年/卷(期)/页码一致；作者中英双写；DOI 句柄存在。"
+      },
+      "9": {
+        "label": "Minor",
+        "note": "年份漂移：条目 2014，Crossref 记录 2013；其余字段一致。"
+      },
+      "10": {
+        "label": "Minor",
+        "note": "年份漂移：条目 2020，Crossref 记录 2019；其余字段一致。"
+      },
+      "11": {
+        "label": "Major",
+        "note": "DOI 10.9999/fake.0001.2024 句柄不存在（handle API 404），题名在 Crossref 无记录，判疑似虚构。"
+      },
+      "12": {
+        "label": "Major",
+        "note": "DOI 10.9999/fake.0002.2024 句柄不存在（handle API 404），题名在 Crossref 无记录，判疑似虚构。"
+      }
+    }
+  },
+  "experiment_requests": {
+    "epmc": 0,
+    "crossref": 0
+  },
+  "limitations": [
+    "内部自测：单一执行者、n=1 次运行，没有真实用户参与，不能作为用户研究或 SUS 结论。",
+    "通过 HTTP 客户端复现前端调用序列，未做真实浏览器点击/渲染耗时测量；步数按前端交互步骤计。",
+    "两篇真实论文为节选（摘要 + 部分正文 + 前 12 条参考文献），不是全文；引用列表按 GB/T 风格重排。",
+    "运行期 OpenAlex 免费额度已用尽（429），题名检索回退主要依赖 Crossref，核验结果与延迟受此影响。",
+    "人工核对耗时由实验执行者单次实测，包含检索与阅读判断，样本仅 12 条。"
+  ]
+}

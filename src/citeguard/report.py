@@ -7,6 +7,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
+from .format_gbt import format_from_candidate
 from .gbt7714 import ComplianceResult
 from .metadata_verify import VerifyResult
 from .reference_parser import InTextCitation, Reference
@@ -15,6 +16,7 @@ STATUS_LABEL = {
     "Exact": "真实且元数据一致",
     "Minor": "存在元数据偏差",
     "Major": "疑似虚构或错配",
+    "Unverified": "未找到匹配记录",
     "Unknown": "无法核验（网络/数据源问题）",
 }
 
@@ -22,14 +24,18 @@ STATUS_COLOR = {
     "Exact": "#1f9d55",
     "Minor": "#d97706",
     "Major": "#dc2626",
+    "Unverified": "#8a6d3b",
     "Unknown": "#6b7280",
 }
 
 
 def _stats(verify: list[VerifyResult]) -> dict:
-    counts = {"Exact": 0, "Minor": 0, "Major": 0, "Unknown": 0}
+    counts = {"Exact": 0, "Minor": 0, "Major": 0, "Unverified": 0, "Unknown": 0}
     for v in verify:
-        counts[v.status] = counts.get(v.status, 0) + 1
+        # ``--no-verify`` (CLI) passes None entries; treat those as Unknown
+        # instead of raising, so an offline report still renders.
+        status = getattr(v, "status", None) or "Unknown"
+        counts[status] = counts.get(status, 0) + 1
     return counts
 
 
@@ -41,11 +47,21 @@ def build_report(
     compliance: list[ComplianceResult],
     intext: list[InTextCitation],
     support_results: Optional[list[Optional[dict]]] = None,
+    support_meta: Optional[dict] = None,
 ) -> dict:
     counts = _stats(verify)
     total = len(refs)
     avg_compliance = round(sum(c.score for c in compliance) / total, 1) if total else 0.0
-    risk = round(100 * (counts["Major"] + 0.5 * counts["Minor"]) / total, 1) if total else 0.0
+    risk = (
+        round(
+            100
+            * (counts["Major"] + 0.5 * counts["Minor"] + 0.3 * counts["Unverified"])
+            / total,
+            1,
+        )
+        if total
+        else 0.0
+    )
 
     support_counts = None
     if support_results is not None:
@@ -57,6 +73,27 @@ def build_report(
                 label = r.get("label", "no_evidence")
                 support_counts[label] = support_counts.get(label, 0) + 1
 
+    items: list[dict] = []
+    for i, (r, v, c) in enumerate(zip(refs, verify, compliance)):
+        status = getattr(v, "status", None) if v else None
+        # Only matched references get a metadata-derived entry; for an
+        # unverified reference the "best" candidate is noise and must not be
+        # presented as a corrected version of the user's citation.
+        best = getattr(v, "best", None) if (v and status in {"Exact", "Minor", "Major"}) else None
+        items.append(
+            {
+                "index": r.index,
+                "raw": r.raw,
+                "parsed": r.to_dict(),
+                "verify": v.to_dict() if v else None,
+                "compliance": c.to_dict() if c else None,
+                "support": (support_results[i] if support_results and i < len(support_results) else None),
+                # Ready-to-paste entry built from the database metadata (empty if
+                # the reference could not be matched to any source record).
+                "suggested_entry": format_from_candidate(r, best) if best else "",
+            }
+        )
+
     return {
         "generated_at": datetime.now().isoformat(timespec="seconds"),
         "input": str(input_path),
@@ -67,18 +104,17 @@ def build_report(
             "avg_compliance": avg_compliance,
             "risk_index": risk,
             "support": support_counts,
+            "support_meta": support_meta
+            or {
+                "judge_available": False,
+                "cap": 0,
+                "candidates": 0,
+                "judged": 0,
+                "skipped_by_cap": 0,
+                "skipped_no_abstract": 0,
+            },
         },
-        "references": [
-            {
-                "index": r.index,
-                "raw": r.raw,
-                "parsed": r.to_dict(),
-                "verify": v.to_dict() if v else None,
-                "compliance": c.to_dict() if c else None,
-                "support": (support_results[i] if support_results and i < len(support_results) else None),
-            }
-            for i, (r, v, c) in enumerate(zip(refs, verify, compliance))
-        ],
+        "references": items,
         "disclaimer": (
             "本报告为研究原型输出：元数据核验依据 OpenAlex/Crossref/arXiv 公开数据；"
             "GB/T 7714-2025 规则引擎基于公开规则事实编码，未复制标准原文，"
@@ -122,6 +158,15 @@ def render_markdown(report: dict) -> str:
             f"| {item.get('index', '')} | {STATUS_LABEL.get(status, status)} | {sup_label} | {title} | "
             f"{p.get('year', '')} | {p.get('venue', '')[:18]} | {evidence} | {c.get('score', '')} |"
         )
+    suggested = [
+        (item.get("index"), item.get("suggested_entry"))
+        for item in report["references"]
+        if item.get("suggested_entry")
+    ]
+    if suggested:
+        lines += ["", "## 建议替换条目（按数据库元数据生成，请核对）", ""]
+        for index, entry in suggested:
+            lines.append(f"- [{index}] {entry}")
     lines += ["", f"> {report['disclaimer']}"]
     return "\n".join(lines)
 
@@ -188,6 +233,7 @@ def render_html(report: dict) -> str:
               </div>
               {support_html}
               {f'<ul class="issues">{issue_html}</ul>' if issue_html else '<div class="ok">新国标字段检查未发现问题</div>'}
+              {f'<div class="suggested"><span>按数据库元数据生成的规范条目（核对后替换）</span><code>{html.escape(item["suggested_entry"])}</code></div>' if item.get("suggested_entry") else ''}
             </div>
             """
         )
@@ -225,6 +271,9 @@ def render_html(report: dict) -> str:
   .issue.info {{ color:#1d4ed8; }}
   .sugg {{ color:var(--muted); margin-left:6px; }}
   .ok {{ color:#15803d; font-size:13px; margin-top:8px; }}
+  .suggested {{ margin-top:10px; border-top:1px dashed var(--line); padding-top:10px; font-size:12px; color:var(--muted); }}
+  .suggested span {{ display:block; margin-bottom:4px; }}
+  .suggested code {{ display:block; color:var(--text); background:#f9fafb; border:1px solid var(--line); border-radius:8px; padding:8px 10px; font-family: "Microsoft YaHei", sans-serif; line-height:1.7; white-space:pre-wrap; }}
   footer {{ color:var(--muted); font-size:12px; margin-top:28px; line-height:1.7; }}
 </style>
 </head>

@@ -1,4 +1,9 @@
-"""PDF / text extraction and reference-section splitting."""
+"""Document text extraction and reference-section splitting.
+
+Supported inputs: ``.pdf`` / ``.docx`` / ``.txt`` / ``.md``.
+Scanned PDFs without a text layer are reported as an explicit error so the
+caller can tell the user to OCR the file first.
+"""
 from __future__ import annotations
 
 import re
@@ -8,12 +13,26 @@ from pathlib import Path
 _REF_HEADINGS = {
     "参考文献",
     "參考文獻",
+    "主要参考文献",
+    "引用文献",
+    "引用文獻",
+    "文献列表",
+    "參考書目",
+    "参考书目",
+    "参考资料",
     "references",
     "reference",
     "bibliography",
-    "文献列表",
-    "参考书目",
+    "works cited",
+    "literature cited",
+    "cited literature",
 }
+
+SUPPORTED_SUFFIXES = (".pdf", ".docx", ".txt", ".md")
+
+_LEGACY_WORD_HINT = (
+    "暂不支持旧版 .doc 格式：请在 Word 中「另存为」.docx 或导出 PDF 后再分析。"
+)
 
 
 def normalize_text(text: str) -> str:
@@ -25,22 +44,109 @@ def normalize_text(text: str) -> str:
 
 
 def extract_text(path: str | Path) -> str:
-    """Extract text from .txt/.md/.pdf. PDF uses pdfplumber first, pypdf as fallback."""
+    """Extract text from .pdf/.docx/.txt/.md."""
     path = Path(path)
     suffix = path.suffix.lower()
+
     if suffix in {".txt", ".md"}:
-        return normalize_text(path.read_text(encoding="utf-8", errors="replace"))
+        return normalize_text(_read_text_file(path))
+
+    if suffix == ".docx":
+        text = _docx_text(path)
+        if not text.strip():
+            raise RuntimeError("Word 文件里没有读到文字：请确认正文不是纯图片/扫描件。")
+        return normalize_text(text)
+
+    if suffix == ".doc":
+        raise ValueError(_LEGACY_WORD_HINT)
+
     if suffix == ".pdf":
         text = _pdf_pdfplumber(path)
         if not text.strip():
             text = _pdf_pypdf(path)
         if not text.strip():
             raise RuntimeError(
-                "PDF text extraction returned empty. The PDF may be scanned; "
-                "run OCR (e.g., PaddleOCR) before CiteGuard."
+                "PDF 中没有可提取的文字层，可能是扫描件。请先用 OCR 工具"
+                "（如 PaddleOCR、Adobe Acrobat「识别文本」）转成可搜索 PDF，"
+                "或直接上传 Word 原稿。"
             )
-        return normalize_text(text)
-    raise ValueError(f"Unsupported file type: {suffix}")
+        # Running headers/footers land in the middle of the reference list.
+        return normalize_text(strip_repeated_lines(text))
+
+    raise ValueError(f"不支持的文件类型 {suffix}；当前支持 PDF / DOCX / TXT / MD。")
+
+
+def _read_text_file(path: Path) -> str:
+    """Read a text file, tolerating UTF-8 BOM and GBK-encoded Chinese text."""
+    raw = path.read_bytes()
+    for encoding in ("utf-8-sig", "utf-8", "gb18030"):
+        try:
+            return raw.decode(encoding)
+        except UnicodeDecodeError:
+            continue
+    return raw.decode("utf-8", errors="replace")
+
+
+_PAGE_NUMBER_RE = re.compile(r"^[\s\-–—·|]*\d{1,4}[\s\-–—·|]*$")
+_FOOTER_NOISE_RE = re.compile(
+    r"^(?:doi\s*[:：]?\s*10\.\S+\s*)?\d{1,4}\s*$", re.I
+)
+
+
+_TYPE_MARK_RE = re.compile(r"\[[A-Z]{1,2}(?:/OL)?\]")
+
+
+def _looks_like_page_furniture(key: str) -> bool:
+    """Short repeated line with no sentence punctuation — a running header."""
+    return (
+        len(key) <= 40
+        and not _TYPE_MARK_RE.search(key)
+        and ". " not in key
+        and "。 " not in key
+    )
+
+
+def strip_repeated_lines(text: str, min_repeats: int = 3, max_len: int = 60) -> str:
+    """Drop page headers/footers that repeat across pages.
+
+    PDF text extraction puts running headers (journal name, DOI, page number)
+    in the middle of the reference list, which breaks entry splitting. Two
+    patterns are removed:
+
+    - lines that repeat verbatim (running journal/section titles),
+    - short furniture lines that repeat with only the page number changing
+      (``"心理科学进展 187"``, ``"DOI: 10.xxxx 12"``). Reference entries are
+      excluded from this rule by punctuation and by their ``[J]`` type marks.
+    """
+    lines = text.splitlines()
+    if not lines:
+        return text
+    exact: dict[str, int] = {}
+    templated: dict[str, int] = {}
+    for line in lines:
+        key = line.strip()
+        if not key or len(key) > max_len:
+            continue
+        exact[key] = exact.get(key, 0) + 1
+        template = re.sub(r"\d+", "#", key)
+        templated[template] = templated.get(template, 0) + 1
+
+    kept: list[str] = []
+    for line in lines:
+        key = line.strip()
+        if not key:
+            kept.append(line)
+            continue
+        template = re.sub(r"\d+", "#", key)
+        repeated_exact = exact.get(key, 0) >= min_repeats
+        repeated_template = (
+            templated.get(template, 0) >= min_repeats and _looks_like_page_furniture(key)
+        )
+        page_number = bool(_PAGE_NUMBER_RE.match(line)) or bool(_FOOTER_NOISE_RE.match(key))
+        if repeated_exact or repeated_template or (page_number and exact.get(key, 0) >= 2):
+            continue
+        kept.append(line)
+    return "\n".join(kept)
 
 
 def _pdf_pdfplumber(path: Path) -> str:
@@ -50,10 +156,35 @@ def _pdf_pdfplumber(path: Path) -> str:
         pages: list[str] = []
         with pdfplumber.open(str(path)) as pdf:
             for page in pdf.pages:
-                pages.append(page.extract_text() or "")
+                pages.append(_page_text(page))
         return "\n".join(pages)
     except Exception:
         return ""
+
+
+def _page_text(page) -> str:
+    """Extract one page, handling two-column layouts.
+
+    Chinese journals frequently print two columns; naive ``extract_text``
+    interleaves the columns line by line, which destroys reference entries.
+    When the words split cleanly at the page's vertical midline, each column is
+    cropped and read separately.
+    """
+    try:
+        words = page.extract_words(keep_blank_chars=False)
+    except Exception:
+        return page.extract_text() or ""
+    if not words:
+        return page.extract_text() or ""
+    mid = page.width / 2.0
+    left = [w for w in words if w["x1"] <= mid + 4]
+    right = [w for w in words if w["x0"] >= mid - 4]
+    crossing = len(words) - len(left) - len(right)
+    if len(left) >= 40 and len(right) >= 40 and crossing <= max(2, 0.01 * len(words)):
+        left_text = page.crop((0, 0, mid, page.height)).extract_text() or ""
+        right_text = page.crop((mid, 0, page.width, page.height)).extract_text() or ""
+        return left_text + "\n" + right_text
+    return page.extract_text() or ""
 
 
 def _pdf_pypdf(path: Path) -> str:
@@ -66,21 +197,79 @@ def _pdf_pypdf(path: Path) -> str:
         return ""
 
 
+def _docx_text(path: Path) -> str:
+    """Extract paragraphs and tables from a .docx in document order.
+
+    Chinese theses often put the reference list in a table, so table rows are
+    flattened to ``\\t``-separated lines instead of being dropped.
+    """
+    from docx import Document
+    from docx.table import Table
+    from docx.text.paragraph import Paragraph
+
+    document = Document(str(path))
+    blocks: list[str] = []
+    body = document.element.body
+    for child in body.iterchildren():
+        tag = child.tag.rsplit("}", 1)[-1]
+        if tag == "p":
+            blocks.append(Paragraph(child, document).text)
+        elif tag == "tbl":
+            table = Table(child, document)
+            for row in table.rows:
+                cells = [cell.text.strip() for cell in row.cells]
+                line = "\t".join(cell for cell in cells if cell)
+                if line:
+                    blocks.append(line)
+    return "\n".join(blocks)
+
+
+def _normalize_heading(line: str) -> str:
+    s = line.strip().lower().rstrip(":：")
+    # Markdown heading marks and list bullets ("## 参考文献", "- References")
+    s = re.sub(r"^[#*\-–—\s]+", "", s)
+    # Numbered headings: "7 参考文献", "7. 参考文献", "7、参考文献", "IV. References"
+    s = re.sub(r"^(?:[0-9]+|[ivx]+)(?:[.、)）]\s*|\s+)", "", s)
+    return s.strip()
+
+
+_REF_HEADING_PREFIXES = sorted(_REF_HEADINGS, key=len, reverse=True)
+_HEADING_TAIL_CHARS = set("：:（(),，.．;；/ \t")
+
+
 def split_references(text: str) -> tuple[str, str]:
     """Split a paper into (body, references_text).
 
-    Looks for a heading line such as 参考文献 / References / Bibliography.
-    If not found, returns (text, "") so callers can pass an explicit reference file.
+    Recognizes Chinese/English reference headings on their own line, including
+    Markdown headings, numbered headings and wrappers such as
+    ``## 参考文献``, ``7 参考文献``, ``参考文献（References）`` or
+    ``参考文献：[1] 张三...``.
+
+    When the heading appears several times (table of contents, cross references),
+    the last occurrence followed by a substantial block wins, because the
+    reference list lives at the end of the document. If no heading is found,
+    returns ``(text, "")`` so the caller can treat the whole input as a list.
     """
     lines = text.splitlines()
+    hits: list[tuple[int, list[str]]] = []
     for i, line in enumerate(lines):
-        s = line.strip().lower().rstrip(":：")
-        # strip Markdown heading marks and bullets: "## 参考文献", "- References"
-        s = re.sub(r"^[#*\-–—\s]+", "", s).strip()
+        s = _normalize_heading(line)
         if not s:
             continue
-        if s in _REF_HEADINGS or s.startswith("参考文献") or s.startswith("參考文獻"):
-            return "\n".join(lines[:i]), "\n".join(lines[i + 1 :])
-        if s.startswith("references") or s.startswith("bibliography"):
-            return "\n".join(lines[:i]), "\n".join(lines[i + 1 :])
-    return text, ""
+        for heading in _REF_HEADING_PREFIXES:
+            matched = False
+            inline = ""
+            if s == heading:
+                matched = True
+            elif s.startswith(heading) and s[len(heading)] in _HEADING_TAIL_CHARS:
+                matched = True
+                inline = s[len(heading) :].lstrip("".join(_HEADING_TAIL_CHARS))
+            if matched:
+                rest = ([inline] if inline else []) + lines[i + 1 :]
+                hits.append((i, rest))
+                break
+    if not hits:
+        return text, ""
+    substantial = [h for h in hits if len("\n".join(h[1]).strip()) >= 200]
+    index, rest = substantial[-1] if substantial else hits[-1]
+    return "\n".join(lines[:index]), "\n".join(rest)

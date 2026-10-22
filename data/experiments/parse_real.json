@@ -1,0 +1,447 @@
+{
+  "summary": {
+    "papers": 12,
+    "published_refs": 224,
+    "pdf_refs": 345,
+    "published_clean_ratio": 0.996,
+    "pdf_clean_ratio": 0.992,
+    "pdf_heading_found": 12
+  },
+  "papers": [
+    {
+      "title": "n阶复线性微分方程的无穷φ-级解",
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152595",
+      "published_list": {
+        "count": 9,
+        "coverage": {
+          "title": 1.0,
+          "authors": 1.0,
+          "year": 1.0,
+          "doc_type": 1.0,
+          "venue": 0.778,
+          "doi": 0.889,
+          "pages": 0.556
+        },
+        "problems": {},
+        "clean_ratio": 1.0
+      },
+      "pdf_path": {
+        "count": 9,
+        "coverage": {
+          "title": 1.0,
+          "authors": 1.0,
+          "year": 1.0,
+          "doc_type": 1.0,
+          "venue": 0.889,
+          "doi": 0.889,
+          "pages": 0.556
+        },
+        "problems": {},
+        "clean_ratio": 1.0,
+        "split_found_heading": true,
+        "entries_by_marks": 9
+      }
+    },
+    {
+      "title": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152594",
+      "published_list": {
+        "count": 37,
+        "coverage": {
+          "title": 1.0,
+          "authors": 1.0,
+          "year": 1.0,
+          "doc_type": 1.0,
+          "venue": 0.892,
+          "doi": 0.432,
+          "pages": 0.838
+        },
+        "problems": {},
+        "clean_ratio": 1.0
+      },
+      "pdf_path": {
+        "count": 37,
+        "coverage": {
+          "title": 1.0,
+          "authors": 1.0,
+          "year": 1.0,
+          "doc_type": 1.0,
+          "venue": 0.919,
+          "doi": 0.243,
+          "pages": 0.838
+        },
+        "problems": {},
+        "clean_ratio": 1.0,
+        "split_found_heading": true,
+        "entries_by_marks": 0
+      }
+    },
+    {
+      "title": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作用",
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152593",
+      "published_list": {
+        "count": 40,
+        "coverage": {
+          "title": 1.0,
+          "authors": 1.0,
+          "year": 1.0,
+          "doc_type": 1.0,
+          "venue": 0.95,
+          "doi": 0.75,
+          "pages": 0.925
+        },
+        "problems": {},
+        "clean_ratio": 1.0
+      },
+      "pdf_path": {
+        "count": 40,
+        "coverage": {
+          "title": 1.0,
+          "authors": 1.0,
+          "year": 1.0,
+          "doc_type": 1.0,
+          "venue": 0.925,
+          "doi": 0.45,
+          "pages": 0.85
+        },
+        "problems": {},
+        "clean_ratio": 1.0,
+        "split_found_heading": true,
+        "entries_by_marks": 0
+      }
+    },
+    {
+      "title": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152592",
+      "published_list": {
+        "count": 34,
+        "coverage": {
+          "title": 1.0,
+          "authors": 1.0,
+          "year": 1.0,
+          "doc_type": 1.0,
+          "venue": 0.882,
+          "doi": 0.5,
+          "pages": 0.676
+        },
+        "problems": {},
+        "clean_ratio": 1.0
+      },
+      "pdf_path": {
+        "count": 34,
+        "coverage": {
+          "title": 1.0,
+          "authors": 1.0,
+          "year": 1.0,
+          "doc_type": 1.0,
+          "venue": 0.882,
+          "doi": 0.265,
+          "pages": 0.676
+        },
+        "problems": {},
+        "clean_ratio": 1.0,
+        "split_found_heading": true,
+        "entries_by_marks": 0
+      }
+    },
+    {
+      "title": "解模糊约束软子空间聚类",
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152577",
+      "published_list": {
+        "count": 27,
+        "coverage": {
+          "title": 1.0,
+          "authors": 1.0,
+          "year": 1.0,
+          "doc_type": 1.0,
+          "venue": 0.889,
+          "doi": 0.889,
+          "pages": 0.889
+        },
+        "problems": {
+          "authors_many": 1
+        },
+        "clean_ratio": 0.963
+      },
+      "pdf_path": {
+        "count": 27,
+        "coverage": {
+          "title": 1.0,
+          "authors": 1.0,
+          "year": 1.0,
+          "doc_type": 1.0,
+          "venue": 0.926,
+          "doi": 0.889,
+          "pages": 0.889
+        },
+        "problems": {
+          "authors_many": 1
+        },
+        "clean_ratio": 0.963,
+        "split_found_heading": true,
+        "entries_by_marks": 27
+      }
+    },
+    {
+      "title": "中小电商企业ERP与CRM系统集成障碍与优化路径研究",
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152576",
+      "published_list": {
+        "count": 13,
+        "coverage": {
+          "title": 1.0,
+          "authors": 1.0,
+          "year": 1.0,
+          "doc_type": 1.0,
+          "venue": 0.923,
+          "doi": 0.0,
+          "pages": 0.923
+        },
+        "problems": {},
+        "clean_ratio": 1.0
+      },
+      "pdf_path": {
+        "count": 13,
+        "coverage": {
+          "title": 1.0,
+          "authors": 1.0,
+          "year": 1.0,
+          "doc_type": 1.0,
+          "venue": 0.923,
+          "doi": 0.077,
+          "pages": 0.923
+        },
+        "problems": {},
+        "clean_ratio": 1.0,
+        "split_found_heading": true,
+        "entries_by_marks": 13
+      }
+    },
+    {
+      "title": "人工智能在电子商务领域应用的研究图景与热点分析——基于国际核心文献的计量分析",
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152575",
+      "published_list": {
+        "count": 15,
+        "coverage": {
+          "title": 1.0,
+          "authors": 1.0,
+          "year": 1.0,
+          "doc_type": 1.0,
+          "venue": 0.933,
+          "doi": 0.867,
+          "pages": 1.0
+        },
+        "problems": {},
+        "clean_ratio": 1.0
+      },
+      "pdf_path": {
+        "count": 15,
+        "coverage": {
+          "title": 1.0,
+          "authors": 1.0,
+          "year": 1.0,
+          "doc_type": 1.0,
+          "venue": 1.0,
+          "doi": 0.867,
+          "pages": 1.0
+        },
+        "problems": {},
+        "clean_ratio": 1.0,
+        "split_found_heading": true,
+        "entries_by_marks": 15
+      }
+    },
+    {
+      "title": "内容电商场景下传媒生产的要素重构与交易闭环机制",
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152574",
+      "published_list": {
+        "count": 11,
+        "coverage": {
+          "title": 1.0,
+          "authors": 1.0,
+          "year": 1.0,
+          "doc_type": 1.0,
+          "venue": 1.0,
+          "doi": 0.0,
+          "pages": 1.0
+        },
+        "problems": {},
+        "clean_ratio": 1.0
+      },
+      "pdf_path": {
+        "count": 11,
+        "coverage": {
+          "title": 1.0,
+          "authors": 1.0,
+          "year": 1.0,
+          "doc_type": 1.0,
+          "venue": 1.0,
+          "doi": 0.182,
+          "pages": 1.0
+        },
+        "problems": {},
+        "clean_ratio": 1.0,
+        "split_found_heading": true,
+        "entries_by_marks": 11
+      }
+    },
+    {
+      "title": "电子商务平台数据安全困境及优化路径",
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152573",
+      "published_list": {
+        "count": 14,
+        "coverage": {
+          "title": 1.0,
+          "authors": 1.0,
+          "year": 1.0,
+          "doc_type": 1.0,
+          "venue": 1.0,
+          "doi": 0.071,
+          "pages": 0.929
+        },
+        "problems": {},
+        "clean_ratio": 1.0
+      },
+      "pdf_path": {
+        "count": 14,
+        "coverage": {
+          "title": 1.0,
+          "authors": 1.0,
+          "year": 1.0,
+          "doc_type": 1.0,
+          "venue": 1.0,
+          "doi": 0.214,
+          "pages": 0.929
+        },
+        "problems": {},
+        "clean_ratio": 1.0,
+        "split_found_heading": true,
+        "entries_by_marks": 14
+      }
+    },
+    {
+      "title": "电商经济下园林元素促进文旅融合发展的营销策略研究",
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152572",
+      "published_list": {
+        "count": 24,
+        "coverage": {
+          "title": 1.0,
+          "authors": 1.0,
+          "year": 1.0,
+          "doc_type": 1.0,
+          "venue": 0.792,
+          "doi": 0.0,
+          "pages": 0.792
+        },
+        "problems": {},
+        "clean_ratio": 1.0
+      },
+      "pdf_path": {
+        "count": 24,
+        "coverage": {
+          "title": 1.0,
+          "authors": 1.0,
+          "year": 1.0,
+          "doc_type": 1.0,
+          "venue": 0.792,
+          "doi": 0.083,
+          "pages": 0.833
+        },
+        "problems": {},
+        "clean_ratio": 1.0,
+        "split_found_heading": true,
+        "entries_by_marks": 24
+      }
+    },
+    {
+      "title": "A Fractal Approach to Identifying Urban Boundaries. 城市边界识别的分",
+      "source": "D:\\ai+ky\\citeguard\\data\\real_corpus\\W2098348787.pdf",
+      "pdf_path": {
+        "count": 51,
+        "coverage": {
+          "title": 1.0,
+          "authors": 1.0,
+          "year": 1.0,
+          "doc_type": 1.0,
+          "venue": 0.686,
+          "doi": 0.0,
+          "pages": 0.098
+        },
+        "problems": {
+          "title_long": 1
+        },
+        "clean_ratio": 0.98,
+        "split_found_heading": true,
+        "entries_by_marks": 0
+      }
+    },
+    {
+      "title": "变量间的网络分析模型及其应用",
+      "source": "D:\\ai+ky\\citeguard\\data\\real_corpus\\W2996762219.pdf",
+      "pdf_path": {
+        "count": 70,
+        "coverage": {
+          "title": 0.986,
+          "authors": 0.986,
+          "year": 1.0,
+          "doc_type": 1.0,
+          "venue": 0.871,
+          "doi": 0.486,
+          "pages": 0.657
+        },
+        "problems": {
+          "authors_many": 1,
+          "title_empty": 1,
+          "title_long": 1,
+          "authors_empty": 1
+        },
+        "clean_ratio": 0.957,
+        "split_found_heading": true,
+        "entries_by_marks": 0
+      }
+    }
+  ],
+  "examples": [
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152577",
+      "kind": "published",
+      "problem": "authors_many",
+      "raw": "[6] Zhang, W., Deng, Z., Ding, W., Zhou, J., Zhang, T., Choi, K., et al. (2026) Enhanced One-Step Incomplete Multiview Fuzzy Clustering with Dual Representation Learning. IEEE Transactions on Fuzzy Systems, 34, 966-980. https://doi.org/10.1"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152577",
+      "kind": "pdf",
+      "problem": "authors_many",
+      "raw": "[6] Zhang, W., Deng, Z., Ding, W., Zhou, J., Zhang, T., Choi, K., et al. (2026) Enhanced One-Step Incomplete Multiview Fuzzy Clustering with Dual Representation Learning. IEEE Transactions on Fuzzy Systems, 34, 966-980. https://doi.org/10.1"
+    },
+    {
+      "source": "D:\\ai+ky\\citeguard\\data\\real_corpus\\W2098348787.pdf",
+      "kind": "pdf",
+      "problem": "title_long",
+      "raw": "Caruso, G. (2001). \"Peri-Urbanisation: the Situation in Europe - A Bibliographical Note and Survey of Studies In the Netherlands, Belgium, Great Britain, Germany, Italy and the Nordic Countries.\" Report prepared for the DATAR (with contribu"
+    },
+    {
+      "source": "D:\\ai+ky\\citeguard\\data\\real_corpus\\W2996762219.pdf",
+      "kind": "pdf",
+      "problem": "authors_many",
+      "raw": "Bekhuis, E., Schoevers, R., de Boer, M., Peen, J., Dekker, J., van, H., & Boschloo, L. (2018). Symptom-Specific effects of psychotherapy versus combined therapy in the treatment of mild to moderate depression: A network approach. Psychother"
+    },
+    {
+      "source": "D:\\ai+ky\\citeguard\\data\\real_corpus\\W2996762219.pdf",
+      "kind": "pdf",
+      "problem": "title_empty",
+      "raw": "J. (2017)."
+    },
+    {
+      "source": "D:\\ai+ky\\citeguard\\data\\real_corpus\\W2996762219.pdf",
+      "kind": "pdf",
+      "problem": "title_long",
+      "raw": "False alarm? A comprehensive reanalysis of “Evidence that psychopathology symptom networks have limited replicability” by Forbes, Wright, Markon, and Krueger (2017). Journal of Abnormal Psychology, 126(7), 989–999. https://doi.org/10.1037/a"
+    },
+    {
+      "source": "D:\\ai+ky\\citeguard\\data\\real_corpus\\W2996762219.pdf",
+      "kind": "pdf",
+      "problem": "authors_empty",
+      "raw": "False alarm? A comprehensive reanalysis of “Evidence that psychopathology symptom networks have limited replicability” by Forbes, Wright, Markon, and Krueger (2017). Journal of Abnormal Psychology, 126(7), 989–999. https://doi.org/10.1037/a"
+    }
+  ]
+}

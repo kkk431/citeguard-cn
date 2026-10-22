@@ -1,4 +1,4 @@
-:root{
+﻿:root{
   --paper:#F7F6F3; --surface:#FFFFFF; --ink:#161616; --ink-2:#4B4B4B; --muted:#8A8A8A;
   --line:#E4E1DA; --line-strong:#CFC9BE; --accent:#A63D2F; --accent-soft:#F3E7E3;
   --ok:#1F7A4D; --ok-soft:#E7F2EC; --warn:#B26A00; --warn-soft:#FBF0DF;
@@ -63,6 +63,11 @@ button{font-family:inherit}
 textarea,input[type=text]{width:100%;border:1px solid var(--line);border-radius:var(--radius-sm);background:var(--paper);padding:12px 14px;font-family:var(--sans);font-size:13px;color:var(--ink);resize:vertical}
 textarea:focus,input:focus{outline:none;border-color:var(--accent);background:var(--surface)}
 .upload-actions{display:flex;gap:10px;margin-top:14px}
+.upload-options{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.upload-options .opt{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink-2)}
+.upload-options select{font-family:var(--sans);font-size:12px;color:var(--ink);background:var(--paper);border:1px solid var(--line-strong);border-radius:var(--radius-sm);padding:6px 8px}
+.upload-options select:focus{outline:none;border-color:var(--accent)}
+.upload-options .opt-hint{font-size:11px;color:var(--muted);flex:1;min-width:220px;line-height:1.6}
 
 /* buttons */
 .btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);border-radius:var(--radius-sm);padding:8px 16px;font-size:13px;cursor:pointer;transition:all .15s;line-height:1.4}
@@ -107,7 +112,7 @@ textarea:focus,input:focus{outline:none;border-color:var(--accent);background:va
 .report-head h1{font-family:var(--serif);font-size:26px;font-weight:600;margin:0 0 6px}
 .report-head .meta{font-size:12px;color:var(--muted);font-family:var(--mono)}
 .report-actions{display:flex;gap:8px;flex-wrap:wrap}
-.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:18px}
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;margin-bottom:18px}
 .stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
 .stat b{display:block;font-size:28px;line-height:1.2;font-weight:600}
 .stat span{font-size:11px;color:var(--muted)}
@@ -173,7 +178,7 @@ textarea:focus,input:focus{outline:none;border-color:var(--accent);background:va
   .hero{grid-template-columns:1fr;gap:28px;padding-top:40px}
   .hero h1{font-size:30px}
   .preview{display:none}
-  .stats{grid-template-columns:repeat(2,1fr)}
+  .stats{grid-template-columns:repeat(3,1fr)}
   .metric-grid{grid-template-columns:repeat(2,1fr)}
   .arch{grid-template-columns:1fr;gap:6px}
   .arch .arrow{display:none}
@@ -188,3 +193,25 @@ textarea:focus,input:focus{outline:none;border-color:var(--accent);background:va
   .riskpanel{grid-template-columns:1fr}
   .btn{padding:7px 12px}
 }
+
+/* print: the report doubles as a handout */
+@media print{
+  :root{--paper:#fff;--surface:#fff}
+  body{background:#fff}
+  .topbar,.footer,.report-actions,.toolbar,.back,#toast,#report-loading{display:none!important}
+  .wrap{max-width:none;padding:0 8px}
+  .report-head{padding:0 0 12px}
+  .ref,.panel,.riskpanel,.stats{break-inside:avoid;box-shadow:none!important}
+  .ref{page-break-inside:avoid;border:1px solid #bbb}
+  .pill{border:1px solid #999}
+  a{color:inherit;text-decoration:none}
+  .chip-needs{display:none}
+}
+
+/* suggested GB/T entry built from database metadata */
+.ref-suggest{margin-top:10px;border-top:1px dashed var(--line);padding-top:10px;display:flex;flex-wrap:wrap;gap:8px;align-items:flex-start}
+.ref-suggest .mono-sm{flex-basis:100%;color:var(--muted)}
+.ref-suggest code{flex:1;min-width:240px;font-family:var(--sans);font-size:12px;line-height:1.7;color:var(--ink-2);background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-sm);padding:8px 10px;white-space:pre-wrap;word-break:break-word}
+
+/* explanatory note for unverified/unknown entries */
+.ref-note{margin-top:8px;font-size:12px;line-height:1.7;color:#7a5b1e;background:#fdf6e7;border-left:2px solid #c9a86a;padding:6px 10px}

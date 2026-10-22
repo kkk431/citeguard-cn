@@ -1,0 +1,55 @@
+{
+  "generated_at": "2026-10-22T14:21:54+00:00",
+  "provider": "Europe PMC (open access full-text XML)",
+  "license_note": "两篇原文均为 CC BY（Europe PMC license 字段），此处仅保存节选用于内部可用性自测。",
+  "papers": [
+    {
+      "id": "paper_b",
+      "pmcid": "PMC5973012",
+      "filename": "paper_b_lung_cancer_screening_2018.txt",
+      "note": "中国肺癌低剂量螺旋CT筛查指南（2018年版），中国肺癌杂志",
+      "pmid": "29526173",
+      "doi": "10.3779/j.issn.1009-3419.2018.02.01",
+      "title": "[China National Lung Cancer Screening Guideline with Low-dose Computed  Tomography (2018 version)].",
+      "journal": "Zhongguo fei ai za zhi = Chinese journal of lung cancer",
+      "year": "2018",
+      "license": "cc by",
+      "is_open_access": "Y",
+      "fulltext_api": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC5973012/fullTextXML",
+      "excerpt": "标题 + 摘要 + 1 段含引注的正文 + 前 12 条参考文献"
+    },
+    {
+      "id": "paper_c",
+      "pmcid": "PMC6000694",
+      "filename": "paper_c_lung_cancer_projection_2010.txt",
+      "note": "中国肺癌发病与死亡估计与预测（2010），中国肺癌杂志",
+      "pmid": "20677647",
+      "doi": "10.3779/j.issn.1009-3419.2010.05.20",
+      "title": "[Estimation and projection of lung cancer incidence and mortality in China].",
+      "journal": "Zhongguo fei ai za zhi = Chinese journal of lung cancer",
+      "year": "2010",
+      "license": "cc by",
+      "is_open_access": "Y",
+      "fulltext_api": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC6000694/fullTextXML",
+      "excerpt": "标题 + 摘要 + 4 段含引注的正文 + 前 9 条参考文献"
+    }
+  ],
+  "prepared": [
+    {
+      "id": "paper_b",
+      "filename": "paper_b_lung_cancer_screening_2018.txt",
+      "chars": 3585,
+      "references": 12,
+      "body_paragraphs": 1,
+      "sha256": "d16d0093cb2a24335352e38eac8fa4e263aba7e68e947d4598178397d6eacfb7"
+    },
+    {
+      "id": "paper_c",
+      "filename": "paper_c_lung_cancer_projection_2010.txt",
+      "chars": 3009,
+      "references": 9,
+      "body_paragraphs": 4,
+      "sha256": "83b48e5eebed15e26e5424c0bee8e70dddf35274c1f8815e647a2bc59c08c9fc"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+# 中国肺癌低剂量螺旋CT筛查指南（2018年版）
+
+> 来源：Zhongguo fei ai za zhi = Chinese journal of lung cancer 2018｜DOI: 10.3779/j.issn.1009-3419.2018.02.01｜PMC5973012｜许可: cc by。本文件为公开论文的节选：标题/摘要/正文段落来自欧洲 PMC 全文 XML，文后引用列表取原文文献表中可渲染的前 12 条（原文 43 条，题名/年份缺失的政府报告等条目已跳过）并按 GB/T 7714 风格重排（字段全部来自原文，仅统一标点与类型标识）；仅用于内部可用性自测。
+
+## 摘要
+背景与目的肺癌是导致中国癌症死亡的首要原因。已有的研究证明低剂量螺旋CT在肺癌高危人群进行肺癌筛查能降低20%的肺癌死亡。本研究的目的是建立适合中国国情的肺癌筛查指南。方法由国家卫计委任命的中国肺癌早诊早治专家组专家及部分非专家组专家，包括：4名胸外科专家、4名胸部影像学专家、2名肿瘤学专家、2名肺内科专家、2名病理学专家和2名流行病学专家，共同参与了本指南的制定工作。专家们在系统评价了美国NLST和中国农村肺癌LDCT筛查结果及经验，并达成共识的基础上，共同推荐了本肺癌筛查指南。结果本指南推荐的肺癌高危人群为：年龄50岁-74岁；吸烟20包/年，或者戒烟5年。参与肺癌LDCT筛查前，需要获得筛查者的知情同意。肺癌筛查需与健康教育结合，向患者宣传吸烟对健康的危害。因此，健康教育应该整合到肺癌筛查全过程，以便帮助患者戒烟。结论LDCT筛查能降低肺癌死亡率，本指南推荐中国肺癌高危人群进行LDCT筛查。但是，未来需要进行更多的研究，包括LDCT联合生物标志物用于肺癌筛查的研究，以优化肺癌LDCT筛查方法及技术。
+
+## 1 引言
+
+肺癌是全球癌症死亡的首位原因[1]。由于人口老龄化和空气污染呈不断加重趋势，且吸烟率居高不下，自21世纪初期，肺癌已成为我国死亡率最高的恶性肿瘤[2, 3]。2015年，我国肺癌的发病和死亡例数分别达733, 300人和610, 200人，发病率和死亡率非常接近，其原因主要是由于临床诊断病例多已为晚期，失去了手术机会。肺癌预后极差，我国肺癌的5年生存率仅为16.1%[4]。因此，肺癌的早期诊断和早期治疗是提高肺癌生存、降低肺癌死亡率的重要措施[5]。
+
+## 参考文献
+[1] Ferlay J, Soerjomataram I, Dikshit R. Cancer incidence and mortality worldwide: sources, methods and major patterns in GLOBOCAN 2012[J]. Int J Cancer, 2015, 136(5). DOI: 10.1002/ijc.29210.
+[2] Zheng R, Zeng H, Zhang S. Lung cancer incidence and mortality in China, 2010[J]. Thorac Cancer, 2014, 5(4): 330-336. DOI: 10.1111/1759-7714.12098.
+[3] Chen W, Zheng R, Baade PD. Cancer statistics in China, 2015[J]. CA Cancer J Clin, 2016, 66(2): 115-132. DOI: 10.3322/caac.21338.
+[4] Zeng H, Zheng R, Guo Y. Cancer survival in China, 2003-2005: a population-based study[J]. Int J Cancer, 2015, 136(8): 1921-1930. DOI: 10.1002/ijc.29227.
+[5] Aberle DR, Adams AM, Berg CD. National Lung Screening Trial Research Team. Reduced lung-cancer mortality with low-dose computed tomographic screening[J]. N Engl J Med, 2011, 365(5): 395-409. DOI: 10.1056/NEJMoa1102873.
+[6] Detterbeck FC, Mazzone PJ, Naidich DP. Screening for lung cancer. Diagnosis and management of lung cancer, 3rd ed: American College of Chest Physicians evidence based clinical practice guidelines[J]. Chest, 2013, 143: e78S-e92S. DOI: 10.1378/chest.12-2350.
+[7] Jaklitsch MT, Jacobson FL, Austin JH. The American Association for Thoracic Surgery guidelines for lung cancer screening using low-dose computed tomography scans for lung cancer survivors and other high-risk groups[J]. J Thorac Cardiovasc Surg, 2012, 144: 33-38. DOI: 10.1016/j.jtcvs.2012.05.060.
+[8] Field JK, Smith RA, Aberle DR. IASLC CT Screening Workshop 2011 Participants. International association for the study of lung cancer computed tomography screening workshop. 2011 report[J]. J Thorac Oncol, 2012, 7(1): 10-19. DOI: 10.1097/JTO.0b013e31823c58ab.
+[9] Wender R, Fontham ET, Barrera E Jr. American Cancer Society lung cancer screening guidelines[J]. CA Cancer J Clin, 2013, 63(2): 107-117. DOI: 10.3322/caac.21172.
+[10] Smith RA, Manassaram-Baptiste D, Brooks D. Cancer screening in the United States, 2015: a review of current American cancer society guidelines and current issues in cancer screening[J]. CA Cancer J Clin, 2015, 65(1): 30-54. DOI: 10.3322/caac.21261.
+[11] Moyer VA. Screening for lung cancer: U.S. Preventive Services Task Force recommendation statement[J]. Ann Intern Med, 2014, 160(5): 330-338. DOI: 10.7326/M13-2771.
+[12] Jaklitsch MT, Jacobson FL, Austin JH. The American Association for Thoracic Surgery guidelines for lung cancer screening using low-dose computed tomography scans for lung cancer survivors and other high-risk groups[J]. J Thorac Cardiovasc Surg, 2012, 144(1): 33-38. DOI: 10.1016/j.jtcvs.2012.05.060.

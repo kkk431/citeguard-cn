@@ -76,6 +76,8 @@
       } else {
         fd.append("text", paste.value);
       }
+      const supportMax = document.getElementById("support-max");
+      if (supportMax) fd.append("support_max", supportMax.value);
       const data = await window.CiteGuard.postForm("/api/analyze", fd);
       window.location.href = "/report/" + data.job_id;
     } catch (err) {

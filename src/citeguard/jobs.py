@@ -7,7 +7,9 @@ not lose the index. Heavy work runs in a small thread pool; the front-end polls
 from __future__ import annotations
 
 import json
+import shutil
 import threading
+import time
 import traceback
 import uuid
 from concurrent.futures import ThreadPoolExecutor
@@ -69,6 +71,15 @@ class JobManager:
             snapshot = dict(job)
         self._persist(snapshot)
 
+    def discard(self, job_id: str) -> None:
+        """Remove a job that never started (e.g. rejected upload)."""
+        with self._lock:
+            self._jobs.pop(job_id, None)
+        try:
+            (JOBS_DIR / f"{job_id}.json").unlink(missing_ok=True)
+        except Exception:
+            pass
+
     def submit(self, job_id: str, fn: Callable, *args, **kwargs) -> None:
         self._executor.submit(self._run, job_id, fn, args, kwargs)
 
@@ -101,6 +112,39 @@ class JobManager:
             except Exception:
                 continue
         return jobs
+
+    def cleanup(self, keep_recent: int = 100, max_age_days: int = 7) -> dict:
+        """Delete stale job records and their report directories.
+
+        Reports contain citation text from uploaded papers, so old ones are
+        removed instead of being kept forever.
+        """
+        removed = {"records": 0, "reports": 0}
+        cutoff = time.time() - max_age_days * 86400
+        try:
+            records = sorted(JOBS_DIR.glob("*.json"), key=lambda p: p.stat().st_mtime, reverse=True)
+        except Exception:
+            return removed
+        for i, path in enumerate(records):
+            try:
+                stale = i >= keep_recent or path.stat().st_mtime < cutoff
+            except OSError:
+                continue
+            if not stale:
+                continue
+            job_id = path.stem
+            with self._lock:
+                self._jobs.pop(job_id, None)
+            try:
+                path.unlink()
+                removed["records"] += 1
+            except OSError:
+                pass
+            job_dir = JOBS_DIR / job_id
+            if job_dir.is_dir():
+                shutil.rmtree(job_dir, ignore_errors=True)
+                removed["reports"] += 1
+        return removed
 
 
 manager = JobManager()

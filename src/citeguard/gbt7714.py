@@ -162,9 +162,16 @@ def check_punctuation(ref: Reference) -> list[Issue]:
         return issues
     if ref.doc_type in KNOWN_TYPES:
         m = re.search(r"(.?)\[%s(?:/OL)?\]" % re.escape(ref.doc_type), ref.raw)
-        if m and m.group(1) not in {".", "．", ""}:
+        # GB/T 7714 顺序编码制把文献类型标识紧跟在题名之后（题名[J]），
+        # 题名与标识之间不应出现句点；出现「题名.[J]」才是需要报出的缺陷。
+        if m and m.group(1) in {".", "．"}:
             issues.append(
-                Issue("error", "punctuation", "题名与文献类型标识之间缺少“.”", "改为“题名[类型标识]”")
+                Issue(
+                    "error",
+                    "punctuation",
+                    "题名与文献类型标识之间不应有“.”",
+                    "改为“题名[类型标识]”",
+                )
             )
     if not re.search(r"[.．。]\s*$", ref.raw.strip()) and not ref.url:
         issues.append(Issue("warning", "punctuation", "条目末尾缺少“.”", "在条目末尾补“.”"))

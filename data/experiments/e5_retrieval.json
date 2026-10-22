@@ -1,0 +1,5432 @@
+{
+  "experiment": "E5",
+  "title": "CiteBench-CN 检索与延迟统计",
+  "generated_at": "2026-10-22T14:24:32+00:00",
+  "seed": 20261022,
+  "code_snapshot": {
+    "src/citeguard/metadata_verify.py": {
+      "sha256_16": "f4cf038868ac4491",
+      "mtime": "2026-10-22T22:19:40"
+    },
+    "src/citeguard/reference_parser.py": {
+      "sha256_16": "dcaf624b75d7edc0",
+      "mtime": "2026-10-22T22:24:09"
+    },
+    "src/citeguard/gbt7714.py": {
+      "sha256_16": "0c86cfb0351bc67b",
+      "mtime": "2026-10-22T22:14:24"
+    }
+  },
+  "dataset": {
+    "path": "data\\citebench_cn\\citebench_cn.jsonl",
+    "n": 250,
+    "sha256": "1a8e466b952cd1fef9fc2f897d18053eed7f91596c9d9d91d63fed2f961891d7"
+  },
+  "cache": {
+    "citebench_cache_dir": "data\\citebench_cn\\cache",
+    "citebench_cache_files": 1583,
+    "warm_miss_dir": "data\\experiments\\cache_e5",
+    "cold_dir": "data\\experiments\\cache_e5_cold"
+  },
+  "metrics": {
+    "n": 250,
+    "doi_anchor": {
+      "doi_present": 175,
+      "resolved": 138,
+      "not_found": 33,
+      "error": 4,
+      "anchor_hit_rate_all": 0.7886,
+      "genuine_doi": 138,
+      "genuine_resolved": 138,
+      "genuine_hit_rate": 1.0,
+      "fabricated_doi": 37,
+      "fabricated_404": 33,
+      "fabricated_404_rate": 0.8919,
+      "note": "fabricated DOIs (10.9999/...) are expected to 404; they are excluded from genuine_hit_rate"
+    },
+    "title_fallback": {
+      "no_doi_items": 75,
+      "candidate_found": 75,
+      "candidate_found_rate": 1.0,
+      "title_match_ge_0_90": 52,
+      "title_match_rate": 0.6933,
+      "by_label": {
+        "Exact": {
+          "n": 30,
+          "candidate_found": 30,
+          "title_match_ge_0.90": 30
+        },
+        "Minor": {
+          "n": 22,
+          "candidate_found": 22,
+          "title_match_ge_0.90": 22
+        },
+        "Major": {
+          "n": 23,
+          "candidate_found": 23,
+          "title_match_ge_0.90": 0
+        }
+      }
+    },
+    "field_comparison": {
+      "triggered": 190,
+      "rate": 0.76,
+      "items_with_candidate": 213
+    },
+    "latency_warm": {
+      "all": {
+        "n": 250,
+        "mean_ms": 236.9,
+        "median_ms": 7.2,
+        "p90_ms": 1373.8,
+        "p95_ms": 1473.0,
+        "max_ms": 1701.3,
+        "min_ms": 3.1
+      },
+      "doi_present": {
+        "n": 175,
+        "mean_ms": 332.7,
+        "median_ms": 7.0,
+        "p90_ms": 1427.1,
+        "p95_ms": 1497.5,
+        "max_ms": 1701.3,
+        "min_ms": 3.1
+      },
+      "no_doi": {
+        "n": 75,
+        "mean_ms": 13.3,
+        "median_ms": 7.3,
+        "p90_ms": 13.1,
+        "p95_ms": 15.6,
+        "max_ms": 327.2,
+        "min_ms": 3.6
+      },
+      "wall_s": 59.22
+    },
+    "latency_cold": {
+      "n": 12,
+      "all": {
+        "n": 12,
+        "mean_ms": 1620.9,
+        "median_ms": 1541.1,
+        "p90_ms": 2254.6,
+        "p95_ms": 2254.6,
+        "max_ms": 2337.0,
+        "min_ms": 1235.9
+      },
+      "doi_present": {
+        "n": 6,
+        "mean_ms": 1801.1,
+        "median_ms": 1566.5,
+        "p90_ms": 2254.6,
+        "p95_ms": 2337.0,
+        "max_ms": 2337.0,
+        "min_ms": 1528.7
+      },
+      "no_doi": {
+        "n": 6,
+        "mean_ms": 1440.7,
+        "median_ms": 1408.2,
+        "p90_ms": 1436.2,
+        "p95_ms": 1791.1,
+        "max_ms": 1791.1,
+        "min_ms": 1235.9
+      },
+      "http_request_ms": {
+        "n": 26,
+        "mean_ms": 669.9,
+        "median_ms": 820.9,
+        "p90_ms": 1047.0,
+        "p95_ms": 1090.1,
+        "max_ms": 1409.8,
+        "min_ms": 188.1
+      },
+      "reused": true
+    },
+    "external_requests": {
+      "warm_http_requests": 80,
+      "cold_http_requests": 26,
+      "total_http_requests": 80,
+      "http_404_total": 79,
+      "infra_failures_total": 1,
+      "infra_failure_rate": 0.0125,
+      "non_200_total": 80,
+      "failure_rate_all_non_200": 1.0,
+      "warm": {
+        "http_requests": 80,
+        "http_non_200": 80,
+        "http_404": 79,
+        "infra_failures": 1,
+        "failure_rate_all_non_200": 1.0,
+        "infra_failure_rate": 0.0125,
+        "by_host": {
+          "api.crossref.org": {
+            "requests": 42,
+            "non_200": 42,
+            "http_404": 42,
+            "infra_failures": 0
+          },
+          "api.openalex.org": {
+            "requests": 38,
+            "non_200": 38,
+            "http_404": 37,
+            "infra_failures": 1
+          }
+        },
+        "http_statuses": {
+          "404": 79,
+          "429": 1
+        },
+        "api_lookups": 500,
+        "cache_hits": 420,
+        "cache_misses": 80,
+        "field_compares": 190,
+        "sample_request_urls": [
+          "https://api.crossref.org/works/10.9999/cbcn.2016.62380",
+          "https://api.openalex.org/works/https://doi.org/10.9999/cbcn.2016.62380",
+          "https://api.crossref.org/works/10.9999/cbcn.2024.78189",
+          "https://api.openalex.org/works/https://doi.org/10.9999/cbcn.2024.78189",
+          "https://api.crossref.org/works/10.16187/j.cnki.issn1001-4918.2017.05.10",
+          "https://api.crossref.org/works/10.9999/cbcn.2024.48458",
+          "https://api.openalex.org/works/https://doi.org/10.9999/cbcn.2024.48458",
+          "https://api.crossref.org/works/10.9999/cbcn.2023.73799",
+          "https://api.openalex.org/works/https://doi.org/10.9999/cbcn.2023.73799",
+          "https://api.crossref.org/works/10.9999/cbcn.2018.24667",
+          "https://api.openalex.org/works/https://doi.org/10.9999/cbcn.2018.24667",
+          "https://api.crossref.org/works/10.9999/cbcn.2015.21471"
+        ]
+      },
+      "cold": {
+        "http_requests": 26,
+        "http_non_200": 12,
+        "http_404": 6,
+        "infra_failures": 6,
+        "failure_rate_all_non_200": 0.4615,
+        "infra_failure_rate": 0.2308,
+        "by_host": {
+          "api.crossref.org": {
+            "requests": 14,
+            "non_200": 4,
+            "http_404": 4,
+            "infra_failures": 0
+          },
+          "api.openalex.org": {
+            "requests": 12,
+            "non_200": 8,
+            "http_404": 2,
+            "infra_failures": 6
+          }
+        },
+        "http_statuses": {
+          "200": 14,
+          "429": 6,
+          "404": 6
+        },
+        "api_lookups": 24,
+        "cache_hits": 0,
+        "cache_misses": 24,
+        "field_compares": 10,
+        "sample_request_urls": [
+          "https://api.crossref.org/works/10.33142/jscs.v5i3.16935",
+          "https://api.openalex.org/works/https://doi.org/10.33142/jscs.v5i3.16935",
+          "https://api.openalex.org/works",
+          "https://api.crossref.org/works",
+          "https://api.openalex.org/works",
+          "https://api.crossref.org/works",
+          "https://api.openalex.org/works",
+          "https://api.crossref.org/works",
+          "https://api.openalex.org/works",
+          "https://api.crossref.org/works",
+          "https://api.openalex.org/works",
+          "https://api.crossref.org/works"
+        ]
+      },
+      "api_lookups": 500,
+      "budget": 150,
+      "within_budget": true,
+      "cold_sample_reused": true,
+      "note": "404 responses are DOI-resolution negatives (expected for 37 fabricated DOIs), not infrastructure failures; cold-sample counters come from the saved first run and are not re-issued this run"
+    }
+  },
+  "per_ref": [
+    {
+      "id": "cbcn-0001",
+      "label": "Exact",
+      "corruption": "none (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "百年来的资源环境承载力研究:从理论到实践",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 47.2,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0002",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.24272/j.issn.2095-8137.2017.015",
+      "parsed_title": "几种常用病毒载体在猕猴脑内的表达效率的比较",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 14.8,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0003",
+      "label": "Exact",
+      "corruption": "none (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "理论力学与大学物理力学知识点的关系分析",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 10.5,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0004",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.70693/jyxb.v1i2.45",
+      "parsed_title": "双融合”视角下现代产业学院与产业研究院协同育人 机制研究 ——以产教融合与科教融汇平台共建为路径",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 14.1,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0005",
+      "label": "Minor",
+      "corruption": "minor:pages 119->121 (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "新冠肺炎疫情对医学生学医动力的影响",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [
+        "pages"
+      ],
+      "elapsed_ms": 51.0,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0006",
+      "label": "Minor",
+      "corruption": "minor:issue 3->2",
+      "parsed_doi": "10.26549/yzlcyxzz.v3i3.3926",
+      "parsed_title": "补中益气汤加减对经乳晕入路甲状腺癌微创手术的干预研究",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 6.9,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0007",
+      "label": "Major",
+      "corruption": "major:fake_title",
+      "parsed_doi": "10.18306/dlkxjz.2017.01.001",
+      "parsed_title": "动态产业链韧性协同治理框架:理论建构与经验证据",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Major",
+      "doi_status": "resolved",
+      "title_sim": 0.1463,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "title"
+      ],
+      "elapsed_ms": 14.1,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0008",
+      "label": "Major",
+      "corruption": "major:fake_title (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "全链条数字经济协同治理框架的跨区域比较",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Major",
+      "doi_status": "none",
+      "title_sim": 0.3333,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [
+        "title"
+      ],
+      "elapsed_ms": 13.3,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0009",
+      "label": "Major",
+      "corruption": "major:fake_doi",
+      "parsed_doi": "10.9999/cbcn.2016.62380",
+      "parsed_title": "基于数据挖掘分析产后抑郁的中医用药规律",
+      "doi_present": true,
+      "doi_fabricated": true,
+      "status": "Major",
+      "doi_status": "not_found",
+      "title_sim": 0.0,
+      "has_candidate": false,
+      "sources": [
+        "crossref:doi:miss"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 1503.7,
+      "network_requests": 2
+    },
+    {
+      "id": "cbcn-0010",
+      "label": "Major",
+      "corruption": "major:fake_doi",
+      "parsed_doi": "10.9999/cbcn.2024.78189",
+      "parsed_title": "社区主客观特征对社区满意度的影响机理——以上海市郊区为例",
+      "doi_present": true,
+      "doi_fabricated": true,
+      "status": "Unknown",
+      "doi_status": "error",
+      "title_sim": 0.0,
+      "has_candidate": false,
+      "sources": [
+        "crossref:doi:error"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 1422.4,
+      "network_requests": 2
+    },
+    {
+      "id": "cbcn-0011",
+      "label": "Minor",
+      "corruption": "minor:volume 3->2",
+      "parsed_doi": "10.26549/yzlcyxzz.v3i4.4408",
+      "parsed_title": "人性化管理理念在精神科护理管理中的应用效果观察",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "volume"
+      ],
+      "elapsed_ms": 6.0,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0012",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.26549/yzlcyxzz.v2i3.1915",
+      "parsed_title": "高通量血液透析对维持性血液透析患者肾功能、钙磷代谢及营养状况的影响观察",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 8.9,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0013",
+      "label": "Minor",
+      "corruption": "minor:year 2015->2012",
+      "parsed_doi": "10.18306/dlkxjz.2015.11.006",
+      "parsed_title": "长江经济带开发与保护空间格局构建及其分析路径",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "year"
+      ],
+      "elapsed_ms": 6.4,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0014",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.16187/j.cnki.issn1001-4918.2017.05.10",
+      "parsed_title": "流动性、教育安置方式和心理弹性对流动儿童孤独感的影响:一项追踪研究",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 859.8,
+      "network_requests": 1
+    },
+    {
+      "id": "cbcn-0015",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.33142/mem.v3i2.6332",
+      "parsed_title": "浅谈碳达峰碳中和背景下钢铁行业高质量发展的研究",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 6.9,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0016",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.55375/jls.2023.2.9",
+      "parsed_title": "论网络司法拍卖税费承担",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 10.0,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0017",
+      "label": "Major",
+      "corruption": "major:fake_doi",
+      "parsed_doi": "10.9999/cbcn.2024.48458",
+      "parsed_title": "乡村振兴背景下货币政策的农业产业发展效应探究",
+      "doi_present": true,
+      "doi_fabricated": true,
+      "status": "Unknown",
+      "doi_status": "error",
+      "title_sim": 0.0,
+      "has_candidate": false,
+      "sources": [
+        "crossref:doi:error"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 1516.1,
+      "network_requests": 2
+    },
+    {
+      "id": "cbcn-0018",
+      "label": "Minor",
+      "corruption": "minor:year 2023->2026",
+      "parsed_doi": "10.55375/pabr.2023.2.2",
+      "parsed_title": "马基雅维利特质抑或策略? ——基于全球范围大样本的实证分析",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "year"
+      ],
+      "elapsed_ms": 6.8,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0019",
+      "label": "Major",
+      "corruption": "major:fake_title (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "动态产业链韧性实证研究的跨区域比较",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Major",
+      "doi_status": "none",
+      "title_sim": 0.359,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [
+        "title"
+      ],
+      "elapsed_ms": 9.0,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0020",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.26549/yzlcyxzz.v4i3.6892",
+      "parsed_title": "产后感染肠球菌的概况及危险因素分析",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 5.3,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0021",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.32629/fcmr.v2i2.2918",
+      "parsed_title": "医院管理中的药剂科药事管理分析",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 7.4,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0022",
+      "label": "Minor",
+      "corruption": "minor:author_order",
+      "parsed_doi": "10.26549/whyscx.v1i1.3171",
+      "parsed_title": "现代网络传播中传统戏曲艺术教育的思考",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "authors_order"
+      ],
+      "elapsed_ms": 6.1,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0023",
+      "label": "Minor",
+      "corruption": "minor:venue 亚洲临床医学杂志->现代教育科学评论",
+      "parsed_doi": "10.26549/yzlcyxzz.v3i5.5246",
+      "parsed_title": "个体化护理干预对老年高血压肾病患者的影响",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "venue"
+      ],
+      "elapsed_ms": 6.8,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0024",
+      "label": "Minor",
+      "corruption": "minor:author_order",
+      "parsed_doi": "10.33142/nsr.v2i1.15895",
+      "parsed_title": "太行山区土壤重金属污染分布特征及来源解析",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "authors_order"
+      ],
+      "elapsed_ms": 8.8,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0025",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.26549/yzlcyxzz.v4i1.6448",
+      "parsed_title": "复方牙痛酊联合浓替硝唑含漱液治疗牙周炎临床研究",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 6.3,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0026",
+      "label": "Major",
+      "corruption": "major:fake_title (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "新型乡村振兴影响因素分析——以长三角为例",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Major",
+      "doi_status": "none",
+      "title_sim": 0.4762,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [
+        "title"
+      ],
+      "elapsed_ms": 8.2,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0027",
+      "label": "Major",
+      "corruption": "major:fake_title",
+      "parsed_doi": "10.26549/jxffcxysj.v4i9.7251",
+      "parsed_title": "多层次老年健康机制与路径的再审视",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Major",
+      "doi_status": "resolved",
+      "title_sim": 0.0488,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "title"
+      ],
+      "elapsed_ms": 21.5,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0028",
+      "label": "Major",
+      "corruption": "major:fake_title (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "数字化碳中和研究进展——以长三角为例",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Major",
+      "doi_status": "none",
+      "title_sim": 0.4706,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [
+        "title"
+      ],
+      "elapsed_ms": 12.4,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0029",
+      "label": "Minor",
+      "corruption": "minor:pages 150-156->144-150",
+      "parsed_doi": "10.70693/rwsk.v1i7.1157",
+      "parsed_title": "人类命运共同体理念关于中华传统“和合”文化层面的发展进路与逻辑思辨——基于CiteSpace的可视化计量分析",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "pages"
+      ],
+      "elapsed_ms": 7.9,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0030",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.36012/pmr.v2i6.2963",
+      "parsed_title": "中医辨证分型治疗偏头痛50例疗效体会",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 12.4,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0031",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.24272/j.issn.2095-8137.2017.032",
+      "parsed_title": "创制动物模型,为何不用树鼩呢?",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 9.1,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0032",
+      "label": "Major",
+      "corruption": "major:fake_title (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "全链条平台经济评价指标体系——以长三角为例",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Major",
+      "doi_status": "none",
+      "title_sim": 0.4211,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [
+        "title"
+      ],
+      "elapsed_ms": 7.9,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0033",
+      "label": "Major",
+      "corruption": "major:fake_title",
+      "parsed_doi": "10.26549/yzlcyxzz.v2i2.1754",
+      "parsed_title": "新型教育公平风险识别方法——基于省级面板数据的",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Major",
+      "doi_status": "resolved",
+      "title_sim": 0.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "title"
+      ],
+      "elapsed_ms": 33.8,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0034",
+      "label": "Minor",
+      "corruption": "minor:author_order (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "多样性护理对糖尿病合并冠心病患者的干预疗效观察",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [
+        "authors_order"
+      ],
+      "elapsed_ms": 6.8,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0035",
+      "label": "Major",
+      "corruption": "major:fake_doi",
+      "parsed_doi": "10.9999/cbcn.2023.73799",
+      "parsed_title": "基于创新人才培养目标的大气污染实验教改研究",
+      "doi_present": true,
+      "doi_fabricated": true,
+      "status": "Major",
+      "doi_status": "not_found",
+      "title_sim": 0.0,
+      "has_candidate": false,
+      "sources": [
+        "crossref:doi:miss"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 1555.7,
+      "network_requests": 2
+    },
+    {
+      "id": "cbcn-0036",
+      "label": "Major",
+      "corruption": "major:fake_title",
+      "parsed_doi": "10.55375/jerp.2022.2.8",
+      "parsed_title": "多层次能源转型时空演化特征:一个分析框架",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Major",
+      "doi_status": "resolved",
+      "title_sim": 0.0556,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "title"
+      ],
+      "elapsed_ms": 4.4,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0037",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.18306/dlkxjz.2015.11.003",
+      "parsed_title": "长江经济带绿色生态廊道建设研究",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 5.1,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0038",
+      "label": "Minor",
+      "corruption": "minor:issue 2->3 (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "基于邻里效应视角的城市居民心理健康影响因素研究——以广州市为例",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 7.3,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0039",
+      "label": "Exact",
+      "corruption": "none (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "数字赋能课后体育服务高质量发展的价值意蕴、现实困境与优化路径",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 4.7,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0040",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.36012/pmr.v2i5.2743",
+      "parsed_title": "强化心理护理的综合护理对急性冠脉综合征行 PCI 术患者遵医行为及情绪健康的影响",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 3.6,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0041",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.14725/gjicmwm.v2n2a550",
+      "parsed_title": "中西医结合治疗急性巨核细胞白血病1例",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 3.1,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0042",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.31497/zrzyxb.20170810",
+      "parsed_title": "中国水稻收获环节的损失有多高?——基于5省6地的实验调查",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 4.9,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0043",
+      "label": "Minor",
+      "corruption": "minor:pages 44->46 (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "腰椎间盘突出症中医治疗的研究进展",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [
+        "pages"
+      ],
+      "elapsed_ms": 3.8,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0044",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.24272/j.issn.2095-8137.2017.044",
+      "parsed_title": "云南盈江发现野生马来熊(Helarctos malayanus)",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 5.2,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0045",
+      "label": "Exact",
+      "corruption": "none (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "分子诊断进修生教学模式的探索与实践",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 5.1,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0046",
+      "label": "Minor",
+      "corruption": "minor:venue 亚洲临床医学杂志->北方绿色能源学报 (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "中医药治疗椎动脉型颈椎病的研究进展",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [
+        "venue"
+      ],
+      "elapsed_ms": 5.7,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0047",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.33142/fme.v5i1.12243",
+      "parsed_title": "医学院校教师课程思政素养提升的研究探索-以“药理学”为例",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 4.5,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0048",
+      "label": "Minor",
+      "corruption": "minor:issue 1->2",
+      "parsed_doi": "10.55375/jssc.2023.3.4",
+      "parsed_title": "社会工作助力乡村居民直播带货的需求分析与路径探索 —以湖南省怀化市靖州苗族侗族自治县藕团乡调研发现为例",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 3.7,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0049",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.26549/ajcm.v4i2.6680",
+      "parsed_title": "甘爱萍教授治疗老年性便秘常用药对浅析",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 5.2,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0050",
+      "label": "Minor",
+      "corruption": "minor:pages 305-311->307-313",
+      "parsed_doi": "10.18306/dlkxjz.2019.03.001",
+      "parsed_title": "中国南北过渡带研究的十大科学问题",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "pages"
+      ],
+      "elapsed_ms": 3.2,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0051",
+      "label": "Major",
+      "corruption": "major:fake_doi",
+      "parsed_doi": "10.9999/cbcn.2018.24667",
+      "parsed_title": "复合式训练的间歇时间对高校大学生爆发力的影响",
+      "doi_present": true,
+      "doi_fabricated": true,
+      "status": "Major",
+      "doi_status": "not_found",
+      "title_sim": 0.0,
+      "has_candidate": false,
+      "sources": [
+        "crossref:doi:miss"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 1317.5,
+      "network_requests": 2
+    },
+    {
+      "id": "cbcn-0052",
+      "label": "Exact",
+      "corruption": "none (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "医学应对方式问卷中文版701例测试报告",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 10.7,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0053",
+      "label": "Major",
+      "corruption": "major:fake_title",
+      "parsed_doi": "10.18306/dlkxjz.2016.03.006",
+      "parsed_title": "新型能源转型研究进展——以长三角为例",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Major",
+      "doi_status": "resolved",
+      "title_sim": 0.2381,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "title"
+      ],
+      "elapsed_ms": 6.2,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0054",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.26549/jxffcxysj.v4i7.6966",
+      "parsed_title": "大学体育与健康课程课堂教学管理性策略研究",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 6.1,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0055",
+      "label": "Minor",
+      "corruption": "minor:author_order (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "熊猫文化创意产品的品牌视觉形象设计研究",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [
+        "authors_order"
+      ],
+      "elapsed_ms": 6.2,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0056",
+      "label": "Major",
+      "corruption": "major:fake_doi",
+      "parsed_doi": "10.9999/cbcn.2015.21471",
+      "parsed_title": "针刺结合藏医“久巴”治疗腱鞘囊肿30例临床疗效观察",
+      "doi_present": true,
+      "doi_fabricated": true,
+      "status": "Major",
+      "doi_status": "not_found",
+      "title_sim": 0.0,
+      "has_candidate": false,
+      "sources": [
+        "crossref:doi:miss"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 1361.5,
+      "network_requests": 2
+    },
+    {
+      "id": "cbcn-0057",
+      "label": "Major",
+      "corruption": "major:fake_doi",
+      "parsed_doi": "10.9999/cbcn.2022.69969",
+      "parsed_title": "和 ChatGPT 相关的学术研究进展",
+      "doi_present": true,
+      "doi_fabricated": true,
+      "status": "Major",
+      "doi_status": "not_found",
+      "title_sim": 0.0,
+      "has_candidate": false,
+      "sources": [
+        "crossref:doi:miss"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 1314.0,
+      "network_requests": 2
+    },
+    {
+      "id": "cbcn-0058",
+      "label": "Minor",
+      "corruption": "minor:pages 82->76",
+      "parsed_doi": "10.26549/yzlcyxzz.v3i3.3935",
+      "parsed_title": "子宫内膜癌相关的肿瘤标志物的研究进展",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "pages"
+      ],
+      "elapsed_ms": 6.1,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0059",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.55375/jerp.2024.4.2",
+      "parsed_title": "新冠疫情对中医药院校招生的影响调查和启发",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 6.4,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0060",
+      "label": "Exact",
+      "corruption": "none (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "中药治疗5例新冠肺炎(COVID-19)患者临床医案",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 8.1,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0061",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.52288/jbi.26636204.2021.07.08",
+      "parsed_title": "中国第三方跨境支付发展现状、问题及对策",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 7.8,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0062",
+      "label": "Minor",
+      "corruption": "minor:author_order",
+      "parsed_doi": "10.33142/mem.v4i3.10013",
+      "parsed_title": "大宗商品价格与经济增长之间的关系",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "authors_order"
+      ],
+      "elapsed_ms": 7.4,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0063",
+      "label": "Minor",
+      "corruption": "minor:volume 37->36",
+      "parsed_doi": "10.18306/dlkxjz.2018.02.004",
+      "parsed_title": "青藏高原湖泊变化遥感监测及其对气候变化的响应研究进展",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "volume"
+      ],
+      "elapsed_ms": 6.5,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0064",
+      "label": "Major",
+      "corruption": "major:fake_title (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "新型老年健康研究进展:理论建构与经验证据",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Major",
+      "doi_status": "none",
+      "title_sim": 0.4706,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [
+        "title"
+      ],
+      "elapsed_ms": 8.3,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0065",
+      "label": "Minor",
+      "corruption": "minor:author_order",
+      "parsed_doi": "10.52288/mice.27069273.2021.03.08",
+      "parsed_title": "中国数字音乐产业现状与发展对策研究",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "authors_order"
+      ],
+      "elapsed_ms": 5.5,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0066",
+      "label": "Major",
+      "corruption": "major:fake_doi",
+      "parsed_doi": "10.9999/cbcn.2025.92589",
+      "parsed_title": "高职院校思想政治教育与创新创业教育融合的策略",
+      "doi_present": true,
+      "doi_fabricated": true,
+      "status": "Major",
+      "doi_status": "not_found",
+      "title_sim": 0.0,
+      "has_candidate": false,
+      "sources": [
+        "crossref:doi:miss"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 1497.5,
+      "network_requests": 2
+    },
+    {
+      "id": "cbcn-0067",
+      "label": "Exact",
+      "corruption": "none (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "三维培养在研究白血病细胞耐药性方面的应用",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 7.7,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0068",
+      "label": "Major",
+      "corruption": "major:fake_doi",
+      "parsed_doi": "10.9999/cbcn.2022.22125",
+      "parsed_title": "睡眠-觉醒中神经递质的作用",
+      "doi_present": true,
+      "doi_fabricated": true,
+      "status": "Major",
+      "doi_status": "not_found",
+      "title_sim": 0.0,
+      "has_candidate": false,
+      "sources": [
+        "crossref:doi:miss"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 1427.1,
+      "network_requests": 2
+    },
+    {
+      "id": "cbcn-0069",
+      "label": "Minor",
+      "corruption": "minor:year 2007->2006",
+      "parsed_doi": "10.11821/yj2007060006",
+      "parsed_title": "城市建设用地生态适宜性评价的 潜力—限制性分析 ——以大连城市化区为例",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "year"
+      ],
+      "elapsed_ms": 911.0,
+      "network_requests": 1
+    },
+    {
+      "id": "cbcn-0070",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.70693/jyxb.v1i2.42",
+      "parsed_title": "智媒时代传媒教育的转型逻辑、实践路径与价值重构",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 5.9,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0071",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.26549/yzlcyxzz.v2i2.1768",
+      "parsed_title": "颅内未破裂动脉瘤的诊断治疗现状及研究进展",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 5.8,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0072",
+      "label": "Major",
+      "corruption": "major:fake_doi",
+      "parsed_doi": "10.9999/cbcn.2026.63385",
+      "parsed_title": "人地系统耦合框架下的生态系统服务",
+      "doi_present": true,
+      "doi_fabricated": true,
+      "status": "Major",
+      "doi_status": "not_found",
+      "title_sim": 0.0,
+      "has_candidate": false,
+      "sources": [
+        "crossref:doi:miss"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 1380.3,
+      "network_requests": 2
+    },
+    {
+      "id": "cbcn-0073",
+      "label": "Major",
+      "corruption": "major:fake_doi",
+      "parsed_doi": "10.9999/cbcn.2020.76579",
+      "parsed_title": "中国南方两个革菌新种:中国丝皮革菌和棉絮丝皮革菌(丝皮革菌科,多孔菌目)",
+      "doi_present": true,
+      "doi_fabricated": true,
+      "status": "Major",
+      "doi_status": "not_found",
+      "title_sim": 0.0,
+      "has_candidate": false,
+      "sources": [
+        "crossref:doi:miss"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 1377.2,
+      "network_requests": 2
+    },
+    {
+      "id": "cbcn-0074",
+      "label": "Minor",
+      "corruption": "minor:volume 3->4",
+      "parsed_doi": "10.26549/yzlcyxzz.v3i6.5079",
+      "parsed_title": "维生素D代谢通路单核苷酸多态性与系统性红斑狼疮的关联性研究进展",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "volume"
+      ],
+      "elapsed_ms": 6.7,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0075",
+      "label": "Major",
+      "corruption": "major:fake_title",
+      "parsed_doi": "10.11821/dlxb201707013",
+      "parsed_title": "新型文化记忆影响因素分析:一个分析框架",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Major",
+      "doi_status": "resolved",
+      "title_sim": 0.1714,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "title"
+      ],
+      "elapsed_ms": 874.0,
+      "network_requests": 1
+    },
+    {
+      "id": "cbcn-0076",
+      "label": "Major",
+      "corruption": "major:fake_title",
+      "parsed_doi": "10.70693/rwsk.v1i5.972",
+      "parsed_title": "多层次基层治理时空演化特征",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Major",
+      "doi_status": "resolved",
+      "title_sim": 0.0714,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "title"
+      ],
+      "elapsed_ms": 5.5,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0077",
+      "label": "Major",
+      "corruption": "major:fake_doi",
+      "parsed_doi": "10.9999/cbcn.2018.65344",
+      "parsed_title": "关于新时代我国粮食安全观的思考",
+      "doi_present": true,
+      "doi_fabricated": true,
+      "status": "Major",
+      "doi_status": "not_found",
+      "title_sim": 0.0,
+      "has_candidate": false,
+      "sources": [
+        "crossref:doi:miss"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 1436.6,
+      "network_requests": 2
+    },
+    {
+      "id": "cbcn-0078",
+      "label": "Minor",
+      "corruption": "minor:author_order (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "资本禀赋如何影响牧民减畜--基于内蒙古372户牧民的实证考察",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [
+        "authors_order"
+      ],
+      "elapsed_ms": 7.0,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0079",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.55375/tasr.2023.2.6",
+      "parsed_title": "科学家与政治社会关系思考——基于范内瓦·布什奖分析",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 8.6,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0080",
+      "label": "Major",
+      "corruption": "major:fake_doi",
+      "parsed_doi": "10.9999/cbcn.2018.54355",
+      "parsed_title": "葡萄麂(Muntiacus putaoensis)线粒体全基因组的测定和麂属动物系统发育研究",
+      "doi_present": true,
+      "doi_fabricated": true,
+      "status": "Major",
+      "doi_status": "not_found",
+      "title_sim": 0.0,
+      "has_candidate": false,
+      "sources": [
+        "crossref:doi:miss"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 1286.5,
+      "network_requests": 2
+    },
+    {
+      "id": "cbcn-0081",
+      "label": "Exact",
+      "corruption": "none (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "基于网络药理学探讨中药鸦胆子治疗非小细胞肺癌的作用机制",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 13.1,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0082",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.18306/dlkxjz.2019.04.004",
+      "parsed_title": "城市公共服务设施配置研究进展及趋向",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 7.1,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0083",
+      "label": "Exact",
+      "corruption": "none (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "当代环境下日本主流媒体涉华报道的分析研究",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 8.3,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0084",
+      "label": "Major",
+      "corruption": "major:fake_title (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "数字化文化记忆绩效评估模型的跨区域比较",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Major",
+      "doi_status": "none",
+      "title_sim": 0.3,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [
+        "title"
+      ],
+      "elapsed_ms": 6.1,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0085",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.33142/jscs.v1i1.4426",
+      "parsed_title": "基于CiteSpace的国内外空手道研究热点的可视化分析",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 7.9,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0086",
+      "label": "Exact",
+      "corruption": "none (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "黄河流域能源消费碳排放时空格局演变及影响因素——基于DMSP/OLS与NPP/VIIRS夜间灯光数据",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 7.2,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0087",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.26549/jxffcxysj.v2i8.2765",
+      "parsed_title": "浅谈信息技术在高职《中药学》课程教学中的创新应用",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 7.0,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0088",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.14725/gapr.v2n1a1201",
+      "parsed_title": "糖尿病周围神经病变的药物与非药物治疗进展",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 5.6,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0089",
+      "label": "Major",
+      "corruption": "major:fake_title",
+      "parsed_doi": "10.24272/j.issn.2095-8137.2017.055",
+      "parsed_title": "动态基层治理研究进展的再审视",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Major",
+      "doi_status": "resolved",
+      "title_sim": 0.1081,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "title"
+      ],
+      "elapsed_ms": 5.1,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0090",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.18402/resci.2017.01.02",
+      "parsed_title": "国家公园管理机构建设的制度逻辑与模式选择研究",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 6.3,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0091",
+      "label": "Exact",
+      "corruption": "none (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "改良后路腰椎体间融合术(PLIF)治疗腰椎管狭窄症的临床疗效分析",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 5.7,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0092",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.14725/gjph.v2n1a753",
+      "parsed_title": "经尿道输尿管镜下微创治疗儿童输尿管术后再次狭窄 12例回顾分析",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 4.6,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0093",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.36012/sde.v2i2.1213",
+      "parsed_title": "基于 DEA 模型沈阳市普通高校体育社团评价因子与对策分析",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 6.3,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0094",
+      "label": "Minor",
+      "corruption": "minor:year 2024->2021",
+      "parsed_doi": "10.33142/nsr.v1i2.14016",
+      "parsed_title": "基于尺寸效应对纳米钼酸钡溶解动力学参数及表面热力学函数的研究",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "year"
+      ],
+      "elapsed_ms": 4.5,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0095",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.26549/ajcm.v4i2.6671",
+      "parsed_title": "王娟教授治疗痛风经验总结",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 4.5,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0096",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.33142/jscs.v4i6.14825",
+      "parsed_title": "新质生产力赋能社会体育指导员发展的困境及改革路径",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 6.5,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0097",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.26549/yzlcyxzz.v3i3.3920",
+      "parsed_title": "特勤疗养对高原官兵红系细胞变化的影响",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 4.4,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0098",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.55375/jssc.2024.3.6",
+      "parsed_title": "农村留守儿童教育福利的问题、挑战与改进 —— 以西部某省份农村为例",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 6.2,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0099",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.31193/ssap.j.issn.2096-6695.2022.04.13",
+      "parsed_title": "基于元分析的我国大学生信息素养影响因素研究",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 6.5,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0100",
+      "label": "Major",
+      "corruption": "major:fake_title",
+      "parsed_doi": "10.26549/cjygl.v1i3.395",
+      "parsed_title": "协同式公共卫生应急评价指标体系",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Major",
+      "doi_status": "resolved",
+      "title_sim": 0.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "title"
+      ],
+      "elapsed_ms": 4.9,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0101",
+      "label": "Minor",
+      "corruption": "minor:author_order",
+      "parsed_doi": "10.18306/dlkxjz.2019.01.005",
+      "parsed_title": "京津冀城镇用地空间结构的多分维谱分析",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "authors_order"
+      ],
+      "elapsed_ms": 7.1,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0102",
+      "label": "Exact",
+      "corruption": "none (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "香鱼NOD2在活化NF-κB和MAPK信号通路及抗细菌先天免疫中的功能研究",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 7.3,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0103",
+      "label": "Major",
+      "corruption": "major:fake_title (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "数字化数字经济时空演化特征的跨区域比较",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Major",
+      "doi_status": "none",
+      "title_sim": 0.3333,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [
+        "title"
+      ],
+      "elapsed_ms": 6.8,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0104",
+      "label": "Major",
+      "corruption": "major:fake_title (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "协同式数字孪生测度与检验——以长三角为例",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Major",
+      "doi_status": "none",
+      "title_sim": 0.4,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [
+        "title"
+      ],
+      "elapsed_ms": 8.8,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0105",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.33142/fme.v6i4.16203",
+      "parsed_title": "教育数字化背景下体育教学面临的问题与路径研究",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 6.4,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0106",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.18306/dlkxjz.2017.10.012",
+      "parsed_title": "基于随机森林模型的珠江三角洲30 m格网人口空间化",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 5.3,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0107",
+      "label": "Major",
+      "corruption": "major:fake_title (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "数字化基层治理风险识别方法——基于省级面板数据的",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Major",
+      "doi_status": "none",
+      "title_sim": 0.4231,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [
+        "title"
+      ],
+      "elapsed_ms": 9.8,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0108",
+      "label": "Major",
+      "corruption": "major:fake_doi",
+      "parsed_doi": "10.9999/cbcn.2024.82117",
+      "parsed_title": "心肌梗死合并心力衰竭患者于干细胞动员后血中EPCs与BNP相关性研究",
+      "doi_present": true,
+      "doi_fabricated": true,
+      "status": "Major",
+      "doi_status": "not_found",
+      "title_sim": 0.0,
+      "has_candidate": false,
+      "sources": [
+        "crossref:doi:miss"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 1355.4,
+      "network_requests": 2
+    },
+    {
+      "id": "cbcn-0109",
+      "label": "Minor",
+      "corruption": "minor:issue 2->3",
+      "parsed_doi": "10.33142/jscs.v4i2.12445",
+      "parsed_title": "趣味篮球运动对男大学生运动参与及运动意愿的影响研究",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 6.6,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0110",
+      "label": "Minor",
+      "corruption": "minor:year 2020->2022 (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "如何转危为机",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [
+        "year"
+      ],
+      "elapsed_ms": 5.0,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0111",
+      "label": "Minor",
+      "corruption": "minor:volume 41->40 (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "休养生息制度背景下的耕地保护转型研究",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [
+        "volume"
+      ],
+      "elapsed_ms": 3.6,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0112",
+      "label": "Exact",
+      "corruption": "none (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "权衡论:基于传统哲学与中医理论的另类经济增长理论初探",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 6.8,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0113",
+      "label": "Major",
+      "corruption": "major:fake_doi",
+      "parsed_doi": "10.9999/cbcn.2016.85855",
+      "parsed_title": "胫骨平台骨折分型研究进展",
+      "doi_present": true,
+      "doi_fabricated": true,
+      "status": "Major",
+      "doi_status": "not_found",
+      "title_sim": 0.0,
+      "has_candidate": false,
+      "sources": [
+        "crossref:doi:miss"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 1428.4,
+      "network_requests": 2
+    },
+    {
+      "id": "cbcn-0114",
+      "label": "Minor",
+      "corruption": "minor:year 2015->2014",
+      "parsed_doi": "10.18306/dlkxjz.2015.12.008",
+      "parsed_title": "南京市城市老年人出行行为的影响因素",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "year"
+      ],
+      "elapsed_ms": 7.0,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0115",
+      "label": "Minor",
+      "corruption": "minor:volume 5->6",
+      "parsed_doi": "10.33142/fme.v5i3.13109",
+      "parsed_title": "高等教育国际化与创新人才培养",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "volume"
+      ],
+      "elapsed_ms": 6.7,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0116",
+      "label": "Minor",
+      "corruption": "minor:author_order (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "中药穴位贴敷联合心理护理模式对癌症患者睡眠质量的影响",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [
+        "authors_order"
+      ],
+      "elapsed_ms": 5.9,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0117",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.26549/yzlcyxzz.v4i4.7080",
+      "parsed_title": "维持性血液透析患者跌倒原因分析及护理干预效果",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 4.2,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0118",
+      "label": "Exact",
+      "corruption": "none (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "基于产业集聚行为逻辑的泰安旅游文化产业高质量发展路径研究",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 6.1,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0119",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.33142/jscs.v4i1.11467",
+      "parsed_title": "西南联大研究生院附属学校学生体能发展的影响因素研究",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 3.6,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0120",
+      "label": "Major",
+      "corruption": "major:fake_doi",
+      "parsed_doi": "10.9999/cbcn.2019.28980",
+      "parsed_title": "常用的非药物性分娩镇痛的临床应用及研究现状",
+      "doi_present": true,
+      "doi_fabricated": true,
+      "status": "Major",
+      "doi_status": "not_found",
+      "title_sim": 0.0,
+      "has_candidate": false,
+      "sources": [
+        "crossref:doi:miss"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 1356.3,
+      "network_requests": 2
+    },
+    {
+      "id": "cbcn-0121",
+      "label": "Minor",
+      "corruption": "minor:pages 73-80->79-86 (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "人工智能背景下高职Python课程教学改革的探索与实践",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [
+        "pages"
+      ],
+      "elapsed_ms": 8.6,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0122",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.55375/jacr.2022.2.6",
+      "parsed_title": "基于R的《细雪》两译本文体研究",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 8.9,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0123",
+      "label": "Exact",
+      "corruption": "none (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "基于4P'S营销理论的农网品牌培育升级路径研究",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 9.8,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0124",
+      "label": "Major",
+      "corruption": "major:fake_title",
+      "parsed_doi": "10.55375/jmrd.2023.3.3",
+      "parsed_title": "新型人工智能治理案例考察:一个分析框架",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Major",
+      "doi_status": "resolved",
+      "title_sim": 0.0606,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "title"
+      ],
+      "elapsed_ms": 6.7,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0125",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.32629/er.v3i9.3151",
+      "parsed_title": "手机阅读对00后大学生的社会认知的影响",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 12.5,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0126",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.26549/yzlcyxzz.v3i5.4992",
+      "parsed_title": "阿奇霉素治疗小儿呼吸道疾病疗效观察",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 9.6,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0127",
+      "label": "Exact",
+      "corruption": "none (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "心血管疾病中内皮细胞调控机制的研究进展",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 17.2,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0128",
+      "label": "Major",
+      "corruption": "major:fake_title (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "全链条基层治理影响因素分析的再审视",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Major",
+      "doi_status": "none",
+      "title_sim": 0.4375,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [
+        "title"
+      ],
+      "elapsed_ms": 13.3,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0129",
+      "label": "Major",
+      "corruption": "major:fake_doi",
+      "parsed_doi": "10.9999/cbcn.2016.38959",
+      "parsed_title": "膝关节骨性关节炎的治疗进展",
+      "doi_present": true,
+      "doi_fabricated": true,
+      "status": "Major",
+      "doi_status": "not_found",
+      "title_sim": 0.0,
+      "has_candidate": false,
+      "sources": [
+        "crossref:doi:miss"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 1393.5,
+      "network_requests": 2
+    },
+    {
+      "id": "cbcn-0130",
+      "label": "Minor",
+      "corruption": "minor:year 2025->2022",
+      "parsed_doi": "10.33142/jscs.v5i1.15483",
+      "parsed_title": "人工智能赋能公共体育服务高质量发展的策略研究",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "year"
+      ],
+      "elapsed_ms": 6.8,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0131",
+      "label": "Exact",
+      "corruption": "none (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "基于HY-1C CZI影像光谱指数重构数据MNF变换的红树林提取",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 7.7,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0132",
+      "label": "Minor",
+      "corruption": "minor:author_order",
+      "parsed_doi": "10.26549/cjygl.v4i3.3587",
+      "parsed_title": "公司治理视角下中国国有企业实施职业经理人制度的路径探析",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "authors_order"
+      ],
+      "elapsed_ms": 6.8,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0133",
+      "label": "Minor",
+      "corruption": "minor:venue 亚洲临床医学杂志->亚太绿色能源前沿",
+      "parsed_doi": "10.26549/yzlcyxzz.v3i5.5298",
+      "parsed_title": "三阴性乳腺癌的治疗进展",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "venue"
+      ],
+      "elapsed_ms": 8.7,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0134",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.33142/jscs.v5i3.16939",
+      "parsed_title": "教育强国建设背景下中小学体育高质量发展对策研究",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 7.2,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0135",
+      "label": "Minor",
+      "corruption": "minor:year 2020->2018",
+      "parsed_doi": "10.26549/jxffcxysj.v3i2.3557",
+      "parsed_title": "在专业课程教学中融合德育教育的思考和探索",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "year"
+      ],
+      "elapsed_ms": 7.8,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0136",
+      "label": "Minor",
+      "corruption": "minor:pages 77->81",
+      "parsed_doi": "10.26549/whyscx.v3i6.6049",
+      "parsed_title": "新媒体环境下宁夏传统民间美术的发展与创新",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "pages"
+      ],
+      "elapsed_ms": 9.0,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0137",
+      "label": "Exact",
+      "corruption": "none (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "肠道菌群与前列腺素关系的研究进展",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 9.8,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0138",
+      "label": "Exact",
+      "corruption": "none (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "基于自学理论的“三自一体”护理技能教学模式的构建",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 5.4,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0139",
+      "label": "Minor",
+      "corruption": "minor:issue 3->2 (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "大数据背景下信息统计专业高等数学教学改革研究",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 6.4,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0140",
+      "label": "Minor",
+      "corruption": "minor:venue 亚洲临床医学杂志->亚太材料工程学报",
+      "parsed_doi": "10.26549/ajcm.v4i2.6677",
+      "parsed_title": "下丘脑对机体功能调节的研究进展",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "venue"
+      ],
+      "elapsed_ms": 4.8,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0141",
+      "label": "Major",
+      "corruption": "major:fake_doi",
+      "parsed_doi": "10.9999/cbcn.2018.89670",
+      "parsed_title": "肝脏热缺血再灌注损伤机制研究",
+      "doi_present": true,
+      "doi_fabricated": true,
+      "status": "Major",
+      "doi_status": "not_found",
+      "title_sim": 0.0,
+      "has_candidate": false,
+      "sources": [
+        "crossref:doi:miss"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 1517.9,
+      "network_requests": 2
+    },
+    {
+      "id": "cbcn-0142",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.24272/j.issn.2095-8137.2018.059",
+      "parsed_title": "肯尼亚哺乳动物名录",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 7.6,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0143",
+      "label": "Minor",
+      "corruption": "minor:author_order",
+      "parsed_doi": "10.33142/jscs.v4i6.14827",
+      "parsed_title": "循环训练法在舰载机飞行学员自主训练中的应用研究",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "authors_order"
+      ],
+      "elapsed_ms": 5.5,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0144",
+      "label": "Major",
+      "corruption": "major:fake_doi",
+      "parsed_doi": "10.9999/cbcn.2017.12830",
+      "parsed_title": "循证护理干预在急性肺栓塞患者中的应用疗效评价",
+      "doi_present": true,
+      "doi_fabricated": true,
+      "status": "Major",
+      "doi_status": "not_found",
+      "title_sim": 0.0,
+      "has_candidate": false,
+      "sources": [
+        "crossref:doi:miss"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 1396.6,
+      "network_requests": 2
+    },
+    {
+      "id": "cbcn-0145",
+      "label": "Major",
+      "corruption": "major:fake_title (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "全链条耕地保护研究进展——基于省级面板数据的",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Major",
+      "doi_status": "none",
+      "title_sim": 0.4255,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [
+        "title"
+      ],
+      "elapsed_ms": 6.8,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0146",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.26549/jxffcxysj.v2i8.2931",
+      "parsed_title": "面向卓越计算机科学与技术专业培养的教学体系构建—— 以内工大计算机科学与技术专业为例",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 6.4,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0147",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.26549/yzlcyxzz.v4i4.7076",
+      "parsed_title": "综合康复护理对深度烧伤患者创面愈合、并发症及生活质量的影响",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 5.5,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0148",
+      "label": "Major",
+      "corruption": "major:fake_doi",
+      "parsed_doi": "10.9999/cbcn.2022.27994",
+      "parsed_title": "试论高校二级学院工会如何将“三全育人”融入工会工作——以北京联合大学应用科技学院为例",
+      "doi_present": true,
+      "doi_fabricated": true,
+      "status": "Major",
+      "doi_status": "not_found",
+      "title_sim": 0.0,
+      "has_candidate": false,
+      "sources": [
+        "crossref:doi:miss"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 1488.7,
+      "network_requests": 2
+    },
+    {
+      "id": "cbcn-0149",
+      "label": "Minor",
+      "corruption": "minor:year 2020->2017 (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "新工科背景下《机器视觉与人工智能》课程教学改革探索———以无锡太湖学院为例",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [
+        "year"
+      ],
+      "elapsed_ms": 8.4,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0150",
+      "label": "Minor",
+      "corruption": "minor:volume 3->2",
+      "parsed_doi": "10.26549/yzlcyxzz.v3i5.5266",
+      "parsed_title": "腰椎间盘突出症的中医治疗研究进展",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "volume"
+      ],
+      "elapsed_ms": 6.0,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0151",
+      "label": "Minor",
+      "corruption": "minor:year 2022->2024 (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "福建省城市经济效率评价研究",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [
+        "year"
+      ],
+      "elapsed_ms": 6.7,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0152",
+      "label": "Major",
+      "corruption": "major:fake_doi",
+      "parsed_doi": "10.9999/cbcn.2026.26517",
+      "parsed_title": "三江平原湿地区域生态风险评价研究",
+      "doi_present": true,
+      "doi_fabricated": true,
+      "status": "Major",
+      "doi_status": "not_found",
+      "title_sim": 0.0,
+      "has_candidate": false,
+      "sources": [
+        "crossref:doi:miss"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 1367.0,
+      "network_requests": 2
+    },
+    {
+      "id": "cbcn-0153",
+      "label": "Major",
+      "corruption": "major:fake_doi",
+      "parsed_doi": "10.9999/cbcn.2024.87633",
+      "parsed_title": "外语课程中融入思政元素的探索与实践",
+      "doi_present": true,
+      "doi_fabricated": true,
+      "status": "Major",
+      "doi_status": "not_found",
+      "title_sim": 0.0,
+      "has_candidate": false,
+      "sources": [
+        "crossref:doi:miss"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 1465.1,
+      "network_requests": 2
+    },
+    {
+      "id": "cbcn-0154",
+      "label": "Minor",
+      "corruption": "minor:year 2018->2021",
+      "parsed_doi": "10.24272/j.issn.2095-8137.2018.056",
+      "parsed_title": "云南永德大雪山国家级自然保护区周边人与野生动物冲突空间格局及补偿措施",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "year"
+      ],
+      "elapsed_ms": 7.5,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0155",
+      "label": "Major",
+      "corruption": "major:fake_title (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "动态平台经济测度与检验的再审视",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Major",
+      "doi_status": "none",
+      "title_sim": 0.2703,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [
+        "title"
+      ],
+      "elapsed_ms": 7.1,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0156",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.26549/jxffcxysj.v3i2.3516",
+      "parsed_title": "翻转课堂教学模式在《外科护理学》实验教学中的实践与应用",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 6.0,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0157",
+      "label": "Minor",
+      "corruption": "minor:pages 17->21",
+      "parsed_doi": "10.14725/gjicmwm.v2n1a211",
+      "parsed_title": "糖尿病足中医病机与辨证分型研究进展",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "pages"
+      ],
+      "elapsed_ms": 7.5,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0158",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.55375/jerp.2022.2.6",
+      "parsed_title": "建立党史学习教育常态化长效化机制:现实困境与制度进路",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 8.0,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0159",
+      "label": "Minor",
+      "corruption": "minor:year 2023->2020",
+      "parsed_doi": "10.33142/sca.v6i12.10646",
+      "parsed_title": "双碳背景下煤基产业绿色低碳转型之路",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "year"
+      ],
+      "elapsed_ms": 5.6,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0160",
+      "label": "Minor",
+      "corruption": "minor:pages 28-32->30-34",
+      "parsed_doi": "10.55375/jacr.2023.3.5",
+      "parsed_title": "论中华优秀传统文化在当代流行歌曲中的表达",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "pages"
+      ],
+      "elapsed_ms": 7.6,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0161",
+      "label": "Major",
+      "corruption": "major:fake_doi",
+      "parsed_doi": "10.9999/cbcn.2025.92462",
+      "parsed_title": "丝状病毒感染的动物模型",
+      "doi_present": true,
+      "doi_fabricated": true,
+      "status": "Unknown",
+      "doi_status": "error",
+      "title_sim": 0.0,
+      "has_candidate": false,
+      "sources": [
+        "crossref:doi:error"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 1474.0,
+      "network_requests": 2
+    },
+    {
+      "id": "cbcn-0162",
+      "label": "Minor",
+      "corruption": "minor:pages 64->58 (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "新工科背景下高校“人工智能+自动化”人才培养的探究",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [
+        "pages"
+      ],
+      "elapsed_ms": 9.5,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0163",
+      "label": "Minor",
+      "corruption": "minor:issue 2->1",
+      "parsed_doi": "10.55375/rocm.2023.2.1",
+      "parsed_title": "海外社交平台中国文化传播案例研究",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 5.8,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0164",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.31193/ssap.j.issn.2096-6695.2021.04.01",
+      "parsed_title": "新时代哲学社会科学专业图书馆服务探索",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 5.9,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0165",
+      "label": "Major",
+      "corruption": "major:fake_title (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "动态公共卫生应急风险识别方法——以长三角为例",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Major",
+      "doi_status": "none",
+      "title_sim": 0.2979,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [
+        "title"
+      ],
+      "elapsed_ms": 7.7,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0166",
+      "label": "Minor",
+      "corruption": "minor:venue 地理科学进展->国际城市发展评论",
+      "parsed_doi": "10.18306/dlkxjz.2016.08.005",
+      "parsed_title": "广州市多类型商业中心识别与空间模式",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "venue"
+      ],
+      "elapsed_ms": 6.2,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0167",
+      "label": "Major",
+      "corruption": "major:fake_title",
+      "parsed_doi": "10.52288/jbi.26636204.2021.04.04",
+      "parsed_title": "动态数字经济测度与检验的跨区域比较",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Major",
+      "doi_status": "resolved",
+      "title_sim": 0.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "title"
+      ],
+      "elapsed_ms": 7.2,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0168",
+      "label": "Exact",
+      "corruption": "none (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "糖尿病性胃轻瘫的中医药治疗进",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 6.7,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0169",
+      "label": "Major",
+      "corruption": "major:fake_title",
+      "parsed_doi": "10.70693/cjmsr.v1i1.693",
+      "parsed_title": "多层次老年健康研究进展——以长三角为例",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Major",
+      "doi_status": "resolved",
+      "title_sim": 0.25,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "title"
+      ],
+      "elapsed_ms": 8.5,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0170",
+      "label": "Minor",
+      "corruption": "minor:year 2020->2021 (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "慢性乙型肝炎各类检测方法及技术的研究进展",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [
+        "year"
+      ],
+      "elapsed_ms": 8.3,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0171",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.31497/zrzyxb.20171197",
+      "parsed_title": "基于“三生空间”的土地利用功能转型及生态服务价值研究——以福州新区为例",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 5.1,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0172",
+      "label": "Minor",
+      "corruption": "minor:venue 亚洲临床医学杂志->北方区域经济论坛 (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "放射性肺炎的治疗进展",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [
+        "venue"
+      ],
+      "elapsed_ms": 11.0,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0173",
+      "label": "Major",
+      "corruption": "major:fake_doi",
+      "parsed_doi": "10.9999/cbcn.2024.94080",
+      "parsed_title": "中国经济体制改革为何能够成功?——战略与策略视角的研究",
+      "doi_present": true,
+      "doi_fabricated": true,
+      "status": "Major",
+      "doi_status": "not_found",
+      "title_sim": 0.0,
+      "has_candidate": false,
+      "sources": [
+        "crossref:doi:miss"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 1298.2,
+      "network_requests": 2
+    },
+    {
+      "id": "cbcn-0174",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.55375/bs.2024.1.2.1",
+      "parsed_title": "生物医学检测中常用氧化铁磁性纳米颗粒的生物适应性与毒性研究进展",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 8.6,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0175",
+      "label": "Major",
+      "corruption": "major:fake_title (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "数字化教育公平案例考察——基于省级面板数据的",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Major",
+      "doi_status": "none",
+      "title_sim": 0.44,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [
+        "title"
+      ],
+      "elapsed_ms": 6.1,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0176",
+      "label": "Minor",
+      "corruption": "minor:year 2020->2023",
+      "parsed_doi": "10.16187/j.cnki.issn1001-4918.2020.04.10",
+      "parsed_title": "青少年家庭功能、人际适应和网络欺凌的关系:一个有调节的中介作用",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "year"
+      ],
+      "elapsed_ms": 843.6,
+      "network_requests": 1
+    },
+    {
+      "id": "cbcn-0177",
+      "label": "Minor",
+      "corruption": "minor:pages 7->5",
+      "parsed_doi": "10.26549/yzlcyxzz.v1i1.1373",
+      "parsed_title": "关于乙肝后肝硬化合并上消化道出血的临床护理效果分析",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "pages"
+      ],
+      "elapsed_ms": 6.3,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0178",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.26549/ajcm.v4i2.6668",
+      "parsed_title": "中医药治疗腰椎间盘突出症的相关进展",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 6.1,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0179",
+      "label": "Major",
+      "corruption": "major:fake_doi",
+      "parsed_doi": "10.9999/cbcn.2026.97420",
+      "parsed_title": "柬埔寨发现滑蜥属一新种(爬行纲:石龙子科)",
+      "doi_present": true,
+      "doi_fabricated": true,
+      "status": "Major",
+      "doi_status": "not_found",
+      "title_sim": 0.0,
+      "has_candidate": false,
+      "sources": [
+        "crossref:doi:miss"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 1428.9,
+      "network_requests": 2
+    },
+    {
+      "id": "cbcn-0180",
+      "label": "Minor",
+      "corruption": "minor:venue 石油学报->南方数字治理研究 (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "中国致密油评价标准、主要类型、基本特征及资源前景",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [
+        "venue"
+      ],
+      "elapsed_ms": 6.9,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0181",
+      "label": "Minor",
+      "corruption": "minor:venue 教学方法创新与实践->中国海洋科学前沿",
+      "parsed_doi": "10.26549/jxffcxysj.v4i7.6968",
+      "parsed_title": "基于网络教学平台下的大数据专业教学模式改革",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "venue"
+      ],
+      "elapsed_ms": 6.5,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0182",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.33142/jscs.v4i2.12433",
+      "parsed_title": "基于人工智能技术的体育产业管理与创新模式研究",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 4.8,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0183",
+      "label": "Exact",
+      "corruption": "none (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "睡眠质量对大学生负性情绪的影响——健康促进生活方式和手机依赖的链式中介作用",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 9.3,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0184",
+      "label": "Major",
+      "corruption": "major:fake_title",
+      "parsed_doi": "10.24272/j.issn.2095-8137.2018.025",
+      "parsed_title": "多层次老年健康研究进展",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Major",
+      "doi_status": "resolved",
+      "title_sim": 0.0465,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "title"
+      ],
+      "elapsed_ms": 7.1,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0185",
+      "label": "Exact",
+      "corruption": "none (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "低碳经济背景下房地产经济管理的创新发展",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 9.3,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0186",
+      "label": "Major",
+      "corruption": "major:fake_doi",
+      "parsed_doi": "10.9999/cbcn.2020.55200",
+      "parsed_title": "基于职业能力培养视角的高职英语教学模式改革研究",
+      "doi_present": true,
+      "doi_fabricated": true,
+      "status": "Major",
+      "doi_status": "not_found",
+      "title_sim": 0.0,
+      "has_candidate": false,
+      "sources": [
+        "crossref:doi:miss"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 1407.1,
+      "network_requests": 2
+    },
+    {
+      "id": "cbcn-0187",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.52288/mice.27069273.2020.09.09",
+      "parsed_title": "大学生创业意愿影响因素研究",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 5.2,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0188",
+      "label": "Minor",
+      "corruption": "minor:pages 118-120->112-114",
+      "parsed_doi": "10.36012/sde.v2i3.1624",
+      "parsed_title": "基于大学生创新能力提升高校数学课课程改革的实践研究",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "pages"
+      ],
+      "elapsed_ms": 6.5,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0189",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.55375/jerp.2023.3.12",
+      "parsed_title": "探索生态系统论的学习观 —— 从心理学史看如何“以学生为中心”",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 3.7,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0190",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.33142/jscs.v5i1.15487",
+      "parsed_title": "健身气功对大学生心理健康影响的mate分析",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 4.8,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0191",
+      "label": "Minor",
+      "corruption": "minor:author_order",
+      "parsed_doi": "10.26549/jxffcxysj.v3i5.3861",
+      "parsed_title": "基于建筑设计相融合的建筑物理教学改革与实践",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "authors_order"
+      ],
+      "elapsed_ms": 3.5,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0192",
+      "label": "Major",
+      "corruption": "major:fake_doi",
+      "parsed_doi": "10.9999/cbcn.2024.15118",
+      "parsed_title": "中德跨境电商文本的大语言模型翻译: 基于功能学派翻译理论的可行性研究和译文分析",
+      "doi_present": true,
+      "doi_fabricated": true,
+      "status": "Major",
+      "doi_status": "not_found",
+      "title_sim": 0.0,
+      "has_candidate": false,
+      "sources": [
+        "crossref:doi:miss"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 1528.1,
+      "network_requests": 2
+    },
+    {
+      "id": "cbcn-0193",
+      "label": "Major",
+      "corruption": "major:fake_title (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "动态碳中和研究进展——基于省级面板数据的",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Major",
+      "doi_status": "none",
+      "title_sim": 0.4889,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [
+        "title"
+      ],
+      "elapsed_ms": 5.2,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0194",
+      "label": "Major",
+      "corruption": "major:fake_doi",
+      "parsed_doi": "10.9999/cbcn.2019.61099",
+      "parsed_title": "亲子关系与农村留守儿童孤独感、抑郁:感恩的中介与调节作用",
+      "doi_present": true,
+      "doi_fabricated": true,
+      "status": "Major",
+      "doi_status": "not_found",
+      "title_sim": 0.0,
+      "has_candidate": false,
+      "sources": [
+        "crossref:doi:miss"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 1660.7,
+      "network_requests": 2
+    },
+    {
+      "id": "cbcn-0195",
+      "label": "Minor",
+      "corruption": "minor:year 2025->2024 (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "银发经济视域下成都市金牛区老年人体育消费现状研究",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [
+        "year"
+      ],
+      "elapsed_ms": 5.8,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0196",
+      "label": "Major",
+      "corruption": "major:fake_doi",
+      "parsed_doi": "10.9999/cbcn.2026.52430",
+      "parsed_title": "论《民法典》的行政控权功能",
+      "doi_present": true,
+      "doi_fabricated": true,
+      "status": "Major",
+      "doi_status": "not_found",
+      "title_sim": 0.0,
+      "has_candidate": false,
+      "sources": [
+        "crossref:doi:miss"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 1701.3,
+      "network_requests": 2
+    },
+    {
+      "id": "cbcn-0197",
+      "label": "Major",
+      "corruption": "major:fake_title (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "全链条人工智能治理风险识别方法——以长三角为例",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Major",
+      "doi_status": "none",
+      "title_sim": 0.4,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [
+        "title"
+      ],
+      "elapsed_ms": 6.1,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0198",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.14725/gjph.v2n3a1526",
+      "parsed_title": "麻醉科医生工作倦怠现状及其影响因素研究",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 6.2,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0199",
+      "label": "Exact",
+      "corruption": "none (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "肺癌诊断的进展:分子生物学对支气管镜诊断的贡献",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 4.9,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0200",
+      "label": "Major",
+      "corruption": "major:fake_doi",
+      "parsed_doi": "10.9999/cbcn.2019.32509",
+      "parsed_title": "新型冠状病毒肺炎预防与控制的研究进展",
+      "doi_present": true,
+      "doi_fabricated": true,
+      "status": "Major",
+      "doi_status": "not_found",
+      "title_sim": 0.0,
+      "has_candidate": false,
+      "sources": [
+        "crossref:doi:miss"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 1348.1,
+      "network_requests": 2
+    },
+    {
+      "id": "cbcn-0201",
+      "label": "Exact",
+      "corruption": "none (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "我国农业全产业链绿色发展路径与对策研究",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 10.3,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0202",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.53388/ccmr2022002",
+      "parsed_title": "基于“冬病夏治”思想从肺探析五行生克理论与虚寒型抑郁症的治疗",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 6.8,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0203",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.26549/yzlcyxzz.v3i6.5278",
+      "parsed_title": "益生菌在肝病治疗中的研究进展",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 8.2,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0204",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.26549/iptm.v4i5.6737",
+      "parsed_title": "基于学科竞赛与OBE的课程创新实践能力培养研究——以《计算机控制技术》课程为例",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 7.3,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0205",
+      "label": "Minor",
+      "corruption": "minor:pages 34->40",
+      "parsed_doi": "10.26549/yzlcyxzz.v2i5.2580",
+      "parsed_title": "血脉清治疗周围性神经炎的疗效观察",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "pages"
+      ],
+      "elapsed_ms": 9.5,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0206",
+      "label": "Exact",
+      "corruption": "none (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "材料、构件、结构的“屈服点”定义与讨论",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 15.6,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0207",
+      "label": "Minor",
+      "corruption": "minor:pages 1-16->3-14",
+      "parsed_doi": "10.55375/msphar.2024.1.2.1",
+      "parsed_title": "基于网络药理学结合分子对接探究甘麦大枣汤治疗心脏神经官能症的作用机制",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "pages"
+      ],
+      "elapsed_ms": 8.0,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0208",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.26549/jxffcxysj.v4i8.7137",
+      "parsed_title": "探索建立文化创意设计与建筑学专业相结合的教学新模式 ——以中国嘉兴名人故居文创产品设计实践为例",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 6.4,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0209",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.18306/dlkxjz.2016.07.005",
+      "parsed_title": "中国传统村落空间分布特征分析",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 5.9,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0210",
+      "label": "Major",
+      "corruption": "major:fake_title (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "多层次产业链韧性机制与路径",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Major",
+      "doi_status": "none",
+      "title_sim": 0.5882,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [
+        "title"
+      ],
+      "elapsed_ms": 12.8,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0211",
+      "label": "Major",
+      "corruption": "major:fake_title (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "动态数字经济影响因素分析",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Major",
+      "doi_status": "none",
+      "title_sim": 0.5714,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [
+        "title"
+      ],
+      "elapsed_ms": 6.8,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0212",
+      "label": "Minor",
+      "corruption": "minor:venue 体能科学->亚太城市发展研究",
+      "parsed_doi": "10.33142/jscs.v5i3.16935",
+      "parsed_title": "新质生产力赋能冰雪体育旅游高质量发展研究",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "venue"
+      ],
+      "elapsed_ms": 8.0,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0213",
+      "label": "Major",
+      "corruption": "major:fake_title (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "数字化老龄化社会协同治理框架的再审视",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Major",
+      "doi_status": "none",
+      "title_sim": 0.4103,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [
+        "title"
+      ],
+      "elapsed_ms": 8.9,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0214",
+      "label": "Major",
+      "corruption": "major:fake_doi",
+      "parsed_doi": "10.9999/cbcn.2026.87577",
+      "parsed_title": "我国跨境电子商务存在的问题分析及对策建议",
+      "doi_present": true,
+      "doi_fabricated": true,
+      "status": "Unknown",
+      "doi_status": "error",
+      "title_sim": 0.0,
+      "has_candidate": false,
+      "sources": [
+        "crossref:doi:error"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 1380.8,
+      "network_requests": 2
+    },
+    {
+      "id": "cbcn-0215",
+      "label": "Major",
+      "corruption": "major:fake_title",
+      "parsed_doi": "10.55375/jacr.2023.3.6",
+      "parsed_title": "动态知识图谱时空演化特征——基于省级面板数据的",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Major",
+      "doi_status": "resolved",
+      "title_sim": 0.0465,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "title"
+      ],
+      "elapsed_ms": 3.4,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0216",
+      "label": "Exact",
+      "corruption": "none (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "研究生心理健康教育课程生活化模式探索——基于沟通分析理论*",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 327.2,
+      "network_requests": 1
+    },
+    {
+      "id": "cbcn-0217",
+      "label": "Minor",
+      "corruption": "minor:venue 资源科学->西部教育科学学报 (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "低碳试点政策对城市碳排放绩效的影响评估及机制分析",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [
+        "venue"
+      ],
+      "elapsed_ms": 5.6,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0218",
+      "label": "Exact",
+      "corruption": "none (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "替罗非班结合神经介入治疗对急性脑梗死患者神经功能的影响",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 9.3,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0219",
+      "label": "Major",
+      "corruption": "major:fake_title (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "新型老年健康影响因素分析——基于省级面板数据的",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Major",
+      "doi_status": "none",
+      "title_sim": 0.3077,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [
+        "title"
+      ],
+      "elapsed_ms": 6.1,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0220",
+      "label": "Minor",
+      "corruption": "minor:pages 1306-1316->1310-1320",
+      "parsed_doi": "10.18402/resci.2019.07.11",
+      "parsed_title": "政府政策和市场竞争对欧盟国家可再生能源技术创新的影响",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "pages"
+      ],
+      "elapsed_ms": 6.8,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0221",
+      "label": "Major",
+      "corruption": "major:fake_doi",
+      "parsed_doi": "10.9999/cbcn.2022.57709",
+      "parsed_title": "京津冀城市群协同发展的理论基础与规律性分析",
+      "doi_present": true,
+      "doi_fabricated": true,
+      "status": "Major",
+      "doi_status": "not_found",
+      "title_sim": 0.0,
+      "has_candidate": false,
+      "sources": [
+        "crossref:doi:miss"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 1507.9,
+      "network_requests": 2
+    },
+    {
+      "id": "cbcn-0222",
+      "label": "Minor",
+      "corruption": "minor:author_order",
+      "parsed_doi": "10.18306/dlkxjz.2019.04.002",
+      "parsed_title": "中国地缘环境研究进展与思考",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "authors_order"
+      ],
+      "elapsed_ms": 6.3,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0223",
+      "label": "Exact",
+      "corruption": "none (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "数字金融对安徽专精特新企业高质量发展的影响效用及机制研究",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 7.0,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0224",
+      "label": "Major",
+      "corruption": "major:fake_doi",
+      "parsed_doi": "10.9999/cbcn.2018.62848",
+      "parsed_title": "论特殊情况期间精准扶贫到乡村振兴平稳转型的路径探索",
+      "doi_present": true,
+      "doi_fabricated": true,
+      "status": "Major",
+      "doi_status": "not_found",
+      "title_sim": 0.0,
+      "has_candidate": false,
+      "sources": [
+        "crossref:doi:miss"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 1508.5,
+      "network_requests": 2
+    },
+    {
+      "id": "cbcn-0225",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.55375/cps.2023.3.2",
+      "parsed_title": "基于跨模块融合的多模态情感分析",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 7.0,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0226",
+      "label": "Major",
+      "corruption": "major:fake_doi",
+      "parsed_doi": "10.9999/cbcn.2024.94923",
+      "parsed_title": "高品质再生骨料制备技术及其对再生混凝土性能的影响",
+      "doi_present": true,
+      "doi_fabricated": true,
+      "status": "Major",
+      "doi_status": "not_found",
+      "title_sim": 0.0,
+      "has_candidate": false,
+      "sources": [
+        "crossref:doi:miss"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 1314.5,
+      "network_requests": 2
+    },
+    {
+      "id": "cbcn-0227",
+      "label": "Minor",
+      "corruption": "minor:author_order (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "腹腔镜下胆囊切除术及并发症分析",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [
+        "authors_order"
+      ],
+      "elapsed_ms": 6.1,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0228",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.26549/jxffcxysj.v3i2.3521",
+      "parsed_title": "行动导向教学在基础护理学实验教学中的应用研究",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 6.2,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0229",
+      "label": "Minor",
+      "corruption": "minor:venue 文献与数据学报->北方教育科学论坛",
+      "parsed_doi": "10.31193/ssap.j.issn.2096-6695.2019.04.09",
+      "parsed_title": "智慧出版:数字时代的学术出版转型之路",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "venue"
+      ],
+      "elapsed_ms": 6.9,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0230",
+      "label": "Minor",
+      "corruption": "minor:author_order",
+      "parsed_doi": "10.26549/cjygl.v4i5.4037",
+      "parsed_title": "江西省生态文明典型范式的生态经济价值研究 ——基于《江西山江湖工程》36年实践总结",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "authors_order"
+      ],
+      "elapsed_ms": 7.4,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0231",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.24272/j.issn.2095-8137.2018.010",
+      "parsed_title": "老挝东北部喀斯特地貌发现弯趾虎属一新种(爬行纲:壁虎科)",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 7.4,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0232",
+      "label": "Minor",
+      "corruption": "minor:venue 地理学报->亚太教育科学论坛",
+      "parsed_doi": "10.11821/dlxb201509004",
+      "parsed_title": "近50年来祁连山冰川变化——基于中国第一、二次冰川编目数据",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "venue"
+      ],
+      "elapsed_ms": 898.0,
+      "network_requests": 1
+    },
+    {
+      "id": "cbcn-0233",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.26549/cjygl.v4i12.5766",
+      "parsed_title": "美国量化宽松政策的实施和退出对中国经济的影响",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 5.9,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0234",
+      "label": "Major",
+      "corruption": "major:fake_title",
+      "parsed_doi": "10.26549/jxffcxysj.v4i7.6974",
+      "parsed_title": "多层次区域协同评价指标体系:一个分析框架",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Major",
+      "doi_status": "resolved",
+      "title_sim": 0.0526,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "title"
+      ],
+      "elapsed_ms": 5.1,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0235",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.18306/dlkxjz.2017.12.002",
+      "parsed_title": "中国政治地理学研究进展——基于国家科学基金资助的分析",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 7.8,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0236",
+      "label": "Minor",
+      "corruption": "minor:issue 5->4",
+      "parsed_doi": "10.36012/sde.v2i5.2096",
+      "parsed_title": "线上线下混合教学模式探索",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 5.5,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0237",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.26549/jxffcxysj.v2i1.1291",
+      "parsed_title": "虚拟仿真实验室在仪器分析实验教学中的教学探索",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 8.2,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0238",
+      "label": "Minor",
+      "corruption": "minor:issue 3->2 (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "北京市地铁客流的时空分布格局及特征——基于智能交通卡数据",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 6.5,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0239",
+      "label": "Major",
+      "corruption": "major:fake_title (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "多层次碳中和绩效评估模型——以长三角为例",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Major",
+      "doi_status": "none",
+      "title_sim": 0.3415,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [
+        "title"
+      ],
+      "elapsed_ms": 7.7,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0240",
+      "label": "Minor",
+      "corruption": "minor:venue 亚洲临床医学杂志->当代教育科学前沿",
+      "parsed_doi": "10.26549/yzlcyxzz.v1i1.1375",
+      "parsed_title": "石破天惊:中药治愈癌症的临床结论",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "venue"
+      ],
+      "elapsed_ms": 6.8,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0241",
+      "label": "Major",
+      "corruption": "major:fake_doi",
+      "parsed_doi": "10.9999/cbcn.2021.10068",
+      "parsed_title": "关于中医芳香疗法治疗失眠的研究进展",
+      "doi_present": true,
+      "doi_fabricated": true,
+      "status": "Major",
+      "doi_status": "not_found",
+      "title_sim": 0.0,
+      "has_candidate": false,
+      "sources": [
+        "crossref:doi:miss"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 1473.0,
+      "network_requests": 2
+    },
+    {
+      "id": "cbcn-0242",
+      "label": "Major",
+      "corruption": "major:fake_doi",
+      "parsed_doi": "10.9999/cbcn.2017.50282",
+      "parsed_title": "结构重塑:老龄化背景下社区老龄居民参与治理模式探索",
+      "doi_present": true,
+      "doi_fabricated": true,
+      "status": "Major",
+      "doi_status": "not_found",
+      "title_sim": 0.0,
+      "has_candidate": false,
+      "sources": [
+        "crossref:doi:miss"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 1373.8,
+      "network_requests": 2
+    },
+    {
+      "id": "cbcn-0243",
+      "label": "Major",
+      "corruption": "major:fake_title (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "全链条老年健康时空演化特征——以长三角为例",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Major",
+      "doi_status": "none",
+      "title_sim": 0.3043,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [
+        "title"
+      ],
+      "elapsed_ms": 7.0,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0244",
+      "label": "Minor",
+      "corruption": "minor:volume 41->40",
+      "parsed_doi": "10.18402/resci.2019.01.08",
+      "parsed_title": "中国农业水贫困评价及时空特征分析",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "volume"
+      ],
+      "elapsed_ms": 5.8,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0245",
+      "label": "Exact",
+      "corruption": "none",
+      "parsed_doi": "10.1142/s1793724821000067",
+      "parsed_title": "异国他乡的温病",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 5.5,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0246",
+      "label": "Minor",
+      "corruption": "minor:venue 亚洲临床医学杂志->现代文化传播前沿",
+      "parsed_doi": "10.26549/yzlcyxzz.v3i6.5824",
+      "parsed_title": "微创经皮锁定加压钢板内固定术治疗四肢骨折的效果观察及VAS评分影响分析",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "venue"
+      ],
+      "elapsed_ms": 7.6,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0247",
+      "label": "Exact",
+      "corruption": "none (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "全球视野下崩岗侵蚀地貌及其研究进展",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 9.1,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0248",
+      "label": "Major",
+      "corruption": "major:fake_doi",
+      "parsed_doi": "10.9999/cbcn.2018.45092",
+      "parsed_title": "中国山区耕地撂荒程度及空间分布——基于全国山区抽样调查结果",
+      "doi_present": true,
+      "doi_fabricated": true,
+      "status": "Major",
+      "doi_status": "not_found",
+      "title_sim": 0.0,
+      "has_candidate": false,
+      "sources": [
+        "crossref:doi:miss"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 1332.4,
+      "network_requests": 2
+    },
+    {
+      "id": "cbcn-0249",
+      "label": "Minor",
+      "corruption": "minor:venue 中国医学科学研究->亚太计量经济论坛",
+      "parsed_doi": "10.70693/cjmsr.v1i1.570",
+      "parsed_title": "中医药蜡疗治疗膝骨关节炎研究进展",
+      "doi_present": true,
+      "doi_fabricated": false,
+      "status": "Minor",
+      "doi_status": "resolved",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
+      ],
+      "mismatches": [
+        "venue"
+      ],
+      "elapsed_ms": 8.3,
+      "network_requests": 0
+    },
+    {
+      "id": "cbcn-0250",
+      "label": "Exact",
+      "corruption": "none (no DOI)",
+      "parsed_doi": "",
+      "parsed_title": "长链非编码 RNA 在消化系统肿瘤中的研究进展",
+      "doi_present": false,
+      "doi_fabricated": false,
+      "status": "Exact",
+      "doi_status": "none",
+      "title_sim": 1.0,
+      "has_candidate": true,
+      "sources": [
+        "openalex",
+        "crossref"
+      ],
+      "mismatches": [],
+      "elapsed_ms": 7.3,
+      "network_requests": 0
+    }
+  ],
+  "limitations": [
+    "warm 延迟是缓存命中场景（复跑/演示），不代表首次联网核验的等待时间；首次联网见 latency_cold。",
+    "cold 样本 n≈20，仅用于量级估计，不是全量 250 条的冷启动测量。",
+    "DOI 404 率按构造包含 37 条虚构 DOI，故 all 口径的 anchor 命中率天然偏低，另给 genuine 口径。",
+    "字段比对触发率统计的是 _field_mismatches 的实际调用次数，不区分字段是否真的不一致。",
+    "延迟在单线程顺序执行下测量，未计入 Web 端上传/排队/渲染时间。"
+  ]
+}

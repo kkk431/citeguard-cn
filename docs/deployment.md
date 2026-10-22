@@ -1,0 +1,315 @@
+# CiteGuard-CN 部署手册（v0.3.0）
+
+本文覆盖四种落地方式：本地开发、服务器 `.pylibs` 部署、SSH 隧道访问、Docker。
+所有方式都遵循同一条安全约束：**API Key 只从环境变量注入，绝不写进仓库或镜像**。
+
+- 项目根目录：`citeguard/`
+- Web 入口：`web.app:app`（FastAPI）
+- 监听端口：`8000`
+- 运行时依赖：`requirements.txt`
+- 健康检查：`GET /api/health`（返回 `ok`、`version`、`supported` 后缀列表）
+- 无 `DEEPSEEK_API_KEY` 时：支持度判定降级为 `not_checked`，其余功能（引文解析、多源核验、GB/T 7714-2025 字段检查、报告导出）正常。
+
+---
+
+## 1. 本地运行
+
+### 1.1 安装依赖
+
+```bash
+cd citeguard
+python3 -m pip install -r requirements.txt
+```
+
+Python 3.12 推荐；依赖包含 `fastapi`、`uvicorn`、`jinja2`、`python-multipart`、
+`requests`、`rapidfuzz`、`pypdf`、`pdfplumber`、`python-docx`。
+
+### 1.2 启动 Web 工作台
+
+```bash
+# 在 citeguard/ 目录下执行
+PYTHONPATH=src python3 -m uvicorn web.app:app --host 0.0.0.0 --port 8000
+```
+
+打开 <http://127.0.0.1:8000>。页面上传支持 `.pdf` / `.docx` / `.txt` / `.md`，
+单文件默认上限 30 MB（`CITEGUARD_MAX_UPLOAD_MB` 可调）。
+
+### 1.3 CLI 与测试
+
+```bash
+# CLI 分析一篇论文
+PYTHONPATH=src python3 -m citeguard.cli --input web/static/samples/sample_paper.txt --out out/demo
+
+# 单元 + 端到端测试（完全离线，不消耗 API 额度）
+PYTHONPATH=src python3 -m pytest tests -q
+
+# 交付物一致性检查（无需网络 / 无需 key）
+PYTHONPATH=src python3 scripts/verify_artifacts.py
+
+# 打干净 zip（输出到 dist/）
+PYTHONPATH=src python3 scripts/package_deliverable.py
+```
+
+Windows PowerShell 下把 `PYTHONPATH=src` 换成 `$env:PYTHONPATH="src;.pylibs"` 即可。
+
+### 1.4 可选：启用 LLM 支持度判定
+
+```bash
+export DEEPSEEK_API_KEY=sk-...          # 仅当前 shell 生效
+export DEEPSEEK_BASE_URL=https://api.deepseek.com
+export DEEPSEEK_MODEL=deepseek-chat
+export CITEGUARD_SUPPORT_MAX_REFS=30    # 每个任务最多判定多少条（默认 30，上限 200）
+```
+
+也可以复制 `.env.example` 为 `.env` 后由进程管理器 / Docker Compose 注入，
+**不要**把 `.env` 提交到仓库，也不要 `COPY` 进 Docker 镜像。
+
+---
+
+## 2. 服务器部署（`/data/xyjiang/aic_mental/citeguard`，`.pylibs` 方案）
+
+目标机器通常没有 root、也不方便建 venv，因此把依赖装进项目内的 `.pylibs/`。
+
+### 2.1 同步代码与安装依赖
+
+```bash
+cd /data/xyjiang/aic_mental/citeguard
+
+# 首次安装（清华源，适合国内服务器）
+python3 -m pip install --target .pylibs -r requirements.txt \
+  -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+# 升级依赖时同样执行上面的命令（--upgrade 可加可不加）
+```
+
+### 2.2 启动服务
+
+```bash
+cd /data/xyjiang/aic_mental/citeguard
+DEEPSEEK_API_KEY="${DEEPSEEK_API_KEY:-}" \
+PYTHONPATH=src:.pylibs \
+python3 -m uvicorn web.app:app --host 0.0.0.0 --port 8000
+```
+
+要点：
+
+- `PYTHONPATH=src:.pylibs`：先源码、后本地依赖；不需要 `pip install -e .`。
+- `data/`、`data/jobs/`、`data/cache/` 需要可写；上传文件在解析完成后立即删除。
+- 服务默认无守护。长期运行建议交给 `systemd`、`tmux` 或 `nohup`：
+
+```bash
+nohup env PYTHONPATH=src:.pylibs \
+  python3 -m uvicorn web.app:app --host 0.0.0.0 --port 8000 \
+  > citeguard.log 2>&1 &
+```
+
+### 2.3 反向代理 / 防火墙
+
+若只允许本机或跳板机访问，推荐把监听地址改成 `--host 127.0.0.1`，再用第 3 节的 SSH 隧道；
+若必须 `--host 0.0.0.0`，请用安全组 / `ufw` / `iptables` 限制来源 IP，不要直接暴露到公网。
+Nginx 反向代理示例（片段）：
+
+```nginx
+location / {
+    proxy_pass http://127.0.0.1:8000;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    client_max_body_size 32m;   # 与 CITEGUARD_MAX_UPLOAD_MB 对齐
+    proxy_read_timeout 300s;
+}
+```
+
+### 2.4 systemd 单元（可选）
+
+```ini
+# /etc/systemd/system/citeguard.service
+[Unit]
+Description=CiteGuard-CN web app
+After=network.target
+
+[Service]
+User=xyjiang
+WorkingDirectory=/data/xyjiang/aic_mental/citeguard
+Environment=PYTHONPATH=src:.pylibs
+Environment=DEEPSEEK_API_KEY=
+ExecStart=/usr/bin/python3 -m uvicorn web.app:app --host 127.0.0.1 --port 8000
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
+```
+
+> 生产环境请把 key 放在 root 可读的 `EnvironmentFile` 或用 `systemctl edit` 注入，
+> 不要把真实 key 写进仓库里的 unit 文件。
+
+---
+
+## 3. SSH 隧道访问
+
+服务器上仅监听 `127.0.0.1:8000`（或防火墙只放行本机）时，用 SSH 本地端口转发：
+
+```bash
+ssh -L 8000:127.0.0.1:8000 jxy-2
+```
+
+保持该会话不退出，然后在本地浏览器打开 <http://127.0.0.1:8000>。
+`8000` 被本地占用时换成任意空闲端口，例如：
+
+```bash
+ssh -L 18000:127.0.0.1:8000 jxy-2
+# 浏览器访问 http://127.0.0.1:18000
+```
+
+排查：
+
+- `channel 2: open failed: connect failed: Connection refused`：服务器上的 uvicorn 没启动，
+  或监听地址与转发目标不一致。
+- 本地端口已占用：`lsof -i :8000`（macOS/Linux）或 `netstat -ano | findstr :8000`（Windows）。
+- 隧道建立后页面 404：确认命令在 `citeguard/` 目录执行，且 `PYTHONPATH=src`。
+
+---
+
+## 4. Docker 部署
+
+镜像定义：`docker/Dockerfile`；编排：`docker/docker-compose.yml`。
+构建上下文必须是 `citeguard/`（不是 `docker/`），`.dockerignore` 已排除
+`.env`、`data/jobs`、`data/cache`、`data/uploads`、`.pylibs`、`dist`、`tests` 等。
+
+### 4.1 直接构建 / 运行
+
+```bash
+cd citeguard
+docker build -f docker/Dockerfile -t citeguard-cn:0.3.0 .
+
+docker run --rm -p 127.0.0.1:8000:8000 \
+  -e DEEPSEEK_API_KEY="${DEEPSEEK_API_KEY:-}" \
+  -v "$PWD/data/jobs:/app/data/jobs" \
+  -v "$PWD/data/cache:/app/data/cache" \
+  citeguard-cn:0.3.0
+```
+
+镜像内固定 `PYTHONPATH=/app/src`，启动命令：
+
+```text
+uvicorn web.app:app --host 0.0.0.0 --port 8000
+```
+
+### 4.2 Docker Compose（推荐）
+
+```bash
+cd citeguard
+export DEEPSEEK_API_KEY=sk-...        # 不设置也能跑，支持度会是 not_checked
+docker compose -f docker/docker-compose.yml up -d --build
+docker compose -f docker/docker-compose.yml ps
+docker compose -f docker/docker-compose.yml logs -f citeguard
+```
+
+默认映射 `127.0.0.1:8000 -> 8000`，即只允许本机访问；需要局域网访问时把
+`docker-compose.yml` 里的端口改成 `"8000:8000"` 并配合防火墙。
+
+说明：
+
+- **Key 只来自环境变量**：`${DEEPSEEK_API_KEY:-}`；compose 不使用 `env_file: .env`，
+  Dockerfile 也不 `COPY .env`，因此镜像里没有密钥。
+- `data/jobs` 与 `data/cache` 以 bind mount 持久化，重建容器不丢任务与缓存。
+- 镜像内置 `HEALTHCHECK`，轮询 `/api/health`；`docker ps` 的 `STATUS` 会显示 `healthy`。
+- 只把 `data/citebench_cn/results.json` 打进镜像（`/benchmark` 页面需要），
+  不打包 15 MB 的离线缓存与 `data/jobs` 历史。
+- 以非 root 用户 `citeguard`（UID 10001）运行。
+
+### 4.3 无外网环境的镜像搬运
+
+```bash
+# 有网机器
+docker save citeguard-cn:0.3.0 | gzip > citeguard-cn-0.3.0.tar.gz
+# 目标机器
+docker load < citeguard-cn-0.3.0.tar.gz
+```
+
+---
+
+## 5. 无 API Key 的降级行为
+
+`DEEPSEEK_API_KEY` 为空时：
+
+- `support.judge_support()` 返回 `None`，`pipeline` 随即把该条记为 `not_checked`；
+- 报告 `stats.support.not_checked` 等于未判定条数，`stats.support_meta.judge_available == false`；
+- 报告页面显示「支持度：未检测」，不会报错、不会阻塞任务；
+- 引文解析、OpenAlex/Crossref/arXiv 元数据核验、GB/T 7714-2025 字段检查、
+  HTML/Markdown/JSON 导出全部可用。
+
+完全断网时：
+
+- `metadata_verify` 把每个请求的异常收敛为 `Unknown`（而不是崩溃），任务仍能完成；
+- 报告里核验状态为「无法核验（网络/数据源问题）」，属于预期降级；
+- 可用 `data/cache/` 预热过的缓存结果做离线演示（把缓存目录一起搬运即可）。
+
+---
+
+## 6. 验收清单
+
+```bash
+cd citeguard
+PYTHONPATH=src:.pylibs python3 -m pytest tests -q          # 应全绿（含离线端到端）
+PYTHONPATH=src python3 scripts/verify_artifacts.py         # 应输出 [OK] all checks passed
+PYTHONPATH=src python3 scripts/package_deliverable.py      # 生成 dist/citeguard-cn-0.3.0.zip
+curl -s http://127.0.0.1:8000/api/health                   # {"ok":true,...}
+```
+
+Docker 方式额外验证：
+
+```bash
+docker compose -f docker/docker-compose.yml up -d --build
+docker inspect --format '{{.State.Health.Status}}' citeguard   # healthy
+curl -s http://127.0.0.1:8000/api/health
+```
+
+---
+
+## 7. FAQ
+
+**Q1. 启动报 `ModuleNotFoundError: No module named 'citeguard'`？**
+没有设置 `PYTHONPATH=src`。在 `citeguard/` 目录运行，或显式
+`PYTHONPATH=src:.pylibs python3 -m uvicorn web.app:app ...`。
+
+**Q2. 服务器上没有 venv/virtualenv，能装依赖吗？**
+用 `.pylibs` 方案：`python3 -m pip install --target .pylibs -r requirements.txt`，
+运行时把 `.pylibs` 放进 `PYTHONPATH`（放在 `src` 之后）。
+
+**Q3. 上传 `.docx` 报 500 / `No module named 'docx'`？**
+`python-docx` 未安装。`requirements.txt` 已包含 `python-docx>=1.1`，
+重新执行 `pip install -r requirements.txt`（服务器上装到 `.pylibs`）。
+旧版 `.doc` 不支持，会提示先另存为 `.docx`。
+
+**Q4. 上传 PDF 后任务失败，提示“没有可提取的文字层”？**
+扫描件 / 图片型 PDF 没有文本层。先用 OCR（PaddleOCR、Acrobat「识别文本」）处理，
+或直接上传 Word 原稿。
+
+**Q5. 上传大文件返回 413？**
+默认上限 30 MB，由 `CITEGUARD_MAX_UPLOAD_MB` 控制；Nginx 侧还要放宽
+`client_max_body_size`。
+
+**Q6. 报告里全是“无法核验 / Unknown”？**
+服务器无法访问 OpenAlex / Crossref / arXiv，或代理未配置。
+检查 `curl -I https://api.crossref.org/works`；也可复制预热过的 `data/cache/` 到部署目录。
+
+**Q7. 支持度全是“未检测（not_checked）”？**
+没有配置 `DEEPSEEK_API_KEY`，或摘要缺失、正文未引用、超出本次判定上限
+（`CITEGUARD_SUPPORT_MAX_REFS` / 页面上的上限参数）。看
+`stats.support_meta` 中的 `skipped_no_abstract`、`skipped_no_claim`、`skipped_by_cap`。
+
+**Q8. 端口 8000 被占用？**
+`lsof -i :8000` / `netstat -ano | findstr :8000` 找到进程后停掉，
+或换端口启动并用 SSH 隧道映射。
+
+**Q9. Docker 构建很慢 / 拉不到基础镜像？**
+配置镜像加速器或先在能联网的机器 `docker save` / `docker load`；
+构建上下文已通过 `.dockerignore` 精简。
+
+**Q10. 为什么镜像里没有 `data/jobs` 历史记录？**
+交付镜像刻意只带只读的 benchmark 结果；任务与缓存通过 volume 持久化，
+避免把用户上传内容和密钥带进镜像。
+
+**Q11. 如何确认某次部署的版本？**
+`curl -s http://127.0.0.1:8000/api/health`，`version` 字段即当前版本（本手册对应 `0.3.0`）。

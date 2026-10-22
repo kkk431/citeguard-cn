@@ -20,10 +20,18 @@ DOI_RE = re.compile(r"(10\.\d{4,9}/[^\s,;，；]+)", re.I)
 YEAR_RE = re.compile(r"(?<!\d)((?:19|20)\d{2})(?!\d)")
 URL_RE = re.compile(r"https?://[^\s，；;]+")
 VOL_ISSUE_RE = re.compile(r"(\d+)\s*[（(]\s*(\d+)\s*[)）]")
+# English-style: "45(3)" handled above; also "Vol. 45, No. 3" / "vol 45 no 3"
+VOL_NO_RE = re.compile(r"\bvol(?:ume)?\.?\s*(\d+)\b", re.I)
+ISS_NO_RE = re.compile(r"\bno\.?\s*(\d+)\b", re.I)
 PAGES_RE = re.compile(r":\s*(\d+)\s*[-–—~～]\s*(\d+)")
+PP_PAGES_RE = re.compile(r"\bpp?\.?\s*(\d+)\s*[-–—~～]\s*(\d+)", re.I)
 PAGE_RE = re.compile(r":\s*(\d+)")
+EDITION_RE = re.compile(r"第\s*([0-9一二三四五六七八九十]+)\s*版")
+IN_PREFIX_RE = re.compile(r"^(?:in|In|IN)\s*[:：]\s*")
 INDEX_RE = re.compile(r"^\s*(?:\[(\d+)\]|(\d+)[\.、)]|[（(](\d+)[)）])\s*")
 ACCESS_DATE_RE = re.compile(r"[\[(]\s*((?:19|20)\d{2}-\d{2}-\d{2})\s*[\])]")
+# 电子资源写法 "(更新日期)[引用日期]": the bracketed date is the access date.
+ACCESS_DATE_BRACKET_RE = re.compile(r"[(（]?\s*\[((?:19|20)\d{2}-\d{2}-\d{2})\s*\]")
 STANDARD_NO_RE = re.compile(r"^\s*((?:GB|GB/T|ISO|IEC|JJF|YY|QB|DB\d*)\s*[\d.\-—]+\s*[-—]\s*\d{2,4})")
 PATENT_NO_RE = re.compile(r"(CN\d{6,}[A-Z]?)")
 REPORT_NO_RE = re.compile(r"([A-Z]{1,6}\s*[-/]?\s*\d{2,}[-—]\d{2,})")
@@ -86,11 +94,72 @@ class InTextCitation:
     position: int = 0
 
 
+_APA_YEAR_MARK_RE = re.compile(r"[（(]((?:19|20)\d{2})[a-z]?[)）]\s*[.．]\s*")
+
+
+_LEADING_ID_RE = re.compile(
+    r"^(?:(?:https?://\S+|doi\s*[:：]\s*\S+|10\.\d{4,9}/\S+)\s+)+", re.I
+)
+
+
+def _strip_leading_ids(text: str) -> str:
+    """Remove stray URLs/DOIs that PDF extraction glued to the next entry.
+
+    A DOI printed at the end of one reference can land at the start of the next
+    entry (column/page boundaries); left in place it hijacks that entry's DOI.
+    """
+    cleaned = _LEADING_ID_RE.sub("", (text or "").strip())
+    return cleaned.strip()
+
+
+def _split_apa_entries(text: str) -> list[str]:
+    """Split an APA-style list where entries start with ``作者(年份).``."""
+    marks = list(_APA_YEAR_MARK_RE.finditer(text))
+    if len(marks) < 3:
+        return []
+    starts: list[int] = []
+    for m in marks:
+        # The entry starts right after the previous entry's final period. Author
+        # initials also look like sentence ends ("..., J. D. (1978)."), so skip
+        # boundaries that are immediately followed by the year itself.
+        dots = list(re.finditer(r"[.．][ \t\n]+", text[: m.start()]))
+        start = 0
+        for dot in reversed(dots):
+            if not re.match(r"[（(]\s*(?:19|20)\d{2}", text[dot.end() :]):
+                start = dot.end()
+                break
+        starts.append(start)
+    entries: list[str] = []
+    unique = sorted(set(starts))
+    for k, start in enumerate(unique):
+        end = unique[k + 1] if k + 1 < len(unique) else len(text)
+        block = _strip_leading_ids(text[start:end])
+        if _looks_like_entry(block):
+            entries.append(re.sub(r"\s*\n\s*", " ", block))
+    return entries
+
+
+_ENTRY_LETTER_RE = re.compile(r"[A-Za-z\u4e00-\u9fff]")
+
+
+def _looks_like_entry(block: str) -> bool:
+    """Reject fragments such as a lone page number or a bare URL tail."""
+    if len(block.strip()) < 8:
+        return False
+    if not _ENTRY_LETTER_RE.search(block):
+        return False
+    # A page number followed by nothing useful ("1177.") is not a reference.
+    if re.fullmatch(r"\s*\d{1,5}\s*[.。]?\s*", block):
+        return False
+    return True
+
+
 def split_entries(refs_text: str) -> list[str]:
     """Split a reference section into entries.
 
     Primary split: a new line starting with [n] / n. / (n).
-    Fallback: blank-line-separated blocks, then line-by-line if no blank lines.
+    Fallback: inline ``[n]`` markers inside a single paragraph (common when the
+    list is copy-pasted from Word), then blank-line blocks, then line-by-line.
     """
     text = normalize_text(refs_text)
     if not text.strip():
@@ -98,20 +167,49 @@ def split_entries(refs_text: str) -> list[str]:
     lines = text.splitlines()
     starts: list[int] = []
     for i, line in enumerate(lines):
-        if INDEX_RE.match(line.strip()):
-            starts.append(i)
-    if starts:
+        stripped = line.strip()
+        if not INDEX_RE.match(stripped):
+            continue
+        # "2025. https://..." is a wrapped continuation line, not entry number 2025.
+        m = re.match(r"^(\d{1,5})[.、)]", stripped)
+        if m and len(m.group(1)) == 4 and re.match(r"(?:19|20)\d{2}$", m.group(1)):
+            continue
+        starts.append(i)
+
+    # APA-ish lists: every entry starts with authors followed by "(year).".
+    # Computed before choosing a split because some PDFs have a couple of
+    # numbered lines (page furniture) while the real list is author-date.
+    apa = [e for e in _split_apa_entries(text) if _looks_like_entry(e)]
+
+    if len(starts) >= 2 and len(apa) <= len(starts):
         entries: list[str] = []
         for k, start in enumerate(starts):
             end = starts[k + 1] if k + 1 < len(starts) else len(lines)
-            block = "\n".join(lines[start:end]).strip()
-            if block:
+            block = _strip_leading_ids("\n".join(lines[start:end]).strip())
+            if _looks_like_entry(block):
                 entries.append(re.sub(r"\s*\n\s*", " ", block))
         return entries
-    blocks = [b.strip() for b in re.split(r"\n\s*\n", text) if b.strip()]
+    # One-paragraph lists: split wherever a bracketed index is followed by text.
+    marks = list(re.finditer(r"\[(\d{1,3})\]\s*(?=\S)", text))
+    if len(marks) >= 2 and len(apa) < len(marks):
+        entries = []
+        for k, m in enumerate(marks):
+            end = marks[k + 1].start() if k + 1 < len(marks) else len(text)
+            block = _strip_leading_ids(text[m.start() : end].strip())
+            if _looks_like_entry(block):
+                entries.append(re.sub(r"\s*\n\s*", " ", block))
+        if entries:
+            return entries
+    if len(apa) >= 3:
+        return apa
+    blocks = [
+        _strip_leading_ids(b.strip())
+        for b in re.split(r"\n\s*\n", text)
+        if _looks_like_entry(_strip_leading_ids(b.strip()))
+    ]
     if len(blocks) > 1:
         return [re.sub(r"\s*\n\s*", " ", b) for b in blocks]
-    return [ln.strip() for ln in lines if len(ln.strip()) > 15]
+    return [_strip_leading_ids(ln.strip()) for ln in lines if _looks_like_entry(ln)]
 
 
 def _looks_like_authors(seg: str) -> bool:
@@ -187,12 +285,18 @@ def _split_authors_title(left: str) -> tuple[list[str], str]:
     m = re.match(r"^([\u4e00-\u9fff]{2,4}(?:[,，、][\u4e00-\u9fff]{2,4})*)\s*[\.．]\s*(.+)$", left)
     if m:
         return _split_authors(m.group(1)), _clean(m.group(2))
+    # "宋玉茹, 题名[J]..." — a single author followed by a comma, no period.
+    m = re.match(r"^([\u4e00-\u9fff]{2,4})\s*[,，]\s*(.+)$", left)
+    if m and re.search(r"[\u4e00-\u9fff]", m.group(2)):
+        return [m.group(1)], _clean(m.group(2))
     return [], _clean(left)
 
 
 def _first_segment(right: str) -> str:
     """First segment of the post-type text, e.g. journal name before ', 2020'."""
     right = re.sub(r"^[\.．,，。;；:：\s]+", "", right or "")
+    # Conference entries often read "In: Proceedings of ..." — drop the prefix.
+    right = IN_PREFIX_RE.sub("", right)
     m = re.search(r"[\.．]\s+|,\s*(?=(?:19|20)\d{2})|,\s*(?=\d+\s*[（(])", right)
     seg = right[: m.start()] if m else right
     return _clean(seg)
@@ -217,7 +321,7 @@ def parse_reference(raw: str, index: Optional[int] = None) -> Reference:
     um = URL_RE.search(text)
     if um:
         ref.url = _clean_doi(um.group(0))
-    ad = ACCESS_DATE_RE.search(text)
+    ad = ACCESS_DATE_BRACKET_RE.search(text) or ACCESS_DATE_RE.search(text)
     if ad:
         ref.access_date = ad.group(1)
 
@@ -232,6 +336,9 @@ def parse_reference(raw: str, index: Optional[int] = None) -> Reference:
         ref.doc_type = "J" if (ref.doi or ref.url) else ""
         left, right = text, text
 
+    if not tm and _parse_apa(ref, text):
+        return ref
+
     ref.authors, ref.title = _split_authors_title(left)
 
     ym = YEAR_RE.search(right) or YEAR_RE.search(text)
@@ -241,16 +348,32 @@ def parse_reference(raw: str, index: Optional[int] = None) -> Reference:
     vm = VOL_ISSUE_RE.search(right)
     if vm:
         ref.volume, ref.issue = vm.group(1), vm.group(2)
+    else:
+        # English style: "Vol. 45, No. 3"
+        vol_m = VOL_NO_RE.search(right)
+        if vol_m:
+            ref.volume = vol_m.group(1)
+        iss_m = ISS_NO_RE.search(right)
+        if iss_m:
+            ref.issue = iss_m.group(1)
     # Do not let a DOI/NBN prefix be mistaken for a page range.
     right_no_id = DOI_RE.sub("", right)
     pm = PAGES_RE.search(right_no_id)
     if pm:
         ref.pages = f"{pm.group(1)}-{pm.group(2)}"
     else:
-        # Only accept a single page if it appears as ": 123." near the end.
-        pm2 = PAGE_RE.search(right_no_id)
-        if pm2:
-            ref.pages = pm2.group(1)
+        pp_m = PP_PAGES_RE.search(right_no_id)
+        if pp_m:
+            ref.pages = f"{pp_m.group(1)}-{pp_m.group(2)}"
+        else:
+            # Only accept a single page if it appears as ": 123." near the end.
+            pm2 = PAGE_RE.search(right_no_id)
+            if pm2:
+                ref.pages = pm2.group(1)
+
+    ed = EDITION_RE.search(text)
+    if ed and ref.doc_type in {"M", "D", "R", "S"}:
+        ref.version = f"第{ed.group(1)}版"
 
     ref.venue = _first_segment(right) if ref.doc_type in {"J", "C", "N"} else ""
 
@@ -312,6 +435,69 @@ def _parse_thesis_fields(ref: Reference, right: str) -> None:
         m2 = re.search(r"([^,，.．]+)[,，]\s*((?:19|20)\d{2})", right)
         if m2:
             ref.institution = _clean(m2.group(1))
+
+
+APA_HEAD_RE = re.compile(
+    r"^(?P<authors>.+?)[（(](?P<year>(?:19|20)\d{2})[a-z]?[)）]\s*[.．]?\s*(?P<rest>.+)$"
+)
+BOOK_HINT_RE = re.compile(r"(出版社|出版公司|Press|Publish|Springer|Elsevier|Wiley|Book)", re.I)
+
+
+def _parse_apa(ref: "Reference", text: str) -> bool:
+    """Parse the APA-ish style used by many Chinese social-science journals.
+
+    ``作者1, 作者2(2014). 题名. 刊名, 30(5), 482-495.``
+    Returns True when the entry matched this style.
+    """
+    m = APA_HEAD_RE.match(text.strip())
+    if not m:
+        return False
+    authors_raw = m.group("authors").strip().rstrip(",，、 ")
+    rest = m.group("rest").strip()
+    if not rest or len(authors_raw) > 120:
+        return False
+    ref.year = int(m.group("year"))
+    ref.authors = [a for a in re.split(r"[,，、;；]|\s+and\s+|\s*&\s*", authors_raw) if a.strip()]
+    if not ref.authors:
+        ref.authors = [authors_raw]
+
+    # Title: first sentence end that is followed by more text.
+    title = rest
+    tail = ""
+    for dot in re.finditer(r"[.．]\s+", rest):
+        candidate = rest[: dot.start()].strip()
+        after = rest[dot.end() :].strip()
+        if len(candidate) >= 4 and len(after) >= 4:
+            title, tail = candidate, after
+            break
+    ref.title = _clean(title)
+    if not tail:
+        # "作者(年). 书名." — a standalone book/thesis-like entry.
+        ref.doc_type = "M"
+        return True
+
+    # Venue: text before the volume/issue or the year-ish part.
+    vm = VOL_ISSUE_RE.search(tail)
+    head = tail[: vm.start()].strip() if vm else tail
+    head = re.sub(r"[,，]\s*$", "", head).strip()
+    ref.venue = _clean(head)
+    if BOOK_HINT_RE.search(tail) and not vm:
+        ref.doc_type = "M"
+        ref.publisher = ref.venue
+        ref.venue = ""
+    else:
+        ref.doc_type = "J"
+    if vm:
+        ref.volume, ref.issue = vm.group(1), vm.group(2)
+    after_vol = tail[vm.end() :] if vm else tail
+    pm = re.search(r"[,，:：]\s*(\d+)\s*[-–—~～]\s*(\d+)", after_vol)
+    if pm:
+        ref.pages = f"{pm.group(1)}-{pm.group(2)}"
+    else:
+        pm2 = re.search(r"[,，:：]\s*(\d+)\b", after_vol)
+        if pm2:
+            ref.pages = pm2.group(1)
+    return True
 
 
 def _parse_dataset_or_preprint(ref: Reference, right: str) -> None:

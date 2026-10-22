@@ -1,0 +1,50 @@
+{
+  "1": {
+    "label": "Exact",
+    "note": "Crossref 200：题名/年/卷(期)/页码一致；来源写作 Chinese Science Bulletin (Chinese Version)，与 Crossref 的 Chinese Science Bulletin 为同一刊，DOI 句柄存在。"
+  },
+  "2": {
+    "label": "Exact",
+    "note": "Crossref 200：题名/年/卷(期)/页码一致；作者中英双写属该刊常态，DOI 句柄存在。"
+  },
+  "3": {
+    "label": "Exact",
+    "note": "Crossref 200：题名/年/卷(期)一致；页码写作 10-10，Crossref 为单页 10，语义相同；DOI 句柄存在。"
+  },
+  "4": {
+    "label": "Exact",
+    "note": "Crossref 200：题名/年一致，卷期 6(S1) 与 Crossref 记录一致（原文页码为空，两侧均空）；DOI 句柄存在。"
+  },
+  "5": {
+    "label": "Minor",
+    "note": "Crossref 404（该 DOI 由 ChinaDOI 注册，句柄存在）。人工按题名检索期刊站点：该文实为《水科学进展》2017, 28(5)，而条目的来源被著录为“DOAJ (DOAJ: Directory of Open Access Journals)”（索引库而非期刊），且缺卷/期/页码。人工判 Minor；工具判 Exact，属上游 OpenAlex 记录来源为 DOAJ 导致的漏检。"
+  },
+  "6": {
+    "label": "Exact",
+    "note": "Crossref 200：题名/年/卷(期)/页码一致；来源为同一刊的全称变体；DOI 句柄存在。"
+  },
+  "7": {
+    "label": "Exact",
+    "note": "Crossref 200：中英文题名/年/卷(期)/页码一致；DOI 句柄存在。"
+  },
+  "8": {
+    "label": "Exact",
+    "note": "Crossref 200：题名/年/卷(期)/页码一致；作者中英双写；DOI 句柄存在。"
+  },
+  "9": {
+    "label": "Minor",
+    "note": "年份漂移：条目 2014，Crossref 记录 2013；其余字段一致。"
+  },
+  "10": {
+    "label": "Minor",
+    "note": "年份漂移：条目 2020，Crossref 记录 2019；其余字段一致。"
+  },
+  "11": {
+    "label": "Major",
+    "note": "DOI 10.9999/fake.0001.2024 句柄不存在（handle API 404），题名在 Crossref 无记录，判疑似虚构。"
+  },
+  "12": {
+    "label": "Major",
+    "note": "DOI 10.9999/fake.0002.2024 句柄不存在（handle API 404），题名在 Crossref 无记录，判疑似虚构。"
+  }
+}

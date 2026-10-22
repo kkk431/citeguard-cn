@@ -95,6 +95,31 @@ def _utc_now() -> str:
     return datetime.now(timezone.utc).isoformat(timespec="seconds")
 
 
+CODE_FILES = (
+    "src/citeguard/gbt7714.py",
+    "src/citeguard/reference_parser.py",
+    "src/citeguard/metadata_verify.py",
+)
+
+
+def code_snapshot() -> dict:
+    """Record which source revision the numbers were produced on.
+
+    The project is being edited concurrently by the team; the E4/E5 code paths
+    (parser + rule engine + verifier) can change between runs, so the exact file
+    hashes are part of the result.
+    """
+    out = {}
+    for rel in CODE_FILES:
+        path = ROOT / rel
+        if path.exists():
+            out[rel] = {
+                "sha256_16": hashlib.sha256(path.read_bytes()).hexdigest()[:16],
+                "mtime": datetime.fromtimestamp(path.stat().st_mtime).isoformat(timespec="seconds"),
+            }
+    return out
+
+
 # ---------------------------------------------------------------------------
 # Corpus acquisition
 # ---------------------------------------------------------------------------
@@ -254,29 +279,36 @@ def acquire_corpus(
 
     combined = _dedupe(fetched + pool_works)
     usable = [w for w in combined if _work_is_usable(w)]
+    all_by_type: dict[str, int] = {}
+    for work in combined:
+        code = TYPE_MAP.get(work.get("type") or "", work.get("type") or "other")
+        all_by_type[code] = all_by_type.get(code, 0) + 1
     rng = random.Random(seed)
     rng.shuffle(usable)
 
     selected: list[dict] = []
-    per_type: dict[str, int] = {}
     for type_code, target in TARGET.items():
         picked = [w for w in usable if TYPE_MAP[w["type"]] == type_code][:target]
         selected.extend(picked)
-        per_type[type_code] = len(picked)
     # Fill any shortfall with journal articles not already selected.
     selected_ids = {w["id"] for w in selected}
     if len(selected) < entries:
         for work in usable:
             if len(selected) >= entries:
                 break
-            if work["id"] in selected_ids:
-                continue
-            if TYPE_MAP[work["type"]] != "J" and len(selected) >= entries:
+            if TYPE_MAP[work["type"]] != "J" or work["id"] in selected_ids:
                 continue
             selected.append(work)
             selected_ids.add(work["id"])
-            per_type["J"] = per_type.get("J", 0) + 1
     selected = selected[:entries]
+    per_type: dict[str, int] = {}
+    for work in selected:
+        code = TYPE_MAP[work["type"]]
+        per_type[code] = per_type.get(code, 0) + 1
+    available_by_type: dict[str, int] = {}
+    for work in usable:
+        code = TYPE_MAP[work["type"]]
+        available_by_type[code] = available_by_type.get(code, 0) + 1
 
     provenance = {
         "provider": "OpenAlex",
@@ -293,7 +325,9 @@ def acquire_corpus(
         "per_page": per_page,
         "fresh_works": len(fetched),
         "deduped_works": len(combined),
+        "deduped_by_type": all_by_type,
         "usable_works": len(usable),
+        "usable_by_type": available_by_type,
         "selected": len(selected),
         "selected_by_type": per_type,
         "seed": seed,
@@ -366,7 +400,15 @@ def _field_value(parsed, field_name: str) -> str:
 
 
 def _norm_cmp(text: str) -> str:
-    return re.sub(r"\s+", "", normalize_text(text or "")).lower()
+    """Comparison key: whitespace/punctuation-insensitive and dash-insensitive.
+
+    Pages are rendered with an en dash (``1–5``) but the parser stores a plain
+    hyphen (``1-5``); that is a formatting difference, not a field-recovery loss.
+    """
+    t = normalize_text(text or "").lower()
+    for dash in ("–", "—", "~", "～"):
+        t = t.replace(dash, "-")
+    return re.sub(r"[\s\.,;:，；：、]+", "", t)
 
 
 def _supplied_fields(work: dict, type_code: str) -> dict[str, str]:
@@ -382,11 +424,12 @@ def _supplied_fields(work: dict, type_code: str) -> dict[str, str]:
         "doi": work.get("doi") or "",
     }
     if type_code == "M":
-        supplied["publisher"] = venue
-        supplied["place"] = ""
+        # The [M] rendering has no biblio fields and uses the source name as publisher.
+        supplied.update(
+            {"venue": "", "publisher": venue, "place": "", "volume": "", "issue": "", "pages": ""}
+        )
     if type_code == "D":
-        supplied["institution"] = venue
-        supplied["place"] = ""
+        supplied.update({"venue": "", "institution": venue, "place": ""})
     return supplied
 
 
@@ -528,11 +571,14 @@ def summarize_corpus(entries: list[dict]) -> dict:
     for (level, field, _msg), count in issue_counter.items():
         by_field[field] = by_field.get(field, 0) + count
 
-    # Sensitivity: the punctuation rule fires on *every* entry because it is
-    # triggered when the character before "[J]" is NOT a period, which is the
-    # standard-correct form. Quantify with and without that single rule.
+    # Sensitivity: the punctuation rule used to fire on *every* entry in v0.2
+    # (it triggered when the character before "[J]" was NOT a period, i.e. the
+    # standard-correct form). It was fixed to "题名与文献类型标识之间不应有“.”"
+    # in v0.3 while this experiment was being run; the block below quantifies how
+    # much of the defect count comes from that single rule.
     punctuation_msgs = {
-        "题名与文献类型标识之间缺少“.”",
+        "题名与文献类型标识之间缺少“.”",  # v0.2 (buggy) message
+        "题名与文献类型标识之间不应有“.”",  # v0.3 (fixed) message
     }
     errors_excl_punct = 0
     clean_excl_punct = 0
@@ -750,11 +796,8 @@ def _detect(case: dict) -> dict:
             if issue["level"] == "error" and issue["field"] in {"place", "institution", "doc_type"}:
                 indirect = True
                 matched.append(issue)
-    # hyphen_pages / four_authors_no_et_al / volume_issue_swap: no rule can fire.
-    for issue in new_issues:
-        if issue["field"] in {"pages", "authors"}:
-            pass  # recorded in new_issues below for transparency
-
+    # hyphen_pages / four_authors_no_et_al / volume_issue_swap: no rule can fire;
+    # keeping ``new_issues`` in the record makes the miss auditable.
     return {
         "detected_strict": strict,
         "detected_indirect": (not strict) and indirect,
@@ -868,7 +911,7 @@ def main(argv: Optional[list[str]] = None) -> int:
         w
         for w in works
         if TYPE_MAP[w["type"]] == "J"
-        and len(w.get("authors") or []) >= 4
+        and len({a for a in (w.get("authors") or [])}) >= 4
         and (w.get("volume") and w.get("issue"))
         and w.get("first_page")
         and w.get("doi")
@@ -890,6 +933,7 @@ def main(argv: Optional[list[str]] = None) -> int:
         "title": "GB/T 7714-2025 格式合规检查（真实中文文献）",
         "generated_at": _utc_now(),
         "seed": args.seed,
+        "code_snapshot": code_snapshot(),
         "provenance": provenance,
         "corpus_sha256": corpus_sha,
         "metrics": metrics,

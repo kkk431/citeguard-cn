@@ -1,0 +1,41 @@
+# CiteGuard-CN — Docker Compose
+#
+# Usage (from the citeguard/ directory, or with -f docker/docker-compose.yml):
+#   DEEPSEEK_API_KEY=sk-... docker compose -f docker/docker-compose.yml up -d --build
+#   docker compose -f docker/docker-compose.yml logs -f
+#   docker compose -f docker/docker-compose.yml down
+#
+# The API key is injected from the *host* environment / a shell export.
+# There is deliberately no `env_file: .env` and no COPY of .env into the image.
+services:
+  citeguard:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: citeguard-cn:0.3.0
+    container_name: citeguard
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      # Empty string => claim-support judge disabled -> reports "not_checked".
+      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-}
+      DEEPSEEK_BASE_URL: ${DEEPSEEK_BASE_URL:-https://api.deepseek.com}
+      DEEPSEEK_MODEL: ${DEEPSEEK_MODEL:-deepseek-chat}
+      CITEGUARD_MAILTO: ${CITEGUARD_MAILTO:-}
+      CITEGUARD_SUPPORT_MAX_REFS: ${CITEGUARD_SUPPORT_MAX_REFS:-12}
+    volumes:
+      # Persist submitted jobs and the HTTP cache across container restarts.
+      - ../data/jobs:/app/data/jobs
+      - ../data/cache:/app/data/cache
+    restart: unless-stopped
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health', timeout=3)"
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
