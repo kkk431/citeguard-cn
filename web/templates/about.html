@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block title %}关于 · 引证卫士 CiteGuard{% endblock %}
+{% block content %}
+<section class="wrap" style="padding:48px 0 8px">
+  <div class="kicker" style="font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:12px">About</div>
+  <h1 class="serif" style="font-size:34px;font-weight:600;margin:0 0 10px">一个开源的引文核验工作台</h1>
+  <p style="color:var(--ink-2);max-width:74ch;margin:0">引证卫士把「中文引文解析、多源元数据核验、引用支持度判定、GB/T 7714-2025 规则检查」串成一条可复现的流水线。代码、评测集与规则库开源；不依赖知网/万方，不使用不可再分发的数据。</p>
+</section>
+
+<section class="wrap section">
+  <div class="section-head"><h2>架构</h2><span class="hint">自研层与开源底座分离</span></div>
+  <div class="arch">
+    <div class="node"><b>输入</b><span>PDF / Word / 文本</span><em>自研解析层</em></div>
+    <div class="arrow">→</div>
+    <div class="node"><b>中文引文解析</b><span>夹注↔文献表对齐、字段抽取</span><em>自研</em></div>
+    <div class="arrow">→</div>
+    <div class="node"><b>多源核验</b><span>OpenAlex → Crossref → arXiv</span><em>CC0 / 开放 API</em></div>
+    <div class="arrow">→</div>
+    <div class="node"><b>支持度判定</b><span>claim 规范化 → 证据检索</span><em>自研 + Qwen3</em></div>
+    <div class="arrow">→</div>
+    <div class="node"><b>报告</b><span>逐条证据 + 修复建议</span><em>自研</em></div>
+  </div>
+  <div class="arch" style="grid-template-columns:repeat(3,1fr);margin-top:8px">
+    <div class="node"><b>GB/T 7714-2025 规则引擎</b><span>14 类文献类型字段检查</span><em>自研</em></div>
+    <div class="node"><b>Qwen3-8B</b><span>主判定/生成（本地部署）</span><em>Apache-2.0</em></div>
+    <div class="node"><b>PaddleOCR / Docling</b><span>扫描件与 PDF 解析</span><em>Apache-2.0 / MIT</em></div>
+  </div>
+</section>
+
+<section class="wrap section">
+  <div class="section-head"><h2>开源资源</h2><span class="hint">版本与许可证随代码仓库更新</span></div>
+  <div class="panel" style="padding:0;overflow:hidden">
+    <table class="table res-table">
+      <thead><tr><th>资源</th><th>用途</th><th>许可证</th></tr></thead>
+      <tbody>
+        <tr><td>Qwen3-8B</td><td>主判定 / 生成</td><td>Apache-2.0</td></tr>
+        <tr><td>Qwen3-Embedding / Reranker</td><td>检索与重排</td><td>Apache-2.0</td></tr>
+        <tr><td>bge-m3</td><td>多语嵌入</td><td>MIT</td></tr>
+        <tr><td>OpenAlex</td><td>文献元数据（中文作品 544 万+）</td><td>CC0 1.0</td></tr>
+        <tr><td>Crossref</td><td>DOI 元数据核验</td><td>元数据开放</td></tr>
+        <tr><td>arXiv</td><td>预印本元数据</td><td>CC0 1.0</td></tr>
+        <tr><td>PaddleOCR</td><td>扫描件 OCR</td><td>Apache-2.0</td></tr>
+        <tr><td>Docling</td><td>PDF 结构化解析</td><td>MIT</td></tr>
+        <tr><td>FastAPI / Uvicorn</td><td>Web 后端</td><td>MIT</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="wrap section">
+  <div class="section-head"><h2>路线图</h2><span class="hint">从「能核验」到「可信写作」</span></div>
+  <div class="roadmap">
+    <div class="col">
+      <h3>现在</h3>
+      <ul>
+        <li>中文引文解析与多源核验</li>
+        <li>GB/T 7714-2025 字段检查</li>
+        <li>CiteBench-CN 250 条评测</li>
+        <li>Web 工作台 + 导出</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h3>下一步</h3>
+      <ul>
+        <li>引用支持度判定（claim support）</li>
+        <li>Word / 浏览器插件</li>
+        <li>更完整的中文文献类型</li>
+        <li>用户反馈闭环</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h3>未来</h3>
+      <ul>
+        <li>多语言引文核验</li>
+        <li>机构知识库对接</li>
+        <li>开放 benchmark 社区共建</li>
+        <li>从核验到可信写作</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="wrap section">
+  <div class="panel" style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center">
+    <div>
+      <div class="serif" style="font-size:18px">代码与评测集</div>
+      <div class="mono-sm">Apache-2.0 / CC-BY-4.0 · 评审期链接持续有效</div>
+    </div>
+    <a class="btn btn-primary" href="https://github.com/" target="_blank" rel="noopener">打开仓库</a>
+  </div>
+</section>
+{% endblock %}

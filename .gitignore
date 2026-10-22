@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+.pylibs/
+.venv/
+venv/
+out/
+data/cache/
+data/jobs/
+data/uploads/
+data/citebench_cn/cache/
+*.log
+.env
+.DS_Store
+node_modules/

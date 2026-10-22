@@ -1,0 +1,58 @@
+{
+ "dataset": "ClaimSupport-CN",
+ "version": 1,
+ "built_at": "2026-10-22T14:05:43+00:00",
+ "seed": 20261022,
+ "n": 100,
+ "counts": {
+  "partial": 25,
+  "no_evidence": 20,
+  "support": 40,
+  "contradict": 15
+ },
+ "construction_counts": {
+  "partial:evidence_is_one_assertion_clause": 25,
+  "no_evidence:cross_paper_disjoint_topic": 20,
+  "support:core_sentence": 40,
+  "contradict:antonym 增强->削弱": 2,
+  "contradict:antonym 正相关->负相关": 1,
+  "contradict:antonym 提高->降低": 3,
+  "contradict:antonym 有效->无效": 4,
+  "contradict:antonym 提升->降低": 2,
+  "contradict:antonym 减少->增加": 2,
+  "contradict:antonym 促进->抑制": 1
+ },
+ "labels": {
+  "support": "claim = a core abstract sentence; evidence = the abstract fragment that contains it",
+  "partial": "claim = full core sentence; evidence = only one assertion clause of it, so the evidence supports part of the claim",
+  "contradict": "claim = the sentence with one assertion flipped to its antonym; evidence = the original sentence",
+  "no_evidence": "claim = core sentence of paper B; evidence = sentence(s) of a different, unrelated paper A"
+ },
+ "labeling_note": "Labels are fully determined by the construction rules above; there is NO human double annotation and NO kappa. A 20% (20/100) construction-rule re-check is recorded in claimsupport_cn.spot_check.json (single-annotator review).",
+ "source": {
+  "provider": "OpenAlex",
+  "license": "CC0 1.0 (metadata)",
+  "api": "https://api.openalex.org/works",
+  "filter": "language:zh,has_abstract:true,type:article",
+  "select": "id,doi,title,publication_year,abstract_inverted_index,type,primary_location",
+  "mailto": "citeguard@example.org",
+  "note": "Claim/evidence are short Chinese fragments derived from OpenAlex Chinese-language abstracts (some abstracts are OpenAlex automatic translations). Full abstracts are not re-hosted."
+ },
+ "source_stats": {
+  "pages_fetched": 12,
+  "units": 1425,
+  "partial_capable": 787,
+  "contradict_capable": 264
+ },
+ "spot_check": {
+  "sampled": 20,
+  "failures": 0
+ },
+ "dataset_sha256": "4820014a741cd8148182cc1035d5a605c16280813999dcfc15fb9a3b27c4d4a3",
+ "files": {
+  "jsonl": "claimsupport_cn.jsonl",
+  "sources": "claimsupport_cn.sources.json",
+  "spot_check": "claimsupport_cn.spot_check.json"
+ },
+ "build_cmd": "PYTHONPATH=src python3 scripts/build_claimsupport.py"
+}

@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block title %}评测 · 引证卫士 CiteGuard{% endblock %}
+{% block content %}
+<section class="wrap" style="padding:48px 0 8px">
+  <div class="kicker" style="font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:12px">Benchmark</div>
+  <h1 class="serif" style="font-size:34px;font-weight:600;margin:0 0 10px">CiteBench-CN 评测</h1>
+  <p style="color:var(--ink-2);max-width:70ch;margin:0">用真实中文参考文献 + 程序化受控扰动构造的 250 条评测集：100 条真实、75 条元数据扰动、75 条虚构/错配。标签由构造决定，结果可复现。</p>
+</section>
+
+{% if benchmark %}
+<section class="wrap" style="padding:18px 0 0">
+  <div class="metric-grid">
+    <div class="metric"><b id="m-f1">{{ '%.3f'|format(benchmark.metrics.macro_f1) if benchmark.metrics and benchmark.metrics.macro_f1 is not none else '—' }}</b><span>Macro-F1</span></div>
+    <div class="metric"><b id="m-acc">{{ '%.3f'|format(benchmark.metrics.accuracy) if benchmark.metrics and benchmark.metrics.accuracy is not none else '—' }}</b><span>Accuracy</span></div>
+    <div class="metric"><b>{{ benchmark.n or '—' }}</b><span>评测条数</span></div>
+    <div class="metric"><b>{{ benchmark.generated_at[:19] if benchmark.generated_at else '—' }}</b><span>生成时间</span></div>
+  </div>
+
+  {% if benchmark.per_class %}
+  <div class="panel" style="padding:0;overflow:hidden;margin-bottom:22px">
+    <table class="table">
+      <thead><tr><th>类别</th><th>Precision</th><th>Recall</th><th>F1</th><th>Support</th><th>Predicted</th></tr></thead>
+      <tbody>
+        {% for label, m in benchmark.per_class.items() %}
+        <tr>
+          <td><span class="pill {% if label == 'Exact' %}ok{% elif label == 'Minor' %}warn{% else %}bad{% endif %}"><i></i>{{ label }}</span></td>
+          <td class="mono-sm">{{ '%.3f'|format(m.precision) }}</td>
+          <td class="mono-sm">{{ '%.3f'|format(m.recall) }}</td>
+          <td class="mono-sm">{{ '%.3f'|format(m.f1) }}</td>
+          <td class="mono-sm">{{ m.support }}</td>
+          <td class="mono-sm">{{ m.predicted }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
+
+  {% if benchmark.confusion and benchmark.confusion.matrix %}
+  <div class="panel" style="margin-bottom:22px">
+    <div class="section-head" style="margin-bottom:12px"><h2>混淆矩阵</h2><span class="hint">行为真实标签，列为预测标签</span></div>
+    <div class="matrix" id="confusion">
+      <div class="mh"></div>
+      {% for label in benchmark.confusion.labels %}<div class="mh">{{ label }}</div>{% endfor %}
+      {% for row in benchmark.confusion.matrix %}
+        {% set r = loop.index0 %}
+        <div class="mh" style="text-align:left">{{ benchmark.confusion.labels[r] }}</div>
+        {% for cell in row %}
+        <div class="{% if loop.index0 == r %}diag{% endif %}">{{ cell }}</div>
+        {% endfor %}
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  {% if benchmark.baselines %}
+  <div class="panel" style="padding:0;overflow:hidden;margin-bottom:22px">
+    <table class="table">
+      <thead><tr><th>系统</th><th>Macro-F1</th><th>Accuracy</th><th>说明</th></tr></thead>
+      <tbody>
+        {% for b in benchmark.baselines %}
+        <tr>
+          <td>{{ b.name }}</td>
+          <td class="mono-sm">{{ '%.3f'|format(b.macro_f1) if b.macro_f1 is not none else '—' }}</td>
+          <td class="mono-sm">{{ '%.3f'|format(b.accuracy) if b.accuracy is not none else '—' }}</td>
+          <td class="mono-sm">{{ b.note or '' }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
+
+  {% if benchmark.ablation %}
+  <div class="panel" style="padding:0;overflow:hidden">
+    <table class="table">
+      <thead><tr><th>消融配置</th><th>Macro-F1</th><th>Δ</th></tr></thead>
+      <tbody>
+        {% for a in benchmark.ablation %}
+        <tr><td>{{ a.name }}</td><td class="mono-sm">{{ '%.3f'|format(a.macro_f1) if a.macro_f1 is not none else '—' }}</td><td class="mono-sm">{{ a.delta if a.delta is not none else '—' }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
+</section>
+{% else %}
+<section class="wrap" style="padding:18px 0 40px">
+  <div class="empty">
+    评测尚未运行。<br>
+    <span class="mono-sm">在服务器执行 <code>python3 scripts/evaluate_citebench.py</code> 后，这里会显示 CiteBench-CN 的主结果、混淆矩阵与消融。</span>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

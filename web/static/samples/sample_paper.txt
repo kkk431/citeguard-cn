@@ -1,0 +1,27 @@
+# 示例论文：中文论文引文的可信核验方法研究
+
+## 摘要
+本文讨论中文论文中参考文献的真实性、引用支持度与著录规范问题，并给出一个可复现的核验流程。
+
+## 1 引言
+We assess the relationship among haze-fog, aerosol and meteorological conditions, and analyze the chemical compositions and sources of aerosol particles, as wel[1]。Intensive aquaculture has increased the severity and frequency of fish diseases[2]。目的： 主要对心血管伴随焦虑症的患者实施中西医结合治疗，探究其治疗效果[3]。It is our hope that this summary of the evidence in RS will point out where additional research efforts can be directed[4]。
+
+## 2 方法
+As an important energy and major grain producing area in China, the Yellow River basin has had a shortage of water resources, becoming a key factor in the restr[5]。The important nodes in complex networks are the extraordinary nodes which play more significant role than other nodes on the structure and function of the netwo[6]。Fractal geometry can be used for determining the morphological boundaries of metropolitan areas[7]。Acute kidney injury (AKI) and chronic kidney disease (CKD) are worldwide public health problems affecting millions of people and have rapidly increased in preva[8]。
+
+## 3 讨论
+目的： 主要对心血管伴随焦虑症的患者实施中西医结合治疗，探究其治疗效果[9]。It is our hope that this summary of the evidence in RS will point out where additional research efforts can be directed[10]。As an important energy and major grain producing area in China, the Yellow River basin has had a shortage of water resources, becoming a key factor in the restr[11]。The important nodes in complex networks are the extraordinary nodes which play more significant role than other nodes on the structure and function of the netwo[12]。
+
+## 参考文献
+[1] YuanQin YANG, JianNong QUAN, Yaqiang Wang等. 我国雾-霾成因及其治理的思考[J]. Chinese Science Bulletin (Chinese Version), 2013, 58(13): 1178-1187. DOI: 10.1360/972013-150.
+[2] 熊金波, Jinbo Xiong, 聂力等. 肠道菌群在鱼类疾病和免疫中作用的研究进展[J]. 动物学研究, 2019, 40(2): 70-76. DOI: 10.24272/j.issn.2095-8137.2018.069.
+[3] 大岩 张. 中西医结合治疗心血管疾病伴随焦虑症患者的临床分析[J]. 亚洲临床医学杂志, 2020, 3(4): 10-10. DOI: 10.26549/yzlcyxzz.v3i4.3108.
+[4] Richard R. Orlandi, Todd T. Kingdom, Peter H. Hwang等. 过敏和鼻科学国际共识声明 : 鼻窦炎[J]. International Forum of Allergy & Rhinology, 2016, 6(S1). DOI: 10.1002/alr.21695_c.
+[5] 彭少明, Shaoming Peng, 郑小康等. 黄河流域水资源-能源-粮食的协同优化[J]. DOAJ (DOAJ: Directory of Open Access Journals), 2017, . DOI: 10.14042/j.cnki.32.1309.2017.05.005.
+[6] Xiao-Long Ren, L LinYuan. 网络重要节点排序方法综述[J]. Chinese Science Bulletin (Chinese Version), 2014, 59(13): 1175-1197. DOI: 10.1360/972013-1280.
+[7] Cécile Tannier, Isabelle Thomas, Gilles Vuidel等. A Fractal Approach to Identifying Urban Boundaries. 城市边界识别的分形方法[J]. Geographical Analysis, 2011, 43(2): 211-227. DOI: 10.1111/j.1538-4632.2011.00814.x.
+[8] 包寅武, Yin-Wu Bao, 袁圆等. 应用动物模型探索肾脏疾病作用机制和潜在治疗靶点[J]. 动物学研究, 2018, 39(2): 72-86. DOI: 10.24272/j.issn.2095-8137.2017.055.
+[9] YuanQin YANG, JianNong QUAN, Yaqiang Wang等. 我国雾-霾成因及其治理的思考[J]. Chinese Science Bulletin (Chinese Version), 2014, 58(13): 1178-1187. DOI: 10.1360/972013-150.
+[10] 熊金波, Jinbo Xiong, 聂力等. 肠道菌群在鱼类疾病和免疫中作用的研究进展[J]. 动物学研究, 2020, 40(2): 70-76. DOI: 10.24272/j.issn.2095-8137.2018.069.
+[11] 大岩 张. 面向复杂场景的多模态文献理解方法研究[J]. 亚洲临床医学杂志, 2020, 3(4): 10-10. DOI: 10.9999/fake.0001.2024.
+[12] Richard R. Orlandi, Todd T. Kingdom, Peter H. Hwang等. 面向复杂场景的学术可信计算方法研究[J]. International Forum of Allergy & Rhinology, 2016, 6(S1). DOI: 10.9999/fake.0002.2024.

@@ -1,0 +1,3397 @@
+{
+ "1a80d129217eb9edc3616625528255b576fd65eac77cbc463ca89df7ff30273d": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:20:49+00:00"
+ },
+ "e66b95084f0941e3cfdebf7027b19a304a1deb8cdc73d3cfb82fb86c54b40d63": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:20:49+00:00"
+ },
+ "4842cc1875eb41d1577fc8bf6d09525f11c372b6d3c7fadcc25b572c7c95fd1e": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:20:50+00:00"
+ },
+ "fb7bedc307af3571ccc72b6afbab0feea2d320b8f744a1d4b3925c49b9ce9ffb": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:35+00:00"
+ },
+ "f149618a4e33f49787f978f00fefe85c900d63ff8942722a11302356fcedbb93": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:35+00:00"
+ },
+ "61acca3d017b726384cd738238d34966d3a3cd302ff26f084cda13c44c683c48": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:35+00:00"
+ },
+ "d505ed1742c734191b6baf5534157509473384ec10523ca52fe7426c1de97256": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:35+00:00"
+ },
+ "19426d1fb3f0366c7b84be99f1f0067d686fe24e1d2f3328d701de912f363dc8": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:35+00:00"
+ },
+ "d9af16ed2b84da2f2e9b5c17ab2abbb4f0f17c6fc0d0df02f0036ffc095f557d": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:35+00:00"
+ },
+ "22525c257679ba6c65ef8f7eaa66a88cf869dbf105fe26020c2a7e067116ba0f": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:35+00:00"
+ },
+ "c20f0cb4d9b27aa6414d3ae1827341edf7d4383a85b84680c9750592f0938dd6": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:35+00:00"
+ },
+ "1148f9be6e258c7755396b43a05d89b5580c561be13c2da4c0e2ff5971dc0ad4": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:35+00:00"
+ },
+ "06c10b370d86cd3148e1443b3dde9ab4eaf1dfde557224dc89f46cf270c12e02": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:36+00:00"
+ },
+ "3316f1906fcb45fc99431311fb0b6c88443eb3fdfd172fe63c59d818ea0be575": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:36+00:00"
+ },
+ "e268775a585fb4836529e876063af26e409cd6bdbe9988ed11370f5666ad5669": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:36+00:00"
+ },
+ "e9fedbe08d8731cf3de3d859229047936a25f451e0f5f6679435d1c60efe51de": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:36+00:00"
+ },
+ "32d5a9ee2f939485de644f83ac9fc90336d55383777e5258024f04b7029bd87e": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:36+00:00"
+ },
+ "560fedb85a124b42bb96d548a172a790da81c44c0a9deaab16e152b4885c9a51": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:36+00:00"
+ },
+ "24879244ca9514b95c1d562c98b6537cd270241258be8493dcf6b9e350b8a7b2": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:36+00:00"
+ },
+ "4e5e25714482c43ca65815d538a1bb20db040b1562d5025643ed9e4663146ae9": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:36+00:00"
+ },
+ "7b4c02009ee3bf69b8c01333f99e503c700abaecbe09672c5cc0cb14af178773": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:36+00:00"
+ },
+ "d6c8ac007c3b10fc750c9908007a85e9e23cdbe1b5da4965bc0e888044c034a4": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:36+00:00"
+ },
+ "0862115cb99f9c0027bcf14729d0dd764759e9d16ba933f7281313a164733963": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:36+00:00"
+ },
+ "9716d1b4ce918e55e955dbc15e88e6905f0ffae8b7b413ea1d85a95c5f9890f0": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:36+00:00"
+ },
+ "341e8a2b9a8650e726c58ff911b01c1001ff3335392d8382ffd83ece18da6e77": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:36+00:00"
+ },
+ "d24a4237c39a0b755552b6aff83024aa2c7edfdd9092dcff50538df3e5ee4567": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:36+00:00"
+ },
+ "84056fe04c7e006f8debf8af195b0d81aba9a8bc731351f1c151ba5f2178f4d3": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:36+00:00"
+ },
+ "693b0ad164b1f222c2e0c475f81d5de20e61b4fec527812d789de94ecf6a3150": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:37+00:00"
+ },
+ "5fef2b226f5fa2b99d08ad44e8f1cf9fda6940d86a68d31e992233d48ea85c03": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:37+00:00"
+ },
+ "d8683dc559bfb25ed9846b91c97b21d7547d3673c50400e5efd33762d9b74ca4": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:37+00:00"
+ },
+ "e6575476895ad9ee95ad42d82288d6242d51b7aeb9b87074f47b0a659912155e": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:37+00:00"
+ },
+ "9701bec6815c6cc504a1c019f3d68c128dd23eba0b63c29b61177e4984a7e858": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:37+00:00"
+ },
+ "415d9a8a3f744a766bd13f35179ba96173ed8fe638641519d41e4eb7531a8fe2": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:37+00:00"
+ },
+ "1c7c8ba4343130fb93c38f08c1dea7a4b281018b4b64c27d1570e77a8dd636be": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:37+00:00"
+ },
+ "132412f5cdeee6bd941baad694929a0c57c9684e5fdc1d0dc65bbd2dddbbf53f": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:37+00:00"
+ },
+ "88a79cdcb27394db513a8e306067c81433f9429d64278fe397560fbfdee24a47": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:37+00:00"
+ },
+ "c5f4bfce8c4ca29226cbdfa15bd396fa36111f0f5054874518e5419adf577640": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:38+00:00"
+ },
+ "d42fa892807cbf73fa7286bbaea24b0e4d0a9d0027a145f3abfa0bb38bf7b54a": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:38+00:00"
+ },
+ "97fba198e914826368c74abf19b44d8a313f418514ac555aa13996d6af79c7e9": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:38+00:00"
+ },
+ "7cd9dfaca2bd80d8b53fc67d1baed9d77d1387e6560d90fccd59d778091af6c8": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:38+00:00"
+ },
+ "5f9f2263b236d4c13488c3a42ab78b3e144118427d9902d671edd648fb6a8de7": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:38+00:00"
+ },
+ "2f4c4d962e0ef3b47ebc223643713315903143073bf9d5768cffd172300d3bbf": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:38+00:00"
+ },
+ "5a87f9deaa95d4b05743585fcbbeb76840d6b7011cd015d7ce33531437eb977f": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:38+00:00"
+ },
+ "894f3eb540d9d1a448b6f967e33ff41de12e080e74d6e9a9241a245e4b6665e6": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:38+00:00"
+ },
+ "42440ecc6b2ba9cb1b2c4f916d4ab108db03ebb903ab70dc11a8bb0a55ff383a": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:38+00:00"
+ },
+ "fe509796c81bc33a4d610dc39e573ed385f83611ab6f7557d80d6cd12882e983": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:38+00:00"
+ },
+ "1f3486fe4fbfbce8b3db6851702fa78a1c291427ef0022177dceb8ddbce11692": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:38+00:00"
+ },
+ "21f63dede24f77b9713d3c734465c0908d26d85d9fefd90222bff8ecd26ccb16": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:38+00:00"
+ },
+ "15a9da4e3b69f3e5b1a85e2b3c1d13fbe217bb98201c8dc1daa3add2e5107456": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:39+00:00"
+ },
+ "daeb68ca1078d794e529b35e3fb830527ac0232b3bb70eb4c9097196348dacbc": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:39+00:00"
+ },
+ "5a66fce92ebb14abf2ead4ba170017ed6113fe2d84cedbfa54a6c61b9e16ffac": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:39+00:00"
+ },
+ "820bb17283b7bdf91f2c132eb2663e27cfeca7ab71a5b3d79fa1ee447de549e1": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:39+00:00"
+ },
+ "445075a31006befec193c7265b4acbe2f415df02ba24ee60c626534dde311042": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:39+00:00"
+ },
+ "cf162dece2afd8afcef79892aadbc0b79bfb5b0176add7f6723f550033ba2710": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:39+00:00"
+ },
+ "b067d2b2b9b99ec701da46f371059c92f174fc507d9b8463659dc1f78aa65593": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:39+00:00"
+ },
+ "a0056dd98501bb25483ba08a1a16c1e8a173513c1b80f7c0c8e5964a376d337e": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:39+00:00"
+ },
+ "519551ba7eff00058c60cf24d6f72157ee7154858ca8f65debfd5b453ddd39cf": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:39+00:00"
+ },
+ "2beeab3d24753ab14134c8b30e1583d62162be98c3d8148c588024698501ba1d": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:39+00:00"
+ },
+ "6921e2281e1d53c3046f55dc14e6d0fbb9734658642fa642dd2c3b7b1ebf1b27": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:40+00:00"
+ },
+ "4e94ae3c17bb2783efaf7b333fd71e91eea96afdc7b698269a110a5bb4e545c7": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:40+00:00"
+ },
+ "322d4f435ff8ff8c4856298136be0bfb50f189ed9cc1b6a68f434a50f9f0db3d": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:40+00:00"
+ },
+ "2b5e71807e24b8c732cea9ed8103932203c97b54c3715057c7cd4553ef2723b6": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:40+00:00"
+ },
+ "8345f2c29c54eed8067174cd2ea8d3409e8a2f77dc63267219bbe3a4065e2ae3": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:40+00:00"
+ },
+ "05929a47e3da090a91548c0f4f42b0ebf433a8e4cef80c41e6c2dc57054f23df": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:40+00:00"
+ },
+ "215334cf95ca835a5366eafea0f44acd35268079ca7afcefe3ae2c09340f102e": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:40+00:00"
+ },
+ "43ff4c84c700563dbe10379e47098425a42fddaf83b4b546c22ed77cc310d881": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:40+00:00"
+ },
+ "4714999dcf039cc70811183e9eacd9601b763c38ad5c9b23284a9f6bba2a207f": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:40+00:00"
+ },
+ "f5e8af6868872fd4cf3605deed9d2d3434f0986ee96cdc7c2f86953b5592d503": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:40+00:00"
+ },
+ "81ce88b5640b4dd15d2386f8a991450e33785e83a71ae27423178da33cc68224": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:40+00:00"
+ },
+ "3fc8873c3e47727d63a86f4c265e94990075b94b7a49cc86051cd04f403a6b31": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:40+00:00"
+ },
+ "cd99d92c828cd58b27102de34451fb769154d18104b283da6e61da307aeac94a": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:40+00:00"
+ },
+ "8ac23e92ec0ea32608ee3467f43d0197da61eba0f522ada22896b18f196e71b5": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:40+00:00"
+ },
+ "81c5cf8cbb9a66128bedb2f492655f545562402a3b8a0e333320275621281994": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:41+00:00"
+ },
+ "979082047e130988249eba371eaa652ef5477a0d8ad0c5b4a422fd001f7908c3": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:41+00:00"
+ },
+ "4810714c395a1a01facbcb772031b483fceabd8e761f4721839cc27e4a0da876": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:41+00:00"
+ },
+ "2823cbce3b0539287b796722dcfcda45ffbcac082bde87fcdd77bfebf3d521f9": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:41+00:00"
+ },
+ "a77b983c463267c7962c8d30d6465539f27d8a0d67256e609345f40bf177886a": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:41+00:00"
+ },
+ "ed8e4549bd4b39d06f8ed054a7bafea2cf8a4883ec229295b22cd8585476cfcc": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:41+00:00"
+ },
+ "cf22cafdaf284263357d263fb16d60ac4bc35a460a153329b98cc96ef6ca7a37": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:41+00:00"
+ },
+ "d662177ad540a0ae9ef0f8d2cbd3ccdc4637134b2a42a8b5ce30c8386bb92cd9": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:41+00:00"
+ },
+ "d3c43b7e458e178454ecc0f1fbb103fd872b51d5c392ecaf33bc86d39e026a0d": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:41+00:00"
+ },
+ "d3e9de27dff1239ac75631b8dc28d7689d7a210251723986733cddc3bbe6767e": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:41+00:00"
+ },
+ "75669862980e4a374fbff1f19c6b89909d2317cc55e785e55913d5f2ce1badb2": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:41+00:00"
+ },
+ "90fdf96670890680e57eb5d07a0ed03e4437191615c84286b20bd10826c03efe": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:42+00:00"
+ },
+ "cbd76bbb3d10030f21b4a19547e284fe5c8c7ba722a0b6888f0dae5c42440c90": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:42+00:00"
+ },
+ "db17f919ebc204ba9cc2e0abf7f8dc7112f9593f80c81f503cd8a22dc702dd2a": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:42+00:00"
+ },
+ "2213c66e297646c179b48f76db6ccb1c3c93146158079e3e7d6038a7994d38fb": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:42+00:00"
+ },
+ "082529e9c4e8814a4b63edf40fd1cc2ee8eb72411b4de25596282bc7902cfc1d": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:42+00:00"
+ },
+ "36f3015e26e7002e9d8046a631600541a5176b8fa1fcbe162c01392b6bfcbbf8": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:42+00:00"
+ },
+ "b44759a1ce29bb994878f66d75b964b92a8b09db8c8283e44120f964ba3bd943": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:42+00:00"
+ },
+ "b8f7db5665af05b9c8576f54ac61c491c00e0682462f34f4490c8ab0f7869e06": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:42+00:00"
+ },
+ "56292cfe3d37b45515ac85c9dd8ac1398b281bc3627bfceef49e62782bd97140": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:42+00:00"
+ },
+ "93bdde235ecc8606502235eb549e391514f99e9e80ed561e3b6182e18e1f95f3": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:42+00:00"
+ },
+ "548bade538dc60b8ddb013c2eb2ddbef1e05adb7da3e7503af04cb4c0c4e7b08": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:42+00:00"
+ },
+ "af328b5e9b866dbd0f27e3fad3b849b7faa10509e9aa1dab7be4fff237d15694": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:43+00:00"
+ },
+ "e00f85b1a2b94f31bb47bd0e59057536461ba884a3731c1be3218379352e10d1": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:43+00:00"
+ },
+ "6dc93505a1ab72dec345566d020f6edf8acc01288f98eb52cc0983c246a47517": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:43+00:00"
+ },
+ "2f00b4572cdb0f673f2b3eeeda477f3a22d59b829882dc27608f4bef421b7beb": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:43+00:00"
+ },
+ "ac078487d74930e1c99509ef099211342acb05c7919d060549f37cf17be43b1f": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:43+00:00"
+ },
+ "f710e69aeea8a02743e6266cd9c87bdcdc39e878767c32675cb963333393a334": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:43+00:00"
+ },
+ "332573a90c53584a7f3bb46846c2a3fe28dabc12df723f352d5edecb0094070a": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:43+00:00"
+ },
+ "15176c7d8325519f95da51ba5ddb5bd984f04d39b8b371356dc18cd7ed2db29b": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:43+00:00"
+ },
+ "acd6ea93aa1c41429a54d2d64ae9a34b3742398eed1a8682c511981d3b43d993": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:43+00:00"
+ },
+ "11490e47725bc09677e5458910b4aa32a42bc60829a469ecbab6769b0a49c390": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:43+00:00"
+ },
+ "6cfdb453873c7c78bad740cbbe4b38039eb1693b23f8b04de9e21582e67abb0b": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:43+00:00"
+ },
+ "f5b3349aa220220cdd2a889b36d9acccaff036d04cd12b26e82c1b6ac0190c8f": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:44+00:00"
+ },
+ "563dcf991865ef7b6ad265731cc9aeb234586a4768ae8bc3c60f972d064643a5": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:44+00:00"
+ },
+ "2c164125de9e9de5ab267996ddf1a3960b4b6d87a610aab49cc6d722b1821b4c": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:44+00:00"
+ },
+ "1eb72d5d8cfb931183152830409a66ebd3a25196c3451c56b56b070233152ef3": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:44+00:00"
+ },
+ "918f5386febd490278e65caf703f8271e37e7aad55e02af0da7573aa70574240": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:44+00:00"
+ },
+ "bc85f4f1775f43b3982520b8c5dfc37d5c50dd187cc3a72d9bd8550580c70aea": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:44+00:00"
+ },
+ "dc799541b5b9f855f0f5247396d160098d6d9a3b60923f62fe879079667e8793": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:44+00:00"
+ },
+ "1afc09a5deeefaa643824b5fb17e94e6655bcf5e6792bd4fc59e45a597150b08": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:44+00:00"
+ },
+ "5307b7b73d1d982d8e57110b5e3d1615c084b15ad47ac48557afb8ff8598ffc3": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:44+00:00"
+ },
+ "e2c632055954be0628926557184757b7758a2ab4bdb4437f0075df35dfafcb91": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:44+00:00"
+ },
+ "1543aec034944a2acade3aa8811101ea1d3c0a2f8faed8f31f72edc2aa6cf0dd": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:45+00:00"
+ },
+ "df9e28c271c80d6237fe13ad9e7ada4d1845440016c659d9080df3a670346498": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:45+00:00"
+ },
+ "332f7bb87a4312e7ecf993d9ad4413a357d6bc6096e0acf2b9e7bc38242039cf": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:45+00:00"
+ },
+ "2f9b084c3f0a48af0a0453f956d2f054688908bcd18319f6338bba2989d41022": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:45+00:00"
+ },
+ "1bc8ec12bf9929e3f7b47fdacde71d1e93d2fdb7ec6b5361e2030eae2b8a8694": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:45+00:00"
+ },
+ "6460f9173efb546914c3feef074c02c7d6773f88e1926eb625b09cce17c6463a": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:45+00:00"
+ },
+ "120d17fc3307f40400f7b3c3819e4fc222c893a89edf74d07c1599f9a5a27367": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:45+00:00"
+ },
+ "a0296c7723e0e865aa4c6c61edd0ae09fa88fd07fee0400720cff80cee3c9e11": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:45+00:00"
+ },
+ "6a2e38f092c995238395a9b8850f9efbfb8eecf8c9290ac40b13984184fbf4f0": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:45+00:00"
+ },
+ "5baf0de25294feb490601e3b885875e14d378fe4317fea719d1bd271435cf0ec": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:45+00:00"
+ },
+ "036bacce2c7312ceb970029c1cffcf5aa1e6eef69eb79c6aa693b1cbf3c73c13": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:45+00:00"
+ },
+ "5c0a2173a046a437948ef8cb02efba22b9f0e2402f4e64b44c461572441fb0f8": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:45+00:00"
+ },
+ "2223ed52dc7fcce031c849de7005a974c192bd921d6b68fd1bc4ac1a75a37cf3": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:45+00:00"
+ },
+ "4a2bc1c348075949ba74bc960fe32e8a550ec7a9d9acbfdcbede303e5179fe72": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:46+00:00"
+ },
+ "2443930ec803ec33c6cb9c27cc82da6713a7cdcdc9e1659b9b96af104ee9d847": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:46+00:00"
+ },
+ "04b2e854b5adac5780a690a6742cf2e55549acc0e8ed77697fafc2f04d3ab841": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:46+00:00"
+ },
+ "4ea5a5a8c03ea4bbfdb759d209d3a380aaaf5bf59d1e4658093146bd7413b690": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:46+00:00"
+ },
+ "9587b762e1a83cefd73e6eb7729ea6dd15ca4042a2be2baef6eba30b4d4e9a82": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:46+00:00"
+ },
+ "0d90eedc205aa2c4f64187e15dc19ca5949dc0ca72c5c66d0272ce07a04bfddd": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:46+00:00"
+ },
+ "35c5483d617ce38fa9913b534c9cf7371baf5d41632c688d58b88f44aba34c2c": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:46+00:00"
+ },
+ "e5aca70e4f6e23b38f4ebc9ba7e7de20ff4daddceb37ce932b91a2516071db58": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:46+00:00"
+ },
+ "1ef9c4f3ece1b49385ec52ca40160117fd2ad28e6354794352d192c50eabb843": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:46+00:00"
+ },
+ "5a88711be416d924473e8f9e374833a170043df256a990c20e4f844cc01d9305": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:46+00:00"
+ },
+ "ea17fdda3e0da6a7dd32a77bd80d38af2a2a97a881af609589156388a569a00f": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:46+00:00"
+ },
+ "d8e3070e41c7bbd504bff37b7172c8977d1dc1de316ab56d0d0511f543c8de6a": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:47+00:00"
+ },
+ "4f3e3686efc79130f974f149a24394cc7493dbb0d0f1c44456735551aa45fd5d": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:47+00:00"
+ },
+ "ad78a90f190b78d8bdf97ba1bce6e81b717fca05deb8e83eb4460adfe6118c84": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:47+00:00"
+ },
+ "130bd3744fb0859f622394b18eb991eced650643098d8c6cd2c75b2cf0368027": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:47+00:00"
+ },
+ "2c5449e7adfb05060350d8b66681cf73aa493bdc38ecccf9474ae33ccb9a378f": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:47+00:00"
+ },
+ "220f8353906fe3552f9490dbbe021334b5bbc47567eb411ef8c1645af0030681": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:47+00:00"
+ },
+ "bf4a764a0c5f61ac511e196c3599a567ec519c32503da95c34a2d7f6de7b11f3": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:47+00:00"
+ },
+ "30a3b9623757baf15ae3efd9f27f2bf6981f0a828de89024bad2598f6c84c4c3": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:47+00:00"
+ },
+ "1262302ad95616464d974c942466e7c5d518e8f90849f77146cd6271f3e3ab82": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:47+00:00"
+ },
+ "957b5efc42c649309b0d229a204dc429e83ee4c29055bfa970328a5dd14c92e4": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:47+00:00"
+ },
+ "a66164a4c288e2e11e2435c5bc1b0319f25993f0d1f58e13d5cbd59eacf51a2c": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:47+00:00"
+ },
+ "3f39f28073f2fd78164ffe1fb77ed7bc73fecd53e4f731511ff4302307e8b167": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:48+00:00"
+ },
+ "403c09a1575dcdca961dcc016b99f19a9d3b2b322d736c24d7cc81873c381981": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:48+00:00"
+ },
+ "d23a642d89b5385e4a0105357b98e559c429656c73d81362d83d699f39fb66ed": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:48+00:00"
+ },
+ "7412243126f0895c945ebcac789f3094c68f40fc0d8d78e6fd6d055680ea888c": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:48+00:00"
+ },
+ "428323d10392e500caad98dec8565602d5aa77bda4b1b6e0fb3acea24565ccf2": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:48+00:00"
+ },
+ "f11377b6bd739016f3debdca30c873f46bc5aaa54994cbc60a8f16f199859e5a": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:48+00:00"
+ },
+ "c4b5b9a6c717773354de10ed9727f535cd721bacb2003bcf4293f1ee6c19a2bb": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:48+00:00"
+ },
+ "08901ac79588d04281e623764852224e5361aa8f1c2e9445d5357c779fd850bc": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:48+00:00"
+ },
+ "cc3804ad64c0f296f6b9c4995ad18d425374a07fc8c79bf384914f37d1b6b474": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:48+00:00"
+ },
+ "1c67cc1b51c571917977d42bbb520227571a73a48644ff458a79f38ff66faf1a": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:48+00:00"
+ },
+ "4516dfb34078dd5d997bb2f0b26a772c6b4629a0f43e57ce793daa9aff781ef5": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:48+00:00"
+ },
+ "97604c027e4c084717fbee6bafd18ffdbc382acedfafec5b1ccf9fe8d47c83dc": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:49+00:00"
+ },
+ "5118c607b307343ee75f77c908b2e1da69497963f97536668a5ded6807112b5d": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:49+00:00"
+ },
+ "e7f2e1d10244d230ec52b08d688ee24dc6175eb804bb77c97c11ce4f9f98feb5": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:49+00:00"
+ },
+ "d50b18bd910a705e8f7f1dcef88474e4c31a39e545271b02c01e71391447ebb2": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:49+00:00"
+ },
+ "d4d6fc328bf215aec8b9be93650f36c7663363e8962d64fa335fd998a34f0749": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:49+00:00"
+ },
+ "2d7cc570636bd5206f2bd3cd5369dca654aa9983072b23e9d6d969d253441bb9": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:49+00:00"
+ },
+ "6c6eaddf6bc6cbca1c9385312577c390c808ba7edeb7a9894046f4bc730c4006": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:49+00:00"
+ },
+ "6f5370d36c5f5ce73441fef7b9ef831241da6e26f8419233ebcc92e6ce53db91": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:49+00:00"
+ },
+ "0f0adbe8bbfd72fcf39b22b8febc712f8de5f1dea7a2d473c467770401a8dafb": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:49+00:00"
+ },
+ "b3c4d5926270aecb931e03ca4e21aec5ce852ef249750aab4b27c4f6fe1a2609": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:49+00:00"
+ },
+ "4d0e354601c60c77f4745e63f38e48f9f111e7184ac608f54c8f2dc3d780133d": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:49+00:00"
+ },
+ "f3dad624b5df6350faf52ec112669b7eed9e1cb6327fbd42f9acb5ea39c4f1e8": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:49+00:00"
+ },
+ "ff751cd80aae48f21e012e054aef119e48943d470be02752362d635733de1c90": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:49+00:00"
+ },
+ "0d2c80c844a4574ab23689250850843ea19beb5547869d1c2a5771b51b5a994f": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:50+00:00"
+ },
+ "24a8269acb4e872a78d1a579002db117cb50480b7926ebbc476f3e98c9c8f9da": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:50+00:00"
+ },
+ "01a3f8a7f516f4438d9e46fcb0cebb8391e54ec1c703a23e8b426e74ffbd7e55": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:50+00:00"
+ },
+ "8faba78ca1ed7f1ea7db67ed83b78a4a4ba1ae7d43fb81a3f437b05cdeaab187": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:50+00:00"
+ },
+ "2c2924c62508823c200e24454ee352d81b6e02e2aed6bb4b2037947d3a3feecb": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:50+00:00"
+ },
+ "1bb749c3e0c2c33513ab50e967432898eb459de85986ec5f9d02762e728fa3d5": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:50+00:00"
+ },
+ "b824e29e79b6c368cd212bdeaa4032cc97b0ad1a3a91c3a7440fe40d8f295439": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:50+00:00"
+ },
+ "41a1f948eb38f786e076ddc1d016030434bd804c435bf46143737bf06afc7d7e": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:50+00:00"
+ },
+ "5293ff6e7955940c611f7eafa3a4dc75779298c6f326f91a8cce140f9a1bf587": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:50+00:00"
+ },
+ "b409625aff275cbdd02597513d55c0ecc0af3bc3c0ee21eb8f624273ecad72d9": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:50+00:00"
+ },
+ "c13fb5fc721b4428973e067941787ceb87fb5667dc76234a5a0288076af1dec1": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:50+00:00"
+ },
+ "868f9dff823fdcd5617fc22463772c682a55049e54dc564927fa0059d41e6bec": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:51+00:00"
+ },
+ "526f79e71ff8afee4d5fa1ef484a5dd6acddae56fd131b94af3243634a7087a5": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:51+00:00"
+ },
+ "0247d68fe538574343af44e50039d7d21b478a97fcf48eb7c340fbc8668a2741": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:51+00:00"
+ },
+ "3275826140bab5b7589f75e6e6cf7e5582e6363190f7dab00e87bf15d18cb317": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:51+00:00"
+ },
+ "2efe6a94cecb421138b398178e3e97a00dc0c86599f91d19fe654ecf23367f31": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:51+00:00"
+ },
+ "42d2a13290d45fcd580f62ed302530adf1cd70907e383029fa25138848462cd8": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:51+00:00"
+ },
+ "a0cd9577cc10247307fe423a6c900d6a81df83a2ac73d3f01f49701eb8c63189": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:51+00:00"
+ },
+ "76c913fb1370258c3d8784f7aa16acb7311165e31caf7dcf8e923474d0dbbf7f": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:51+00:00"
+ },
+ "b484b1cf7b74aea03e6ff745973de424454254ace682f1cd2c6a0afecdfccde2": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:51+00:00"
+ },
+ "33eb76051dbfa03fbd00cdbc585e6fc1e4a7acb9872b37d5e7109696d8496817": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:51+00:00"
+ },
+ "bd1941137aa8ab758004e0a05e70419a35825168abea7842ebfc1307ef2e3f8a": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:51+00:00"
+ },
+ "91f1c543d232741bd8b5d5b776166c3c19e208e279b00b8775625f9ef451e315": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:51+00:00"
+ },
+ "842cbcf598bb4e732cd7796325e9b49f1dfe5cfc1361eb932355a6527966499e": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:52+00:00"
+ },
+ "6c61c8f24233474d3f75ddadc5ce1a8a4e05db6186ab71357591127482c8997f": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:52+00:00"
+ },
+ "56b1272fbe1d0809afc8b55b50c6ad11a834fc40a68d3362bf3e00bad23b4d77": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:52+00:00"
+ },
+ "ad64032b5f150edb4ea04e00d42e09f38cd29ed1370a253dfbf09758ca4f7547": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:52+00:00"
+ },
+ "1711774bbf48a4c8bf54e620dec52bf960fe7a9f223dbc5cde0248c52c9feebb": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:52+00:00"
+ },
+ "e35768bcb27c8f93da09c89ba01e2134cf4014f6657b164e7bc0da884227e7b9": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:52+00:00"
+ },
+ "4ffd316d31774cb01666bb716496767ce1b05ec2bf2c13f5b4777bcc1cfb8c1d": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:52+00:00"
+ },
+ "1aa06b25fe7c35b5f2abe357a52d8f451dcca0ab8002fede6f64adf6d682e500": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:52+00:00"
+ },
+ "76198f54e0f61a5a9b310dffcab3b4e92f1eea0e069d0d30126688be5366c1f8": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:52+00:00"
+ },
+ "e5f59814a83c6a78f53aeb294653b7adec999fcf5bd3ad138dc6b5010a5faa4d": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:52+00:00"
+ },
+ "8e81f58b8dc329122702d9c95440d0fb32046f78781e6eac7f3e3a06ec8e6634": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:53+00:00"
+ },
+ "09a3c25de6be122090d840f9756a51b3d580a8564e214e002bf604544d102dd1": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:53+00:00"
+ },
+ "3bc693cbd5c0e5c15f4f6d569c7441846fe29d1942d809553b5a42c7df3f17f4": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:53+00:00"
+ },
+ "4baca7fafbd6aa5e25ec76c972812012993163a045b03d18bc2c4fb7f261be5f": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:53+00:00"
+ },
+ "0ba9a685c99b9498ecb15c999e461c37a4c7110578ec2edea484010c7f62a11b": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:53+00:00"
+ },
+ "0cbe9a832c5fb26b3bb87cdc2f5da23f3e654684a43aae73d222cfc65d1fe205": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:53+00:00"
+ },
+ "fb98e2fbe146613ff88f2e9c04cf45ab4561f8299974faf5b51c839d903f7568": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:53+00:00"
+ },
+ "f1c551d47d6acb187ce28f5f9c5ea34f7286ce2814da9cccac374e50cc8e82e7": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:53+00:00"
+ },
+ "0994192f8c731e6c755ca50e793d747d7786f259b6d0773515f4b0d4f4788e75": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:53+00:00"
+ },
+ "e7f467d55c198c0fc9b2cd534c84c8aa9c78d78498eb192ed52d113554ccf5a6": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:53+00:00"
+ },
+ "5ca12cdc4b66c42b9334592d9df6e2a14f8e6eb95fc3b73812df5875516649fc": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:53+00:00"
+ },
+ "e2fd1c5045117f57031af5f3b8a08040f6b45c01fced93d2aa9cf7ed2f69ca02": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:53+00:00"
+ },
+ "4dfac9942f1599b6b80509dd90ece923e08049e58f5a7c953c4b62b36116704c": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:53+00:00"
+ },
+ "981fe678cfea314cf9297732e239c41d3a5c67ff9263718a80ce53cd4e9376e5": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:54+00:00"
+ },
+ "dc6594abe1f535163ebe790e2b9d808d4c79750226895177ce61ea9c499fac93": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:54+00:00"
+ },
+ "4f26b634206f4379f58da5a43835e82b043f3aaffe49e15b2c7f7ec4f9fe8117": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:54+00:00"
+ },
+ "9041aefaa2be902dfd4cd5bc371a2f5e3c35a70855fe2f2cd5c80e8fa0d1aa95": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:54+00:00"
+ },
+ "efe1ade9fec0119dd24954062ba0a090bda0a16033d47847c0bda1f3017eb31e": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:54+00:00"
+ },
+ "8930d2fc779e565be5f758c91befa01e504e95d3bc46c09afd4f470d86307ff0": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:54+00:00"
+ },
+ "074fb44fd1909fd27d5c653415cd3de7c8da18fe62498b17bdafd16eccdda744": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:54+00:00"
+ },
+ "ab8354ff5512bee36dd05924f7a5fef9f1b273fdcc0f0f16bf58292ccc54d02d": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:54+00:00"
+ },
+ "39d0f3fb5124e9bdb5876b2b3119def3fd398cc51d9abd3892b6a9118aa95736": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:54+00:00"
+ },
+ "6fda588f90e8880d1f638451068cb2fc5c5af332f4a2f5a8a844b51e2ce2211a": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:54+00:00"
+ },
+ "c7c062398a5007bdf69b2baf8c8751c27d60bb6acbee8e1b4a953e6e277a94e4": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:54+00:00"
+ },
+ "3843201390e9d1907145399135bf41d0f885a9e06fb4767c4f731020a006afc0": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:54+00:00"
+ },
+ "d3ae0f92f7390761970c8c7bc97d80694fd35391819c1cd8ea7cdd7a7353f3bf": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:55+00:00"
+ },
+ "95bd05a45cd53cef3c437875f6536d76bc8c852ec376fefa8cf1e4df3c92715a": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:55+00:00"
+ },
+ "eb9a7f735e67a030015d4f45914bfe74cc6b5bb3ccc600c347ab30e6707ceeed": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:55+00:00"
+ },
+ "33721909002e330349d74a09c00e1cce43ab861710e54fc0ac56421d4d843235": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:55+00:00"
+ },
+ "f6d06fcad671b56957a52bd17bfc73cfe1c9f5ffa110a4da867dd61580afecae": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:55+00:00"
+ },
+ "e46722d1e4b0623f56029b1e192eef6c516c8f17861c0a2d5755230b33aa30e5": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:55+00:00"
+ },
+ "674a46d59118708d29ca678bd02cf919c39b286ea181340a280960ee7bab86bb": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:55+00:00"
+ },
+ "9916912cecab3ecae3b3a7dd82916e8f468e3a61d0be30ba4c7834918d8b8421": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:55+00:00"
+ },
+ "98538a0983e2b81e7b41282555ccbc143f1b6797f65dd1529f83077ce6fcf44e": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:55+00:00"
+ },
+ "ba66d818775a91bcaf6005edf2725fd52e7e7a16441eb8d21b7301dca41db6e0": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:55+00:00"
+ },
+ "49b46f47ceb9d11b10935d05617c2d65b774587c5ed3660c0dd8f176f9a23f9a": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:55+00:00"
+ },
+ "75afa65565762d963dae136d81f543d196a8809b4c6c1d675c56065d525028d8": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:56+00:00"
+ },
+ "e562dfb058383b34556817ed0a92dac807403830f7a529c7bd465c2f3e6b0138": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:56+00:00"
+ },
+ "f8645e7f3da844e30a96b5c0ffc20a619a898826f00ad0cf4aedd8b4fa9f9030": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:56+00:00"
+ },
+ "5adf3741cbcd402af36b4541fd441aaee959af4f2b86476a909eae872aa7684d": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:56+00:00"
+ },
+ "277e94fdbaacbe7336a4aff87eb0690a432f744717db48a64a5ef2f9be3f205b": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:56+00:00"
+ },
+ "726e2c09d3d590432677a55b6ecf62e301511b97228a2751e4a492ceec8fc6fb": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:56+00:00"
+ },
+ "241424764904249e59d65b22474ba3998f48bbd9f40490056290c4f27b99186d": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:21:56+00:00"
+ },
+ "86ea02e7ad8f9717a204591c7f7506fa568c0ab9daf1c7319700aeb536c22929": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:56+00:00"
+ },
+ "546ffa3b166887ee3cea8e11137e029df4afc3f327e5cf1db5666476236d66db": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:21:56+00:00"
+ },
+ "9681ec61af41583e235c8bd98955d3cfd578f761a1a5a323008566e1628380aa": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:21:57+00:00"
+ },
+ "0b45557b332b593a116d8ff8e985b50136a581e6f8fee889b05d6664a19b404c": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:07+00:00"
+ },
+ "aae9967018420206d39b76e75bb8f5aa78d319efed275b0165f6d2c7d8cf01bb": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:07+00:00"
+ },
+ "fca151f39ac3e3dc56947d971336f83f7a9ee31f54b0c8c26a42316b9ae356e7": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:07+00:00"
+ },
+ "d48a7ff4754c75e9a0cfbf701877ef48df4f66aeba4f4daf6ef0183957b52027": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:07+00:00"
+ },
+ "6ccad6962b9957ba1adc1ed39bac226bd6bfa45ac2c8b2e2f90ebfeecb4790c0": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:07+00:00"
+ },
+ "bffa92b8a64f8125bd690a0bd01b4a3a892080b847f4f7271dbc24f077ad05a6": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:07+00:00"
+ },
+ "f845a0522bd0da7e7974ebfaecf92fff978002d22b426b77b54a33462f013521": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:07+00:00"
+ },
+ "4e6928375c2b485a45c255df18b49c9fc2b41f021310623c0e762f75b8ccfdf9": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:07+00:00"
+ },
+ "7e397baa4d6d1d6b10d90a0214a8c2b2e93122fc1a1da6e1cb2c1f1baf04fa55": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:07+00:00"
+ },
+ "7778e77222d633b73b93deae4f18e43097c32672e52011ac1a067d47435b62c9": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:07+00:00"
+ },
+ "9ffbed50f43038fecd9ab7907c26dbba425ee592072568f386efb7ba949173f8": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:07+00:00"
+ },
+ "3ea08466c9a2ce3891b1f756484259c522ce576e9bd81414f62e826756398f9f": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:07+00:00"
+ },
+ "1cfb53646e869b047c189e953c2bcf637b8e8cd0a53e2a179fa021a8f4214744": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:08+00:00"
+ },
+ "685105e1e9e7e07f2a48bb41e6dfc2887fa80c40b83c738638324600a9552572": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:08+00:00"
+ },
+ "7dc9a8ea9d860c64d958fff99e05ea4b77155f6c2841f69b7a3f90dd2aae37d0": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:08+00:00"
+ },
+ "1ad0a414a65d2e57fd145c4c2331b124e342a5aa29db3b4b64aa65724ed5b3f6": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:08+00:00"
+ },
+ "c17bcce3101176f46b5a83b0c675fd7df50d5af48873f94ccb5ca308d020cd56": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:08+00:00"
+ },
+ "eefb985abccc8a88b723967c876e8892ed4b958eb76c8d8437bef8fc5dc904fa": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:08+00:00"
+ },
+ "663fadbefbb9ee5421ab17219fd9c826eb19f8d91c008f38147555a0154f3e8a": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:08+00:00"
+ },
+ "b02046a84ea13522d853a4213dfb666396181766c44046780e14e576cc7fa7ac": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:08+00:00"
+ },
+ "9b0020b226b0d438e24246ce0ef4b3b571c9a4b999099d5b30d5d3820a03058e": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:08+00:00"
+ },
+ "d677e92cab866c6aca272089c0b6bb258dfb6a0aff19cb86a707615f26bc4db4": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:08+00:00"
+ },
+ "1ee442b3374f4931175a3f660ff51db26782db3ce7df193aa36cfab65f653665": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:36:09+00:00"
+ },
+ "a9a4ab92dff2872df12cc1839c908b344c47078132d2a66cdcca0ba54bc447ec": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:36:09+00:00"
+ },
+ "c72067c6f3155014c4e7fc1c4de5db3597b9efd94a10d804f10a2a38aa04424d": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:09+00:00"
+ },
+ "fd6a7ac05785535940cbd766d52a505f940a6ac6b9b1afe9081b8a8b9bce5bf2": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:09+00:00"
+ },
+ "047b4cbbaa918780289188e107916b976f13445b740c062765d7b0f72dfa8e7d": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:09+00:00"
+ },
+ "5dce021eee64d0885e96fc158d7334c2d69f9d40070cfa71f63f9ace2fb386ab": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:09+00:00"
+ },
+ "af7246873d254cc84fe1b194e32717ed780d35bf3e4391468f484ede5495c06b": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:09+00:00"
+ },
+ "9fa7b9ccb6c1aeb8776d6096c1a2d13bdc1f33bd3380a6bf342020ef1a2f7946": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:09+00:00"
+ },
+ "779bc9ce081130cca3698cc23a85352d784af9cc693087d49b7978fc65ba10ea": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:36:09+00:00"
+ },
+ "41cc83323f4c263a601452ce20181a933e04e3951e0b5edb782c886040461d9f": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:09+00:00"
+ },
+ "bd7d1f94ec6e93e0ba09f1266fec355a4323df75a56fc21146daab86e9aae42b": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:09+00:00"
+ },
+ "c5208140f0d6a56c173598dbe497875cc394746ecca811c08a3305551a9d9d18": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:09+00:00"
+ },
+ "4cde26b53c50c0233097884e1ebda5b537137f6291c68791d4c3bc19aed5dc83": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:09+00:00"
+ },
+ "c94df8488ae58664657dc8affa15c36efeb4c4ab8af595cef588617d1b39ca1c": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:10+00:00"
+ },
+ "7d62b726a83920702e4e60c3c233f3b07d436a677b24f696a4724e90de158b20": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:36:10+00:00"
+ },
+ "64564c014cfe14deb56f315cb70d3c70f2989feb5f4335811a2f2bd4aababb5c": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:10+00:00"
+ },
+ "8b9cf8ac6d80e0098ce1c0817940605b282d8c48392feb0593e6aaf9cd248794": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:10+00:00"
+ },
+ "5779fc1d0a3b171ec8c996843291c544bca244d1eca6fc78f2d0b4a1cf0059ad": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:10+00:00"
+ },
+ "c6839d4bc9e1248d5c442604a3ed11e2396b9e405866cf17389fc9b4e178df77": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:10+00:00"
+ },
+ "f8a0a3430e580afe23a7eb64cd9ab7f3e9f734f10f60fda0040d7047905adfb3": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:10+00:00"
+ },
+ "9edbdfa6c0d11519c5987439a19a8bb7dedc52c61ba7a08f4a6de9d821f9d764": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:10+00:00"
+ },
+ "b4492d4875583b9fda05e550149fe1d6c818ea2cbdd5e2dc5e076fd8d55a162b": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:10+00:00"
+ },
+ "f6a5a6924c2158142a86341931f8cfc70815c8ffa1a8f20c538c53f4170c0bf4": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:10+00:00"
+ },
+ "02b697b3f245180617364c19447f8e5dc9948228a19110b341580cf38b9809c7": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:10+00:00"
+ },
+ "e4a1a2b7e58a628698491146ccbd38ba37971b5e824962967715eaaa614d1c74": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:10+00:00"
+ },
+ "004f012ade09e25ea869ffe71daa5acf9b77074daf58d8e98614046cfa90c05c": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:11+00:00"
+ },
+ "a97e7c8b21c47002a2e6c905ad9e6f8f41a10b6582e491f67652712d6b826ab6": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:36:11+00:00"
+ },
+ "0be0e354e41dd460ff2e0b4f60ce0084a5188fddd59cc97a0902f664c89b827e": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:11+00:00"
+ },
+ "ab4925b02d94ba4f2f3f42f0a93dd1fdfa65f8ea8a975f22dff0c822640d2a00": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:36:11+00:00"
+ },
+ "6333540c9ba4b93c8efbc48613aa42c4353202081baee4142edb164198277b97": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:11+00:00"
+ },
+ "bb5203f504c65a10b247961dd1c65db1d604358e59aae2e8e0bee8b15f1944cf": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:11+00:00"
+ },
+ "fee64d3b3113f98001c326538c335da5a3c04f61a7bb77082686b9e1527d1ed6": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:11+00:00"
+ },
+ "740aff3f7e974f8657c921ac56267ac95b298135076a8ba48384c5e38de27353": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:11+00:00"
+ },
+ "91d3861aea606a26534619ca6cdac71a73d7bb7dce7c20f151606b6b07f5e255": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:11+00:00"
+ },
+ "f6e85870631b3ed4a0103ab7661c236f9d0e51d6820504027e1fa23f15732a10": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:12+00:00"
+ },
+ "69caf37951d839b3fab5e315792d1b98c722527172f251f6779fb5a25f823147": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:12+00:00"
+ },
+ "228d3be06b24f40b3231af10fe30e95d8f55faae793fa75c88116248e65c685d": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:12+00:00"
+ },
+ "fe539014d70e0c678415e78d92f6b538ec5b1a1dd3ad18a4715bb712c77a6ad0": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:12+00:00"
+ },
+ "4c518e1eac94e289dd8a527768ac6090b9895a694273f9986da8ff4af2f0c652": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:12+00:00"
+ },
+ "336ec553d3c66465255c4470255cc575b8753e22fd3507f0ea2407969c1cd3df": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:12+00:00"
+ },
+ "daa67c38734affc41f7128cf29ec21b0cd0d60ff01318c1eb9dabafb3e440bfb": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:12+00:00"
+ },
+ "210eb852db2ae7f5f77c04b51258d00e79dae67764a289006b7540f6b277b325": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:12+00:00"
+ },
+ "1bd0fd1e94582711d40408d785e3b05d1f409343bc423641c20f777cc722f3c9": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:12+00:00"
+ },
+ "85d79bd7987a70159ca69b23dc99110c2fcea426498354aa5dbb1e15b52766b2": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:12+00:00"
+ },
+ "d082ad39666c83698c45b09f2c65f7bc22659a7ffdabf491d538f20bbf0e7c85": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:12+00:00"
+ },
+ "28f7586ca9559b5af9012491588c997288ae6064e457e1909e041c01fa7f0002": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:12+00:00"
+ },
+ "31e81c9be40045eae486c53e433a962dc8bc9f876f887fc607b429cdd2a19648": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:12+00:00"
+ },
+ "3c2fc64bdab1f01b33ecd60519b919ad91cbe52b07634c4a1eb721fae3be9307": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:13+00:00"
+ },
+ "73eda89a909165cb178025fde2199b491104e3f5b7fab74e92db453a1d192e56": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:13+00:00"
+ },
+ "ffdbb4cef4f49d5e85fe3482a815655d61632cb56fd3b4c9ee8b4aa2c7349033": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:13+00:00"
+ },
+ "2d84dde1af6083e249bd5924c8a7983f01833ec04a0c63c2fd87272dc5edf4d7": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:13+00:00"
+ },
+ "e6f92d41ecf88f546fa960c851f8ec488c918f15e67261bc5e3f6b756d92be18": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:13+00:00"
+ },
+ "9c9d543929a28b491eb70689a26632c3d0531996743ecc03447308eb03265b58": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:13+00:00"
+ },
+ "c934379d0575233b9a78c09de0a3e12d9d0d254c8cdd42cb8f2ace9b0681e843": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:13+00:00"
+ },
+ "0ed6999d1b1f927c3331ddcc1721286ddb53476f5fefc046d292f3cf4438d390": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:13+00:00"
+ },
+ "055d008a5d7924518e3b6e990a02682f1131ccad10f71cc27a0b9e1d1ee127f3": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:13+00:00"
+ },
+ "01657744cb6cf6905581065254b932391702150cca0d6490da6f8074c233b022": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:13+00:00"
+ },
+ "d28ad161f40f2cded4a34c7bf3bd592bd8e6dd8264c02acd4a08fa4d876183f1": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:36:14+00:00"
+ },
+ "eab07f98e7e150f2d7e24053d13031821fe1a5266149a7de476dc61a787c3876": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:14+00:00"
+ },
+ "14200c78c72b9d939e5afe8449fc5939acfa66ccdc9db4b5f0f3d5cabaa70531": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:14+00:00"
+ },
+ "76be782b507f73f9a1e8ee96a947f463edacbbb5dd894535211265daa7670894": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:14+00:00"
+ },
+ "478e0f719c2f96032e2454166be2555f55f8a326c53a91eed584c1cc6a943886": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:14+00:00"
+ },
+ "aa5f30f664e31bd1baf9e67ebfa70cadc602866de1d40c3a00ef8f5e0b2bbc95": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:14+00:00"
+ },
+ "ae10f358e1f13d2eec646cbe874df4aade4c5e8c74ba31f5cab8f0ce35f4ab1a": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:14+00:00"
+ },
+ "bbb3dd6940b031cc6d01acbec606116fca4eaed914030d3b09121ba5c8b88c42": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:36:14+00:00"
+ },
+ "870c06f8b23d799e13e8137a9a0aa59db70895b7313664043643dd7d3063ae9e": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:14+00:00"
+ },
+ "fb104feb42d405917d1748af57ae53c5d8fa921ffaf88c6ae1b99cfbe2aa137b": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:14+00:00"
+ },
+ "4baa7259a41fd7b66a0d5fd8e606956d7c5d64d2e3a37c859a878f8cd691e2f6": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:14+00:00"
+ },
+ "cb358025c7bcf3efacea5233e3b99cfc9a5d6b3a262ac23161a61bdabb075c24": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:14+00:00"
+ },
+ "6bb6f218b667c3e65c469f2f6030e5b240a711b2c0e2e43beb657c33d2111695": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:14+00:00"
+ },
+ "dcd61e9b091133f952dccf538cd45ba7cf27d996aa20b0f7bdc59638ecc4c2c3": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:36:14+00:00"
+ },
+ "0be26bff2b69f097058c4455952beb8b505f3fd4e9aba031bd589e92147a139d": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:14+00:00"
+ },
+ "62a9937dfab93353b196dff636eeed57f748993bd51cc970f552901a5fff5a4e": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:15+00:00"
+ },
+ "298912601cd9cc188e4f2f6c21cc481c09b4f60ff0da1e05e11d9a6f4f96691b": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:15+00:00"
+ },
+ "67fd5aef90c6d220e57838e3c654fede4d989af7bf9048ffa8038b5b37537800": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:15+00:00"
+ },
+ "cd77ea1bfbb7d377bdd6157cdc6ad2f2044c98735ba51f25bd2d09f6b9d14b1b": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:15+00:00"
+ },
+ "347ba3a784b5abe191ce5646bfb1440ed9b7477ded0749cbbd3301a2326c7a9c": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:15+00:00"
+ },
+ "4d14495739e493133f8d179eeb516e2ea598ba10292b4d3cfe094695d653b2a5": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:15+00:00"
+ },
+ "4a7b8c85cf031f0995513bbf01cdb7320ae901d575618c5502969fa9a05344e8": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:15+00:00"
+ },
+ "c4e1b57a6e59b811a224db5bed6c4e63f91eb6a4575c26fee5c14c319bddb0b9": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:15+00:00"
+ },
+ "a555957b30e200dc5a042325ec8f22e6533667c380f4afb185f64f502210f6a1": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:15+00:00"
+ },
+ "e939e5c46cc2232d34ec0c0855c34b4dc5e7a0441f5e49cc8644cd14aa7fef1b": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:15+00:00"
+ },
+ "c943a385d655182c8d0bacfe17e516fe383151a78eebc08e2feee645c81f4a65": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:15+00:00"
+ },
+ "0b88aa715c0226afbd039b0e330dca40e8b690edc45635eb51bb21379d230722": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:15+00:00"
+ },
+ "01b3eb9ab6498b118d7ebb55190598f40c66eba7f374c3cb635bcb5cde70f3c8": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:16+00:00"
+ },
+ "be6506d33d4d800292ddb2c85309d7fabb711222254243f843bfbd4a4cf23d60": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:16+00:00"
+ },
+ "a22ffbdbbfcf3e57a8836a3e93a279c95ec83ef7d276f37cabf6888906ce4aab": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:16+00:00"
+ },
+ "faace8e5cc045b1068c9cd80c2043d04b437d825f2c6e2e2ecedceb3de6eb99c": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:16+00:00"
+ },
+ "4e575a38127e991bb8661133e132834db2fe7db8ef7aa1b870e6ee7e6cc7a1d8": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:16+00:00"
+ },
+ "4937cc0083fb5414c7995d1e0d39b641d984d4ee1d3f420c547e264a081671d1": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:16+00:00"
+ },
+ "29696f4bf1969ed2b1a05679991aed4d9b7b2e37c7f89d96e9f439b7c8a95587": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:16+00:00"
+ },
+ "bb4d19ffb236b9fa97bc6cbb4fb4cff9018d425c025a7b286b71faf94711265a": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:16+00:00"
+ },
+ "34e66b3dbf58fb3289aeac48dc9e6d11f1da26d3ea37a91bca7e0c4aa2665385": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:16+00:00"
+ },
+ "4a5de2d5b90f4f4063ac34469000d03f655e4cd09f4dbf2a2a9171d270b39aee": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:16+00:00"
+ },
+ "a1bf1da280d270c09c5456f53b5a3457e7cd7cab5ccb9e450674b7892a89f0ea": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:16+00:00"
+ },
+ "bdfc49da8442435eecd2eee3fd55a95bde1d34ac34d7af09512d0eb51bd9aa79": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:16+00:00"
+ },
+ "113fad481ba3d8c2a99760ccbc23b65651cb8fe1db9e77d18a0cacd5167f2b62": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:17+00:00"
+ },
+ "e89c35c569f9fd20f6f5a91f59f571dc3ae7d82479524a48c45766441bfbada9": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:17+00:00"
+ },
+ "057d96fcb344b386134196f6288cf6421fb3eebfa8d7f15c93a4e9c0c1a6de71": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:17+00:00"
+ },
+ "2a02dbc7d7d0fb506a316e4d31fb4e2e9a2f70a929aa9d3b92ecfb48de07badd": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:17+00:00"
+ },
+ "67cdfc7be0b30499772baaae79a7523da1d155ffe4226b454748b23017e5cf29": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:17+00:00"
+ },
+ "7a6b59934deafa0425af708ac75487452510eded97a7e5583618e77a9969a45f": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:17+00:00"
+ },
+ "293fd32071ace95a46a5246e72ef6ce83dfa454d70d81e1a97fbc450f78b6f5a": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:17+00:00"
+ },
+ "ffbec8e40bc7debd8e75ea2f4137fa2c758d7b77bed5e991c122b9aeafa9e61f": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:17+00:00"
+ },
+ "4199f056fee12afb6c47796ae66948458ffda75c02d4078dae0448fd1af827c2": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:17+00:00"
+ },
+ "30517060e2b06be36f7249519b5b26b5a3c281c80e56d68c09d0eb105787d991": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:17+00:00"
+ },
+ "8c32bd61bfc1750d4207abb2dd157b37f357e965901ac16b36fb4135597a0f2f": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:17+00:00"
+ },
+ "3a6682859ceeede0aecf30b1346b62886cde668576ef9e94cbccb739c6aeea0d": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:36:17+00:00"
+ },
+ "029cb2b1e63ebbdfe7a8e4759c405388ee1c89b620645a57007640cba8fecc20": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:18+00:00"
+ },
+ "8807d4a94ec2e03ce2461648fc04dd4864629897cda7d1fa3194868fdbd817b2": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:18+00:00"
+ },
+ "217f4b0b6614065288ac674f7ce0cc4823f6d5d4c9cf4d38afdee43863dcb460": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:18+00:00"
+ },
+ "05f183ee4997b26825665018432941865fa179f61f69996c7605d743386a11b2": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:18+00:00"
+ },
+ "149f08503fd8317967d3e9185bfc51da51d4fa0c32f50ea2f3e142b5619f8d9a": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:18+00:00"
+ },
+ "71cd733c4b2891d6092f2a247411f1073ca4b64f53665ee3477001a9df29617b": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:36:18+00:00"
+ },
+ "22645c3800c4d79414c527309e5a12181282d9178d1ca372fd1de7624a0dae5e": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:18+00:00"
+ },
+ "328ab42225aa61e9cb80a1da329b08fb30cc81636fa22714dbc4503046aefe0a": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:18+00:00"
+ },
+ "48ec57b1531c8d618db3f5209047d20457da51b9cac2dd2a2af9fd9a03a202a0": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:18+00:00"
+ },
+ "912e43b1751e22f23fc02884dda31a133a6a8ae622626196f123670fd93c02f3": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:18+00:00"
+ },
+ "550662315a89af27bc27b7a6744dd404a8c925dca2a8887c913298058ceb61e1": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:18+00:00"
+ },
+ "e93103352e09daf9d1265da2b28edbf1403a080bca185aa1cf732cc41c63a4ee": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:18+00:00"
+ },
+ "c7220b9b6dd68f79ef2a410f29c51649e73114d7fe28c157814e7e1d1709d85f": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:18+00:00"
+ },
+ "43807708aff4bc258a8f227a5bbadbaf12b53bdccb6a581785cb07aab3586424": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:18+00:00"
+ },
+ "8abce00efa886f3deba8ddc24ff2a713eb20f1353fd26c2afc3dd4e4429bf92d": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:19+00:00"
+ },
+ "062514c66b8190c441e8b64cb796434a4b4449280838b01cf22dfd6afaca3818": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:19+00:00"
+ },
+ "a9f127956a81a9cf611de695739b7ffbb6e5d2ba4d9878f939185ed552d28d74": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:19+00:00"
+ },
+ "42d9efc0c5c9db11f06b6758925fccc07556070d7a67cbafb2025ebaaffb6a25": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:19+00:00"
+ },
+ "02c18a4a76d42e209fac940abcefb18ab359a0a2995b0bdb157deadb047d0227": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:19+00:00"
+ },
+ "365e29fc458af9077cebd3977bc717dcc99ca1eda9d2949c73479445fa777c33": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:19+00:00"
+ },
+ "025a657473ba30884db0f813c531a59b1b89417fd9248a59f98c3e908c8be601": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:19+00:00"
+ },
+ "c27d72343a7f79529c6c074be11cc95db37fc48bfaf4273fbb8ef723c4124df7": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:19+00:00"
+ },
+ "cb1aef483f285e3e3255face3950b96a6605725f21a670be9e7cbed1f0b4be51": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:19+00:00"
+ },
+ "771d6c783dfe69dd280a0037d6fc937f23677c1882da8b8d9ea1b0b5d95a992e": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:36:19+00:00"
+ },
+ "e68477d882ae051cdecf1a6f7832546e7b5608fa40f410fff499ff8b93efc82e": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:19+00:00"
+ },
+ "dfcfe24b8001129e76683db592beb8c4ec83cda4ad92e97a9f3521c8f5d6c1ff": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:20+00:00"
+ },
+ "c5a8984757add2c87771ee865c1912e1658976010c060c0de7bfa7fee8679b38": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:20+00:00"
+ },
+ "3bc373f23f41b86d492cccb5fa2cbe5f0374d699027b5376bf008f522e99f882": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:20+00:00"
+ },
+ "adf71ba3fee5043e72c4d331a28a0e18382ec60881cdd92bb203192e4ea4a0ae": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:20+00:00"
+ },
+ "f8b73d1171f717113c13ea62799da96aad519dfabfbef8333d8a6c222608873e": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:20+00:00"
+ },
+ "919d1eccbf0bdbf1b2601c81b66b761f2e7111b480ccfab472a886b8dc1759e8": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:20+00:00"
+ },
+ "2cce523304fd0cd608e97386067ab316fce76180e6ee6ec2190d769a12d3e7ae": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:20+00:00"
+ },
+ "82345e8d384baf20e9995cdd2f4adfda818a3f4399d88dd9d5852ccdbc78d458": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:20+00:00"
+ },
+ "1a37dba068a299347b9b26de090436a4a5e90bb81cfbc57fb62a911c24f9541b": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:20+00:00"
+ },
+ "f439b6af8f8b3019873e9c4a9e6ca8bee1d011959396dcf0926723accd05c7a9": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:20+00:00"
+ },
+ "c2426e50601b47782524edfe2c19bc4c2fdf71417dae1e0a3d399dd6f09d3712": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:20+00:00"
+ },
+ "1643f558e289e5986bcb257feb2cb77705444b87fff2474597b0e557b672b5c7": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:21+00:00"
+ },
+ "d15145dc94cec3c6bd5380cc6e473ac066ae2b46cf6ffbaec1c2b0a025c39d23": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:21+00:00"
+ },
+ "72734622e5b55c9b3ac0d654fc530b0c0bcf5722bdbe537582ae57a296c418b6": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:21+00:00"
+ },
+ "2da8ee6b2e0ca7651e4073c8c6f24a1c2d8eb9bbd27429ff84810e93441e0c2a": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:21+00:00"
+ },
+ "8912571db4e54337dc356d6073314df9d7199a4db170bea7debfa92629ff8fb4": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:21+00:00"
+ },
+ "5624f973443618db3c805cb509ac019a41630150b3cb18744f425f2c68be86bc": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:21+00:00"
+ },
+ "c4e170c18c33e1bb217365a3f1ae673658ce3cbdc0b5f1d5f471f208d7a3342a": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:21+00:00"
+ },
+ "b61783440d0250bb5916feb54a524ec2fb6fa902a5d4fb20db615bd8b283b2f0": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:21+00:00"
+ },
+ "942afa29a99ef1c03ac1ac0f671a145db7009190ca558c36a50f82a26b0895dc": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:36:21+00:00"
+ },
+ "cfb424559f82857070953bd6e4ee8ecea867508658f9747c034b25503fa244a3": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:36:22+00:00"
+ },
+ "ccaacb3432e8ace7b82823fa9ae96c3bc0e043056f6591d2bba26c80f91454f3": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:38:58+00:00"
+ },
+ "bbab0e3663ee46a16f53a2aed03cf4d67c39b5cd168e6439ffdfb6ca35f5f50f": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:38:58+00:00"
+ },
+ "06fe1b54f7307b2a123b5d4adca84eb8579b787729659090a008b90aeb0bf71e": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:38:58+00:00"
+ },
+ "4a57cf949be162ef89a9681bad66fce66efc822340e3c1fee6383f0c8a538c4e": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:38:58+00:00"
+ },
+ "b7d84895b09391e8ebaad9534546b9c189d8116d446b05fe561c619538878f8d": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:38:58+00:00"
+ },
+ "fa0877bd6ef83c80f39202e4f7b9dfa2611cdffc1d95d928800edd08ce99be57": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:38:59+00:00"
+ },
+ "610d3ab2ae8d150dbb1b318ceb4ee346687db0cce8e13210c740cb0e91441aef": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:38:59+00:00"
+ },
+ "c3a5888900a98da5f207294765aea80272dc66ae550e3cba85b5cb3d1c839f80": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:38:59+00:00"
+ },
+ "7df9c8a353e164ccd93716b6595e63e7b55e656a9ce8238dea08d88d37fd6a4b": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:38:59+00:00"
+ },
+ "29cf6a2cd77dfed98c3635d1c14f8e5fc76ee05ab30ae6c12efa9f8dda7928fb": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:38:59+00:00"
+ },
+ "1df1c3fb2eadc0a6c3b3e8f853103b268c756541c7d906c8783c3f9e013a76ed": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:38:59+00:00"
+ },
+ "6f3211b00210963d6b10d869e3aea4efe1f2644450d71474149e20e236ae2ba4": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:38:59+00:00"
+ },
+ "1bfc045c7359480fa05294fc9509ee321c349797d364260b7965ff928b966304": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:38:59+00:00"
+ },
+ "ded4b5b5216b15cb23795cf8aa97c04777fef6f5ea105cabfbf4d00c32f624d9": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:38:59+00:00"
+ },
+ "aee00f1b3eab081bae9caa0621d9964dbddce1e37b70113964d4ddfad3cea384": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:38:59+00:00"
+ },
+ "f05b663e8e22924c6684f6a0c81273524b3775a255c233d7e4d13e39024422bb": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:00+00:00"
+ },
+ "639ec47dd39162be6f053886f91e00f639be12883ce0758d017ec8c221b2c541": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:00+00:00"
+ },
+ "cca6c04f925fcde6ad00b7d11eb015cb990d47dece5fa49b56a509fe6c516aba": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:00+00:00"
+ },
+ "efd8004043bb31f6169aea7ba29142c1b0d94025cb284f8bd293dafd55ba1708": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:00+00:00"
+ },
+ "4a8dd0af5e30c5d3e205a577706233d8e95804007395c5f1415be1f9aaf6c473": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:00+00:00"
+ },
+ "13a520ef05648319c46980371307ab91977b6861bafdc884b6044c2682fa009e": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:39:00+00:00"
+ },
+ "4619f5a139a88711f1377487d38d22a84c25a10da404657cf9d0801c548f015a": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:39:00+00:00"
+ },
+ "4746e085e8e568c19cea8d879ba60fc228574ea60126bd96ade21e9fb39ad58b": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:00+00:00"
+ },
+ "f53d6900297334ef764b4dc619ed574099cea66a05e7a778a4c146a28f509c76": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:00+00:00"
+ },
+ "6ea2e92395658023049d628f10bfc9ab2de987ee552eefde38da4b5492a11c74": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:39:00+00:00"
+ },
+ "00d53a1b79c1c87014673d66f31406f9fa25b74520fbd10fef2494a1c354acb6": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:00+00:00"
+ },
+ "52a033245f4d626cc27e6d4506215e0c66c6b06acef0f70da2365414b884eaca": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:39:01+00:00"
+ },
+ "05c59a2ce71be459c9f0b750c91cb058104c44d7b009a0452df8ca3c7dc3b620": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:01+00:00"
+ },
+ "c7d652f6deb345dae7a9ce47cb7ffee946c1854978ab3d0278af5e4ee819c813": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:01+00:00"
+ },
+ "ff4bfac0351b83df938c85a64221ce23b74b6ae83f59fe9cce743df08c633834": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:01+00:00"
+ },
+ "a164e7268930dd48c8f00dad8c6914c80000e57f3eb6064ef7a6c1724f13081f": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:01+00:00"
+ },
+ "6142526561d6afb83b90aaf873ef93b3a5c055ca8f0e7a9bc4ebf8e81ae9574e": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:01+00:00"
+ },
+ "8ddab4156d8aef1c299d9f661ea7c0bb45e3874f47ed4de44d0172ab404cb70d": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:01+00:00"
+ },
+ "4b2c8f5ce95414887d30d99489a53b18cffd71785e351cb3875d8f41fe9d02e8": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:01+00:00"
+ },
+ "408eb2417925f428e62426ef3d060b55ba6b449d35afc6a5926010cd9146da17": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:01+00:00"
+ },
+ "4afb9fc2e6d8bcf039842aa444e0d8365299626bbc7be61bdc429d4612b07372": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:01+00:00"
+ },
+ "4a9dfb51f39344f45a930a2930543bdc2f35e9f83a51ce50bd3e4eb84adf318e": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:02+00:00"
+ },
+ "91abb7c53c1332ee697a13da4f83176cc418cd1c69aff915bf3f4a314cf7ff21": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:02+00:00"
+ },
+ "1b4dad5fc22ffd1ea33f46db7f0ca46f86dbdcf9c4320d27a87c8b960b05b3ff": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:02+00:00"
+ },
+ "ac3887b4cfdfdae2a15f48775c8cf0cffa705f04e7a25f901f9a154ff443f28e": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:39:02+00:00"
+ },
+ "09a3e3029419781dcb606af3d5bf9c1ba024d09b491de64801e486c546d070ca": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:02+00:00"
+ },
+ "5b328f8fbf9c31d03967cec58f7438fd92e949aff53a57a8f5f436043784955d": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:02+00:00"
+ },
+ "8fa091a57c7afbfd0f709a42c461a923ba6c050c3bc9815859ad35db277ce8f6": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:02+00:00"
+ },
+ "02c6a98617682b79444d4dcb02cee53c9c6353b592bdbbe6bcd2adfa9ecc8c12": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:02+00:00"
+ },
+ "63d3da65dc25a7dd42087e0400d9ee4e08b0787bcbc1e6bf3812edb395fdd710": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:02+00:00"
+ },
+ "7c1989edaab9121aa0dc3d10b1ab530db221a8b176a5fca1920fe6cdc24be578": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:02+00:00"
+ },
+ "8cdd495d1fc85379941b367169ee91e444e02b85efffb066f0a337379c2c7406": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:02+00:00"
+ },
+ "71a8aaa8e2bdddda2dbf8ac6c3debe5e355ab15abbeef121317224fcb5df8e7b": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:39:02+00:00"
+ },
+ "38e9bc05b6f0e27b68372aad9255d66b5133283fa7218510eabcf5d677b8b150": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:02+00:00"
+ },
+ "927faf391a19abdc1b31b8480f4b77da06929cc6a7c89d393fea19de89c004e9": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:39:03+00:00"
+ },
+ "b68794673bf136a9536727ee7f21014e0fc2ce5cdc0965229bc76698dbd6cba5": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:39:03+00:00"
+ },
+ "2ca1650da5bd5d25046904d8cc50f759d6f6136296fb81cf610c6206acc17981": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:39:03+00:00"
+ },
+ "86a73cd1e216ff291f736eaf8b67ef69906aaf46b0815af6d9bc65d193b8a8b3": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:39:03+00:00"
+ },
+ "879023ff211f9b41cba6e6becf318f5b8887d43599983b22757709bcff6fa3e1": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:03+00:00"
+ },
+ "9cc7539d8c2b79dfb80224473f5d0193636ebbe3f1d345e8187869d49211b32d": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:03+00:00"
+ },
+ "7a4e81739e804ba478697ec4d9792efe224792f9825a8207d4e1157977546945": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:03+00:00"
+ },
+ "c05c889f5473aa341c683a449f626e84d9e77e1c531012cf08ce4cb383311836": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:03+00:00"
+ },
+ "c122cdc32c9e914fe33dd142e4356accf0617576cd7713beffe845751d935a63": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:03+00:00"
+ },
+ "a7a880b6d303c1a6d51c28b09b2077bc43c435a4af23c4ad4d339ecd4b467631": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:04+00:00"
+ },
+ "c4693310c78f79086cb0d6c9735e2170eaba9bab9dd815a4aad0143f85153f31": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:04+00:00"
+ },
+ "b8f8c2145456f1b244d78aa51852c35aaef05cc0aef282fc53e777d7418ec44a": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:04+00:00"
+ },
+ "5e30e7280098ae825155d718d28dae08c7e950ad7df4eb5eb703e4dbd272658e": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:39:04+00:00"
+ },
+ "639b2340593fcbd91f31ce2cc893e7a454617660fe8f34f9a3a6d4409a437c6a": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:04+00:00"
+ },
+ "b26c0cda172c173d41d5a82104216235b0cd0a8e86066198ab7ca4ec6ed365f6": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:04+00:00"
+ },
+ "0ec740d2dc57f74286d830af9f5e282c3f9c510640c3bee7f3e1ac656913d8b7": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:04+00:00"
+ },
+ "fa818d4cad1d6e29295d219f1f6f683aca98a48ad6364e1fc38a98eb55961f82": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:04+00:00"
+ },
+ "794bf9c13549f75676dfdc2bd2ec89ed7a3e7969e10146dfa96c18ac10b6235a": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:04+00:00"
+ },
+ "4290b47fd901a8ad08f9fdee1b25bb8d8ac813adc15dde25b3903dd17d7bc3dd": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:04+00:00"
+ },
+ "fecd7387c1b30420b69aecece1b28be902a19b97edcc797370182eac5ee91d6b": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:04+00:00"
+ },
+ "9f0feae909f459bf1616461cb63ffbfa3a00743701e5ecf6d7745188841b5942": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:05+00:00"
+ },
+ "89b5f0673b216989b88e1a2f48c2a1d8d716a817cb4d424939dd3d4ef4840d4f": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:05+00:00"
+ },
+ "91243825dfe7a1254d6c996cf6725d6c6698fa1fd572d2c765d6a0f7171a5694": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:05+00:00"
+ },
+ "f74cf5801953551d659387221d2c9f7ddbc02c01cdf0feb24f655e8f2b45a7db": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:05+00:00"
+ },
+ "114f8a515c63d9a6edd4c40615c1568e2f70b0ca144b65d4a7c4ac218b3d5763": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:39:05+00:00"
+ },
+ "de129fc99d3e64bad97f729ae02aaecdad426241985996218edbe6eff904e05d": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:39:05+00:00"
+ },
+ "22d8f50b85e4ef6f15572bc9548dc60ab2250aea5f3ce20660bf9a72ecb9019f": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:05+00:00"
+ },
+ "b77c7e199abc6b6785f85b3d7b29eda643dca537e015f602a331306094af0f1c": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:05+00:00"
+ },
+ "0e639a3f51be089abcf22faa7e93b79b6a879af326157e20157d617805d6b97d": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:05+00:00"
+ },
+ "ecd42c5f746233ceb3601b2b954dc892d24253f8c77fdce8869e59845d73f2bf": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:05+00:00"
+ },
+ "d6e05395061001a159cca78fe83c9d52c3b20e643baf478f93bab2f7108aff56": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:05+00:00"
+ },
+ "2a1ef0e4696860ed7b77b8f08773ade31ff9bf7a73748db4cf3101d3966981db": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:39:05+00:00"
+ },
+ "0a258d67d9e6976039fa31648f4dfe70e983a546726ef729450c068c6ae1ad0c": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:06+00:00"
+ },
+ "e3ed77b61e9cd4ac331cf04cba7f60edd225988b65eff277e5eebcd5ef6b17dc": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:06+00:00"
+ },
+ "c8e727c5e0f2b521f0e3fe142af34b6759afe7bbcbe3bd8cdf70c5e18fc29110": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:39:06+00:00"
+ },
+ "25cec905b69e036ddd29039c9045270e70d9ec6aaa6a21de9550a56677f2857f": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:06+00:00"
+ },
+ "117335420443ad29b20b8ff6a82e5b6379578b31ecc994e0aebb892edf8e76e8": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:39:06+00:00"
+ },
+ "3681d08e2224069f1c77503d92a3349cb294cfc43b5f1099318100015620101a": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:39:06+00:00"
+ },
+ "72327a58f0bb3e28fad760fff1dfe9f4a616be543ce2099ea200babab4b05961": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:06+00:00"
+ },
+ "8b1d1e8fbba84b439d5edb05093d46c0741724c13832d52cbad06d17e023e193": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:06+00:00"
+ },
+ "b51dbd0415a6fbbaa01172b8322cb5a9f7d9ca4e35e14cecc1f78e7d1a1c7baf": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:06+00:00"
+ },
+ "40d88ccc0b50a8006f22d084750403d348a00610f6c06a511fa37ec3f8675256": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:06+00:00"
+ },
+ "a1310e7de073fa29747970edef577695c2959bfa51d50f7f48ae4d626f94e17f": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:06+00:00"
+ },
+ "5d421f4d00573caddd25de8d9e5aeab37ba4ea7752b60405ba6f135341837dd9": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:06+00:00"
+ },
+ "05db460f85d9e708392598321b68f5a6043c3da5ca34617a7d9e59ec70ce91b5": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:06+00:00"
+ },
+ "3b22a1c1f9faecbe052be3739e5207c5fedf763e80558d7f7823e4eee5ddb62e": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:06+00:00"
+ },
+ "7878f4289d90b7d96213d8a179a760f59a1e86079bb724b9380c082624e24142": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:07+00:00"
+ },
+ "88f5e79fe912718cf663708f2adea48fac01a5380640c926addf3e98a29d6f6e": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:07+00:00"
+ },
+ "58f613451663ab3b0af5e3005cc4e06c38d651e1d986e2d53c488cd704701805": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:07+00:00"
+ },
+ "4f07d0c556b913f9c994e033d9752f4c7f2e57bbf52ae3562962c7da4ba6c776": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:07+00:00"
+ },
+ "7104e45f860ef69917d5237621aae49a68c851ad0c7f26a1fb4ac93f347595c6": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:39:07+00:00"
+ },
+ "3c007f4c1970bce6705f19d7192df3c02480511fcee34022c5552e81864934fa": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:07+00:00"
+ },
+ "48fa7f6c844e507b2b88d8b3c1684999d3397de25707ad1ec3e8f9fb1048f977": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:07+00:00"
+ },
+ "c0dae24fa8d9289102a1f1156832b9d68d6e6774723e7a3ada380347cf325928": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:07+00:00"
+ },
+ "da906595960880c734b821c4e4b035e1c15ef6fe9209f7854d8d3e82f5b884c2": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:07+00:00"
+ },
+ "113336b9120be745e1568a726ef1aa88275528776d0afa712bdb2617910ccf8f": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:07+00:00"
+ },
+ "165dcbee6c3b116fa3b6f3254f0607e0c7c68489214080aeb31565ca18083308": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:39:08+00:00"
+ },
+ "9b434d8b530fba2409c0f08eae81a40083faa6df7c7fc5b4c8726106de82ea25": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:08+00:00"
+ },
+ "25b9eb813f318d25952c94d73cd8119feff8f21aaf9f816bc0889bab63ce11ba": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:08+00:00"
+ },
+ "3f6aa3476e8ed4d893ec3617fc6314b0cd4493c72fdef53a58b6a650b1099f40": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:08+00:00"
+ },
+ "7e89d493fdbae63f3f85d7b2ab507f36718111f2ef2d556ba2304e117a7a5677": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:08+00:00"
+ },
+ "13e849630361c7b88dd7cffeae1c46e23939df9b824b7beb763ff49c459785dd": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:08+00:00"
+ },
+ "a3e42cf8840f34caf7c85acc711664a804f2f6e227ec95b34ead0a7855c02895": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:08+00:00"
+ },
+ "70f20439e1ffbc6d4b504232d4171536ddf411f3660bfb6abaa039cc479f5eec": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:08+00:00"
+ },
+ "ca547762fc966df26b5295aed8438439d1048821fcdd8b667f91572d8c396426": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:08+00:00"
+ },
+ "951162f66d479ff52c4abe790b17d5860d9a89c795c42eacb2feab34db12e639": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:08+00:00"
+ },
+ "e7f1c71869d7174addb2a7d394ca523060320cf73b29aa83dd6748ac4029ee12": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:39:08+00:00"
+ },
+ "4567f114dd68c0cc0715ef33b1bb0980960607e004ed577b7753b6ee726c6661": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:09+00:00"
+ },
+ "b8f753d69ab50d99626223d21e97a1a61a379e31fd2b5236fd4ea435de8d6b66": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:09+00:00"
+ },
+ "d2f78ea02bb523193f6641e3f90ad16510efb16985b16c9aaf1e8828abef4ca3": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:09+00:00"
+ },
+ "dfad51dbfafa98f5e510bfc4c0e8635ae1a3808498275306dd2fd9264196fed8": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:09+00:00"
+ },
+ "fcd9e2c556c2d0012a396896f49852461ea14f089fe62156a9b9d7cde5d77350": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:09+00:00"
+ },
+ "0c5cac9d98db7fb49cf237c065262fe09bfd99040c1d4eff692c9f47c0d0016b": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:09+00:00"
+ },
+ "572be36167deb996b19e9d6972138a0c59eb040fac1bf32e91542cd6ba6c73de": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:09+00:00"
+ },
+ "b70a26816121056bd65766c7fdf9ebced1acfa931bd34408e6b16d389ca32424": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:09+00:00"
+ },
+ "9d9141e72da34bbd3c35bed851b68529ffd282a7a88837dbd9349f74dd359f7b": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:09+00:00"
+ },
+ "5ea551e4efc5f5025f677bc35e9f438b04010f573a8dac1a2d177e0bcd3f716b": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:09+00:00"
+ },
+ "e4f4f83ee150c2b0a02ffc7bd9083016653112e6bc1805e6a39db6ab545897fa": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:09+00:00"
+ },
+ "8f1da2338d7b602f40ead79d81c3ebf130b18d5f46226202df57dc942b97ed22": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:09+00:00"
+ },
+ "9a5fd9dbe61235e55529350ae73dac936f0202791d72e334762a4d2b5fc898a4": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:09+00:00"
+ },
+ "1b5afae49c004ef13ce7064d58a6cdb5af035501d2e7547eb76e4763c46178c4": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:09+00:00"
+ },
+ "ca93366943f340f3f81a565dab86a598e269c395700b0fa8fbd828e148f48567": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:39:10+00:00"
+ },
+ "6c582ea6884a54d392654ee58f2b4b49028b546308e29eb9f42b9d06e8cb1959": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:10+00:00"
+ },
+ "1014efebb93a42ff6243b156e2f8636f9d4127f2663b5d011d6b7a8c00879589": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:10+00:00"
+ },
+ "1a08c5da1935814a78b22a5a3f94e0917936f67b0a44e13c46e251b0fc8bda89": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:10+00:00"
+ },
+ "d6d50ba7485d446cb487e4b652410d5d31a2d9cfcb19f4d28a7c01a071ee28fb": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:10+00:00"
+ },
+ "90788e2455cff4a781cda1837ab6f6655f3ea5cf3a4a80b7f907c47b96f3dddc": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:10+00:00"
+ },
+ "4447b3bd15ec24c94b9923aa9cfdf252491add8533cea8ddc3d83c4b652b64ad": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:10+00:00"
+ },
+ "7b9290fc21a0585bf90fa72d7b0bdfb966c37eba299743b05cb0c0642d942046": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:10+00:00"
+ },
+ "638bacb4f8cfa413336832c3583004c2027df6a1eac5eaf9d37882dc747de90f": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:10+00:00"
+ },
+ "2a964a79cfac413c35690bd6469960d9203ddf98de0ef743f324456e3b059111": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:11+00:00"
+ },
+ "8b925af1582e0faafeb40f38147b9506438c1cd456954b2ceb3cababc029149a": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:11+00:00"
+ },
+ "5905391fc37285897cc47607cabb182aacb9b912018772171f5f958fd49ba4ee": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:11+00:00"
+ },
+ "c0fa4d85c38aedb00f8a55363569273bdc1e0264ca33365b8e16782ca2a0416a": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:39:11+00:00"
+ },
+ "27abc54ec958aa7d384cd8a12561cbdfca3c57315261ebd53f754da1e3b8bce1": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:11+00:00"
+ },
+ "881c7d72a5aa06ca30e0f3c3bc4170956f1ad1dae0376985390bc318a7b8e0a9": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:39:11+00:00"
+ },
+ "b9d0151eaa07a031699048efa79b9e70440ea33dc72d08cb2b19e49d1081772b": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:11+00:00"
+ },
+ "2ce3a23f179a0ae9e3e5ee9cd5edcac1645b03e5583555c53b8c98e38efbaf7a": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:39:11+00:00"
+ },
+ "663743784158ce5ac2f9c170ecfc1881a1f7bad9a5366d7414bd05496ca4ae8c": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:11+00:00"
+ },
+ "ae03e717ba5c3b45d8e954dd18649e5247a47cbca2939ffcf006ca5cafdfaedd": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:11+00:00"
+ },
+ "7cf9d8ab2d725fce70ac6139717c6f3b8a2e9ff73b5b44c4181df12edc102f1f": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:12+00:00"
+ },
+ "e4574361bfe179569a9f434fcbc837dc48b732d2e9017a3b5e6b8ef07a64473c": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:12+00:00"
+ },
+ "7cb5dcf87b4ae7f4953b0ab67e0ccc462eeeedebd9d0166bee86e917b8997486": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:12+00:00"
+ },
+ "5da3aff45eae6698a873f7d06481f239717e8d2b47d180fccbb01d1249621b25": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:12+00:00"
+ },
+ "746b8ad79ae84a344dc39415d4b251c927a539a514c0d976da7bd63fdccdd6f9": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:12+00:00"
+ },
+ "26f9e3a64c423d8c065a02c5903334466de00ba42105bb869ac2415684273f1b": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:12+00:00"
+ },
+ "9cb65ccf6cdc4b446a05f5876805d64590999a28691d3c34e612d300098bac52": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:39:12+00:00"
+ },
+ "4b61209e759a705b02df35f9db716c714f4191cd79ec8e638255b3440ce53b6c": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:12+00:00"
+ },
+ "01b40dee7e77f230f65b5dfe33233771430ee044c80ab40eba6331298be12cbd": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:12+00:00"
+ },
+ "83b04f36b8d0e22427237d39ec68c91abbba5305a5979ed5674ff9a0061ee269": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:12+00:00"
+ },
+ "4d86e10beeef9f609c072429870a59100e0b0cc1e6ffa53f865d0a97e6be2d45": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:12+00:00"
+ },
+ "52d858a173a7923185415bc584129e2a5414adf5d60b20ec5fe2892b455db8f7": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:12+00:00"
+ },
+ "2422d800bfcd39d9fcbd4f62ca00cc0613c28eae8645cbfe556d8ac7fc519548": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:12+00:00"
+ },
+ "3adf3d61e96f89c275e1ef56104fb0dbea2d0a35e8894f0625e8936cda5060ff": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:13+00:00"
+ },
+ "e44f5be83c033df98689e1a2324e19d7ec9f3a3cd39bae0631049a77f7368bec": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:13+00:00"
+ },
+ "c147c14c47baa056be435fc80fa820317e2a5747311f57ce04dd52a487abbe59": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:39:13+00:00"
+ },
+ "39163668d3d5e51098b5cd44a8b6d6b3619a66042fc17309d300d0838c6c8910": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:13+00:00"
+ },
+ "94f231b77e15bb35538b6e7581284466e273daf0faa67506cb020d29e736c3e1": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:13+00:00"
+ },
+ "8447b070fdbc7c93e9698bd94d63d3eadeb0c1d7e25cb60fcab6f417a85226ea": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:13+00:00"
+ },
+ "873390e25c6e11a4d42feabc6c666abb2441dcf858a6c8cf5e2151d7f0f23de7": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:39:13+00:00"
+ },
+ "c55d6f14da9938733891a7958a0577437c75e84ac2abe9d5ad678e50a841439c": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:13+00:00"
+ },
+ "92f12e9725a8a60abd296518acdb81bb234bdd549f265c056ad7033ec6e3626b": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:13+00:00"
+ },
+ "87924ba82eab52d047b11d0e3a574920e3b10b325f5c6efcfe59510342ab3e2d": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:39:13+00:00"
+ },
+ "3989f9ab10dbb5b3d0d0d772cec4b29c214414aa9150361fed7ef53d62f2fcd2": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:13+00:00"
+ },
+ "b33bb2f50ffcf5efb15c8a2e021b0fc1841fdecf7bf7cbba7454d4fa4fe009aa": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:14+00:00"
+ },
+ "d4e1b448f36ca39695dabb1991e6fcc29e39ac061fc2c6771d3ce38ce665dbc0": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:39:14+00:00"
+ },
+ "4297f597058904d6e3304a1bb5da5c40e4b38e9b1e5f08fd9ed1992413318765": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:14+00:00"
+ },
+ "790d8a4e20b93baec645ecec0f5d620bf5c4ebe6caf7b2e923c77025c92fd36e": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:14+00:00"
+ },
+ "7f645533b9856d475e2ee6de260c3e641c7e0d5e3671040ee0d76416c9756038": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:14+00:00"
+ },
+ "fc54a4e67cabc8309c4898f87804a867afda3f9031c05f10e10381b8c24521e7": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:14+00:00"
+ },
+ "0bdb9e71d9df214f74a18b2d448ee773afb88b43b4af469ea17aca7e5642bb07": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:14+00:00"
+ },
+ "0cd300d7b4ba6cdd8bb9e214979ea421766837bebf645ef4d5e97e926cbd2269": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:14+00:00"
+ },
+ "6a304cdfef02a793abeeac828f0ad39bf11223f477884c0ce23cd05453ed73fd": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:14+00:00"
+ },
+ "195746bd649f9edeb599a33a160a2d5af0f5cf74f8106b8cd32cd5fcb71cd37a": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:14+00:00"
+ },
+ "496543b0a69329535b16f17e8d3ab9a594a4163f0ac4f038fcc973dbe46e4a92": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:39:14+00:00"
+ },
+ "53981ac941133a12f5a6df93328f981ac2a09348174b06b4cebf86b758d091a4": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:39:14+00:00"
+ },
+ "7131d8bb4216bf0cdfb881325111044b7a91e791f8328c4227dae3f06a8e6f66": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:14+00:00"
+ },
+ "8c70e1828735fa9239ee86575113f995c7f8fc1b9795105cf05f2a5955be138a": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:15+00:00"
+ },
+ "bd6c008ea780130d502a3396604c79405f702e68a7ae607dd952b7417f0e5bc5": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:15+00:00"
+ },
+ "dd478a85cb7be1af8e715d8857a3defa7c483c01c839af9987bab7fa0af28ffa": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:39:15+00:00"
+ },
+ "063d53eec1065b7657cff7e843880eac0b90705df6c1ffcb96ccd03266168f89": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:15+00:00"
+ },
+ "125b7cce826366e0f4a83ec4805488003c1aab4e6441b7eb03799e2a5168a722": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:15+00:00"
+ },
+ "abfd9471372b2fca9392b91345251615bf251844c3bd686fdf85be33fc29d402": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:15+00:00"
+ },
+ "c60742ddfe9986afa9069f6469bb0f097ac33e637fd5845c816fa57ec2290e39": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:39:15+00:00"
+ },
+ "a236985300cda432c57abdee9100ddd92f9a08ba57450df2fc703f65cd536f2b": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:15+00:00"
+ },
+ "6ec5125bda40941119788c6cfcc2b384ed984f01e4a7538e4a74a5154387ee3e": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:15+00:00"
+ },
+ "20bace5b8683a9258d6590421faafa81e542b8277788bcec408b1f25351f8c0e": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:15+00:00"
+ },
+ "4854c167866afc9c5244ae69c61ebdceaf5dd1e3d0bd99cb5a409247890bfec4": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:15+00:00"
+ },
+ "df35023eaae8e5597b039b904fd2256b09674fe880b47ac14fb6483f38e0cac4": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:15+00:00"
+ },
+ "4d914bab5fb475ae7600201d370f1372e20eb05c3e33c520a335bb278403d9da": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:16+00:00"
+ },
+ "3679f90cb117056a2b76af1cb3166d7660b8607598a6de80b45148fe6d0ec745": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:16+00:00"
+ },
+ "894bc1adac233928ec10e557a11999b5882b2d16fc7fd473cb2fdb5332d421c4": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:16+00:00"
+ },
+ "92d27dfd00c5ecb9f15e4504b00fa36c1895024cb97d119c0637b2c87649bef9": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:16+00:00"
+ },
+ "1e501304baffa9466b0580a844eefec1cdd227a05e23df33cd7e6cef99d63efe": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:39:16+00:00"
+ },
+ "63a48614c439b051eee59ce7314b6d99088e0cd709a1807dd55557942a7a884f": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:39:16+00:00"
+ },
+ "a973069688746e719f279925564e178be62b9e93ae2b837fda8fdb5b1e955c3e": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:16+00:00"
+ },
+ "d753676abe8f6639d850be8f4c3ef9fc953b894107650d45f6a4fe073c5adbe2": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:16+00:00"
+ },
+ "82ae1fd6a7a127eb00a322b6d9ea37a15bdf8227cf4ff09d672e0357a083bb53": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:16+00:00"
+ },
+ "5cd0a2346ea459c6396dfed4705ce61ddeb875b81cf9ab56f75a3c0e6d02862c": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:39:16+00:00"
+ },
+ "fc6429b4cbf21eb9d607c4af1ac3398894962518071534ab4f70af739b90f237": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:39:16+00:00"
+ },
+ "d18be50ca6c7e01509ce3272a0ded6ade3dacf047d0bd3bdcf962e0bbf06b61c": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:17+00:00"
+ },
+ "23d71df667009d3c43173dceee958767ce229d14e5d10956e96a818d688e110f": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:17+00:00"
+ },
+ "c14029455d84142de88164ffe8519036b79beccb14da0d9429fb25ffb4281c83": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:17+00:00"
+ },
+ "aef7cee0d1f9344ca24c8090898a4cd104ced167237f4d265a28a4c533b2e60a": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:17+00:00"
+ },
+ "1352595d25b0f8237f120208f9bafde35a62e8e96beccaf1c1db0f9de4d7bb49": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:17+00:00"
+ },
+ "6f7879ecfcf915dd2b83a6669e247b413e94da07b582cb3f2f18acf588030db6": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:17+00:00"
+ },
+ "f9ff0ce1acd1efe2417df0af249d87775e9a2c14fce0e93914de72316960815d": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:17+00:00"
+ },
+ "d8ebc410f39b58434562201467c3a08e637c58f638e9a35dc9333dded3ed12e6": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:17+00:00"
+ },
+ "d7b24bda37bdaf4fd7c20e4894c3badf681a4e249eac8291e730bf7588c525c7": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:17+00:00"
+ },
+ "e51ab0b612489211bcf9a86f59eabe9c524795b941ddf6461e938ff0679bf98a": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:17+00:00"
+ },
+ "9eb461d129d734d53ba461f3568ba4fa607b9e8bffdc3332f10d1e677727f260": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:17+00:00"
+ },
+ "cc9d9c3472b3a8d4ee6198fe04eb9aaa6393ce510c96a83187aefea66e27f536": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:17+00:00"
+ },
+ "80a04b6e0731611f852ca602031ab9a1b0fda1ecb944096705edf2df16540824": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:17+00:00"
+ },
+ "e7868e5b8cb477b51ab4f8f894cd1736701c9b750227731f2d7c7beb768b6800": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:18+00:00"
+ },
+ "801e055d641da454e8e0d133154366b5d3003f7d2c7ebd3f2318da5c54e85d86": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:18+00:00"
+ },
+ "29c1059e2f3e12967951959a5687bc30607f63f64ea6175a65d61920ebae202d": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:18+00:00"
+ },
+ "6d2e0c76daf0ae44ca8d48ffb97497f96e29e06219743e1f60e2c9209aefc4c6": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:18+00:00"
+ },
+ "dd00bb8e12dbeace822d85a221e5d54150c7cd3840557d4e049ac68a20d586a4": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:39:18+00:00"
+ },
+ "0530618fe25da4ccee6952530fa00e739e27b7386d31c963d7177b06436eae94": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:18+00:00"
+ },
+ "17baa1e0c9dfe0befa550d4dce4dab403a3bc95dda9b64e5b7af115e8c154c01": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:18+00:00"
+ },
+ "6cd9679e7ea049fb5e88447f4076d3d1cfbf13a48ecee7f1dd6befa53245334c": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:18+00:00"
+ },
+ "3fcb72a8ffecd283314814108ef87ee6b54ba14141d2a16c1d3337c0dde49e08": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:18+00:00"
+ },
+ "51f48dafb7a00f02387e3d5e961dd4f99f03360af66365ae68134c73b08be4f3": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:18+00:00"
+ },
+ "e10f5f0828ed613ee05503950a9a9f47b69fa108c67e4ad84d6b81e6f1e0a69d": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:18+00:00"
+ },
+ "d6dad6afd93f4bcadb1172ec9aff3616a2af3f5a0844e454501ae4b586fd4e50": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:18+00:00"
+ },
+ "6edc0a61dce041e7c2932eacc584653fa8094f497f2522aa69c05d79567c3406": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:19+00:00"
+ },
+ "195474c09c5247837e1d24654293c496cac18487dd226d5498ada85bf013e00d": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:19+00:00"
+ },
+ "0fc49b81c9df6141fbef08e81741a2947594883b2dea86ee61dfe58418b5ad69": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:19+00:00"
+ },
+ "6c2f2d63ff834d90144a38e4f52af5c6c18cc5e1b16fa81f2d168549963c4a58": {
+  "content": "{\"label\": \"Exact\"}",
+  "label": "Exact",
+  "ts": "2026-10-22T10:39:19+00:00"
+ },
+ "30db48bac2b9a9b423a990d6319824a3075bffc8055f8bf9b4d5f41085c23bf9": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:19+00:00"
+ },
+ "ec048724845cdd681a3546c3c2c7fcbfa5f007fc35eb5ca5243e2f3570cf08f0": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:19+00:00"
+ },
+ "7664331cef8e18267065ba30a9a2cd7f25746f25854f34f3ab979bf6eec30746": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:19+00:00"
+ },
+ "bd7a7ccea77ed1e956e6779e717d36138a054f6a4f1ab3a3cbad327c0d8e0a11": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:19+00:00"
+ },
+ "359902de4e254a93e4d6c46246860bc83f8d9a7a0f21785c0c054a8cc32c3ae0": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:19+00:00"
+ },
+ "213efea52cba1a2b818467de0266352783f99c750222a837898f84e16279dcc2": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:20+00:00"
+ },
+ "5664ff4d2d3ccb1581b4c73ac7c6133842263a2de8d82c7328f15c08ac359b46": {
+  "content": "{\"label\": \"Minor\"}",
+  "label": "Minor",
+  "ts": "2026-10-22T10:39:20+00:00"
+ },
+ "88798426e9a8682fb34a0c65683b3afe52514493f4c5d64806621a2e0d0511cf": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:20+00:00"
+ },
+ "2b67c06f5ef15479e05b02cdf7a98d51f404c0351c85833d3cc05fbdc34c7a2d": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:20+00:00"
+ },
+ "a64c883ab6f19043edade411e8779791de96a838f3d29fa59561a7a13393be63": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:20+00:00"
+ },
+ "63a46c89cef6900923c7c2a63a9b51e920f85c24028fdc3f8318746b143be9b9": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:20+00:00"
+ },
+ "4800f981dca1395d30c690f07e50a60df49db6bafc11078a16493680921d2047": {
+  "content": "{\"label\": \"Major\"}",
+  "label": "Major",
+  "ts": "2026-10-22T10:39:20+00:00"
+ }
+}

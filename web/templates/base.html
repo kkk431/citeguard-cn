@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}引证卫士 CiteGuard · 中文论文引文体检{% endblock %}</title>
+  <meta name="description" content="中文论文引文体检：真实性核验、引用支持度、GB/T 7714-2025 合规检查。">
+  <link rel="stylesheet" href="/static/css/app.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="/">
+        <span class="brand-mark">引</span>
+        <span class="brand-text">引证卫士<small>CiteGuard</small></span>
+      </a>
+      <nav class="nav">
+        <a href="/" class="{% if active == 'home' %}on{% endif %}">工作台</a>
+        <a href="/benchmark" class="{% if active == 'benchmark' %}on{% endif %}">评测</a>
+        <a href="/about" class="{% if active == 'about' %}on{% endif %}">关于</a>
+        <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>{% block content %}{% endblock %}</main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div>引证卫士 CiteGuard-CN · 研究原型 · 核验依据 OpenAlex / Crossref / arXiv 公开数据</div>
+      <div>GB/T 7714-2025 规则检查为辅助提示，请以国家标准原文与人工复核为准</div>
+    </div>
+  </footer>
+
+  <div id="toast" class="toast" aria-live="polite"></div>
+  <script src="/static/js/app.js"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

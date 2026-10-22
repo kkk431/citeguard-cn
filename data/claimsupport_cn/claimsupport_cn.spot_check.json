@@ -1,0 +1,168 @@
+{
+ "note": "20% (20/100) construction-rule recheck after building; single-annotator review, NOT double annotation and no kappa.",
+ "seed": 20261023,
+ "sampled": 20,
+ "failures": 0,
+ "items": [
+  {
+   "id": "cs-0033",
+   "label": "support",
+   "construction": "support:core_sentence",
+   "rule_checks": [
+    "ok"
+   ]
+  },
+  {
+   "id": "cs-0034",
+   "label": "partial",
+   "construction": "partial:evidence_is_one_assertion_clause",
+   "rule_checks": [
+    "ok"
+   ]
+  },
+  {
+   "id": "cs-0100",
+   "label": "no_evidence",
+   "construction": "no_evidence:cross_paper_disjoint_topic",
+   "rule_checks": [
+    "ok"
+   ]
+  },
+  {
+   "id": "cs-0026",
+   "label": "support",
+   "construction": "support:core_sentence",
+   "rule_checks": [
+    "ok"
+   ]
+  },
+  {
+   "id": "cs-0069",
+   "label": "support",
+   "construction": "support:core_sentence",
+   "rule_checks": [
+    "ok"
+   ]
+  },
+  {
+   "id": "cs-0046",
+   "label": "partial",
+   "construction": "partial:evidence_is_one_assertion_clause",
+   "rule_checks": [
+    "ok"
+   ]
+  },
+  {
+   "id": "cs-0031",
+   "label": "partial",
+   "construction": "partial:evidence_is_one_assertion_clause",
+   "rule_checks": [
+    "ok"
+   ]
+  },
+  {
+   "id": "cs-0074",
+   "label": "no_evidence",
+   "construction": "no_evidence:cross_paper_disjoint_topic",
+   "rule_checks": [
+    "ok"
+   ]
+  },
+  {
+   "id": "cs-0047",
+   "label": "support",
+   "construction": "support:core_sentence",
+   "rule_checks": [
+    "ok"
+   ]
+  },
+  {
+   "id": "cs-0003",
+   "label": "support",
+   "construction": "support:core_sentence",
+   "rule_checks": [
+    "ok"
+   ]
+  },
+  {
+   "id": "cs-0053",
+   "label": "no_evidence",
+   "construction": "no_evidence:cross_paper_disjoint_topic",
+   "rule_checks": [
+    "ok"
+   ]
+  },
+  {
+   "id": "cs-0010",
+   "label": "no_evidence",
+   "construction": "no_evidence:cross_paper_disjoint_topic",
+   "rule_checks": [
+    "ok"
+   ]
+  },
+  {
+   "id": "cs-0052",
+   "label": "no_evidence",
+   "construction": "no_evidence:cross_paper_disjoint_topic",
+   "rule_checks": [
+    "ok"
+   ]
+  },
+  {
+   "id": "cs-0027",
+   "label": "support",
+   "construction": "support:core_sentence",
+   "rule_checks": [
+    "ok"
+   ]
+  },
+  {
+   "id": "cs-0040",
+   "label": "contradict",
+   "construction": "contradict:antonym 有效->无效",
+   "rule_checks": [
+    "ok"
+   ]
+  },
+  {
+   "id": "cs-0045",
+   "label": "partial",
+   "construction": "partial:evidence_is_one_assertion_clause",
+   "rule_checks": [
+    "ok"
+   ]
+  },
+  {
+   "id": "cs-0038",
+   "label": "support",
+   "construction": "support:core_sentence",
+   "rule_checks": [
+    "ok"
+   ]
+  },
+  {
+   "id": "cs-0076",
+   "label": "no_evidence",
+   "construction": "no_evidence:cross_paper_disjoint_topic",
+   "rule_checks": [
+    "ok"
+   ]
+  },
+  {
+   "id": "cs-0006",
+   "label": "partial",
+   "construction": "partial:evidence_is_one_assertion_clause",
+   "rule_checks": [
+    "ok"
+   ]
+  },
+  {
+   "id": "cs-0073",
+   "label": "contradict",
+   "construction": "contradict:antonym 减少->增加",
+   "rule_checks": [
+    "ok"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="wrap hero">
+  <div>
+    <div class="kicker">中文论文 · 引文体检</div>
+    <h1>给中文论文做一次<br>引文体检</h1>
+    <p class="lede">上传论文，逐条核对参考文献是否真实存在、是否真的支持正文那句话，并检查 GB/T 7714-2025 著录格式。每条结论都带证据链接。</p>
+    <p class="lede" style="color:var(--muted);font-size:13px">支持 PDF / TXT / MD · 文件仅用于本次分析，分析后删除 · 可本地部署</p>
+  </div>
+  <aside class="preview" aria-hidden="true">
+    <div class="preview-head"><b>报告摘要</b><span>DEMO</span></div>
+    <div class="preview-grid">
+      <div><b>12</b><span>参考文献</span></div>
+      <div><b style="color:var(--ok)">8</b><span>真实一致</span></div>
+      <div><b style="color:var(--warn)">2</b><span>元数据偏差</span></div>
+      <div><b style="color:var(--bad)">2</b><span>疑似虚构</span></div>
+    </div>
+    <div class="riskbar"><i style="width:66%;background:var(--ok)"></i><i style="width:17%;background:var(--warn)"></i><i style="width:17%;background:var(--bad)"></i></div>
+    <div class="risklegend"><span>真实一致 66%</span><span>偏差 17%</span><span>虚构/错配 17%</span></div>
+  </aside>
+</section>
+
+<section class="wrap section">
+  <div class="panel">
+    <form id="upload-form" enctype="multipart/form-data">
+      <label id="dropzone" class="dropzone" for="file-input">
+        <input id="file-input" type="file" name="file" accept=".pdf,.txt,.md" hidden>
+        <div class="dz-title">拖入论文，或点击选择文件</div>
+        <div class="dz-sub">PDF / TXT / MD · 分析后删除原文件</div>
+        <div class="dz-file" id="dz-file"></div>
+      </label>
+      <div class="or"><span>或粘贴正文与参考文献</span></div>
+      <textarea id="paste-text" name="text" rows="5" placeholder="把论文正文和「参考文献」部分一起粘进来。"></textarea>
+      <div class="upload-actions">
+        <button type="submit" class="btn btn-primary" id="start-btn">开始体检</button>
+        <button type="button" class="btn btn-ghost" id="sample-btn">用示例论文试试</button>
+        <span class="mono-sm" id="upload-hint" style="margin-left:auto;align-self:center"></span>
+      </div>
+    </form>
+  </div>
+</section>
+
+<section class="wrap section">
+  <div class="section-head">
+    <h2>最近任务</h2>
+    <span class="hint">仅保留最近 6 条</span>
+  </div>
+  {% if recent %}
+  <div class="panel" style="padding:0;overflow:hidden">
+    <table class="table">
+      <thead><tr><th>文件</th><th>时间</th><th>状态</th><th>进度</th><th></th></tr></thead>
+      <tbody>
+        {% for job in recent %}
+        <tr>
+          <td style="max-width:360px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ job.filename or '粘贴文本' }}</td>
+          <td class="mono-sm">{{ (job.created_at or '')[:19] }}</td>
+          <td>
+            {% if job.status == 'done' %}<span class="pill ok"><i></i>完成</span>
+            {% elif job.status == 'error' %}<span class="pill bad"><i></i>失败</span>
+            {% elif job.status == 'running' %}<span class="pill warn"><i></i>分析中</span>
+            {% else %}<span class="pill unknown"><i></i>排队</span>{% endif %}
+          </td>
+          <td style="min-width:120px"><div class="progress" style="margin:0"><i style="width:{{ job.progress or 0 }}%"></i></div></td>
+          <td style="text-align:right"><a class="btn btn-sm btn-ghost" href="/report/{{ job.id }}">查看</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="empty">还没有任务。上传一篇论文，或先用示例论文试试。</div>
+  {% endif %}
+</section>
+
+<section class="wrap section">
+  <div class="section-head"><h2>怎么工作</h2><span class="hint">三步</span></div>
+  <div class="panel" style="display:grid;grid-template-columns:repeat(3,1fr);gap:22px">
+    <div>
+      <div class="mono-sm" style="color:var(--accent)">01 / 解析</div>
+      <div class="serif" style="font-size:16px;margin:6px 0">拆出每一条引文</div>
+      <div style="font-size:12px;color:var(--ink-2)">正文夹注与文后参考文献表对齐，解析作者、题名、类型、来源、年卷期页、DOI。</div>
+    </div>
+    <div>
+      <div class="mono-sm" style="color:var(--accent)">02 / 核验</div>
+      <div class="serif" style="font-size:16px;margin:6px 0">多源比对</div>
+      <div style="font-size:12px;color:var(--ink-2)">OpenAlex → Crossref → arXiv 三级回退，判真实一致 / 元数据偏差 / 疑似虚构。</div>
+    </div>
+    <div>
+      <div class="mono-sm" style="color:var(--accent)">03 / 检查</div>
+      <div class="serif" style="font-size:16px;margin:6px 0">新国标字段</div>
+      <div style="font-size:12px;color:var(--ink-2)">按 GB/T 7714-2025 的类型与字段要求，给出缺什么、错在哪、怎么改。</div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}<script src="/static/js/index.js"></script>{% endblock %}

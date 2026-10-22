@@ -1,0 +1,101 @@
+{
+ "dataset": "CiteBench-CN",
+ "version": 3,
+ "built_at": "2026-10-22T13:56:18+00:00",
+ "seed": 20261022,
+ "n": 250,
+ "counts": {
+  "Exact": 100,
+  "Minor": 75,
+  "Major": 75
+ },
+ "no_doi": {
+  "Exact": 30,
+  "Minor": 22,
+  "Major": 23,
+  "total": 75
+ },
+ "minor_breakdown": {
+  "pages": 15,
+  "issue": 8,
+  "volume": 7,
+  "year": 15,
+  "author_order": 15,
+  "venue": 15
+ },
+ "major_breakdown": {
+  "fake_title": 38,
+  "fake_doi": 37
+ },
+ "label_definitions": {
+  "Exact": "title, year, authors, source, volume/issue/pages and DOI all match the real record",
+  "Minor": "the paper really exists, but one field drifts: year / author order / source / volume-issue / pages",
+  "Major": "the title cannot be found in open databases, or the DOI is an unrelated DOI that resolves to no record (404)",
+  "doi_case_note": "DOI letter-case changes are not used as Minor samples: DOIs are case-insensitive, so a case change is semantically Exact."
+ },
+ "source": {
+  "provider": "OpenAlex",
+  "license": "CC0 1.0",
+  "api": "https://api.openalex.org/works",
+  "filter": "language:zh,has_doi:true",
+  "select": "id,doi,title,publication_year,authorships,primary_location,biblio,type,language",
+  "mailto": "citeguard@example.org",
+  "note": "Base records are real OpenAlex works (language=zh, has_doi). Each reference is a synthetic GB/T 7714 rendering; labels are fixed by construction."
+ },
+ "pool": {
+  "pages_fetched": 16,
+  "works": 3200,
+  "eligible": 344,
+  "bases_used": 250,
+  "render_rejections": 0
+ },
+ "fabricated_doi_check": {
+  "prefix": "10.9999",
+  "checked": 37,
+  "all_missing": true,
+  "verdicts": {
+   "10.9999/cbcn.2024.94080": false,
+   "10.9999/cbcn.2022.69969": false,
+   "10.9999/cbcn.2026.26517": false,
+   "10.9999/cbcn.2025.92589": false,
+   "10.9999/cbcn.2022.27994": false,
+   "10.9999/cbcn.2019.28980": false,
+   "10.9999/cbcn.2022.22125": false,
+   "10.9999/cbcn.2026.52430": false,
+   "10.9999/cbcn.2022.57709": false,
+   "10.9999/cbcn.2026.63385": false,
+   "10.9999/cbcn.2020.55200": false,
+   "10.9999/cbcn.2025.92462": false,
+   "10.9999/cbcn.2018.54355": false,
+   "10.9999/cbcn.2016.38959": false,
+   "10.9999/cbcn.2024.82117": false,
+   "10.9999/cbcn.2018.89670": false,
+   "10.9999/cbcn.2018.65344": false,
+   "10.9999/cbcn.2021.10068": false,
+   "10.9999/cbcn.2015.21471": false,
+   "10.9999/cbcn.2016.62380": false,
+   "10.9999/cbcn.2020.76579": false,
+   "10.9999/cbcn.2024.78189": false,
+   "10.9999/cbcn.2018.45092": false,
+   "10.9999/cbcn.2016.85855": false,
+   "10.9999/cbcn.2024.87633": false,
+   "10.9999/cbcn.2018.24667": false,
+   "10.9999/cbcn.2017.50282": false,
+   "10.9999/cbcn.2024.15118": false,
+   "10.9999/cbcn.2024.94923": false,
+   "10.9999/cbcn.2026.97420": false,
+   "10.9999/cbcn.2024.48458": false,
+   "10.9999/cbcn.2019.32509": false,
+   "10.9999/cbcn.2018.62848": false,
+   "10.9999/cbcn.2019.61099": false,
+   "10.9999/cbcn.2023.73799": false,
+   "10.9999/cbcn.2017.12830": false,
+   "10.9999/cbcn.2026.87577": false
+  }
+ },
+ "gold_note": "gold = metadata of the real OpenAlex record used as the base; the fabricated/perturbed value is described in `corruption`.",
+ "files": {
+  "jsonl": "citebench_cn.jsonl"
+ },
+ "build_cmd": "PYTHONPATH=src python3 scripts/build_citebench.py"
+}

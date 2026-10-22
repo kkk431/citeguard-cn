@@ -1,0 +1,2062 @@
+{
+  "dataset": "CiteBench-CN",
+  "n": 250,
+  "dataset_sha256": "1a8e466b952cd1fef9fc2f897d18053eed7f91596c9d9d91d63fed2f961891d7",
+  "model": "deepseek-chat",
+  "endpoint": "https://api.deepseek.com/chat/completions",
+  "generated_at": "2026-10-22T13:51:23+00:00",
+  "metrics": {
+    "macro_f1": 0.5159,
+    "accuracy": 0.536
+  },
+  "per_class": {
+    "Exact": {
+      "precision": 0.7,
+      "recall": 0.28,
+      "f1": 0.4,
+      "support": 100
+    },
+    "Minor": {
+      "precision": 0.4444,
+      "recall": 0.48,
+      "f1": 0.4615,
+      "support": 75
+    },
+    "Major": {
+      "precision": 0.5426,
+      "recall": 0.9333,
+      "f1": 0.6863,
+      "support": 75
+    }
+  },
+  "confusion": {
+    "labels": [
+      "Exact",
+      "Minor",
+      "Major"
+    ],
+    "matrix": [
+      [
+        28,
+        43,
+        29
+      ],
+      [
+        9,
+        36,
+        30
+      ],
+      [
+        3,
+        2,
+        70
+      ]
+    ]
+  },
+  "failures": 0,
+  "prompt_version": 3,
+  "prompt_sha256": "e2637ac0442af992d2d6732da8f26e5059e668b731b4c68299021cd44d3850cd",
+  "note": "zero-shot 3-way classification, no retrieval; temperature 0; prompt v3",
+  "predictions": [
+    {
+      "id": "cbcn-0001",
+      "label": "Exact",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0002",
+      "label": "Exact",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0003",
+      "label": "Exact",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0004",
+      "label": "Exact",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0005",
+      "label": "Minor",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0006",
+      "label": "Minor",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0007",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0008",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0009",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0010",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0011",
+      "label": "Minor",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0012",
+      "label": "Exact",
+      "pred": "Exact",
+      "raw": "{\"label\": \"Exact\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0013",
+      "label": "Minor",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0014",
+      "label": "Exact",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0015",
+      "label": "Exact",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0016",
+      "label": "Exact",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0017",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0018",
+      "label": "Minor",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0019",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0020",
+      "label": "Exact",
+      "pred": "Exact",
+      "raw": "{\"label\": \"Exact\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0021",
+      "label": "Exact",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0022",
+      "label": "Minor",
+      "pred": "Exact",
+      "raw": "{\"label\": \"Exact\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0023",
+      "label": "Minor",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0024",
+      "label": "Minor",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0025",
+      "label": "Exact",
+      "pred": "Exact",
+      "raw": "{\"label\": \"Exact\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0026",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0027",
+      "label": "Major",
+      "pred": "Exact",
+      "raw": "{\"label\": \"Exact\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0028",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0029",
+      "label": "Minor",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0030",
+      "label": "Exact",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0031",
+      "label": "Exact",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0032",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0033",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0034",
+      "label": "Minor",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0035",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0036",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0037",
+      "label": "Exact",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0038",
+      "label": "Minor",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0039",
+      "label": "Exact",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0040",
+      "label": "Exact",
+      "pred": "Exact",
+      "raw": "{\"label\": \"Exact\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0041",
+      "label": "Exact",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0042",
+      "label": "Exact",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0043",
+      "label": "Minor",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0044",
+      "label": "Exact",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0045",
+      "label": "Exact",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0046",
+      "label": "Minor",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0047",
+      "label": "Exact",
+      "pred": "Exact",
+      "raw": "{\"label\": \"Exact\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0048",
+      "label": "Minor",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0049",
+      "label": "Exact",
+      "pred": "Exact",
+      "raw": "{\"label\": \"Exact\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0050",
+      "label": "Minor",
+      "pred": "Exact",
+      "raw": "{\"label\": \"Exact\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0051",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0052",
+      "label": "Exact",
+      "pred": "Exact",
+      "raw": "{\"label\": \"Exact\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0053",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0054",
+      "label": "Exact",
+      "pred": "Exact",
+      "raw": "{\"label\": \"Exact\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0055",
+      "label": "Minor",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0056",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0057",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0058",
+      "label": "Minor",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0059",
+      "label": "Exact",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0060",
+      "label": "Exact",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0061",
+      "label": "Exact",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0062",
+      "label": "Minor",
+      "pred": "Exact",
+      "raw": "{\"label\": \"Exact\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0063",
+      "label": "Minor",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0064",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0065",
+      "label": "Minor",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0066",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0067",
+      "label": "Exact",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0068",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0069",
+      "label": "Minor",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0070",
+      "label": "Exact",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0071",
+      "label": "Exact",
+      "pred": "Exact",
+      "raw": "{\"label\": \"Exact\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0072",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0073",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0074",
+      "label": "Minor",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0075",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0076",
+      "label": "Major",
+      "pred": "Exact",
+      "raw": "{\"label\": \"Exact\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0077",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0078",
+      "label": "Minor",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0079",
+      "label": "Exact",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0080",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0081",
+      "label": "Exact",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0082",
+      "label": "Exact",
+      "pred": "Exact",
+      "raw": "{\"label\": \"Exact\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0083",
+      "label": "Exact",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0084",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0085",
+      "label": "Exact",
+      "pred": "Exact",
+      "raw": "{\"label\": \"Exact\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0086",
+      "label": "Exact",
+      "pred": "Exact",
+      "raw": "{\"label\": \"Exact\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0087",
+      "label": "Exact",
+      "pred": "Exact",
+      "raw": "{\"label\": \"Exact\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0088",
+      "label": "Exact",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0089",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0090",
+      "label": "Exact",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0091",
+      "label": "Exact",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0092",
+      "label": "Exact",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0093",
+      "label": "Exact",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0094",
+      "label": "Minor",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0095",
+      "label": "Exact",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0096",
+      "label": "Exact",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0097",
+      "label": "Exact",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0098",
+      "label": "Exact",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0099",
+      "label": "Exact",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0100",
+      "label": "Major",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0101",
+      "label": "Minor",
+      "pred": "Exact",
+      "raw": "{\"label\": \"Exact\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0102",
+      "label": "Exact",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0103",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0104",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0105",
+      "label": "Exact",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0106",
+      "label": "Exact",
+      "pred": "Exact",
+      "raw": "{\"label\": \"Exact\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0107",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0108",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0109",
+      "label": "Minor",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0110",
+      "label": "Minor",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0111",
+      "label": "Minor",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0112",
+      "label": "Exact",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0113",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0114",
+      "label": "Minor",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0115",
+      "label": "Minor",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0116",
+      "label": "Minor",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0117",
+      "label": "Exact",
+      "pred": "Exact",
+      "raw": "{\"label\": \"Exact\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0118",
+      "label": "Exact",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0119",
+      "label": "Exact",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0120",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0121",
+      "label": "Minor",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0122",
+      "label": "Exact",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0123",
+      "label": "Exact",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0124",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0125",
+      "label": "Exact",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0126",
+      "label": "Exact",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0127",
+      "label": "Exact",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0128",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0129",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0130",
+      "label": "Minor",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0131",
+      "label": "Exact",
+      "pred": "Exact",
+      "raw": "{\"label\": \"Exact\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0132",
+      "label": "Minor",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0133",
+      "label": "Minor",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0134",
+      "label": "Exact",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0135",
+      "label": "Minor",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0136",
+      "label": "Minor",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0137",
+      "label": "Exact",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0138",
+      "label": "Exact",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0139",
+      "label": "Minor",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0140",
+      "label": "Minor",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0141",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0142",
+      "label": "Exact",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0143",
+      "label": "Minor",
+      "pred": "Exact",
+      "raw": "{\"label\": \"Exact\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0144",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0145",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0146",
+      "label": "Exact",
+      "pred": "Exact",
+      "raw": "{\"label\": \"Exact\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0147",
+      "label": "Exact",
+      "pred": "Exact",
+      "raw": "{\"label\": \"Exact\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0148",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0149",
+      "label": "Minor",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0150",
+      "label": "Minor",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0151",
+      "label": "Minor",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0152",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0153",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0154",
+      "label": "Minor",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0155",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0156",
+      "label": "Exact",
+      "pred": "Exact",
+      "raw": "{\"label\": \"Exact\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0157",
+      "label": "Minor",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0158",
+      "label": "Exact",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0159",
+      "label": "Minor",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0160",
+      "label": "Minor",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0161",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0162",
+      "label": "Minor",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0163",
+      "label": "Minor",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0164",
+      "label": "Exact",
+      "pred": "Exact",
+      "raw": "{\"label\": \"Exact\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0165",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0166",
+      "label": "Minor",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0167",
+      "label": "Major",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0168",
+      "label": "Exact",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0169",
+      "label": "Major",
+      "pred": "Exact",
+      "raw": "{\"label\": \"Exact\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0170",
+      "label": "Minor",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0171",
+      "label": "Exact",
+      "pred": "Exact",
+      "raw": "{\"label\": \"Exact\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0172",
+      "label": "Minor",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0173",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0174",
+      "label": "Exact",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0175",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0176",
+      "label": "Minor",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0177",
+      "label": "Minor",
+      "pred": "Exact",
+      "raw": "{\"label\": \"Exact\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0178",
+      "label": "Exact",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0179",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0180",
+      "label": "Minor",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0181",
+      "label": "Minor",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0182",
+      "label": "Exact",
+      "pred": "Exact",
+      "raw": "{\"label\": \"Exact\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0183",
+      "label": "Exact",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0184",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0185",
+      "label": "Exact",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0186",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0187",
+      "label": "Exact",
+      "pred": "Exact",
+      "raw": "{\"label\": \"Exact\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0188",
+      "label": "Minor",
+      "pred": "Exact",
+      "raw": "{\"label\": \"Exact\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0189",
+      "label": "Exact",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0190",
+      "label": "Exact",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0191",
+      "label": "Minor",
+      "pred": "Exact",
+      "raw": "{\"label\": \"Exact\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0192",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0193",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0194",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0195",
+      "label": "Minor",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0196",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0197",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0198",
+      "label": "Exact",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0199",
+      "label": "Exact",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0200",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0201",
+      "label": "Exact",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0202",
+      "label": "Exact",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0203",
+      "label": "Exact",
+      "pred": "Exact",
+      "raw": "{\"label\": \"Exact\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0204",
+      "label": "Exact",
+      "pred": "Exact",
+      "raw": "{\"label\": \"Exact\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0205",
+      "label": "Minor",
+      "pred": "Exact",
+      "raw": "{\"label\": \"Exact\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0206",
+      "label": "Exact",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0207",
+      "label": "Minor",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0208",
+      "label": "Exact",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0209",
+      "label": "Exact",
+      "pred": "Exact",
+      "raw": "{\"label\": \"Exact\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0210",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0211",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0212",
+      "label": "Minor",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0213",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0214",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0215",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0216",
+      "label": "Exact",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0217",
+      "label": "Minor",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0218",
+      "label": "Exact",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0219",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0220",
+      "label": "Minor",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0221",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0222",
+      "label": "Minor",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0223",
+      "label": "Exact",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0224",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0225",
+      "label": "Exact",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0226",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0227",
+      "label": "Minor",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0228",
+      "label": "Exact",
+      "pred": "Exact",
+      "raw": "{\"label\": \"Exact\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0229",
+      "label": "Minor",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0230",
+      "label": "Minor",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0231",
+      "label": "Exact",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0232",
+      "label": "Minor",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0233",
+      "label": "Exact",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0234",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0235",
+      "label": "Exact",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0236",
+      "label": "Minor",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0237",
+      "label": "Exact",
+      "pred": "Exact",
+      "raw": "{\"label\": \"Exact\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0238",
+      "label": "Minor",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0239",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0240",
+      "label": "Minor",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0241",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0242",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0243",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0244",
+      "label": "Minor",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0245",
+      "label": "Exact",
+      "pred": "Minor",
+      "raw": "{\"label\": \"Minor\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0246",
+      "label": "Minor",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0247",
+      "label": "Exact",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0248",
+      "label": "Major",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0249",
+      "label": "Minor",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    },
+    {
+      "id": "cbcn-0250",
+      "label": "Exact",
+      "pred": "Major",
+      "raw": "{\"label\": \"Major\"}",
+      "cached": true,
+      "error": ""
+    }
+  ]
+}
