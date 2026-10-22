@@ -227,3 +227,23 @@ textarea:focus,input:focus{outline:none;border-color:var(--accent);background:va
 .batch-row{display:flex;align-items:center;gap:12px;padding:7px 0;border-bottom:1px solid var(--line);font-size:13px}
 .batch-row:last-child{border-bottom:none}
 .batch-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink-2)}
+
+/* phones: keep the page inside the viewport (nav is the usual culprit) */
+@media(max-width:560px){
+  html,body{overflow-x:hidden}
+  .topbar-inner{padding:10px 0;gap:8px}
+  .brand-text{font-size:14px}
+  .brand-text small{display:none}
+  .nav{gap:10px;font-size:12px;flex-wrap:wrap;justify-content:flex-end}
+  .nav a{padding:2px 0}
+  .nav a[href^="https://github.com"]{display:none}
+  .report-actions{gap:6px}
+  .report-actions .btn{font-size:11px;padding:5px 9px}
+  .riskpanel{grid-template-columns:1fr!important;gap:8px}
+  .riskpanel>div:last-child{text-align:left!important}
+  .ref-head{flex-wrap:wrap;gap:6px}
+  .ref-title{flex-basis:100%}
+  .legend,.risklegend{flex-wrap:wrap;gap:8px}
+  .search{width:100%!important}
+  .toolbar{flex-wrap:wrap;gap:8px}
+}

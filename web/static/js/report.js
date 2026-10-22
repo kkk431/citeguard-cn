@@ -28,7 +28,7 @@
     not_checked: { label: "未检测", cls: "unknown" },
   };
   const SUPPORT_ORDER = ["support", "partial", "contradict", "no_evidence", "not_checked"];
-  const state = { filter: "all", q: "", sort: "index", view: "cards", needs: false };
+  const state = { filter: "all", q: "", sort: "index", view: "cards", needs: false, fmt: false };
 
   if (!report) {
     pollJob();
@@ -164,6 +164,7 @@
       }
     }
 
+    const formatErrors = (data.references || []).filter(hasFormatError).length;
     const chips = [["all", "全部", s.total || 0]].concat(
       ["Exact", "Minor", "Major", "Unverified", "Unknown"].map(function (k) {
         return [k, STATUS[k].label, s[k] || 0];
@@ -173,17 +174,23 @@
     chipEl.innerHTML =
       chips
         .map(function (c) {
-          return '<button class="chip' + (state.filter === c[0] && !state.needs ? " on" : "") + '" data-filter="' + c[0] + '">' + c[1] + " " + c[2] + "</button>";
+          return '<button class="chip' + (state.filter === c[0] && !state.needs && !state.fmt ? " on" : "") + '" data-filter="' + c[0] + '">' + c[1] + " " + c[2] + "</button>";
         })
         .join("") +
-      '<button class="chip chip-needs' + (state.needs ? " on" : "") + '" data-needs="1" title="只显示疑似虚构/元数据偏差/格式有问题的条目">仅看需处理</button>';
+      '<button class="chip chip-needs' + (state.needs ? " on" : "") + '" data-needs="1" title="只显示疑似虚构/元数据偏差/格式有问题的条目">仅看需处理</button>' +
+      '<button class="chip' + (state.fmt ? " on" : "") + '" data-fmt="1" title="只显示存在 error 级格式问题的条目">格式错误 ' + formatErrors + "</button>";
     chipEl.querySelectorAll(".chip").forEach(function (btn) {
       btn.addEventListener("click", function () {
         if (btn.dataset.needs) {
           state.needs = !state.needs;
+          state.fmt = false;
+        } else if (btn.dataset.fmt) {
+          state.fmt = !state.fmt;
+          state.needs = false;
         } else {
           state.filter = btn.dataset.filter;
           state.needs = false;
+          state.fmt = false;
         }
         render(data);
         apply(data);
@@ -250,11 +257,15 @@
     apply(data);
   }
 
+  function hasFormatError(item) {
+    const issues = (item.compliance && item.compliance.issues) || [];
+    return issues.some(function (i) { return i.level === "error"; });
+  }
+
   function needsAttention(item) {
     const status = (item.verify && item.verify.status) || "Unknown";
     if (status !== "Exact") return true;
-    const issues = (item.compliance && item.compliance.issues) || [];
-    return issues.some(function (i) { return i.level === "error"; });
+    return hasFormatError(item);
   }
 
   function suggestionText(data) {
@@ -289,6 +300,7 @@
   }
 
   function matches(item, data) {
+    if (state.fmt && !hasFormatError(item)) return false;
     if (state.needs && !needsAttention(item)) return false;
     if (state.filter !== "all") {
       const st = (item.verify && item.verify.status) || "Unknown";
