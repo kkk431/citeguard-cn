@@ -139,6 +139,18 @@ def test_apa_split_wins_over_sparse_numbered_lines():
     assert all("(" in e for e in entries)
 
 
+def test_empty_type_marker_from_ocr_does_not_swallow_the_entry():
+    """OCR sometimes turns 题名[J] into 题名[]; keep the title/source split."""
+    ref = parse_reference("[1] 张三. 论引文核验的可验证性[]. 计算机学报, 2020, 43(5): 1-10.")
+
+    assert ref.authors == ["张三"]
+    assert ref.title == "论引文核验的可验证性"
+    assert "计算机学报" in ref.venue
+    assert (ref.year, ref.volume, ref.issue, ref.pages) == (2020, "43", "5", "1-10")
+    assert ref.doc_type == ""  # type code was lost, do not invent one
+    assert ref.extra.get("type_marker_lost") is True
+
+
 def test_chinese_author_comma_title_without_period():
     ref = parse_reference("[7] 宋玉茹, 平台算法推荐下消费者理性决策的理论依据与实践路径[J]. 价格理论与实践, 2025(6): 106-111.")
 

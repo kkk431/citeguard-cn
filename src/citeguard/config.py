@@ -44,3 +44,6 @@ MAX_UPLOAD_MB = int(os.environ.get("CITEGUARD_MAX_UPLOAD_MB", "30"))
 # User-supplied reference library (RIS / EndNote / BibTeX / CSL-JSON / plain list).
 LIBRARY_DIR = DATA_DIR / "library"
 LIBRARY_FILE = LIBRARY_DIR / "library.json"
+
+# Optional OCR fallback for scanned PDFs (needs rapidocr-onnxruntime + pypdfium2).
+OCR_MAX_PAGES = int(os.environ.get("CITEGUARD_OCR_MAX_PAGES", "30"))

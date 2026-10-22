@@ -65,10 +65,12 @@ def extract_text(path: str | Path) -> str:
         if not text.strip():
             text = _pdf_pypdf(path)
         if not text.strip():
+            text = _ocr_pdf(path)
+        if not text.strip():
             raise RuntimeError(
-                "PDF 中没有可提取的文字层，可能是扫描件。请先用 OCR 工具"
-                "（如 PaddleOCR、Adobe Acrobat「识别文本」）转成可搜索 PDF，"
-                "或直接上传 Word 原稿。"
+                "PDF 中没有可提取的文字层，可能是扫描件。可以：1) 直接上传 Word 原稿；"
+                "2) 安装可选 OCR 依赖后重试（pip install rapidocr-onnxruntime）；"
+                "3) 先用 OCR 工具转成可搜索 PDF。"
             )
         # Running headers/footers land in the middle of the reference list.
         return normalize_text(strip_repeated_lines(text))
@@ -193,6 +195,16 @@ def _pdf_pypdf(path: Path) -> str:
 
         reader = PdfReader(str(path))
         return "\n".join((page.extract_text() or "") for page in reader.pages)
+    except Exception:
+        return ""
+
+
+def _ocr_pdf(path: Path) -> str:
+    """Optional OCR fallback for scanned PDFs (rapidocr-onnxruntime)."""
+    try:
+        from .ocr import ocr_pdf
+
+        return ocr_pdf(path)
     except Exception:
         return ""
 

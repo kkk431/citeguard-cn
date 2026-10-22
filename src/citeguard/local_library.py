@@ -1,4 +1,4 @@
-"""Local reference library: verify against metadata the user already owns.
+﻿"""Local reference library: verify against metadata the user already owns.
 
 Chinese theses mostly cite Chinese journal articles that OpenAlex/Crossref do
 not index. Users usually *do* have those records, exported from CNKI /
@@ -38,6 +38,7 @@ class LibraryEntry:
     pages: str = ""
     doi: str = ""
     url: str = ""
+    abstract: str = ""
     doc_type: str = ""
     source: str = "local"
     raw: str = ""
@@ -72,7 +73,7 @@ def _pages(first: str, last: str) -> str:
 # Format parsers
 # ---------------------------------------------------------------------------
 
-_RIS_TAGS = {"TY", "TI", "T1", "AU", "A1", "JO", "JF", "T2", "PY", "Y1", "VL", "IS", "SP", "EP", "DO", "UR", "ER"}
+_RIS_TAGS = {"TY", "TI", "T1", "AU", "A1", "JO", "JF", "T2", "PY", "Y1", "VL", "IS", "SP", "EP", "DO", "UR", "AB", "N2", "ER"}
 
 
 def parse_ris(text: str) -> list[LibraryEntry]:
@@ -97,6 +98,7 @@ def parse_ris(text: str) -> list[LibraryEntry]:
             pages=_pages(get("SP"), get("EP")),
             doi=_clean(get("DO")),
             url=_clean(get("UR")),
+            abstract=_clean(get("AB", "N2")),
             source="local:ris",
             raw="RIS",
         )
@@ -142,6 +144,7 @@ def parse_endnote(text: str) -> list[LibraryEntry]:
                     pages=_clean((current.get("%P") or [""])[0]),
                     doi=_clean((current.get("%R") or [""])[0]),
                     url=_clean((current.get("%U") or [""])[0]),
+                    abstract=_clean((current.get("%X") or [""])[0]),
                     source="local:endnote",
                     raw="ENDNOTE",
                 )
@@ -218,6 +221,7 @@ def parse_bibtex(text: str) -> list[LibraryEntry]:
                 pages=_clean(fields.get("pages", "")).replace("--", "-"),
                 doi=fields.get("doi", ""),
                 url=fields.get("url", ""),
+                abstract=fields.get("abstract", ""),
                 source="local:bibtex",
                 raw="BIBTEX",
             )
@@ -264,6 +268,7 @@ def parse_csl_json(text: str) -> list[LibraryEntry]:
                 pages=_clean(str(item.get("page", ""))),
                 doi=_clean(str(item.get("DOI", ""))),
                 url=_clean(str(item.get("URL", ""))),
+                abstract=_clean(str(item.get("abstract", ""))),
                 source="local:csl",
                 raw="CSL-JSON",
             )
@@ -409,4 +414,5 @@ def entry_to_candidate(entry: LibraryEntry) -> Candidate:
         issue=entry.issue,
         pages=entry.pages,
         url=entry.url,
+        abstract=entry.abstract,
     )

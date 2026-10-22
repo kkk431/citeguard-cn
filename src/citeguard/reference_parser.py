@@ -333,8 +333,18 @@ def parse_reference(raw: str, index: Optional[int] = None) -> Reference:
         right = text[tm.end() :].strip()
         right = re.sub(r"^[\.．,，。;；:：\s]+", "", right)
     else:
-        ref.doc_type = "J" if (ref.doi or ref.url) else ""
-        left, right = text, text
+        em = re.search(r"\[\s*\]", text)
+        if em:
+            # OCR frequently loses the type code but keeps an empty marker
+            # ("题名[]. 刊名, 2020"): treat it as the title/source boundary and
+            # leave the type unknown instead of swallowing the whole entry.
+            left = text[: em.start()].strip()
+            right = text[em.end() :].strip()
+            right = re.sub(r"^[\.．,，。;；:：\s]+", "", right)
+            ref.extra["type_marker_lost"] = True
+        else:
+            ref.doc_type = "J" if (ref.doi or ref.url) else ""
+            left, right = text, text
 
     if not tm and _parse_apa(ref, text):
         return ref
@@ -375,7 +385,9 @@ def parse_reference(raw: str, index: Optional[int] = None) -> Reference:
     if ed and ref.doc_type in {"M", "D", "R", "S"}:
         ref.version = f"第{ed.group(1)}版"
 
-    ref.venue = _first_segment(right) if ref.doc_type in {"J", "C", "N"} else ""
+    # Unknown type (e.g. the [J] marker was lost in OCR) still needs a source;
+    # books/theses keep the venue empty because their source is the publisher.
+    ref.venue = _first_segment(right) if ref.doc_type in {"J", "C", "N"} or not ref.doc_type else ""
 
     if ref.doc_type == "M":
         _parse_book_fields(ref, right)

@@ -77,6 +77,44 @@ def test_parse_ris_fields():
     assert (e.year, e.volume, e.issue, e.pages) == (2014, "30", "5", "482-495")
 
 
+def test_parse_ris_abstract_is_kept():
+    text = (
+        "TY  - JOUR\nTI  - 题名\nAU  - 张三\nJO  - 期刊\nPY  - 2020\n"
+        "AB  - 本文研究发现累积生态风险显著提高青少年的健康危险行为。\nER  - \n"
+    )
+
+    entry = parse_ris(text)[0]
+
+    assert entry.abstract.startswith("本文研究发现")
+    assert entry_to_candidate(entry).abstract.startswith("本文研究发现")
+
+
+def test_library_abstract_feeds_support_judge(isolated_project, monkeypatch):
+    from citeguard import support as sp
+    from citeguard.pipeline import analyze_text
+    from helpers import deepseek_support_response, install_fake_post
+
+    ris = (
+        "TY  - JOUR\nTI  - 累积生态风险与青少年的学业和社交能力\nAU  - 鲍振宙\n"
+        "JO  - 心理发展与教育\nPY  - 2014\nVL  - 30\nIS  - 5\nSP  - 482\nEP  - 495\n"
+        "AB  - 累积生态风险显著正向预测青少年的学业和社交能力。\nER  - \n"
+    )
+    library = Library(parse_ris(ris))
+    install_fake_get(monkeypatch, mv, lambda url, params: FakeResponse(500))
+    install_fake_post(monkeypatch, sp, lambda url, body: deepseek_support_response("support"))
+    monkeypatch.setattr(sp.config, "DEEPSEEK_API_KEY", "sk-test")
+
+    text = (
+        "累积生态风险显著提高青少年的学业和社交能力[1]。\n"
+        "参考文献\n"
+        "[1] 鲍振宙, 李董平. 累积生态风险与青少年的学业和社交能力[J]. 心理发展与教育, 2014, 30(5): 482-495.\n"
+    )
+    report = analyze_text(text, "test.txt", support_max=5, library=library)
+
+    assert report["stats"]["support_meta"]["candidates"] >= 1
+    assert report["references"][0]["support"]["label"] == "support"
+
+
 def test_parse_bibtex_fields():
     entries = parse_bibtex(BIB)
 

@@ -1,0 +1,3 @@
+# 可选：扫描件 PDF 的 OCR 兜底（不装也能用本产品，只是扫描件会报错提示）
+rapidocr-onnxruntime>=1.3
+pypdfium2>=5.0
