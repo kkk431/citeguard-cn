@@ -230,6 +230,23 @@ def _cache_path(key: str) -> Path:
     return config.CACHE_DIR / f"{h}.json"
 
 
+# Count of failed source requests (rate limits / network / 5xx). Used to tell
+# "we found nothing" apart from "the data source was unavailable".
+_source_errors = 0
+_source_errors_lock = threading.Lock()
+
+
+def _note_source_failure() -> None:
+    global _source_errors
+    with _source_errors_lock:
+        _source_errors += 1
+
+
+def source_error_count() -> int:
+    with _source_errors_lock:
+        return _source_errors
+
+
 def _request(url: str, params: Optional[dict] = None, tries: int = 3):
     """GET with retries on rate limits / transient server errors.
 
@@ -270,12 +287,15 @@ def _cached_json(url: str, params: Optional[dict] = None) -> Optional[Any]:
     try:
         resp = _request(url, params)
         if resp.status_code != 200:
+            if resp.status_code in {429, 500, 502, 503, 504}:
+                _note_source_failure()
             return None
         data = resp.json()
         cp.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
         time.sleep(config.API_SLEEP)
         return data
     except Exception:
+        _note_source_failure()
         return None
 
 
@@ -290,12 +310,15 @@ def _cached_text(url: str, params: Optional[dict] = None) -> Optional[str]:
     try:
         resp = _request(url, params)
         if resp.status_code != 200:
+            if resp.status_code in {429, 500, 502, 503, 504}:
+                _note_source_failure()
             return None
         text = resp.text
         cp.write_text(text, encoding="utf-8")
         time.sleep(config.API_SLEEP)
         return text
     except Exception:
+        _note_source_failure()
         return None
 
 
@@ -841,9 +864,18 @@ def verify_reference(
         )
 
     # 2) No DOI: title search.
+    errors_before = source_error_count()
     candidates = _title_candidates(ref, use_arxiv, sources)
     best_scored = _best_scored(ref, candidates)
     if best_scored is None:
+        if source_error_count() > errors_before:
+            # Distinguish "not indexed" from "the index did not answer".
+            return VerifyResult(
+                status="Unknown",
+                doi_status="none",
+                notes=notes + ["数据源请求失败（限流/网络），本条无法核验"],
+                sources=sources,
+            )
         return VerifyResult(
             status="Unverified",
             doi_status="none",

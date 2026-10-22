@@ -1,4 +1,4 @@
-﻿"""Tests for multi-source metadata verification (all HTTP is faked)."""
+"""Tests for multi-source metadata verification (all HTTP is faked)."""
 from __future__ import annotations
 
 import pytest
@@ -151,6 +151,18 @@ def test_verify_no_doi_not_found_is_unverified_not_fabricated(monkeypatch, isola
 
     assert result.status == "Unverified"
     assert "no usable candidate" in " ".join(result.notes)
+
+
+def test_rate_limited_sources_report_unknown_not_unverified(monkeypatch, isolated_cache):
+    """429 from every source means "could not check", not "not found"."""
+    ref = _ref_without_doi()
+    monkeypatch.setattr(mv.time, "sleep", lambda *_: None)
+    install_fake_get(monkeypatch, mv, lambda url, params: FakeResponse(429, {"error": "rate limited"}))
+
+    result = mv.verify_reference(ref)
+
+    assert result.status == "Unknown"
+    assert "数据源" in " ".join(result.notes)
 
 
 def test_verify_weak_title_match_is_unverified(monkeypatch, isolated_cache):

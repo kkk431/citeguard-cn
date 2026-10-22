@@ -1,4 +1,4 @@
-# ClaimSupport-CN 一页纸（支持度评测）
+﻿# ClaimSupport-CN 一页纸（支持度评测）
 
 > 给 PPT / 汇报的单页摘要。完整数据卡见 `data/claimsupport_cn/README.md`。
 
@@ -6,7 +6,7 @@
 
 在自建中文引文支持度评测集 **ClaimSupport-CN（100 条，标签由构造决定）** 上，产品自带的 `judge_support`（DeepSeek `deepseek-chat`，temperature 0，prompt v3）取得 **macro-F1 0.9005 / accuracy 0.890**；`no_evidence` 识别满分，`contradict` F1 0.929，主要剩余误差仍是 **partial↔support**（7 条 partial 被判 support、2 条 support 被判 partial），但已从 prompt v1 的 12 条混淆降到 9 条。
 
-> 版本记录：prompt v1（`8a4850d4…`）macro-F1 0.7951 / acc 0.810；v2 加入「先摘证据、再判定」与边界规则后 0.8757/0.870（含论文题目上下文）；v3 去掉题目上下文、只给引用句+证据片段后 **0.9005/0.890**（`cb86c4fa…`）。
+> 版本记录：prompt v1（`8a4850d4…`）macro-F1 0.7951 / acc 0.810；v2 加入「先摘证据、再判定」与边界规则后 0.8757/0.870（含论文题目上下文）；v3 去掉题目上下文、只给引用句+证据片段后 **0.9005/0.890**（`cb86c4fa…`，正式评测）；另用同一 prompt 在独立缓存上复测得 0.9253/0.920（LLM 温度 0 仍有约 ±2.5 分的运行间波动）；v4 加了 4 条 few-shot 边界示例反而降到 0.8912/0.880，未采用（记录在 `data/experiments/support_v4_results.json`）。
 
 ## 主表（per-class）
 
