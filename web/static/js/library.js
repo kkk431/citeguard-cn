@@ -1,4 +1,4 @@
-/* Local library management: import / clear. */
+/* Local library management: import (multi-file) / clear. */
 (function () {
   const form = document.getElementById("library-form");
   if (!form) return;
@@ -10,9 +10,16 @@
   const importBtn = document.getElementById("library-import-btn");
   const clearBtn = document.getElementById("library-clear-btn");
 
+  function files() {
+    return Array.from((input && input.files) || []);
+  }
+
   function setName() {
-    const file = input.files && input.files[0];
-    if (nameEl) nameEl.textContent = file ? file.name : "";
+    const list = files();
+    if (!nameEl) return;
+    if (!list.length) nameEl.textContent = "";
+    else if (list.length === 1) nameEl.textContent = list[0].name;
+    else nameEl.textContent = "已选 " + list.length + " 个文件";
   }
 
   input.addEventListener("change", setName);
@@ -29,10 +36,10 @@
     });
   });
   dropzone.addEventListener("drop", function (e) {
-    const files = e.dataTransfer && e.dataTransfer.files;
-    if (files && files.length) {
+    const dropped = e.dataTransfer && e.dataTransfer.files;
+    if (dropped && dropped.length) {
       const dt = new DataTransfer();
-      dt.items.add(files[0]);
+      Array.from(dropped).forEach(function (f) { dt.items.add(f); });
       input.files = dt.files;
       setName();
     }
@@ -40,25 +47,30 @@
 
   form.addEventListener("submit", async function (e) {
     e.preventDefault();
-    const file = input.files && input.files[0];
-    if (!file) {
-      window.CiteGuard.toast("请先选择一个题录导出文件");
+    const list = files();
+    if (!list.length) {
+      window.CiteGuard.toast("请先选择题录导出文件");
       return;
     }
     importBtn.disabled = true;
-    if (hint) hint.textContent = "导入中…";
-    try {
-      const fd = new FormData();
-      fd.append("file", file);
-      const data = await window.CiteGuard.postForm("/api/library/import", fd);
-      if (hint) hint.textContent = "";
-      window.CiteGuard.toast("导入 " + data.imported + " 条，库内共 " + data.count + " 条");
-      setTimeout(function () { window.location.reload(); }, 700);
-    } catch (err) {
-      if (hint) hint.textContent = "";
-      window.CiteGuard.toast("导入失败：" + err.message);
-      importBtn.disabled = false;
+    let imported = 0;
+    let failed = 0;
+    for (let i = 0; i < list.length; i++) {
+      if (hint) hint.textContent = "导入中 " + (i + 1) + "/" + list.length;
+      try {
+        const fd = new FormData();
+        fd.append("file", list[i]);
+        const data = await window.CiteGuard.postForm("/api/library/import", fd);
+        imported += data.imported || 0;
+      } catch (err) {
+        failed += 1;
+      }
     }
+    if (hint) hint.textContent = "";
+    window.CiteGuard.toast(
+      "导入 " + imported + " 条" + (failed ? "，" + failed + " 个文件失败" : "")
+    );
+    setTimeout(function () { window.location.reload(); }, 800);
   });
 
   clearBtn.addEventListener("click", async function () {

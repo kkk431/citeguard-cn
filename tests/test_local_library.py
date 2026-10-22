@@ -66,6 +66,39 @@ CSL = json.dumps(
 )
 
 
+def test_library_export_roundtrip_bibtex_and_ris():
+    from citeguard.local_library import to_bibtex, to_ris
+
+    library = Library(parse_ris(RIS))
+
+    bib = to_bibtex(library)
+    ris = to_ris(library)
+
+    assert "@article{" in bib and "累积生态风险" in bib
+    assert "TY  - JOUR" in ris and "ER  - " in ris
+    assert len(parse_library_text(bib, "x.bib")) == 1
+    assert len(parse_library_text(ris, "x.ris")) == 1
+
+
+def test_library_export_endpoints(client):
+    client.post(
+        "/api/library/import",
+        files={"file": ("cnki.ris", RIS.encode("utf-8"), "application/x-research-info-systems")},
+    )
+
+    bib = client.get("/api/library/export?format=bibtex")
+    ris = client.get("/api/library/export?format=ris")
+    bad = client.get("/api/library/export?format=xlsx")
+
+    assert bib.status_code == 200 and "@article{" in bib.text
+    assert ris.status_code == 200 and "TY  - JOUR" in ris.text
+    assert bad.status_code == 400
+
+
+def test_library_export_empty_returns_404(client):
+    assert client.get("/api/library/export?format=bibtex").status_code == 404
+
+
 def test_parse_ris_fields():
     entries = parse_ris(RIS)
 

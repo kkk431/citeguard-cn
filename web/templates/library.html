@@ -21,14 +21,18 @@
   <div class="panel">
     <form id="library-form" enctype="multipart/form-data">
       <label class="dropzone" for="library-file" id="library-dropzone">
-        <input id="library-file" type="file" name="file" accept=".ris,.bib,.enw,.json,.csl,.txt" hidden>
-        <div class="dz-title">选择题录导出文件，或拖入</div>
+        <input id="library-file" type="file" name="file" accept=".ris,.bib,.enw,.json,.csl,.txt" multiple hidden>
+        <div class="dz-title">选择题录导出文件，或拖入（可多选）</div>
         <div class="dz-sub">知网/NoteExpress → RIS；EndNote → .enw；Zotero → BibTeX / CSL-JSON；也可以直接传 GB/T 参考文献的纯文本</div>
         <div class="dz-file" id="library-file-name"></div>
       </label>
       <div class="upload-actions">
         <button type="submit" class="btn btn-primary" id="library-import-btn">导入并合并</button>
         <button type="button" class="btn btn-ghost" id="library-clear-btn">清空题录库</button>
+        {% if count %}
+        <a class="btn btn-ghost" href="/api/library/export?format=bibtex">导出 BibTeX</a>
+        <a class="btn btn-ghost" href="/api/library/export?format=ris">导出 RIS</a>
+        {% endif %}
         <span class="mono-sm" id="library-hint" style="margin-left:auto;align-self:center"></span>
       </div>
     </form>

@@ -145,6 +145,26 @@ def library_api():
     return {"count": len(library), "sample": [e.to_dict() for e in library.entries[:5]]}
 
 
+@app.get("/api/library/export")
+def library_export(format: str = "bibtex"):
+    from citeguard.local_library import to_bibtex, to_ris
+
+    library = Library.load(config.LIBRARY_FILE)
+    if not library:
+        raise HTTPException(status_code=404, detail="题录库为空")
+    if format == "ris":
+        content, media, ext = to_ris(library), "application/x-research-info-systems", "ris"
+    elif format in {"bibtex", "bib"}:
+        content, media, ext = to_bibtex(library), "application/x-bibtex", "bib"
+    else:
+        raise HTTPException(status_code=400, detail="format must be bibtex or ris")
+    return Response(
+        content=content.encode("utf-8"),
+        media_type=media,
+        headers={"Content-Disposition": f'attachment; filename="citeguard-library.{ext}"'},
+    )
+
+
 @app.post("/api/analyze")
 def analyze(
     file: UploadFile | None = File(default=None),

@@ -1,4 +1,4 @@
-"""CLI entry point.
+﻿"""CLI entry point.
 
 Usage:
     python -m citeguard.cli --input paper.pdf --out out/demo
@@ -23,7 +23,10 @@ from citeguard.pipeline import analyze_text  # noqa: E402
 from citeguard.report import save_report  # noqa: E402
 
 
-def _read_library(path: Path) -> list:
+LIBRARY_SUFFIXES = {".ris", ".bib", ".enw", ".json", ".csl", ".txt"}
+
+
+def _read_library_file(path: Path) -> list:
     raw = path.read_bytes()
     for encoding in ("utf-8-sig", "utf-8", "gb18030"):
         try:
@@ -31,6 +34,17 @@ def _read_library(path: Path) -> list:
         except UnicodeDecodeError:
             continue
     return parse_library_text(raw.decode("utf-8", errors="replace"), path.name)
+
+
+def _read_library(path: Path) -> list:
+    """Read one export file, or every supported export file in a directory."""
+    if path.is_dir():
+        entries: list = []
+        for item in sorted(path.iterdir()):
+            if item.is_file() and item.suffix.lower() in LIBRARY_SUFFIXES:
+                entries.extend(_read_library_file(item))
+        return entries
+    return _read_library_file(path)
 
 
 def _load_library(args) -> Library:

@@ -90,6 +90,26 @@ def test_cli_import_library(tmp_path, monkeypatch):
     assert json.loads((tmp_path / "library.json").read_text(encoding="utf-8"))["count"] == 1
 
 
+def test_cli_import_library_directory(tmp_path, monkeypatch, capsys):
+    from citeguard import config
+
+    monkeypatch.setattr(config, "LIBRARY_FILE", tmp_path / "library.json")
+    exports = tmp_path / "exports"
+    exports.mkdir()
+    (exports / "a.ris").write_text(
+        "TY  - JOUR\nTI  - 题名一\nAU  - 张三\nJO  - 期刊\nPY  - 2020\nER  - \n", encoding="utf-8"
+    )
+    (exports / "b.bib").write_text(
+        "@article{b, title={题名二}, author={李四}, journal={期刊}, year={2021}}", encoding="utf-8"
+    )
+
+    rc = cli.main(["--import-library", str(exports)])
+
+    assert rc == 0
+    assert json.loads((tmp_path / "library.json").read_text(encoding="utf-8"))["count"] == 2
+    assert "library:" in capsys.readouterr().out
+
+
 def test_cli_batch_directory(tmp_path, capsys):
     folder = tmp_path / "papers"
     folder.mkdir()

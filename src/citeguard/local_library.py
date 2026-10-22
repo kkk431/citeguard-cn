@@ -1,4 +1,4 @@
-﻿"""Local reference library: verify against metadata the user already owns.
+"""Local reference library: verify against metadata the user already owns.
 
 Chinese theses mostly cite Chinese journal articles that OpenAlex/Crossref do
 not index. Users usually *do* have those records, exported from CNKI /
@@ -416,3 +416,64 @@ def entry_to_candidate(entry: LibraryEntry) -> Candidate:
         url=entry.url,
         abstract=entry.abstract,
     )
+
+
+# ---------------------------------------------------------------------------
+# Export (backup / migration between tools)
+# ---------------------------------------------------------------------------
+
+def _bibtex_key(entry: LibraryEntry, index: int) -> str:
+    surname = (entry.authors[0] if entry.authors else "anon").split(",")[0].split()[0]
+    slug = re.sub(r"[^A-Za-z0-9]", "", surname).lower() or "anon"
+    return f"{slug}{entry.year or 'nd'}{index}"
+
+
+def to_bibtex(library: "Library") -> str:
+    chunks: list[str] = []
+    for index, entry in enumerate(library.entries, 1):
+        fields = [
+            ("title", entry.title),
+            ("author", " and ".join(entry.authors)),
+            ("journal", entry.venue),
+            ("year", str(entry.year) if entry.year else ""),
+            ("volume", entry.volume),
+            ("number", entry.issue),
+            ("pages", entry.pages.replace("-", "--")),
+            ("doi", entry.doi),
+            ("url", entry.url),
+            ("abstract", entry.abstract),
+        ]
+        body = ",\n".join(f"  {name} = {{{value}}}" for name, value in fields if value)
+        chunks.append(f"@article{{{_bibtex_key(entry, index)},\n{body}\n}}")
+    return "\n\n".join(chunks) + ("\n" if chunks else "")
+
+
+def to_ris(library: "Library") -> str:
+    lines: list[str] = []
+    for entry in library.entries:
+        lines.append("TY  - JOUR")
+        lines.append(f"TI  - {entry.title}")
+        for author in entry.authors:
+            lines.append(f"AU  - {author}")
+        if entry.venue:
+            lines.append(f"JO  - {entry.venue}")
+        if entry.year:
+            lines.append(f"PY  - {entry.year}")
+        if entry.volume:
+            lines.append(f"VL  - {entry.volume}")
+        if entry.issue:
+            lines.append(f"IS  - {entry.issue}")
+        pages = entry.pages.split("-") if entry.pages else []
+        if pages:
+            lines.append(f"SP  - {pages[0]}")
+            if len(pages) > 1:
+                lines.append(f"EP  - {pages[-1]}")
+        if entry.doi:
+            lines.append(f"DO  - {entry.doi}")
+        if entry.url:
+            lines.append(f"UR  - {entry.url}")
+        if entry.abstract:
+            lines.append(f"AB  - {entry.abstract}")
+        lines.append("ER  - ")
+        lines.append("")
+    return "\n".join(lines)
