@@ -43,7 +43,7 @@
 ```bash
 pip install -r requirements.lock.txt
 PYTHONPATH=src python -m pytest tests -q                 # 278 项离线测试
-PYTHONPATH=src python scripts/verify_artifacts.py        # 数据集/结果一致性（32 项）
+PYTHONPATH=src python scripts/verify_artifacts.py        # 数据集/结果/文档数字一致性（63 项）
 PYTHONPATH=src python scripts/eval_parse_real.py         # 真实论文解析实测（需先抓语料）
 PYTHONPATH=src python scripts/eval_verify_real.py        # 真实文献核验误报实测
 PYTHONPATH=src python scripts/eval_library_real.py       # 本地题录库覆盖率实测

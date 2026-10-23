@@ -155,4 +155,5 @@ $env:DEEPSEEK_API_KEY = "..."   # 支持度判定用，不写进任何文件
 - 可用性判定改为「有 key 或显式配置了本地 endpoint」；报告里未判定的原因文案同步更新。
 - 文档：README「引用支持度」给 Ollama 示例并诚实标注小模型质量差异；`docs/deployment.md` §1.4、`.env.example`、`THIRD_PARTY_NOTICES.md` §1 同步。
 - 测试 275 → **278 通过**（本地 endpoint 无 key 可判、模型切换不复用缓存、无 endpoint 降级「未检测」）。
+- 新增 `data/experiments/README.md`：每个对外数字对应的结果 JSON、生成脚本、代码快照与口径一页索引；`reproduce.sh` 增加离线测试步骤并指向该索引。
 

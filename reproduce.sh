@@ -11,14 +11,21 @@ else
   export PYTHONPATH="src"
 fi
 
-echo "[1/3] CLI demo on the sample paper"
+echo "[1/4] CLI demo on the sample paper"
 $PY -m citeguard.cli --input web/static/samples/sample_paper.txt --out out/demo
 
-echo "[2/3] CiteBench-CN evaluation"
+echo "[2/4] CiteBench-CN evaluation"
 $PY scripts/evaluate_citebench.py --limit 0 --out data/citebench_cn/results.json
 
-echo "[3/3] artifact consistency check"
+echo "[3/4] artifact consistency check"
 $PY scripts/verify_artifacts.py || echo "[warn] verify_artifacts reported issues; inspect the output above"
+
+echo "[4/4] offline test suite"
+if $PY -c "import pytest" >/dev/null 2>&1; then
+  $PY -m pytest tests -q
+else
+  echo "[skip] pytest not installed; pip install pytest"
+fi
 
 if [ -n "${DEEPSEEK_API_KEY:-}" ]; then
   echo "[optional] DeepSeek baseline (prompt v3)"
@@ -27,5 +34,6 @@ else
   echo "[skip] DEEPSEEK_API_KEY not set; claim support / DeepSeek baseline not run"
 fi
 
+echo "evidence index for every reported number: data/experiments/README.md"
 echo "done. open out/demo/report.html or run:"
-echo "  PYTHONPATH=src${PWD:+.pylibs} $PY -m uvicorn web.app:app --port 8000"
+echo "  PYTHONPATH=src:.pylibs $PY -m uvicorn web.app:app --port 8000"

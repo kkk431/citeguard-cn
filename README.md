@@ -182,8 +182,10 @@ citeguard/
 
 ```bash
 pip install -r requirements.lock.txt
-bash reproduce.sh                     # 构建数据集 → 评测 → 一致性校验（可选 DeepSeek 基线/支持度）
+bash reproduce.sh                     # 构建数据集 → 评测 → 一致性校验 → 离线测试（可选 DeepSeek 基线/支持度）
 ```
+
+> 每个对外数字对应的原始结果 JSON、生成脚本与代码快照见 [data/experiments/README.md](data/experiments/README.md)。
 
 ## 核验结论怎么读
 
@@ -256,6 +258,7 @@ PYTHONPATH=src python3 scripts/enrich_library_abstracts.py
 | 参考文献解析干净率（22 篇真实论文） | **100%**（发布版文字 409 条）/ **99.6%**（PDF 抽取 529 条；另有 1 篇文字层损坏的 PDF 走 OCR 兜底） |
 | 真实已发表文献被误判「疑似虚构」 | **0 / 409** |
 | 网页型引文（`[EB/OL]`）链接核验 | 23 条真实网页引文中 **13 条「链接可达且页面标题一致」**；3 条标题不一致、7 条访问受限 |
+| GB/T 7714-2025 规则回归（E4） | 100 条真实文献类型码识别 **100%**、必填字段 98.4%；30 条受控漂移严格检出 **29/30（96.7%）** |
 | 单篇 40 条引文的核验耗时 | 并发 4 线程，约 1～2 分钟（含缓存） |
 
 > 以上均为内部实验数据。**真实用户研究还没做**——可直接照做的任务脚本、指标、SUS 问卷与结果模板在 [docs/user_test_kit.md](docs/user_test_kit.md)，跑完 3–5 人即可得到可引用的用户数据。

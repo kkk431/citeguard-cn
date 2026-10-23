@@ -61,7 +61,7 @@ PYTHONPATH=src python scripts/eval_parse_real.py            # 真实论文解析
 PYTHONPATH=src python scripts/eval_verify_real.py           # 真实文献误报实测
 PYTHONPATH=src python scripts/eval_library_real.py          # 本地题录库覆盖率实测
 PYTHONPATH=src python scripts/e4_format_check.py            # 格式规则回归
-PYTHONPATH=src python scripts/verify_artifacts.py           # 数据集/结果一致性（32 项）
+PYTHONPATH=src python scripts/verify_artifacts.py           # 数据集/结果/文档数字一致性（63 项）
 ```
 
 ## 不能这么说（会被当场问穿）
