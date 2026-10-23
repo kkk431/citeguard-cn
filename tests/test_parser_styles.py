@@ -1,4 +1,4 @@
-"""Reference parsing for the styles Chinese papers actually mix together.
+﻿"""Reference parsing for the styles Chinese papers actually mix together.
 
 GB/T entries (``[1] 作者. 题名[J]. 刊名, 年, 卷(期): 页码.``) and English
 entries (``Vol.``/``No.``/``pp.``/``In:``) often appear in the same list.
@@ -70,6 +70,23 @@ def test_online_resource_marker_and_url():
     assert ref.has_online_marker is True
     assert ref.url.startswith("https://www.cnnic.net.cn/")
     assert ref.access_date == "2023-06-01"
+
+
+def test_apa_author_pairs_are_merged():
+    """"Fowler, D., Freeman, D., et al." must stay 3 authors, not 6 fragments."""
+    ref = parse_reference(
+        "[1] Fowler, D., Freeman, D., Smith, B., et al. The Brief Core Schema Scales: "
+        "Psychometric properties[J]. Psychological Medicine, 2006, 36(4): 1-10."
+    )
+
+    assert ref.authors == ["Fowler, D", "Freeman, D", "Smith, B"]
+    assert ref.title.startswith("The Brief Core Schema Scales")
+
+
+def test_et_al_only_author_list_is_dropped():
+    ref = parse_reference("[2] et al. 题名[J]. 期刊, 2020, 1(1): 1-9.")
+
+    assert ref.authors == []
 
 
 def test_type_code_inside_title_brackets_is_not_a_type_marker():
@@ -147,8 +164,23 @@ def test_empty_type_marker_from_ocr_does_not_swallow_the_entry():
     assert ref.title == "论引文核验的可验证性"
     assert "计算机学报" in ref.venue
     assert (ref.year, ref.volume, ref.issue, ref.pages) == (2020, "43", "5", "1-10")
-    assert ref.doc_type == ""  # type code was lost, do not invent one
+    # The type code was lost; the parser infers a type for the field rules but
+    # flags the inference instead of pretending the marker was present.
+    assert ref.doc_type == "J"
     assert ref.extra.get("type_marker_lost") is True
+    assert ref.extra.get("type_inferred") == "J"
+
+
+def test_empty_type_marker_infers_book_type():
+    """A lost marker in front of "出版社" should be treated as [M]."""
+    from citeguard.gbt7714 import check_reference
+
+    ref = parse_reference("[2] 李四. 数据结构[]. 北京: 清华大学出版社, 2020.")
+
+    assert ref.doc_type == "M"
+    assert ref.publisher == "清华大学出版社"
+    result = check_reference(ref)
+    assert any(i.level == "info" and "推断" in i.message for i in result.issues)
 
 
 def test_chinese_author_comma_title_without_period():

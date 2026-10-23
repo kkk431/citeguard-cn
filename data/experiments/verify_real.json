@@ -3,8 +3,8 @@
     "papers": 10,
     "refs": 224,
     "status": {
-      "Minor": 49,
-      "Exact": 74,
+      "Minor": 47,
+      "Exact": 76,
       "Unverified": 101
     },
     "major_reasons": {},
@@ -95,11 +95,10 @@
       "doi_status": "none",
       "title_sim": 1.0,
       "mismatches": [
-        "authors",
         "venue"
       ],
       "notes": [
-        "title matched; mismatch: authors,venue"
+        "title matched; mismatch: venue"
       ]
     },
     {
@@ -198,15 +197,13 @@
       "year": 2003,
       "venue": "",
       "doi": "10.1007/978-94-017-3626-8",
-      "status": "Minor",
+      "status": "Exact",
       "doi_status": "resolved",
       "title_sim": 1.0,
-      "mismatches": [
-        "authors_order"
-      ],
+      "mismatches": [],
       "notes": [
         "DOI 10.1007/978-94-017-3626-8 resolved",
-        "DOI resolved; metadata mismatch: authors_order"
+        "DOI resolved; checked fields match"
       ]
     },
     {
@@ -2122,14 +2119,12 @@
       "year": 1969,
       "venue": "",
       "doi": "",
-      "status": "Minor",
+      "status": "Exact",
       "doi_status": "none",
       "title_sim": 0.9756,
-      "mismatches": [
-        "authors"
-      ],
+      "mismatches": [],
       "notes": [
-        "title matched; mismatch: authors"
+        "title matched; fields matched"
       ]
     },
     {
@@ -2149,11 +2144,10 @@
       "title_sim": 1.0,
       "mismatches": [
         "year",
-        "authors",
         "venue"
       ],
       "notes": [
-        "title matched; mismatch: year,authors,venue"
+        "title matched; mismatch: year,venue"
       ]
     },
     {
@@ -3264,11 +3258,10 @@
       "doi_status": "none",
       "title_sim": 1.0,
       "mismatches": [
-        "year",
-        "authors"
+        "year"
       ],
       "notes": [
-        "title matched; mismatch: year,authors"
+        "title matched; mismatch: year"
       ]
     },
     {

@@ -1,4 +1,4 @@
-"""GB/T 7714-2025 compliance rule engine (best-effort v0).
+﻿"""GB/T 7714-2025 compliance rule engine (best-effort v0).
 
 IMPORTANT: this module encodes *rule facts* (field requirements, type codes,
 author-name style) derived from the official standard page and public
@@ -133,6 +133,18 @@ def _get(ref: Reference, field_name: str) -> str:
 
 
 _ALL_CAPS_LATIN = re.compile(r"\b[A-Z]{2,}(?:\s+[A-Z]{2,})?\b")
+_WEAK_AUTHOR_RE = re.compile(r"^(?:[A-Za-z]\.(?:\s*[A-Za-z]\.)*|[A-Za-z])$")
+
+
+def _weak_author_fragments(authors: list[str]) -> list[str]:
+    """Author entries that look like leftovers from a broken author list."""
+    fragments: list[str] = []
+    for author in authors:
+        text = (author or "").strip().strip(".,")
+        letters = re.sub(r"[^A-Za-z\u4e00-\u9fff]", "", text)
+        if len(letters) <= 2 or _WEAK_AUTHOR_RE.match(text):
+            fragments.append(author)
+    return fragments
 
 
 def check_authors(ref: Reference) -> list[Issue]:
@@ -142,6 +154,16 @@ def check_authors(ref: Reference) -> list[Issue]:
             Issue("warning", "authors", "未解析到作者", "确认作者姓名与分隔符（, / ，）是否正确")
         )
         return issues
+    fragments = _weak_author_fragments(ref.authors)
+    if fragments and len(fragments) * 2 >= len(ref.authors):
+        issues.append(
+            Issue(
+                "warning",
+                "authors",
+                f"作者字段疑似不完整（如只剩缩写“{fragments[0]}”），已跳过作者比对",
+                "核对原条目并补全作者姓名（PDF/OCR 抽取常把英文缩写拆散）",
+            )
+        )
     # Only look at the author segment: "等" may legitimately appear in the title
     # (e.g. "AR/VR等近视显示…"), which must not suppress the author-count rule.
     raw = ref.raw or ""
@@ -204,6 +226,17 @@ def check_reference(ref: Reference) -> ComplianceResult:
         )
     elif ref.doc_type not in KNOWN_TYPES:
         issues.append(Issue("warning", "doc_type", f"未知文献类型 [{ref.doc_type}]", "核对类型代码"))
+
+    inferred = (ref.extra or {}).get("type_inferred")
+    if inferred:
+        issues.append(
+            Issue(
+                "info",
+                "doc_type",
+                f"文献类型标识丢失，已按 [{inferred}] 的字段规则检查（推断）",
+                "核对后补入类型标识（如 [J]/[M]/[D]）；本条字段要求基于推断类型",
+            )
+        )
 
     if ref.doc_type in KNOWN_TYPES:
         for f in REQUIRED.get(ref.doc_type, []):

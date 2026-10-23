@@ -71,11 +71,14 @@ def ocr_pdf(path: str | Path, max_pages: int = DEFAULT_MAX_PAGES) -> str:
 
 
 _CJK_GAP_RE = re.compile(r"(?<=[\u4e00-\u9fff])\s+(?=[\u4e00-\u9fff])")
+_TYPE_MARK_RE = re.compile(r"\[\s*([A-Za-z]{1,2}(?:/OL)?)\s*\]", re.I)
 
 
 def _clean_ocr_text(text: str) -> str:
     """OCR often inserts spaces between Chinese characters; drop those."""
     cleaned = _CJK_GAP_RE.sub("", str(text or "").strip())
+    # "[ J ]" / "[j]" -> "[J]" so the type marker survives OCR spacing.
+    cleaned = _TYPE_MARK_RE.sub(lambda m: f"[{m.group(1).upper()}]", cleaned)
     # Normalise full-width punctuation spacing noise a little.
     return re.sub(r"\s{2,}", " ", cleaned).strip()
 

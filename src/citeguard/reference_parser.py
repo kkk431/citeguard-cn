@@ -15,6 +15,23 @@ TYPE_CODES = [
     "J", "M", "D", "C", "R", "S", "P", "EB", "A", "CM",
     "DS", "PP", "G", "CP", "DB", "Z", "N",
 ]
+
+_LOST_TYPE_HINTS = (
+    ("D", re.compile(r"(学位论文|硕士|博士|[Dd]issertation|[Tt]hesis)")),
+    ("C", re.compile(r"(会议|论文集|[Pp]roceedings|[Cc]onference|[Ss]ymposium)")),
+    ("M", re.compile(r"(出版社|出版公司|[Pp]ress|[Pp]ublish|[Ss]pringer|[Ee]lsevier|[Ww]iley)")),
+    ("S", re.compile(r"(标准|\[S\]|\bISO\b|\bGB/?T\b)")),
+    ("P", re.compile(r"(专利|[Pp]atent)")),
+)
+
+
+def _infer_doc_type(right: str) -> str:
+    """Guess the document type when the type marker was lost (OCR / copy-paste)."""
+    text = right or ""
+    for code, pattern in _LOST_TYPE_HINTS:
+        if pattern.search(text):
+            return code
+    return "J"
 TYPE_RE = re.compile(r"\[([A-Z]{1,2})(/OL)?\]")
 DOI_RE = re.compile(r"(10\.\d{4,9}/[^\s,;，；]+)", re.I)
 YEAR_RE = re.compile(r"(?<!\d)((?:19|20)\d{2})(?!\d)")
@@ -228,16 +245,47 @@ def _looks_like_authors(seg: str) -> bool:
     return False
 
 
+_INITIALS_RE = re.compile(r"^(?:[A-Z]\.(?:\s*[A-Z]\.)*|[A-Z])$")
+_LATIN_SURNAME_RE = re.compile(r"^[A-Za-z][A-Za-z'’\-]*$")
+_ET_AL_RE = re.compile(r"^(?:et\s*al\.?|等|等人)$", re.I)
+
+
+def _is_et_al(token: str) -> bool:
+    return bool(_ET_AL_RE.match((token or "").strip().strip(".,;，；")))
+
+
 def _split_authors(seg: str) -> list[str]:
     seg = seg.strip()
     seg = re.sub(r"(等|等人|et al\.?|and others)\.?$", "", seg, flags=re.I).strip()
-    parts = re.split(r"[,，、;；]\s*", seg)
+    seg = re.sub(r"^[&＆]\s*", "", seg)
+    # "A and B", "A & B": each side is one author (keeps "Surname, Given" intact).
+    units = [u for u in re.split(r"\s+(?:and|&)\s+|\s*&\s*", seg) if u.strip()]
+    if len(units) >= 2:
+        return [_clean(u) for u in units if _clean(u) and not _is_et_al(_clean(u))]
+    # Chinese enumeration separators.
+    units = [u for u in re.split(r"[、;；，]", seg) if u.strip()]
+    if len(units) >= 2:
+        return [_clean(u) for u in units if _clean(u) and not _is_et_al(_clean(u))]
+    # Comma-separated: re-join "Surname, I. N." pairs that the split broke apart.
+    parts = [
+        _clean(p)
+        for p in re.split(r"[,，]\s*", seg)
+        if _clean(p) and not _is_et_al(_clean(p))
+    ]
     out: list[str] = []
-    for p in parts:
-        p = _clean(p)
-        # Drop trailing English initials that were split off: "Smith J A" stays one author.
-        if p:
-            out.append(p)
+    i = 0
+    while i < len(parts):
+        current = parts[i]
+        if (
+            i + 1 < len(parts)
+            and _LATIN_SURNAME_RE.match(current)
+            and _INITIALS_RE.match(parts[i + 1])
+        ):
+            out.append(f"{current}, {parts[i + 1]}")
+            i += 2
+            continue
+        out.append(current)
+        i += 1
     return out
 
 
@@ -342,6 +390,13 @@ def parse_reference(raw: str, index: Optional[int] = None) -> Reference:
             right = text[em.end() :].strip()
             right = re.sub(r"^[\.．,，。;；:：\s]+", "", right)
             ref.extra["type_marker_lost"] = True
+            # Infer the type from the surrounding text so the field rules can
+            # still run; the inference is flagged so nothing is presented as
+            # if the type code were present.
+            inferred = _infer_doc_type(right)
+            if inferred:
+                ref.doc_type = inferred
+                ref.extra["type_inferred"] = inferred
         else:
             ref.doc_type = "J" if (ref.doi or ref.url) else ""
             left, right = text, text
@@ -415,7 +470,6 @@ def parse_reference(raw: str, index: Optional[int] = None) -> Reference:
             ref.version = ref.extra.get("version", "")
     elif ref.doc_type == "CM":
         ref.scale = ref.extra.get("scale", "")
-
     if not ref.title and ref.venue:
         ref.title = ""
     return ref

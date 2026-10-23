@@ -63,6 +63,15 @@ def test_all_caps_author_warns_about_2015_style():
     assert any("全大写" in i.message for i in issues)
 
 
+def test_fragmentary_author_list_warns_and_is_skipped():
+    ref = _journal_ref(authors=["D."], raw="[1] D.. 题名[J]. 期刊, 2020, 31(2): 10-20.")
+
+    issues = check_authors(ref)
+
+    assert any(i.level == "warning" and "不完整" in i.message for i in issues)
+    assert not [i for i in issues if i.level == "error"]
+
+
 def test_more_than_three_authors_without_et_al_is_error():
     ref = _journal_ref(
         authors=["张三", "李四", "王五", "赵六"],

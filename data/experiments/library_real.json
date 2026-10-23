@@ -5,12 +5,12 @@
     "library_entries": 223,
     "library_hits": 223,
     "status": {
-      "Exact": 189,
-      "Minor": 35
+      "Exact": 222,
+      "Minor": 2
     },
     "definite_verdicts": 224,
     "definite_rate": 1.0,
-    "field_mismatch_detected": 34
+    "field_mismatch_detected": 1
   },
   "rows": [
     {
@@ -205,11 +205,9 @@
     {
       "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
       "title": "Learned Helplessness in Humans: Critique and Reformulation",
-      "status": "Minor",
+      "status": "Exact",
       "from_library": true,
-      "mismatches": [
-        "authors_order"
-      ]
+      "mismatches": []
     },
     {
       "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
@@ -221,11 +219,9 @@
     {
       "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
       "title": "Cognitive Models of Depression",
-      "status": "Minor",
+      "status": "Exact",
       "from_library": true,
-      "mismatches": [
-        "authors_order"
-      ]
+      "mismatches": []
     },
     {
       "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
@@ -244,29 +240,23 @@
     {
       "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
       "title": "Cumulative Ecological Risk and Problematic Mobile Social Media Use among College",
-      "status": "Minor",
+      "status": "Exact",
       "from_library": true,
-      "mismatches": [
-        "authors_order"
-      ]
+      "mismatches": []
     },
     {
       "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
       "title": "Schemas, Sexuality, and Romantic Attachment",
-      "status": "Minor",
+      "status": "Exact",
       "from_library": true,
-      "mismatches": [
-        "authors_order"
-      ]
+      "mismatches": []
     },
     {
       "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
       "title": "Implicit Theories and Their Role in Judgments and Reactions: A Word from Two Per",
-      "status": "Minor",
+      "status": "Exact",
       "from_library": true,
-      "mismatches": [
-        "authors_order"
-      ]
+      "mismatches": []
     },
     {
       "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
@@ -278,20 +268,16 @@
     {
       "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
       "title": "The Brief Core Schema Scales (BCSS): Psychometric Properties and Associations wi",
-      "status": "Minor",
+      "status": "Exact",
       "from_library": true,
-      "mismatches": [
-        "authors"
-      ]
+      "mismatches": []
     },
     {
       "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
       "title": "Cumulative Environmental Risk and Youth Maladjustment: The Role of Youth Attribu",
-      "status": "Minor",
+      "status": "Exact",
       "from_library": true,
-      "mismatches": [
-        "authors_order"
-      ]
+      "mismatches": []
     },
     {
       "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
@@ -324,11 +310,9 @@
     {
       "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
       "title": "Protecting Adolescents from Harm",
-      "status": "Minor",
+      "status": "Exact",
       "from_library": true,
-      "mismatches": [
-        "authors_order"
-      ]
+      "mismatches": []
     },
     {
       "paper": "累积生态风险对大学生健康危险行为的影响——一个有调节的中介模型",
@@ -417,11 +401,9 @@
     {
       "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
       "title": "The Influence of Sociodemographic Factors on Mobile Device Use among Young Child",
-      "status": "Minor",
+      "status": "Exact",
       "from_library": true,
-      "mismatches": [
-        "authors_order"
-      ]
+      "mismatches": []
     },
     {
       "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
@@ -454,92 +436,72 @@
     {
       "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
       "title": "Parent-Child Attachment and Emotion Regulation",
-      "status": "Minor",
+      "status": "Exact",
       "from_library": true,
-      "mismatches": [
-        "authors_order"
-      ]
+      "mismatches": []
     },
     {
       "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
       "title": "Interpersonal Expectations, Expectancy Violations, and Emotional Communication",
-      "status": "Minor",
+      "status": "Exact",
       "from_library": true,
-      "mismatches": [
-        "authors_order"
-      ]
+      "mismatches": []
     },
     {
       "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
       "title": "Smartphone Addiction and Victimization Predicts Sleep Problems and Depression am",
-      "status": "Minor",
+      "status": "Exact",
       "from_library": true,
-      "mismatches": [
-        "authors"
-      ]
+      "mismatches": []
     },
     {
       "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
       "title": "Understanding Families as Systems",
-      "status": "Minor",
+      "status": "Exact",
       "from_library": true,
-      "mismatches": [
-        "authors_order"
-      ]
+      "mismatches": []
     },
     {
       "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
       "title": "“Media Time = Family Time”",
-      "status": "Minor",
+      "status": "Exact",
       "from_library": true,
-      "mismatches": [
-        "authors_order"
-      ]
+      "mismatches": []
     },
     {
       "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
       "title": "Masters of Media: A Longitudinal Study of Parental Media Efficacy, Media Monitor",
-      "status": "Minor",
+      "status": "Exact",
       "from_library": true,
-      "mismatches": [
-        "authors"
-      ]
+      "mismatches": []
     },
     {
       "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
       "title": "Tantrums, Toddlers and Technology: Temperament, Media Emotion Regulation, and Pr",
-      "status": "Minor",
+      "status": "Exact",
       "from_library": true,
-      "mismatches": [
-        "authors"
-      ]
+      "mismatches": []
     },
     {
       "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
       "title": "Influence of Adolescents’ Smartphone Addiction on Mental and Emotional Developme",
-      "status": "Minor",
+      "status": "Exact",
       "from_library": true,
-      "mismatches": [
-        "authors_order"
-      ]
+      "mismatches": []
     },
     {
       "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
       "title": "Interactional Theory of Childhood Problematic Media Use",
-      "status": "Minor",
+      "status": "Exact",
       "from_library": true,
-      "mismatches": [
-        "authors_order"
-      ]
+      "mismatches": []
     },
     {
       "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
       "title": "Development and Vali- dation of the Problematic Media Use Measure: A Parent Repo",
-      "status": "Minor",
+      "status": "Exact",
       "from_library": true,
-      "mismatches": [
-        "authors"
-      ]
+      "mismatches": []
     },
     {
       "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
@@ -572,20 +534,16 @@
     {
       "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
       "title": "Parent Distraction with Phones, Reasons for Use, and Impacts on Parenting and Ch",
-      "status": "Minor",
+      "status": "Exact",
       "from_library": true,
-      "mismatches": [
-        "authors_order"
-      ]
+      "mismatches": []
     },
     {
       "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
       "title": "Smartphone Use Is a Risk Factor for Pediatric Dry Eye Disease According to Regio",
-      "status": "Minor",
+      "status": "Exact",
       "from_library": true,
-      "mismatches": [
-        "authors_order"
-      ]
+      "mismatches": []
     },
     {
       "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
@@ -604,20 +562,16 @@
     {
       "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
       "title": "Parental Psycho- logical Problems Were Associated with Higher Screen Time and th",
-      "status": "Minor",
+      "status": "Exact",
       "from_library": true,
-      "mismatches": [
-        "authors"
-      ]
+      "mismatches": []
     },
     {
       "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
       "title": "Young Children’s Use of Smartphones and Tablets",
-      "status": "Minor",
+      "status": "Exact",
       "from_library": true,
-      "mismatches": [
-        "authors"
-      ]
+      "mismatches": []
     },
     {
       "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
@@ -636,11 +590,9 @@
     {
       "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
       "title": "Family Correlates of Adolescent Self-Monitoring and Social Competence",
-      "status": "Minor",
+      "status": "Exact",
       "from_library": true,
-      "mismatches": [
-        "authors"
-      ]
+      "mismatches": []
     },
     {
       "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
@@ -652,11 +604,9 @@
     {
       "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
       "title": "Problematic Media Use in Early Childhood: The Role of Parent-Child Relationships",
-      "status": "Minor",
+      "status": "Exact",
       "from_library": true,
-      "mismatches": [
-        "authors"
-      ]
+      "mismatches": []
     },
     {
       "paper": "父母低头行为与幼儿问题性媒体使用的关系：亲子互动质量和幼儿安全感的中介作",
@@ -752,11 +702,9 @@
     {
       "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
       "title": "Associations between the Broad Autism Phenotype, Adult Attachment, and Relations",
-      "status": "Minor",
+      "status": "Exact",
       "from_library": true,
-      "mismatches": [
-        "authors_order"
-      ]
+      "mismatches": []
     },
     {
       "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
@@ -796,20 +744,16 @@
     {
       "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
       "title": "Romantic Relationship Memory Effects on Future Romantic Relationship Forecasts: ",
-      "status": "Minor",
+      "status": "Exact",
       "from_library": true,
-      "mismatches": [
-        "authors_order"
-      ]
+      "mismatches": []
     },
     {
       "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
       "title": "Adult Attachment, Working Models, and Relationship Quality in Dating Couples",
-      "status": "Minor",
+      "status": "Exact",
       "from_library": true,
-      "mismatches": [
-        "authors_order"
-      ]
+      "mismatches": []
     },
     {
       "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
@@ -849,29 +793,23 @@
     {
       "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
       "title": "Implicit Theories of Relationships: Assessment and Prediction of Romantic Relati",
-      "status": "Minor",
+      "status": "Exact",
       "from_library": true,
-      "mismatches": [
-        "authors_order"
-      ]
+      "mismatches": []
     },
     {
       "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
       "title": "Implicit Theories of Relationships and Coping in Romantic Relationships",
-      "status": "Minor",
+      "status": "Exact",
       "from_library": true,
-      "mismatches": [
-        "authors_order"
-      ]
+      "mismatches": []
     },
     {
       "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
       "title": "Implicit Theories of Relationships: Orientations toward Evaluation and Cul- tiva",
-      "status": "Minor",
+      "status": "Exact",
       "from_library": true,
-      "mismatches": [
-        "authors_order"
-      ]
+      "mismatches": []
     },
     {
       "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
@@ -890,11 +828,9 @@
     {
       "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
       "title": "Rumination as a Mechanism Linking Stressful Life Events to Symptoms of Depressio",
-      "status": "Minor",
+      "status": "Exact",
       "from_library": true,
-      "mismatches": [
-        "authors_order"
-      ]
+      "mismatches": []
     },
     {
       "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
@@ -906,11 +842,9 @@
     {
       "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",
       "title": "Attachment Memories, Models and Information Processing",
-      "status": "Minor",
+      "status": "Exact",
       "from_library": true,
-      "mismatches": [
-        "authors_order"
-      ]
+      "mismatches": []
     },
     {
       "paper": "成人依恋与亲密关系满意度：自传体记忆的中介及内隐关系信念的调节作用",

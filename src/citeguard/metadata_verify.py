@@ -203,15 +203,44 @@ def _author_order_mismatch(ref_authors: list[str], cand_authors: list[str]) -> b
     return any(a in c or c in a for c in rest)
 
 
+_INITIALS_ONLY_RE = re.compile(r"^(?:[A-Za-z]\.(?:\s*[A-Za-z]\.)*|[A-Za-z])$")
+_ET_AL_TOKEN_RE = re.compile(r"^(?:et\s*al\.?|等|等人)$", re.I)
+
+
+def _authors_unreliable(authors: list[str]) -> bool:
+    """True when the cited author list is too fragmentary to compare.
+
+    PDF/OCR extraction of APA-style lists sometimes leaves pieces like "D." or
+    a lone "et al."; comparing those against a full record would invent author
+    mismatches.
+    """
+    if not authors:
+        return True
+    real = [a for a in authors if not _ET_AL_TOKEN_RE.match((a or "").strip().strip(".,;，；"))]
+    if not real:
+        return True
+    weak = 0
+    for author in real:
+        cleaned = (author or "").strip().strip(".,")
+        if len(norm_title(cleaned)) < 2 or _INITIALS_ONLY_RE.match(cleaned):
+            weak += 1
+    return weak * 2 >= len(real)
+
+
 def _field_mismatches(ref: Reference, cand: Candidate) -> list[str]:
-    """Fields that differ between the reference and the matched record."""
+    """Fields that differ between the reference and the matched record.
+
+    A field the citation does not really contain is never reported as a
+    mismatch: that would be a parse limitation, not an error in the paper.
+    """
     mism: list[str] = []
     if ref.year is not None and cand.year is not None and ref.year != cand.year:
         mism.append("year")
-    if not _first_author_match(ref.authors, cand.authors):
-        mism.append("authors")
-    elif _author_order_mismatch(ref.authors, cand.authors):
-        mism.append("authors_order")
+    if not _authors_unreliable(ref.authors):
+        if not _first_author_match(ref.authors, cand.authors):
+            mism.append("authors")
+        elif _author_order_mismatch(ref.authors, cand.authors):
+            mism.append("authors_order")
     if not _venue_match(ref.venue, cand.venue):
         mism.append("venue")
     if not _volume_match(ref.volume, cand.volume):
