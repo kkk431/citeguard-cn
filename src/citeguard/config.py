@@ -58,3 +58,13 @@ LIBRARY_FILE = LIBRARY_DIR / "library.json"
 
 # Optional OCR fallback for scanned PDFs (needs rapidocr-onnxruntime + pypdfium2).
 OCR_MAX_PAGES = int(os.environ.get("CITEGUARD_OCR_MAX_PAGES", "30"))
+
+# Web-citation link check: reachability of `[EB/OL]` URLs (SSRF-guarded, cached).
+# Disable with CITEGUARD_URL_CHECK=0 when running fully offline.
+URL_CHECK_ENABLED = os.environ.get("CITEGUARD_URL_CHECK", "1").strip().lower() not in {
+    "0",
+    "false",
+    "no",
+    "off",
+}
+URL_CHECK_TIMEOUT = float(os.environ.get("CITEGUARD_URL_CHECK_TIMEOUT", "8"))

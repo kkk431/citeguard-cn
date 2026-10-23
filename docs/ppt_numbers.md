@@ -18,7 +18,8 @@
 | 2c | 外部公开基准零样本（英文 SciFact） | **0.8224**（oracle 证据句）/ **0.7939**（整段摘要） | SciFact dev 300 条，未训练/微调，四分类映射三分类 | `data/experiments/scifact_support_results.json` |
 | 2d | 本地开源模型离线（Qwen3-1.7B, Apache-2.0） | 20 条试点 **0.7059**（精简 prompt，CPU） | 完全离线可跑通；小模型速度/质量有限，生产建议 Qwen3-8B+GPU | `data/experiments/support_local_qwen3_1.7b_simple.json` |
 | 3 | 真实已发表文献被判「疑似虚构」 | **0 / 409** | 20 篇 OA 中文论文的参考文献（真实语料） | `data/experiments/verify_real.json` |
-| 3b | 真实文献判定分布（无本地库） | 真实一致 112 / 元数据偏差 89 / 未找到 208 / 疑似虚构 **0** | 同上 | 同上 |
+| 3b | 真实文献判定分布（无本地库） | 真实一致 125 / 元数据偏差 87 / 未找到 197 / 疑似虚构 **0** | 同上 | 同上 |
+| 3c | 网页型引文（`[EB/OL]`）链接核验 | 23 条真实网页引文中 **13 条链接可达且页面标题一致**（判 Exact）；3 条标题不一致、7 条访问受限 | 真实语料 §3.1，链路检查带 SSRF 防护 | `data/experiments/verify_real.json` |
 | 4 | 导入本地题录库后的可判定率 | **409 / 409（100%）**，字段偏差 4 条 | 库由 20 篇论文发布版参考文献构建 | `data/experiments/library_real.json` |
 | 5 | 参考文献解析干净率 | **100%**（发布版文字 409 条）/ **99.6%**（PDF 抽取 529 条，逐条） | 22 篇真实论文 | `data/experiments/parse_real.json` |
 | 5b | 扫描件 OCR 兜底 | 纯图片 PDF 仍能解析 **23/24 条**（题名/年 23/23） | 7 页真实论文扫描版，CPU 约 2.2 min | `data/experiments/ocr_scan_real.json` |
@@ -27,7 +28,7 @@
 | 6c | 30 条受控格式漂移严格检出 | **29 / 30（96.7%）** | E4，6 类 × 5 条（构造漂移） | 同上 |
 | 7 | 中文题名检索召回 | **92%** | OpenAlex 已收录的中文论文 25 篇 | `data/experiments/search_recall.json` |
 | 8 | 中国 DOI 平台元数据接入 | CNKI DOI 从「未找到」→ **真实一致**；真实语料可补 1/409 | 真实语料 + 在线接口 | `docs/real_data_eval.md` §5 |
-| 9 | 工程与交付 | **270** 测试通过；4 个网页页面 + 报告页；批量/汇总/CSV；Docker/CI | 离线测试，无网络依赖 | `pytest tests -q` |
+| 9 | 工程与交付 | **275** 测试通过；4 个网页页面 + 报告页；批量/汇总/CSV；Docker/CI | 离线测试，无网络依赖 | `pytest tests -q` |
 
 > 引用时建议写法：**「真实已发表文献 0/409 误判为虚构」**、**「支持度 macro-F1 0.9328（构造集）」**、**「格式漂移检出 29/30」**。
 > 这三条分别对应：敢不敢信结论、能不能判断引用是否被支持、格式规则有没有真本事。
@@ -53,7 +54,7 @@
 ## 复现命令（评委问「这些数字怎么来的」）
 
 ```bash
-PYTHONPATH=src python -m pytest tests -q                    # 270 passed, 2 skipped
+PYTHONPATH=src python -m pytest tests -q                    # 275 passed, 2 skipped
 PYTHONPATH=src python scripts/evaluate_citebench.py         # 真实性基准（离线缓存）
 DEEPSEEK_API_KEY=... PYTHONPATH=src python scripts/evaluate_support.py   # 支持度（两段式）
 PYTHONPATH=src python scripts/eval_parse_real.py            # 真实论文解析实测

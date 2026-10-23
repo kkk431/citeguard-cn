@@ -3,13 +3,18 @@
     "papers": 20,
     "refs": 409,
     "status": {
-      "Minor": 89,
-      "Exact": 112,
-      "Unverified": 208
+      "Minor": 87,
+      "Exact": 125,
+      "Unverified": 197
     },
     "major_reasons": {},
     "major_rate": 0.0,
-    "unknown_rate": 0.0
+    "unknown_rate": 0.0,
+    "url_checks": {
+      "live": 13,
+      "mismatch": 3,
+      "blocked": 7
+    }
   },
   "rows": [
     {
@@ -32,6 +37,10 @@
       "notes": [
         "DOI 10.1007/s40315-024-00548-1 resolved",
         "DOI resolved; metadata mismatch: year"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -53,6 +62,10 @@
       "notes": [
         "DOI 10.1080/10236198.2021.1982919 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -74,6 +87,10 @@
       "notes": [
         "DOI 10.1007/978-3-642-12909-4 resolved",
         "DOI resolved; metadata mismatch: year"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -96,6 +113,10 @@
       "notes": [
         "title matched; mismatch: authors,venue",
         "题名一致但作者完全不同：匹配记录可能是书评/同名不同作品（也可能是引文作者有误），请核对作者"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -115,6 +136,10 @@
       "notes": [
         "DOI 10.2307/2001061 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -135,6 +160,10 @@
       "notes": [
         "DOI 10.2996/kmj/1138044047 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -154,6 +183,10 @@
       "notes": [
         "DOI 10.1515/9783110863147 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -177,6 +210,10 @@
       "notes": [
         "DOI 10.4153/s0008414x20000607 resolved",
         "DOI resolved; metadata mismatch: year"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -199,6 +236,10 @@
       "notes": [
         "DOI 10.1007/978-94-017-3626-8 resolved",
         "DOI resolved; metadata mismatch: authors_order"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -219,6 +260,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.29); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -239,6 +284,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.32); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -257,6 +306,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.29); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -277,6 +330,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.38); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -297,6 +354,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.38); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -315,6 +376,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.56); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -333,6 +398,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.37); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -352,6 +421,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.46); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -371,6 +444,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.49); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -391,6 +468,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.43); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -410,6 +491,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.50); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -428,6 +513,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.29); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -448,6 +537,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.32); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -468,6 +561,10 @@
       "mismatches": [],
       "notes": [
         "title matched; fields matched"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -488,6 +585,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.21); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -508,6 +609,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.31); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -528,6 +633,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.24); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -548,6 +657,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.37); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -569,6 +682,10 @@
       "notes": [
         "DOI 10.1037/0021-843x.87.1.49 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -590,6 +707,10 @@
       "notes": [
         "title matched; mismatch: authors",
         "题名一致但作者完全不同：匹配记录可能是书评/同名不同作品（也可能是引文作者有误），请核对作者"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -613,6 +734,10 @@
       ],
       "notes": [
         "title matched; mismatch: year,authors,venue,pages"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -632,6 +757,10 @@
       "notes": [
         "DOI 10.1037/0003-066x.32.7.513 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -654,6 +783,10 @@
       "notes": [
         "DOI 10.1177/1359105316689143 resolved",
         "DOI resolved; metadata mismatch: year"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -674,6 +807,10 @@
       "notes": [
         "DOI 10.1007/s12144-026-09706-1 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -694,6 +831,10 @@
       "notes": [
         "DOI 10.1037/0022-3514.74.5.1364 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -715,6 +856,10 @@
       "notes": [
         "DOI 10.1207/s15327965pli0604_1 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -736,6 +881,10 @@
       "notes": [
         "DOI 10.1037/a0031808 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -757,6 +906,10 @@
       "notes": [
         "DOI 10.1017/s0033291706007355 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -777,6 +930,10 @@
       "notes": [
         "DOI 10.1111/j.1467-8624.2004.00820.x resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -800,6 +957,10 @@
       "notes": [
         "DOI 10.1016/j.adolescence.2011.06.005 resolved",
         "DOI resolved; metadata mismatch: year"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -821,6 +982,10 @@
       "notes": [
         "DOI 10.1080/08870446.2011.531571 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -840,6 +1005,10 @@
       "notes": [
         "DOI 10.1037/0022-3514.35.2.63 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -859,6 +1028,10 @@
       "notes": [
         "DOI 10.1037/0003-066x.56.3.227 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -883,6 +1056,10 @@
       "notes": [
         "DOI 10.1001/jama.1997.03550100049038 resolved",
         "DOI resolved; metadata mismatch: venue,pages"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -902,6 +1079,10 @@
       "notes": [
         "DOI 10.1002/dev.20445 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -921,6 +1102,10 @@
       "notes": [
         "DOI 10.1037/0033-295x.92.4.548 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -933,12 +1118,15 @@
       "year": 2009,
       "venue": "",
       "doi": "",
-      "status": "Unverified",
+      "status": "Exact",
       "doi_status": "none",
-      "title_sim": 0.557,
+      "title_sim": 1.0,
       "mismatches": [],
       "notes": [
-        "no close title match in OpenAlex/Crossref/arXiv (best 0.56); the article may be unindexed or the reference may be wrong — check manually"
+        "网页链接可访问（HTTP 200），页面标题与引文题名一致（相似度 1.00）"
+      ],
+      "sources": [
+        "url:live"
       ]
     },
     {
@@ -959,6 +1147,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.34); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -979,6 +1171,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.33); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -999,6 +1195,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.18); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -1021,6 +1221,10 @@
       ],
       "notes": [
         "title matched; mismatch: authors_order"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -1039,6 +1243,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.52); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -1058,6 +1266,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.05); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -1076,6 +1288,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.42); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -1095,6 +1311,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.37); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -1115,6 +1335,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.45); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -1138,6 +1362,10 @@
       "notes": [
         "DOI 10.3390/children9020228 resolved",
         "DOI resolved; metadata mismatch: pages"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -1157,6 +1385,10 @@
       "notes": [
         "DOI 10.1037/0033-295X.84.2.191 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -1176,6 +1408,10 @@
       "notes": [
         "DOI 10.1111/j.1460-2466.1978.tb01621.x resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -1195,6 +1431,10 @@
       "notes": [
         "DOI 10.1037/h0030372 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -1215,6 +1455,10 @@
       ],
       "notes": [
         "title matched; mismatch: year"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -1234,6 +1478,10 @@
       "notes": [
         "DOI 10.1002/cad.20098 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -1253,6 +1501,10 @@
       "notes": [
         "DOI 10.1177/0261927x93121003 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -1276,6 +1528,10 @@
       "notes": [
         "DOI 10.1016/j.pedn.2022.01.009 resolved",
         "DOI resolved; metadata mismatch: pages"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -1296,6 +1552,10 @@
       "notes": [
         "DOI 10.1111/1467-8721.01259 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -1317,6 +1577,10 @@
       "notes": [
         "DOI 10.1177/0743558414538316 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -1338,6 +1602,10 @@
       "notes": [
         "DOI 10.1080/17482798.2023.2200958 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -1361,6 +1629,10 @@
       "notes": [
         "DOI 10.1016/j.chb.2021.106762 resolved",
         "DOI resolved; metadata mismatch: pages"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -1382,6 +1654,10 @@
       "notes": [
         "DOI 10.15395/mkb.v51n1.1577 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -1403,6 +1679,10 @@
       "notes": [
         "DOI 10.1002/hbe2.217 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -1426,6 +1706,10 @@
       "notes": [
         "DOI 10.1037/ppm0000163 resolved",
         "DOI resolved; metadata mismatch: year"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -1447,6 +1731,10 @@
       "notes": [
         "DOI 10.1006/jado.1998.0155 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -1469,6 +1757,10 @@
       "notes": [
         "DOI 10.1016/j.amp.2024.11.003 resolved",
         "DOI resolved; metadata mismatch: venue"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -1490,6 +1782,10 @@
       "notes": [
         "DOI 10.3389/fpsyg.2021.616656 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -1511,6 +1807,10 @@
       "notes": [
         "DOI 10.2147/prbm.s471208 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -1530,6 +1830,10 @@
       "notes": [
         "DOI 10.1002/hbe2.139 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -1553,6 +1857,10 @@
       "notes": [
         "DOI 10.1186/s12886-016-0364-4 resolved",
         "DOI resolved; metadata mismatch: pages"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -1576,6 +1884,10 @@
       "notes": [
         "DOI 10.1177/0265407520964866 resolved",
         "DOI resolved; metadata mismatch: year"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -1595,6 +1907,10 @@
       "notes": [
         "DOI 10.14812/cuefd.1671077 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -1616,6 +1932,10 @@
       "notes": [
         "DOI 10.1111/apa.16253 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -1637,6 +1957,10 @@
       "notes": [
         "DOI 10.1542/peds.2019-3518 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -1660,6 +1984,10 @@
       "notes": [
         "DOI 10.3390/ijerph20105854 resolved",
         "DOI resolved; metadata mismatch: pages"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -1680,6 +2008,10 @@
       "notes": [
         "DOI 10.1111/j.1467-9280.2008.02184.x resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -1701,6 +2033,10 @@
       "notes": [
         "DOI 10.1080/00223989909599750 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -1724,6 +2060,10 @@
       "notes": [
         "DOI 10.1111/infa.12570 resolved",
         "DOI resolved; metadata mismatch: year"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -1745,6 +2085,10 @@
       "notes": [
         "DOI 10.1080/17482798.2023.2230321 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -1766,6 +2110,10 @@
       "notes": [
         "DOI 10.2147/prbm.s431065 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -1785,6 +2133,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.41); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -1803,6 +2155,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.19); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -1821,6 +2177,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.47); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -1840,6 +2200,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.46); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -1860,6 +2224,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.45); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -1878,6 +2246,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.33); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -1896,6 +2268,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.25); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -1916,6 +2292,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.37); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -1936,6 +2316,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.44); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -1954,6 +2338,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.24); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -1973,6 +2361,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.35); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -1995,6 +2387,10 @@
       "notes": [
         "DOI 10.1002/acp.1316 resolved",
         "DOI resolved; metadata mismatch: year"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -2018,6 +2414,10 @@
       "notes": [
         "DOI 10.1016/j.paid.2020.110409 resolved",
         "DOI resolved; metadata mismatch: pages"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -2038,6 +2438,10 @@
       "notes": [
         "DOI 10.1037/1089-2680.5.2.135 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -2059,6 +2463,10 @@
       "notes": [
         "DOI 10.1521/soco.23.1.91.59198 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -2080,6 +2488,10 @@
       "notes": [
         "DOI 10.3389/fpsyg.2021.604526 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -2100,6 +2512,10 @@
       ],
       "notes": [
         "title matched; mismatch: authors"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -2125,6 +2541,10 @@
       "notes": [
         "title matched; mismatch: year,authors,venue",
         "题名一致但作者完全不同：匹配记录可能是书评/同名不同作品（也可能是引文作者有误），请核对作者"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -2145,6 +2565,10 @@
       ],
       "notes": [
         "title matched; mismatch: year"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -2165,6 +2589,10 @@
       "notes": [
         "DOI 10.1037/0022-3514.58.4.644 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -2185,6 +2613,10 @@
       "notes": [
         "DOI 10.1037/0033-295x.107.2.261 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -2205,6 +2637,10 @@
       "notes": [
         "DOI 10.1111/pere.12203 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -2225,6 +2661,10 @@
       "notes": [
         "DOI 10.1037/0022-3514.52.3.511 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -2249,6 +2689,10 @@
       "notes": [
         "title matched; mismatch: year,authors",
         "题名一致但作者完全不同：匹配记录可能是书评/同名不同作品（也可能是引文作者有误），请核对作者"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -2269,6 +2713,10 @@
       "notes": [
         "DOI 10.1177/0146167206291476 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -2288,6 +2736,10 @@
       "notes": [
         "DOI 10.1037/0022-3514.74.2.360 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -2307,6 +2759,10 @@
       "mismatches": [],
       "notes": [
         "title matched; fields matched"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -2328,6 +2784,10 @@
       "notes": [
         "DOI 10.1207/s15327957pspr0701_3 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -2351,6 +2811,10 @@
       "notes": [
         "DOI 10.1016/j.cpr.2023.102254 resolved",
         "DOI resolved; metadata mismatch: pages"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -2374,6 +2838,10 @@
       "notes": [
         "DOI 10.2307/3333827 resolved",
         "DOI resolved; metadata mismatch: pages"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -2395,6 +2863,10 @@
       "notes": [
         "DOI 10.1037/a0031994 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -2416,6 +2888,10 @@
       ],
       "notes": [
         "title matched; mismatch: year"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -2436,6 +2912,10 @@
       "notes": [
         "DOI 10.1177/0265407599162002 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -2457,6 +2937,10 @@
       "notes": [
         "DOI 10.58800/oglm4067 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -2475,6 +2959,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.42); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -2496,6 +2984,10 @@
       "notes": [
         "DOI 10.1109/tip.2023.3263102 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -2519,6 +3011,10 @@
       "notes": [
         "DOI 10.26599/tst.2023.9010006 resolved",
         "DOI resolved; metadata mismatch: year"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -2540,6 +3036,10 @@
       "notes": [
         "DOI 10.1109/tip.2025.3636098 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -2563,6 +3063,10 @@
       "notes": [
         "DOI 10.1016/j.inffus.2025.103105 resolved",
         "DOI resolved; metadata mismatch: pages"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -2584,6 +3088,10 @@
       "notes": [
         "DOI 10.1109/tfuzz.2026.3651747 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -2605,6 +3113,10 @@
       "notes": [
         "DOI 10.1016/j.patrec.2004.09.016 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -2626,6 +3138,10 @@
       "notes": [
         "DOI 10.1109/tsmcb.2008.2004818 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -2646,6 +3162,10 @@
       "notes": [
         "DOI 10.1016/s0893-6080(01)00108-3 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -2667,6 +3187,10 @@
       "notes": [
         "DOI 10.1016/j.patcog.2009.09.010 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -2690,6 +3214,10 @@
       "notes": [
         "DOI 10.1145/276304.276314 resolved",
         "DOI resolved; metadata mismatch: pages"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -2713,6 +3241,10 @@
       "notes": [
         "DOI 10.1145/312129.312199 resolved",
         "DOI resolved; metadata mismatch: pages"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -2733,6 +3265,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.66); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -2755,6 +3291,10 @@
       "notes": [
         "DOI 10.1145/342009.335383 resolved",
         "DOI resolved; metadata mismatch: pages"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -2776,6 +3316,10 @@
       "notes": [
         "DOI 10.1145/304182.304188 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -2797,6 +3341,10 @@
       "notes": [
         "DOI 10.1016/j.infsof.2003.07.003 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -2817,6 +3365,10 @@
       "notes": [
         "DOI 10.1016/j.patcog.2007.11.011 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -2838,6 +3390,10 @@
       "notes": [
         "DOI 10.1007/11430919_94 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -2859,6 +3415,10 @@
       "notes": [
         "DOI 10.1016/j.neucom.2015.09.127 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -2880,6 +3440,10 @@
       "notes": [
         "DOI 10.1137/1.9781611972740.58 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -2901,6 +3465,10 @@
       "notes": [
         "DOI 10.1007/s10618-006-0060-8 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -2922,6 +3490,10 @@
       ],
       "notes": [
         "title matched; mismatch: pages"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -2943,6 +3515,10 @@
       "notes": [
         "DOI 10.1016/j.ins.2013.05.029 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -2964,6 +3540,10 @@
       "notes": [
         "DOI 10.1109/tfuzz.2004.836065 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -2985,6 +3565,10 @@
       "notes": [
         "DOI 10.1109/tsmcb.2003.810951 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -3006,6 +3590,10 @@
       "notes": [
         "DOI 10.1016/j.patrec.2007.08.012 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -3027,6 +3615,10 @@
       "notes": [
         "DOI 10.3233/ida-163129 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -3047,6 +3639,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.47); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -3067,6 +3663,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.55); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -3087,6 +3687,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.39); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -3105,6 +3709,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.50); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -3123,6 +3731,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.68); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -3141,6 +3753,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.75); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -3159,6 +3775,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.69); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -3177,6 +3797,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.55); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -3197,6 +3821,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.26); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -3220,6 +3848,10 @@
       "notes": [
         "title matched; mismatch: year,authors",
         "题名一致但作者完全不同：匹配记录可能是书评/同名不同作品（也可能是引文作者有误），请核对作者"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -3239,6 +3871,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.57); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -3257,6 +3893,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.50); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -3275,6 +3915,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.49); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -3294,6 +3938,10 @@
       "mismatches": [],
       "notes": [
         "title matched; fields matched"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -3315,6 +3963,10 @@
       "notes": [
         "DOI 10.1007/s12525-020-00414-7 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -3337,6 +3989,10 @@
       "notes": [
         "DOI 10.1016/j.eswa.2023.121801 resolved",
         "DOI resolved; metadata mismatch: pages"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -3359,6 +4015,10 @@
       "notes": [
         "DOI 10.1016/j.techsoc.2025.102898 resolved",
         "DOI resolved; metadata mismatch: pages"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -3382,6 +4042,10 @@
       "notes": [
         "DOI 10.3390/su12218888 resolved",
         "DOI resolved; metadata mismatch: pages"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -3405,6 +4069,10 @@
       "notes": [
         "DOI 10.3390/app13053051 resolved",
         "DOI resolved; metadata mismatch: pages"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -3428,6 +4096,10 @@
       "notes": [
         "DOI 10.3390/jtaer20030214 resolved",
         "DOI resolved; metadata mismatch: pages"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -3449,6 +4121,10 @@
       "notes": [
         "DOI 10.1002/mar.21813 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -3469,6 +4145,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.62); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -3492,6 +4172,10 @@
       "notes": [
         "DOI 10.1007/s12525-020-00414-7 resolved",
         "DOI resolved; metadata mismatch: year"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -3513,6 +4197,10 @@
       "notes": [
         "DOI 10.1007/s10660-022-09624-x resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -3535,6 +4223,10 @@
       "notes": [
         "DOI 10.1016/j.ijinfomgt.2022.102519 resolved",
         "DOI resolved; metadata mismatch: pages"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -3555,6 +4247,10 @@
       "notes": [
         "DOI 10.1007/s12144-024-06649-3 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -3577,6 +4273,10 @@
       "notes": [
         "DOI 10.3390/app142110069 resolved",
         "DOI resolved; metadata mismatch: pages"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -3598,6 +4298,10 @@
       "notes": [
         "DOI 10.1109/access.2025.3550956 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -3618,6 +4322,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.27); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -3636,6 +4344,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.47); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -3655,6 +4367,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.40); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -3673,6 +4389,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.44); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -3692,6 +4412,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.44); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -3711,6 +4435,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.31); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -3729,6 +4457,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.38); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -3749,6 +4481,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.35); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -3769,6 +4505,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.41); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -3787,6 +4527,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.45); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -3807,6 +4551,9 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.27); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "crossref"
       ]
     },
     {
@@ -3826,6 +4573,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.77); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -3845,6 +4596,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.65); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -3863,6 +4618,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.25); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -3885,6 +4644,9 @@
         "DOI 10.15886/j.cnki.hnus.202410.0119 resolved via 中国 DOI 平台",
         "外部注册机构元数据有限（中国 DOI 平台）：只比对题名/作者/年份，卷期页可能缺",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "doi:landing"
       ]
     },
     {
@@ -3903,6 +4665,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.46); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -3921,6 +4687,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.56); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -3939,6 +4709,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.44); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -3957,6 +4731,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.65); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -3976,6 +4754,9 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.30); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "crossref"
       ]
     },
     {
@@ -3994,6 +4775,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.40); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -4012,6 +4797,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.59); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -4032,6 +4821,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.33); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -4052,6 +4845,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.40); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -4070,6 +4867,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.50); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -4090,6 +4891,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.39); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -4108,6 +4913,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.76); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -4126,6 +4935,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.40); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -4144,6 +4957,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.44); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -4162,6 +4979,9 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.36); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "crossref"
       ]
     },
     {
@@ -4180,6 +5000,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.55); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -4198,6 +5022,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.36); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -4218,6 +5046,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.65); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -4230,12 +5062,15 @@
       "year": 2025,
       "venue": "",
       "doi": "",
-      "status": "Unverified",
+      "status": "Exact",
       "doi_status": "none",
-      "title_sim": 0.2857,
+      "title_sim": 0.9125,
       "mismatches": [],
       "notes": [
-        "no close title match in OpenAlex/Crossref/arXiv (best 0.29); the article may be unindexed or the reference may be wrong — check manually"
+        "网页链接可访问（HTTP 200），页面标题与引文题名一致（相似度 0.91）"
+      ],
+      "sources": [
+        "url:live"
       ]
     },
     {
@@ -4250,10 +5085,13 @@
       "doi": "",
       "status": "Unverified",
       "doi_status": "none",
-      "title_sim": 0.2623,
+      "title_sim": 0.1333,
       "mismatches": [],
       "notes": [
-        "no close title match in OpenAlex/Crossref/arXiv (best 0.26); the article may be unindexed or the reference may be wrong — check manually"
+        "网页链接可访问（HTTP 200），但页面标题「中国花卉协会」与引文题名不一致，请核对是否同一页面"
+      ],
+      "sources": [
+        "url:mismatch"
       ]
     },
     {
@@ -4266,12 +5104,15 @@
       "year": 2024,
       "venue": "",
       "doi": "",
-      "status": "Unverified",
+      "status": "Exact",
       "doi_status": "none",
-      "title_sim": 0.3043,
+      "title_sim": 1.0,
       "mismatches": [],
       "notes": [
-        "no close title match in OpenAlex/Crossref/arXiv (best 0.30); the article may be unindexed or the reference may be wrong — check manually"
+        "网页链接可访问（HTTP 200），页面标题与引文题名一致（相似度 1.00）"
+      ],
+      "sources": [
+        "url:live"
       ]
     },
     {
@@ -4290,6 +5131,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.49); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -4308,6 +5153,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.47); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -4328,6 +5177,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.63); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -4346,6 +5199,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.54); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -4364,6 +5221,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.58); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -4382,6 +5243,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.44); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -4401,6 +5266,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.58); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -4414,12 +5283,15 @@
       "year": 2025,
       "venue": "",
       "doi": "",
-      "status": "Unverified",
+      "status": "Exact",
       "doi_status": "none",
-      "title_sim": 0.1905,
+      "title_sim": 0.9571,
       "mismatches": [],
       "notes": [
-        "no close title match in OpenAlex/Crossref/arXiv (best 0.19); the article may be unindexed or the reference may be wrong — check manually"
+        "网页链接可访问（HTTP 200），页面标题与引文题名一致（相似度 0.96）"
+      ],
+      "sources": [
+        "url:live"
       ]
     },
     {
@@ -4438,6 +5310,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.65); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -4456,6 +5332,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.63); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -4475,6 +5355,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.48); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -4493,6 +5377,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.74); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -4513,6 +5401,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.62); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -4531,6 +5423,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.36); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -4549,6 +5445,9 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.43); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "crossref"
       ]
     },
     {
@@ -4567,6 +5466,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.46); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -4589,6 +5492,10 @@
       "notes": [
         "title matched; mismatch: year,authors",
         "题名一致但作者完全不同：匹配记录可能是书评/同名不同作品（也可能是引文作者有误），请核对作者"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -4607,6 +5514,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.51); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -4626,6 +5537,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.39); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -4645,6 +5560,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.33); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -4666,6 +5585,10 @@
       ],
       "notes": [
         "title matched; mismatch: venue"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -4685,6 +5608,9 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.28); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "crossref"
       ]
     },
     {
@@ -4703,6 +5629,10 @@
       "mismatches": [],
       "notes": [
         "title matched; fields matched"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -4723,6 +5653,10 @@
       ],
       "notes": [
         "title matched; mismatch: volume"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -4741,6 +5675,9 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.10); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "crossref"
       ]
     },
     {
@@ -4759,6 +5696,9 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.09); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "crossref"
       ]
     },
     {
@@ -4777,6 +5717,10 @@
       "mismatches": [],
       "notes": [
         "title matched; fields matched"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -4795,6 +5739,9 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.19); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "crossref"
       ]
     },
     {
@@ -4813,6 +5760,9 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.09); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "crossref"
       ]
     },
     {
@@ -4831,6 +5781,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.12); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -4849,6 +5803,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.38); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -4868,6 +5826,10 @@
       "notes": [
         "DOI 10.1016/0010-0285(73)90017-0 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -4886,6 +5848,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.32); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -4905,6 +5871,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.42); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -4924,6 +5894,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.67); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -4943,6 +5917,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.67); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -4961,6 +5939,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.61); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -4979,6 +5961,10 @@
       "mismatches": [],
       "notes": [
         "title matched; fields matched"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -4998,6 +5984,10 @@
       "mismatches": [],
       "notes": [
         "title matched; fields matched"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -5018,6 +6008,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.64); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -5038,6 +6032,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.41); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -5056,6 +6054,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.74); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -5075,6 +6077,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.65); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -5094,6 +6100,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.52); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -5114,6 +6124,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.32); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -5134,6 +6148,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.32); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -5154,6 +6172,10 @@
       ],
       "notes": [
         "title matched; mismatch: year"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -5174,6 +6196,10 @@
       ],
       "notes": [
         "title matched; mismatch: year"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -5196,6 +6222,10 @@
       "notes": [
         "title matched; mismatch: year,authors",
         "题名一致但作者完全不同：匹配记录可能是书评/同名不同作品（也可能是引文作者有误），请核对作者"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -5217,6 +6247,10 @@
       "notes": [
         "DOI 10.1080/13556509.2008.10799249 resolved",
         "DOI resolved; metadata mismatch: title_partial"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -5235,6 +6269,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.70); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -5253,6 +6291,10 @@
       "mismatches": [],
       "notes": [
         "title matched; fields matched"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -5271,6 +6313,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.29); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -5292,6 +6338,10 @@
       "notes": [
         "DOI 10.1017/cbo9781139173438 resolved",
         "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ],
+      "sources": [
+        "openalex:title",
+        "crossref:title"
       ]
     },
     {
@@ -5311,6 +6361,10 @@
       "notes": [
         "DOI 10.1017/cbo9780511813313 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -5332,6 +6386,10 @@
       "notes": [
         "DOI 10.1075/sidag.16 resolved",
         "DOI resolved; metadata mismatch: title_partial"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -5353,6 +6411,10 @@
       ],
       "notes": [
         "title matched; mismatch: year,authors_order"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -5371,6 +6433,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.59); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -5389,6 +6455,10 @@
       "mismatches": [],
       "notes": [
         "title matched; fields matched"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -5408,6 +6478,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.43); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -5427,6 +6501,10 @@
       "notes": [
         "DOI 10.5749/j.ctt22727z1 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -5446,6 +6524,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.43); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -5467,6 +6549,10 @@
       "notes": [
         "DOI 10.1016/0378-2166(90)90003-v resolved",
         "DOI resolved; metadata mismatch: title_partial"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -5487,6 +6573,10 @@
       ],
       "notes": [
         "partial title match (0.80)"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -5506,6 +6596,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.39); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -5524,6 +6618,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.33); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -5542,6 +6640,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.67); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -5561,6 +6663,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.51); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -5580,6 +6686,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.44); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -5598,6 +6708,10 @@
       "mismatches": [],
       "notes": [
         "title matched; fields matched"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -5619,6 +6733,10 @@
       ],
       "notes": [
         "title matched; mismatch: year,authors_order"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -5638,6 +6756,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.48); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -5660,6 +6782,10 @@
       "notes": [
         "title matched; mismatch: year,authors",
         "题名一致但作者完全不同：匹配记录可能是书评/同名不同作品（也可能是引文作者有误），请核对作者"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -5679,6 +6805,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.75); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -5700,6 +6830,10 @@
       ],
       "notes": [
         "title matched; mismatch: volume"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -5718,6 +6852,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.53); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -5736,6 +6874,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.44); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -5756,6 +6898,10 @@
       ],
       "notes": [
         "title matched; mismatch: year"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -5774,6 +6920,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.58); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -5794,6 +6944,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.47); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -5813,6 +6967,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.77); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -5833,6 +6991,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.56); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -5851,6 +7013,10 @@
       "mismatches": [],
       "notes": [
         "title matched; fields matched"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -5870,6 +7036,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.43); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -5891,6 +7061,10 @@
       "notes": [
         "DOI 10.1177/00336882231162868 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -5913,6 +7087,10 @@
       ],
       "notes": [
         "title matched; mismatch: year,authors_order"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -5934,6 +7112,10 @@
       ],
       "notes": [
         "title matched; mismatch: year,authors_order"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -5954,6 +7136,10 @@
       "mismatches": [],
       "notes": [
         "title matched; fields matched"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -5975,6 +7161,10 @@
       ],
       "notes": [
         "title matched; mismatch: year,venue"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -5996,6 +7186,10 @@
       ],
       "notes": [
         "title matched; mismatch: year,venue"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6014,6 +7208,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.51); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6033,6 +7231,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.63); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6051,6 +7253,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.47); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6069,6 +7275,9 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.33); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "crossref"
       ]
     },
     {
@@ -6089,6 +7298,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.49); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6108,6 +7321,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.51); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6127,6 +7344,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.45); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6147,6 +7368,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.55); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6166,6 +7391,10 @@
       "mismatches": [],
       "notes": [
         "title matched; fields matched"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6185,6 +7414,10 @@
       "notes": [
         "DOI 10.2307/249008 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -6204,6 +7437,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.52); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6225,6 +7462,10 @@
       "notes": [
         "DOI 10.1016/j.asw.2023.100745 resolved",
         "DOI resolved; metadata mismatch: pages"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -6244,6 +7485,10 @@
       "notes": [
         "DOI 10.1207/s15516709cog1202_4 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -6263,6 +7508,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.51); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6285,6 +7534,10 @@
       "notes": [
         "DOI 10.1016/j.rmal.2023.100050 resolved",
         "DOI resolved; metadata mismatch: pages"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -6303,6 +7556,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.26); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6321,6 +7578,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.48); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6339,6 +7600,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.58); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6357,6 +7622,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.34); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6375,6 +7644,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.39); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6393,6 +7666,10 @@
       "mismatches": [],
       "notes": [
         "title matched; fields matched"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6411,6 +7688,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.36); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6430,6 +7711,10 @@
       "mismatches": [],
       "notes": [
         "title matched; fields matched"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6448,6 +7733,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.29); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6466,6 +7755,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.73); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6484,6 +7777,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.45); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6502,6 +7799,10 @@
       "mismatches": [],
       "notes": [
         "title matched; fields matched"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6520,6 +7821,10 @@
       "mismatches": [],
       "notes": [
         "title matched; fields matched"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6538,6 +7843,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.38); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6556,6 +7865,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.33); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6577,6 +7890,10 @@
       "notes": [
         "title matched; mismatch: authors",
         "题名一致但作者完全不同：匹配记录可能是书评/同名不同作品（也可能是引文作者有误），请核对作者"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6595,6 +7912,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.20); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6613,6 +7934,10 @@
       "mismatches": [],
       "notes": [
         "title matched; fields matched"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6631,6 +7956,10 @@
       "mismatches": [],
       "notes": [
         "title matched; fields matched"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6650,6 +7979,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.48); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6668,6 +8001,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.36); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6687,6 +8024,10 @@
       "mismatches": [],
       "notes": [
         "title matched; fields matched"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6709,6 +8050,10 @@
       ],
       "notes": [
         "title matched; mismatch: year"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6729,6 +8074,10 @@
       "mismatches": [],
       "notes": [
         "title matched; fields matched"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6751,6 +8100,10 @@
       ],
       "notes": [
         "title matched; mismatch: pages"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6773,6 +8126,10 @@
       ],
       "notes": [
         "title matched; mismatch: pages"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6796,6 +8153,10 @@
       ],
       "notes": [
         "title matched; mismatch: venue,pages"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6818,6 +8179,10 @@
       ],
       "notes": [
         "title matched; mismatch: year"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6838,6 +8203,10 @@
       "mismatches": [],
       "notes": [
         "title matched; fields matched"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6859,6 +8228,10 @@
       ],
       "notes": [
         "title matched; mismatch: pages"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6882,6 +8255,10 @@
       ],
       "notes": [
         "title matched; mismatch: venue,pages"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6904,6 +8281,10 @@
       ],
       "notes": [
         "title matched; mismatch: pages"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6926,6 +8307,10 @@
       ],
       "notes": [
         "title matched; mismatch: year"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6947,6 +8332,10 @@
       ],
       "notes": [
         "title matched; mismatch: pages"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6965,6 +8354,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.70); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -6985,6 +8378,10 @@
       "mismatches": [],
       "notes": [
         "title matched; fields matched"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -7005,6 +8402,10 @@
       "mismatches": [],
       "notes": [
         "title matched; fields matched"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -7027,6 +8428,10 @@
       ],
       "notes": [
         "title matched; mismatch: year"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -7049,6 +8454,10 @@
       ],
       "notes": [
         "title matched; mismatch: year"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -7069,6 +8478,10 @@
       "mismatches": [],
       "notes": [
         "title matched; fields matched"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -7091,6 +8504,10 @@
       ],
       "notes": [
         "title matched; mismatch: pages"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -7110,6 +8527,10 @@
       "mismatches": [],
       "notes": [
         "title matched; fields matched"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -7128,6 +8549,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.41); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -7148,6 +8573,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.44); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -7169,6 +8598,10 @@
       "notes": [
         "DOI 10.1017/9781316941355 resolved",
         "DOI resolved; metadata mismatch: year"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -7188,6 +8621,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.41); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -7207,6 +8644,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.50); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -7225,6 +8666,9 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.46); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "crossref"
       ]
     },
     {
@@ -7245,6 +8689,9 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.54); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "crossref"
       ]
     },
     {
@@ -7265,6 +8712,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.38); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -7285,6 +8736,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.51); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -7308,6 +8763,10 @@
       "notes": [
         "DOI 10.1016/j.caeai.2025.100417 resolved",
         "DOI resolved; metadata mismatch: pages"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -7327,6 +8786,10 @@
       "mismatches": [],
       "notes": [
         "title matched; fields matched"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -7348,6 +8811,10 @@
       ],
       "notes": [
         "partial title match (0.80)"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -7366,6 +8833,9 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.35); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "crossref"
       ]
     },
     {
@@ -7388,6 +8858,10 @@
       "notes": [
         "DOI 10.1007/978-1-4614-2062-0 resolved",
         "DOI resolved; metadata mismatch: title_partial"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -7406,6 +8880,9 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.43); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "crossref"
       ]
     },
     {
@@ -7424,6 +8901,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.52); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -7442,6 +8923,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.42); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -7460,6 +8945,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.72); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -7478,6 +8967,10 @@
       "mismatches": [],
       "notes": [
         "title matched; fields matched"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -7498,6 +8991,9 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.36); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "crossref"
       ]
     },
     {
@@ -7517,6 +9013,10 @@
       "mismatches": [],
       "notes": [
         "title matched; fields matched"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -7537,6 +9037,10 @@
       ],
       "notes": [
         "partial title match (0.80)"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -7556,6 +9060,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.46); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -7574,6 +9082,9 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.35); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "crossref"
       ]
     },
     {
@@ -7594,6 +9105,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.40); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -7614,6 +9129,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.35); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -7628,10 +9147,13 @@
       "doi": "",
       "status": "Unverified",
       "doi_status": "none",
-      "title_sim": 0.5,
+      "title_sim": 0.0,
       "mismatches": [],
       "notes": [
-        "no close title match in OpenAlex/Crossref/arXiv (best 0.50); the article may be unindexed or the reference may be wrong — check manually"
+        "网页链接需要登录或拒绝访问（HTTP 403），无法自动核验，请人工打开核对"
+      ],
+      "sources": [
+        "url:blocked"
       ]
     },
     {
@@ -7644,14 +9166,15 @@
       "year": null,
       "venue": "",
       "doi": "",
-      "status": "Minor",
+      "status": "Exact",
       "doi_status": "none",
-      "title_sim": 0.8148,
-      "mismatches": [
-        "title"
-      ],
+      "title_sim": 0.9184,
+      "mismatches": [],
       "notes": [
-        "partial title match (0.81)"
+        "网页链接可访问（HTTP 200），页面标题与引文题名一致（相似度 0.92）"
+      ],
+      "sources": [
+        "url:live"
       ]
     },
     {
@@ -7664,12 +9187,15 @@
       "year": null,
       "venue": "",
       "doi": "",
-      "status": "Unverified",
+      "status": "Exact",
       "doi_status": "none",
-      "title_sim": 0.383,
+      "title_sim": 0.9191,
       "mismatches": [],
       "notes": [
-        "no close title match in OpenAlex/Crossref/arXiv (best 0.38); the article may be unindexed or the reference may be wrong — check manually"
+        "网页链接可访问（HTTP 200），页面标题与引文题名一致（相似度 0.92）"
+      ],
+      "sources": [
+        "url:live"
       ]
     },
     {
@@ -7682,12 +9208,15 @@
       "year": null,
       "venue": "",
       "doi": "",
-      "status": "Unverified",
+      "status": "Exact",
       "doi_status": "none",
-      "title_sim": 0.6792,
+      "title_sim": 0.8661,
       "mismatches": [],
       "notes": [
-        "no close title match in OpenAlex/Crossref/arXiv (best 0.68); the article may be unindexed or the reference may be wrong — check manually"
+        "网页链接可访问（HTTP 200），页面标题与引文题名一致（相似度 0.87）"
+      ],
+      "sources": [
+        "url:live"
       ]
     },
     {
@@ -7702,10 +9231,13 @@
       "doi": "",
       "status": "Unverified",
       "doi_status": "none",
-      "title_sim": 0.6607,
+      "title_sim": 0.0,
       "mismatches": [],
       "notes": [
-        "no close title match in OpenAlex/Crossref/arXiv (best 0.66); the article may be unindexed or the reference may be wrong — check manually"
+        "网页链接需要登录或拒绝访问（HTTP 403），无法自动核验，请人工打开核对"
+      ],
+      "sources": [
+        "url:blocked"
       ]
     },
     {
@@ -7718,12 +9250,15 @@
       "year": null,
       "venue": "",
       "doi": "",
-      "status": "Unverified",
+      "status": "Exact",
       "doi_status": "none",
-      "title_sim": 0.4935,
+      "title_sim": 0.9054,
       "mismatches": [],
       "notes": [
-        "no close title match in OpenAlex/Crossref/arXiv (best 0.49); the article may be unindexed or the reference may be wrong — check manually"
+        "网页链接可访问（HTTP 200），页面标题与引文题名一致（相似度 0.91）"
+      ],
+      "sources": [
+        "url:live"
       ]
     },
     {
@@ -7736,12 +9271,15 @@
       "year": null,
       "venue": "",
       "doi": "",
-      "status": "Unverified",
+      "status": "Exact",
       "doi_status": "none",
-      "title_sim": 0.4421,
+      "title_sim": 0.9426,
       "mismatches": [],
       "notes": [
-        "no close title match in OpenAlex/Crossref/arXiv (best 0.44); the article may be unindexed or the reference may be wrong — check manually"
+        "网页链接可访问（HTTP 200），页面标题与引文题名一致（相似度 0.94）"
+      ],
+      "sources": [
+        "url:live"
       ]
     },
     {
@@ -7757,10 +9295,13 @@
       "doi": "",
       "status": "Unverified",
       "doi_status": "none",
-      "title_sim": 0.3736,
+      "title_sim": 0.3784,
       "mismatches": [],
       "notes": [
-        "no close title match in OpenAlex/Crossref/arXiv (best 0.37); the article may be unindexed or the reference may be wrong — check manually"
+        "网页链接可访问（HTTP 200），但页面标题「CMU 15-619 Spring 2024 Home Page」与引文题名不一致，请核对是否同一页面"
+      ],
+      "sources": [
+        "url:mismatch"
       ]
     },
     {
@@ -7775,10 +9316,13 @@
       "doi": "",
       "status": "Unverified",
       "doi_status": "none",
-      "title_sim": 0.7527,
+      "title_sim": 0.0,
       "mismatches": [],
       "notes": [
-        "no close title match in OpenAlex/Crossref/arXiv (best 0.75); the article may be unindexed or the reference may be wrong — check manually"
+        "网页链接需要登录或拒绝访问（HTTP 403），无法自动核验，请人工打开核对"
+      ],
+      "sources": [
+        "url:blocked"
       ]
     },
     {
@@ -7797,6 +9341,9 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.48); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "crossref"
       ]
     },
     {
@@ -7809,12 +9356,15 @@
       "year": null,
       "venue": "",
       "doi": "",
-      "status": "Unverified",
+      "status": "Exact",
       "doi_status": "none",
-      "title_sim": 0.411,
+      "title_sim": 0.8298,
       "mismatches": [],
       "notes": [
-        "no close title match in OpenAlex/Crossref/arXiv (best 0.41); the article may be unindexed or the reference may be wrong — check manually"
+        "网页链接可访问（HTTP 200），页面标题与引文题名一致（相似度 0.83）"
+      ],
+      "sources": [
+        "url:live"
       ]
     },
     {
@@ -7835,6 +9385,10 @@
       ],
       "notes": [
         "title matched; mismatch: authors_order"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -7854,6 +9408,9 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.55); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "crossref"
       ]
     },
     {
@@ -7868,10 +9425,13 @@
       "doi": "",
       "status": "Unverified",
       "doi_status": "none",
-      "title_sim": 0.6792,
+      "title_sim": 0.0,
       "mismatches": [],
       "notes": [
-        "no close title match in OpenAlex/Crossref/arXiv (best 0.68); the article may be unindexed or the reference may be wrong — check manually"
+        "网页链接需要登录或拒绝访问（HTTP 403），无法自动核验，请人工打开核对"
+      ],
+      "sources": [
+        "url:blocked"
       ]
     },
     {
@@ -7886,10 +9446,13 @@
       "doi": "",
       "status": "Unverified",
       "doi_status": "none",
-      "title_sim": 0.7,
+      "title_sim": 0.0,
       "mismatches": [],
       "notes": [
-        "no close title match in OpenAlex/Crossref/arXiv (best 0.70); the article may be unindexed or the reference may be wrong — check manually"
+        "网页链接需要登录或拒绝访问（HTTP 403），无法自动核验，请人工打开核对"
+      ],
+      "sources": [
+        "url:blocked"
       ]
     },
     {
@@ -7904,10 +9467,13 @@
       "doi": "",
       "status": "Unverified",
       "doi_status": "none",
-      "title_sim": 0.5591,
+      "title_sim": 0.5455,
       "mismatches": [],
       "notes": [
-        "no close title match in OpenAlex/Crossref/arXiv (best 0.56); the article may be unindexed or the reference may be wrong — check manually"
+        "网页链接可访问（HTTP 200），但页面标题「Case Method Teaching - Case Method Project - Harvard Busines」与引文题名不一致，请核对是否同一页面"
+      ],
+      "sources": [
+        "url:mismatch"
       ]
     },
     {
@@ -7920,12 +9486,15 @@
       "year": null,
       "venue": "",
       "doi": "",
-      "status": "Unverified",
+      "status": "Exact",
       "doi_status": "none",
-      "title_sim": 0.4,
+      "title_sim": 0.8049,
       "mismatches": [],
       "notes": [
-        "no close title match in OpenAlex/Crossref/arXiv (best 0.40); the article may be unindexed or the reference may be wrong — check manually"
+        "网页链接可访问（HTTP 200），页面标题与引文题名一致（相似度 0.80）"
+      ],
+      "sources": [
+        "url:live"
       ]
     },
     {
@@ -7938,14 +9507,15 @@
       "year": null,
       "venue": "",
       "doi": "",
-      "status": "Minor",
+      "status": "Exact",
       "doi_status": "none",
-      "title_sim": 0.8261,
-      "mismatches": [
-        "title"
-      ],
+      "title_sim": 1.0,
+      "mismatches": [],
       "notes": [
-        "partial title match (0.83)"
+        "网页链接可访问（HTTP 200），页面标题与引文题名一致（相似度 1.00）"
+      ],
+      "sources": [
+        "url:live"
       ]
     },
     {
@@ -7960,10 +9530,13 @@
       "doi": "",
       "status": "Unverified",
       "doi_status": "none",
-      "title_sim": 0.4157,
+      "title_sim": 0.0,
       "mismatches": [],
       "notes": [
-        "no close title match in OpenAlex/Crossref/arXiv (best 0.42); the article may be unindexed or the reference may be wrong — check manually"
+        "网页链接需要登录或拒绝访问（HTTP 403），无法自动核验，请人工打开核对"
+      ],
+      "sources": [
+        "url:blocked"
       ]
     },
     {
@@ -7983,6 +9556,10 @@
       "notes": [
         "DOI 10.1007/978-90-481-8598-6_3 resolved",
         "DOI resolved; checked fields match"
+      ],
+      "sources": [
+        "crossref:doi",
+        "openalex:doi"
       ]
     },
     {
@@ -7995,12 +9572,15 @@
       "year": 2021,
       "venue": "",
       "doi": "",
-      "status": "Unverified",
+      "status": "Exact",
       "doi_status": "none",
-      "title_sim": 0.5987,
+      "title_sim": 0.915,
       "mismatches": [],
       "notes": [
-        "no close title match in OpenAlex/Crossref/arXiv (best 0.60); the article may be unindexed or the reference may be wrong — check manually"
+        "网页链接可访问（HTTP 200），页面标题与引文题名一致（相似度 0.92）"
+      ],
+      "sources": [
+        "url:live"
       ]
     },
     {
@@ -8015,10 +9595,13 @@
       "doi": "",
       "status": "Unverified",
       "doi_status": "none",
-      "title_sim": 0.6038,
+      "title_sim": 0.0,
       "mismatches": [],
       "notes": [
-        "no close title match in OpenAlex/Crossref/arXiv (best 0.60); the article may be unindexed or the reference may be wrong — check manually"
+        "网页链接需要登录或拒绝访问（HTTP 403），无法自动核验，请人工打开核对"
+      ],
+      "sources": [
+        "url:blocked"
       ]
     },
     {
@@ -8038,6 +9621,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.23); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -8057,6 +9644,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.40); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     },
     {
@@ -8077,6 +9668,10 @@
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.30); the article may be unindexed or the reference may be wrong — check manually"
+      ],
+      "sources": [
+        "openalex",
+        "crossref"
       ]
     }
   ]

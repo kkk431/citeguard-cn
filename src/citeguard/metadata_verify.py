@@ -9,8 +9,11 @@ Design goals:
 from __future__ import annotations
 
 import hashlib
+import html as html_lib
+import ipaddress
 import json
 import re
+import socket
 import threading
 import time
 import unicodedata
@@ -19,6 +22,7 @@ from concurrent.futures import ThreadPoolExecutor
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any, Callable, Optional
+from urllib.parse import urlparse
 
 import requests
 from rapidfuzz import fuzz
@@ -383,6 +387,197 @@ def _cached_text(url: str, params: Optional[dict] = None) -> Optional[str]:
     except Exception:
         _note_source_failure()
         return None
+
+
+# ---------------------------------------------------------------------------
+# Web citation (EB) link checking
+# ---------------------------------------------------------------------------
+
+_URL_CHECK_CACHE_VERSION = "v1"
+_URL_CHECK_MAX_BYTES = 300_000
+_TITLE_TAG_RE = re.compile(r"<title[^>]*>(.*?)</title>", re.I | re.S)
+_H1_TAG_RE = re.compile(r"<h1[^>]*>(.*?)</h1>", re.I | re.S)
+_TAG_RE = re.compile(r"<[^>]+>")
+
+
+def _url_host_is_public(url: str) -> tuple[bool, str]:
+    """Refuse non-http(s) URLs and hosts that resolve to private addresses.
+
+    Reference lists come from untrusted documents (and from an LLM judge), so the
+    link checker must not become an SSRF gadget against localhost / intranet.
+    """
+    try:
+        parsed = urlparse(url or "")
+    except Exception:
+        return False, "URL 无法解析"
+    if parsed.scheme not in {"http", "https"}:
+        return False, "仅支持 http/https 链接"
+    host = (parsed.hostname or "").strip(".")
+    if not host:
+        return False, "链接缺少主机名"
+    if parsed.port not in (None, 80, 443):
+        return False, "非标准端口，已跳过"
+    lower = host.lower()
+    if lower in {"localhost", "127.0.0.1", "::1"} or lower.endswith((".local", ".internal", ".localhost")):
+        return False, "内网地址，已跳过"
+    try:
+        infos = socket.getaddrinfo(host, None)
+    except OSError:
+        return False, "域名无法解析"
+    for info in infos:
+        try:
+            ip = ipaddress.ip_address(info[4][0])
+        except ValueError:
+            continue
+        if not ip.is_global:
+            return False, "内网地址，已跳过"
+    return True, ""
+
+
+def _decode_html(raw: bytes) -> str:
+    for encoding in ("utf-8", "gb18030", "big5"):
+        try:
+            return raw.decode(encoding)
+        except UnicodeDecodeError:
+            continue
+    return raw.decode("utf-8", "replace")
+
+
+def _page_title(html: str) -> str:
+    """Extract a human-readable page title (``<title>`` then ``<h1>``)."""
+    for pattern in (_TITLE_TAG_RE, _H1_TAG_RE):
+        match = pattern.search(html or "")
+        if not match:
+            continue
+        text = html_lib.unescape(_TAG_RE.sub(" ", match.group(1)))
+        text = re.sub(r"\s+", " ", text).strip()
+        if text:
+            return text[:300]
+    return ""
+
+
+def check_web_url(url: str) -> dict:
+    """Check whether a cited URL is reachable and read its page title.
+
+    Returns a small JSON-serialisable dict; never raises. ``state`` is one of
+    ``live`` / ``dead`` / ``error`` / ``blocked`` / ``off``. Only stable outcomes
+    are cached — a transient network error is retried on the next run.
+    """
+    if not config.URL_CHECK_ENABLED:
+        return {"state": "off", "reason": "链接检查已关闭"}
+    key = f"URL_CHECK::{_URL_CHECK_CACHE_VERSION}::{url}"
+    cached = _cache_path(key)
+    if cached.exists():
+        try:
+            return json.loads(cached.read_text(encoding="utf-8"))
+        except Exception:
+            pass
+    public, reason = _url_host_is_public(url)
+    if not public:
+        result = {"state": "blocked", "reason": reason}
+        try:
+            cached.write_text(json.dumps(result, ensure_ascii=False), encoding="utf-8")
+        except OSError:
+            pass
+        return result
+    try:
+        response = requests.get(
+            url,
+            timeout=min(config.HTTP_TIMEOUT, config.URL_CHECK_TIMEOUT),
+            headers={"User-Agent": config.USER_AGENT},
+            allow_redirects=True,
+            stream=True,
+        )
+        content = b""
+        for chunk in response.iter_content(64 * 1024):
+            content += chunk
+            if len(content) >= _URL_CHECK_MAX_BYTES:
+                break
+        content_type = (response.headers.get("Content-Type") or "").lower()
+        title = _page_title(_decode_html(content)) if "html" in content_type or not content_type else ""
+        result = {
+            "state": "live" if (response.status_code or 0) < 400 else "dead",
+            "status": response.status_code,
+            "final_url": response.url,
+            "title": title,
+        }
+    except Exception as exc:  # noqa: BLE001 - a dead link must not crash a report
+        return {"state": "error", "reason": type(exc).__name__}
+    try:
+        cached.write_text(json.dumps(result, ensure_ascii=False), encoding="utf-8")
+    except OSError:
+        pass
+    return result
+
+
+def _web_title_sim(ref_title: str, page_title: str) -> float:
+    """Similarity between a cited title and an HTML ``<title>``.
+
+    Page titles usually add a site name ("Bio-X: About Bio-X | Stanford"), so a
+    containment match counts as high similarity instead of being diluted by the
+    suffix.
+    """
+    sim = title_sim(ref_title, page_title)
+    nr, np = norm_title(ref_title), norm_title(page_title)
+    if nr and np and len(nr) >= 6 and (nr in np or np in nr):
+        overlap = min(len(nr), len(np)) / max(len(nr), len(np))
+        sim = max(sim, 0.75 + 0.25 * overlap)
+    return min(1.0, sim)
+
+
+def _verify_web_url(ref: Reference) -> Optional[VerifyResult]:
+    """Verify an``[EB/OL]`` citation against its URL (or say why we could not)."""
+    info = check_web_url(ref.url)
+    state = info.get("state")
+    if state in {"off", "blocked"}:
+        return None  # no opinion: fall back to the usual title search
+    if state == "error":
+        return None  # transient: let the title search / manual links handle it
+    status = info.get("status")
+    if state == "dead":
+        if status in {401, 403}:
+            return VerifyResult(
+                status="Unverified",
+                doi_status="none",
+                notes=[f"网页链接需要登录或拒绝访问（HTTP {status}），无法自动核验，请人工打开核对"],
+                sources=["url:blocked"],
+            )
+        return VerifyResult(
+            status="Unverified",
+            doi_status="none",
+            notes=[
+                f"网页链接返回 HTTP {status}（可能链接腐化或已迁移），"
+                "请核对最新地址或存档；链接失效不等同于伪造"
+            ],
+            sources=["url:dead"],
+        )
+    page_title = info.get("title") or ""
+    sim = _web_title_sim(ref.title, page_title) if (page_title and ref.title) else 0.0
+    if sim >= 0.8:
+        return VerifyResult(
+            status="Exact",
+            doi_status="none",
+            title_sim=round(sim, 4),
+            notes=[f"网页链接可访问（HTTP {status}），页面标题与引文题名一致（相似度 {sim:.2f}）"],
+            sources=["url:live"],
+        )
+    if page_title:
+        return VerifyResult(
+            status="Unverified",
+            doi_status="none",
+            title_sim=round(sim, 4),
+            notes=[
+                f"网页链接可访问（HTTP {status}），但页面标题「{page_title[:60]}」与引文题名不一致，"
+                "请核对是否同一页面"
+            ],
+            sources=["url:mismatch"],
+        )
+    return VerifyResult(
+        status="Unverified",
+        doi_status="none",
+        notes=[f"网页链接可访问（HTTP {status}），但返回内容不是可读网页（PDF/附件），请人工打开核对"],
+        sources=["url:live"],
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -953,6 +1148,15 @@ def verify_reference(
             notes=["题名解析为空（疑似 PDF/OCR 噪声），请人工核对原始条目"],
             sources=["parser:noise-guard"],
         )
+
+    # 0d) Web citations (`[EB/OL]`) cite a URL instead of a journal record.
+    # Checking the link is direct evidence: a reachable page whose title matches
+    # the cited title confirms it even when academic indexes do not cover it.
+    # Link rot / login walls are reported for manual review, never as 虚构.
+    if (ref.doc_type or "").upper() == "EB" and ref.url and not ref.doi:
+        web_result = _verify_web_url(ref)
+        if web_result is not None:
+            return web_result
 
     # 1) DOI anchor.
     if ref.doi:

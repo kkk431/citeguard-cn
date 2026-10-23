@@ -166,6 +166,13 @@
           <td class="mono-sm">{{ real.verify.refs }} 条已发表参考文献 · Major 误报率 {{ '%.1f%%'|format(real.verify.major_rate * 100) }}</td>
         </tr>
         {% endif %}
+        {% if real.verify.url_checks %}
+        <tr>
+          <td>网页型引文链接核验</td>
+          <td class="mono-sm">可达且页面标题一致 <b>{{ real.verify.url_checks.get('live', 0) }}</b> 条 · 标题不一致 {{ real.verify.url_checks.get('mismatch', 0) }} 条 · 访问受限/跳过 {{ real.verify.url_checks.get('blocked', 0) }} 条</td>
+          <td class="mono-sm">真实语料中的 [EB/OL] 引文 · 链接失效只提示人工核对，不判「疑似虚构」</td>
+        </tr>
+        {% endif %}
         {% if real.library %}
         <tr>
           <td>导入本地题录库后</td>

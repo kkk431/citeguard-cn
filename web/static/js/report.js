@@ -523,6 +523,30 @@
         const supInfo = sup ? SUPPORT[sup.label] : null;
         const supPill = '<span class="pill ' + (supInfo ? supInfo.cls : "unknown") + '"><i></i>支持度 ' + (supInfo ? supInfo.label : "未检测") + "</span>";
         const sources = v.sources || [];
+        const isWeb = sources.some(function (x) { return x.indexOf("url:") === 0; });
+        if (isWeb) {
+          evidence.length = 0;
+          evidence.push("网页引文：已检查链接可达性与页面标题");
+          if (v.title_sim != null) evidence.push("页面标题相似度 " + Number(v.title_sim).toFixed(2));
+          if (p.url) evidence.push('<a href="' + esc(p.url) + '" target="_blank" rel="noopener">打开引文链接</a>');
+          if (unmatched) {
+            const webQuery = encodeURIComponent((p.title || item.raw || "").slice(0, 80));
+            evidence.push(
+              '<a href="https://xueshu.baidu.com/s?wd=' + webQuery + '" target="_blank" rel="noopener">百度学术</a>',
+              '<a href="https://scholar.google.com/scholar?q=' + webQuery + '" target="_blank" rel="noopener">Google Scholar</a>'
+            );
+          }
+        }
+        const urlPills = [];
+        if (sources.indexOf("url:live") !== -1 && v.status === "Exact") {
+          urlPills.push('<span class="pill ok"><i></i>网页链接已核</span>');
+        }
+        if (sources.indexOf("url:dead") !== -1 || sources.indexOf("url:blocked") !== -1) {
+          urlPills.push('<span class="pill warn"><i></i>链接失效/受限</span>');
+        }
+        if (sources.indexOf("url:mismatch") !== -1) {
+          urlPills.push('<span class="pill warn"><i></i>页面标题不一致</span>');
+        }
         const localPill = sources.indexOf("local") !== -1
           ? '<span class="pill ok"><i></i>本地题录库</span>'
           : "";
@@ -548,13 +572,24 @@
               '<button class="btn btn-sm btn-ghost ref-copy" type="button" data-copy="' + esc(item.suggested_entry) + '">复制</button>' +
             "</div>"
           : "";
-        const noteBlock = (v.status === "Unverified" || v.status === "Unknown")
-          ? '<div class="ref-note">' +
-              (v.status === "Unverified"
-                ? "没有找到足够相似的数据库记录：可能是该文献未被 OpenAlex / Crossref 收录，也可能是引文本身有误。请用上面的链接人工核对后再改。"
-                : "本次核验没有拿到数据源的有效响应（网络或数据源问题），不能据此判断引文真伪。") +
-            "</div>"
+        const webNote = isWeb && v.status === "Unverified"
+          ? (sources.indexOf("url:dead") !== -1
+              ? "引文给出的网页链接已失效（可能链接腐化或站点迁移）：请核对最新地址；链接失效不等同于伪造。"
+              : sources.indexOf("url:blocked") !== -1
+                ? "网页链接需要登录或拒绝访问，无法自动核验，请人工打开核对。"
+                : sources.indexOf("url:mismatch") !== -1
+                  ? "网页链接可访问，但页面标题与引文题名不一致，请核对是否同一页面。"
+                  : "网页链接可访问，但返回内容不是可读网页（PDF/附件），请人工打开核对。")
           : "";
+        const noteBlock = webNote
+          ? '<div class="ref-note">' + esc(webNote) + "</div>"
+          : (v.status === "Unverified" || v.status === "Unknown")
+            ? '<div class="ref-note">' +
+                (v.status === "Unverified"
+                  ? "没有找到足够相似的数据库记录：可能是该文献未被 OpenAlex / Crossref 收录，也可能是引文本身有误。请用上面的链接人工核对后再改。"
+                  : "本次核验没有拿到数据源的有效响应（网络或数据源问题），不能据此判断引文真伪。") +
+              "</div>"
+            : "";
         return (
           '<article class="ref ' + st.cls + '">' +
             '<div class="ref-head">' +
@@ -563,6 +598,7 @@
               supPill +
               localPill +
               provPills.join("") +
+              urlPills.join("") +
               '<span class="ref-title">' + esc(p.title || short(item.raw, 80)) + "</span>" +
               '<span class="mono-sm">合规 ' + (c.score == null ? "—" : c.score) + "/100</span>" +
             "</div>" +

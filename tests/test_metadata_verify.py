@@ -330,6 +330,95 @@ def test_empty_title_is_unverified_not_fabricated():
     assert any("题名解析为空" in note for note in result.notes)
 
 
+# ---------------------------------------------------------------------------
+# Web citations ([EB/OL]): the URL itself is the evidence
+# ---------------------------------------------------------------------------
+
+def _web_ref() -> Reference:
+    return Reference(
+        raw="[1] Stanford University. Bio-X: About Bio-X. http://biox.stanford.edu/about/history.html",
+        index=1,
+        authors=["Stanford University"],
+        title="Bio-X: About Bio-X",
+        doc_type="EB",
+        url="http://biox.stanford.edu/about/history.html",
+    )
+
+
+def test_link_checker_blocks_private_and_non_http_urls():
+    """The checker must not become an SSRF gadget against localhost / intranet."""
+    for url in (
+        "http://127.0.0.1/x",
+        "http://localhost/x",
+        "http://10.0.0.1/x",
+        "http://192.168.1.1/x",
+        "ftp://example.org/x",
+        "file:///etc/passwd",
+    ):
+        ok, reason = mv._url_host_is_public(url)
+        assert ok is False, url
+        assert reason
+
+
+def test_web_citation_live_page_with_matching_title_is_exact(monkeypatch):
+    monkeypatch.setattr(
+        mv,
+        "check_web_url",
+        lambda url: {"state": "live", "status": 200, "final_url": url, "title": "Bio-X: About Bio-X | Stanford"},
+    )
+
+    result = mv.verify_reference(_web_ref())
+
+    assert result.status == "Exact"
+    assert any("页面标题" in note for note in result.notes)
+    assert "url:live" in result.sources
+
+
+def test_web_citation_dead_link_is_unverified_not_fabricated(monkeypatch):
+    monkeypatch.setattr(
+        mv,
+        "check_web_url",
+        lambda url: {"state": "dead", "status": 404, "final_url": url, "title": ""},
+    )
+
+    result = mv.verify_reference(_web_ref())
+
+    assert result.status == "Unverified"  # link rot != fabrication
+    assert any("HTTP 404" in note for note in result.notes)
+    assert "url:dead" in result.sources
+
+
+def test_web_citation_title_mismatch_is_unverified(monkeypatch):
+    monkeypatch.setattr(
+        mv,
+        "check_web_url",
+        lambda url: {"state": "live", "status": 200, "final_url": url, "title": "Stanford University Home"},
+    )
+
+    result = mv.verify_reference(_web_ref())
+
+    assert result.status == "Unverified"
+    assert any("不一致" in note for note in result.notes)
+
+
+def test_web_citation_blocked_link_falls_through_to_title_search(monkeypatch):
+    """A blocked/private URL gives no opinion: normal title search still runs."""
+    ref = Reference(
+        raw="[1] 机构. 网页题名[EB/OL]. http://127.0.0.1/x.",
+        index=1,
+        title="网页题名",
+        doc_type="EB",
+        url="http://127.0.0.1/x",
+    )
+    monkeypatch.setattr(mv, "search_openalex", lambda title, limit=5: [])
+    monkeypatch.setattr(mv, "search_crossref", lambda title, limit=5: [])
+    monkeypatch.setattr(mv, "search_arxiv", lambda title, limit=3: [])
+
+    result = mv.verify_reference(ref)
+
+    assert result.status == "Unverified"
+
+
 def test_authors_unreliable_flags_initial_fragments_not_whole_names():
     # Fragment list from a broken APA parse: initials pieces are not authors.
     assert mv._authors_unreliable(["Hayman", " W.K."]) is True

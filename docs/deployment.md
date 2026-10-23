@@ -1,4 +1,4 @@
-# CiteGuard-CN 部署手册（v0.3.1）
+# CiteGuard-CN 部署手册（v0.3.2）
 
 本文覆盖四种落地方式：本地开发、服务器 `.pylibs` 部署、SSH 隧道访问、Docker。
 所有方式都遵循同一条安全约束：**API Key 只从环境变量注入，绝不写进仓库或镜像**。
@@ -63,6 +63,19 @@ export CITEGUARD_SUPPORT_MAX_REFS=30    # 每个任务最多判定多少条（�
 
 也可以复制 `.env.example` 为 `.env` 后由进程管理器 / Docker Compose 注入，
 **不要**把 `.env` 提交到仓库，也不要 `COPY` 进 Docker 镜像。
+
+### 1.5 可选：网页型引文链接检查
+
+带 URL 的 `[EB/OL]` 引文会先检查链接可达性并读取页面标题（可达且标题一致 → 判「真实一致」）；
+链接失效/需要登录只提示人工核对，不会判「疑似虚构」。默认开启、按 URL 缓存：
+
+```bash
+export CITEGUARD_URL_CHECK=1            # 0 = 完全离线，不做链接检查
+export CITEGUARD_URL_CHECK_TIMEOUT=8    # 单条链接超时（秒，最大不超过 HTTP_TIMEOUT）
+```
+
+安全检查：只允许 http/https、80/443 端口，目标 IP 必须是公网地址（拒绝 localhost/内网/回环），
+响应体截断 300 KB。若部署在完全隔离的内网，建议显式设为 `0`。
 
 ---
 
@@ -215,13 +228,13 @@ ssh -L 18000:127.0.0.1:8000 jxy-2
 
 ```bash
 cd citeguard
-docker build -f docker/Dockerfile -t citeguard-cn:0.3.1 .
+docker build -f docker/Dockerfile -t citeguard-cn:0.3.2 .
 
 docker run --rm -p 127.0.0.1:8000:8000 \
   -e DEEPSEEK_API_KEY="${DEEPSEEK_API_KEY:-}" \
   -v "$PWD/data/jobs:/app/data/jobs" \
   -v "$PWD/data/cache:/app/data/cache" \
-  citeguard-cn:0.3.1
+  citeguard-cn:0.3.2
 ```
 
 镜像内固定 `PYTHONPATH=/app/src`，启动命令：
@@ -257,9 +270,9 @@ docker compose -f docker/docker-compose.yml logs -f citeguard
 
 ```bash
 # 有网机器
-docker save citeguard-cn:0.3.1 | gzip > citeguard-cn-0.3.1.tar.gz
+docker save citeguard-cn:0.3.2 | gzip > citeguard-cn-0.3.2.tar.gz
 # 目标机器
-docker load < citeguard-cn-0.3.1.tar.gz
+docker load < citeguard-cn-0.3.2.tar.gz
 ```
 
 ---
@@ -288,7 +301,7 @@ docker load < citeguard-cn-0.3.1.tar.gz
 cd citeguard
 PYTHONPATH=src:.pylibs python3 -m pytest tests -q          # 应全绿（含离线端到端）
 PYTHONPATH=src python3 scripts/verify_artifacts.py         # 应输出 [OK] all checks passed
-PYTHONPATH=src python3 scripts/package_deliverable.py      # 生成 dist/citeguard-cn-0.3.1.zip
+PYTHONPATH=src python3 scripts/package_deliverable.py      # 生成 dist/citeguard-cn-0.3.2.zip
 curl -s http://127.0.0.1:8000/api/health                   # {"ok":true,...}
 ```
 
@@ -347,4 +360,4 @@ curl -s http://127.0.0.1:8000/api/health
 避免把用户上传内容和密钥带进镜像。
 
 **Q11. 如何确认某次部署的版本？**
-`curl -s http://127.0.0.1:8000/api/health`，`version` 字段即当前版本（本手册对应 `0.3.1`）。
+`curl -s http://127.0.0.1:8000/api/health`，`version` 字段即当前版本（本手册对应 `0.3.2`）。

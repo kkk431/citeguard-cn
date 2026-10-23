@@ -51,6 +51,8 @@ def main(argv: list[str] | None = None) -> int:
     rows: list[dict] = []
     status = Counter()
     major_reasons = Counter()
+    # `[EB/OL]` citations are checked against their URL; record how it went.
+    url_checks: Counter = Counter()
     for paper in papers:
         refs = parse_reference_list(paper["text"])
         results = verify_many(refs)
@@ -69,7 +71,11 @@ def main(argv: list[str] | None = None) -> int:
                 "title_sim": res.title_sim,
                 "mismatches": res.mismatches,
                 "notes": res.notes[:4],
+                "sources": res.sources,
             }
+            url_source = next((x for x in res.sources if x.startswith("url:")), "")
+            if url_source:
+                url_checks[url_source.split(":", 1)[1]] += 1
             if res.status == "Major":
                 if res.doi_status == "not_found":
                     reason = "doi_404"
@@ -92,6 +98,7 @@ def main(argv: list[str] | None = None) -> int:
         "major_reasons": dict(major_reasons),
         "major_rate": round(status["Major"] / total, 4),
         "unknown_rate": round(status["Unknown"] / total, 4),
+        "url_checks": dict(url_checks),
     }
     out_path = Path(args.out)
     out_path.parent.mkdir(parents=True, exist_ok=True)
@@ -101,6 +108,10 @@ def main(argv: list[str] | None = None) -> int:
 
     print("\n== verification on real references ==")
     print(json.dumps(summary, ensure_ascii=False, indent=2))
+    if url_checks:
+        print("\nWeb links checked:")
+        for state, count in sorted(url_checks.items()):
+            print(f"  {state:10s} {count}")
     print("\nMajors (candidate false positives):")
     for row in rows:
         if row["status"] == "Major":
