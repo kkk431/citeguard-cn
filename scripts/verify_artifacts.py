@@ -278,6 +278,21 @@ def main(argv: Optional[list[str]] = None) -> int:
         c.check(api.get("metrics", {}).get("macro_f1") == metrics.get("macro_f1"),
                 "/api/benchmark macro_f1 matches results.json")
         c.check(set(api.get("per_class") or {}) == set(LABELS), "/api/benchmark exposes per_class for all labels")
+        # The dashboard's "real data" block must serve the evidence files, not a copy.
+        real = api.get("real_data") or {}
+        for key, filename, field in (
+            ("parse", "parse_real.json", "published_refs"),
+            ("verify", "verify_real.json", "refs"),
+            ("library", "library_real.json", "refs"),
+        ):
+            evidence = (_load_json(EXPERIMENTS / filename) or {}).get("summary") or {}
+            if evidence:
+                c.check((real.get(key) or {}).get(field) == evidence.get(field),
+                        f"/api/benchmark real_data.{key}.{field} matches {filename}")
+        library_api = real.get("library") or {}
+        if library_api.get("definite_rate") == 1.0:
+            c.check(library_api.get("definite_verdicts") == library_api.get("refs"),
+                    "/api/benchmark library definite_verdicts == refs at 100%")
 
     return c.summary()
 
