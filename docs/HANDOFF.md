@@ -157,3 +157,9 @@ $env:DEEPSEEK_API_KEY = "..."   # 支持度判定用，不写进任何文件
 - 测试 275 → **278 通过**（本地 endpoint 无 key 可判、模型切换不复用缓存、无 endpoint 降级「未检测」）。
 - 新增 `data/experiments/README.md`：每个对外数字对应的结果 JSON、生成脚本、代码快照与口径一页索引；`reproduce.sh` 增加离线测试步骤并指向该索引。
 
+**验收状态（v0.3.3，2026-10-24 凌晨）**
+- 测试 **278 passed / 2 skipped**；`verify_artifacts.py` 本地 **63 项**，加 `--api-base`（校验 `/api/benchmark` 的 real_data 与证据文件一致）共 **72 项**全过。
+- 远端演示实例（`/data/xyjiang/aic_mental/citeguard`，127.0.0.1:8000）已部署 v0.3.3，服务器上实跑 `verify_artifacts.py --api-base http://127.0.0.1:8000` = **70 项全过**（差 2 项是本地才有、未上服务器的实验证据文件的可选检查）。
+- GitHub `main` 已推送到最后一个提交；`dist/citeguard-cn-0.3.3.zip` 已重建。
+- 用本地 OpenAI 兼容假服务端到端跑通 `evaluate_support.py`（2/2 判定、0 失败、记录 endpoint/model），证明「本地开源模型当 judge」链路的脚本可用。
+
