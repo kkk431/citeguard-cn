@@ -43,6 +43,7 @@ full              0.9684
 ```
 
 > 评测集、数据卡、评测脚本与 DeepSeek 基线都在 `data/citebench_cn/` 与 `scripts/` 下；`seed=20261022`，重建字节级一致（SHA-256 `1a8e466b…`）。
+> 答辩/汇报用的**已核实数字一页纸**见 [docs/ppt_numbers.md](docs/ppt_numbers.md)；网页 `/benchmark` 也有同一套数据面板。
 
 支持度判定（可选）：
 

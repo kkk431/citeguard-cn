@@ -20,6 +20,9 @@
 | 22:14 | `src/citeguard/gbt7714.py` 更新 | 该规则改为「题名与文献类型标识之间不应有“.”」，只对「题名.[J]」报警；E4 于 22:30 复跑，下表为修复后结果（`e4_format.json` 生成于 22:30:48） |
 | 22:19–22:24 | `metadata_verify.py` / `reference_parser.py` 更新 | E5 于 22:24 用新代码复跑 warm pass（`e5_retrieval.json` 生成于 22:24:32）；冷启动样本沿用 22:16 首跑（`e5_cold_sample.json`） |
 | 22:21 | `web/app.py` 升到 0.3.0 | 新增 `.docx` 解析、`support_max` 表单参数、上传大小/清理；E7 的体验问题据此重新核对 |
+| 10-23 20:0x | `gbt7714.py` 新增 3 条规则；E4 漂移构造修正 | E4 主表与 1.4(d) 复跑：strict 15/30 → **29/30**；`e4_format.json` 已记录新 `code_snapshot` |
+
+> 注：0.2 节表格记录的是 2026-10-22 晚的实验过程；2026-10-23 的 E4 复跑结果已直接更新到 1.4(c)/(d) 与 1.5，`e4_format.json` 里的 `code_snapshot` 才是当前生效版本。
 
 `code_snapshot`（E7 运行时的实际值，节选）：
 

@@ -102,6 +102,7 @@ $env:DEEPSEEK_API_KEY = "..."   # 支持度判定用，不写进任何文件
 **评测页升级为「答辩数据面板」**
 - `/benchmark` 新增两块：ClaimSupport-CN 支持度结果（0.9328/0.930 + per-class + 混淆）与「真实已发表论文上的表现」（解析 99.6%/99.2%、真实性 74/50/100/**Major 0**、本地库 224/224、检索召回 92%、E4 29/30）。
 - `/api/benchmark` 同步返回 `support_benchmark` 与 `real_data`。
+- 答辩用数字一页纸：`docs/ppt_numbers.md`（每条数字的口径、复现命令、以及「不能这么说」的红线）。
 
 **测试**
 - `pytest` 239 → **247 通过**（新增 E4 规则 5 项、两段式 judge 3 项）。
