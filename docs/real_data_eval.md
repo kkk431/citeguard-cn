@@ -37,6 +37,30 @@
 PYTHONPATH=src python scripts/eval_parse_real.py
 ```
 
+### 2.1 扫描件 OCR 兜底（2026-10-23 实测）
+
+真实论文里还有一类输入是**纯图片 PDF**（扫描件）。把 7 页真实论文 PDF 渲染成无文字层图片 PDF，再走 OCR 兜底 + 解析：
+
+| 指标 | 结果 |
+|---|---|
+| OCR 文本量 | 10054 字符（7 页，150 dpi，CPU 约 132 s） |
+| 解析出的参考文献 | **23 / 24 条**（第 1 条编号在 OCR 中丢失，被并入正文） |
+| 字段覆盖（23 条中） | 题名 23 · 年份 23 · 作者 21 · 来源 19 · DOI 0 |
+
+> DOI 在 150 dpi 扫描件上基本识别失败（字符太细），这是 OCR 的已知边界：报告会显示缺 DOI 提示，但不会把缺失当成原文错误。
+
+修掉的两个真实 bug（均由这次实测暴露）：
+
+1. `strip_repeated_lines` 把 OCR 单独成行的 `[n]` 当成“页码模板”删除（`[#]` 模板重复 ≥3 次）→ 参考文献编号全部丢失、只解析出 2 条；现在裸编号行不再按页眉页脚处理。
+2. OCR 把 `[n]` 识别成独立一行、条目在下一行 → 新增 `_merge_reference_numbers()` 在参考文献区把编号并回条目。
+
+复现（需先装 `requirements-ocr.txt`）：
+
+```bash
+PYTHONPATH=src python scripts/make_scanned_pdf.py --input data/real_corpus/xxx.pdf --output out/scanned.pdf
+PYTHONPATH=src python scripts/eval_ocr_scanned.py --input data/real_corpus/xxx.pdf --expected-refs 24
+```
+
 ## 3. 核验误报（`scripts/eval_verify_real.py`）
 
 语料是**已发表**论文的 224 条真实参考文献，因此出现「疑似虚构（Major）」基本可视为误报。

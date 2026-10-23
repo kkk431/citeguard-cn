@@ -49,3 +49,17 @@ def test_reference_entries_are_not_dropped_as_furniture():
     cleaned = strip_repeated_lines(text)
 
     assert len(cleaned.splitlines()) == 40
+
+
+def test_bare_reference_numbers_are_not_page_furniture():
+    """OCR puts "[n]" on its own line; the template "[#]" must not be dropped."""
+    lines = ["期刊名 12", "期刊名 23", "期刊名 34"]
+    for i in range(1, 6):
+        lines.extend([f"[{i}]", f"作者{i}. 题名{i}[J]. 期刊, 20{10 + i}, 1({i}): 1-9."])
+    text = "\n".join(lines)
+
+    cleaned = strip_repeated_lines(text)
+
+    for i in range(1, 6):
+        assert f"[{i}]" in cleaned.splitlines()
+    assert "期刊名 12" not in cleaned

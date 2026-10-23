@@ -12,6 +12,8 @@ CiteGuard-CN 是一个开源的中文引文核验工作台，面向毕业论文�
 pip install -r requirements-ocr.txt   # rapidocr-onnxruntime + pypdfium2，CPU 即可
 ```
 
+> 实测（7 页纯图片 PDF，150 dpi）：OCR 后仍能解析出 **23/24 条**参考文献，题名/年份覆盖 23/23、作者 21/23；单页约 19 s（CPU）。扫描版 PDF 的 OCR 噪声（`[J]`→`[]`、断行、DOI 丢失）会在解析层标注，不臆造字段。复现：`PYTHONPATH=src python scripts/eval_ocr_scanned.py --input <paper.pdf>`。
+
 ## 它做什么
 
 | 检查 | 做法 | 输出 |
@@ -66,6 +68,8 @@ no_evidence    [  0,   0,   0,  20 ]
 > 该数据集为程序化构造（构造规则自检 100/100，20% 抽样复核 0 失败），标签由构造决定，不是人工双标，因此不报告 κ；误差现在主要来自 support ↔ partial 的边界样本。
 >
 > 外部验证：同一 judge 零样本迁移到英文公开基准 **SciFact**（300 条 dev claims，**未在 SciFact 上训练/微调**，四分类映射为三分类）：给定标注证据句 macro-F1 **0.8224**，给定整段摘要 **0.7939**。说明判定方法不是只在自建中文集上有效。
+>
+> 本地开源模型：接口是 OpenAI 兼容的，可切到 Qwen3 等开源模型。已在 CPU 上用 **Qwen3-1.7B（Apache-2.0）** 离线跑通（20 条试点 macro-F1 0.71，明显低于托管大模型但完全离线）；生产离线场景建议 Qwen3-8B + GPU。细节见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) §4.2。
 
 ## 架构
 

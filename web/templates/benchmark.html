@@ -149,6 +149,13 @@
           <td class="mono-sm">{{ real.parse.papers }} 篇真实论文 · {{ real.parse.published_refs }} 条</td>
         </tr>
         {% endif %}
+        {% if real.ocr %}
+        <tr>
+          <td>扫描件 OCR 兜底</td>
+          <td class="mono-sm">纯图片 PDF 仍能解析 {{ real.ocr.parsed }}{% if real.ocr.expected %}/{{ real.ocr.expected }}{% endif %} 条参考文献</td>
+          <td class="mono-sm">{{ real.ocr.pages }} 页真实论文（150 dpi，CPU）· 可选依赖</td>
+        </tr>
+        {% endif %}
         {% if real.verify %}
         <tr>
           <td>真实性核验（无本地库）</td>

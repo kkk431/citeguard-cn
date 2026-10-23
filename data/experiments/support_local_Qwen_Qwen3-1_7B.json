@@ -1,0 +1,181 @@
+{
+  "macro_f1": 0.506,
+  "accuracy": 0.55,
+  "confusion": [
+    [
+      5,
+      1,
+      0,
+      1
+    ],
+    [
+      4,
+      0,
+      0,
+      2
+    ],
+    [
+      1,
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      5
+    ]
+  ],
+  "per_class": {
+    "support": {
+      "precision": 0.5,
+      "recall": 0.7143,
+      "f1": 0.5882
+    },
+    "partial": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "contradict": {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6667
+    },
+    "no_evidence": {
+      "precision": 0.625,
+      "recall": 1.0,
+      "f1": 0.7692
+    }
+  },
+  "n": 20,
+  "model": "Qwen/Qwen3-1.7B",
+  "backend": "transformers-cpu",
+  "prompt_sha256": "cb86c4fa9a1fec7a",
+  "max_new_tokens": 300,
+  "elapsed_sec": 1865.7,
+  "dry_run": true,
+  "details": [
+    {
+      "id": "cs-0001",
+      "gold": "partial",
+      "pred": "support",
+      "reply": "{\"evidence_quote\":\"被设计并且实现了哪个能合作本地存储和分享的存储一起进动态单个名字空间到在 IO 集中的应用程序优化 I/O 性能\",\"label\":\"support\",\"confidence\":1.0,\"reason\":\"证据与引用句完全一致，直接支持引用句的核心命题。\"}"
+    },
+    {
+      "id": "cs-0002",
+      "gold": "no_evidence",
+      "pred": "no_evidence",
+      "reply": "{\"evidence_quote\":\"在这评论，我们在吸着剂的三种类型上集中我们的讨论：金属氧化物基于吸着剂, Cu/Ag-based 和另外的广告吸着剂\",\"label\":\"no_evidence\",\"confidence\":0.0,\"reason\":\"证据片段讨论的是吸附技术及其吸着剂类型，与引用句中的热成像技术及其图像处理技术无关，因此无法支持或反驳引用句。\"}"
+    },
+    {
+      "id": "cs-0003",
+      "gold": "support",
+      "pred": "support",
+      "reply": "{\"evidence_quote\":\"药剂学实验课程作为医药教育的关键环节，其改革聚焦于技能培养与思政教育的融合。\",\"label\":\"support\",\"confidence\":1.0,\"reason\":\"证据直接支持引用句的核心命题，明确指出药剂学实验课程改革聚焦于技能培养与思政教育的融合，与引用句完全一致。\"}"
+    },
+    {
+      "id": "cs-0004",
+      "gold": "partial",
+      "pred": "support",
+      "reply": "{\"evidence_quote\":\"分析影响老年人老年护理服务的因素\",\"label\":\"support\",\"confidence\":1.0,\"reason\":\"证据片段直接支持引用句的核心命题，明确指出分析影响老年人老年护理服务的因素，与引用句中的‘分析影响老年人老年护理服务的因素’完全对应，因此判为support。\"}"
+    },
+    {
+      "id": "cs-0005",
+      "gold": "no_evidence",
+      "pred": "no_evidence",
+      "reply": "{\"evidence_quote\":\"课程思政\"就是要挖掘各学科课程的思想政治教育因素，系统地融入专业课程体系\",\"label\":\"no_evidence\",\"confidence\":0.0,\"reason\":\"证据片段讨论的是'课程思政'的内涵和作用，与引用句中的'三农'问题、'乡村振兴战略'、'乡村文化振兴'等概念无关，未涉及引用句的核心命题。\"}"
+    },
+    {
+      "id": "cs-0006",
+      "gold": "partial",
+      "pred": "support",
+      "reply": "{\"evidence_quote\":\"为新兴领域工程科技人才培养模式的构建带来了新思路。\",\"label\":\"support\",\"confidence\":1.0,\"reason\":\"证据直接支持引用句的核心命题，明确指出‘新工科’建设为新兴领域工程科技人才培养模式的构建带来了新思路，与引用句完全一致。\"}"
+    },
+    {
+      "id": "cs-0007",
+      "gold": "support",
+      "pred": "support",
+      "reply": "{\"evidence_quote\":\"主要对心血管伴随焦虑症的患者实施中西医结合治疗，探究其治疗效果。\",\"label\":\"support\",\"confidence\":1.0,\"reason\":\"证据片段直接支持引用句的核心命题，即对心血管伴随焦虑症患者实施中西医结合治疗，并探究其治疗效果。\"}"
+    },
+    {
+      "id": "cs-0008",
+      "gold": "contradict",
+      "pred": "support",
+      "reply": "{\"evidence_quote\":\"随着中国经济实力的不断增强，国有企业在经济发展过程中的经济实力也在不断增强，形成了较强劲的市场竞争力。\",\"label\":\"support\",\"confidence\":1.0,\"reason\":\"证据与引用句在核心命题上完全一致，均指出中国经济实力的增强导致国有企业经济实力的增强，并形成市场竞争力。证据直接支持引用句的结论，且无任何矛盾或补充内容。\"}"
+    },
+    {
+      "id": "cs-0009",
+      "gold": "partial",
+      "pred": "no_evidence",
+      "reply": "{\"evidence_quote\":\"光声光谱作为一种基于光声效应的吸收光谱分析技术。\",\"label\":\"no_evidence\",\"confidence\":0.0,\"reason\":\"证据片段仅重复了引用句中的第一句，未提供任何新信息或支持内容，因此无法判断是否支持引用句。\"}"
+    },
+    {
+      "id": "cs-0010",
+      "gold": "no_evidence",
+      "pred": "no_evidence",
+      "reply": "{\"evidence_quote\":\"本文结合高职院校的学生特点，以‘引导技术’结合理论课程教学改革为突破口，激发学生能动性和课堂参与热情，立足区域发展的人才需求和高职人才培养目标的定位，探索教育教学改革的有效路径。\",\"label\":\"no_evidence\",\"confidence\":0.0,\"reason\":\"证据片段讨论的是高职院校教育教学改革，与引用句中的‘民以食为天’和‘大米进口’无直接关联，无法支持或反驳引用句的核心命题。\"}"
+    },
+    {
+      "id": "cs-0011",
+      "gold": "no_evidence",
+      "pred": "no_evidence",
+      "reply": "{\"evidence_quote\":\"依据不同的教学方式将所选的100名护士划分为实验组和常规组.\",\"label\":\"no_evidence\",\"confidence\":0.0,\"reason\":\"证据片段描述的是一个研究设计，涉及实验组和常规组的划分，但未涉及人才竞争、人力资源管理、创新能力等引用句的核心命题。因此，证据与引用句无关。\"}"
+    },
+    {
+      "id": "cs-0012",
+      "gold": "support",
+      "pred": "support",
+      "reply": "{\"evidence_quote\":\"在烈度为VII的地震力作用下同时考虑3种蓄水工况，该滑坡分别有34.067%、38.061%和38.405%的概率发生整体渐进破坏;根据滑坡渐进破坏模式指出最佳加固位置应在沿江大道前沿.\",\"label\":\"support\",\"confidence\":1.0,\"reason\":\"证据明确支持引用句的核心命题，即在烈度为VII的地震力作用下，滑坡在三种蓄水工况下的概率发生整体渐进破坏，并且指出最佳加固位置。这与引用句中的“概率发生整体渐进破坏”和“最佳加固位置”完全对应，因此判断为支持。\"}"
+    },
+    {
+      "id": "cs-0013",
+      "gold": "partial",
+      "pred": "no_evidence",
+      "reply": "{\"evidence_quote\":\"Mucoadhesion 能被定义为哪个具有生物起源。\",\"label\":\"no_evidence\",\"confidence\":0.0,\"reason\":\"证据片段与引用句的命题不一致。引用句提出的是对 Mucoadhesion 的定义，而证据片段仅陈述了“Mucoadhesion 能被定义为哪个具有生物起源”，并未提供定义内容，因此无法支持或反驳引用句的核心命题。\"}"
+    },
+    {
+      "id": "cs-0014",
+      "gold": "support",
+      "pred": "partial",
+      "reply": "{\"evidence_quote\":\"结果显示：相比其他人格维度，宜人性对马基雅维利特质具有显著负向预测作用且效应量最大，还中介了婚姻状态对马基雅维利特质的影响。\",\"label\":\"partial\",\"confidence\":0.0,\"reason\":\"证据仅支持引用句中的一部分：即宜人性对马基雅维利特质具有显著负向预测作用且效应量最大，以及中介了婚姻状态对马基雅维利特质的影响。但未支持引用句中关于‘验证其核心预测变量和中介变量’以及‘尝试性地回答马基雅维利主义是人格特质还是行为策略的问题’的部分。\"}"
+    },
+    {
+      "id": "cs-0015",
+      "gold": "partial",
+      "pred": "support",
+      "reply": "{\"evidence_quote\":\"促进学生英语学科综合素养的提升\",\"label\":\"support\",\"confidence\":1.0,\"reason\":\"证据直接支持引用句的核心结论，即‘促进学生英语学科综合素养的提升’，与引用句中的核心命题完全对应，属于明确支持。\"}"
+    },
+    {
+      "id": "cs-0016",
+      "gold": "no_evidence",
+      "pred": "no_evidence",
+      "reply": "{\"evidence_quote\":\"本文的目的是演示‘模拟翻译教室’的整体方法如何让翻译专业的学生熟悉新的工作方式和技能，将曾经需要在单独的课程中学习的各种新技术整合起来学习.\",\"label\":\"no_evidence\",\"confidence\":0.0,\"reason\":\"证据片段与引用句无关，引用句讨论的是农村老年人的银色数字鸿沟问题，而证据片段讨论的是翻译专业的学生学习“模拟翻译教室”的方法，两者主题完全不同，无法建立关联。\"}"
+    },
+    {
+      "id": "cs-0017",
+      "gold": "support",
+      "pred": "support",
+      "reply": "{\"evidence_quote\":\"本研究旨在分析数字经济如何驱动农村电商的多样化发展模式，并探索其优化路径\",\"label\":\"support\",\"confidence\":1.0,\"reason\":\"证据直接支持引用句的核心命题，明确指出研究旨在分析数字经济如何驱动农村电商的多样化发展模式，并探索其优化路径，与引用句完全一致。\"}"
+    },
+    {
+      "id": "cs-0018",
+      "gold": "support",
+      "pred": "no_evidence",
+      "reply": "{\"evidence_quote\":\"教师可以通过创造语言环境来培养学生语言运用、文化认知、发展想象等方面的能力，从而更好的推广我国汉语言文化\",\"label\":\"no_evidence\",\"confidence\":0.0,\"reason\":\"证据片段与引用句在内容上存在明显差异，引用句讨论的是情景教学对学习兴趣的影响，而证据片段讨论的是教师通过创造语言环境培养能力并推广汉语言文化。两者主题不同，未直接支持或反驳引用句的核心命题。\"}"
+    },
+    {
+      "id": "cs-0019",
+      "gold": "support",
+      "pred": "support",
+      "reply": "{\"evidence_quote\":\"数字化时代对研究生的教育和培养提出了新的挑战，其中数字韧性是研究生在数字化转型中保持竞争力的关键因素，也成为研究生培养的应有之义。\",\"label\":\"support\",\"confidence\":1.0,\"reason\":\"证据直接支持引用句的核心命题，明确指出数字韧性是研究生在数字化转型中保持竞争力的关键因素，并强调其成为研究生培养的应有之义，与引用句完全一致。\"}"
+    },
+    {
+      "id": "cs-0020",
+      "gold": "contradict",
+      "pred": "contradict",
+      "reply": "{\"evidence_quote\":\"黏土岩中锂绿泥石的大量存在及与全岩Li含量呈显著正相关关系指示锂绿泥石是Li的主要载体矿物，且锂绿泥石可能为成岩过程中由叶腊石、伊利石等黏土矿物与富Li、Mg滨海浅层地下卤水或孔隙水/地下水反应形成;\",\"label\":\"contradict\",\"confidence\":0.0,\"reason\":\"证据片段中锂绿泥石与全岩Li含量呈显著正相关关系，而引用句中明确指出是显著负相关关系，因此证据与引用句的结论方向相反，构成矛盾。\"}"
+    }
+  ]
+}

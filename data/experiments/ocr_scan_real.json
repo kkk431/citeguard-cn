@@ -1,0 +1,24 @@
+{
+  "source_pdf": "data\\real_corpus\\hanspub_152572.pdf",
+  "scanned_pdf": "D:\\ai+ky\\citeguard\\out\\scanned_hanspub_152572.pdf",
+  "pages": 7,
+  "dpi": 150,
+  "ocr_text_chars": 10054,
+  "refs_chars": 1822,
+  "parsed_refs": 23,
+  "expected_refs": 24,
+  "field_coverage": {
+    "title": 23,
+    "authors": 21,
+    "year": 23,
+    "venue": 19,
+    "doi": 0
+  },
+  "elapsed_sec": 134.2,
+  "dependencies": [
+    "rapidocr-onnxruntime (Apache-2.0)",
+    "pypdfium2",
+    "Pillow"
+  ],
+  "note": "Image-only PDF (no text layer) rendered from a real OA paper; OCR fallback then reference parsing. Raw corpus and scanned PDFs are git-ignored; only this metrics file is committed."
+}

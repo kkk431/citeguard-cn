@@ -39,7 +39,7 @@ $env:DEEPSEEK_API_KEY = "..."   # 支持度判定用，不写进任何文件
 
 ## 3. 当前状态（一句话）
 
-输入解析（PDF/Word/扫描件 OCR）、GB/T 格式检查（E4 漂移 29/30）、引文真实性核验（在线 + 本地题录库 + 中国 DOI 平台）、支持度判定（两段式 macro-F1 0.9328）、报告与导出全部可用；247 项测试通过。已知边界写在 `docs/plan.md`。
+输入解析（PDF/Word/扫描件 OCR）、GB/T 格式检查（E4 漂移 29/30）、引文真实性核验（在线 + 本地题录库 + 中国 DOI 平台）、支持度判定（两段式 macro-F1 0.9328）、报告与导出全部可用；253 项测试通过。已知边界写在 `docs/plan.md`。
 
 ## 4. 明天优先级
 
@@ -107,3 +107,23 @@ $env:DEEPSEEK_API_KEY = "..."   # 支持度判定用，不写进任何文件
 **测试**
 - `pytest` 239 → **247 通过**（新增 E4 规则 5 项、两段式 judge 3 项）。
 - 文档同步：README 支持度表与混淆矩阵、`docs/support_summary.md`、`data/claimsupport_cn/README.md`、`docs/experiments.md` E4 章节、`docs/plan.md`。
+
+## 8. 2026-10-23 深夜：功能拓宽 + 外部数据集 + 扫描件
+
+**GB/T 参考文献表重排导出**
+- 报告页新增「复制参考文献表 / 导出参考文献表」：把解析出的每条按 GB/T 7714-2025 重排（作者>3 补等、类型码、卷(期)、页码、DOI），输出 .refs.txt；Markdown/HTML 报告末尾附表，CSV 加「规范条目」列；/api/report/<id>/export?format=refs。
+- 只做格式重排、不补缺失字段；测试 251→253。
+
+**外部公开数据集（SciFact）**
+- 同一 judge 零样本跑英文 SciFact dev 300 条（未训练/微调）：oracle 证据句 macro-F1 **0.8224** / acc 0.8267；整段摘要 **0.7939** / 0.8000。
+- 许可证：claims CC BY 4.0、摘要 ODC-By 1.0、代码 Apache-2.0；原始数据不随仓库分发，只提交脚本与结果 JSON（scripts/eval_support_scifact.py、data/experiments/scifact_support_results.json）。
+- 评测页新增加「外部公开基准 · SciFact 零样本」行。
+
+**扫描件 OCR（真实 bug + 实测）**
+- 用真实论文 PDF 渲染成 7 页纯图片 PDF（scripts/make_scanned_pdf.py），跑通 OCR 兜底：解析出 **23/24 条**参考文献，题名/年 23/23、作者 21/23（DOI 在 150 dpi 下基本丢失，属已知边界）。
+- 修 2 个真实 bug：①strip_repeated_lines 把单独成行的 [n] 当页码模板删除（[#] 重复）→ 编号全丢、只解析 2 条；②新增 _merge_reference_numbers() 把 OCR 独立成行的编号并回条目。
+- 新增 scripts/eval_ocr_scanned.py 与 data/experiments/ocr_scan_real.json；本地 OCR 依赖装在 out/ocrlibs（不入库）。
+
+**本地开源模型（Qwen3-1.7B，CPU）**
+- scripts/eval_support_local.py：transformers CPU 加载 Qwen3-1.7B（Apache-2.0），完全离线跑支持度任务；20 条试点：产品长 prompt 0.5060（93 s/条），精简 prompt **0.7059**（46 s/条）。
+- 结论写进 THIRD_PARTY_NOTICES.md §4.2：接口可切开源模型、已验证可离线跑通；小模型质量/速度有限，生产离线建议 Qwen3-8B+GPU。

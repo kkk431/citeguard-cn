@@ -45,7 +45,7 @@
 
 | 资源 | 版本 | 许可证 | 原计划用途 | 本期状态 | 来源 |
 |---|---|---|---|---|---|
-| Qwen3-8B | 8B | Apache-2.0 | 本地开源 judge 后端（替换 §2 DeepSeek） | 接口已兼容；CPU 实测用 1.7B 验证离线可跑（见 §4.1），8B 建议 GPU | https://huggingface.co/Qwen/Qwen3-8B |
+| Qwen3-8B | 8B | Apache-2.0 | 本地开源 judge 后端（替换 §2 DeepSeek） | 接口已兼容；**Qwen3-1.7B 已在 CPU 离线跑通（见 §4.2）**；8B 建议 GPU，未在本机实测 | https://huggingface.co/Qwen/Qwen3-8B |
 | Qwen3-Embedding-0.6B | 0.6B | Apache-2.0 | 题名/摘要检索嵌入 | 未集成（当前用题名检索 + DOI 锚点） | https://huggingface.co/Qwen/Qwen3-Embedding-0.6B |
 | Qwen3-Reranker-0.6B | 0.6B | Apache-2.0 | 证据重排 | 未集成 | https://huggingface.co/Qwen/Qwen3-Reranker-0.6B |
 | bge-m3 | — | MIT | 多语嵌入 | 未集成 | https://huggingface.co/BAAI/bge-m3 |
@@ -73,6 +73,17 @@
 
 - 映射：本产品四分类的 `support`/`partial` → SciFact `SUPPORT`，`contradict` → `CONTRADICT`，`no_evidence` → `NOT_ENOUGH_INFO`；zero-shot，**未在 SciFact 上训练/微调**，因此与 SciFact 微调系统不可直接比较。
 - 复现：下载 `https://scifact.s3-us-west-2.amazonaws.com/release/latest/data.tar.gz` → 解压到 `data/experiments/scifact_raw/`（git-ignored）→ `DEEPSEEK_API_KEY=... PYTHONPATH=src python scripts/eval_support_scifact.py`。
+
+### 4.2 本地开源模型离线实测（Qwen3-1.7B，Apache-2.0）
+
+用 `transformers` 在 CPU 上加载 **Qwen3-1.7B**（Apache-2.0）跑同一支持度任务（`scripts/eval_support_local.py`，只做 20 条试点，不能外推为全量指标）：
+
+| 设置 | 20 条试点 Macro-F1 | Accuracy | CPU 速度 |
+|---|---|---|---|
+| 产品长 prompt（v3） | 0.5060 | 0.55 | ~93 s/条 |
+| 精简 prompt（`scripts/support_prompt_simple.txt`） | **0.7059** | 0.75 | ~46 s/条 |
+
+结论：**该后端可以完全离线运行、接口与产品一致**，但 1.7B 小模型在 CPU 上又慢又弱；生产离线场景建议 Qwen3-8B + GPU（接口已兼容，未在本机实测）。因此产品默认仍用托管大模型保证质量，并在文档中把本地开源模型标为「可替换、已验证可跑通、质量待大模型」。
 
 ## 5. 许可证义务与履行方式
 

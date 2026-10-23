@@ -1,0 +1,181 @@
+{
+  "macro_f1": 0.7059,
+  "accuracy": 0.75,
+  "confusion": [
+    [
+      7,
+      0,
+      0,
+      0
+    ],
+    [
+      3,
+      2,
+      0,
+      1
+    ],
+    [
+      0,
+      0,
+      1,
+      1
+    ],
+    [
+      0,
+      0,
+      0,
+      5
+    ]
+  ],
+  "per_class": {
+    "support": {
+      "precision": 0.7,
+      "recall": 1.0,
+      "f1": 0.8235
+    },
+    "partial": {
+      "precision": 1.0,
+      "recall": 0.3333,
+      "f1": 0.5
+    },
+    "contradict": {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6667
+    },
+    "no_evidence": {
+      "precision": 0.7143,
+      "recall": 1.0,
+      "f1": 0.8333
+    }
+  },
+  "n": 20,
+  "model": "Qwen/Qwen3-1.7B",
+  "backend": "transformers-cpu",
+  "prompt_sha256": "2f9b85ff6c4fe64f",
+  "max_new_tokens": 120,
+  "elapsed_sec": 928.0,
+  "dry_run": true,
+  "details": [
+    {
+      "id": "cs-0001",
+      "gold": "partial",
+      "pred": "support",
+      "reply": "{\"label\":\"support\",\"reason\":\"证据片段与引用句完全一致，明确支持引用句的核心结论。\"}"
+    },
+    {
+      "id": "cs-0002",
+      "gold": "no_evidence",
+      "pred": "no_evidence",
+      "reply": "{\"label\":\"no_evidence\",\"reason\":\"证据片段与引用句的主题无关，讨论的是吸附技术，而引用句讨论的是热成像技术及其应用领域。\"}"
+    },
+    {
+      "id": "cs-0003",
+      "gold": "support",
+      "pred": "support",
+      "reply": "{\"label\":\"support\",\"reason\":\"证据片段明确支持引用句的核心结论，即药剂学实验课程改革聚焦于技能培养与思政教育的融合，并提出具体措施以实现这一目标。\"}"
+    },
+    {
+      "id": "cs-0004",
+      "gold": "partial",
+      "pred": "partial",
+      "reply": "{\"label\":\"partial\",\"reason\":\"证据片段仅支持引用句的一部分，未提及提出有效措施。\"}"
+    },
+    {
+      "id": "cs-0005",
+      "gold": "no_evidence",
+      "pred": "no_evidence",
+      "reply": "{\"label\":\"no_evidence\",\"reason\":\"证据片段与引用句的命题无关，且未涉及‘三农’问题、乡村文化振兴或乡村建设相关内容。\"}"
+    },
+    {
+      "id": "cs-0006",
+      "gold": "partial",
+      "pred": "support",
+      "reply": "{\"label\":\"support\",\"reason\":\"证据片段直接支持引用句的核心结论，明确指出‘为新兴领域工程科技人才培养模式的构建带来了新思路’，与引用句内容完全一致。\"}"
+    },
+    {
+      "id": "cs-0007",
+      "gold": "support",
+      "pred": "support",
+      "reply": "{\"label\":\"support\",\"reason\":\"证据片段明确描述了与引用句相同的研究内容和研究方法，且与引用句的核心结论一致。\"}"
+    },
+    {
+      "id": "cs-0008",
+      "gold": "contradict",
+      "pred": "no_evidence",
+      "reply": "{\"label\":\"no_evidence\",\"reason\":\"证据片段与引用句在逻辑上存在重复，但未提供新的信息或不同角度的论证，因此无法判断其对引用句的支持程度。\"}"
+    },
+    {
+      "id": "cs-0009",
+      "gold": "partial",
+      "pred": "no_evidence",
+      "reply": "{\"label\":\"no_evidence\",\"reason\":\"证据片段仅重复了引用句中的部分内容，未提供新的信息或支持其核心结论。\"}"
+    },
+    {
+      "id": "cs-0010",
+      "gold": "no_evidence",
+      "pred": "no_evidence",
+      "reply": "{\"label\":\"no_evidence\",\"reason\":\"证据片段与引用句的主题无关，讨论的是教育教学改革，而非大米进口或粮食问题。\"}"
+    },
+    {
+      "id": "cs-0011",
+      "gold": "no_evidence",
+      "pred": "no_evidence",
+      "reply": "{\"label\":\"no_evidence\",\"reason\":\"证据片段描述的是一个具体的研究案例，涉及实习护生和教学方式的比较，与引用句中关于企业竞争、人力资源管理、创新能力等抽象概念无直接关联。\"}"
+    },
+    {
+      "id": "cs-0012",
+      "gold": "support",
+      "pred": "support",
+      "reply": "{\"label\":\"support\",\"reason\":\"证据片段明确支持引用句中的核心结论，即在烈度为VII的地震力作用下，滑坡分别有34.067%、38.061%和38.405%的概率发生整体渐进破坏。\"}"
+    },
+    {
+      "id": "cs-0013",
+      "gold": "partial",
+      "pred": "partial",
+      "reply": "{\"label\":\"partial\",\"reason\":\"证据片段仅提及Mucoadhesion的生物起源，但未明确说明其定义或作用机制，与引用句中的'定义'和'作用'部分不完全对应。\"}"
+    },
+    {
+      "id": "cs-0014",
+      "gold": "support",
+      "pred": "support",
+      "reply": "{\"label\":\"support\",\"reason\":\"证据片段明确断言了引用句的核心结论，即宜人性对马基雅维利特质具有显著负向预测作用且效应量最大，并且中介了婚姻状态对马基雅维利特质的影响，这直接支持了引用句中关于马基雅维利主义是人格特质还是行为策略的尝试性回答。\"}"
+    },
+    {
+      "id": "cs-0015",
+      "gold": "partial",
+      "pred": "support",
+      "reply": "{\"label\":\"support\",\"reason\":\"证据片段明确指出‘促进学生英语学科综合素养的提升’，与引用句中‘促进学生英语学科综合素养的提升’完全一致，直接支持引用句的核心结论。\"}"
+    },
+    {
+      "id": "cs-0016",
+      "gold": "no_evidence",
+      "pred": "no_evidence",
+      "reply": "{\"label\":\"no_evidence\",\"reason\":\"证据片段与引用句的命题无关，且未涉及农村老年人、银色数字鸿沟或数字素养等主题。\"}"
+    },
+    {
+      "id": "cs-0017",
+      "gold": "support",
+      "pred": "support",
+      "reply": "{\"label\":\"support\",\"reason\":\"证据片段明确断言了引用句的核心结论（数字经济如何驱动农村电商的多样化发展模式，并探索其优化路径），且内容与引用句完全一致。\"}"
+    },
+    {
+      "id": "cs-0018",
+      "gold": "support",
+      "pred": "support",
+      "reply": "{\"label\":\"support\",\"reason\":\"证据片段与引用句内容完全一致，明确支持引用句的核心结论。\"}"
+    },
+    {
+      "id": "cs-0019",
+      "gold": "support",
+      "pred": "support",
+      "reply": "{\"label\":\"support\",\"reason\":\"证据片段明确支持引用句的核心结论，即数字韧性是研究生在数字化转型中保持竞争力的关键因素，并强调了其在研究生培养中的重要性。\"}"
+    },
+    {
+      "id": "cs-0020",
+      "gold": "contradict",
+      "pred": "contradict",
+      "reply": "{\"label\":\"contradict\",\"reason\":\"证据片段与引用句中的'显著负相关关系'相矛盾，而证据片段中为'显著正相关关系'。\"}"
+    }
+  ]
+}

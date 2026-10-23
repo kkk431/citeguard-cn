@@ -17,7 +17,10 @@
 | 引用支持度判定（LLM judge，可插拔、可选，两段式覆盖审计） | ✅ 可选 | ClaimSupport-CN macro-F1 **0.9328** / acc 0.930（单段 v3 为 0.9005） |
 | 报告与导出（HTML/MD/JSON/CSV，一键生成规范条目、复制建议、打印） | ✅ | `tests/test_web.py`、`tests/test_hardening.py` |
 | 批量：网页多文件上传（含汇总面板/汇总 CSV）、CLI 目录批处理 | ✅ | `web/static/js/index.js`、`tests/test_cli.py` |
-| 工程：Docker、CI、部署文档、247 个离线测试 | ✅ | `docker/`、`.github/workflows/ci.yml`、`docs/deployment.md` |
+| GB/T 7714-2025 参考文献表重排导出（复制/refs.txt/CSV 列） | ✅ | 	ests/test_format_gbt.py、	ests/test_report.py |
+| 扫描件 OCR 兜底（可选依赖；真实扫描测试 23/24 条） | ✅ 可选 | scripts/eval_ocr_scanned.py、data/experiments/ocr_scan_real.json |
+| 外部公开数据集验证（SciFact 零样本 0.8224/0.7939） | ✅ | scripts/eval_support_scifact.py |
+| 工程：Docker、CI、部署文档、253 个离线测试 | ✅ | `docker/`、`.github/workflows/ci.yml`、`docs/deployment.md` |
 
 ## 2. 已知边界（不要对外说成"能"）
 
@@ -39,7 +42,7 @@
 
 ```bash
 pip install -r requirements.lock.txt
-PYTHONPATH=src python -m pytest tests -q                 # 247 项离线测试
+PYTHONPATH=src python -m pytest tests -q                 # 253 项离线测试
 PYTHONPATH=src python scripts/verify_artifacts.py        # 数据集/结果一致性（32 项）
 PYTHONPATH=src python scripts/eval_parse_real.py         # 真实论文解析实测（需先抓语料）
 PYTHONPATH=src python scripts/eval_verify_real.py        # 真实文献核验误报实测

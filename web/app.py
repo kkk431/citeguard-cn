@@ -404,6 +404,13 @@ def _benchmark_context() -> dict:
             "oracle_f1": (scifact_results.get("oracle") or {}).get("macro_f1"),
             "abstract_f1": (scifact_results.get("abstract") or {}).get("macro_f1"),
         }
+    ocr = _load_json(exp / "ocr_scan_real.json")
+    if ocr and ocr.get("parsed_refs") is not None:
+        real["ocr"] = {
+            "parsed": ocr.get("parsed_refs"),
+            "expected": ocr.get("expected_refs"),
+            "pages": ocr.get("pages"),
+        }
     return {"benchmark": benchmark, "support": support, "real": real}
 
 

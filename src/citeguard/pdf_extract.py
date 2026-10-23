@@ -99,7 +99,14 @@ _TYPE_MARK_RE = re.compile(r"\[[A-Z]{1,2}(?:/OL)?\]")
 
 
 def _looks_like_page_furniture(key: str) -> bool:
-    """Short repeated line with no sentence punctuation — a running header."""
+    """Short repeated line with no sentence punctuation — a running header.
+
+    Exception: a bare reference number like ``[12]`` repeats with only the
+    digits changing (template ``[#]``), but it is part of the reference list,
+    not page furniture — OCR often puts it on its own line.
+    """
+    if re.fullmatch(r"\[\s*\d{1,3}\s*\]", key or ""):
+        return False
     return (
         len(key) <= 40
         and not _TYPE_MARK_RE.search(key)

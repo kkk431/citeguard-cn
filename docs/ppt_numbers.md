@@ -16,10 +16,12 @@
 | 2 | 引用支持度 macro-F1 | **0.9328**（acc 0.930） | ClaimSupport-CN 100 条（构造集），两段式 judge | `data/claimsupport_cn/results.json` |
 | 2b | 单段 judge / prompt v1 对比 | 0.9005 / 0.7951 | 同上，消融记录 | `docs/support_summary.md` |
 | 2c | 外部公开基准零样本（英文 SciFact） | **0.8224**（oracle 证据句）/ **0.7939**（整段摘要） | SciFact dev 300 条，未训练/微调，四分类映射三分类 | `data/experiments/scifact_support_results.json` |
+| 2d | 本地开源模型离线（Qwen3-1.7B, Apache-2.0） | 20 条试点 **0.7059**（精简 prompt，CPU） | 完全离线可跑通；小模型速度/质量有限，生产建议 Qwen3-8B+GPU | `data/experiments/support_local_qwen3_1.7b_simple.json` |
 | 3 | 真实已发表文献被判「疑似虚构」 | **0 / 224** | 10 篇 OA 中文论文的参考文献（真实语料） | `data/experiments/verify_real.json` |
 | 3b | 真实文献判定分布（无本地库） | 真实一致 74 / 元数据偏差 50 / 未找到 100 / 疑似虚构 **0** | 同上 | 同上 |
 | 4 | 导入本地题录库后的可判定率 | **224 / 224（100%）**，字段偏差 2 条 | 库由 10 篇论文发布版参考文献构建 | `data/experiments/library_real.json` |
 | 5 | 参考文献解析干净率 | **99.6%**（发布版文字）/ **99.2%**（PDF 抽取） | 12 篇真实论文 · 224 / 345 条 | `data/experiments/parse_real.json` |
+| 5b | 扫描件 OCR 兜底 | 纯图片 PDF 仍能解析 **23/24 条**（题名/年 23/23） | 7 页真实论文扫描版，CPU 约 2.2 min | `data/experiments/ocr_scan_real.json` |
 | 6 | GB/T 7714-2025 类型码识别 | **100 / 100** | E4：100 条真实中文文献回灌 | `data/experiments/e4_format.json` |
 | 6b | GB/T 必填字段完整率 | **98.4%** | 同上 | 同上 |
 | 6c | 30 条受控格式漂移严格检出 | **29 / 30（96.7%）** | E4，6 类 × 5 条（构造漂移） | 同上 |

@@ -105,3 +105,20 @@ def test_utf8_bom_does_not_drop_first_reference(tmp_path):
 
     assert len(refs) == 2
     assert refs[0].index == 1
+
+
+def test_ocr_standalone_reference_numbers_are_merged():
+    """OCR often puts "[n]" on its own line; merge it into the entry."""
+    from citeguard.ocr import _merge_reference_numbers
+
+    text = (
+        "正文引用[1]。\n\n参考文献\n"
+        "[1]\n张三. 题名[J]. 期刊, 2020, 1(2): 3-4.\n"
+        "[2]\n李四. 题名二[J]. 期刊, 2021, 2(1): 5-6.\n"
+    )
+
+    merged = _merge_reference_numbers(text)
+
+    assert "[1] 张三. 题名[J]." in merged
+    assert "[2] 李四. 题名二[J]." in merged
+    assert "正文引用[1]。" in merged  # body untouched
