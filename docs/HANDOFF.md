@@ -39,7 +39,7 @@ $env:DEEPSEEK_API_KEY = "..."   # 支持度判定用，不写进任何文件
 
 ## 3. 当前状态（一句话）
 
-输入解析（PDF/Word/扫描件 OCR）、GB/T 格式检查、引文真实性核验（在线 + 本地题录库 + 中国 DOI 平台）、支持度判定、报告与导出全部可用；237 项测试通过。已知边界写在 `docs/plan.md`。
+输入解析（PDF/Word/扫描件 OCR）、GB/T 格式检查、引文真实性核验（在线 + 本地题录库 + 中国 DOI 平台）、支持度判定、报告与导出全部可用；238 项测试通过。已知边界写在 `docs/plan.md`。
 
 ## 4. 明天优先级
 
@@ -64,7 +64,12 @@ $env:DEEPSEEK_API_KEY = "..."   # 支持度判定用，不写进任何文件
 - DOI 状态缓存升级到 v3（连候选一起缓存），修复「重启后 resolved_landing 丢候选变成 Unknown」的隐患。
 - APA 裸题录作者列表合并修复：`Brehm, S. S., Miller, R. S., …` 不再被拆成 8 个「作者」（此前会误判作者不一致）。
 - 作者比对改为**姓氏比对**（`Yu, H.` ↔ `Hui Yu`），并单独检查作者顺序；真实语料 Exact 76→74 / Minor 47→50 / Unverified 101→100 / Major 0，其中 1 条是新发现的真实作者顺序错误、1 条是书评记录（Minor 误报 +1，已加提示「可能是书评/同名不同作品」）。
-- 新增 14 个单测覆盖上述行为（`tests/test_metadata_verify.py`、`tests/test_parser_styles.py`）。
+- 新增 15 个单测覆盖上述行为（`tests/test_metadata_verify.py`、`tests/test_parser_styles.py`、`tests/test_local_library.py`）。
+
+**题录库摘要补全**
+- 新脚本 `scripts/enrich_library_abstracts.py`：从 OpenAlex/Crossref 给本地题录库补摘要（题名相似度 ≥0.92 且年份不冲突才采用）。
+- 本机演示库 10 条里补上 8 条；补完后 `support_max=5` 的分析能正常判支持度（实测 5 支持 / 7 未检测，其中 2 条无摘要）。
+- 题录库页面新增「带摘要」统计、缺摘要提示与摘要列。
 
 **网页**
 - 批量上传：逐篇提交 + 实时阶段/百分比 + 全部完成后**汇总面板**（篇数/条数/各状态/格式均分/一句结论）+「导出汇总 CSV」。

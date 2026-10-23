@@ -18,7 +18,8 @@
   {% if count and with_abstract < count %}
   <div class="lib-banner" style="margin-top:14px">
     有 <b>{{ count - with_abstract }}</b> 条题录没有摘要。元数据核验不受影响；但要判断「正文是否真的支持这条引文」，
-    题录需要带摘要——在知网/EndNote/Zotero 导出时勾选「摘要/Abstract」再导入即可。
+    题录需要带摘要——在知网/EndNote/Zotero 导出时勾选「摘要/Abstract」再导入即可；
+    也可以在服务器上运行 <code>python scripts/enrich_library_abstracts.py</code>，从 OpenAlex/Crossref 自动补全（只取公开元数据）。
   </div>
   {% endif %}
 </section>

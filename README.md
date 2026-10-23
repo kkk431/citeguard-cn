@@ -187,7 +187,13 @@ python -m citeguard.cli --import-library cnki_export.ris
 python -m citeguard.cli --input thesis.pdf --library cnki_export.ris   # 或临时指定
 ```
 
-网页端在「题录库」页导入/清空，报告里会标注哪些条目来自本地库；导入时会统计「带摘要」的条数——判断正文是否真的支持这条引文需要摘要，导出时记得勾选「摘要/Abstract」。
+网页端在「题录库」页导入/清空，报告里会标注哪些条目来自本地库；导入时会统计「带摘要」的条数——判断正文是否真的支持这条引文需要摘要。导出时没带摘要也没关系，可以补：
+
+```bash
+# 从 OpenAlex/Crossref 补全题录库里缺失的摘要（只取公开元数据，写回本地库）
+PYTHONPATH=src python3 scripts/enrich_library_abstracts.py --dry-run   # 先看会补多少
+PYTHONPATH=src python3 scripts/enrich_library_abstracts.py
+```
 
 实测（10 篇真实中文论文，224 条引文，PDF 路径）：
 

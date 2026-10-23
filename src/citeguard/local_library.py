@@ -418,6 +418,31 @@ def entry_to_candidate(entry: LibraryEntry) -> Candidate:
     )
 
 
+def abstract_from_candidates(entry: LibraryEntry, candidates: Iterable[Candidate]) -> str:
+    """Pick an abstract for a library entry from online metadata candidates.
+
+    CNKI/EndNote/Zotero exports often carry no abstract. The claim-support judge
+    needs one, so when the user opts in we fill it from OpenAlex/Crossref data.
+    Only very close title matches (>= 0.92) with a compatible year are accepted:
+    a wrong abstract would make the support verdict worse than "not checked".
+    """
+    best_sim = 0.0
+    best_abstract = ""
+    for cand in candidates:
+        abstract = (cand.abstract or "").strip()
+        if not abstract:
+            continue
+        sim = title_sim(entry.title, cand.title)
+        if sim < 0.92:
+            continue
+        if entry.year and cand.year and entry.year != cand.year:
+            continue
+        if sim > best_sim:
+            best_sim = sim
+            best_abstract = abstract
+    return best_abstract
+
+
 # ---------------------------------------------------------------------------
 # Export (backup / migration between tools)
 # ---------------------------------------------------------------------------

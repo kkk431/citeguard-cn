@@ -287,6 +287,20 @@ def test_pipeline_reports_library_stats(isolated_project, monkeypatch):
     assert report["references"][0]["verify"]["sources"] == ["local"]
 
 
+def test_abstract_from_candidates_requires_close_match():
+    from citeguard.local_library import abstract_from_candidates, LibraryEntry
+    from citeguard.metadata_verify import Candidate
+
+    entry = LibraryEntry(title="累积生态风险与青少年的学业和社交能力", year=2014)
+    wrong = Candidate(source="openalex", title="累积生态风险与青少年健康行为", year=2014, abstract="wrong")
+    right = Candidate(source="openalex", title=entry.title, year=2014, abstract="right abstract")
+    miscal = Candidate(source="openalex", title=entry.title, year=2009, abstract="wrong year")
+
+    assert abstract_from_candidates(entry, [wrong]) == ""
+    assert abstract_from_candidates(entry, [miscal]) == ""
+    assert abstract_from_candidates(entry, [wrong, right]) == "right abstract"
+
+
 # ---------------------------------------------------------------------------
 # Web API: import / list / clear + analysis picks the library up
 # ---------------------------------------------------------------------------
