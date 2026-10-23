@@ -1,7 +1,7 @@
 {
   "experiment": "E4",
   "title": "GB/T 7714-2025 格式合规检查（真实中文文献）",
-  "generated_at": "2026-10-23T11:57:05+00:00",
+  "generated_at": "2026-10-23T14:01:42+00:00",
   "seed": 20261022,
   "code_snapshot": {
     "src/citeguard/gbt7714.py": {
@@ -9,12 +9,12 @@
       "mtime": "2026-10-23T19:56:47"
     },
     "src/citeguard/reference_parser.py": {
-      "sha256_16": "60ce182a350e7128",
-      "mtime": "2026-10-23T18:43:05"
+      "sha256_16": "2c977a5b8d34d31b",
+      "mtime": "2026-10-23T22:00:06"
     },
     "src/citeguard/metadata_verify.py": {
-      "sha256_16": "37f9bff7c175488f",
-      "mtime": "2026-10-23T18:49:32"
+      "sha256_16": "eb71fd52d005e883",
+      "mtime": "2026-10-23T21:42:46"
     }
   },
   "provenance": {
@@ -55,7 +55,7 @@
       "cache_hits": 2,
       "errors": []
     },
-    "generated_at": "2026-10-23T11:57:05+00:00"
+    "generated_at": "2026-10-23T14:01:42+00:00"
   },
   "corpus_sha256": "abdd4c9a9d11fd676ea4745e284615c845165aea42d9891d58cc226f40667acb",
   "metrics": {

@@ -1,17 +1,16 @@
 {
   "summary": {
     "papers": 20,
-    "refs": 412,
+    "refs": 409,
     "library_entries": 408,
-    "library_hits": 408,
+    "library_hits": 409,
     "status": {
-      "Exact": 399,
-      "Minor": 10,
-      "Unverified": 3
+      "Exact": 405,
+      "Minor": 4
     },
     "definite_verdicts": 409,
-    "definite_rate": 0.9927,
-    "field_mismatch_detected": 9
+    "definite_rate": 1.0,
+    "field_mismatch_detected": 4
   },
   "rows": [
     {
@@ -1376,15 +1375,11 @@
     },
     {
       "paper": "电子商务平台数据安全困境及优化路径",
-      "title": "“共享性链接”: 平台经济跨部门协同监管何以可能——基于 B 市 S 区互联网经济协同监管平台 DOI: 10.12677/ecl.2026.15101144 ",
+      "title": "“共享性链接”: 平台经济跨部门协同监管何以可能——基于 B 市 S 区互联网经济协同监管平台 DOI: 497 电子商务评论 的案例研究",
       "status": "Minor",
-      "from_library": false,
+      "from_library": true,
       "mismatches": [
-        "authors",
-        "venue",
-        "volume",
-        "pages",
-        "title_language"
+        "title"
       ]
     },
     {
@@ -1599,7 +1594,7 @@
     },
     {
       "paper": "回忆类心理动词的辨析——以“回忆、回想、回顾、回首”为例",
-      "title": "帕力扎∙热合木吐拉. 现代汉语认知心理动词语义网络研究",
+      "title": "现代汉语认知心理动词语义网络研究",
       "status": "Exact",
       "from_library": true,
       "mismatches": []
@@ -2098,13 +2093,6 @@
     },
     {
       "paper": "基于产出导向法的能源研究生学术英语写作教学模式研究",
-      "title": "https://doi.org/10.1177/00336882231162868",
-      "status": "Unverified",
-      "from_library": false,
-      "mismatches": []
-    },
-    {
-      "paper": "基于产出导向法的能源研究生学术英语写作教学模式研究",
       "title": "English for Specific Purposes: A Learning-Centred Approach",
       "status": "Exact",
       "from_library": true,
@@ -2407,33 +2395,22 @@
     {
       "paper": "基于成对约束的不完整多视图聚类",
       "title": "Multi-View Clustering via Consensus Coeff- cient Matrix and Separate Segmentatio",
-      "status": "Minor",
-      "from_library": true,
-      "mismatches": [
-        "venue"
-      ]
-    },
-    {
-      "paper": "基于成对约束的不完整多视图聚类",
-      "title": "A New Nonconvex Multi-View Subspace Clustering via Learning a Clean Low-Rank Rep",
-      "status": "Minor",
-      "from_library": true,
-      "mismatches": [
-        "venue"
-      ]
-    },
-    {
-      "paper": "基于成对约束的不完整多视图聚类",
-      "title": "Deep Matrix Factoriza- tion with Adaptive Weights for Multi-View Clustering",
       "status": "Exact",
       "from_library": true,
       "mismatches": []
     },
     {
       "paper": "基于成对约束的不完整多视图聚类",
-      "title": "https://doi.0rg/10.1016/j.patcog.2025.112027",
-      "status": "Unverified",
-      "from_library": false,
+      "title": "A New Nonconvex Multi-View Subspace Clustering via Learning a Clean Low-Rank Rep",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于成对约束的不完整多视图聚类",
+      "title": "Deep Matrix Factoriza- tion with Adaptive Weights for Multi-View Clustering",
+      "status": "Exact",
+      "from_library": true,
       "mismatches": []
     },
     {
@@ -2446,11 +2423,9 @@
     {
       "paper": "基于成对约束的不完整多视图聚类",
       "title": "Generalized Incomplete Multiview Clustering with Flexible Locality Structure Dif",
-      "status": "Minor",
+      "status": "Exact",
       "from_library": true,
-      "mismatches": [
-        "venue"
-      ]
+      "mismatches": []
     },
     {
       "paper": "基于成对约束的不完整多视图聚类",
@@ -2483,20 +2458,16 @@
     {
       "paper": "基于成对约束的不完整多视图聚类",
       "title": "Incomplete Multiview Spectral Clustering with Adaptive Graph Learning",
-      "status": "Minor",
+      "status": "Exact",
       "from_library": true,
-      "mismatches": [
-        "venue"
-      ]
+      "mismatches": []
     },
     {
       "paper": "基于成对约束的不完整多视图聚类",
       "title": "Simultaneous Laplacian Embedding and Subspace Clustering for Incomplete Multi-Vi",
-      "status": "Minor",
+      "status": "Exact",
       "from_library": true,
-      "mismatches": [
-        "venue"
-      ]
+      "mismatches": []
     },
     {
       "paper": "基于成对约束的不完整多视图聚类",
@@ -2514,28 +2485,17 @@
     },
     {
       "paper": "基于成对约束的不完整多视图聚类",
-      "title": "https://doi.0rg/10.1007/s11432-020-3369-8",
-      "status": "Unverified",
-      "from_library": false,
+      "title": "Nonconvex Low-Rank Tensor Ap- proximation with Denoising Model for Multi-View Su",
+      "status": "Exact",
+      "from_library": true,
       "mismatches": []
     },
     {
       "paper": "基于成对约束的不完整多视图聚类",
-      "title": "Nonconvex Low-Rank Tensor Ap- proximation with Denoising Model for Multi-View Su",
-      "status": "Minor",
-      "from_library": true,
-      "mismatches": [
-        "venue"
-      ]
-    },
-    {
-      "paper": "基于成对约束的不完整多视图聚类",
       "title": "Low-Rank Preserving Projection via Graph Regularized Reconstruction",
-      "status": "Minor",
+      "status": "Exact",
       "from_library": true,
-      "mismatches": [
-        "venue"
-      ]
+      "mismatches": []
     },
     {
       "paper": "基于成对约束的不完整多视图聚类",
@@ -2728,7 +2688,7 @@
     },
     {
       "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
-      "title": "拉尔夫·泰勒. 课程与教学的基本原理",
+      "title": "课程与教学的基本原理",
       "status": "Exact",
       "from_library": true,
       "mismatches": []
@@ -2749,77 +2709,77 @@
     },
     {
       "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
-      "title": "Bio-X: About Bio-X. http://biox.stanford.edu/about/history.html",
+      "title": "Bio-X: About Bio-X",
       "status": "Exact",
       "from_library": true,
       "mismatches": []
     },
     {
       "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
-      "title": "Interdisciplinary Graduate Programs. https://catalog.mit.edu/interdisciplinary/g",
+      "title": "Interdisciplinary Graduate Programs",
       "status": "Exact",
       "from_library": true,
       "mismatches": []
     },
     {
       "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
-      "title": "Harvard John A. Paulson School of Engineering and Applied Sciences. PhD in Appli",
+      "title": "PhD in Applied Mathematics",
       "status": "Exact",
       "from_library": true,
       "mismatches": []
     },
     {
       "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
-      "title": "Carnegie Mellon University. Machine Learning PhD Curriculum. https://ml.cmu.edu/",
+      "title": "Machine Learning PhD Curriculum",
       "status": "Exact",
       "from_library": true,
       "mismatches": []
     },
     {
       "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
-      "title": "Princeton University. Grand Challenges: Collaborating to Create a Better Future.",
+      "title": "Grand Challenges: Collaborating to Create a Better Future",
       "status": "Exact",
       "from_library": true,
       "mismatches": []
     },
     {
       "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
-      "title": "New Silicon Initiative (NSI). https://eecs.berkeley.edu/academics/new-silicon-in",
+      "title": "New Silicon Initiative (NSI)",
       "status": "Exact",
       "from_library": true,
       "mismatches": []
     },
     {
       "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
-      "title": "EECS Students Drive AI Innovation as Amazon PhD Fellows. https://eecs.berkeley.e",
+      "title": "EECS Students Drive AI Innovation as Amazon PhD Fellows",
       "status": "Exact",
       "from_library": true,
       "mismatches": []
     },
     {
       "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
-      "title": "and Goldstein, S.C. Cloud Computing: 15-619/15-819, Carnegie Mellon University. ",
+      "title": "Cloud Computing: 15-619/15-819, Carnegie Mellon University",
       "status": "Exact",
       "from_library": true,
       "mismatches": []
     },
     {
       "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
-      "title": "Harvard Medical School. Department of Biomedical Informatics. Bioinformatics and",
+      "title": "Bioinformatics and Integrative Genomics (BIG) PhD Track",
       "status": "Exact",
       "from_library": true,
       "mismatches": []
     },
     {
       "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
-      "title": "PhD Course Requirements. https://www-cs-staff.stanford.edu/phd-program-course-re",
+      "title": "PhD Course Requirements",
       "status": "Exact",
       "from_library": true,
       "mismatches": []
     },
     {
       "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
-      "title": "Doctoral Program. https://socialthought.uchicago.edu/doctoral-program",
+      "title": "Doctoral Program",
       "status": "Exact",
       "from_library": true,
       "mismatches": []
@@ -2840,42 +2800,42 @@
     },
     {
       "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
-      "title": "University of Minnesota. Backward Design for Syllabus Design. https://carla.umn.",
+      "title": "Backward Design for Syllabus Design",
       "status": "Exact",
       "from_library": true,
       "mismatches": []
     },
     {
       "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
-      "title": "Syllabus Design Tips. https://www.umass.edu/education/facultyhub/instructional-s",
+      "title": "Syllabus Design Tips",
       "status": "Exact",
       "from_library": true,
       "mismatches": []
     },
     {
       "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
-      "title": "Harvard Business School. The Case Method Project: About Case Method Teaching. ht",
+      "title": "The Case Method Project: About Case Method Teaching",
       "status": "Exact",
       "from_library": true,
       "mismatches": []
     },
     {
       "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
-      "title": "http://mcloonlab.neuroscience.umn.edu/8211/term_paper.htm",
+      "title": "Term Paper: Nsc8211 Developmental Neurobiology",
       "status": "Exact",
       "from_library": true,
       "mismatches": []
     },
     {
       "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
-      "title": "https://people.csail.mit.edu/meyer/AreaII/ethics/page-03.html",
+      "title": "Responsible Research Approach",
       "status": "Exact",
       "from_library": true,
       "mismatches": []
     },
     {
       "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
-      "title": "DrPH Core Curriculum & Global Health Requirements. https://www.jhsph.edu/academi",
+      "title": "DrPH Core Curriculum & Global Health Requirements",
       "status": "Exact",
       "from_library": true,
       "mismatches": []
@@ -2896,10 +2856,12 @@
     },
     {
       "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
-      "title": "PhD Education Initiative. https://www.aau.edu/strategic-initiatives/undergraduat",
-      "status": "Exact",
+      "title": "PhD Education Initiative. itiative",
+      "status": "Minor",
       "from_library": true,
-      "mismatches": []
+      "mismatches": [
+        "title"
+      ]
     },
     {
       "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",

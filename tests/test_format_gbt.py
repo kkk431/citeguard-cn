@@ -51,7 +51,36 @@ def test_book_entry_has_place_and_publisher():
     )
 
     assert "[M]" in entry
-    assert "北京, 清华大学出版社, 2020." in entry
+    assert "北京: 清华大学出版社, 2020." in entry
+
+
+def test_author_initials_do_not_double_the_trailing_period():
+    entry = format_gbt_entry(
+        title="Mode 3 Knowledge Production",
+        authors=["Carayannis, E.G.", "Campbell, D.F."],
+        doc_type="M",
+        publisher="Springer",
+        year=2012,
+    )
+
+    assert entry.startswith("Carayannis, E.G., Campbell, D.F. Mode 3")
+    assert ".." not in entry
+
+
+def test_webpage_entry_drops_volume_and_pages():
+    entry = format_gbt_entry(
+        title="Bio-X: About Bio-X",
+        authors=["Stanford University"],
+        doc_type="EB",
+        year=None,
+        volume="15",
+        pages="15-619",
+        url="http://biox.stanford.edu/about/history.html",
+    )
+
+    assert "Bio-X: About Bio-X[EB/OL]." in entry
+    assert "15-619" not in entry and ", 15" not in entry
+    assert entry.endswith("http://biox.stanford.edu/about/history.html.")
 
 
 def test_missing_year_still_renders():
@@ -86,7 +115,7 @@ def test_format_from_reference_keeps_book_place_and_publisher():
     entry = format_from_reference(ref)
 
     assert "[M]" in entry
-    assert "北京, 清华大学出版社, 2020." in entry
+    assert "北京: 清华大学出版社, 2020." in entry
 
 
 def test_format_reference_list_keeps_indexes_and_skips_empty():

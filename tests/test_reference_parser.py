@@ -132,3 +132,105 @@ def test_bare_url_lines_are_not_references():
     assert len(refs) == 1
     assert refs[0].index == 1  # renumbered after dropping the URL-only line
     assert "题名" in refs[0].title
+
+
+# ---------------------------------------------------------------------------
+# Web citations (common in Chinese humanities / social-science reference lists)
+# ---------------------------------------------------------------------------
+
+def test_webpage_reference_without_type_code():
+    ref = parse_reference(
+        "[15] Stanford University. Bio-X: About Bio-X. "
+        "http://biox.stanford.edu/about/history.html"
+    )
+    assert ref.doc_type == "EB"
+    assert ref.authors == ["Stanford University"]
+    assert ref.title == "Bio-X: About Bio-X"
+    assert ref.url == "http://biox.stanford.edu/about/history.html"
+    assert ref.venue == ""  # the institution is the author, not the venue
+
+
+def test_webpage_reference_keeps_long_corporate_author_whole():
+    ref = parse_reference(
+        "[17] Harvard John A. Paulson School of Engineering and Applied Sciences. "
+        "PhD in Applied Mathematics. "
+        "https://www.seas.harvard.edu/programs/graduate/applied-mathematics"
+    )
+    assert ref.doc_type == "EB"
+    assert ref.authors == [
+        "Harvard John A. Paulson School of Engineering and Applied Sciences"
+    ]
+    assert ref.title == "PhD in Applied Mathematics"
+
+
+def test_webpage_reference_joins_sub_unit_to_author():
+    ref = parse_reference(
+        "[23] Harvard Medical School. Department of Biomedical Informatics. "
+        "Bioinformatics and Integrative Genomics (BIG) PhD Track. https://bigphd.hms.harvard.edu/"
+    )
+    assert ref.authors == ["Harvard Medical School. Department of Biomedical Informatics"]
+    assert ref.title.startswith("Bioinformatics and Integrative Genomics")
+
+
+def test_apa_style_author_list_continuation_is_not_title():
+    ref = parse_reference(
+        "[22] Sakr, M.F. and Goldstein, S.C. Cloud Computing: 15-619/15-819, "
+        "Carnegie Mellon University. http://www.cs.cmu.edu/~msakr/15619-s24/"
+    )
+    assert ref.authors == ["Sakr, M.F", "Goldstein, S.C"]
+    assert ref.title.startswith("Cloud Computing")
+
+
+def test_initials_without_final_period_are_one_author():
+    ref = parse_reference(
+        "[32] Meyer, A.R. Responsible Research Approach. "
+        "https://people.csail.mit.edu/meyer/AreaII/ethics/page-03.html"
+    )
+    assert ref.authors == ["Meyer, A.R"]
+    assert ref.title == "Responsible Research Approach"
+
+
+def test_cjk_transliterated_author_with_interpunct():
+    ref = parse_reference(
+        "[12] 拉尔夫·泰勒. 课程与教学的基本原理[M]. 施良方, 译. 北京: 人民教育出版社, 1994: 2."
+    )
+    assert ref.authors == ["拉尔夫·泰勒"]
+    assert ref.title == "课程与教学的基本原理"
+    assert ref.doc_type == "M"
+
+
+def test_apa_corporate_author_is_not_split_on_commas():
+    ref = parse_reference(
+        "[26] National Academies of Sciences, Engineering, and Medicine (2018) "
+        "Graduate STEM Education for the 21st Century. The National Academies Press. "
+        "https://doi.org/10.17226/24913"
+    )
+    assert ref.authors == ["National Academies of Sciences, Engineering, and Medicine"]
+    assert ref.title.startswith("Graduate STEM Education")
+
+
+def test_webpage_apa_entry_with_url_tail_is_eb():
+    ref = parse_reference(
+        "[35] Yale University, Graduate School of Arts and Sciences (2021) "
+        "Sharing the Report of the Humanities Doctoral Education Advisory Working Group. "
+        "https://gsas.yale.edu/about/news-announcements/sharing-report"
+    )
+    assert ref.doc_type == "EB"
+    assert ref.authors == ["Yale University, Graduate School of Arts and Sciences"]
+    assert ref.title.startswith("Sharing the Report")
+    assert ref.venue == ""
+
+
+def test_doi_digits_are_not_year_publisher_or_pages():
+    """A DOI such as 10.1007/978-1-4614-2062-0 must not yield year 2062."""
+    ref = parse_reference(
+        "[2] Carayannis, E.G., Campbell, D.F. Mode 3 Knowledge Production in "
+        "Quadruple Helix Innovation Systems: 21st-Century Democracy, Innovation, "
+        "and Entrepreneurship for Development[M]. Springer, 29. "
+        "https://doi.org/10.1007/978-1-4614-2062-0, 2012: 29."
+    )
+    assert ref.doc_type == "M"
+    assert ref.year == 2012
+    assert ref.doi == "10.1007/978-1-4614-2062-0"
+    assert ref.publisher != "1007/978-1-4614-2062-0"
+    assert "doi.org" not in ref.publisher

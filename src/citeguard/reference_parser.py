@@ -159,10 +159,14 @@ def _split_apa_entries(text: str) -> list[str]:
 _ENTRY_LETTER_RE = re.compile(r"[A-Za-z\u4e00-\u9fff]")
 # A bare URL/DOI line (e.g. a PDF that prints references as links only) is not a
 # citable reference; keeping it would create a bogus "Major" verdict downstream.
+# PDF page furniture also glues a page number to the link ("550. https://…").
 _URL_ONLY_RE = re.compile(
-    r"^(?:\[\s*\d{1,3}\s*\]\s*)?(?:https?://|www\.|doi\s*[:：]?\s*|10\.\d{4,9}/)\S+$",
+    r"^(?:(?:\[\s*\d{1,3}\s*\]|\d{1,7}[.、)])\s*)*"
+    r"(?:https?://|www\.|doi\s*[:：]?\s*|10\.\d{4,9}/)\S+$",
     re.I,
 )
+# "J. (2017)." — an APA author-initials fragment with no title (split noise).
+_INITIALS_YEAR_RE = re.compile(r"^(?:[A-Z]\.\s*){1,4}(?:[（(]\s*(?:19|20)\d{2}\s*[)）]\.?)?$")
 
 
 def _looks_like_entry(block: str) -> bool:
@@ -175,7 +179,9 @@ def _looks_like_entry(block: str) -> bool:
     # A page number followed by nothing useful ("1177.") is not a reference.
     if re.fullmatch(r"\s*\d{1,5}\s*[.。]?\s*", block):
         return False
-    if _URL_ONLY_RE.match(stripped.rstrip(" .,;，；。")):
+    if _INITIALS_YEAR_RE.match(stripped):
+        return False
+    if _URL_ONLY_RE.match(re.sub(r"\s+", " ", stripped).rstrip(" .,;，；。")):
         return False
     return True
 
@@ -246,7 +252,8 @@ def _looks_like_authors(seg: str) -> bool:
     if re.search(r"[,，、;；]", seg):
         return True
     # Single Chinese author (2-4 chars) or institutional author (e.g., 中国疾病预防控制中心).
-    if re.fullmatch(r"[\u4e00-\u9fff\s]{2,20}", seg.strip()):
+    # Interpuncts are part of transliterated names ("拉尔夫·泰勒").
+    if re.fullmatch(r"[\u4e00-\u9fff·・∙•\s]{2,20}", seg.strip()):
         return True
     # Single English author / a short author string without a period.
     if re.fullmatch(r"[A-Za-z][A-Za-z .'\-]{1,79}", seg.strip()) and len(seg.split()) <= 6:
@@ -254,13 +261,49 @@ def _looks_like_authors(seg: str) -> bool:
     return False
 
 
-_INITIALS_RE = re.compile(r"^(?:[A-Z]\.(?:\s*[A-Z]\.)*|[A-Z])$")
+# Initials are frequently written without the final period ("Meyer, A.R"),
+# especially in web references copied from a page; accept both forms.
+_INITIALS_RE = re.compile(r"^(?:[A-Z]\.?(?:\s*[A-Z]\.?)*)$")
 _LATIN_SURNAME_RE = re.compile(r"^[A-Za-z][A-Za-z'’\-]*$")
 _ET_AL_RE = re.compile(r"^(?:et\s*al\.?|等|等人)$", re.I)
+
+# Corporate authors are common in web/report references ("Stanford University.",
+# "National Academies of Sciences, Engineering, and Medicine"). Splitting those on
+# commas or "and" invents authors and hides the real title, so they are kept whole.
+_ORG_WORD_RE = re.compile(
+    r"\b(?:Universit(?:y|ies|ät|é)|Institute|Institution|College|School|Academ(?:y|ies)|"
+    r"Association|Council|Committee|Ministry|Department|Centre|Center|Foundation|Society|"
+    r"Laborator(?:y|ies)|Agency|Bureau|Commission|Organi[sz]ation|Office|Board|Union|"
+    r"Network|Consortium|Alliance|Federation|Assembly|Library|Museum|Hospital)\b",
+    re.I,
+)
+# A list ending in ", I." / ", I. N." is a complete author entry, not an
+# author/title boundary in the middle of a given name ("Joseph E. | Schwartz").
+_COMPLETE_AUTHOR_END_RE = re.compile(r"(?:^|[,，、]\s*)[A-Z](?:\.[A-Z])*\.?$")
+_AUTHOR_CONTINUATION_RE = re.compile(r"^(?:and|&|et\s+al\.?|等|等人)\b", re.I)
 
 
 def _is_et_al(token: str) -> bool:
     return bool(_ET_AL_RE.match((token or "").strip().strip(".,;，；")))
+
+
+def _is_author_continuation(text: str) -> bool:
+    """'and Goldstein, S.C. …' continues the author list, so it is not the title."""
+    return bool(_AUTHOR_CONTINUATION_RE.match((text or "").strip()))
+
+
+def _is_complete_author_list(text: str) -> bool:
+    return bool(_COMPLETE_AUTHOR_END_RE.search((text or "").strip()))
+
+
+def _looks_like_org(text: str) -> bool:
+    """A corporate author (no sentence colon, name-like length)."""
+    seg = (text or "").strip()
+    if not seg or len(seg) > 130:
+        return False
+    if re.search(r"[:：]", seg):
+        return False
+    return bool(_ORG_WORD_RE.search(seg))
 
 
 def _split_authors(seg: str) -> list[str]:
@@ -308,6 +351,10 @@ def _split_apa_authors(raw: str) -> list[str]:
     raw = (raw or "").strip().rstrip(",，、;； ")
     if not raw:
         return []
+    # Corporate authors read like "National Academies of Sciences, Engineering,
+    # and Medicine" — the commas are part of the name, not author separators.
+    if _looks_like_org(raw):
+        return [re.sub(r"\s+", " ", raw)]
     # "and" / "&" join the last author, so they are author separators too.
     raw = re.sub(r"\s+(?:and|&)\s+|\s*&\s*", ", ", raw, flags=re.I)
     parts = [p.strip() for p in re.split(r"[,，、;；]", raw) if p.strip()]
@@ -340,6 +387,8 @@ def _split_apa_authors(raw: str) -> list[str]:
 
 def _looks_like_initial_split(a: str, t: str) -> bool:
     """True for 'Joseph E. | Schwartz...' — a period after an initial, not the author/title boundary."""
+    if _is_complete_author_list(a):
+        return False
     toks = a.split()
     if len(toks) > 3:
         return False
@@ -374,12 +423,22 @@ def _split_authors_title(left: str) -> tuple[list[str], str]:
         t = left[m.end() :].strip()
         if not t:
             continue
+        if _is_author_continuation(t):
+            continue
         if _looks_like_initial_split(a, t):
             continue
+        if re.search(r"[:：]", a):
+            # "Wang, L. Machine Learning: A Review" — a colon means a title.
+            continue
+        if _looks_like_org(a):
+            return [a], _clean(t)
         if _looks_like_authors(a):
             return _split_authors(a), _clean(t)
     # Fallback: Chinese refs often use '．' without space; try first Chinese author run.
-    m = re.match(r"^([\u4e00-\u9fff]{2,4}(?:[,，、][\u4e00-\u9fff]{2,4})*)\s*[\.．]\s*(.+)$", left)
+    m = re.match(
+        r"^([\u4e00-\u9fff·・∙•]{2,12}(?:[,，、][\u4e00-\u9fff·・∙•]{2,12})*)\s*[\.．]\s*(.+)$",
+        left,
+    )
     if m:
         return _split_authors(m.group(1)), _clean(m.group(2))
     # "宋玉茹, 题名[J]..." — a single author followed by a comma, no period.
@@ -396,7 +455,95 @@ def _first_segment(right: str) -> str:
     right = IN_PREFIX_RE.sub("", right)
     m = re.search(r"[\.．]\s+|,\s*(?=(?:19|20)\d{2})|,\s*(?=\d+\s*[（(])", right)
     seg = right[: m.start()] if m else right
+    # A venue is never a link/DOI; those are appended by some journal styles.
+    seg = URL_RE.sub(" ", seg)
+    dm = DOI_RE.search(seg)
+    if dm:
+        seg = seg[: dm.start()]
     return _clean(seg)
+
+
+def _clean_title_ids(title: str, url: str = "", doi: str = "") -> str:
+    """Drop links / DOIs / access dates that leak into the title field."""
+    out = title or ""
+    for token in (url, doi):
+        if token:
+            out = out.replace(token, " ")
+    out = re.sub(r"https?://\S+", " ", out)
+    out = re.sub(r"\s*[\[(（]\s*(?:19|20)\d{2}-\d{2}-\d{2}\s*[\])）]\s*$", "", out)
+    return _clean(re.sub(r"\s+", " ", out))
+
+
+def _looks_like_webpage(text: str) -> bool:
+    """A pure web citation: a URL, no publication year and no volume/issue.
+
+    Chinese journals often append a URL to an otherwise normal journal entry;
+    those keep their inferred ``J`` type because they have a year.
+    """
+    if not URL_RE.search(text or ""):
+        return False
+    stripped = URL_RE.sub(" ", text or "")
+    if YEAR_RE.search(stripped):
+        return False
+    if VOL_ISSUE_RE.search(stripped):
+        return False
+    return True
+
+
+def _merge_web_segments(segs: list[str]) -> list[str]:
+    """Join segments that belong to the corporate author, not the title.
+
+    "Harvard John A." + "Paulson School …" is one name (initial, not a full
+    stop); "and Goldstein, S.C." continues the author list.
+    """
+    merged: list[str] = []
+    for seg in segs:
+        if merged and _is_author_continuation(seg):
+            merged[-1] = f"{merged[-1]}. {seg}"
+            continue
+        if merged and re.search(r"\b[A-Z]$", merged[-1]):
+            merged[-1] = f"{merged[-1]}. {seg}"
+            continue
+        merged.append(seg)
+    return merged
+
+
+def _split_webpage(text: str) -> tuple[list[str], str]:
+    """Split ``机构/作者. 题名. 链接`` (type marker lost) into author and title.
+
+    The URL is never part of the title and the leading segment is the (often
+    corporate) author.  Returns ``([], "")`` when the layout is not that clear,
+    so the generic splitter can decide.
+    """
+    without_url = _clean(URL_RE.sub(" ", text or ""))
+    segs = [s.strip() for s in re.split(r"[\.．]\s+", without_url) if s.strip()]
+    segs = _merge_web_segments(segs)
+    if len(segs) < 2:
+        return [], ""
+    # "Harvard Medical School. Department of Biomedical Informatics. <title>"
+    # — a sub-unit belongs to the corporate author, not to the title.
+    while len(segs) > 2 and re.match(
+        r"^(?:Department|Division|Institute|Centre|Center|School|College|Faculty|"
+        r"Office|Programme|Program|Graduate School)\b",
+        segs[1],
+        re.I,
+    ):
+        segs[0] = f"{segs[0]}. {segs[1]}"
+        segs.pop(1)
+    head = _clean(segs[0])
+    if not head or len(head) > 130:
+        return [], ""
+    if not (_looks_like_org(head) or _looks_like_authors(head)):
+        return [], ""
+    if _is_author_continuation(head):
+        return [], ""
+    title = _clean(". ".join(segs[1:]))
+    if not title or _URL_ONLY_RE.match(title):
+        return [], ""
+    # Keep a corporate author whole: splitting it on commas / "and" invents
+    # authors ("National Academies of Sciences, Engineering, and Medicine").
+    authors = [head] if _looks_like_org(head) else _split_authors(head)
+    return authors, title
 
 
 def parse_reference(raw: str, index: Optional[int] = None) -> Reference:
@@ -447,31 +594,50 @@ def parse_reference(raw: str, index: Optional[int] = None) -> Reference:
                 ref.doc_type = inferred
                 ref.extra["type_inferred"] = inferred
         else:
-            ref.doc_type = "J" if (ref.doi or ref.url) else ""
+            if ref.doi:
+                ref.doc_type = "J"
+            elif ref.url:
+                # A URL without a year/volume and without a type code is a web
+                # citation (GB/T 7714 type EB), not a journal article.
+                ref.doc_type = "EB" if _looks_like_webpage(text) else "J"
+            else:
+                ref.doc_type = ""
             left, right = text, text
+            if ref.doc_type == "EB":
+                authors, title = _split_webpage(text)
+                if title:
+                    ref.authors, ref.title = authors, title
 
     if not tm and _parse_apa(ref, text):
+        ref.title = _clean_title_ids(ref.title, ref.url, ref.doi)
         return ref
 
-    ref.authors, ref.title = _split_authors_title(left)
+    if not ref.title:
+        ref.authors, ref.title = _split_authors_title(left)
+    ref.title = _clean_title_ids(ref.title, ref.url, ref.doi)
 
-    ym = YEAR_RE.search(right) or YEAR_RE.search(text)
+    # DOIs/URLs carry 4-digit runs and "/" that look like years, volume or pages
+    # ("10.1007/978-1-4614-2062-0" has neither a 2062 year nor a page "29").
+    right_fields = URL_RE.sub(" ", DOI_RE.sub(" ", right or ""))
+    text_fields = URL_RE.sub(" ", DOI_RE.sub(" ", text))
+
+    ym = YEAR_RE.search(right_fields) or YEAR_RE.search(text_fields)
     if ym:
         ref.year = int(ym.group(1))
 
-    vm = VOL_ISSUE_RE.search(right)
+    vm = VOL_ISSUE_RE.search(right_fields)
     if vm:
         ref.volume, ref.issue = vm.group(1), vm.group(2)
     else:
         # English style: "Vol. 45, No. 3"
-        vol_m = VOL_NO_RE.search(right)
+        vol_m = VOL_NO_RE.search(right_fields)
         if vol_m:
             ref.volume = vol_m.group(1)
-        iss_m = ISS_NO_RE.search(right)
+        iss_m = ISS_NO_RE.search(right_fields)
         if iss_m:
             ref.issue = iss_m.group(1)
     # Do not let a DOI/NBN prefix be mistaken for a page range.
-    right_no_id = DOI_RE.sub("", right)
+    right_no_id = right_fields
     pm = PAGES_RE.search(right_no_id)
     if pm:
         ref.pages = f"{pm.group(1)}-{pm.group(2)}"
@@ -494,9 +660,9 @@ def parse_reference(raw: str, index: Optional[int] = None) -> Reference:
     ref.venue = _first_segment(right) if ref.doc_type in {"J", "C", "N"} or not ref.doc_type else ""
 
     if ref.doc_type == "M":
-        _parse_book_fields(ref, right)
+        _parse_book_fields(ref, right_fields)
     elif ref.doc_type == "D":
-        _parse_thesis_fields(ref, right)
+        _parse_thesis_fields(ref, right_fields)
     elif ref.doc_type == "R":
         rm = REPORT_NO_RE.search(text)
         if rm:
@@ -524,31 +690,42 @@ def parse_reference(raw: str, index: Optional[int] = None) -> Reference:
     return ref
 
 
+def _is_clean_field(text: str) -> bool:
+    """A publisher/institution field is not a URL or a DOI fragment."""
+    if not text or URL_RE.search(text) or DOI_RE.search(text):
+        return False
+    return not re.search(r"\d{4,9}/", text)
+
+
 def _parse_book_fields(ref: Reference, right: str) -> None:
     # 出版地: 出版者, 年
     m = re.search(r"([^:：.．]+)[:：]\s*([^,，.．]+)[,，]\s*((?:19|20)\d{2})", right)
     if m:
-        ref.place = _clean(m.group(1))
-        ref.publisher = _clean(m.group(2))
+        if _is_clean_field(m.group(1)):
+            ref.place = _clean(m.group(1))
+        if _is_clean_field(m.group(2)):
+            ref.publisher = _clean(m.group(2))
         if not ref.year:
             ref.year = int(m.group(3))
     else:
         # Fallback: 出版者, 年
         m2 = re.search(r"([^,，.．]+)[,，]\s*((?:19|20)\d{2})", right)
-        if m2:
+        if m2 and _is_clean_field(m2.group(1)):
             ref.publisher = _clean(m2.group(1))
 
 
 def _parse_thesis_fields(ref: Reference, right: str) -> None:
     m = re.search(r"([^:：.．]+)[:：]\s*([^,，.．]+)[,，]\s*((?:19|20)\d{2})", right)
     if m:
-        ref.place = _clean(m.group(1))
-        ref.institution = _clean(m.group(2))
+        if _is_clean_field(m.group(1)):
+            ref.place = _clean(m.group(1))
+        if _is_clean_field(m.group(2)):
+            ref.institution = _clean(m.group(2))
         if not ref.year:
             ref.year = int(m.group(3))
     else:
         m2 = re.search(r"([^,，.．]+)[,，]\s*((?:19|20)\d{2})", right)
-        if m2:
+        if m2 and _is_clean_field(m2.group(1)):
             ref.institution = _clean(m2.group(1))
 
 
@@ -590,21 +767,27 @@ def _parse_apa(ref: "Reference", text: str) -> bool:
         # "作者(年). 书名." — a standalone book/thesis-like entry.
         ref.doc_type = "M"
         return True
+    if URL_RE.match(tail) or re.match(r"^(?:https?://|www\.)", tail, re.I):
+        # "机构(年). 网页题名. https://…" — a web citation, not a journal article.
+        ref.doc_type = "EB"
+        return True
 
     # Venue: text before the volume/issue or the year-ish part.
-    vm = VOL_ISSUE_RE.search(tail)
-    head = tail[: vm.start()].strip() if vm else tail
+    tail_fields = _clean_title_ids(tail, ref.url, ref.doi)
+    vm = VOL_ISSUE_RE.search(tail_fields)
+    head = tail_fields[: vm.start()].strip() if vm else tail_fields
     head = re.sub(r"[,，]\s*$", "", head).strip()
     ref.venue = _clean(head)
-    if BOOK_HINT_RE.search(tail) and not vm:
+    if BOOK_HINT_RE.search(tail_fields) and not vm:
         ref.doc_type = "M"
-        ref.publisher = ref.venue
+        # "Springer, 29." — the trailing number is a page, not the publisher.
+        ref.publisher = re.sub(r"[,，]\s*\d{1,6}$", "", ref.venue).strip() or ref.venue
         ref.venue = ""
     else:
         ref.doc_type = "J"
     if vm:
         ref.volume, ref.issue = vm.group(1), vm.group(2)
-    after_vol = tail[vm.end() :] if vm else tail
+    after_vol = tail_fields[vm.end() :] if vm else tail_fields
     pm = re.search(r"[,，:：]\s*(\d+)\s*[-–—~～]\s*(\d+)", after_vol)
     if pm:
         ref.pages = f"{pm.group(1)}-{pm.group(2)}"

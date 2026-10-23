@@ -3,9 +3,9 @@
     "papers": 20,
     "refs": 409,
     "status": {
-      "Minor": 93,
-      "Exact": 106,
-      "Unverified": 210
+      "Minor": 89,
+      "Exact": 112,
+      "Unverified": 208
     },
     "major_reasons": {},
     "major_rate": 0.0,
@@ -21,7 +21,7 @@
         "Li, X."
       ],
       "year": 2025,
-      "venue": "Computational Methods and Function Theory, 25, 645-662. http",
+      "venue": "Computational Methods and Function Theory, 25, 645-662",
       "doi": "10.1007/s40315-024-00548-1",
       "status": "Minor",
       "doi_status": "resolved",
@@ -46,15 +46,13 @@
       "year": 2021,
       "venue": "Journal of Difference Equations and Applications, 27, 1280-1",
       "doi": "10.1080/10236198.2021.1982919",
-      "status": "Minor",
+      "status": "Exact",
       "doi_status": "resolved",
       "title_sim": 1.0,
-      "mismatches": [
-        "venue"
-      ],
+      "mismatches": [],
       "notes": [
         "DOI 10.1080/10236198.2021.1982919 resolved",
-        "DOI resolved; metadata mismatch: venue"
+        "DOI resolved; checked fields match"
       ]
     },
     {
@@ -128,7 +126,7 @@
         "Yang, C.C."
       ],
       "year": 1999,
-      "venue": "Kodai Mathematical Journal, 22, 273-285. https://doi.org/10.",
+      "venue": "Kodai Mathematical Journal, 22, 273-285",
       "doi": "10.2996/kmj/1138044047",
       "status": "Exact",
       "doi_status": "resolved",
@@ -147,7 +145,7 @@
         "Laine, I."
       ],
       "year": 1993,
-      "venue": "Walter de Gruyter. https://doi.org/10.1515/9783110863147",
+      "venue": "Walter de Gruyter",
       "doi": "10.1515/9783110863147",
       "status": "Exact",
       "doi_status": "resolved",
@@ -168,7 +166,7 @@
         "Zemirni, M.A."
       ],
       "year": 2021,
-      "venue": "Canadian Journal of Mathematics, 73, 1556-1591. https://doi.",
+      "venue": "Canadian Journal of Mathematics, 73, 1556-1591",
       "doi": "10.4153/s0008414x20000607",
       "status": "Minor",
       "doi_status": "resolved",
@@ -562,7 +560,7 @@
         "Teasdale, J. D."
       ],
       "year": 1978,
-      "venue": "Journal of Abnormal Psychology, 87, 49-74. https://doi.org/1",
+      "venue": "Journal of Abnormal Psychology, 87, 49-74",
       "doi": "10.1037/0021-843x.87.1.49",
       "status": "Exact",
       "doi_status": "resolved",
@@ -625,7 +623,7 @@
         "Bronfenbrenner, U."
       ],
       "year": 1977,
-      "venue": "American Psychologist, 32, 513-531. https://doi.org/10.1037/",
+      "venue": "American Psychologist, 32, 513-531",
       "doi": "10.1037/0003-066x.32.7.513",
       "status": "Exact",
       "doi_status": "resolved",
@@ -645,7 +643,7 @@
         "Busseri, M. A."
       ],
       "year": 2019,
-      "venue": "Journal of Health Psychology, 24, 979-988. https://doi.org/1",
+      "venue": "Journal of Health Psychology, 24, 979-988",
       "doi": "10.1177/1359105316689143",
       "status": "Minor",
       "doi_status": "resolved",
@@ -667,7 +665,7 @@
         "Xie, J."
       ],
       "year": 2026,
-      "venue": "Current Psychology, 45, Article No. 1139. https://doi.org/10",
+      "venue": "Current Psychology, 45, Article No. 1139",
       "doi": "10.1007/s12144-026-09706-1",
       "status": "Exact",
       "doi_status": "resolved",
@@ -687,7 +685,7 @@
         "Andersen, B. L."
       ],
       "year": 1998,
-      "venue": "Journal of Personality and Social Psychology, 74, 1364-1379.",
+      "venue": "Journal of Personality and Social Psychology, 74, 1364-1379",
       "doi": "10.1037/0022-3514.74.5.1364",
       "status": "Exact",
       "doi_status": "resolved",
@@ -708,7 +706,7 @@
         "Hong, Y."
       ],
       "year": 1995,
-      "venue": "Psychological Inquiry, 6, 267-285. https://doi.org/10.1207/s",
+      "venue": "Psychological Inquiry, 6, 267-285",
       "doi": "10.1207/s15327965pli0604_1",
       "status": "Exact",
       "doi_status": "resolved",
@@ -729,7 +727,7 @@
         "Whipple, S. S."
       ],
       "year": 2013,
-      "venue": "Psychological Bulletin, 139, 1342-1396. https://doi.org/10.1",
+      "venue": "Psychological Bulletin, 139, 1342-1396",
       "doi": "10.1037/a0031808",
       "status": "Exact",
       "doi_status": "resolved",
@@ -750,7 +748,7 @@
         "Smith, B."
       ],
       "year": 2006,
-      "venue": "Psychological Medicine, 36, 749-759. https://doi.org/10.1017",
+      "venue": "Psychological Medicine, 36, 749-759",
       "doi": "10.1017/s0033291706007355",
       "status": "Exact",
       "doi_status": "resolved",
@@ -770,7 +768,7 @@
         "Buehler, C."
       ],
       "year": 2004,
-      "venue": "Child Development, 75, 1832-1849. https://doi.org/10.1111/j.",
+      "venue": "Child Development, 75, 1832-1849",
       "doi": "10.1111/j.1467-8624.2004.00820.x",
       "status": "Exact",
       "doi_status": "resolved",
@@ -791,7 +789,7 @@
         "Li, X."
       ],
       "year": 2012,
-      "venue": "Journal of Adolescence, 35, 55-66. https://doi.org/10.1016/j",
+      "venue": "Journal of Adolescence, 35, 55-66",
       "doi": "10.1016/j.adolescence.2011.06.005",
       "status": "Minor",
       "doi_status": "resolved",
@@ -814,17 +812,15 @@
         "Lippke, S."
       ],
       "year": 2011,
-      "venue": "Psychology & Health, 26, 151-166. https://doi.org/10.1080/08",
+      "venue": "Psychology & Health, 26, 151-166",
       "doi": "10.1080/08870446.2011.531571",
-      "status": "Minor",
+      "status": "Exact",
       "doi_status": "resolved",
       "title_sim": 1.0,
-      "mismatches": [
-        "venue"
-      ],
+      "mismatches": [],
       "notes": [
         "DOI 10.1080/08870446.2011.531571 resolved",
-        "DOI resolved; metadata mismatch: venue"
+        "DOI resolved; checked fields match"
       ]
     },
     {
@@ -835,7 +831,7 @@
         "Markus, H."
       ],
       "year": 1977,
-      "venue": "Journal of Personality and Social Psychology, 35, 63-78. htt",
+      "venue": "Journal of Personality and Social Psychology, 35, 63-78",
       "doi": "10.1037/0022-3514.35.2.63",
       "status": "Exact",
       "doi_status": "resolved",
@@ -854,7 +850,7 @@
         "Masten, A. S."
       ],
       "year": 2001,
-      "venue": "American Psychologist, 56, 227-238. https://doi.org/10.1037/",
+      "venue": "American Psychologist, 56, 227-238",
       "doi": "10.1037/0003-066x.56.3.227",
       "status": "Exact",
       "doi_status": "resolved",
@@ -875,17 +871,18 @@
         "Blum"
       ],
       "year": 1997,
-      "venue": "Journal of the American Medical Association, 278, 823-832. h",
+      "venue": "Journal of the American Medical Association, 278, 823-832",
       "doi": "10.1001/jama.1997.03550100049038",
       "status": "Minor",
       "doi_status": "resolved",
       "title_sim": 1.0,
       "mismatches": [
+        "venue",
         "pages"
       ],
       "notes": [
         "DOI 10.1001/jama.1997.03550100049038 resolved",
-        "DOI resolved; metadata mismatch: pages"
+        "DOI resolved; metadata mismatch: venue,pages"
       ]
     },
     {
@@ -896,7 +893,7 @@
         "Steinberg, L."
       ],
       "year": 2010,
-      "venue": "Developmental Psychobiology, 52, 216-224. https://doi.org/10",
+      "venue": "Developmental Psychobiology, 52, 216-224",
       "doi": "10.1002/dev.20445",
       "status": "Exact",
       "doi_status": "resolved",
@@ -915,7 +912,7 @@
         "Weiner, B."
       ],
       "year": 1985,
-      "venue": "Psychological Review, 92, 548-573. https://doi.org/10.1037/0",
+      "venue": "Psychological Review, 92, 548-573",
       "doi": "10.1037/0033-295x.92.4.548",
       "status": "Exact",
       "doi_status": "resolved",
@@ -1130,7 +1127,7 @@
         "Abu Bakar"
       ],
       "year": 2022,
-      "venue": "Children, 9, Article 228. https://doi.org/10.3390/children90",
+      "venue": "Children, 9, Article 228",
       "doi": "10.3390/children9020228",
       "status": "Minor",
       "doi_status": "resolved",
@@ -1151,7 +1148,7 @@
         "Bandura, A."
       ],
       "year": 1977,
-      "venue": "Psychological Review, 84, 191-215. https://doi.org/10.1037/0",
+      "venue": "Psychological Review, 84, 191-215",
       "doi": "10.1037/0033-295X.84.2.191",
       "status": "Exact",
       "doi_status": "resolved",
@@ -1170,7 +1167,7 @@
         "Bandura, A."
       ],
       "year": 1978,
-      "venue": "Journal of Communication, 28, 12-29. https://doi.org/10.1111",
+      "venue": "Journal of Communication, 28, 12-29",
       "doi": "10.1111/j.1460-2466.1978.tb01621.x",
       "status": "Exact",
       "doi_status": "resolved",
@@ -1189,7 +1186,7 @@
         "Baumrind, D."
       ],
       "year": 1971,
-      "venue": "Developmental Psychology Monographs, 4, 1-103. https://doi.o",
+      "venue": "Developmental Psychology Monographs, 4, 1-103",
       "doi": "10.1037/h0030372",
       "status": "Exact",
       "doi_status": "resolved",
@@ -1247,7 +1244,7 @@
         "Burgoon, J. K."
       ],
       "year": 1993,
-      "venue": "Journal of Language and Social Psychology, 12, 30-48. https:",
+      "venue": "Journal of Language and Social Psychology, 12, 30-48",
       "doi": "10.1177/0261927x93121003",
       "status": "Exact",
       "doi_status": "resolved",
@@ -1268,7 +1265,7 @@
         "Chen, P. H."
       ],
       "year": 2022,
-      "venue": "Journal of Pediatric Nursing, 64, e24-e31. https://doi.org/1",
+      "venue": "Journal of Pediatric Nursing, 64, e24-e31",
       "doi": "10.1016/j.pedn.2022.01.009",
       "status": "Minor",
       "doi_status": "resolved",
@@ -1290,7 +1287,7 @@
         "Paley, B."
       ],
       "year": 2003,
-      "venue": "Current Directions in Psychological Science, 12, 193-196. ht",
+      "venue": "Current Directions in Psychological Science, 12, 193-196",
       "doi": "10.1111/1467-8721.01259",
       "status": "Exact",
       "doi_status": "resolved",
@@ -1311,7 +1308,7 @@
         "Fraser, A. M."
       ],
       "year": 2014,
-      "venue": "Journal of Adolescent Research, 29, 663-688. https://doi.org",
+      "venue": "Journal of Adolescent Research, 29, 663-688",
       "doi": "10.1177/0743558414538316",
       "status": "Exact",
       "doi_status": "resolved",
@@ -1332,7 +1329,7 @@
         "Holmgren, H. G."
       ],
       "year": 2023,
-      "venue": "Journal of Children and Media, 17, 318-335. https://doi.org/",
+      "venue": "Journal of Children and Media, 17, 318-335",
       "doi": "10.1080/17482798.2023.2200958",
       "status": "Exact",
       "doi_status": "resolved",
@@ -1353,7 +1350,7 @@
         "Gale, M."
       ],
       "year": 2021,
-      "venue": "Computers in Human Behavior, 120, Article ID: 106762. https:",
+      "venue": "Computers in Human Behavior, 120, Article ID: 106762",
       "doi": "10.1016/j.chb.2021.106762",
       "status": "Minor",
       "doi_status": "resolved",
@@ -1376,7 +1373,7 @@
         "Adawiyah, R."
       ],
       "year": 2019,
-      "venue": "Majalah Kedokteran Bandung, 51, 46-52. https://doi.org/10.15",
+      "venue": "Majalah Kedokteran Bandung, 51, 46-52",
       "doi": "10.15395/mkb.v51n1.1577",
       "status": "Exact",
       "doi_status": "resolved",
@@ -1397,7 +1394,7 @@
         "Radesky, J. S."
       ],
       "year": 2020,
-      "venue": "Human Behavior and Emerging Technologies, 2, 343-353. https:",
+      "venue": "Human Behavior and Emerging Technologies, 2, 343-353",
       "doi": "10.1002/hbe2.217",
       "status": "Exact",
       "doi_status": "resolved",
@@ -1418,7 +1415,7 @@
         "Gearhardt, A. N."
       ],
       "year": 2019,
-      "venue": "Psychology of Popular Media Culture, 8, 2-11. https://doi.or",
+      "venue": "Psychology of Popular Media Culture, 8, 2-11",
       "doi": "10.1037/ppm0000163",
       "status": "Minor",
       "doi_status": "resolved",
@@ -1441,7 +1438,7 @@
         "Oostra, L."
       ],
       "year": 1998,
-      "venue": "Journal of Adolescence, 21, 305-322. https://doi.org/10.1006",
+      "venue": "Journal of Adolescence, 21, 305-322",
       "doi": "10.1006/jado.1998.0155",
       "status": "Exact",
       "doi_status": "resolved",
@@ -1461,7 +1458,7 @@
         "Saglam, M."
       ],
       "year": 2025,
-      "venue": "Annales Médico-Psychologiques, 183, 429-438. https://doi.org",
+      "venue": "Annales Médico-Psychologiques, 183, 429-438",
       "doi": "10.1016/j.amp.2024.11.003",
       "status": "Minor",
       "doi_status": "resolved",
@@ -1484,7 +1481,7 @@
         "Rispler, J."
       ],
       "year": 2021,
-      "venue": "Frontiers in Psychology, 12, Article 616656. https://doi.org",
+      "venue": "Frontiers in Psychology, 12, Article 616656",
       "doi": "10.3389/fpsyg.2021.616656",
       "status": "Exact",
       "doi_status": "resolved",
@@ -1505,7 +1502,7 @@
         "Weng, W."
       ],
       "year": 2024,
-      "venue": "Psychology Research and Behavior Management, 17, 3083-3100. ",
+      "venue": "Psychology Research and Behavior Management, 17, 3083-3100",
       "doi": "10.2147/prbm.s471208",
       "status": "Exact",
       "doi_status": "resolved",
@@ -1524,7 +1521,7 @@
         "McDaniel, B. T."
       ],
       "year": 2019,
-      "venue": "Human Behavior and Emerging Technologies, 1, 72-80. https://",
+      "venue": "Human Behavior and Emerging Technologies, 1, 72-80",
       "doi": "10.1002/hbe2.139",
       "status": "Exact",
       "doi_status": "resolved",
@@ -1545,7 +1542,7 @@
         "Moon, N. J."
       ],
       "year": 2016,
-      "venue": "BMC Ophthalmology, 16, Article No. 188. https://doi.org/10.1",
+      "venue": "BMC Ophthalmology, 16, Article No. 188",
       "doi": "10.1186/s12886-016-0364-4",
       "status": "Minor",
       "doi_status": "resolved",
@@ -1568,7 +1565,7 @@
         "Gui, M."
       ],
       "year": 2021,
-      "venue": "Journal of Social and Personal Relationships, 38, 435-458. h",
+      "venue": "Journal of Social and Personal Relationships, 38, 435-458",
       "doi": "10.1177/0265407520964866",
       "status": "Minor",
       "doi_status": "resolved",
@@ -1610,7 +1607,7 @@
         "Barnes, J. D."
       ],
       "year": 2022,
-      "venue": "Acta Paediatrica, 111, 825-833. https://doi.org/10.1111/apa.",
+      "venue": "Acta Paediatrica, 111, 825-833",
       "doi": "10.1111/apa.16253",
       "status": "Exact",
       "doi_status": "resolved",
@@ -1631,7 +1628,7 @@
         "Ball, R."
       ],
       "year": 2020,
-      "venue": "Pediatrics, 146, e20193518. https://doi.org/10.1542/peds.201",
+      "venue": "Pediatrics, 146, e20193518",
       "doi": "10.1542/peds.2019-3518",
       "status": "Exact",
       "doi_status": "resolved",
@@ -1674,7 +1671,7 @@
         "Brickman, D."
       ],
       "year": 2008,
-      "venue": "Psychological Science, 19, 968-972. https://doi.org/10.1111/",
+      "venue": "Psychological Science, 19, 968-972",
       "doi": "10.1111/j.1467-9280.2008.02184.x",
       "status": "Exact",
       "doi_status": "resolved",
@@ -1695,7 +1692,7 @@
         "Sun, S."
       ],
       "year": 1999,
-      "venue": "The Journal of Psychology, 133, 377-393. https://doi.org/10.",
+      "venue": "The Journal of Psychology, 133, 377-393",
       "doi": "10.1080/00223989909599750",
       "status": "Exact",
       "doi_status": "resolved",
@@ -1716,7 +1713,7 @@
         "Linder, L."
       ],
       "year": 2024,
-      "venue": "Infancy, 29, 137-154. https://doi.org/10.1111/infa.12570",
+      "venue": "Infancy, 29, 137-154",
       "doi": "10.1111/infa.12570",
       "status": "Minor",
       "doi_status": "resolved",
@@ -1739,7 +1736,7 @@
         "Shawcroft, J."
       ],
       "year": 2023,
-      "venue": "Journal of Children and Media, 17, 443-466. https://doi.org/",
+      "venue": "Journal of Children and Media, 17, 443-466",
       "doi": "10.1080/17482798.2023.2230321",
       "status": "Exact",
       "doi_status": "resolved",
@@ -1987,7 +1984,7 @@
         "Bluck, S."
       ],
       "year": 2007,
-      "venue": "Applied Cognitive Psychology, 21, 1091-1111. https://doi.org",
+      "venue": "Applied Cognitive Psychology, 21, 1091-1111",
       "doi": "10.1002/acp.1316",
       "status": "Minor",
       "doi_status": "resolved",
@@ -2032,7 +2029,7 @@
         "Habermas, T."
       ],
       "year": 2001,
-      "venue": "Review of General Psychology, 5, 135-147. https://doi.org/10",
+      "venue": "Review of General Psychology, 5, 135-147",
       "doi": "10.1037/1089-2680.5.2.135",
       "status": "Exact",
       "doi_status": "resolved",
@@ -2053,7 +2050,7 @@
         "Habermas, T."
       ],
       "year": 2005,
-      "venue": "Social Cognition, 23, 91-117. https://doi.org/10.1521/soco.2",
+      "venue": "Social Cognition, 23, 91-117",
       "doi": "10.1521/soco.23.1.91.59198",
       "status": "Exact",
       "doi_status": "resolved",
@@ -2074,7 +2071,7 @@
         "Ulitzsch, E."
       ],
       "year": 2021,
-      "venue": "Frontiers in Psychology, 12, Article 604526. https://doi.org",
+      "venue": "Frontiers in Psychology, 12, Article 604526",
       "doi": "10.3389/fpsyg.2021.604526",
       "status": "Exact",
       "doi_status": "resolved",
@@ -2159,7 +2156,7 @@
         "Read, S. J."
       ],
       "year": 1990,
-      "venue": "Journal of Personality and Social Psychology, 58, 644-663. h",
+      "venue": "Journal of Personality and Social Psychology, 58, 644-663",
       "doi": "10.1037/0022-3514.58.4.644",
       "status": "Exact",
       "doi_status": "resolved",
@@ -2179,7 +2176,7 @@
         "Pleydell-Pearce, C. W."
       ],
       "year": 2000,
-      "venue": "Psychological Review, 107, 261-288. https://doi.org/10.1037/",
+      "venue": "Psychological Review, 107, 261-288",
       "doi": "10.1037/0033-295x.107.2.261",
       "status": "Exact",
       "doi_status": "resolved",
@@ -2199,7 +2196,7 @@
         "Lafontaine, M."
       ],
       "year": 2017,
-      "venue": "Personal Relationships, 24, 640-662. https://doi.org/10.1111",
+      "venue": "Personal Relationships, 24, 640-662",
       "doi": "10.1111/pere.12203",
       "status": "Exact",
       "doi_status": "resolved",
@@ -2219,7 +2216,7 @@
         "Shaver, P."
       ],
       "year": 1987,
-      "venue": "Journal of Personality and Social Psychology, 52, 511-524. h",
+      "venue": "Journal of Personality and Social Psychology, 52, 511-524",
       "doi": "10.1037/0022-3514.52.3.511",
       "status": "Exact",
       "doi_status": "resolved",
@@ -2263,7 +2260,7 @@
         "Dweck, C."
       ],
       "year": 2006,
-      "venue": "Personality and Social Psychology Bulletin, 32, 1497-1508. h",
+      "venue": "Personality and Social Psychology Bulletin, 32, 1497-1508",
       "doi": "10.1177/0146167206291476",
       "status": "Exact",
       "doi_status": "resolved",
@@ -2282,7 +2279,7 @@
         "Knee, C. R."
       ],
       "year": 1998,
-      "venue": "Journal of Personality and Social Psychology, 74, 360-370. h",
+      "venue": "Journal of Personality and Social Psychology, 74, 360-370",
       "doi": "10.1037/0022-3514.74.2.360",
       "status": "Exact",
       "doi_status": "resolved",
@@ -2322,7 +2319,7 @@
         "Lonsbary, C."
       ],
       "year": 2003,
-      "venue": "Personality and Social Psychology Review, 7, 41-55. https://",
+      "venue": "Personality and Social Psychology Review, 7, 41-55",
       "doi": "10.1207/s15327957pspr0701_3",
       "status": "Exact",
       "doi_status": "resolved",
@@ -2343,7 +2340,7 @@
         "Steel, C."
       ],
       "year": 2023,
-      "venue": "Clinical Psychology Review, 101, Article ID: 102254. https:/",
+      "venue": "Clinical Psychology Review, 101, Article ID: 102254",
       "doi": "10.1016/j.cpr.2023.102254",
       "status": "Minor",
       "doi_status": "resolved",
@@ -2389,7 +2386,7 @@
         "Shepherd, K."
       ],
       "year": 2013,
-      "venue": "Journal of Abnormal Psychology, 122, 339-352. https://doi.or",
+      "venue": "Journal of Abnormal Psychology, 122, 339-352",
       "doi": "10.1037/a0031994",
       "status": "Exact",
       "doi_status": "resolved",
@@ -2430,7 +2427,7 @@
         "Noirot, M."
       ],
       "year": 1999,
-      "venue": "Journal of Social and Personal Relationships, 16, 147-173. h",
+      "venue": "Journal of Social and Personal Relationships, 16, 147-173",
       "doi": "10.1177/0265407599162002",
       "status": "Exact",
       "doi_status": "resolved",
@@ -2490,7 +2487,7 @@
         "Bai, X."
       ],
       "year": 2023,
-      "venue": "IEEE Transactions on Image Processing, 32, 2132-2146. https:",
+      "venue": "IEEE Transactions on Image Processing, 32, 2132-2146",
       "doi": "10.1109/tip.2023.3263102",
       "status": "Exact",
       "doi_status": "resolved",
@@ -2511,18 +2508,17 @@
         "Huang, J."
       ],
       "year": 2024,
-      "venue": "Tsinghua Science and Technology, 29, 216-231. https://doi.or",
+      "venue": "Tsinghua Science and Technology, 29, 216-231",
       "doi": "10.26599/tst.2023.9010006",
       "status": "Minor",
       "doi_status": "resolved",
       "title_sim": 1.0,
       "mismatches": [
-        "year",
-        "venue"
+        "year"
       ],
       "notes": [
         "DOI 10.26599/tst.2023.9010006 resolved",
-        "DOI resolved; metadata mismatch: year,venue"
+        "DOI resolved; metadata mismatch: year"
       ]
     },
     {
@@ -2535,7 +2531,7 @@
         "Liu, H."
       ],
       "year": 2025,
-      "venue": "IEEE Transactions on Image Processing, 34, 7919-7929. https:",
+      "venue": "IEEE Transactions on Image Processing, 34, 7919-7929",
       "doi": "10.1109/tip.2025.3636098",
       "status": "Exact",
       "doi_status": "resolved",
@@ -2556,7 +2552,7 @@
         "Qu, J."
       ],
       "year": 2025,
-      "venue": "Information Fusion, 120, Article 103105. https://doi.org/10.",
+      "venue": "Information Fusion, 120, Article 103105",
       "doi": "10.1016/j.inffus.2025.103105",
       "status": "Minor",
       "doi_status": "resolved",
@@ -2579,7 +2575,7 @@
         "Ding, W."
       ],
       "year": 2026,
-      "venue": "IEEE Transactions on Fuzzy Systems, 34, 966-980. https://doi",
+      "venue": "IEEE Transactions on Fuzzy Systems, 34, 966-980",
       "doi": "10.1109/tfuzz.2026.3651747",
       "status": "Exact",
       "doi_status": "resolved",
@@ -2600,7 +2596,7 @@
         "Yang, M."
       ],
       "year": 2005,
-      "venue": "Pattern Recognition Letters, 26, 639-652. https://doi.org/10",
+      "venue": "Pattern Recognition Letters, 26, 639-652",
       "doi": "10.1016/j.patrec.2004.09.016",
       "status": "Exact",
       "doi_status": "resolved",
@@ -2641,17 +2637,15 @@
         "Wu, J."
       ],
       "year": 2002,
-      "venue": "Neural Networks, 15, 105-120. https://doi.org/10.1016/s0893-",
+      "venue": "Neural Networks, 15, 105-120",
       "doi": "10.1016/s0893-6080(01)00108-3",
-      "status": "Minor",
+      "status": "Exact",
       "doi_status": "resolved",
       "title_sim": 1.0,
-      "mismatches": [
-        "volume"
-      ],
+      "mismatches": [],
       "notes": [
         "DOI 10.1016/s0893-6080(01)00108-3 resolved",
-        "DOI resolved; metadata mismatch: volume"
+        "DOI resolved; checked fields match"
       ]
     },
     {
@@ -2664,7 +2658,7 @@
         "Chung, F."
       ],
       "year": 2010,
-      "venue": "Pattern Recognition, 43, 767-781. https://doi.org/10.1016/j.",
+      "venue": "Pattern Recognition, 43, 767-781",
       "doi": "10.1016/j.patcog.2009.09.010",
       "status": "Exact",
       "doi_status": "resolved",
@@ -2691,12 +2685,11 @@
       "doi_status": "resolved",
       "title_sim": 1.0,
       "mismatches": [
-        "venue",
         "pages"
       ],
       "notes": [
         "DOI 10.1145/276304.276314 resolved",
-        "DOI resolved; metadata mismatch: venue,pages"
+        "DOI resolved; metadata mismatch: pages"
       ]
     },
     {
@@ -2715,12 +2708,11 @@
       "doi_status": "resolved",
       "title_sim": 1.0,
       "mismatches": [
-        "venue",
         "pages"
       ],
       "notes": [
         "DOI 10.1145/312129.312199 resolved",
-        "DOI resolved; metadata mismatch: venue,pages"
+        "DOI resolved; metadata mismatch: pages"
       ]
     },
     {
@@ -2758,12 +2750,11 @@
       "doi_status": "resolved",
       "title_sim": 1.0,
       "mismatches": [
-        "venue",
         "pages"
       ],
       "notes": [
         "DOI 10.1145/342009.335383 resolved",
-        "DOI resolved; metadata mismatch: venue,pages"
+        "DOI resolved; metadata mismatch: pages"
       ]
     },
     {
@@ -2778,15 +2769,13 @@
       "year": 1999,
       "venue": "Proceedings of the 1999 ACM SIGMOD International Conference ",
       "doi": "10.1145/304182.304188",
-      "status": "Minor",
+      "status": "Exact",
       "doi_status": "resolved",
       "title_sim": 1.0,
-      "mismatches": [
-        "venue"
-      ],
+      "mismatches": [],
       "notes": [
         "DOI 10.1145/304182.304188 resolved",
-        "DOI resolved; metadata mismatch: venue"
+        "DOI resolved; checked fields match"
       ]
     },
     {
@@ -2799,7 +2788,7 @@
         "Kim, M."
       ],
       "year": 2004,
-      "venue": "Information and Software Technology, 46, 255-271. https://do",
+      "venue": "Information and Software Technology, 46, 255-271",
       "doi": "10.1016/j.infsof.2003.07.003",
       "status": "Exact",
       "doi_status": "resolved",
@@ -2819,7 +2808,7 @@
         "Wu, J."
       ],
       "year": 2008,
-      "venue": "Pattern Recognition, 41, 1939-1947. https://doi.org/10.1016/",
+      "venue": "Pattern Recognition, 41, 1939-1947",
       "doi": "10.1016/j.patcog.2007.11.011",
       "status": "Exact",
       "doi_status": "resolved",
@@ -2861,7 +2850,7 @@
         "Chen, C.L.P."
       ],
       "year": 2016,
-      "venue": "Neurocomputing, 198, 125-134. https://doi.org/10.1016/j.neuc",
+      "venue": "Neurocomputing, 198, 125-134",
       "doi": "10.1016/j.neucom.2015.09.127",
       "status": "Exact",
       "doi_status": "resolved",
@@ -2903,7 +2892,7 @@
         "Ma, S."
       ],
       "year": 2007,
-      "venue": "Data Mining and Knowledge Discovery, 14, 63-97. https://doi.",
+      "venue": "Data Mining and Knowledge Discovery, 14, 63-97",
       "doi": "10.1007/s10618-006-0060-8",
       "status": "Exact",
       "doi_status": "resolved",
@@ -2945,7 +2934,7 @@
         "Chung, F."
       ],
       "year": 2013,
-      "venue": "Information Sciences, 246, 133-154. https://doi.org/10.1016/",
+      "venue": "Information Sciences, 246, 133-154",
       "doi": "10.1016/j.ins.2013.05.029",
       "status": "Exact",
       "doi_status": "resolved",
@@ -2966,7 +2955,7 @@
         "M.-S."
       ],
       "year": 2005,
-      "venue": "IEEE Transactions on Fuzzy Systems, 13, 164-176. https://doi",
+      "venue": "IEEE Transactions on Fuzzy Systems, 13, 164-176",
       "doi": "10.1109/tfuzz.2004.836065",
       "status": "Exact",
       "doi_status": "resolved",
@@ -3008,7 +2997,7 @@
         "Hua, J."
       ],
       "year": 2008,
-      "venue": "Pattern Recognition Letters, 29, 10-18. https://doi.org/10.1",
+      "venue": "Pattern Recognition Letters, 29, 10-18",
       "doi": "10.1016/j.patrec.2007.08.012",
       "status": "Exact",
       "doi_status": "resolved",
@@ -3317,7 +3306,7 @@
         "Benlian, A."
       ],
       "year": 2020,
-      "venue": "Electronic Markets, 31, 427-445. https://doi.org/10.1007/s12",
+      "venue": "Electronic Markets, 31, 427-445",
       "doi": "10.1007/s12525-020-00414-7",
       "status": "Exact",
       "doi_status": "resolved",
@@ -3337,7 +3326,7 @@
         "Liu, Y."
       ],
       "year": 2024,
-      "venue": "Expert Systems with Applications, 238, Article ID: 121801. h",
+      "venue": "Expert Systems with Applications, 238, Article ID: 121801",
       "doi": "10.1016/j.eswa.2023.121801",
       "status": "Minor",
       "doi_status": "resolved",
@@ -3359,7 +3348,7 @@
         "Zhang, H."
       ],
       "year": 2025,
-      "venue": "Technology in Society, 82, Article ID: 102898. https://doi.o",
+      "venue": "Technology in Society, 82, Article ID: 102898",
       "doi": "10.1016/j.techsoc.2025.102898",
       "status": "Minor",
       "doi_status": "resolved",
@@ -3382,7 +3371,7 @@
         "Ramos-de-Luna, I."
       ],
       "year": 2020,
-      "venue": "Sustainability, 12, Article No. 8888. https://doi.org/10.339",
+      "venue": "Sustainability, 12, Article No. 8888",
       "doi": "10.3390/su12218888",
       "status": "Minor",
       "doi_status": "resolved",
@@ -3405,7 +3394,7 @@
         "Lau, Y."
       ],
       "year": 2023,
-      "venue": "Applied Sciences, 13, Article No. 3051. https://doi.org/10.3",
+      "venue": "Applied Sciences, 13, Article No. 3051",
       "doi": "10.3390/app13053051",
       "status": "Minor",
       "doi_status": "resolved",
@@ -3451,17 +3440,15 @@
         "Mazzoli, V."
       ],
       "year": 2023,
-      "venue": "Psychology & Marketing, 40, 1372-1387. https://doi.org/10.10",
+      "venue": "Psychology & Marketing, 40, 1372-1387",
       "doi": "10.1002/mar.21813",
-      "status": "Minor",
+      "status": "Exact",
       "doi_status": "resolved",
       "title_sim": 1.0,
-      "mismatches": [
-        "venue"
-      ],
+      "mismatches": [],
       "notes": [
         "DOI 10.1002/mar.21813 resolved",
-        "DOI resolved; metadata mismatch: venue"
+        "DOI resolved; checked fields match"
       ]
     },
     {
@@ -3494,7 +3481,7 @@
         "Benlian, A."
       ],
       "year": 2021,
-      "venue": "Electronic Markets, 31, 427-445. https://doi.org/10.1007/s12",
+      "venue": "Electronic Markets, 31, 427-445",
       "doi": "10.1007/s12525-020-00414-7",
       "status": "Minor",
       "doi_status": "resolved",
@@ -3517,7 +3504,7 @@
         "Srivastava, P.R."
       ],
       "year": 2022,
-      "venue": "Electronic Commerce Research, 24, 2953-2989. https://doi.org",
+      "venue": "Electronic Commerce Research, 24, 2953-2989",
       "doi": "10.1007/s10660-022-09624-x",
       "status": "Exact",
       "doi_status": "resolved",
@@ -3559,7 +3546,7 @@
         "Xiong, Y."
       ],
       "year": 2024,
-      "venue": "Current Psychology, 43, 30379-30401. https://doi.org/10.1007",
+      "venue": "Current Psychology, 43, 30379-30401",
       "doi": "10.1007/s12144-024-06649-3",
       "status": "Exact",
       "doi_status": "resolved",
@@ -3579,7 +3566,7 @@
         "Mezei, J."
       ],
       "year": 2024,
-      "venue": "Applied Sciences, 14, Article No. 10069. https://doi.org/10.",
+      "venue": "Applied Sciences, 14, Article No. 10069",
       "doi": "10.3390/app142110069",
       "status": "Minor",
       "doi_status": "resolved",
@@ -4549,17 +4536,19 @@
     {
       "paper": "回忆类心理动词的辨析——以“回忆、回想、回顾、回首”为例",
       "raw": "[2] 帕力扎∙热合木吐拉. 现代汉语认知心理动词语义网络研究[D]: [硕士学位论文]. 乌鲁木齐: 新疆大学, 2021.",
-      "title": "帕力扎∙热合木吐拉. 现代汉语认知心理动词语义网络研究",
-      "authors": [],
+      "title": "现代汉语认知心理动词语义网络研究",
+      "authors": [
+        "帕力扎∙热合木吐拉"
+      ],
       "year": 2021,
       "venue": "",
       "doi": "",
       "status": "Unverified",
       "doi_status": "none",
-      "title_sim": 0.3556,
+      "title_sim": 0.4324,
       "mismatches": [],
       "notes": [
-        "no close title match in OpenAlex/Crossref/arXiv (best 0.36); the article may be unindexed or the reference may be wrong — check manually"
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.43); the article may be unindexed or the reference may be wrong — check manually"
       ]
     },
     {
@@ -4870,17 +4859,15 @@
         "Rosch, E.H."
       ],
       "year": 1973,
-      "venue": "Cognitive Psychology, 4, 328-350. https://doi.org/10.1016/00",
+      "venue": "",
       "doi": "10.1016/0010-0285(73)90017-0",
-      "status": "Minor",
+      "status": "Exact",
       "doi_status": "resolved",
       "title_sim": 1.0,
-      "mismatches": [
-        "volume"
-      ],
+      "mismatches": [],
       "notes": [
         "DOI 10.1016/0010-0285(73)90017-0 resolved",
-        "DOI resolved; metadata mismatch: volume"
+        "DOI resolved; checked fields match"
       ]
     },
     {
@@ -5469,18 +5456,17 @@
         "Frank, J."
       ],
       "year": 1990,
-      "venue": "Journal of Pragmatics, 14, 723-738. https://doi.org/10.1016/",
+      "venue": "Journal of Pragmatics, 14, 723-738",
       "doi": "10.1016/0378-2166(90)90003-v",
       "status": "Minor",
       "doi_status": "resolved",
       "title_sim": 0.5357,
       "mismatches": [
-        "volume",
         "title_partial"
       ],
       "notes": [
         "DOI 10.1016/0378-2166(90)90003-v resolved",
-        "DOI resolved; metadata mismatch: volume,title_partial"
+        "DOI resolved; metadata mismatch: title_partial"
       ]
     },
     {
@@ -5896,7 +5882,7 @@
         "Zou, D."
       ],
       "year": 2023,
-      "venue": "RELC Journal, 54, 537-550. https://doi.org/10.1177/003368822",
+      "venue": "RELC Journal, 54, 537-550",
       "doi": "10.1177/00336882231162868",
       "status": "Exact",
       "doi_status": "resolved",
@@ -6190,7 +6176,7 @@
         "Davis, F.D."
       ],
       "year": 1989,
-      "venue": "MIS Quarterly, 13, 319-340. https://doi.org/10.2307/249008",
+      "venue": "MIS Quarterly, 13, 319-340",
       "doi": "10.2307/249008",
       "status": "Exact",
       "doi_status": "resolved",
@@ -6228,7 +6214,7 @@
         "Barrot, J.S."
       ],
       "year": 2023,
-      "venue": "Assessing Writing, 57, Article ID: 100745. https://doi.org/1",
+      "venue": "Assessing Writing, 57, Article ID: 100745",
       "doi": "10.1016/j.asw.2023.100745",
       "status": "Minor",
       "doi_status": "resolved",
@@ -6249,7 +6235,7 @@
         "Sweller, J."
       ],
       "year": 1988,
-      "venue": "Cognitive Science, 12, 257-285. https://doi.org/10.1207/s155",
+      "venue": "Cognitive Science, 12, 257-285",
       "doi": "10.1207/s15516709cog1202_4",
       "status": "Exact",
       "doi_status": "resolved",
@@ -7057,12 +7043,12 @@
       "doi": "",
       "status": "Minor",
       "doi_status": "none",
-      "title_sim": 0.8205,
+      "title_sim": 1.0,
       "mismatches": [
-        "title"
+        "year"
       ],
       "notes": [
-        "partial title match (0.82)"
+        "title matched; mismatch: year"
       ]
     },
     {
@@ -7575,17 +7561,19 @@
     {
       "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
       "raw": "[12] 拉尔夫·泰勒. 课程与教学的基本原理[M]. 施良方, 译. 北京: 人民教育出版社, 1994: 2.",
-      "title": "拉尔夫·泰勒. 课程与教学的基本原理",
-      "authors": [],
+      "title": "课程与教学的基本原理",
+      "authors": [
+        "拉尔夫·泰勒"
+      ],
       "year": 1994,
       "venue": "",
       "doi": "",
       "status": "Unverified",
       "doi_status": "none",
-      "title_sim": 0.7059,
+      "title_sim": 0.35,
       "mismatches": [],
       "notes": [
-        "no close title match in OpenAlex/Crossref/arXiv (best 0.71); the article may be unindexed or the reference may be wrong — check manually"
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.35); the article may be unindexed or the reference may be wrong — check manually"
       ]
     },
     {
@@ -7631,101 +7619,181 @@
     {
       "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
       "raw": "[15] Stanford University. Bio-X: About Bio-X. http://biox.stanford.edu/about/history.html",
-      "title": "Bio-X: About Bio-X. http://biox.stanford.edu/about/history.html",
+      "title": "Bio-X: About Bio-X",
       "authors": [
         "Stanford University"
       ],
       "year": null,
-      "venue": "Stanford University",
+      "venue": "",
       "doi": "",
       "status": "Unverified",
       "doi_status": "none",
-      "title_sim": 0.4304,
+      "title_sim": 0.5,
       "mismatches": [],
       "notes": [
-        "no close title match in OpenAlex/Crossref/arXiv (best 0.43); the article may be unindexed or the reference may be wrong — check manually"
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.50); the article may be unindexed or the reference may be wrong — check manually"
       ]
     },
     {
       "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
       "raw": "[16] Massachusetts Institute of Technology. Interdisciplinary Graduate Programs. https://catalog.mit.edu/interdisciplinary/graduate-programs/",
-      "title": "Interdisciplinary Graduate Programs. https://catalog.mit.edu/interdisciplinary/graduate-programs/",
+      "title": "Interdisciplinary Graduate Programs",
       "authors": [
         "Massachusetts Institute of Technology"
       ],
       "year": null,
-      "venue": "Massachusetts Institute of Technology",
+      "venue": "",
       "doi": "",
-      "status": "Unverified",
+      "status": "Minor",
       "doi_status": "none",
-      "title_sim": 0.6905,
-      "mismatches": [],
+      "title_sim": 0.8148,
+      "mismatches": [
+        "title"
+      ],
       "notes": [
-        "no close title match in OpenAlex/Crossref/arXiv (best 0.69); the article may be unindexed or the reference may be wrong — check manually"
+        "partial title match (0.81)"
       ]
     },
     {
       "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
       "raw": "[17] Harvard John A. Paulson School of Engineering and Applied Sciences. PhD in Applied Mathematics. https://www.seas.harvard.edu/programs/graduate/applied-mathematics",
-      "title": "Harvard John A. Paulson School of Engineering and Applied Sciences. PhD in Applied Mathematics. https://www.seas.harvard",
-      "authors": [],
+      "title": "PhD in Applied Mathematics",
+      "authors": [
+        "Harvard John A. Paulson School of Engineering and Applied Sciences"
+      ],
       "year": null,
-      "venue": "Harvard John A",
+      "venue": "",
       "doi": "",
       "status": "Unverified",
       "doi_status": "none",
-      "title_sim": 0.4329,
+      "title_sim": 0.383,
       "mismatches": [],
       "notes": [
-        "no close title match in OpenAlex/Crossref/arXiv (best 0.43); the article may be unindexed or the reference may be wrong — check manually"
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.38); the article may be unindexed or the reference may be wrong — check manually"
       ]
     },
     {
       "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
       "raw": "[18] Carnegie Mellon University. Machine Learning PhD Curriculum. https://ml.cmu.edu/current-students/phd-curriculum",
-      "title": "Carnegie Mellon University. Machine Learning PhD Curriculum. https://ml.cmu.edu/current-students/phd-curriculum",
-      "authors": [],
+      "title": "Machine Learning PhD Curriculum",
+      "authors": [
+        "Carnegie Mellon University"
+      ],
       "year": null,
-      "venue": "Carnegie Mellon University",
+      "venue": "",
       "doi": "",
       "status": "Unverified",
       "doi_status": "none",
-      "title_sim": 0.4257,
+      "title_sim": 0.6792,
       "mismatches": [],
       "notes": [
-        "no close title match in OpenAlex/Crossref/arXiv (best 0.43); the article may be unindexed or the reference may be wrong — check manually"
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.68); the article may be unindexed or the reference may be wrong — check manually"
       ]
     },
     {
       "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
       "raw": "[19] Princeton University. Grand Challenges: Collaborating to Create a Better Future. https://aspire-report.princeton.edu/engineering/grand-challenges",
-      "title": "Princeton University. Grand Challenges: Collaborating to Create a Better Future. https://aspire-report.princeton.edu/eng",
-      "authors": [],
+      "title": "Grand Challenges: Collaborating to Create a Better Future",
+      "authors": [
+        "Princeton University"
+      ],
       "year": null,
-      "venue": "Princeton University",
+      "venue": "",
       "doi": "",
       "status": "Unverified",
       "doi_status": "none",
-      "title_sim": 0.4615,
+      "title_sim": 0.6607,
       "mismatches": [],
       "notes": [
-        "no close title match in OpenAlex/Crossref/arXiv (best 0.46); the article may be unindexed or the reference may be wrong — check manually"
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.66); the article may be unindexed or the reference may be wrong — check manually"
       ]
     },
     {
       "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
       "raw": "[20] University of California, Berkeley. New Silicon Initiative (NSI). https://eecs.berkeley.edu/academics/new-silicon-initiative-nsi",
-      "title": "New Silicon Initiative (NSI). https://eecs.berkeley.edu/academics/new-silicon-initiative-nsi",
+      "title": "New Silicon Initiative (NSI)",
       "authors": [
-        "University of California",
-        "Berkeley"
+        "University of California, Berkeley"
       ],
       "year": null,
-      "venue": "University of California, Berkeley",
+      "venue": "",
       "doi": "",
       "status": "Unverified",
       "doi_status": "none",
-      "title_sim": 0.4806,
+      "title_sim": 0.4935,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.49); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "raw": "[21] UC Berkeley EECS. EECS Students Drive AI Innovation as Amazon PhD Fellows. https://eecs.berkeley.edu/news/eecs-students-drive-ai-innovation-as-amazon-phd-fellows",
+      "title": "EECS Students Drive AI Innovation as Amazon PhD Fellows",
+      "authors": [
+        "UC Berkeley EECS"
+      ],
+      "year": null,
+      "venue": "",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.4421,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.44); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "raw": "[22] Sakr, M.F. and Goldstein, S.C. Cloud Computing: 15-619/15-819, Carnegie Mellon University. http://www.cs.cmu.edu/~msakr/15619-s24/",
+      "title": "Cloud Computing: 15-619/15-819, Carnegie Mellon University",
+      "authors": [
+        "Sakr, M.F",
+        "Goldstein, S.C"
+      ],
+      "year": null,
+      "venue": "",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.3736,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.37); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "raw": "[23] Harvard Medical School. Department of Biomedical Informatics. Bioinformatics and Integrative Genomics (BIG) PhD Track. https://bigphd.hms.harvard.edu/",
+      "title": "Bioinformatics and Integrative Genomics (BIG) PhD Track",
+      "authors": [
+        "Harvard Medical School. Department of Biomedical Informatics"
+      ],
+      "year": null,
+      "venue": "",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.7527,
+      "mismatches": [],
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.75); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "raw": "[24] Stanford University. PhD Course Requirements. https://www-cs-staff.stanford.edu/phd-program-course-requirements",
+      "title": "PhD Course Requirements",
+      "authors": [
+        "Stanford University"
+      ],
+      "year": null,
+      "venue": "",
+      "doi": "",
+      "status": "Unverified",
+      "doi_status": "none",
+      "title_sim": 0.4762,
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.48); the article may be unindexed or the reference may be wrong — check manually"
@@ -7733,92 +7801,20 @@
     },
     {
       "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
-      "raw": "[21] UC Berkeley EECS. EECS Students Drive AI Innovation as Amazon PhD Fellows. https://eecs.berkeley.edu/news/eecs-students-drive-ai-innovation-as-amazon-phd-fellows",
-      "title": "EECS Students Drive AI Innovation as Amazon PhD Fellows. https://eecs.berkeley.edu/news/eecs-students-drive-ai-innovatio",
-      "authors": [
-        "UC Berkeley EECS"
-      ],
-      "year": null,
-      "venue": "UC Berkeley EECS",
-      "doi": "",
-      "status": "Unverified",
-      "doi_status": "none",
-      "title_sim": 0.4167,
-      "mismatches": [],
-      "notes": [
-        "no close title match in OpenAlex/Crossref/arXiv (best 0.42); the article may be unindexed or the reference may be wrong — check manually"
-      ]
-    },
-    {
-      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
-      "raw": "[22] Sakr, M.F. and Goldstein, S.C. Cloud Computing: 15-619/15-819, Carnegie Mellon University. http://www.cs.cmu.edu/~msakr/15619-s24/",
-      "title": "and Goldstein, S.C. Cloud Computing: 15-619/15-819, Carnegie Mellon University. http://www.cs.cmu.edu/~msakr/15619-s24/",
-      "authors": [
-        "Sakr",
-        "M.F"
-      ],
-      "year": null,
-      "venue": "Sakr, M.F",
-      "doi": "",
-      "status": "Unverified",
-      "doi_status": "none",
-      "title_sim": 0.4468,
-      "mismatches": [],
-      "notes": [
-        "no close title match in OpenAlex/Crossref/arXiv (best 0.45); the article may be unindexed or the reference may be wrong — check manually"
-      ]
-    },
-    {
-      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
-      "raw": "[23] Harvard Medical School. Department of Biomedical Informatics. Bioinformatics and Integrative Genomics (BIG) PhD Track. https://bigphd.hms.harvard.edu/",
-      "title": "Harvard Medical School. Department of Biomedical Informatics. Bioinformatics and Integrative Genomics (BIG) PhD Track. h",
-      "authors": [],
-      "year": null,
-      "venue": "Harvard Medical School",
-      "doi": "",
-      "status": "Unverified",
-      "doi_status": "none",
-      "title_sim": 0.4607,
-      "mismatches": [],
-      "notes": [
-        "no close title match in OpenAlex/Crossref/arXiv (best 0.46); the article may be unindexed or the reference may be wrong — check manually"
-      ]
-    },
-    {
-      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
-      "raw": "[24] Stanford University. PhD Course Requirements. https://www-cs-staff.stanford.edu/phd-program-course-requirements",
-      "title": "PhD Course Requirements. https://www-cs-staff.stanford.edu/phd-program-course-requirements",
-      "authors": [
-        "Stanford University"
-      ],
-      "year": null,
-      "venue": "Stanford University",
-      "doi": "",
-      "status": "Unverified",
-      "doi_status": "none",
-      "title_sim": 0.5128,
-      "mismatches": [],
-      "notes": [
-        "no close title match in OpenAlex/Crossref/arXiv (best 0.51); the article may be unindexed or the reference may be wrong — check manually"
-      ]
-    },
-    {
-      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
       "raw": "[25] The John U. Nef Committee on Social Thought, University of Chicago. Doctoral Program. https://socialthought.uchicago.edu/doctoral-program",
-      "title": "Doctoral Program. https://socialthought.uchicago.edu/doctoral-program",
+      "title": "Doctoral Program",
       "authors": [
-        "The John U. Nef Committee on Social Thought",
-        "University of Chicago"
+        "The John U. Nef Committee on Social Thought, University of Chicago"
       ],
       "year": null,
-      "venue": "The John U",
+      "venue": "",
       "doi": "",
       "status": "Unverified",
       "doi_status": "none",
-      "title_sim": 0.5299,
+      "title_sim": 0.411,
       "mismatches": [],
       "notes": [
-        "no close title match in OpenAlex/Crossref/arXiv (best 0.53); the article may be unindexed or the reference may be wrong — check manually"
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.41); the article may be unindexed or the reference may be wrong — check manually"
       ]
     },
     {
@@ -7826,9 +7822,7 @@
       "raw": "[26] National Academies of Sciences, Engineering, and Medicine (2018) Graduate STEM Education for the 21st Century. The National Academies Press.",
       "title": "Graduate STEM Education for the 21st Century",
       "authors": [
-        "National Academies of Sciences",
-        "Engineering",
-        "Medicine"
+        "National Academies of Sciences, Engineering, and Medicine"
       ],
       "year": 2018,
       "venue": "",
@@ -7865,86 +7859,70 @@
     {
       "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
       "raw": "[28] University of Minnesota. Backward Design for Syllabus Design. https://carla.umn.edu/lpd/modules/mod2/backward",
-      "title": "University of Minnesota. Backward Design for Syllabus Design. https://carla.umn.edu/lpd/modules/mod2/backward",
-      "authors": [],
+      "title": "Backward Design for Syllabus Design",
+      "authors": [
+        "University of Minnesota"
+      ],
       "year": null,
-      "venue": "University of Minnesota",
+      "venue": "",
       "doi": "",
       "status": "Unverified",
       "doi_status": "none",
-      "title_sim": 0.4636,
+      "title_sim": 0.6792,
       "mismatches": [],
       "notes": [
-        "no close title match in OpenAlex/Crossref/arXiv (best 0.46); the article may be unindexed or the reference may be wrong — check manually"
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.68); the article may be unindexed or the reference may be wrong — check manually"
       ]
     },
     {
       "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
       "raw": "[29] University of Massachusetts Amherst. Syllabus Design Tips. https://www.umass.edu/education/facultyhub/instructional-support/syllabus-design-tips",
-      "title": "Syllabus Design Tips. https://www.umass.edu/education/facultyhub/instructional-support/syllabus-design-tips",
+      "title": "Syllabus Design Tips",
       "authors": [
         "University of Massachusetts Amherst"
       ],
       "year": null,
-      "venue": "University of Massachusetts Amherst",
+      "venue": "",
       "doi": "",
       "status": "Unverified",
       "doi_status": "none",
-      "title_sim": 0.4521,
+      "title_sim": 0.7,
       "mismatches": [],
       "notes": [
-        "no close title match in OpenAlex/Crossref/arXiv (best 0.45); the article may be unindexed or the reference may be wrong — check manually"
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.70); the article may be unindexed or the reference may be wrong — check manually"
       ]
     },
     {
       "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
       "raw": "[30] Harvard Business School. The Case Method Project: About Case Method Teaching. https://www.hbs.edu/case-method-project/about/Pages/case-method-teaching.aspx",
-      "title": "Harvard Business School. The Case Method Project: About Case Method Teaching. https://www.hbs.edu/case-method-project/ab",
-      "authors": [],
+      "title": "The Case Method Project: About Case Method Teaching",
+      "authors": [
+        "Harvard Business School"
+      ],
       "year": null,
-      "venue": "Harvard Business School",
+      "venue": "",
       "doi": "",
       "status": "Unverified",
       "doi_status": "none",
-      "title_sim": 0.5545,
+      "title_sim": 0.5591,
       "mismatches": [],
       "notes": [
-        "no close title match in OpenAlex/Crossref/arXiv (best 0.55); the article may be unindexed or the reference may be wrong — check manually"
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.56); the article may be unindexed or the reference may be wrong — check manually"
       ]
     },
     {
       "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
       "raw": "[31] McLoon, S. Term Paper: Nsc8211 Developmental Neurobiology. http://mcloonlab.neuroscience.umn.edu/8211/term_paper.htm",
-      "title": "http://mcloonlab.neuroscience.umn.edu/8211/term_paper.htm",
+      "title": "Term Paper: Nsc8211 Developmental Neurobiology",
       "authors": [
-        "McLoon",
-        "S. Term Paper: Nsc8211 Developmental Neurobiology"
+        "McLoon, S"
       ],
       "year": null,
-      "venue": "McLoon, S",
+      "venue": "",
       "doi": "",
       "status": "Unverified",
       "doi_status": "none",
-      "title_sim": 0.439,
-      "mismatches": [],
-      "notes": [
-        "no close title match in OpenAlex/Crossref/arXiv (best 0.44); the article may be unindexed or the reference may be wrong — check manually"
-      ]
-    },
-    {
-      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
-      "raw": "[32] Meyer, A.R. Responsible Research Approach. https://people.csail.mit.edu/meyer/AreaII/ethics/page-03.html",
-      "title": "https://people.csail.mit.edu/meyer/AreaII/ethics/page-03.html",
-      "authors": [
-        "Meyer",
-        "A.R. Responsible Research Approach"
-      ],
-      "year": null,
-      "venue": "Meyer, A.R",
-      "doi": "",
-      "status": "Unverified",
-      "doi_status": "none",
-      "title_sim": 0.4023,
+      "title_sim": 0.4,
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.40); the article may be unindexed or the reference may be wrong — check manually"
@@ -7952,17 +7930,37 @@
     },
     {
       "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "raw": "[32] Meyer, A.R. Responsible Research Approach. https://people.csail.mit.edu/meyer/AreaII/ethics/page-03.html",
+      "title": "Responsible Research Approach",
+      "authors": [
+        "Meyer, A.R"
+      ],
+      "year": null,
+      "venue": "",
+      "doi": "",
+      "status": "Minor",
+      "doi_status": "none",
+      "title_sim": 0.8261,
+      "mismatches": [
+        "title"
+      ],
+      "notes": [
+        "partial title match (0.83)"
+      ]
+    },
+    {
+      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
       "raw": "[33] Johns Hopkins University. DrPH Core Curriculum & Global Health Requirements. https://www.jhsph.edu/academics/programs/doctor-of-public-health-drph/curriculum/core-curriculum.html",
-      "title": "DrPH Core Curriculum & Global Health Requirements. https://www.jhsph.edu/academics/programs/doctor-of-public-health-drph",
+      "title": "DrPH Core Curriculum & Global Health Requirements",
       "authors": [
         "Johns Hopkins University"
       ],
       "year": null,
-      "venue": "Johns Hopkins University",
+      "venue": "",
       "doi": "",
       "status": "Unverified",
       "doi_status": "none",
-      "title_sim": 0.4159,
+      "title_sim": 0.4157,
       "mismatches": [],
       "notes": [
         "no close title match in OpenAlex/Crossref/arXiv (best 0.42); the article may be unindexed or the reference may be wrong — check manually"
@@ -7992,12 +7990,10 @@
       "raw": "[35] Yale University, Graduate School of Arts and Sciences (2021) Sharing the Report of the Humanities Doctoral Education Advisory Working Group. https://gsas.yale.edu/about/news-announcements/sharing-report-humanities-d",
       "title": "Sharing the Report of the Humanities Doctoral Education Advisory Working Group",
       "authors": [
-        "Yale University",
-        "Graduate School of Arts",
-        "Sciences"
+        "Yale University, Graduate School of Arts and Sciences"
       ],
       "year": 2021,
-      "venue": "https://gsas.yale.edu/about/news-announcements/sharing-repor",
+      "venue": "",
       "doi": "",
       "status": "Unverified",
       "doi_status": "none",
@@ -8010,19 +8006,19 @@
     {
       "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
       "raw": "[36] Association of American Universities. PhD Education Initiative. https://www.aau.edu/strategic-initiatives/undergraduate-phd-education-initiatives/doctoral-education/phd-education-initiative",
-      "title": "PhD Education Initiative. https://www.aau.edu/strategic-initiatives/undergraduate-phd-education-initiatives/doctoral-edu",
+      "title": "PhD Education Initiative",
       "authors": [
         "Association of American Universities"
       ],
       "year": null,
-      "venue": "Association of American Universities",
+      "venue": "",
       "doi": "",
       "status": "Unverified",
       "doi_status": "none",
-      "title_sim": 0.4478,
+      "title_sim": 0.6038,
       "mismatches": [],
       "notes": [
-        "no close title match in OpenAlex/Crossref/arXiv (best 0.45); the article may be unindexed or the reference may be wrong — check manually"
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.60); the article may be unindexed or the reference may be wrong — check manually"
       ]
     },
     {

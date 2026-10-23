@@ -944,6 +944,16 @@ def verify_reference(
             sources=["parser:noise-guard"],
         )
 
+    # 0c) An empty title cannot be verified. It is a parsing artifact (page
+    # furniture, a bare link line), never evidence that the citation is fake.
+    if not (ref.title or "").strip():
+        return VerifyResult(
+            status="Unverified",
+            doi_status="none",
+            notes=["题名解析为空（疑似 PDF/OCR 噪声），请人工核对原始条目"],
+            sources=["parser:noise-guard"],
+        )
+
     # 1) DOI anchor.
     if ref.doi:
         doi_variants = [ref.doi]

@@ -320,6 +320,16 @@ def test_url_only_title_is_unverified_not_fabricated():
     assert any("链接" in note for note in result.notes)
 
 
+def test_empty_title_is_unverified_not_fabricated():
+    """Page furniture / split noise leaves no title: ask for review, never Major."""
+    ref = Reference(raw="[1] 550. https://doi.org/10.1177/00336882231162868", index=1, title="")
+
+    result = mv.verify_reference(ref)
+
+    assert result.status == "Unverified"
+    assert any("题名解析为空" in note for note in result.notes)
+
+
 def test_authors_unreliable_flags_initial_fragments_not_whole_names():
     # Fragment list from a broken APA parse: initials pieces are not authors.
     assert mv._authors_unreliable(["Hayman", " W.K."]) is True

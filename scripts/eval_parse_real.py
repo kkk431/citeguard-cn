@@ -37,6 +37,7 @@ def _is_cjk(text: str) -> bool:
 
 def _suspicious(ref) -> list[str]:
     problems: list[str] = []
+    is_web = ref.doc_type == "EB"
     title = (ref.title or "").strip()
     if not title:
         problems.append("title_empty")
@@ -44,11 +45,15 @@ def _suspicious(ref) -> list[str]:
         problems.append("title_short")
     elif len(title) > 200:
         problems.append("title_long")
-    if not ref.authors:
+    elif re.search(r"https?://", title):
+        problems.append("title_contains_url")
+    # A web citation may legally lead with the title (GB/T 7714-2025) and its
+    # publication year is optional, so only field rules for non-web types apply.
+    if not ref.authors and not is_web:
         problems.append("authors_empty")
     elif len(ref.authors) > 12:
         problems.append("authors_many")
-    if ref.year is None:
+    if ref.year is None and not is_web:
         problems.append("year_missing")
     if not ref.doc_type:
         problems.append("type_missing")
@@ -61,6 +66,7 @@ def _suspicious(ref) -> list[str]:
 
 def _coverage(refs) -> dict:
     n = len(refs) or 1
+    web = [r for r in refs if r.doc_type == "EB"]
     return {
         "title": round(sum(1 for r in refs if r.title) / n, 3),
         "authors": round(sum(1 for r in refs if r.authors) / n, 3),
@@ -69,6 +75,9 @@ def _coverage(refs) -> dict:
         "venue": round(sum(1 for r in refs if r.venue) / n, 3),
         "doi": round(sum(1 for r in refs if r.doi) / n, 3),
         "pages": round(sum(1 for r in refs if r.pages) / n, 3),
+        # Informational: web citations where no author was recognised at all.
+        "web_refs": len(web),
+        "web_no_author": sum(1 for r in web if not r.authors),
     }
 
 

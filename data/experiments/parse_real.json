@@ -2,9 +2,9 @@
   "summary": {
     "papers": 22,
     "published_refs": 409,
-    "pdf_refs": 533,
-    "published_clean_ratio": 0.97,
-    "pdf_clean_ratio": 0.965,
+    "pdf_refs": 529,
+    "published_clean_ratio": 1.0,
+    "pdf_clean_ratio": 0.998,
     "pdf_heading_found": 22
   },
   "papers": [
@@ -20,7 +20,9 @@
           "doc_type": 1.0,
           "venue": 0.778,
           "doi": 0.889,
-          "pages": 0.556
+          "pages": 0.556,
+          "web_refs": 0,
+          "web_no_author": 0
         },
         "problems": {},
         "clean_ratio": 1.0
@@ -34,7 +36,9 @@
           "doc_type": 1.0,
           "venue": 0.889,
           "doi": 0.889,
-          "pages": 0.556
+          "pages": 0.556,
+          "web_refs": 0,
+          "web_no_author": 0
         },
         "problems": {},
         "clean_ratio": 1.0,
@@ -54,7 +58,9 @@
           "doc_type": 1.0,
           "venue": 0.892,
           "doi": 0.432,
-          "pages": 0.838
+          "pages": 0.838,
+          "web_refs": 1,
+          "web_no_author": 0
         },
         "problems": {},
         "clean_ratio": 1.0
@@ -66,9 +72,11 @@
           "authors": 1.0,
           "year": 1.0,
           "doc_type": 1.0,
-          "venue": 0.919,
+          "venue": 0.892,
           "doi": 0.243,
-          "pages": 0.838
+          "pages": 0.838,
+          "web_refs": 1,
+          "web_no_author": 0
         },
         "problems": {},
         "clean_ratio": 1.0,
@@ -88,7 +96,9 @@
           "doc_type": 1.0,
           "venue": 0.95,
           "doi": 0.75,
-          "pages": 0.925
+          "pages": 0.925,
+          "web_refs": 0,
+          "web_no_author": 0
         },
         "problems": {},
         "clean_ratio": 1.0
@@ -102,7 +112,9 @@
           "doc_type": 1.0,
           "venue": 0.925,
           "doi": 0.45,
-          "pages": 0.85
+          "pages": 0.85,
+          "web_refs": 0,
+          "web_no_author": 0
         },
         "problems": {},
         "clean_ratio": 1.0,
@@ -122,7 +134,9 @@
           "doc_type": 1.0,
           "venue": 0.882,
           "doi": 0.5,
-          "pages": 0.676
+          "pages": 0.676,
+          "web_refs": 0,
+          "web_no_author": 0
         },
         "problems": {},
         "clean_ratio": 1.0
@@ -136,7 +150,9 @@
           "doc_type": 1.0,
           "venue": 0.882,
           "doi": 0.265,
-          "pages": 0.676
+          "pages": 0.676,
+          "web_refs": 0,
+          "web_no_author": 0
         },
         "problems": {},
         "clean_ratio": 1.0,
@@ -156,7 +172,9 @@
           "doc_type": 1.0,
           "venue": 0.889,
           "doi": 0.889,
-          "pages": 0.889
+          "pages": 0.926,
+          "web_refs": 0,
+          "web_no_author": 0
         },
         "problems": {},
         "clean_ratio": 1.0
@@ -170,7 +188,9 @@
           "doc_type": 1.0,
           "venue": 0.926,
           "doi": 0.889,
-          "pages": 0.889
+          "pages": 0.926,
+          "web_refs": 0,
+          "web_no_author": 0
         },
         "problems": {},
         "clean_ratio": 1.0,
@@ -190,7 +210,9 @@
           "doc_type": 1.0,
           "venue": 0.923,
           "doi": 0.0,
-          "pages": 0.923
+          "pages": 0.923,
+          "web_refs": 0,
+          "web_no_author": 0
         },
         "problems": {},
         "clean_ratio": 1.0
@@ -204,7 +226,9 @@
           "doc_type": 1.0,
           "venue": 0.923,
           "doi": 0.077,
-          "pages": 0.923
+          "pages": 0.923,
+          "web_refs": 0,
+          "web_no_author": 0
         },
         "problems": {},
         "clean_ratio": 1.0,
@@ -224,7 +248,9 @@
           "doc_type": 1.0,
           "venue": 0.933,
           "doi": 0.867,
-          "pages": 1.0
+          "pages": 1.0,
+          "web_refs": 0,
+          "web_no_author": 0
         },
         "problems": {},
         "clean_ratio": 1.0
@@ -238,7 +264,9 @@
           "doc_type": 1.0,
           "venue": 1.0,
           "doi": 0.867,
-          "pages": 1.0
+          "pages": 1.0,
+          "web_refs": 0,
+          "web_no_author": 0
         },
         "problems": {},
         "clean_ratio": 1.0,
@@ -258,7 +286,9 @@
           "doc_type": 1.0,
           "venue": 1.0,
           "doi": 0.0,
-          "pages": 1.0
+          "pages": 1.0,
+          "web_refs": 0,
+          "web_no_author": 0
         },
         "problems": {},
         "clean_ratio": 1.0
@@ -272,7 +302,9 @@
           "doc_type": 1.0,
           "venue": 1.0,
           "doi": 0.182,
-          "pages": 1.0
+          "pages": 1.0,
+          "web_refs": 0,
+          "web_no_author": 0
         },
         "problems": {},
         "clean_ratio": 1.0,
@@ -292,7 +324,9 @@
           "doc_type": 1.0,
           "venue": 1.0,
           "doi": 0.071,
-          "pages": 0.929
+          "pages": 0.929,
+          "web_refs": 0,
+          "web_no_author": 0
         },
         "problems": {},
         "clean_ratio": 1.0
@@ -306,7 +340,9 @@
           "doc_type": 1.0,
           "venue": 1.0,
           "doi": 0.214,
-          "pages": 0.929
+          "pages": 0.929,
+          "web_refs": 0,
+          "web_no_author": 0
         },
         "problems": {},
         "clean_ratio": 1.0,
@@ -326,7 +362,9 @@
           "doc_type": 1.0,
           "venue": 0.792,
           "doi": 0.0,
-          "pages": 0.792
+          "pages": 0.792,
+          "web_refs": 4,
+          "web_no_author": 0
         },
         "problems": {},
         "clean_ratio": 1.0
@@ -340,7 +378,9 @@
           "doc_type": 1.0,
           "venue": 0.792,
           "doi": 0.083,
-          "pages": 0.833
+          "pages": 0.833,
+          "web_refs": 4,
+          "web_no_author": 0
         },
         "problems": {},
         "clean_ratio": 1.0,
@@ -355,33 +395,33 @@
         "count": 9,
         "coverage": {
           "title": 1.0,
-          "authors": 0.889,
+          "authors": 1.0,
           "year": 1.0,
           "doc_type": 1.0,
           "venue": 0.444,
           "doi": 0.0,
-          "pages": 0.444
+          "pages": 0.444,
+          "web_refs": 0,
+          "web_no_author": 0
         },
-        "problems": {
-          "authors_empty": 1
-        },
-        "clean_ratio": 0.889
+        "problems": {},
+        "clean_ratio": 1.0
       },
       "pdf_path": {
         "count": 9,
         "coverage": {
           "title": 1.0,
-          "authors": 0.889,
+          "authors": 1.0,
           "year": 1.0,
           "doc_type": 1.0,
           "venue": 0.444,
           "doi": 0.0,
-          "pages": 0.444
+          "pages": 0.444,
+          "web_refs": 0,
+          "web_no_author": 0
         },
-        "problems": {
-          "authors_empty": 1
-        },
-        "clean_ratio": 0.889,
+        "problems": {},
+        "clean_ratio": 1.0,
         "split_found_heading": true,
         "entries_by_marks": 9
       }
@@ -396,9 +436,11 @@
           "authors": 1.0,
           "year": 1.0,
           "doc_type": 1.0,
-          "venue": 0.7,
+          "venue": 0.6,
           "doi": 0.1,
-          "pages": 0.6
+          "pages": 0.7,
+          "web_refs": 0,
+          "web_no_author": 0
         },
         "problems": {},
         "clean_ratio": 1.0
@@ -412,7 +454,9 @@
           "doc_type": 1.0,
           "venue": 0.7,
           "doi": 0.1,
-          "pages": 0.6
+          "pages": 0.7,
+          "web_refs": 0,
+          "web_no_author": 0
         },
         "problems": {},
         "clean_ratio": 1.0,
@@ -432,7 +476,9 @@
           "doc_type": 1.0,
           "venue": 0.833,
           "doi": 0.056,
-          "pages": 0.778
+          "pages": 0.778,
+          "web_refs": 0,
+          "web_no_author": 0
         },
         "problems": {},
         "clean_ratio": 1.0
@@ -446,7 +492,9 @@
           "doc_type": 1.0,
           "venue": 0.889,
           "doi": 0.056,
-          "pages": 0.611
+          "pages": 0.611,
+          "web_refs": 0,
+          "web_no_author": 0
         },
         "problems": {},
         "clean_ratio": 1.0,
@@ -466,7 +514,9 @@
           "doc_type": 1.0,
           "venue": 0.571,
           "doi": 0.357,
-          "pages": 0.5
+          "pages": 0.571,
+          "web_refs": 0,
+          "web_no_author": 0
         },
         "problems": {},
         "clean_ratio": 1.0
@@ -480,7 +530,9 @@
           "doc_type": 1.0,
           "venue": 0.571,
           "doi": 0.357,
-          "pages": 0.5
+          "pages": 0.571,
+          "web_refs": 0,
+          "web_no_author": 0
         },
         "problems": {},
         "clean_ratio": 1.0,
@@ -500,7 +552,9 @@
           "doc_type": 1.0,
           "venue": 0.833,
           "doi": 0.0,
-          "pages": 0.833
+          "pages": 0.833,
+          "web_refs": 0,
+          "web_no_author": 0
         },
         "problems": {},
         "clean_ratio": 1.0
@@ -514,7 +568,9 @@
           "doc_type": 1.0,
           "venue": 0.833,
           "doi": 0.0,
-          "pages": 0.833
+          "pages": 0.833,
+          "web_refs": 0,
+          "web_no_author": 0
         },
         "problems": {},
         "clean_ratio": 1.0,
@@ -534,27 +590,28 @@
           "doc_type": 1.0,
           "venue": 0.862,
           "doi": 0.172,
-          "pages": 0.759
+          "pages": 0.759,
+          "web_refs": 0,
+          "web_no_author": 0
         },
         "problems": {},
         "clean_ratio": 1.0
       },
       "pdf_path": {
-        "count": 30,
+        "count": 29,
         "coverage": {
           "title": 1.0,
-          "authors": 0.967,
-          "year": 0.967,
+          "authors": 1.0,
+          "year": 1.0,
           "doc_type": 1.0,
-          "venue": 0.9,
-          "doi": 0.167,
-          "pages": 0.733
+          "venue": 0.897,
+          "doi": 0.138,
+          "pages": 0.759,
+          "web_refs": 0,
+          "web_no_author": 0
         },
-        "problems": {
-          "authors_empty": 1,
-          "year_missing": 1
-        },
-        "clean_ratio": 0.967,
+        "problems": {},
+        "clean_ratio": 1.0,
         "split_found_heading": true,
         "entries_by_marks": 29
       }
@@ -571,7 +628,9 @@
           "doc_type": 1.0,
           "venue": 0.5,
           "doi": 0.0,
-          "pages": 0.5
+          "pages": 0.5,
+          "web_refs": 0,
+          "web_no_author": 0
         },
         "problems": {},
         "clean_ratio": 1.0
@@ -585,7 +644,9 @@
           "doc_type": 1.0,
           "venue": 0.5,
           "doi": 0.0,
-          "pages": 0.5
+          "pages": 0.5,
+          "web_refs": 0,
+          "web_no_author": 0
         },
         "problems": {},
         "clean_ratio": 1.0,
@@ -605,27 +666,28 @@
           "doc_type": 1.0,
           "venue": 0.9,
           "doi": 0.0,
-          "pages": 1.0
+          "pages": 1.0,
+          "web_refs": 0,
+          "web_no_author": 0
         },
         "problems": {},
         "clean_ratio": 1.0
       },
       "pdf_path": {
-        "count": 22,
+        "count": 20,
         "coverage": {
           "title": 1.0,
-          "authors": 0.909,
-          "year": 0.955,
+          "authors": 1.0,
+          "year": 1.0,
           "doc_type": 1.0,
-          "venue": 0.955,
-          "doi": 0.818,
-          "pages": 0.909
+          "venue": 0.95,
+          "doi": 0.8,
+          "pages": 1.0,
+          "web_refs": 0,
+          "web_no_author": 0
         },
-        "problems": {
-          "authors_empty": 2,
-          "year_missing": 1
-        },
-        "clean_ratio": 0.909,
+        "problems": {},
+        "clean_ratio": 1.0,
         "split_found_heading": true,
         "entries_by_marks": 20
       }
@@ -642,7 +704,9 @@
           "doc_type": 1.0,
           "venue": 0.75,
           "doi": 0.167,
-          "pages": 0.667
+          "pages": 0.667,
+          "web_refs": 0,
+          "web_no_author": 0
         },
         "problems": {},
         "clean_ratio": 1.0
@@ -656,7 +720,9 @@
           "doc_type": 1.0,
           "venue": 0.75,
           "doi": 0.167,
-          "pages": 0.667
+          "pages": 0.667,
+          "web_refs": 0,
+          "web_no_author": 0
         },
         "problems": {},
         "clean_ratio": 1.0,
@@ -671,35 +737,33 @@
         "count": 39,
         "coverage": {
           "title": 1.0,
-          "authors": 0.821,
+          "authors": 1.0,
           "year": 0.538,
           "doc_type": 1.0,
-          "venue": 0.872,
+          "venue": 0.385,
           "doi": 0.051,
-          "pages": 0.513
+          "pages": 0.513,
+          "web_refs": 19,
+          "web_no_author": 0
         },
-        "problems": {
-          "authors_empty": 7,
-          "year_missing": 18
-        },
-        "clean_ratio": 0.513
+        "problems": {},
+        "clean_ratio": 1.0
       },
       "pdf_path": {
         "count": 39,
         "coverage": {
           "title": 1.0,
-          "authors": 0.821,
+          "authors": 1.0,
           "year": 0.538,
           "doc_type": 1.0,
-          "venue": 0.872,
+          "venue": 0.385,
           "doi": 0.051,
-          "pages": 0.513
+          "pages": 0.513,
+          "web_refs": 19,
+          "web_no_author": 0
         },
-        "problems": {
-          "authors_empty": 7,
-          "year_missing": 18
-        },
-        "clean_ratio": 0.513,
+        "problems": {},
+        "clean_ratio": 1.0,
         "split_found_heading": true,
         "entries_by_marks": 39
       }
@@ -714,9 +778,11 @@
           "authors": 1.0,
           "year": 1.0,
           "doc_type": 1.0,
-          "venue": 0.686,
+          "venue": 0.667,
           "doi": 0.0,
-          "pages": 0.098
+          "pages": 0.098,
+          "web_refs": 1,
+          "web_no_author": 0
         },
         "problems": {
           "title_long": 1
@@ -730,22 +796,23 @@
       "title": "变量间的网络分析模型及其应用",
       "source": "D:\\ai+ky\\citeguard\\data\\real_corpus\\W2996762219.pdf",
       "pdf_path": {
-        "count": 70,
+        "count": 69,
         "coverage": {
-          "title": 0.986,
+          "title": 1.0,
           "authors": 0.986,
           "year": 1.0,
           "doc_type": 1.0,
-          "venue": 0.871,
-          "doi": 0.486,
-          "pages": 0.657
+          "venue": 0.841,
+          "doi": 0.493,
+          "pages": 0.667,
+          "web_refs": 3,
+          "web_no_author": 0
         },
         "problems": {
-          "title_empty": 1,
           "title_long": 1,
           "authors_empty": 1
         },
-        "clean_ratio": 0.971,
+        "clean_ratio": 0.986,
         "split_found_heading": true,
         "entries_by_marks": 0
       }
@@ -753,358 +820,10 @@
   ],
   "examples": [
     {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152705",
-      "kind": "published",
-      "problem": "authors_empty",
-      "raw": "[2] 帕力扎∙热合木吐拉. 现代汉语认知心理动词语义网络研究[D]: [硕士学位论文]. 乌鲁木齐: 新疆大学, 2021."
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152705",
-      "kind": "pdf",
-      "problem": "authors_empty",
-      "raw": "[2] 帕力扎∙热合木吐拉. 现代汉语认知心理动词语义网络研究[D]: [硕士学位论文]. 乌鲁木齐: 新疆大学, 2021."
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152700",
-      "kind": "pdf",
-      "problem": "authors_empty",
-      "raw": "550. https://doi.org/10.1177/00336882231162868"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152700",
-      "kind": "pdf",
-      "problem": "year_missing",
-      "raw": "550. https://doi.org/10.1177/00336882231162868"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152680",
-      "kind": "pdf",
-      "problem": "authors_empty",
-      "raw": "112027. https://doi.0rg/10.1016/j.patcog.2025.112027"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152680",
-      "kind": "pdf",
-      "problem": "authors_empty",
-      "raw": "152105. https://doi.0rg/10.1007/s11432-020-3369-8"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152680",
-      "kind": "pdf",
-      "problem": "year_missing",
-      "raw": "152105. https://doi.0rg/10.1007/s11432-020-3369-8"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "published",
-      "problem": "authors_empty",
-      "raw": "[12] 拉尔夫·泰勒. 课程与教学的基本原理[M]. 施良方, 译. 北京: 人民教育出版社, 1994: 2."
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "published",
-      "problem": "year_missing",
-      "raw": "[15] Stanford University. Bio-X: About Bio-X. http://biox.stanford.edu/about/history.html"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "published",
-      "problem": "year_missing",
-      "raw": "[16] Massachusetts Institute of Technology. Interdisciplinary Graduate Programs. https://catalog.mit.edu/interdisciplinary/graduate-programs/"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "published",
-      "problem": "authors_empty",
-      "raw": "[17] Harvard John A. Paulson School of Engineering and Applied Sciences. PhD in Applied Mathematics. https://www.seas.harvard.edu/programs/graduate/applied-mathematics"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "published",
-      "problem": "year_missing",
-      "raw": "[17] Harvard John A. Paulson School of Engineering and Applied Sciences. PhD in Applied Mathematics. https://www.seas.harvard.edu/programs/graduate/applied-mathematics"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "published",
-      "problem": "authors_empty",
-      "raw": "[18] Carnegie Mellon University. Machine Learning PhD Curriculum. https://ml.cmu.edu/current-students/phd-curriculum"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "published",
-      "problem": "year_missing",
-      "raw": "[18] Carnegie Mellon University. Machine Learning PhD Curriculum. https://ml.cmu.edu/current-students/phd-curriculum"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "published",
-      "problem": "authors_empty",
-      "raw": "[19] Princeton University. Grand Challenges: Collaborating to Create a Better Future. https://aspire-report.princeton.edu/engineering/grand-challenges"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "published",
-      "problem": "year_missing",
-      "raw": "[19] Princeton University. Grand Challenges: Collaborating to Create a Better Future. https://aspire-report.princeton.edu/engineering/grand-challenges"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "published",
-      "problem": "year_missing",
-      "raw": "[20] University of California, Berkeley. New Silicon Initiative (NSI). https://eecs.berkeley.edu/academics/new-silicon-initiative-nsi"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "published",
-      "problem": "year_missing",
-      "raw": "[21] UC Berkeley EECS. EECS Students Drive AI Innovation as Amazon PhD Fellows. https://eecs.berkeley.edu/news/eecs-students-drive-ai-innovation-as-amazon-phd-fellows"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "published",
-      "problem": "year_missing",
-      "raw": "[22] Sakr, M.F. and Goldstein, S.C. Cloud Computing: 15-619/15-819, Carnegie Mellon University. http://www.cs.cmu.edu/~msakr/15619-s24/"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "published",
-      "problem": "authors_empty",
-      "raw": "[23] Harvard Medical School. Department of Biomedical Informatics. Bioinformatics and Integrative Genomics (BIG) PhD Track. https://bigphd.hms.harvard.edu/"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "published",
-      "problem": "year_missing",
-      "raw": "[23] Harvard Medical School. Department of Biomedical Informatics. Bioinformatics and Integrative Genomics (BIG) PhD Track. https://bigphd.hms.harvard.edu/"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "published",
-      "problem": "year_missing",
-      "raw": "[24] Stanford University. PhD Course Requirements. https://www-cs-staff.stanford.edu/phd-program-course-requirements"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "published",
-      "problem": "year_missing",
-      "raw": "[25] The John U. Nef Committee on Social Thought, University of Chicago. Doctoral Program. https://socialthought.uchicago.edu/doctoral-program"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "published",
-      "problem": "authors_empty",
-      "raw": "[28] University of Minnesota. Backward Design for Syllabus Design. https://carla.umn.edu/lpd/modules/mod2/backward"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "published",
-      "problem": "year_missing",
-      "raw": "[28] University of Minnesota. Backward Design for Syllabus Design. https://carla.umn.edu/lpd/modules/mod2/backward"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "published",
-      "problem": "year_missing",
-      "raw": "[29] University of Massachusetts Amherst. Syllabus Design Tips. https://www.umass.edu/education/facultyhub/instructional-support/syllabus-design-tips"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "published",
-      "problem": "authors_empty",
-      "raw": "[30] Harvard Business School. The Case Method Project: About Case Method Teaching. https://www.hbs.edu/case-method-project/about/Pages/case-method-teaching.aspx"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "published",
-      "problem": "year_missing",
-      "raw": "[30] Harvard Business School. The Case Method Project: About Case Method Teaching. https://www.hbs.edu/case-method-project/about/Pages/case-method-teaching.aspx"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "published",
-      "problem": "year_missing",
-      "raw": "[31] McLoon, S. Term Paper: Nsc8211 Developmental Neurobiology. http://mcloonlab.neuroscience.umn.edu/8211/term_paper.htm"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "published",
-      "problem": "year_missing",
-      "raw": "[32] Meyer, A.R. Responsible Research Approach. https://people.csail.mit.edu/meyer/AreaII/ethics/page-03.html"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "published",
-      "problem": "year_missing",
-      "raw": "[33] Johns Hopkins University. DrPH Core Curriculum & Global Health Requirements. https://www.jhsph.edu/academics/programs/doctor-of-public-health-drph/curriculum/core-curriculum.html"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "published",
-      "problem": "year_missing",
-      "raw": "[36] Association of American Universities. PhD Education Initiative. https://www.aau.edu/strategic-initiatives/undergraduate-phd-education-initiatives/doctoral-education/phd-education-initiative"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "pdf",
-      "problem": "authors_empty",
-      "raw": "[12] 拉尔夫·泰勒. 课程与教学的基本原理[M]. 施良方, 译. 北京: 人民教育出版社, 1994: 2."
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "pdf",
-      "problem": "year_missing",
-      "raw": "[15] Stanford University. Bio-X: About Bio-X. http://biox.stanford.edu/about/history.html"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "pdf",
-      "problem": "year_missing",
-      "raw": "[16] Massachusetts Institute of Technology. Interdisciplinary Graduate Programs. https://catalog.mit.edu/interdisciplinary/graduate-programs/"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "pdf",
-      "problem": "authors_empty",
-      "raw": "[17] Harvard John A. Paulson School of Engineering and Applied Sciences. PhD in Applied Mathematics. https://www.seas.harvard.edu/programs/graduate/applied-mathematics"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "pdf",
-      "problem": "year_missing",
-      "raw": "[17] Harvard John A. Paulson School of Engineering and Applied Sciences. PhD in Applied Mathematics. https://www.seas.harvard.edu/programs/graduate/applied-mathematics"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "pdf",
-      "problem": "authors_empty",
-      "raw": "[18] Carnegie Mellon University. Machine Learning PhD Curriculum. https://ml.cmu.edu/current-students/phd-curriculum"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "pdf",
-      "problem": "year_missing",
-      "raw": "[18] Carnegie Mellon University. Machine Learning PhD Curriculum. https://ml.cmu.edu/current-students/phd-curriculum"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "pdf",
-      "problem": "authors_empty",
-      "raw": "[19] Princeton University. Grand Challenges: Collaborating to Create a Better Future. https://aspire-report.princeton.edu/engineering/grand-challenges"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "pdf",
-      "problem": "year_missing",
-      "raw": "[19] Princeton University. Grand Challenges: Collaborating to Create a Better Future. https://aspire-report.princeton.edu/engineering/grand-challenges"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "pdf",
-      "problem": "year_missing",
-      "raw": "[20] University of California, Berkeley. New Silicon Initiative (NSI). https://eecs.berkeley.edu/academics/new-silicon-initiative-nsi"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "pdf",
-      "problem": "year_missing",
-      "raw": "[21] UC Berkeley EECS. EECS Students Drive AI Innovation as Amazon PhD Fellows. https://eecs.berkeley.edu/news/eecs-students-drive-ai-innovation-as-amazon-phd-fellows"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "pdf",
-      "problem": "year_missing",
-      "raw": "[22] Sakr, M.F. and Goldstein, S.C. Cloud Computing: 15-619/15-819, Carnegie Mellon University. http://www.cs.cmu.edu/~msakr/15619-s24/"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "pdf",
-      "problem": "authors_empty",
-      "raw": "[23] Harvard Medical School. Department of Biomedical Informatics. Bioinformatics and Integrative Genomics (BIG) PhD Track. https://bigphd.hms.harvard.edu/"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "pdf",
-      "problem": "year_missing",
-      "raw": "[23] Harvard Medical School. Department of Biomedical Informatics. Bioinformatics and Integrative Genomics (BIG) PhD Track. https://bigphd.hms.harvard.edu/"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "pdf",
-      "problem": "year_missing",
-      "raw": "[24] Stanford University. PhD Course Requirements. https://www-cs-staff.stanford.edu/phd-program-course-requirements"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "pdf",
-      "problem": "year_missing",
-      "raw": "[25] The John U. Nef Committee on Social Thought, University of Chicago. Doctoral Program. https://socialthought.uchicago.edu/doctoral-program"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "pdf",
-      "problem": "authors_empty",
-      "raw": "[28] University of Minnesota. Backward Design for Syllabus Design. https://carla.umn.edu/lpd/modules/mod2/backward"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "pdf",
-      "problem": "year_missing",
-      "raw": "[28] University of Minnesota. Backward Design for Syllabus Design. https://carla.umn.edu/lpd/modules/mod2/backward"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "pdf",
-      "problem": "year_missing",
-      "raw": "[29] University of Massachusetts Amherst. Syllabus Design Tips. https://www.umass.edu/education/facultyhub/instructional-support/syllabus-design-tips"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "pdf",
-      "problem": "authors_empty",
-      "raw": "[30] Harvard Business School. The Case Method Project: About Case Method Teaching. https://www.hbs.edu/case-method-project/about/Pages/case-method-teaching.aspx"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "pdf",
-      "problem": "year_missing",
-      "raw": "[30] Harvard Business School. The Case Method Project: About Case Method Teaching. https://www.hbs.edu/case-method-project/about/Pages/case-method-teaching.aspx"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "pdf",
-      "problem": "year_missing",
-      "raw": "[31] McLoon, S. Term Paper: Nsc8211 Developmental Neurobiology. http://mcloonlab.neuroscience.umn.edu/8211/term_paper.htm"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "pdf",
-      "problem": "year_missing",
-      "raw": "[32] Meyer, A.R. Responsible Research Approach. https://people.csail.mit.edu/meyer/AreaII/ethics/page-03.html"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "pdf",
-      "problem": "year_missing",
-      "raw": "[33] Johns Hopkins University. DrPH Core Curriculum & Global Health Requirements. https://www.jhsph.edu/academics/programs/doctor-of-public-health-drph/curriculum/core-curriculum.html"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
-      "kind": "pdf",
-      "problem": "year_missing",
-      "raw": "[36] Association of American Universities. PhD Education Initiative. https://www.aau.edu/strategic-initiatives/undergraduate-phd-education-initiatives/doctoral-education/phd-education-in- itiative"
-    },
-    {
       "source": "D:\\ai+ky\\citeguard\\data\\real_corpus\\W2098348787.pdf",
       "kind": "pdf",
       "problem": "title_long",
       "raw": "Caruso, G. (2001). \"Peri-Urbanisation: the Situation in Europe - A Bibliographical Note and Survey of Studies In the Netherlands, Belgium, Great Britain, Germany, Italy and the Nordic Countries.\" Report prepared for the DATAR (with contribu"
-    },
-    {
-      "source": "D:\\ai+ky\\citeguard\\data\\real_corpus\\W2996762219.pdf",
-      "kind": "pdf",
-      "problem": "title_empty",
-      "raw": "J. (2017)."
     },
     {
       "source": "D:\\ai+ky\\citeguard\\data\\real_corpus\\W2996762219.pdf",

@@ -57,21 +57,28 @@ def format_gbt_entry(
 ) -> str:
     """Return a single GB/T 7714-style entry (without the leading ``[n]``)."""
     type_code = TYPE_LABELS.get((doc_type or "J").upper(), "J")
+    kind = (doc_type or "J").upper()
     cjk = _has_cjk(title)
     parts: list[str] = []
 
     author_text = _format_authors(authors, cjk)
     if author_text:
-        parts.append(author_text + ". ")
+        # Initials already end with a period ("Carayannis, E.G.") — avoid "..".
+        parts.append(author_text.rstrip(".．。") + ". ")
 
     clean_title = (title or "").strip().rstrip(".．。")
     if clean_title:
         parts.append(f"{clean_title}[{type_code}]. ")
 
-    if type_code in {"M"}:
-        source = ", ".join(x for x in (place, publisher) if x)
+    if kind == "M":
+        # GB/T: 出版地: 出版者, 出版年
+        source = f"{place}: {publisher}" if place and publisher else (place or publisher)
         if source:
             parts.append(source + ", ")
+    elif kind == "EB":
+        # A web page has no volume/issue/pages field; PDF parsing often invents
+        # one from a course number or a URL fragment ("…: 15-619"), so drop them.
+        volume = issue = pages = ""
     else:
         if venue:
             parts.append(venue.strip().rstrip(".．。") + ", ")
@@ -95,6 +102,8 @@ def format_gbt_entry(
     entry = "".join(parts).strip()
     if not entry:
         return ""
+    # A dangling separator happens when a later field is missing.
+    entry = entry.rstrip(" ,;:、")
     entry = entry.rstrip() if entry.endswith(".") else entry + "."
     if doi:
         entry += f" DOI: {doi}."
