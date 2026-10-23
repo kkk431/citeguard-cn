@@ -9,7 +9,7 @@
     把你自己的题录导出（知网 / NoteExpress / EndNote / Zotero 的 RIS、BibTeX、EndNote、CSL-JSON 或纯文本参考文献表）导入这里，
     核验时会优先用你自己的数据比对——数据留在本机，不上传任何地方。
   </p>
-  <div class="stats" style="grid-template-columns:repeat(4,1fr)">
+  <div class="stats stats-4">
     <div class="stat"><b>{{ count }}</b><span>库内题录</span></div>
     <div class="stat"><b>{{ with_abstract }}</b><span>带摘要（可判支持度）</span></div>
     <div class="stat"><b>{{ sources|length }}</b><span>来源格式</span></div>
@@ -44,7 +44,7 @@
         <span class="mono-sm" id="library-hint" style="margin-left:auto;align-self:center"></span>
       </div>
     </form>
-    <div class="mono-sm" style="margin-top:12px;color:var(--muted)">存储位置：{{ path }} · 只保存在本机，不会上传</div>
+    <div class="mono-sm" style="margin-top:12px;color:var(--muted);word-break:break-all">存储位置：{{ path }} · 只保存在本机，不会上传</div>
   </div>
 </section>
 

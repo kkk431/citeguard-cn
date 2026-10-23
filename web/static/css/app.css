@@ -113,6 +113,7 @@ textarea:focus,input:focus{outline:none;border-color:var(--accent);background:va
 .report-head .meta{font-size:12px;color:var(--muted);font-family:var(--mono)}
 .report-actions{display:flex;gap:8px;flex-wrap:wrap}
 .stats{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;margin-bottom:18px}
+.stats-4{grid-template-columns:repeat(4,1fr)}
 .stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
 .stat b{display:block;font-size:28px;line-height:1.2;font-weight:600}
 .stat span{font-size:11px;color:var(--muted)}
@@ -201,6 +202,9 @@ textarea:focus,input:focus{outline:none;border-color:var(--accent);background:va
 .table-wrap .table.table-compact{min-width:0}
 @media(max-width:560px){
   .col-progress{display:none}
+  .stats-4{grid-template-columns:1fr 1fr!important}
+  .stat b{font-size:22px}
+  .stat span{font-size:10px}
 }
 
 /* print: the report doubles as a handout */

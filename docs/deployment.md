@@ -143,6 +143,41 @@ WantedBy=multi-user.target
 > 生产环境请把 key 放在 root 可读的 `EnvironmentFile` 或用 `systemctl edit` 注入，
 > 不要把真实 key 写进仓库里的 unit 文件。
 
+### 2.5 增量更新（已部署实例）
+
+服务器上的部署目录**不是 git 仓库**，更新时从本地打包改动的文件再解压：
+
+```bash
+# 本地打包（只打改过的文件，保持相对路径）
+tar -cf out/deploy.tar src/citeguard/metadata_verify.py web/app.py \
+  web/static/css/app.css web/templates/index.html
+
+# 上传并解压
+scp out/deploy.tar xyjiang@<host>:/tmp/citeguard_deploy.tar
+ssh xyjiang@<host> 'cd /data/xyjiang/aic_mental/citeguard && tar -xf /tmp/citeguard_deploy.tar'
+
+# 重启：pkill 旧 uvicorn → source .env.remote → nohup 启动 → 健康检查
+bash /tmp/restart_remote.sh
+```
+
+验证（服务器本机）：
+
+```bash
+curl -s http://127.0.0.1:8000/api/health          # {"ok":true,...}
+curl -s http://127.0.0.1:8000/static/js/index.js | grep -c "批量汇总"   # 前端是否为新版
+```
+
+> 演示实例的 `DEEPSEEK_API_KEY` 放在服务器 `citeguard/.env.remote`（`chmod 600`，不进仓库、
+> 不进 zip）；重启脚本会 `source` 它。没有该文件时服务照常启动，只是支持度显示「未检测」。
+
+如果题录库是在没有摘要的情况下导入的，可在服务器上补全（只取公开元数据）：
+
+```bash
+cd /data/xyjiang/aic_mental/citeguard
+PYTHONPATH=src:.pylibs python3 scripts/enrich_library_abstracts.py --dry-run
+PYTHONPATH=src:.pylibs python3 scripts/enrich_library_abstracts.py
+```
+
 ---
 
 ## 3. SSH 隧道访问

@@ -116,7 +116,7 @@ citeguard/
 ├── docker/               # Dockerfile + compose
 ├── data/citebench_cn/    # CiteBench-CN 数据集、结果、数据卡
 ├── data/claimsupport_cn/ # ClaimSupport-CN 数据集、结果、数据卡
-├── docs/                 # 评测规划、一页纸、部署文档
+├── docs/                 # 评测规划、真实数据实测、用户测试包、部署文档
 ├── requirements.txt      # 兼容范围
 ├── requirements.lock.txt # 锁定版本（可复现）
 ├── reproduce.sh
@@ -214,6 +214,8 @@ PYTHONPATH=src python3 scripts/enrich_library_abstracts.py
 | 参考文献解析干净率（10 篇真实论文 + PDF 路径） | **99.2%** |
 | 真实已发表文献被误判「疑似虚构」 | **0 / 224** |
 | 单篇 40 条引文的核验耗时 | 并发 4 线程，约 1～2 分钟（含缓存） |
+
+> 以上均为内部实验数据。**真实用户研究还没做**——可直接照做的任务脚本、指标、SUS 问卷与结果模板在 [docs/user_test_kit.md](docs/user_test_kit.md)，跑完 3–5 人即可得到可引用的用户数据。
 
 ## 已知局限
 
