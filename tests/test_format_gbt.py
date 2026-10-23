@@ -1,7 +1,8 @@
 """GB/T-style entry generation from database metadata."""
 from __future__ import annotations
 
-from citeguard.format_gbt import format_gbt_entry
+from citeguard.format_gbt import format_gbt_entry, format_from_reference, format_reference_list
+from citeguard.reference_parser import parse_reference
 
 
 def test_journal_entry_uses_first_three_authors_and_etal():
@@ -65,3 +66,39 @@ def test_missing_year_still_renders():
     assert "[J]" in entry
     assert "Some Journal" in entry
     assert entry.endswith("1-10.")
+
+
+def test_format_from_reference_retypesets_parsed_entry():
+    ref = parse_reference(
+        "[1] 张三, 李四, 王五, 赵六. 题名[J]. 期刊, 2020, 31(2): 10-20. DOI: 10.1234/x."
+    )
+    entry = format_from_reference(ref)
+
+    assert entry.startswith("张三, 李四, 王五, 等. ")
+    assert "题名[J]." in entry
+    assert "期刊, 2020, 31(2): 10-20." in entry
+    assert "DOI: 10.1234/x." in entry
+
+
+def test_format_from_reference_keeps_book_place_and_publisher():
+    ref = parse_reference("[2] 李四. 数据结构[M]. 北京: 清华大学出版社, 2020.")
+
+    entry = format_from_reference(ref)
+
+    assert "[M]" in entry
+    assert "北京, 清华大学出版社, 2020." in entry
+
+
+def test_format_reference_list_keeps_indexes_and_skips_empty():
+    from citeguard.reference_parser import Reference
+
+    refs = [
+        parse_reference("[1] 张三. 题名[J]. 期刊, 2020, 31(2): 10-20."),
+        Reference(raw="[2] ??", index=2),
+    ]
+    out = format_reference_list(refs)
+
+    assert out[0]["index"] == 1
+    assert out[0]["entry"].startswith("张三. 题名[J].")
+    assert out[1]["index"] == 2
+    assert out[1]["entry"] == ""

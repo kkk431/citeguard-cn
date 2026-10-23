@@ -350,6 +350,22 @@
     const printBtn = document.getElementById("print-report");
     if (printBtn) printBtn.addEventListener("click", function () { window.print(); });
 
+    const copyRefsBtn = document.getElementById("copy-refs");
+    if (copyRefsBtn) {
+      copyRefsBtn.addEventListener("click", function () {
+        const lines = (data.formatted_reference_list || [])
+          .filter(function (x) { return x && x.entry; })
+          .map(function (x) { return "[" + (x.index == null ? "" : x.index) + "] " + x.entry; });
+        if (!lines.length) {
+          window.CiteGuard.toast("本次没有可导出的参考文献表");
+          return;
+        }
+        window.CiteGuard.copyText(lines.join("\n")).then(function (ok) {
+          window.CiteGuard.toast(ok ? "参考文献表已复制（按原文重排，请核对）" : "复制失败，请手动选择文本");
+        });
+      });
+    }
+
     apply(data);
   }
 

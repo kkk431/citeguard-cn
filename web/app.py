@@ -25,6 +25,7 @@ from citeguard.jobs import manager  # noqa: E402
 from citeguard.local_library import Library, parse_library_text  # noqa: E402
 from citeguard.pdf_extract import SUPPORTED_SUFFIXES  # noqa: E402
 from citeguard.pipeline import run_job  # noqa: E402
+from citeguard.report import render_reference_list  # noqa: E402
 
 UPLOAD_DIR = config.DATA_DIR / "uploads"
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
@@ -246,8 +247,22 @@ def export_report(job_id: str, format: str = "html"):
             media_type="text/csv; charset=utf-8",
             headers={"Content-Disposition": f'attachment; filename="{filename}"'},
         )
+    if format == "refs":
+        report = _load_report(job_id)
+        if report is None:
+            raise HTTPException(status_code=404, detail="report not ready")
+        text = render_reference_list(report)
+        if not text:
+            raise HTTPException(status_code=404, detail="reference list not available")
+        return Response(
+            content=text.encode("utf-8"),
+            media_type="text/plain; charset=utf-8",
+            headers={
+                "Content-Disposition": f'attachment; filename="citeguard-{job_id}-references.txt"'
+            },
+        )
     if format not in {"html", "md", "json"}:
-        raise HTTPException(status_code=400, detail="format must be html/md/json/csv")
+        raise HTTPException(status_code=400, detail="format must be html/md/json/csv/refs")
     p = config.DATA_DIR / "jobs" / job_id / f"report.{format}"
     if not p.exists():
         raise HTTPException(status_code=404, detail="export not ready")
@@ -292,11 +307,16 @@ def _report_to_csv(report: dict) -> str:
             "合规分",
             "格式问题",
             "修改建议",
+            "规范条目（按原文重排）",
             "引用句",
             "证据链接",
             "原始条目",
         ]
     )
+    formatted_by_index = {
+        str(it.get("index")): it.get("entry", "")
+        for it in (report.get("formatted_reference_list") or [])
+    }
     for item in report.get("references", []):
         p = item.get("parsed") or {}
         v = item.get("verify") or {}
@@ -322,6 +342,7 @@ def _report_to_csv(report: dict) -> str:
                 c.get("score", ""),
                 "；".join(errors),
                 "；".join(suggestions),
+                formatted_by_index.get(str(item.get("index", "")), ""),
                 sup.get("claim", ""),
                 best.get("url", "") or (f"https://doi.org/{best.get('doi')}" if best.get("doi") else ""),
                 item.get("raw", ""),

@@ -173,6 +173,11 @@ def test_e2e_upload_sample_paper(client, monkeypatch, isolated_project, sample_r
     assert html.status_code == 200
     assert "<!doctype html>" in html.text
 
+    refs = client.get(f"/api/report/{job_id}/export?format=refs")
+    assert refs.status_code == 200
+    assert "text/plain" in refs.headers["content-type"]
+    assert refs.text.startswith("[1] ")
+
     assert client.get(f"/api/report/{job_id}/export?format=pdf").status_code == 400
 
 

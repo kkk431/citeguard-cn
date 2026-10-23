@@ -209,6 +209,7 @@ def test_csv_export_has_bom_and_one_row_per_reference(client):
     body = csv_resp.content.decode("utf-8-sig")
     lines = [ln for ln in body.splitlines() if ln.strip()]
     assert lines[0].startswith("序号,结论,支持度")
+    assert "规范条目（按原文重排）" in lines[0]
     assert len(lines) == 2  # header + one reference
 
 

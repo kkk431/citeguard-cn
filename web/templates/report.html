@@ -10,6 +10,8 @@
   <div class="report-actions">
     {% if report %}
     <button class="btn btn-ghost btn-sm" type="button" id="copy-suggestions">复制修改建议</button>
+    <button class="btn btn-ghost btn-sm" type="button" id="copy-refs">复制参考文献表</button>
+    <a class="btn btn-ghost btn-sm" href="/api/report/{{ job.id }}/export?format=refs">导出参考文献表</a>
     <button class="btn btn-ghost btn-sm" type="button" id="print-report">打印 / 存 PDF</button>
     <a class="btn btn-ghost btn-sm" href="/api/report/{{ job.id }}/export?format=csv">导出 CSV</a>
     <a class="btn btn-ghost btn-sm" href="/api/report/{{ job.id }}/export?format=html">导出 HTML</a>

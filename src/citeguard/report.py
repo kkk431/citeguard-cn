@@ -7,7 +7,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
-from .format_gbt import format_from_candidate
+from .format_gbt import format_from_candidate, format_reference_list
 from .gbt7714 import ComplianceResult
 from .metadata_verify import VerifyResult
 from .reference_parser import InTextCitation, Reference
@@ -115,6 +115,10 @@ def build_report(
             },
         },
         "references": items,
+        # Re-typeset reference list built from what the paper already cites (no
+        # online lookup). Useful as a first pass, but it cannot invent missing
+        # fields: the UI/export labels it as "needs checking".
+        "formatted_reference_list": format_reference_list(refs),
         "disclaimer": (
             "本报告为研究原型输出：元数据核验依据 OpenAlex/Crossref/arXiv 公开数据；"
             "GB/T 7714-2025 规则引擎基于公开规则事实编码，未复制标准原文，"
@@ -168,6 +172,12 @@ def render_markdown(report: dict) -> str:
         lines += ["", "## 建议替换条目（按数据库元数据生成，请核对）", ""]
         for index, entry in suggested:
             lines.append(f"- [{index}] {entry}")
+    formatted = report.get("formatted_reference_list") or []
+    if formatted:
+        lines += ["", "## GB/T 7714-2025 参考文献表（按原文重排，未核验字段需自行补齐）", ""]
+        for item in formatted:
+            if item.get("entry"):
+                lines.append(f"[{item.get('index', '')}] {item['entry']}")
     lines += ["", f"> {report['disclaimer']}"]
     return "\n".join(lines)
 
@@ -281,6 +291,24 @@ def render_html(report: dict) -> str:
             """
         )
 
+    formatted = report.get("formatted_reference_list") or []
+    formatted_html = ""
+    if formatted:
+        lis = "".join(
+            f'<li><span class="idx">[{html.escape(str(it.get("index", "")))}]</span> '
+            f'{html.escape(it.get("entry", ""))}</li>'
+            for it in formatted
+            if it.get("entry")
+        )
+        if lis:
+            formatted_html = (
+                '<div class="card" style="margin-top:22px">'
+                '<div class="title" style="font-size:15px">GB/T 7714-2025 参考文献表（按原文重排）</div>'
+                '<div class="meta">只做格式重排，不补缺失字段；请与原文核对后再替换。</div>'
+                f'<ol class="refs-list">{lis}</ol>'
+                "</div>"
+            )
+
     return f"""<!doctype html>
 <html lang="zh-CN">
 <head>
@@ -320,6 +348,8 @@ def render_html(report: dict) -> str:
   .suggested {{ margin-top:10px; border-top:1px dashed var(--line); padding-top:10px; font-size:12px; color:var(--muted); }}
   .suggested span {{ display:block; margin-bottom:4px; }}
   .suggested code {{ display:block; color:var(--text); background:#f9fafb; border:1px solid var(--line); border-radius:8px; padding:8px 10px; font-family: "Microsoft YaHei", sans-serif; line-height:1.7; white-space:pre-wrap; }}
+  .refs-list {{ margin:8px 0 0; padding-left:20px; font-size:12px; color:#374151; line-height:1.9; }}
+  .refs-list li {{ margin-bottom:4px; }}
   footer {{ color:var(--muted); font-size:12px; margin-top:28px; line-height:1.7; }}
 </style>
 </head>
@@ -341,6 +371,7 @@ def render_html(report: dict) -> str:
   </div>
   {verdict_html}
   {''.join(cards)}
+  {formatted_html}
   <footer>{html.escape(report['disclaimer'])}</footer>
 </div>
 </body>
@@ -353,7 +384,24 @@ def save_report(report: dict, out_dir: str | Path, stem: str = "report") -> dict
     json_path = out_dir / f"{stem}.json"
     md_path = out_dir / f"{stem}.md"
     html_path = out_dir / f"{stem}.html"
+    refs_path = out_dir / f"{stem}.refs.txt"
     json_path.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
     md_path.write_text(render_markdown(report), encoding="utf-8")
     html_path.write_text(render_html(report), encoding="utf-8")
-    return {"json": str(json_path), "md": str(md_path), "html": str(html_path)}
+    refs_path.write_text(render_reference_list(report), encoding="utf-8")
+    return {
+        "json": str(json_path),
+        "md": str(md_path),
+        "html": str(html_path),
+        "refs": str(refs_path),
+    }
+
+
+def render_reference_list(report: dict) -> str:
+    """Plain-text GB/T-style reference list (one ``[n] entry`` per line)."""
+    lines: list[str] = []
+    for item in report.get("formatted_reference_list") or []:
+        entry = (item.get("entry") or "").strip()
+        if entry:
+            lines.append(f"[{item.get('index', '')}] {entry}")
+    return "\n".join(lines) + ("\n" if lines else "")

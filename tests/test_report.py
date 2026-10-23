@@ -109,16 +109,32 @@ def test_render_html_contains_status_badge():
     assert 'href="https://example.org/evidence"' in page
 
 
-def test_save_report_writes_three_formats(tmp_path):
+def test_save_report_writes_all_formats(tmp_path):
     report = _report()
     paths = save_report(report, tmp_path / "out")
 
     for fmt in ("json", "md", "html"):
         assert (tmp_path / "out" / f"report.{fmt}").exists()
+    refs_path = tmp_path / "out" / "report.refs.txt"
+    assert refs_path.exists()
+    refs_text = refs_path.read_text(encoding="utf-8")
+    assert refs_text.startswith("[1] 张三. 题名[J].")
     assert json.loads((tmp_path / "out" / "report.json").read_text(encoding="utf-8"))["stats"]["total"] == 1
     assert "# 引证卫士" in (tmp_path / "out" / "report.md").read_text(encoding="utf-8")
     assert "<!doctype html>" in (tmp_path / "out" / "report.html").read_text(encoding="utf-8")
-    assert set(paths) == {"json", "md", "html"}
+    assert set(paths) == {"json", "md", "html", "refs"}
+
+
+def test_report_contains_formatted_reference_list():
+    report = _report()
+
+    assert report["formatted_reference_list"][0]["index"] == 1
+    assert report["formatted_reference_list"][0]["entry"].startswith("张三. 题名[J].")
+    md = render_markdown(report)
+    assert "GB/T 7714-2025 参考文献表" in md
+    assert "[1] 张三. 题名[J]." in md
+    html = render_html(report)
+    assert "GB/T 7714-2025 参考文献表（按原文重排）" in html
 
 
 def test_empty_reference_list_report():

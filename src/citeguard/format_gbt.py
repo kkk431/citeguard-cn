@@ -122,3 +122,36 @@ def format_from_candidate(ref, cand) -> str:
         doi=getattr(cand, "doi", "") or getattr(ref, "doi", "") or "",
         url=getattr(cand, "url", "") or "",
     )
+
+
+def format_from_reference(ref) -> str:
+    """Re-typeset one parsed reference as GB/T 7714-2025 style.
+
+    This is a *reformatting* of what the paper already cites (no online lookup):
+    it normalises author separators, the type code, year/volume(issue)/pages
+    separators and the trailing period. Fields the parser could not recover stay
+    missing, so the result must still be checked against the original.
+    """
+    return format_gbt_entry(
+        title=getattr(ref, "title", "") or "",
+        authors=list(getattr(ref, "authors", []) or []),
+        doc_type=(getattr(ref, "doc_type", "") or "J").upper(),
+        venue=getattr(ref, "venue", "") or "",
+        year=getattr(ref, "year", None),
+        volume=getattr(ref, "volume", "") or "",
+        issue=getattr(ref, "issue", "") or "",
+        pages=getattr(ref, "pages", "") or "",
+        publisher=getattr(ref, "publisher", "") or "",
+        place=getattr(ref, "place", "") or "",
+        doi=getattr(ref, "doi", "") or "",
+        url=getattr(ref, "url", "") or "",
+    )
+
+
+def format_reference_list(refs) -> list[dict]:
+    """Return ``[{"index": n, "entry": "..."}]`` for a whole reference list."""
+    out: list[dict] = []
+    for ref in refs:
+        entry = format_from_reference(ref)
+        out.append({"index": getattr(ref, "index", None), "entry": entry})
+    return out
