@@ -1,0 +1,55 @@
+{
+  "macro_f1": 0.8196,
+  "accuracy": 0.82,
+  "confusion": [
+    [
+      37,
+      3,
+      0,
+      0
+    ],
+    [
+      9,
+      12,
+      0,
+      4
+    ],
+    [
+      2,
+      0,
+      13,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      20
+    ]
+  ],
+  "per_class": {
+    "support": {
+      "precision": 0.7708,
+      "recall": 0.925,
+      "f1": 0.8409
+    },
+    "partial": {
+      "precision": 0.8,
+      "recall": 0.48,
+      "f1": 0.6
+    },
+    "contradict": {
+      "precision": 1.0,
+      "recall": 0.8667,
+      "f1": 0.9286
+    },
+    "no_evidence": {
+      "precision": 0.8333,
+      "recall": 1.0,
+      "f1": 0.9091
+    }
+  },
+  "prompt_file": "scripts\\support_prompt_v5.txt",
+  "n": 100,
+  "model": "deepseek-chat"
+}

@@ -1,6 +1,8 @@
 """Tests for the optional claim-support judge and its key-free degradation."""
 from __future__ import annotations
 
+import json
+
 import pytest
 
 from citeguard import config
@@ -63,10 +65,66 @@ def test_judge_with_key_and_mocked_api(monkeypatch, isolated_cache):
     assert out is not None
     assert out["label"] == "support"
     assert out["confidence"] == pytest.approx(0.9)
-    assert len(calls) == 1
+    # stage 1 verdict + stage 2 coverage audit (only for "support" verdicts)
+    assert len(calls) == 2
     assert calls[0]["url"].endswith("/chat/completions")
     assert calls[0]["headers"]["Authorization"] == "Bearer sk-test"
     assert calls[0]["json"]["temperature"] == 0
+
+
+def _support_then_audit(audit_payload: dict):
+    seen = {"n": 0}
+
+    def handler(url, body):
+        seen["n"] += 1
+        if seen["n"] == 1:
+            return deepseek_support_response("support")
+        content = json.dumps(audit_payload, ensure_ascii=False)
+        return FakeResponse(200, {"choices": [{"message": {"content": content}}]})
+
+    return handler
+
+
+def test_coverage_audit_downgrades_incomplete_support(monkeypatch, isolated_cache):
+    monkeypatch.setattr(config, "DEEPSEEK_API_KEY", "sk-test")
+    install_fake_post(
+        monkeypatch,
+        sp,
+        _support_then_audit({"fully_covered": False, "missing": ["量级/显著性"]}),
+    )
+
+    out = sp.judge_support("干预显著改善症状", "干预组症状有所下降")
+
+    assert out is not None
+    assert out["label"] == "partial"
+    assert out["audit"]["fully_covered"] is False
+    assert "覆盖审计" in out["reason"]
+
+
+def test_coverage_audit_keeps_fully_covered_support(monkeypatch, isolated_cache):
+    monkeypatch.setattr(config, "DEEPSEEK_API_KEY", "sk-test")
+    install_fake_post(
+        monkeypatch,
+        sp,
+        _support_then_audit({"fully_covered": True, "missing": []}),
+    )
+
+    out = sp.judge_support("引用句", "摘要")
+
+    assert out is not None
+    assert out["label"] == "support"
+    assert out["audit"]["fully_covered"] is True
+
+
+def test_coverage_audit_can_be_disabled(monkeypatch, isolated_cache):
+    monkeypatch.setattr(config, "DEEPSEEK_API_KEY", "sk-test")
+    monkeypatch.setattr(config, "SUPPORT_AUDIT", False)
+    calls = install_fake_post(monkeypatch, sp, lambda url, body: deepseek_support_response("support"))
+
+    out = sp.judge_support("引用句", "摘要")
+
+    assert out is not None and out["label"] == "support"
+    assert len(calls) == 1
 
 
 def test_judge_normalizes_unknown_label(monkeypatch, isolated_cache):

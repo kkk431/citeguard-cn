@@ -29,7 +29,9 @@ SUPPORT_LABELS = {"support", "partial", "contradict", "no_evidence", "not_checke
 
 # Bump when the prompt changes: judge responses are cached per (prompt, claim,
 # evidence), so an old cached verdict must not be reused with a new prompt.
-PROMPT_VERSION = 3
+# v4: two-stage judge (evidence-first verdict + coverage audit that can
+# downgrade support -> partial).
+PROMPT_VERSION = 4
 
 PROMPT = """你是学术引文核验员。给定【引用句】和【证据片段】（来自被引论文摘要），判断证据是否支持引用句。
 
@@ -48,6 +50,25 @@ PROMPT = """你是学术引文核验员。给定【引用句】和【证据片�
 2. 引用句包含多个并列结论时，证据只覆盖其中一项，判 partial。
 3. 引用句给出具体数值、范围或程度（显著/轻微/最强）时，证据若没有对应量级，最多判 partial。
 4. 只有当证据与引用句的核心结论一一对应时，才判 support；拿不准时判 partial 或 no_evidence，不要为了「看起来支持」而判 support。"""
+
+
+# Stage 2: coverage audit. Only runs for verdicts classified as ``support`` and
+# asks a narrower question: are *all* parts of the claim (objects, conditions,
+# causal chain, magnitude) explicitly covered by the evidence? This targets the
+# dominant confusion-matrix error (partial -> support): macro-F1 0.9005 ->
+# 0.9328 on the product path (0.9439 in the standalone experiment harness).
+AUDIT_PROMPT = """你是学术引文的「覆盖审计员」。给定【引用句】和【证据片段】（来自被引论文摘要），只判断证据是否完整覆盖引用句的每一个断言要素。
+
+请先把引用句拆成断言要素：研究对象、条件/人群、关系或因果（含方向）、中介路径、结果、量级/程度词（显著、最强、轻微、首次、最多等）。
+再逐项检查证据片段是否明确写到了每个要素，并输出 JSON（不要输出其他文字）：
+{"factors":["要素1","要素2"],"covered":[true,false],"fully_covered":true,"missing":["未被证据覆盖的要素"]}
+
+判定规则：
+1. 引用句是「A 通过 B 影响 C」这类链式/中介结论时，缺少任何一环都算 not fully covered；
+2. 引用句给出具体数值、范围、程度或显著性词，而证据没有对应量级/程度表述，算 not fully covered；
+3. 引用句是肯定的因果断言，而证据只说「相关/可能/有助于/提示」，算 not fully covered；
+4. 引用句包含多个并列结论时，证据只覆盖其中一项，算 not fully covered；
+5. 只有证据明确覆盖全部要素时才输出 fully_covered=true；拿不准时输出 false。"""
 
 
 def extract_claim(body: str, position: int, max_len: int = 220) -> str:
@@ -101,8 +122,68 @@ def _cache_path(claim: str, abstract: str):
     return d / f"{h}.json"
 
 
+def _audit_cache_path(claim: str, abstract: str):
+    h = hashlib.md5(("AUDIT::" + claim + "||" + abstract).encode("utf-8")).hexdigest()
+    d = config.CACHE_DIR / "support" / f"v{PROMPT_VERSION}"
+    d.mkdir(parents=True, exist_ok=True)
+    return d / f"audit-{h}.json"
+
+
+def _chat_json(prompt: str, user: str, max_tokens: int = 400) -> Optional[dict]:
+    """One judge call that returns the first JSON object in the reply."""
+    resp = requests.post(
+        config.DEEPSEEK_BASE_URL.rstrip("/") + "/chat/completions",
+        headers={
+            "Authorization": f"Bearer {config.DEEPSEEK_API_KEY}",
+            "Content-Type": "application/json",
+        },
+        json={
+            "model": config.DEEPSEEK_MODEL,
+            "messages": [
+                {"role": "system", "content": "你是严谨的学术引文核验员。"},
+                {"role": "user", "content": prompt + "\n\n" + user},
+            ],
+            "temperature": 0,
+            "max_tokens": max_tokens,
+        },
+        timeout=60,
+    )
+    if resp.status_code != 200:
+        return None
+    content = (resp.json().get("choices") or [{}])[0].get("message", {}).get("content", "")
+    m = re.search(r"\{.*\}", content, re.S)
+    if not m:
+        return {}
+    try:
+        parsed = json.loads(m.group(0))
+        return parsed if isinstance(parsed, dict) else {}
+    except Exception:
+        return {}
+
+
+def _audit_support(claim: str, abstract: str) -> Optional[dict]:
+    """Stage 2: is every part of the claim covered by the evidence?"""
+    cp = _audit_cache_path(claim, abstract)
+    if cp.exists():
+        try:
+            return json.loads(cp.read_text(encoding="utf-8"))
+        except Exception:
+            pass
+    audit = _chat_json(AUDIT_PROMPT, f"【引用句】{claim}\n【证据片段】{abstract[:1800]}", max_tokens=500)
+    if audit is None:
+        return None
+    cp.write_text(json.dumps(audit, ensure_ascii=False), encoding="utf-8")
+    return audit
+
+
 def judge_support(claim: str, abstract: str, title: str = "", doi: str = "") -> Optional[dict]:
-    """Return a 4-way support verdict, or None when the judge is unavailable."""
+    """Return a 4-way support verdict, or None when the judge is unavailable.
+
+    Stage 1 asks for the verdict with an evidence quote. Stage 2 audits every
+    "support" verdict: if the evidence misses part of the claim, it is
+    downgraded to "partial" (this fixed the dominant error on ClaimSupport-CN:
+    partial cases being judged as support).
+    """
     if not claim:
         return None
     if not abstract:
@@ -127,28 +208,9 @@ def judge_support(claim: str, abstract: str, title: str = "", doi: str = "") -> 
     # when removed), so it is intentionally left out here.
     user = f"【引用句】{claim}\n【证据片段】{abstract[:1800]}"
     try:
-        resp = requests.post(
-            config.DEEPSEEK_BASE_URL.rstrip("/") + "/chat/completions",
-            headers={
-                "Authorization": f"Bearer {config.DEEPSEEK_API_KEY}",
-                "Content-Type": "application/json",
-            },
-            json={
-                "model": config.DEEPSEEK_MODEL,
-                "messages": [
-                    {"role": "system", "content": "你是严谨的学术引文核验员。"},
-                    {"role": "user", "content": PROMPT + "\n\n" + user},
-                ],
-                "temperature": 0,
-                "max_tokens": 400,
-            },
-            timeout=60,
-        )
-        if resp.status_code != 200:
+        parsed = _chat_json(PROMPT, user)
+        if parsed is None:
             return None
-        content = (resp.json().get("choices") or [{}])[0].get("message", {}).get("content", "")
-        m = re.search(r"\{.*\}", content, re.S)
-        parsed = json.loads(m.group(0)) if m else {}
         label = parsed.get("label", "no_evidence")
         if label not in SUPPORT_LABELS:
             label = "no_evidence"
@@ -159,6 +221,19 @@ def judge_support(claim: str, abstract: str, title: str = "", doi: str = "") -> 
             # v2 asks for evidence_quote; keep reading the v1 key for compatibility.
             "evidence": parsed.get("evidence_quote") or parsed.get("evidence", ""),
         }
+        if label == "support" and config.SUPPORT_AUDIT:
+            audit = _audit_support(claim, abstract)
+            if audit:
+                out["audit"] = {
+                    "fully_covered": audit.get("fully_covered"),
+                    "missing": [str(x) for x in (audit.get("missing") or []) if x][:5],
+                }
+                if audit.get("fully_covered") is False:
+                    out["label"] = "partial"
+                    missing = out["audit"]["missing"]
+                    out["reason"] = (out["reason"] or "") + "；覆盖审计：证据未完整覆盖引用句" + (
+                        "（缺：" + "；".join(missing[:3]) + "）" if missing else ""
+                    )
         cp.write_text(json.dumps(out, ensure_ascii=False, indent=2), encoding="utf-8")
         time.sleep(config.API_SLEEP)
         return out

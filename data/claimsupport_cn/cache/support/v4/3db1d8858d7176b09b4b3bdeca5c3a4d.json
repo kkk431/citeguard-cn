@@ -1,0 +1,6 @@
+{
+  "label": "contradict",
+  "confidence": 0.95,
+  "reason": "证据原文为“有效性”，引用句改为“无效性”，核心命题方向相反。",
+  "evidence": "重点关注有效性的思维模式"
+}

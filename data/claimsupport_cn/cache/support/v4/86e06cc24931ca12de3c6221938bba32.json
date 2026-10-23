@@ -1,0 +1,10 @@
+{
+  "label": "support",
+  "confidence": 0.95,
+  "reason": "证据片段第一句与引用句完全一致，明确断言了同一命题。",
+  "evidence": "仅仅一些男花在开花期被生产，并且水果从一样或不同的植物仅仅通过在不同的花之间的授粉被生产。",
+  "audit": {
+    "fully_covered": true,
+    "missing": []
+  }
+}

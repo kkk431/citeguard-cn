@@ -671,11 +671,11 @@ CATEGORY_LABELS = {
 
 EXPECTED_RULE = {
     "missing_volume_issue": "volume/issue 缺失 → 提示补卷/期",
-    "hyphen_pages": "页码连接号：标准原文的破折号规定未核实，规则层不改单条，只在全文混用时提示（见 check_reference_list）",
+    "hyphen_pages": "页码用 ASCII 连字符 → warning 提示改一字线（2026-10-23 新增）",
     "four_authors_no_et_al": "作者超过 3 人应写「等」（规则层已支持：作者数 >3 且无「等」→ error）",
     "missing_doi": "doi 缺失 → 提示补 DOI",
-    "volume_issue_swap": "卷/期语义校验（需元数据，格式层无此规则）",
-    "thesis_type_code": "类型码错误 → 应报 [D] 字段不符",
+    "volume_issue_swap": "卷/期可能颠倒：期号显著大于卷号 → warning（2026-10-23 新增）",
+    "thesis_type_code": "类型码错误：学位论文出现卷/期 → error“类型码可能误标”（2026-10-23 新增）",
 }
 
 
@@ -695,8 +695,18 @@ def _build_drifts(bases: list[dict]) -> list[dict]:
         v += f". DOI: {work['doi']}."
         variants.append(("missing_volume_issue", v, {"volume": "", "issue": ""}))
 
-        # 2) ASCII hyphen instead of the required en dash in the page range
-        hyphen_pages = pages.replace("–", "-")
+        # 2) ASCII hyphen instead of the en dash used in the page range.
+        # Some bases have a single page / article number (e.g. "0810016"), where
+        # replacing the dash is a no-op. In that case build a two-page range with
+        # the same digit width so the separator drift is observable.
+        if re.search(r"[-–—~]", pages):
+            hyphen_pages = pages.replace("–", "-")
+        elif pages.isdigit():
+            width = len(pages)
+            start = int(pages)
+            hyphen_pages = f"{start:0{width}d}-{start + 1:0{width}d}"
+        else:
+            hyphen_pages = pages.replace("–", "-")
         v = (
             f"{_authors(work)}. {work['title']}[J]. {work['venue']}, {work['year']}, "
             f"{volume}({issue}): {hyphen_pages}. DOI: {work['doi']}."
@@ -796,15 +806,39 @@ def _detect(case: dict) -> dict:
             if issue["field"] == "authors" and issue["level"] == "error":
                 strict = True
                 matched.append(issue)
-    elif category == "thesis_type_code":
-        # The rule layer cannot say "wrong type code"; it can only report the
-        # required [D] fields that are missing. Count that as indirect only.
+    elif category == "hyphen_pages":
+        # Rule added 2026-10-23: ASCII hyphen in a page range gets a warning
+        # suggesting the en dash used by GB/T 7714 entries.
         for issue in new_issues:
-            if issue["level"] == "error" and issue["field"] in {"place", "institution", "doc_type"}:
-                indirect = True
+            if issue["field"] == "pages" and "一字线" in issue["message"]:
+                strict = True
                 matched.append(issue)
-    # hyphen_pages / volume_issue_swap: no single-reference rule can fire;
-    # keeping ``new_issues`` in the record makes the miss auditable.
+    elif category == "volume_issue_swap":
+        # Rule added 2026-10-23: an issue number far larger than the volume is
+        # flagged as a likely swapped pair.
+        for issue in new_issues:
+            if issue["field"] == "volume" and "颠倒" in issue["message"]:
+                strict = True
+                matched.append(issue)
+    elif category == "thesis_type_code":
+        # Rule added 2026-10-23: [D] with volume/issue is an explicit
+        # type-code error (journal article mislabelled as a thesis).
+        for issue in new_issues:
+            if (
+                issue["field"] == "doc_type"
+                and issue["level"] == "error"
+                and "误标" in issue["message"]
+            ):
+                strict = True
+                matched.append(issue)
+        if not strict:
+            # Without the explicit rule the layer can only report the required
+            # [D] fields that are missing; count that as indirect only.
+            for issue in new_issues:
+                if issue["level"] == "error" and issue["field"] in {"place", "institution", "doc_type"}:
+                    indirect = True
+                    matched.append(issue)
+    # Keeping ``new_issues`` in the record makes every miss auditable.
     return {
         "detected_strict": strict,
         "detected_indirect": (not strict) and indirect,

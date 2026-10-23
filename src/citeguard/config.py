@@ -37,6 +37,17 @@ VERIFY_WORKERS = int(os.environ.get("CITEGUARD_VERIFY_WORKERS", "4"))
 # default cap on how many references get an LLM support verdict.
 SUPPORT_MAX_REFS = int(os.environ.get("CITEGUARD_SUPPORT_MAX_REFS", "30"))
 SUPPORT_MAX_REFS_LIMIT = 200
+# Two-stage judge: a coverage audit re-checks every "support" verdict and
+# downgrades it to "partial" when the evidence misses part of the claim.
+# Measured on ClaimSupport-CN: macro-F1 0.9005 -> 0.9328 (product path;
+# 0.9439 in the standalone experiment harness). Costs one extra LLM call for
+# the ~40% of items classified as support.
+SUPPORT_AUDIT = os.environ.get("CITEGUARD_SUPPORT_AUDIT", "1").strip().lower() not in {
+    "0",
+    "false",
+    "no",
+    "off",
+}
 
 # Upload guard for the web app.
 MAX_UPLOAD_MB = int(os.environ.get("CITEGUARD_MAX_UPLOAD_MB", "30"))

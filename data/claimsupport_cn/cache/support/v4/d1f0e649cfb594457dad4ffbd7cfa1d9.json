@@ -1,0 +1,12 @@
+{
+  "label": "partial",
+  "confidence": 0.95,
+  "reason": "证据原文与引用句的核心结论完全一致，明确断言该材料在某些方面优于常规HEMA。；覆盖审计：证据未完整覆盖引用句（缺：研究对象：poly(乙烯基白酒)）",
+  "evidence": "它将在某些方面比常规 HEMA 是更好的接触透镜材料。",
+  "audit": {
+    "fully_covered": false,
+    "missing": [
+      "研究对象：poly(乙烯基白酒)"
+    ]
+  }
+}

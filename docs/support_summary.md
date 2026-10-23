@@ -1,32 +1,36 @@
-﻿# ClaimSupport-CN 一页纸（支持度评测）
+# ClaimSupport-CN 一页纸（支持度评测）
 
 > 给 PPT / 汇报的单页摘要。完整数据卡见 `data/claimsupport_cn/README.md`。
 
 ## 一句话结论
 
-在自建中文引文支持度评测集 **ClaimSupport-CN（100 条，标签由构造决定）** 上，产品自带的 `judge_support`（DeepSeek `deepseek-chat`，temperature 0，prompt v3）取得 **macro-F1 0.9005 / accuracy 0.890**；`no_evidence` 识别满分，`contradict` F1 0.929，主要剩余误差仍是 **partial↔support**（7 条 partial 被判 support、2 条 support 被判 partial），但已从 prompt v1 的 12 条混淆降到 9 条。
+在自建中文引文支持度评测集 **ClaimSupport-CN（100 条，标签由构造决定）** 上，产品自带的 `judge_support`（DeepSeek `deepseek-chat`，temperature 0，**两段式判定**）取得 **macro-F1 0.9328 / accuracy 0.930**；`no_evidence` F1 0.976、`contradict` F1 0.929、`support` F1 0.925、`partial` F1 0.902。相对单段 prompt v3（0.9005 / 0.890）提升 **+3.2 个 macro-F1 点**。
 
-> 版本记录：prompt v1（`8a4850d4…`）macro-F1 0.7951 / acc 0.810；v2 加入「先摘证据、再判定」与边界规则后 0.8757/0.870（含论文题目上下文）；v3 去掉题目上下文、只给引用句+证据片段后 **0.9005/0.890**（`cb86c4fa…`，正式评测）；另用同一 prompt 在独立缓存上复测得 0.9253/0.920（LLM 温度 0 仍有约 ±2.5 分的运行间波动）；v4 加了 4 条 few-shot 边界示例反而降到 0.8912/0.880，未采用（记录在 `data/experiments/support_v4_results.json`）。
+> 版本记录：prompt v1（`8a4850d4…`）0.7951 / 0.810；v2 先摘证据 + 边界规则 0.8757 / 0.870；v3 去掉题目上下文 **0.9005 / 0.890**（`cb86c4fa…`）；v4 few-shot 0.8912 / 0.880（未采用）；v5 结构化 checklist 0.8196 / 0.820（未采用，`support_v5_results.json`）；三票自一致性 0.9005 / 0.890（未采用，提升不抵 3 倍成本）。
+>
+> **两段式判定（正式版本）**：第一段用 v3 prompt 给出四分类 + 证据句；第二段只对判为 `support` 的条目做**覆盖审计**——把引用句拆成对象/条件/因果/量级等要素，证据若没有覆盖全部要素就降级为 `partial`。实验脚本（`scripts/experiment_support_two_stage.py`）上 0.9439 / 0.940，产品路径正式评测 **0.9328 / 0.930**（两次独立缓存，差异来自 LLM 运行间波动约 ±2 分）。可用 `CITEGUARD_SUPPORT_AUDIT=0` 关闭；开启时约 40% 的条目多一次 judge 调用。
 
-## 主表（per-class）
+## 主表（per-class，两段式正式结果）
 
 | 类别 | 支持数 | Precision | Recall | F1 | 预测数 |
 |---|---|---|---|---|---|
-| support | 40 | 0.8085 | 0.9500 | 0.8736 | 47 |
-| partial | 25 | 0.9000 | 0.7200 | 0.8000 | 20 |
+| support | 40 | 0.9250 | 0.9250 | 0.9250 | 40 |
+| partial | 25 | 0.8846 | 0.9200 | 0.9020 | 26 |
 | contradict | 15 | 1.0000 | 0.8667 | 0.9286 | 13 |
-| no_evidence | 20 | 1.0000 | 1.0000 | 1.0000 | 20 |
-| **macro / overall** | 100 | — | — | **0.9005** | accuracy **0.8900** |
+| no_evidence | 20 | 0.9524 | 1.0000 | 0.9762 | 21 |
+| **macro / overall** | 100 | — | — | **0.9328** | accuracy **0.9300** |
 
 ## 混淆矩阵（行 = 真实，列 = 预测）
 
 ```text
               pred support  partial  contradict  no_evidence
-true support            38        2           0            0
-true partial             7       18           0            0
-true contradict          2        0          13            0
+true support            37        2           0            1
+true partial             2       23           0            0
+true contradict          1        1          13            0
 true no_evidence         0        0           0           20
 ```
+
+> 与单段 v3 对比：旧版最大错误是「partial 被误判为 support」（7 条），两段式审计后降到 2 条；`contradict` 的 2 条误判来自反义关系在机器翻译摘要里不够显式（已知局限）。
 
 ## 数据集口径
 
@@ -40,18 +44,22 @@ true no_evidence         0        0           0           20
 
 ```bash
 PYTHONPATH=src python3 scripts/build_claimsupport.py          # 构建（首次联网；之后用片段缓存离线重建）
-DEEPSEEK_API_KEY=... PYTHONPATH=src python3 scripts/evaluate_support.py   # 评测
+DEEPSEEK_API_KEY=... PYTHONPATH=src python3 scripts/evaluate_support.py   # 评测（产品路径，两段式）
+DEEPSEEK_API_KEY=... PYTHONPATH=src python3 scripts/experiment_support_two_stage.py  # 消融：两段式增益
+DEEPSEEK_API_KEY=... PYTHONPATH=src python3 scripts/experiment_support_prompt.py \
+  --prompt-file scripts/support_prompt_v3.txt --out data/experiments/support_v3_results.json  # 单段基线
 ```
 
 服务器：`PYTHONPATH=.pylibs:. python3 scripts/evaluate_support.py`；judge 缓存位于 `data/claimsupport_cn/cache/support/`，复跑可复现。
 
 ## 评测证据
 
-- judge：`citeguard.support.judge_support`，`deepseek-chat`，temperature 0，`prompt_sha256=cb86c4fa…`（prompt v3）；100/100 判定成功，0 次 API 失败。
+- judge：`citeguard.support.judge_support`（两段式：判定 + 覆盖审计），`deepseek-chat`，temperature 0；100/100 判定成功，0 次 API 失败。
 - 结果记录数据集 SHA-256、per-class、混淆矩阵与逐条预测（`results.json` / `predictions.csv`）。
+- 消融记录：单段 v3 0.9005；三票投票 0.9005；两段式 0.9439（实验脚本）/ 0.9328（产品路径）。
 
 ## 已知局限
 
 - OpenAlex 中文摘要部分为自动翻译，文本自然度受限（不 re-host 原文，仅用短片段）。
-- 构造式标签，无人工双标注与 κ；partial / contradict 的边界本身有歧义，误差集中于此，建议连同 per-class 解读。
+- 构造式标签，无人工双标注与 κ；support / partial 的边界本身有歧义，两段式审计也不能完全消除，建议连同 per-class 解读。
 - 100 条规模适合工程回归与演示，不构成学科结论性基准；不评估引文真实性与元数据正确性（由 CiteBench-CN 覆盖）。

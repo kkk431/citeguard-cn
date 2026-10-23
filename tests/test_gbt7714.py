@@ -52,6 +52,35 @@ def test_missing_volume_and_issue_warns():
     assert any(i.field == "volume" and i.level == "warning" for i in result.issues)
 
 
+def test_volume_issue_swap_warns():
+    result = check_reference(_journal_ref(volume="5", issue="43"))
+    assert any(
+        i.field == "volume" and i.level == "warning" and "颠倒" in i.message
+        for i in result.issues
+    )
+
+
+def test_plausible_volume_issue_does_not_warn_swap():
+    result = check_reference(_journal_ref(volume="43", issue="12"))
+    assert not any("颠倒" in i.message for i in result.issues)
+
+
+def test_thesis_type_code_with_volume_is_error():
+    ref = _journal_ref(doc_type="D", raw="[1] 张三. 题名[D]. 期刊, 2020, 43(5): 10-20.")
+    result = check_reference(ref)
+    assert any(i.field == "doc_type" and i.level == "error" for i in result.issues)
+
+
+def test_ascii_hyphen_pages_warns():
+    result = check_reference(_journal_ref(raw="[1] 张三. 题名[J]. 期刊, 2020, 31(2): 10-20."))
+    assert any(i.field == "pages" and "一字线" in i.message for i in result.issues)
+
+
+def test_en_dash_pages_does_not_warn():
+    result = check_reference(_journal_ref(raw="[1] 张三. 题名[J]. 期刊, 2020, 31(2): 10–20."))
+    assert not any("一字线" in i.message for i in result.issues)
+
+
 def test_recommended_doi_warns_when_missing():
     result = check_reference(_journal_ref(doi=""))
     assert any(i.field == "doi" and i.level == "warning" for i in result.issues)

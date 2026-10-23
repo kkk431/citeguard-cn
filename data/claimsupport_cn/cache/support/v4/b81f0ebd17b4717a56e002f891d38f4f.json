@@ -1,0 +1,10 @@
+{
+  "label": "support",
+  "confidence": 0.9,
+  "reason": "证据片段直接重复了引用句的核心断言，明确支持该命题。",
+  "evidence": "能力去 -- 把品红酸从解决方案移开的 CD 也被学习。",
+  "audit": {
+    "fully_covered": true,
+    "missing": []
+  }
+}

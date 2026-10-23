@@ -50,17 +50,19 @@ full              0.9684
 
 | 指标 | Macro-F1 | Accuracy |
 |---|---|---|
-| 支持度四分类（deepseek-chat，temperature 0，prompt v3） | 0.9005 | 0.8900 |
+| 支持度四分类（deepseek-chat，temperature 0，两段式 judge） | **0.9328** | **0.9300** |
+| 同上，单段旧版（prompt v3，仅作对比） | 0.9005 | 0.8900 |
 
 ```
 混淆矩阵（行=真实，列=预测）            support partial contradict no_evidence
-support        [ 38,   2,   0,   0 ]
-partial        [  7,  18,   0,   0 ]
-contradict     [  2,   0,  13,   0 ]
+support        [ 37,   2,   0,   1 ]
+partial        [  2,  23,   0,   0 ]
+contradict     [  1,   1,  13,   0 ]
 no_evidence    [  0,   0,   0,  20 ]
 ```
 
-> 误差集中在 partial ↔ support；该数据集为程序化构造（构造规则自检 100/100，20% 抽样复核 0 失败），标签由构造决定，不是人工双标，因此不报告 κ。
+> **两段式判定**：第一段按证据给「支持/部分支持/矛盾/无证据」并摘出证据句；第二段只对「支持」结论做**覆盖审计**——把引用句拆成对象/条件/因果/量级等要素，证据没覆盖全部要素就降级为「部分支持」。这一步专门修掉旧版最大的错误来源（partial 被误判为 support），代价是「支持」类约 40% 的条目多一次 LLM 调用（`CITEGUARD_SUPPORT_AUDIT=0` 可关）。
+> 该数据集为程序化构造（构造规则自检 100/100，20% 抽样复核 0 失败），标签由构造决定，不是人工双标，因此不报告 κ；误差现在主要来自 support ↔ partial 的边界样本。
 
 ## 架构
 

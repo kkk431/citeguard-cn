@@ -1,0 +1,10 @@
+{
+  "label": "support",
+  "confidence": 0.95,
+  "reason": "证据原文与引用句完全一致，明确断言了同样的研究对象和关系。",
+  "evidence": "多价的金属性的阳离子的效果例如 Ca2+ 和 Fe3+，在锂辉石和绿玉的筹款上被学习。",
+  "audit": {
+    "fully_covered": true,
+    "missing": []
+  }
+}

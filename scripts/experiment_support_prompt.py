@@ -1,14 +1,21 @@
 """Prompt experiment for the claim-support judge on ClaimSupport-CN.
 
-Usage:
+Supports prompt variants, temperature and self-consistency voting:
+
     DEEPSEEK_API_KEY=... PYTHONPATH=src python scripts/experiment_support_prompt.py \
-        --prompt-file scripts/support_prompt_v2.txt --out data/experiments/support_v2_results.json
+        --prompt-file scripts/support_prompt_v3.txt --out data/experiments/support_v3_results.json
+    DEEPSEEK_API_KEY=... PYTHONPATH=src python scripts/experiment_support_prompt.py \
+        --prompt-file scripts/support_prompt_v3.txt --votes 3 --temperature 0.4 \
+        --out data/experiments/support_v3_vote3_results.json
+
+The cache key includes the prompt, the claim/evidence and the decoding setting, so
+runs are reproducible and a changed prompt never reuses stale verdicts.
 """
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
-import os
 import re
 import sys
 import threading
@@ -26,15 +33,25 @@ DATASET = ROOT / "data" / "claimsupport_cn" / "claimsupport_cn.jsonl"
 LABELS = ["support", "partial", "contradict", "no_evidence"]
 CACHE = ROOT / "data" / "experiments" / "support_prompt_cache"
 LOCK = threading.Lock()
+# On a tie between votes, prefer the conservative middle label instead of
+# claiming "support" (the failure mode that matters for citation checking).
+TIE_PRIORITY = ["partial", "contradict", "support", "no_evidence"]
 
 
 def load(path: Path) -> list[dict]:
     return [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
 
 
-def judge(prompt: str, claim: str, evidence: str, model: str) -> dict:
-    key = str(abs(hash((prompt, claim, evidence))))
-    cached = CACHE / f"{key}.json"
+def _cache_file(prompt: str, claim: str, evidence: str, model: str, temperature: float, vote: int) -> Path:
+    raw = f"{prompt}||{claim}||{evidence}||{model}||{temperature}||{vote}"
+    key = hashlib.md5(raw.encode("utf-8")).hexdigest()
+    return CACHE / f"{key}.json"
+
+
+def judge(
+    prompt: str, claim: str, evidence: str, model: str, temperature: float = 0.0, vote: int = 0
+) -> dict:
+    cached = _cache_file(prompt, claim, evidence, model, temperature, vote)
     if cached.exists():
         try:
             return json.loads(cached.read_text(encoding="utf-8"))
@@ -50,7 +67,7 @@ def judge(prompt: str, claim: str, evidence: str, model: str) -> dict:
                 {"role": "system", "content": "你是严谨的学术引文核验员。"},
                 {"role": "user", "content": prompt + "\n\n" + user},
             ],
-            "temperature": 0,
+            "temperature": temperature,
             "max_tokens": 400,
         },
         timeout=60,
@@ -76,6 +93,20 @@ def judge(prompt: str, claim: str, evidence: str, model: str) -> dict:
     cached.write_text(json.dumps(out, ensure_ascii=False), encoding="utf-8")
     time.sleep(0.05)
     return out
+
+
+def majority_label(labels: list[str]) -> str:
+    counts: dict[str, int] = {}
+    for label in labels:
+        counts[label] = counts.get(label, 0) + 1
+    best = max(counts.values())
+    tied = [label for label, n in counts.items() if n == best]
+    if len(tied) == 1:
+        return tied[0]
+    for label in TIE_PRIORITY:
+        if label in tied:
+            return label
+    return tied[0]
 
 
 def metrics(rows: list[dict], preds: list[str]) -> dict:
@@ -111,6 +142,8 @@ def main() -> int:
     ap.add_argument("--workers", type=int, default=4)
     ap.add_argument("--model", default=config.DEEPSEEK_MODEL)
     ap.add_argument("--limit", type=int, default=0)
+    ap.add_argument("--votes", type=int, default=1, help="self-consistency samples per item")
+    ap.add_argument("--temperature", type=float, default=0.0)
     args = ap.parse_args()
 
     if not config.DEEPSEEK_API_KEY:
@@ -122,18 +155,32 @@ def main() -> int:
         rows = rows[: args.limit]
 
     preds: list[str] = [""] * len(rows)
+    vote_details: list[list[str]] = [[""] * args.votes for _ in rows]
 
     def work(i: int) -> None:
         r = rows[i]
-        res = judge(prompt, r["claim"], r["evidence"], args.model)
+        labels = []
+        for vote in range(args.votes):
+            res = judge(prompt, r["claim"], r["evidence"], args.model, args.temperature, vote)
+            labels.append(res["label"])
         with LOCK:
-            preds[i] = res["label"]
+            vote_details[i] = labels
+            preds[i] = labels[0] if args.votes == 1 else majority_label(labels)
 
     with ThreadPoolExecutor(max_workers=args.workers) as ex:
         list(ex.map(work, range(len(rows))))
 
     result = metrics(rows, preds)
-    result.update({"prompt_file": args.prompt_file, "n": len(rows), "model": args.model})
+    result.update(
+        {
+            "prompt_file": args.prompt_file,
+            "prompt_sha256": hashlib.sha256(prompt.encode("utf-8")).hexdigest()[:16],
+            "n": len(rows),
+            "model": args.model,
+            "votes": args.votes,
+            "temperature": args.temperature,
+        }
+    )
     Path(args.out).parent.mkdir(parents=True, exist_ok=True)
     Path(args.out).write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
     print(json.dumps(result, ensure_ascii=False, indent=2))

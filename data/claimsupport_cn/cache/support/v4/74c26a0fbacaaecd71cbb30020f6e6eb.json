@@ -1,0 +1,10 @@
+{
+  "label": "support",
+  "confidence": 1.0,
+  "reason": "证据原文与引用句完全一致，明确断言了同一核心命题。",
+  "evidence": "现阶段，数字赋能是课后体育服务高质量发展的题中之义。",
+  "audit": {
+    "fully_covered": true,
+    "missing": []
+  }
+}

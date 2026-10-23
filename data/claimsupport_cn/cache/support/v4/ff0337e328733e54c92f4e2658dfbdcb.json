@@ -1,0 +1,10 @@
+{
+  "label": "support",
+  "confidence": 0.98,
+  "reason": "证据原文与引用句完全一致，明确断言了同一命题。",
+  "evidence": "美联储为纾2008年金融危机之难实施了长达七年的量化宽松政策，让美国经济逐步走出阴霾。",
+  "audit": {
+    "fully_covered": true,
+    "missing": []
+  }
+}

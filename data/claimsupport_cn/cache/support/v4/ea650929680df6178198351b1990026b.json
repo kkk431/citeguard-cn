@@ -1,0 +1,10 @@
+{
+  "label": "support",
+  "confidence": 0.98,
+  "reason": "证据原文与引用句完全一致，明确断言了同样的调查对象、目的和方法。",
+  "evidence": "为了解辽宁红色文化资源融入高校思政课教学的现状，随机抽取辽宁十所不同类型高校的学生进行问卷调查。",
+  "audit": {
+    "fully_covered": true,
+    "missing": []
+  }
+}

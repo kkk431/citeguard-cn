@@ -1,20 +1,20 @@
 {
   "experiment": "E4",
   "title": "GB/T 7714-2025 格式合规检查（真实中文文献）",
-  "generated_at": "2026-10-22T16:08:11+00:00",
+  "generated_at": "2026-10-23T11:57:05+00:00",
   "seed": 20261022,
   "code_snapshot": {
     "src/citeguard/gbt7714.py": {
-      "sha256_16": "35c6f8e33e57cf89",
-      "mtime": "2026-10-23T00:08:07"
+      "sha256_16": "f2c5d12777e8430f",
+      "mtime": "2026-10-23T19:56:47"
     },
     "src/citeguard/reference_parser.py": {
-      "sha256_16": "651a0dc5e86a1be4",
-      "mtime": "2026-10-23T00:03:39"
+      "sha256_16": "60ce182a350e7128",
+      "mtime": "2026-10-23T18:43:05"
     },
     "src/citeguard/metadata_verify.py": {
-      "sha256_16": "29f72df3ca58631d",
-      "mtime": "2026-10-22T23:27:38"
+      "sha256_16": "37f9bff7c175488f",
+      "mtime": "2026-10-23T18:49:32"
     }
   },
   "provenance": {
@@ -55,7 +55,7 @@
       "cache_hits": 2,
       "errors": []
     },
-    "generated_at": "2026-10-22T16:08:11+00:00"
+    "generated_at": "2026-10-23T11:57:05+00:00"
   },
   "corpus_sha256": "abdd4c9a9d11fd676ea4745e284615c845165aea42d9891d58cc226f40667acb",
   "metrics": {
@@ -111,16 +111,16 @@
       }
     },
     "defects": {
-      "issues_total": 25,
+      "issues_total": 49,
       "by_level": {
         "error": 5,
-        "warning": 20,
+        "warning": 44,
         "info": 0
       },
       "entries_with_error": 5,
-      "entries_with_warning": 16,
-      "entries_clean": 79,
-      "clean_rate": 0.79,
+      "entries_with_warning": 36,
+      "entries_clean": 62,
+      "clean_rate": 0.62,
       "error_rate": 0.05,
       "distribution": [
         {
@@ -134,6 +134,12 @@
           "field": "place",
           "message": "缺少出版地",
           "count": 5
+        },
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“强 王”），已跳过作者比对",
+          "count": 2
         },
         {
           "level": "warning",
@@ -164,18 +170,150 @@
           "field": "authors",
           "message": "作者“Tao ZHOU”疑似 2015 版“姓氏全大写”写法",
           "count": 1
+        },
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“N A”），已跳过作者比对",
+          "count": 1
+        },
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“伟 王”），已跳过作者比对",
+          "count": 1
+        },
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“刘 静”），已跳过作者比对",
+          "count": 1
+        },
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“刘国”），已跳过作者比对",
+          "count": 1
+        },
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“吕 航”），已跳过作者比对",
+          "count": 1
+        },
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“宁 李”），已跳过作者比对",
+          "count": 1
+        },
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“安 杨”），已跳过作者比对",
+          "count": 1
+        },
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“岚 焦”），已跳过作者比对",
+          "count": 1
+        },
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“庄 明”），已跳过作者比对",
+          "count": 1
+        },
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“张乐”），已跳过作者比对",
+          "count": 1
+        },
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“振 张”），已跳过作者比对",
+          "count": 1
+        },
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“春 吴”），已跳过作者比对",
+          "count": 1
+        },
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“景 王”），已跳过作者比对",
+          "count": 1
+        },
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“李红”），已跳过作者比对",
+          "count": 1
+        },
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“泽 王”），已跳过作者比对",
+          "count": 1
+        },
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“王苏”），已跳过作者比对",
+          "count": 1
+        },
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“笑 王”），已跳过作者比对",
+          "count": 1
+        },
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“维 贾”），已跳过作者比对",
+          "count": 1
+        },
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“谢 军”），已跳过作者比对",
+          "count": 1
+        },
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“赵 婷”），已跳过作者比对",
+          "count": 1
+        },
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“陈 兵”），已跳过作者比对",
+          "count": 1
+        },
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“静 刘”），已跳过作者比对",
+          "count": 1
         }
       ],
       "by_field": {
+        "authors": 27,
         "pages": 13,
         "place": 5,
-        "volume": 4,
-        "authors": 3
+        "volume": 4
       },
       "sensitivity_without_punctuation_rule": {
         "errors": 5,
-        "entries_clean": 79,
-        "clean_rate": 0.79
+        "entries_clean": 62,
+        "clean_rate": 0.62
       }
     },
     "parser_field_recovery": {
@@ -221,21 +359,21 @@
       }
     },
     "compliance_score": {
-      "avg": 98.6,
+      "avg": 97.64,
       "median": 100,
-      "min": 88,
+      "min": 84,
       "max": 100
     }
   },
   "drift": {
     "n": 30,
     "categories": 6,
-    "strict_detected": 15,
-    "strict_rate": 0.5,
-    "indirect_detected": 5,
-    "strict_plus_indirect": 20,
-    "strict_plus_indirect_rate": 0.6667,
-    "missed": 10,
+    "strict_detected": 29,
+    "strict_rate": 0.9667,
+    "indirect_detected": 0,
+    "strict_plus_indirect": 29,
+    "strict_plus_indirect_rate": 0.9667,
+    "missed": 1,
     "by_category": [
       {
         "category": "missing_volume_issue",
@@ -269,23 +407,27 @@
       {
         "category": "hyphen_pages",
         "label": "页码用连字符 1-5（规范为 1–5）",
-        "expected": "页码连接号：标准原文的破折号规定未核实，规则层不改单条，只在全文混用时提示（见 check_reference_list）",
+        "expected": "页码用 ASCII 连字符 → warning 提示改一字线（2026-10-23 新增）",
         "n": 5,
-        "strict": 0,
+        "strict": 5,
         "indirect": 0,
-        "miss": 5,
+        "miss": 0,
         "examples": [
           {
             "id": "drift-02",
-            "verdict": "miss",
-            "matched": [],
-            "new_issue_count": 0
+            "verdict": "strict",
+            "matched": [
+              "页码区间使用 ASCII 连字符「-」，部分期刊/标准示例用一字线「–」"
+            ],
+            "new_issue_count": 1
           },
           {
             "id": "drift-08",
-            "verdict": "miss",
-            "matched": [],
-            "new_issue_count": 0
+            "verdict": "strict",
+            "matched": [
+              "页码区间使用 ASCII 连字符「-」，部分期刊/标准示例用一字线「–」"
+            ],
+            "new_issue_count": 1
           }
         ]
       },
@@ -346,50 +488,54 @@
       {
         "category": "volume_issue_swap",
         "label": "卷期混淆",
-        "expected": "卷/期语义校验（需元数据，格式层无此规则）",
+        "expected": "卷/期可能颠倒：期号显著大于卷号 → warning（2026-10-23 新增）",
         "n": 5,
-        "strict": 0,
+        "strict": 4,
         "indirect": 0,
-        "miss": 5,
+        "miss": 1,
         "examples": [
           {
             "id": "drift-05",
-            "verdict": "miss",
-            "matched": [],
-            "new_issue_count": 0
+            "verdict": "strict",
+            "matched": [
+              "期号 48 明显大于卷号 4：卷/期可能颠倒"
+            ],
+            "new_issue_count": 1
           },
           {
             "id": "drift-11",
-            "verdict": "miss",
-            "matched": [],
-            "new_issue_count": 0
+            "verdict": "strict",
+            "matched": [
+              "期号 59 明显大于卷号 8：卷/期可能颠倒"
+            ],
+            "new_issue_count": 1
           }
         ]
       },
       {
         "category": "thesis_type_code",
         "label": "学位论文类型码错（期刊条目标成 [D]）",
-        "expected": "类型码错误 → 应报 [D] 字段不符",
+        "expected": "类型码错误：学位论文出现卷/期 → error“类型码可能误标”（2026-10-23 新增）",
         "n": 5,
-        "strict": 0,
-        "indirect": 5,
+        "strict": 5,
+        "indirect": 0,
         "miss": 0,
         "examples": [
           {
             "id": "drift-06",
-            "verdict": "indirect",
+            "verdict": "strict",
             "matched": [
-              "缺少出版地"
+              "学位论文条目出现卷/期，类型码可能误标为 [D]"
             ],
-            "new_issue_count": 1
+            "new_issue_count": 2
           },
           {
             "id": "drift-12",
-            "verdict": "indirect",
+            "verdict": "strict",
             "matched": [
-              "缺少出版地"
+              "学位论文条目出现卷/期，类型码可能误标为 [D]"
             ],
-            "new_issue_count": 1
+            "new_issue_count": 2
           }
         ]
       }
@@ -711,8 +857,15 @@
           "recovered": true
         }
       },
-      "score": 100,
-      "issues": []
+      "score": 96,
+      "issues": [
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“吕 航”），已跳过作者比对",
+          "suggestion": "核对原条目并补全作者姓名（PDF/OCR 抽取常把英文缩写拆散）"
+        }
+      ]
     },
     {
       "index": 5,
@@ -875,8 +1028,15 @@
           "recovered": true
         }
       },
-      "score": 100,
-      "issues": []
+      "score": 96,
+      "issues": [
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“N A”），已跳过作者比对",
+          "suggestion": "核对原条目并补全作者姓名（PDF/OCR 抽取常把英文缩写拆散）"
+        }
+      ]
     },
     {
       "index": 7,
@@ -953,8 +1113,15 @@
           "recovered": true
         }
       },
-      "score": 100,
-      "issues": []
+      "score": 96,
+      "issues": [
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“庄 明”），已跳过作者比对",
+          "suggestion": "核对原条目并补全作者姓名（PDF/OCR 抽取常把英文缩写拆散）"
+        }
+      ]
     },
     {
       "index": 8,
@@ -2066,8 +2233,15 @@
           "recovered": true
         }
       },
-      "score": 100,
-      "issues": []
+      "score": 96,
+      "issues": [
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“谢 军”），已跳过作者比对",
+          "suggestion": "核对原条目并补全作者姓名（PDF/OCR 抽取常把英文缩写拆散）"
+        }
+      ]
     },
     {
       "index": 22,
@@ -2469,8 +2643,15 @@
           "recovered": true
         }
       },
-      "score": 100,
-      "issues": []
+      "score": 96,
+      "issues": [
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“振 张”），已跳过作者比对",
+          "suggestion": "核对原条目并补全作者姓名（PDF/OCR 抽取常把英文缩写拆散）"
+        }
+      ]
     },
     {
       "index": 27,
@@ -2542,13 +2723,19 @@
           "recovered": true
         }
       },
-      "score": 96,
+      "score": 92,
       "issues": [
         {
           "level": "warning",
           "field": "pages",
           "message": "建议补充页码",
           "suggestion": "有则必备：页码"
+        },
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“维 贾”），已跳过作者比对",
+          "suggestion": "核对原条目并补全作者姓名（PDF/OCR 抽取常把英文缩写拆散）"
         }
       ]
     },
@@ -2622,13 +2809,19 @@
           "recovered": true
         }
       },
-      "score": 96,
+      "score": 92,
       "issues": [
         {
           "level": "warning",
           "field": "pages",
           "message": "建议补充页码",
           "suggestion": "有则必备：页码"
+        },
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“景 王”），已跳过作者比对",
+          "suggestion": "核对原条目并补全作者姓名（PDF/OCR 抽取常把英文缩写拆散）"
         }
       ]
     },
@@ -3183,8 +3376,15 @@
           "recovered": true
         }
       },
-      "score": 100,
-      "issues": []
+      "score": 96,
+      "issues": [
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“王苏”），已跳过作者比对",
+          "suggestion": "核对原条目并补全作者姓名（PDF/OCR 抽取常把英文缩写拆散）"
+        }
+      ]
     },
     {
       "index": 36,
@@ -3256,13 +3456,19 @@
           "recovered": true
         }
       },
-      "score": 96,
+      "score": 92,
       "issues": [
         {
           "level": "warning",
           "field": "pages",
           "message": "建议补充页码",
           "suggestion": "有则必备：页码"
+        },
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“春 吴”），已跳过作者比对",
+          "suggestion": "核对原条目并补全作者姓名（PDF/OCR 抽取常把英文缩写拆散）"
         }
       ]
     },
@@ -3421,8 +3627,15 @@
           "recovered": true
         }
       },
-      "score": 100,
-      "issues": []
+      "score": 96,
+      "issues": [
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“张乐”），已跳过作者比对",
+          "suggestion": "核对原条目并补全作者姓名（PDF/OCR 抽取常把英文缩写拆散）"
+        }
+      ]
     },
     {
       "index": 39,
@@ -3657,8 +3870,15 @@
           "recovered": true
         }
       },
-      "score": 100,
-      "issues": []
+      "score": 96,
+      "issues": [
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“静 刘”），已跳过作者比对",
+          "suggestion": "核对原条目并补全作者姓名（PDF/OCR 抽取常把英文缩写拆散）"
+        }
+      ]
     },
     {
       "index": 42,
@@ -3737,8 +3957,15 @@
           "recovered": true
         }
       },
-      "score": 100,
-      "issues": []
+      "score": 96,
+      "issues": [
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“伟 王”），已跳过作者比对",
+          "suggestion": "核对原条目并补全作者姓名（PDF/OCR 抽取常把英文缩写拆散）"
+        }
+      ]
     },
     {
       "index": 43,
@@ -4371,8 +4598,15 @@
           "recovered": true
         }
       },
-      "score": 100,
-      "issues": []
+      "score": 96,
+      "issues": [
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“强 王”），已跳过作者比对",
+          "suggestion": "核对原条目并补全作者姓名（PDF/OCR 抽取常把英文缩写拆散）"
+        }
+      ]
     },
     {
       "index": 51,
@@ -4765,8 +4999,15 @@
           "recovered": true
         }
       },
-      "score": 100,
-      "issues": []
+      "score": 96,
+      "issues": [
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“刘 静”），已跳过作者比对",
+          "suggestion": "核对原条目并补全作者姓名（PDF/OCR 抽取常把英文缩写拆散）"
+        }
+      ]
     },
     {
       "index": 56,
@@ -5563,8 +5804,15 @@
           "recovered": true
         }
       },
-      "score": 100,
-      "issues": []
+      "score": 96,
+      "issues": [
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“泽 王”），已跳过作者比对",
+          "suggestion": "核对原条目并补全作者姓名（PDF/OCR 抽取常把英文缩写拆散）"
+        }
+      ]
     },
     {
       "index": 66,
@@ -5876,8 +6124,15 @@
           "recovered": true
         }
       },
-      "score": 100,
-      "issues": []
+      "score": 96,
+      "issues": [
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“强 王”），已跳过作者比对",
+          "suggestion": "核对原条目并补全作者姓名（PDF/OCR 抽取常把英文缩写拆散）"
+        }
+      ]
     },
     {
       "index": 70,
@@ -6191,8 +6446,15 @@
           "recovered": true
         }
       },
-      "score": 100,
-      "issues": []
+      "score": 96,
+      "issues": [
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“宁 李”），已跳过作者比对",
+          "suggestion": "核对原条目并补全作者姓名（PDF/OCR 抽取常把英文缩写拆散）"
+        }
+      ]
     },
     {
       "index": 74,
@@ -6673,8 +6935,15 @@
           "recovered": true
         }
       },
-      "score": 100,
-      "issues": []
+      "score": 96,
+      "issues": [
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“安 杨”），已跳过作者比对",
+          "suggestion": "核对原条目并补全作者姓名（PDF/OCR 抽取常把英文缩写拆散）"
+        }
+      ]
     },
     {
       "index": 80,
@@ -6751,8 +7020,15 @@
           "recovered": true
         }
       },
-      "score": 100,
-      "issues": []
+      "score": 96,
+      "issues": [
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“刘国”），已跳过作者比对",
+          "suggestion": "核对原条目并补全作者姓名（PDF/OCR 抽取常把英文缩写拆散）"
+        }
+      ]
     },
     {
       "index": 81,
@@ -7287,13 +7563,19 @@
           "recovered": true
         }
       },
-      "score": 88,
+      "score": 84,
       "issues": [
         {
           "level": "error",
           "field": "place",
           "message": "缺少出版地",
           "suggestion": "补充出版地"
+        },
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“李红”），已跳过作者比对",
+          "suggestion": "核对原条目并补全作者姓名（PDF/OCR 抽取常把英文缩写拆散）"
         }
       ]
     },
@@ -7362,13 +7644,19 @@
           "recovered": true
         }
       },
-      "score": 88,
+      "score": 84,
       "issues": [
         {
           "level": "error",
           "field": "place",
           "message": "缺少出版地",
           "suggestion": "补充出版地"
+        },
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“陈 兵”），已跳过作者比对",
+          "suggestion": "核对原条目并补全作者姓名（PDF/OCR 抽取常把英文缩写拆散）"
         }
       ]
     },
@@ -7512,13 +7800,19 @@
           "recovered": true
         }
       },
-      "score": 88,
+      "score": 84,
       "issues": [
         {
           "level": "error",
           "field": "place",
           "message": "缺少出版地",
           "suggestion": "补充出版地"
+        },
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“笑 王”），已跳过作者比对",
+          "suggestion": "核对原条目并补全作者姓名（PDF/OCR 抽取常把英文缩写拆散）"
         }
       ]
     },
@@ -7918,8 +8212,15 @@
           "recovered": true
         }
       },
-      "score": 100,
-      "issues": []
+      "score": 96,
+      "issues": [
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“赵 婷”），已跳过作者比对",
+          "suggestion": "核对原条目并补全作者姓名（PDF/OCR 抽取常把英文缩写拆散）"
+        }
+      ]
     },
     {
       "index": 96,
@@ -8072,13 +8373,19 @@
           "recovered": true
         }
       },
-      "score": 96,
+      "score": 92,
       "issues": [
         {
           "level": "warning",
           "field": "pages",
           "message": "建议补充页码",
           "suggestion": "有则必备：页码"
+        },
+        {
+          "level": "warning",
+          "field": "authors",
+          "message": "作者字段疑似不完整（如只剩缩写“岚 焦”），已跳过作者比对",
+          "suggestion": "核对原条目并补全作者姓名（PDF/OCR 抽取常把英文缩写拆散）"
         }
       ]
     },
@@ -8423,14 +8730,35 @@
         "publisher": "",
         "institution": ""
       },
-      "score": 100,
-      "issues": [],
+      "score": 99,
+      "issues": [
+        {
+          "level": "info",
+          "field": "pages",
+          "message": "页码区间使用 ASCII 连字符「-」，部分期刊/标准示例用一字线「–」",
+          "suggestion": "如需按一字线排版可改为 10–20；不影响其他字段检查"
+        }
+      ],
       "detection": {
-        "detected_strict": false,
+        "detected_strict": true,
         "detected_indirect": false,
-        "verdict": "miss",
-        "matched_issues": [],
-        "new_issues": []
+        "verdict": "strict",
+        "matched_issues": [
+          {
+            "level": "info",
+            "field": "pages",
+            "message": "页码区间使用 ASCII 连字符「-」，部分期刊/标准示例用一字线「–」",
+            "suggestion": "如需按一字线排版可改为 10–20；不影响其他字段检查"
+          }
+        ],
+        "new_issues": [
+          {
+            "level": "info",
+            "field": "pages",
+            "message": "页码区间使用 ASCII 连字符「-」，部分期刊/标准示例用一字线「–」",
+            "suggestion": "如需按一字线排版可改为 10–20；不影响其他字段检查"
+          }
+        ]
       }
     },
     {
@@ -8574,14 +8902,35 @@
         "publisher": "",
         "institution": ""
       },
-      "score": 100,
-      "issues": [],
+      "score": 96,
+      "issues": [
+        {
+          "level": "warning",
+          "field": "volume",
+          "message": "期号 48 明显大于卷号 4：卷/期可能颠倒",
+          "suggestion": "确认写成「卷(期)」，如 43(5)"
+        }
+      ],
       "detection": {
-        "detected_strict": false,
+        "detected_strict": true,
         "detected_indirect": false,
-        "verdict": "miss",
-        "matched_issues": [],
-        "new_issues": []
+        "verdict": "strict",
+        "matched_issues": [
+          {
+            "level": "warning",
+            "field": "volume",
+            "message": "期号 48 明显大于卷号 4：卷/期可能颠倒",
+            "suggestion": "确认写成「卷(期)」，如 43(5)"
+          }
+        ],
+        "new_issues": [
+          {
+            "level": "warning",
+            "field": "volume",
+            "message": "期号 48 明显大于卷号 4：卷/期可能颠倒",
+            "suggestion": "确认写成「卷(期)」，如 43(5)"
+          }
+        ]
       }
     },
     {
@@ -8610,25 +8959,31 @@
         "publisher": "",
         "institution": "SCIENTIA SINICA Terrae"
       },
-      "score": 88,
+      "score": 76,
       "issues": [
         {
           "level": "error",
           "field": "place",
           "message": "缺少出版地",
           "suggestion": "补充出版地"
+        },
+        {
+          "level": "error",
+          "field": "doc_type",
+          "message": "学位论文条目出现卷/期，类型码可能误标为 [D]",
+          "suggestion": "期刊论文用 [J]；学位论文应注明学校、地点与年份"
         }
       ],
       "detection": {
-        "detected_strict": false,
-        "detected_indirect": true,
-        "verdict": "indirect",
+        "detected_strict": true,
+        "detected_indirect": false,
+        "verdict": "strict",
         "matched_issues": [
           {
             "level": "error",
-            "field": "place",
-            "message": "缺少出版地",
-            "suggestion": "补充出版地"
+            "field": "doc_type",
+            "message": "学位论文条目出现卷/期，类型码可能误标为 [D]",
+            "suggestion": "期刊论文用 [J]；学位论文应注明学校、地点与年份"
           }
         ],
         "new_issues": [
@@ -8637,6 +8992,12 @@
             "field": "place",
             "message": "缺少出版地",
             "suggestion": "补充出版地"
+          },
+          {
+            "level": "error",
+            "field": "doc_type",
+            "message": "学位论文条目出现卷/期，类型码可能误标为 [D]",
+            "suggestion": "期刊论文用 [J]；学位论文应注明学校、地点与年份"
           }
         ]
       }
@@ -8723,7 +9084,7 @@
       "base_index": 2,
       "base_id": "https://openalex.org/W4285299393",
       "base_doi": "10.3788/lop202259.0810016",
-      "rendered": "杨宜林 Yang Yilin, 李积英 Li Jiying, 王燕 Wang Yan, 等. 基于NDT和特征点检测的点云配准算法研究[J]. Laser & Optoelectronics Progress, 2022, 59(8): 0810016. DOI: 10.3788/lop202259.0810016.",
+      "rendered": "杨宜林 Yang Yilin, 李积英 Li Jiying, 王燕 Wang Yan, 等. 基于NDT和特征点检测的点云配准算法研究[J]. Laser & Optoelectronics Progress, 2022, 59(8): 0810016-0810017. DOI: 10.3788/lop202259.0810016.",
       "parsed": {
         "doc_type": "J",
         "authors": [
@@ -8736,20 +9097,41 @@
         "year": 2022,
         "volume": "59",
         "issue": "8",
-        "pages": "0810016",
+        "pages": "0810016-0810017",
         "doi": "10.3788/lop202259.0810016",
         "place": "",
         "publisher": "",
         "institution": ""
       },
-      "score": 100,
-      "issues": [],
+      "score": 99,
+      "issues": [
+        {
+          "level": "info",
+          "field": "pages",
+          "message": "页码区间使用 ASCII 连字符「-」，部分期刊/标准示例用一字线「–」",
+          "suggestion": "如需按一字线排版可改为 10–20；不影响其他字段检查"
+        }
+      ],
       "detection": {
-        "detected_strict": false,
+        "detected_strict": true,
         "detected_indirect": false,
-        "verdict": "miss",
-        "matched_issues": [],
-        "new_issues": []
+        "verdict": "strict",
+        "matched_issues": [
+          {
+            "level": "info",
+            "field": "pages",
+            "message": "页码区间使用 ASCII 连字符「-」，部分期刊/标准示例用一字线「–」",
+            "suggestion": "如需按一字线排版可改为 10–20；不影响其他字段检查"
+          }
+        ],
+        "new_issues": [
+          {
+            "level": "info",
+            "field": "pages",
+            "message": "页码区间使用 ASCII 连字符「-」，部分期刊/标准示例用一字线「–」",
+            "suggestion": "如需按一字线排版可改为 10–20；不影响其他字段检查"
+          }
+        ]
       }
     },
     {
@@ -8893,14 +9275,35 @@
         "publisher": "",
         "institution": ""
       },
-      "score": 100,
-      "issues": [],
+      "score": 96,
+      "issues": [
+        {
+          "level": "warning",
+          "field": "volume",
+          "message": "期号 59 明显大于卷号 8：卷/期可能颠倒",
+          "suggestion": "确认写成「卷(期)」，如 43(5)"
+        }
+      ],
       "detection": {
-        "detected_strict": false,
+        "detected_strict": true,
         "detected_indirect": false,
-        "verdict": "miss",
-        "matched_issues": [],
-        "new_issues": []
+        "verdict": "strict",
+        "matched_issues": [
+          {
+            "level": "warning",
+            "field": "volume",
+            "message": "期号 59 明显大于卷号 8：卷/期可能颠倒",
+            "suggestion": "确认写成「卷(期)」，如 43(5)"
+          }
+        ],
+        "new_issues": [
+          {
+            "level": "warning",
+            "field": "volume",
+            "message": "期号 59 明显大于卷号 8：卷/期可能颠倒",
+            "suggestion": "确认写成「卷(期)」，如 43(5)"
+          }
+        ]
       }
     },
     {
@@ -8929,25 +9332,31 @@
         "publisher": "",
         "institution": "Laser & Optoelectronics Progress"
       },
-      "score": 88,
+      "score": 76,
       "issues": [
         {
           "level": "error",
           "field": "place",
           "message": "缺少出版地",
           "suggestion": "补充出版地"
+        },
+        {
+          "level": "error",
+          "field": "doc_type",
+          "message": "学位论文条目出现卷/期，类型码可能误标为 [D]",
+          "suggestion": "期刊论文用 [J]；学位论文应注明学校、地点与年份"
         }
       ],
       "detection": {
-        "detected_strict": false,
-        "detected_indirect": true,
-        "verdict": "indirect",
+        "detected_strict": true,
+        "detected_indirect": false,
+        "verdict": "strict",
         "matched_issues": [
           {
             "level": "error",
-            "field": "place",
-            "message": "缺少出版地",
-            "suggestion": "补充出版地"
+            "field": "doc_type",
+            "message": "学位论文条目出现卷/期，类型码可能误标为 [D]",
+            "suggestion": "期刊论文用 [J]；学位论文应注明学校、地点与年份"
           }
         ],
         "new_issues": [
@@ -8956,6 +9365,12 @@
             "field": "place",
             "message": "缺少出版地",
             "suggestion": "补充出版地"
+          },
+          {
+            "level": "error",
+            "field": "doc_type",
+            "message": "学位论文条目出现卷/期，类型码可能误标为 [D]",
+            "suggestion": "期刊论文用 [J]；学位论文应注明学校、地点与年份"
           }
         ]
       }
@@ -9042,7 +9457,7 @@
       "base_index": 3,
       "base_id": "https://openalex.org/W4402851287",
       "base_doi": "10.3788/cjl231425",
-      "rendered": "董宏翔 Dong Hongxiang, 安毅 An Yi, 谢丽蓉 Xie Lirong, 等. 基于局部特征增强的矿山大规模激光点云语义分割[J]. Chinese Journal of Lasers, 2024, 51(17): 1710002. DOI: 10.3788/cjl231425.",
+      "rendered": "董宏翔 Dong Hongxiang, 安毅 An Yi, 谢丽蓉 Xie Lirong, 等. 基于局部特征增强的矿山大规模激光点云语义分割[J]. Chinese Journal of Lasers, 2024, 51(17): 1710002-1710003. DOI: 10.3788/cjl231425.",
       "parsed": {
         "doc_type": "J",
         "authors": [
@@ -9055,20 +9470,41 @@
         "year": 2024,
         "volume": "51",
         "issue": "17",
-        "pages": "1710002",
+        "pages": "1710002-1710003",
         "doi": "10.3788/cjl231425",
         "place": "",
         "publisher": "",
         "institution": ""
       },
-      "score": 100,
-      "issues": [],
+      "score": 99,
+      "issues": [
+        {
+          "level": "info",
+          "field": "pages",
+          "message": "页码区间使用 ASCII 连字符「-」，部分期刊/标准示例用一字线「–」",
+          "suggestion": "如需按一字线排版可改为 10–20；不影响其他字段检查"
+        }
+      ],
       "detection": {
-        "detected_strict": false,
+        "detected_strict": true,
         "detected_indirect": false,
-        "verdict": "miss",
-        "matched_issues": [],
-        "new_issues": []
+        "verdict": "strict",
+        "matched_issues": [
+          {
+            "level": "info",
+            "field": "pages",
+            "message": "页码区间使用 ASCII 连字符「-」，部分期刊/标准示例用一字线「–」",
+            "suggestion": "如需按一字线排版可改为 10–20；不影响其他字段检查"
+          }
+        ],
+        "new_issues": [
+          {
+            "level": "info",
+            "field": "pages",
+            "message": "页码区间使用 ASCII 连字符「-」，部分期刊/标准示例用一字线「–」",
+            "suggestion": "如需按一字线排版可改为 10–20；不影响其他字段检查"
+          }
+        ]
       }
     },
     {
@@ -9212,14 +9648,35 @@
         "publisher": "",
         "institution": ""
       },
-      "score": 100,
-      "issues": [],
+      "score": 96,
+      "issues": [
+        {
+          "level": "warning",
+          "field": "volume",
+          "message": "期号 51 明显大于卷号 17：卷/期可能颠倒",
+          "suggestion": "确认写成「卷(期)」，如 43(5)"
+        }
+      ],
       "detection": {
-        "detected_strict": false,
+        "detected_strict": true,
         "detected_indirect": false,
-        "verdict": "miss",
-        "matched_issues": [],
-        "new_issues": []
+        "verdict": "strict",
+        "matched_issues": [
+          {
+            "level": "warning",
+            "field": "volume",
+            "message": "期号 51 明显大于卷号 17：卷/期可能颠倒",
+            "suggestion": "确认写成「卷(期)」，如 43(5)"
+          }
+        ],
+        "new_issues": [
+          {
+            "level": "warning",
+            "field": "volume",
+            "message": "期号 51 明显大于卷号 17：卷/期可能颠倒",
+            "suggestion": "确认写成「卷(期)」，如 43(5)"
+          }
+        ]
       }
     },
     {
@@ -9248,25 +9705,31 @@
         "publisher": "",
         "institution": "Chinese Journal of Lasers"
       },
-      "score": 88,
+      "score": 76,
       "issues": [
         {
           "level": "error",
           "field": "place",
           "message": "缺少出版地",
           "suggestion": "补充出版地"
+        },
+        {
+          "level": "error",
+          "field": "doc_type",
+          "message": "学位论文条目出现卷/期，类型码可能误标为 [D]",
+          "suggestion": "期刊论文用 [J]；学位论文应注明学校、地点与年份"
         }
       ],
       "detection": {
-        "detected_strict": false,
-        "detected_indirect": true,
-        "verdict": "indirect",
+        "detected_strict": true,
+        "detected_indirect": false,
+        "verdict": "strict",
         "matched_issues": [
           {
             "level": "error",
-            "field": "place",
-            "message": "缺少出版地",
-            "suggestion": "补充出版地"
+            "field": "doc_type",
+            "message": "学位论文条目出现卷/期，类型码可能误标为 [D]",
+            "suggestion": "期刊论文用 [J]；学位论文应注明学校、地点与年份"
           }
         ],
         "new_issues": [
@@ -9275,6 +9738,12 @@
             "field": "place",
             "message": "缺少出版地",
             "suggestion": "补充出版地"
+          },
+          {
+            "level": "error",
+            "field": "doc_type",
+            "message": "学位论文条目出现卷/期，类型码可能误标为 [D]",
+            "suggestion": "期刊论文用 [J]；学位论文应注明学校、地点与年份"
           }
         ]
       }
@@ -9361,7 +9830,7 @@
       "base_index": 4,
       "base_id": "https://openalex.org/W4411740583",
       "base_doi": "10.3788/lop242162",
-      "rendered": "张钊荣 Zhang Zhaorong, 陈文娟 Chen Wenjuan, 智婷 Zhi Ting, 等. AR/VR等近眼显示系统中的晕动症问题[J]. Laser & Optoelectronics Progress, 2025, 62(12): 1200002. DOI: 10.3788/lop242162.",
+      "rendered": "张钊荣 Zhang Zhaorong, 陈文娟 Chen Wenjuan, 智婷 Zhi Ting, 等. AR/VR等近眼显示系统中的晕动症问题[J]. Laser & Optoelectronics Progress, 2025, 62(12): 1200002-1200003. DOI: 10.3788/lop242162.",
       "parsed": {
         "doc_type": "J",
         "authors": [
@@ -9374,20 +9843,41 @@
         "year": 2025,
         "volume": "62",
         "issue": "12",
-        "pages": "1200002",
+        "pages": "1200002-1200003",
         "doi": "10.3788/lop242162",
         "place": "",
         "publisher": "",
         "institution": ""
       },
-      "score": 100,
-      "issues": [],
+      "score": 99,
+      "issues": [
+        {
+          "level": "info",
+          "field": "pages",
+          "message": "页码区间使用 ASCII 连字符「-」，部分期刊/标准示例用一字线「–」",
+          "suggestion": "如需按一字线排版可改为 10–20；不影响其他字段检查"
+        }
+      ],
       "detection": {
-        "detected_strict": false,
+        "detected_strict": true,
         "detected_indirect": false,
-        "verdict": "miss",
-        "matched_issues": [],
-        "new_issues": []
+        "verdict": "strict",
+        "matched_issues": [
+          {
+            "level": "info",
+            "field": "pages",
+            "message": "页码区间使用 ASCII 连字符「-」，部分期刊/标准示例用一字线「–」",
+            "suggestion": "如需按一字线排版可改为 10–20；不影响其他字段检查"
+          }
+        ],
+        "new_issues": [
+          {
+            "level": "info",
+            "field": "pages",
+            "message": "页码区间使用 ASCII 连字符「-」，部分期刊/标准示例用一字线「–」",
+            "suggestion": "如需按一字线排版可改为 10–20；不影响其他字段检查"
+          }
+        ]
       }
     },
     {
@@ -9531,14 +10021,35 @@
         "publisher": "",
         "institution": ""
       },
-      "score": 100,
-      "issues": [],
+      "score": 96,
+      "issues": [
+        {
+          "level": "warning",
+          "field": "volume",
+          "message": "期号 62 明显大于卷号 12：卷/期可能颠倒",
+          "suggestion": "确认写成「卷(期)」，如 43(5)"
+        }
+      ],
       "detection": {
-        "detected_strict": false,
+        "detected_strict": true,
         "detected_indirect": false,
-        "verdict": "miss",
-        "matched_issues": [],
-        "new_issues": []
+        "verdict": "strict",
+        "matched_issues": [
+          {
+            "level": "warning",
+            "field": "volume",
+            "message": "期号 62 明显大于卷号 12：卷/期可能颠倒",
+            "suggestion": "确认写成「卷(期)」，如 43(5)"
+          }
+        ],
+        "new_issues": [
+          {
+            "level": "warning",
+            "field": "volume",
+            "message": "期号 62 明显大于卷号 12：卷/期可能颠倒",
+            "suggestion": "确认写成「卷(期)」，如 43(5)"
+          }
+        ]
       }
     },
     {
@@ -9567,25 +10078,31 @@
         "publisher": "",
         "institution": "Laser & Optoelectronics Progress"
       },
-      "score": 88,
+      "score": 76,
       "issues": [
         {
           "level": "error",
           "field": "place",
           "message": "缺少出版地",
           "suggestion": "补充出版地"
+        },
+        {
+          "level": "error",
+          "field": "doc_type",
+          "message": "学位论文条目出现卷/期，类型码可能误标为 [D]",
+          "suggestion": "期刊论文用 [J]；学位论文应注明学校、地点与年份"
         }
       ],
       "detection": {
-        "detected_strict": false,
-        "detected_indirect": true,
-        "verdict": "indirect",
+        "detected_strict": true,
+        "detected_indirect": false,
+        "verdict": "strict",
         "matched_issues": [
           {
             "level": "error",
-            "field": "place",
-            "message": "缺少出版地",
-            "suggestion": "补充出版地"
+            "field": "doc_type",
+            "message": "学位论文条目出现卷/期，类型码可能误标为 [D]",
+            "suggestion": "期刊论文用 [J]；学位论文应注明学校、地点与年份"
           }
         ],
         "new_issues": [
@@ -9594,6 +10111,12 @@
             "field": "place",
             "message": "缺少出版地",
             "suggestion": "补充出版地"
+          },
+          {
+            "level": "error",
+            "field": "doc_type",
+            "message": "学位论文条目出现卷/期，类型码可能误标为 [D]",
+            "suggestion": "期刊论文用 [J]；学位论文应注明学校、地点与年份"
           }
         ]
       }
@@ -9680,7 +10203,7 @@
       "base_index": 5,
       "base_id": "https://openalex.org/W4313054188",
       "base_doi": "10.53388/ccmr2022022",
-      "rendered": "舒柳 桑, 蓉珍 丁, 靖洁 姜, 等. 基于网络药理学探讨中药鸦胆子治疗非小细胞肺癌的作用机制[J]. 经典中医研究, 2022, 5(4): 22. DOI: 10.53388/ccmr2022022.",
+      "rendered": "舒柳 桑, 蓉珍 丁, 靖洁 姜, 等. 基于网络药理学探讨中药鸦胆子治疗非小细胞肺癌的作用机制[J]. 经典中医研究, 2022, 5(4): 22-23. DOI: 10.53388/ccmr2022022.",
       "parsed": {
         "doc_type": "J",
         "authors": [
@@ -9693,20 +10216,41 @@
         "year": 2022,
         "volume": "5",
         "issue": "4",
-        "pages": "22",
+        "pages": "22-23",
         "doi": "10.53388/ccmr2022022",
         "place": "",
         "publisher": "",
         "institution": ""
       },
-      "score": 100,
-      "issues": [],
+      "score": 99,
+      "issues": [
+        {
+          "level": "info",
+          "field": "pages",
+          "message": "页码区间使用 ASCII 连字符「-」，部分期刊/标准示例用一字线「–」",
+          "suggestion": "如需按一字线排版可改为 10–20；不影响其他字段检查"
+        }
+      ],
       "detection": {
-        "detected_strict": false,
+        "detected_strict": true,
         "detected_indirect": false,
-        "verdict": "miss",
-        "matched_issues": [],
-        "new_issues": []
+        "verdict": "strict",
+        "matched_issues": [
+          {
+            "level": "info",
+            "field": "pages",
+            "message": "页码区间使用 ASCII 连字符「-」，部分期刊/标准示例用一字线「–」",
+            "suggestion": "如需按一字线排版可改为 10–20；不影响其他字段检查"
+          }
+        ],
+        "new_issues": [
+          {
+            "level": "info",
+            "field": "pages",
+            "message": "页码区间使用 ASCII 连字符「-」，部分期刊/标准示例用一字线「–」",
+            "suggestion": "如需按一字线排版可改为 10–20；不影响其他字段检查"
+          }
+        ]
       }
     },
     {
@@ -9886,25 +10430,31 @@
         "publisher": "",
         "institution": "经典中医研究"
       },
-      "score": 88,
+      "score": 76,
       "issues": [
         {
           "level": "error",
           "field": "place",
           "message": "缺少出版地",
           "suggestion": "补充出版地"
+        },
+        {
+          "level": "error",
+          "field": "doc_type",
+          "message": "学位论文条目出现卷/期，类型码可能误标为 [D]",
+          "suggestion": "期刊论文用 [J]；学位论文应注明学校、地点与年份"
         }
       ],
       "detection": {
-        "detected_strict": false,
-        "detected_indirect": true,
-        "verdict": "indirect",
+        "detected_strict": true,
+        "detected_indirect": false,
+        "verdict": "strict",
         "matched_issues": [
           {
             "level": "error",
-            "field": "place",
-            "message": "缺少出版地",
-            "suggestion": "补充出版地"
+            "field": "doc_type",
+            "message": "学位论文条目出现卷/期，类型码可能误标为 [D]",
+            "suggestion": "期刊论文用 [J]；学位论文应注明学校、地点与年份"
           }
         ],
         "new_issues": [
@@ -9913,6 +10463,12 @@
             "field": "place",
             "message": "缺少出版地",
             "suggestion": "补充出版地"
+          },
+          {
+            "level": "error",
+            "field": "doc_type",
+            "message": "学位论文条目出现卷/期，类型码可能误标为 [D]",
+            "suggestion": "期刊论文用 [J]；学位论文应注明学校、地点与年份"
           }
         ]
       }

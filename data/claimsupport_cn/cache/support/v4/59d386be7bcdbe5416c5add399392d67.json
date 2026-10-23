@@ -1,0 +1,10 @@
+{
+  "label": "support",
+  "confidence": 0.98,
+  "reason": "证据原文与引用句完全一致，明确断言了同样的对象和关系。",
+  "evidence": "肝癌是中国高发的恶性肿瘤之一，中国国内每年因肝癌死亡人数占全球肝癌死亡人数一半以上。",
+  "audit": {
+    "fully_covered": true,
+    "missing": []
+  }
+}

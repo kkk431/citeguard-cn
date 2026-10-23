@@ -1,4 +1,4 @@
-﻿"""GB/T 7714-2025 compliance rule engine (best-effort v0).
+"""GB/T 7714-2025 compliance rule engine (best-effort v0).
 
 IMPORTANT: this module encodes *rule facts* (field requirements, type codes,
 author-name style) derived from the official standard page and public
@@ -257,6 +257,45 @@ def check_reference(ref: Reference) -> ComplianceResult:
 
     if ref.doc_type == "J" and not (ref.volume or ref.issue):
         issues.append(Issue("warning", "volume", "期刊条目建议给出卷/期", "补充“卷(期)”"))
+
+    # Volume/issue plausibility: an issue number far larger than the volume is
+    # almost always a swapped pair ("5(43)" instead of "43(5)"). Warning only:
+    # some journals number >24 issues per year.
+    if ref.doc_type == "J" and (ref.volume or "").isdigit() and (ref.issue or "").isdigit():
+        vol, iss = int(ref.volume), int(ref.issue)
+        if iss > max(24, 2 * vol):
+            issues.append(
+                Issue(
+                    "warning",
+                    "volume",
+                    f"期号 {iss} 明显大于卷号 {vol}：卷/期可能颠倒",
+                    "确认写成「卷(期)」，如 43(5)",
+                )
+            )
+
+    # A journal article mislabelled as [D]: theses do not carry volume/issue.
+    if ref.doc_type == "D" and (ref.volume or ref.issue):
+        issues.append(
+            Issue(
+                "error",
+                "doc_type",
+                "学位论文条目出现卷/期，类型码可能误标为 [D]",
+                "期刊论文用 [J]；学位论文应注明学校、地点与年份",
+            )
+        )
+
+    # Page ranges: the en dash is common in GB/T 7714 examples, but many
+    # journals normalise it to an ASCII hyphen, so this is an info-level tip
+    # (it does not imply the entry is wrong).
+    if ref.doc_type == "J" and _page_sep(ref) == "-":
+        issues.append(
+            Issue(
+                "info",
+                "pages",
+                "页码区间使用 ASCII 连字符「-」，部分期刊/标准示例用一字线「–」",
+                "如需按一字线排版可改为 10–20；不影响其他字段检查",
+            )
+        )
 
     if ref.doi and not re.fullmatch(r"10\.\d{4,9}/\S+", ref.doi):
         issues.append(Issue("error", "doi", "永久标识符格式不合法", "DOI 形如 10.xxxx/xxxxx，去掉多余前后缀"))

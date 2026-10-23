@@ -1,0 +1,10 @@
+{
+  "label": "support",
+  "confidence": 0.9,
+  "reason": "证据原文与引用句完全一致，明确断言了同一研究对象和命题。",
+  "evidence": "研究精神障碍患者治疗中采用沟通技巧的应用效果。",
+  "audit": {
+    "fully_covered": true,
+    "missing": []
+  }
+}

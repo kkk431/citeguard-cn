@@ -1,0 +1,10 @@
+{
+  "label": "support",
+  "confidence": 0.98,
+  "reason": "证据原文直接复述了引用句的核心命题，对象与关系完全一致。",
+  "evidence": "药剂学实验课程作为医药教育的关键环节，其改革聚焦于技能培养与思政教育的融合。",
+  "audit": {
+    "fully_covered": true,
+    "missing": []
+  }
+}

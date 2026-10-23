@@ -39,7 +39,7 @@ $env:DEEPSEEK_API_KEY = "..."   # 支持度判定用，不写进任何文件
 
 ## 3. 当前状态（一句话）
 
-输入解析（PDF/Word/扫描件 OCR）、GB/T 格式检查、引文真实性核验（在线 + 本地题录库 + 中国 DOI 平台）、支持度判定、报告与导出全部可用；238 项测试通过。已知边界写在 `docs/plan.md`。
+输入解析（PDF/Word/扫描件 OCR）、GB/T 格式检查（E4 漂移 29/30）、引文真实性核验（在线 + 本地题录库 + 中国 DOI 平台）、支持度判定（两段式 macro-F1 0.9328）、报告与导出全部可用；247 项测试通过。已知边界写在 `docs/plan.md`。
 
 ## 4. 明天优先级
 
@@ -85,3 +85,24 @@ $env:DEEPSEEK_API_KEY = "..."   # 支持度判定用，不写进任何文件
 - `docs/real_data_eval.md` 第 3 节换成本次实测与逐条 diff；新增第 5 节「中文覆盖率还能不能再挖」（检索召回 0.92、DOI 落地页覆盖面）。
 - 新增 `docs/user_test_kit.md`（任务脚本 + 指标 + SUS 问卷 + 结果模板）；README 补引用支持度读法表与「真实用户研究还没做」的说明。
 - 远程演示实例已更新并验证：`/api/health` 200、中国 DOI 落地页解析生效（CNKI DOI → Exact）、支持度 judge 可用、题录库补了 8 条摘要。
+
+## 7. 2026-10-23 晚间：指标冲榜（PPT 用）
+
+**支持度两段式判定（0.9005 → 0.9328）**
+- 第一段 v3 prompt 给四分类 + 证据句；第二段只对 `support` 做「覆盖审计」：拆引用句要素，证据缺任一要素 → 降级 `partial`。
+- 产品路径正式评测：macro-F1 **0.9328 / acc 0.9300**（`data/claimsupport_cn/results.json`）；独立实验脚本 0.9439（`data/experiments/support_two_stage_results.json`）。
+- 失败实验已存档：结构化 checklist prompt（v5）0.8196（`support_v5_results.json`）；三票自一致性 0.9005（`support_v3_vote3_results.json`）；单段复测 0.8929（`support_v3_rerun_results.json`）。
+- 开关：`CITEGUARD_SUPPORT_AUDIT=0` 可关闭第二段；默认开启，约 40% 条目多一次 judge 调用。
+
+**GB/T 格式规则扩展（E4 15/30 → 29/30）**
+- 新增 3 条规则：页码 ASCII 连字符 → info 提示一字线；期号显著大于卷号 → warning「卷/期可能颠倒」；`[D]` 出现卷/期 → error「类型码可能误标」。
+- 修正 4 条漂移构造：单页/文章号基底无法通过替换连接号制造漂移，改为构造同宽度两页区间再替换。
+- E4 复跑：漂移严格检出 **29/30（96.7%）**，类型码识别 100%、必填字段 98.4%；剩余 1 条卷/期互换因数字都小而无法判断，已在结果里保留 miss。
+
+**评测页升级为「答辩数据面板」**
+- `/benchmark` 新增两块：ClaimSupport-CN 支持度结果（0.9328/0.930 + per-class + 混淆）与「真实已发表论文上的表现」（解析 99.6%/99.2%、真实性 74/50/100/**Major 0**、本地库 224/224、检索召回 92%、E4 29/30）。
+- `/api/benchmark` 同步返回 `support_benchmark` 与 `real_data`。
+
+**测试**
+- `pytest` 239 → **247 通过**（新增 E4 规则 5 项、两段式 judge 3 项）。
+- 文档同步：README 支持度表与混淆矩阵、`docs/support_summary.md`、`data/claimsupport_cn/README.md`、`docs/experiments.md` E4 章节、`docs/plan.md`。

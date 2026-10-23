@@ -340,12 +340,49 @@ def report_page(request: Request, job_id: str):
     )
 
 
+def _load_json(path: Path):
+    try:
+        if path.exists():
+            return json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return None
+    return None
+
+
+def _benchmark_context() -> dict:
+    """Benchmark page: CiteBench-CN + ClaimSupport-CN + real-data experiments."""
+    data_dir = config.DATA_DIR
+    benchmark = _load_json(data_dir / "citebench_cn" / "results.json")
+    support = _load_json(data_dir / "claimsupport_cn" / "results.json")
+    exp = data_dir / "experiments"
+    real: dict = {}
+    parse = _load_json(exp / "parse_real.json")
+    if parse and parse.get("summary"):
+        real["parse"] = parse["summary"]
+    verify = _load_json(exp / "verify_real.json")
+    if verify and verify.get("summary"):
+        real["verify"] = verify["summary"]
+    library = _load_json(exp / "library_real.json")
+    if library and library.get("summary"):
+        real["library"] = library["summary"]
+    recall = _load_json(exp / "search_recall.json")
+    if recall and recall.get("summary"):
+        real["recall"] = recall["summary"]
+    e4 = _load_json(exp / "e4_format.json")
+    if e4 and e4.get("drift"):
+        real["e4"] = {
+            "strict": e4["drift"].get("strict_detected"),
+            "n": e4["drift"].get("n"),
+            "type_recognition": (e4.get("metrics") or {}).get("type_code_recognition", {}).get("rate"),
+        }
+    return {"benchmark": benchmark, "support": support, "real": real}
+
+
 @app.get("/benchmark", response_class=HTMLResponse)
 def benchmark_page(request: Request):
-    p = config.DATA_DIR / "citebench_cn" / "results.json"
-    data = json.loads(p.read_text(encoding="utf-8")) if p.exists() else None
+    ctx = _benchmark_context()
     return templates.TemplateResponse(
-        request, "benchmark.html", {"benchmark": data, "active": "benchmark"}
+        request, "benchmark.html", {**ctx, "active": "benchmark"}
     )
 
 
@@ -356,10 +393,15 @@ def about_page(request: Request):
 
 @app.get("/api/benchmark")
 def benchmark_api():
-    p = config.DATA_DIR / "citebench_cn" / "results.json"
-    if not p.exists():
+    ctx = _benchmark_context()
+    if not ctx["benchmark"]:
         return {"available": False}
-    return {"available": True, **json.loads(p.read_text(encoding="utf-8"))}
+    return {
+        "available": True,
+        **ctx["benchmark"],
+        "support_benchmark": ctx["support"],
+        "real_data": ctx["real"],
+    }
 
 
 @app.get("/api/health")

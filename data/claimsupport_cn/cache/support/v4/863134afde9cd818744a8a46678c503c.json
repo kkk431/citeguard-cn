@@ -1,0 +1,10 @@
+{
+  "label": "support",
+  "confidence": 1.0,
+  "reason": "证据原文与引用句完全一致，明确断言了同一命题。",
+  "evidence": "新型冠状病毒肺炎疫情的发生，极大促进了分子诊断的发展，基层妇幼保健医院的检验人员进修分子诊断的需求也在增多。",
+  "audit": {
+    "fully_covered": true,
+    "missing": []
+  }
+}

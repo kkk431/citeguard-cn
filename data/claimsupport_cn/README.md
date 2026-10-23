@@ -60,32 +60,37 @@
 
 ## 5. 评测结果（`results.json`）
 
+> 当前为**两段式 judge**（判定 + 覆盖审计）的正式结果；单段 prompt v3 的历史结果见本节末尾。
+
 | 项 | 值 |
 |---|---|
-| judge | `citeguard.support.judge_support`，`deepseek-chat`，temperature 0 |
-| judge prompt SHA-256 | `8a4850d41196be994b0a6f607fc891c3d644ed83d0ce9c065d31e4d743320afc` |
-| macro-F1 | **0.7951** |
-| accuracy | **0.8100** |
+| judge | `citeguard.support.judge_support`（两段式），`deepseek-chat`，temperature 0 |
+| judge prompt SHA-256（第一段） | `cb86c4fa9a1fec7a…` |
+| 覆盖审计 prompt | `scripts/support_prompt_audit.txt` |
+| macro-F1 | **0.9328** |
+| accuracy | **0.9300** |
 | failures | 0（100/100 成功；失败会映射为 `no_evidence` 并计数） |
 
 Per-class：
 
 | 类别 | Precision | Recall | F1 | 支持数 | 预测数 |
 |---|---|---|---|---|---|
-| support | 0.7143 | 1.0000 | 0.8333 | 40 | 56 |
-| partial | 0.9167 | 0.4400 | 0.5946 | 25 | 12 |
-| contradict | 1.0000 | 0.6667 | 0.8000 | 15 | 10 |
-| no_evidence | 0.9091 | 1.0000 | 0.9524 | 20 | 22 |
+| support | 0.9250 | 0.9250 | 0.9250 | 40 | 40 |
+| partial | 0.8846 | 0.9200 | 0.9020 | 25 | 26 |
+| contradict | 1.0000 | 0.8667 | 0.9286 | 15 | 13 |
+| no_evidence | 0.9524 | 1.0000 | 0.9756 | 20 | 21 |
 
 混淆矩阵（行 = 真实，列 = 预测；support / partial / contradict / no_evidence）：
 
 ```text
               pred support  partial  contradict  no_evidence
-true support            40        0           0            0
-true partial            12       11           0            2
-true contradict          4        1          10            0
+true support            37        2           0            1
+true partial             2       23           0            0
+true contradict          1        1          13            0
 true no_evidence         0        0           0           20
 ```
+
+**单段 prompt v3 历史结果（对比用）**：macro-F1 0.9005 / accuracy 0.8900；混淆矩阵 `[[38,2,0,0],[7,18,0,0],[2,0,13,0],[0,0,0,20]]`。两段式主要修掉了 7 条「partial 被误判为 support」中的 5 条。
 
 ## 6. 复现命令
 
@@ -118,7 +123,7 @@ PYTHONPATH=.pylibs:. python3 scripts/evaluate_support.py
 
 1. **文本质量**：OpenAlex 中文摘要多为自动翻译，存在机器翻译腔；本集不 re-host 原文，但 claim/evidence 的自然度受上游影响。
 2. **构造式标签**：标签由规则决定，没有人工双标注和 κ；20% 抽检为单标注者规则复核，不能替代人工一致性统计。
-3. **partial 边界模糊**：证据只给出一个分句时，judge 常判为 `support`（本集 25 条 partial 中 12 条被判 support），这反映四分类边界本身的模糊性，评测时应连同 per-class 一起解读。
+3. **partial 边界模糊**：证据只给出一个分句时，judge 常判为 `support`；两段式覆盖审计后，25 条 partial 中仍有 2 条被判 support，反映四分类边界本身的模糊性，评测时应连同 per-class 一起解读。
 4. **contradict**：反义替换依赖词表，部分机器翻译句的反义关系不够显式，judge 可能判 support/partial。
 5. **规模**：100 条适合工程回归与演示，不足以覆盖全部学科；建议与 ClaimSupport 真实人工标注集互补使用。
 6. 不评估「引用是否真实存在 / 元数据是否正确」（那是 CiteBench-CN 的任务），只评估给定 evidence 对 claim 的支持度。
