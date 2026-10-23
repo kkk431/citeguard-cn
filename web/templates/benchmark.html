@@ -146,7 +146,7 @@
         <tr>
           <td>参考文献解析干净率</td>
           <td class="mono-sm">{{ '%.1f%%'|format(real.parse.published_clean_ratio * 100) }}（发布版文字）/ {{ '%.1f%%'|format(real.parse.pdf_clean_ratio * 100) }}（PDF 抽取）</td>
-          <td class="mono-sm">{{ real.parse.papers }} 篇真实论文 · {{ real.parse.published_refs }} 条</td>
+          <td class="mono-sm">{{ real.parse.papers }} 篇真实论文 · 发布版 {{ real.parse.published_refs }} 条 · PDF 抽取 {{ real.parse.pdf_refs }} 条</td>
         </tr>
         {% endif %}
         {% if real.ocr %}
