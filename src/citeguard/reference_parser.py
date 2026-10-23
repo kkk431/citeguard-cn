@@ -157,16 +157,25 @@ def _split_apa_entries(text: str) -> list[str]:
 
 
 _ENTRY_LETTER_RE = re.compile(r"[A-Za-z\u4e00-\u9fff]")
+# A bare URL/DOI line (e.g. a PDF that prints references as links only) is not a
+# citable reference; keeping it would create a bogus "Major" verdict downstream.
+_URL_ONLY_RE = re.compile(
+    r"^(?:\[\s*\d{1,3}\s*\]\s*)?(?:https?://|www\.|doi\s*[:：]?\s*|10\.\d{4,9}/)\S+$",
+    re.I,
+)
 
 
 def _looks_like_entry(block: str) -> bool:
     """Reject fragments such as a lone page number or a bare URL tail."""
-    if len(block.strip()) < 8:
+    stripped = block.strip()
+    if len(stripped) < 8:
         return False
     if not _ENTRY_LETTER_RE.search(block):
         return False
     # A page number followed by nothing useful ("1177.") is not a reference.
     if re.fullmatch(r"\s*\d{1,5}\s*[.。]?\s*", block):
+        return False
+    if _URL_ONLY_RE.match(stripped.rstrip(" .,;，；。")):
         return False
     return True
 

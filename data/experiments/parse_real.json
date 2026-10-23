@@ -1,11 +1,11 @@
 {
   "summary": {
-    "papers": 12,
-    "published_refs": 224,
-    "pdf_refs": 345,
-    "published_clean_ratio": 0.996,
-    "pdf_clean_ratio": 0.992,
-    "pdf_heading_found": 12
+    "papers": 22,
+    "published_refs": 409,
+    "pdf_refs": 533,
+    "published_clean_ratio": 0.97,
+    "pdf_clean_ratio": 0.965,
+    "pdf_heading_found": 22
   },
   "papers": [
     {
@@ -158,10 +158,8 @@
           "doi": 0.889,
           "pages": 0.889
         },
-        "problems": {
-          "authors_many": 1
-        },
-        "clean_ratio": 0.963
+        "problems": {},
+        "clean_ratio": 1.0
       },
       "pdf_path": {
         "count": 27,
@@ -174,10 +172,8 @@
           "doi": 0.889,
           "pages": 0.889
         },
-        "problems": {
-          "authors_many": 1
-        },
-        "clean_ratio": 0.963,
+        "problems": {},
+        "clean_ratio": 1.0,
         "split_found_heading": true,
         "entries_by_marks": 27
       }
@@ -353,6 +349,362 @@
       }
     },
     {
+      "title": "回忆类心理动词的辨析——以“回忆、回想、回顾、回首”为例",
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152705",
+      "published_list": {
+        "count": 9,
+        "coverage": {
+          "title": 1.0,
+          "authors": 0.889,
+          "year": 1.0,
+          "doc_type": 1.0,
+          "venue": 0.444,
+          "doi": 0.0,
+          "pages": 0.444
+        },
+        "problems": {
+          "authors_empty": 1
+        },
+        "clean_ratio": 0.889
+      },
+      "pdf_path": {
+        "count": 9,
+        "coverage": {
+          "title": 1.0,
+          "authors": 0.889,
+          "year": 1.0,
+          "doc_type": 1.0,
+          "venue": 0.444,
+          "doi": 0.0,
+          "pages": 0.444
+        },
+        "problems": {
+          "authors_empty": 1
+        },
+        "clean_ratio": 0.889,
+        "split_found_heading": true,
+        "entries_by_marks": 9
+      }
+    },
+    {
+      "title": "主观评价与中间态：“X不X，Y不Y”构式的研究",
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152704",
+      "published_list": {
+        "count": 10,
+        "coverage": {
+          "title": 1.0,
+          "authors": 1.0,
+          "year": 1.0,
+          "doc_type": 1.0,
+          "venue": 0.7,
+          "doi": 0.1,
+          "pages": 0.6
+        },
+        "problems": {},
+        "clean_ratio": 1.0
+      },
+      "pdf_path": {
+        "count": 10,
+        "coverage": {
+          "title": 1.0,
+          "authors": 1.0,
+          "year": 1.0,
+          "doc_type": 1.0,
+          "venue": 0.7,
+          "doi": 0.1,
+          "pages": 0.6
+        },
+        "problems": {},
+        "clean_ratio": 1.0,
+        "split_found_heading": true,
+        "entries_by_marks": 10
+      }
+    },
+    {
+      "title": "杂合理论视角下《伤寒论》罗希文英译本的跨文化协商研究——基于语言与文化层面的分析",
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152703",
+      "published_list": {
+        "count": 18,
+        "coverage": {
+          "title": 1.0,
+          "authors": 1.0,
+          "year": 1.0,
+          "doc_type": 1.0,
+          "venue": 0.833,
+          "doi": 0.056,
+          "pages": 0.778
+        },
+        "problems": {},
+        "clean_ratio": 1.0
+      },
+      "pdf_path": {
+        "count": 18,
+        "coverage": {
+          "title": 1.0,
+          "authors": 1.0,
+          "year": 1.0,
+          "doc_type": 1.0,
+          "venue": 0.889,
+          "doi": 0.056,
+          "pages": 0.611
+        },
+        "problems": {},
+        "clean_ratio": 1.0,
+        "split_found_heading": true,
+        "entries_by_marks": 18
+      }
+    },
+    {
+      "title": "“谁又能把这世界想个明白呢？”——《我与地坛》疑问句的对话性功能分析",
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152702",
+      "published_list": {
+        "count": 14,
+        "coverage": {
+          "title": 1.0,
+          "authors": 1.0,
+          "year": 1.0,
+          "doc_type": 1.0,
+          "venue": 0.571,
+          "doi": 0.357,
+          "pages": 0.5
+        },
+        "problems": {},
+        "clean_ratio": 1.0
+      },
+      "pdf_path": {
+        "count": 14,
+        "coverage": {
+          "title": 1.0,
+          "authors": 1.0,
+          "year": 1.0,
+          "doc_type": 1.0,
+          "venue": 0.571,
+          "doi": 0.357,
+          "pages": 0.5
+        },
+        "problems": {},
+        "clean_ratio": 1.0,
+        "split_found_heading": true,
+        "entries_by_marks": 14
+      }
+    },
+    {
+      "title": "交际翻译视角下《城南旧事》文化负载词英译研究",
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152701",
+      "published_list": {
+        "count": 12,
+        "coverage": {
+          "title": 1.0,
+          "authors": 1.0,
+          "year": 1.0,
+          "doc_type": 1.0,
+          "venue": 0.833,
+          "doi": 0.0,
+          "pages": 0.833
+        },
+        "problems": {},
+        "clean_ratio": 1.0
+      },
+      "pdf_path": {
+        "count": 12,
+        "coverage": {
+          "title": 1.0,
+          "authors": 1.0,
+          "year": 1.0,
+          "doc_type": 1.0,
+          "venue": 0.833,
+          "doi": 0.0,
+          "pages": 0.833
+        },
+        "problems": {},
+        "clean_ratio": 1.0,
+        "split_found_heading": true,
+        "entries_by_marks": 12
+      }
+    },
+    {
+      "title": "基于产出导向法的能源研究生学术英语写作教学模式研究",
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152700",
+      "published_list": {
+        "count": 29,
+        "coverage": {
+          "title": 1.0,
+          "authors": 1.0,
+          "year": 1.0,
+          "doc_type": 1.0,
+          "venue": 0.862,
+          "doi": 0.172,
+          "pages": 0.759
+        },
+        "problems": {},
+        "clean_ratio": 1.0
+      },
+      "pdf_path": {
+        "count": 30,
+        "coverage": {
+          "title": 1.0,
+          "authors": 0.967,
+          "year": 0.967,
+          "doc_type": 1.0,
+          "venue": 0.9,
+          "doi": 0.167,
+          "pages": 0.733
+        },
+        "problems": {
+          "authors_empty": 1,
+          "year_missing": 1
+        },
+        "clean_ratio": 0.967,
+        "split_found_heading": true,
+        "entries_by_marks": 29
+      }
+    },
+    {
+      "title": "浙江绍兴方言中“上”的语法化演变探究",
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152699",
+      "published_list": {
+        "count": 22,
+        "coverage": {
+          "title": 1.0,
+          "authors": 1.0,
+          "year": 1.0,
+          "doc_type": 1.0,
+          "venue": 0.5,
+          "doi": 0.0,
+          "pages": 0.5
+        },
+        "problems": {},
+        "clean_ratio": 1.0
+      },
+      "pdf_path": {
+        "count": 22,
+        "coverage": {
+          "title": 1.0,
+          "authors": 1.0,
+          "year": 1.0,
+          "doc_type": 1.0,
+          "venue": 0.5,
+          "doi": 0.0,
+          "pages": 0.5
+        },
+        "problems": {},
+        "clean_ratio": 1.0,
+        "split_found_heading": true,
+        "entries_by_marks": 22
+      }
+    },
+    {
+      "title": "基于成对约束的不完整多视图聚类",
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152680",
+      "published_list": {
+        "count": 20,
+        "coverage": {
+          "title": 1.0,
+          "authors": 1.0,
+          "year": 1.0,
+          "doc_type": 1.0,
+          "venue": 0.9,
+          "doi": 0.0,
+          "pages": 1.0
+        },
+        "problems": {},
+        "clean_ratio": 1.0
+      },
+      "pdf_path": {
+        "count": 22,
+        "coverage": {
+          "title": 1.0,
+          "authors": 0.909,
+          "year": 0.955,
+          "doc_type": 1.0,
+          "venue": 0.955,
+          "doi": 0.818,
+          "pages": 0.909
+        },
+        "problems": {
+          "authors_empty": 2,
+          "year_missing": 1
+        },
+        "clean_ratio": 0.909,
+        "split_found_heading": true,
+        "entries_by_marks": 20
+      }
+    },
+    {
+      "title": "从静态漫画到智能学伴——基于结构化标注的初中物理学习系统设计与原型实现",
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152679",
+      "published_list": {
+        "count": 12,
+        "coverage": {
+          "title": 1.0,
+          "authors": 1.0,
+          "year": 1.0,
+          "doc_type": 1.0,
+          "venue": 0.75,
+          "doi": 0.167,
+          "pages": 0.667
+        },
+        "problems": {},
+        "clean_ratio": 1.0
+      },
+      "pdf_path": {
+        "count": 12,
+        "coverage": {
+          "title": 1.0,
+          "authors": 1.0,
+          "year": 1.0,
+          "doc_type": 1.0,
+          "venue": 0.75,
+          "doi": 0.167,
+          "pages": 0.667
+        },
+        "problems": {},
+        "clean_ratio": 1.0,
+        "split_found_heading": true,
+        "entries_by_marks": 12
+      }
+    },
+    {
+      "title": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "published_list": {
+        "count": 39,
+        "coverage": {
+          "title": 1.0,
+          "authors": 0.821,
+          "year": 0.538,
+          "doc_type": 1.0,
+          "venue": 0.872,
+          "doi": 0.051,
+          "pages": 0.513
+        },
+        "problems": {
+          "authors_empty": 7,
+          "year_missing": 18
+        },
+        "clean_ratio": 0.513
+      },
+      "pdf_path": {
+        "count": 39,
+        "coverage": {
+          "title": 1.0,
+          "authors": 0.821,
+          "year": 0.538,
+          "doc_type": 1.0,
+          "venue": 0.872,
+          "doi": 0.051,
+          "pages": 0.513
+        },
+        "problems": {
+          "authors_empty": 7,
+          "year_missing": 18
+        },
+        "clean_ratio": 0.513,
+        "split_found_heading": true,
+        "entries_by_marks": 39
+      }
+    },
+    {
       "title": "A Fractal Approach to Identifying Urban Boundaries. 城市边界识别的分",
       "source": "D:\\ai+ky\\citeguard\\data\\real_corpus\\W2098348787.pdf",
       "pdf_path": {
@@ -389,12 +741,11 @@
           "pages": 0.657
         },
         "problems": {
-          "authors_many": 1,
           "title_empty": 1,
           "title_long": 1,
           "authors_empty": 1
         },
-        "clean_ratio": 0.957,
+        "clean_ratio": 0.971,
         "split_found_heading": true,
         "entries_by_marks": 0
       }
@@ -402,28 +753,352 @@
   ],
   "examples": [
     {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152577",
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152705",
       "kind": "published",
-      "problem": "authors_many",
-      "raw": "[6] Zhang, W., Deng, Z., Ding, W., Zhou, J., Zhang, T., Choi, K., et al. (2026) Enhanced One-Step Incomplete Multiview Fuzzy Clustering with Dual Representation Learning. IEEE Transactions on Fuzzy Systems, 34, 966-980. https://doi.org/10.1"
+      "problem": "authors_empty",
+      "raw": "[2] 帕力扎∙热合木吐拉. 现代汉语认知心理动词语义网络研究[D]: [硕士学位论文]. 乌鲁木齐: 新疆大学, 2021."
     },
     {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152577",
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152705",
       "kind": "pdf",
-      "problem": "authors_many",
-      "raw": "[6] Zhang, W., Deng, Z., Ding, W., Zhou, J., Zhang, T., Choi, K., et al. (2026) Enhanced One-Step Incomplete Multiview Fuzzy Clustering with Dual Representation Learning. IEEE Transactions on Fuzzy Systems, 34, 966-980. https://doi.org/10.1"
+      "problem": "authors_empty",
+      "raw": "[2] 帕力扎∙热合木吐拉. 现代汉语认知心理动词语义网络研究[D]: [硕士学位论文]. 乌鲁木齐: 新疆大学, 2021."
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152700",
+      "kind": "pdf",
+      "problem": "authors_empty",
+      "raw": "550. https://doi.org/10.1177/00336882231162868"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152700",
+      "kind": "pdf",
+      "problem": "year_missing",
+      "raw": "550. https://doi.org/10.1177/00336882231162868"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152680",
+      "kind": "pdf",
+      "problem": "authors_empty",
+      "raw": "112027. https://doi.0rg/10.1016/j.patcog.2025.112027"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152680",
+      "kind": "pdf",
+      "problem": "authors_empty",
+      "raw": "152105. https://doi.0rg/10.1007/s11432-020-3369-8"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152680",
+      "kind": "pdf",
+      "problem": "year_missing",
+      "raw": "152105. https://doi.0rg/10.1007/s11432-020-3369-8"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "published",
+      "problem": "authors_empty",
+      "raw": "[12] 拉尔夫·泰勒. 课程与教学的基本原理[M]. 施良方, 译. 北京: 人民教育出版社, 1994: 2."
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "published",
+      "problem": "year_missing",
+      "raw": "[15] Stanford University. Bio-X: About Bio-X. http://biox.stanford.edu/about/history.html"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "published",
+      "problem": "year_missing",
+      "raw": "[16] Massachusetts Institute of Technology. Interdisciplinary Graduate Programs. https://catalog.mit.edu/interdisciplinary/graduate-programs/"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "published",
+      "problem": "authors_empty",
+      "raw": "[17] Harvard John A. Paulson School of Engineering and Applied Sciences. PhD in Applied Mathematics. https://www.seas.harvard.edu/programs/graduate/applied-mathematics"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "published",
+      "problem": "year_missing",
+      "raw": "[17] Harvard John A. Paulson School of Engineering and Applied Sciences. PhD in Applied Mathematics. https://www.seas.harvard.edu/programs/graduate/applied-mathematics"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "published",
+      "problem": "authors_empty",
+      "raw": "[18] Carnegie Mellon University. Machine Learning PhD Curriculum. https://ml.cmu.edu/current-students/phd-curriculum"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "published",
+      "problem": "year_missing",
+      "raw": "[18] Carnegie Mellon University. Machine Learning PhD Curriculum. https://ml.cmu.edu/current-students/phd-curriculum"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "published",
+      "problem": "authors_empty",
+      "raw": "[19] Princeton University. Grand Challenges: Collaborating to Create a Better Future. https://aspire-report.princeton.edu/engineering/grand-challenges"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "published",
+      "problem": "year_missing",
+      "raw": "[19] Princeton University. Grand Challenges: Collaborating to Create a Better Future. https://aspire-report.princeton.edu/engineering/grand-challenges"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "published",
+      "problem": "year_missing",
+      "raw": "[20] University of California, Berkeley. New Silicon Initiative (NSI). https://eecs.berkeley.edu/academics/new-silicon-initiative-nsi"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "published",
+      "problem": "year_missing",
+      "raw": "[21] UC Berkeley EECS. EECS Students Drive AI Innovation as Amazon PhD Fellows. https://eecs.berkeley.edu/news/eecs-students-drive-ai-innovation-as-amazon-phd-fellows"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "published",
+      "problem": "year_missing",
+      "raw": "[22] Sakr, M.F. and Goldstein, S.C. Cloud Computing: 15-619/15-819, Carnegie Mellon University. http://www.cs.cmu.edu/~msakr/15619-s24/"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "published",
+      "problem": "authors_empty",
+      "raw": "[23] Harvard Medical School. Department of Biomedical Informatics. Bioinformatics and Integrative Genomics (BIG) PhD Track. https://bigphd.hms.harvard.edu/"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "published",
+      "problem": "year_missing",
+      "raw": "[23] Harvard Medical School. Department of Biomedical Informatics. Bioinformatics and Integrative Genomics (BIG) PhD Track. https://bigphd.hms.harvard.edu/"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "published",
+      "problem": "year_missing",
+      "raw": "[24] Stanford University. PhD Course Requirements. https://www-cs-staff.stanford.edu/phd-program-course-requirements"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "published",
+      "problem": "year_missing",
+      "raw": "[25] The John U. Nef Committee on Social Thought, University of Chicago. Doctoral Program. https://socialthought.uchicago.edu/doctoral-program"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "published",
+      "problem": "authors_empty",
+      "raw": "[28] University of Minnesota. Backward Design for Syllabus Design. https://carla.umn.edu/lpd/modules/mod2/backward"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "published",
+      "problem": "year_missing",
+      "raw": "[28] University of Minnesota. Backward Design for Syllabus Design. https://carla.umn.edu/lpd/modules/mod2/backward"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "published",
+      "problem": "year_missing",
+      "raw": "[29] University of Massachusetts Amherst. Syllabus Design Tips. https://www.umass.edu/education/facultyhub/instructional-support/syllabus-design-tips"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "published",
+      "problem": "authors_empty",
+      "raw": "[30] Harvard Business School. The Case Method Project: About Case Method Teaching. https://www.hbs.edu/case-method-project/about/Pages/case-method-teaching.aspx"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "published",
+      "problem": "year_missing",
+      "raw": "[30] Harvard Business School. The Case Method Project: About Case Method Teaching. https://www.hbs.edu/case-method-project/about/Pages/case-method-teaching.aspx"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "published",
+      "problem": "year_missing",
+      "raw": "[31] McLoon, S. Term Paper: Nsc8211 Developmental Neurobiology. http://mcloonlab.neuroscience.umn.edu/8211/term_paper.htm"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "published",
+      "problem": "year_missing",
+      "raw": "[32] Meyer, A.R. Responsible Research Approach. https://people.csail.mit.edu/meyer/AreaII/ethics/page-03.html"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "published",
+      "problem": "year_missing",
+      "raw": "[33] Johns Hopkins University. DrPH Core Curriculum & Global Health Requirements. https://www.jhsph.edu/academics/programs/doctor-of-public-health-drph/curriculum/core-curriculum.html"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "published",
+      "problem": "year_missing",
+      "raw": "[36] Association of American Universities. PhD Education Initiative. https://www.aau.edu/strategic-initiatives/undergraduate-phd-education-initiatives/doctoral-education/phd-education-initiative"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "pdf",
+      "problem": "authors_empty",
+      "raw": "[12] 拉尔夫·泰勒. 课程与教学的基本原理[M]. 施良方, 译. 北京: 人民教育出版社, 1994: 2."
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "pdf",
+      "problem": "year_missing",
+      "raw": "[15] Stanford University. Bio-X: About Bio-X. http://biox.stanford.edu/about/history.html"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "pdf",
+      "problem": "year_missing",
+      "raw": "[16] Massachusetts Institute of Technology. Interdisciplinary Graduate Programs. https://catalog.mit.edu/interdisciplinary/graduate-programs/"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "pdf",
+      "problem": "authors_empty",
+      "raw": "[17] Harvard John A. Paulson School of Engineering and Applied Sciences. PhD in Applied Mathematics. https://www.seas.harvard.edu/programs/graduate/applied-mathematics"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "pdf",
+      "problem": "year_missing",
+      "raw": "[17] Harvard John A. Paulson School of Engineering and Applied Sciences. PhD in Applied Mathematics. https://www.seas.harvard.edu/programs/graduate/applied-mathematics"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "pdf",
+      "problem": "authors_empty",
+      "raw": "[18] Carnegie Mellon University. Machine Learning PhD Curriculum. https://ml.cmu.edu/current-students/phd-curriculum"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "pdf",
+      "problem": "year_missing",
+      "raw": "[18] Carnegie Mellon University. Machine Learning PhD Curriculum. https://ml.cmu.edu/current-students/phd-curriculum"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "pdf",
+      "problem": "authors_empty",
+      "raw": "[19] Princeton University. Grand Challenges: Collaborating to Create a Better Future. https://aspire-report.princeton.edu/engineering/grand-challenges"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "pdf",
+      "problem": "year_missing",
+      "raw": "[19] Princeton University. Grand Challenges: Collaborating to Create a Better Future. https://aspire-report.princeton.edu/engineering/grand-challenges"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "pdf",
+      "problem": "year_missing",
+      "raw": "[20] University of California, Berkeley. New Silicon Initiative (NSI). https://eecs.berkeley.edu/academics/new-silicon-initiative-nsi"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "pdf",
+      "problem": "year_missing",
+      "raw": "[21] UC Berkeley EECS. EECS Students Drive AI Innovation as Amazon PhD Fellows. https://eecs.berkeley.edu/news/eecs-students-drive-ai-innovation-as-amazon-phd-fellows"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "pdf",
+      "problem": "year_missing",
+      "raw": "[22] Sakr, M.F. and Goldstein, S.C. Cloud Computing: 15-619/15-819, Carnegie Mellon University. http://www.cs.cmu.edu/~msakr/15619-s24/"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "pdf",
+      "problem": "authors_empty",
+      "raw": "[23] Harvard Medical School. Department of Biomedical Informatics. Bioinformatics and Integrative Genomics (BIG) PhD Track. https://bigphd.hms.harvard.edu/"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "pdf",
+      "problem": "year_missing",
+      "raw": "[23] Harvard Medical School. Department of Biomedical Informatics. Bioinformatics and Integrative Genomics (BIG) PhD Track. https://bigphd.hms.harvard.edu/"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "pdf",
+      "problem": "year_missing",
+      "raw": "[24] Stanford University. PhD Course Requirements. https://www-cs-staff.stanford.edu/phd-program-course-requirements"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "pdf",
+      "problem": "year_missing",
+      "raw": "[25] The John U. Nef Committee on Social Thought, University of Chicago. Doctoral Program. https://socialthought.uchicago.edu/doctoral-program"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "pdf",
+      "problem": "authors_empty",
+      "raw": "[28] University of Minnesota. Backward Design for Syllabus Design. https://carla.umn.edu/lpd/modules/mod2/backward"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "pdf",
+      "problem": "year_missing",
+      "raw": "[28] University of Minnesota. Backward Design for Syllabus Design. https://carla.umn.edu/lpd/modules/mod2/backward"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "pdf",
+      "problem": "year_missing",
+      "raw": "[29] University of Massachusetts Amherst. Syllabus Design Tips. https://www.umass.edu/education/facultyhub/instructional-support/syllabus-design-tips"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "pdf",
+      "problem": "authors_empty",
+      "raw": "[30] Harvard Business School. The Case Method Project: About Case Method Teaching. https://www.hbs.edu/case-method-project/about/Pages/case-method-teaching.aspx"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "pdf",
+      "problem": "year_missing",
+      "raw": "[30] Harvard Business School. The Case Method Project: About Case Method Teaching. https://www.hbs.edu/case-method-project/about/Pages/case-method-teaching.aspx"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "pdf",
+      "problem": "year_missing",
+      "raw": "[31] McLoon, S. Term Paper: Nsc8211 Developmental Neurobiology. http://mcloonlab.neuroscience.umn.edu/8211/term_paper.htm"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "pdf",
+      "problem": "year_missing",
+      "raw": "[32] Meyer, A.R. Responsible Research Approach. https://people.csail.mit.edu/meyer/AreaII/ethics/page-03.html"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "pdf",
+      "problem": "year_missing",
+      "raw": "[33] Johns Hopkins University. DrPH Core Curriculum & Global Health Requirements. https://www.jhsph.edu/academics/programs/doctor-of-public-health-drph/curriculum/core-curriculum.html"
+    },
+    {
+      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152678",
+      "kind": "pdf",
+      "problem": "year_missing",
+      "raw": "[36] Association of American Universities. PhD Education Initiative. https://www.aau.edu/strategic-initiatives/undergraduate-phd-education-initiatives/doctoral-education/phd-education-in- itiative"
     },
     {
       "source": "D:\\ai+ky\\citeguard\\data\\real_corpus\\W2098348787.pdf",
       "kind": "pdf",
       "problem": "title_long",
       "raw": "Caruso, G. (2001). \"Peri-Urbanisation: the Situation in Europe - A Bibliographical Note and Survey of Studies In the Netherlands, Belgium, Great Britain, Germany, Italy and the Nordic Countries.\" Report prepared for the DATAR (with contribu"
-    },
-    {
-      "source": "D:\\ai+ky\\citeguard\\data\\real_corpus\\W2996762219.pdf",
-      "kind": "pdf",
-      "problem": "authors_many",
-      "raw": "Bekhuis, E., Schoevers, R., de Boer, M., Peen, J., Dekker, J., van, H., & Boschloo, L. (2018). Symptom-Specific effects of psychotherapy versus combined therapy in the treatment of mild to moderate depression: A network approach. Psychother"
     },
     {
       "source": "D:\\ai+ky\\citeguard\\data\\real_corpus\\W2996762219.pdf",

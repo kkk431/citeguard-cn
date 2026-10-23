@@ -306,6 +306,20 @@ def test_same_title_with_review_record_is_explained(monkeypatch, isolated_cache)
     assert "书评" in " ".join(result.notes)
 
 
+def test_url_only_title_is_unverified_not_fabricated():
+    """A PDF/OCR artifact must not be reported as a fabricated citation."""
+    ref = Reference(
+        raw="[1] https://doi.org/10.1177/00336882231162868",
+        index=1,
+        title="https://doi.org/10.1177/00336882231162868",
+    )
+
+    result = mv.verify_reference(ref)
+
+    assert result.status == "Unverified"
+    assert any("链接" in note for note in result.notes)
+
+
 def test_authors_unreliable_flags_initial_fragments_not_whole_names():
     # Fragment list from a broken APA parse: initials pieces are not authors.
     assert mv._authors_unreliable(["Hayman", " W.K."]) is True

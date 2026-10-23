@@ -121,3 +121,14 @@ def test_parse_reference_without_type_code_defaults_to_journal():
     ref = parse_reference("张三. 题名. 期刊, 2020. https://example.org/x")
     assert ref.doc_type == "J"
     assert ref.url == "https://example.org/x"
+
+
+def test_bare_url_lines_are_not_references():
+    refs = parse_reference_list(
+        "[1] https://doi.org/10.1177/00336882231162868\n"
+        "[2] 张三. 题名[J]. 期刊, 2020, 1(1): 1-9. https://doi.org/10.1/abc\n"
+    )
+
+    assert len(refs) == 1
+    assert refs[0].index == 1  # renumbered after dropping the URL-only line
+    assert "题名" in refs[0].title

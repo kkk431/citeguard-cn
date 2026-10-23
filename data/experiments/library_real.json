@@ -1,16 +1,17 @@
 {
   "summary": {
-    "papers": 10,
-    "refs": 224,
-    "library_entries": 223,
-    "library_hits": 223,
+    "papers": 20,
+    "refs": 412,
+    "library_entries": 408,
+    "library_hits": 408,
     "status": {
-      "Exact": 222,
-      "Minor": 2
+      "Exact": 399,
+      "Minor": 10,
+      "Unverified": 3
     },
-    "definite_verdicts": 224,
-    "definite_rate": 1.0,
-    "field_mismatch_detected": 1
+    "definite_verdicts": 409,
+    "definite_rate": 0.9927,
+    "field_mismatch_detected": 9
   },
   "rows": [
     {
@@ -1585,6 +1586,1338 @@
     {
       "paper": "电商经济下园林元素促进文旅融合发展的营销策略研究",
       "title": "数字媒体技术人才培养模式改革与实践",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "回忆类心理动词的辨析——以“回忆、回想、回顾、回首”为例",
+      "title": "同义心理活动动词解析模式研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "回忆类心理动词的辨析——以“回忆、回想、回顾、回首”为例",
+      "title": "帕力扎∙热合木吐拉. 现代汉语认知心理动词语义网络研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "回忆类心理动词的辨析——以“回忆、回想、回顾、回首”为例",
+      "title": "广韵校本",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "回忆类心理动词的辨析——以“回忆、回想、回顾、回首”为例",
+      "title": "说文解字",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "回忆类心理动词的辨析——以“回忆、回想、回顾、回首”为例",
+      "title": "古汉语心理动词词义演变研究: 以《世说新语》和《南齐书》为例",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "回忆类心理动词的辨析——以“回忆、回想、回顾、回首”为例",
+      "title": "语义韵律的语料库调查及应用研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "回忆类心理动词的辨析——以“回忆、回想、回顾、回首”为例",
+      "title": "从词语组合的语义逻辑性看汉语趋向补语的意义形态",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "回忆类心理动词的辨析——以“回忆、回想、回顾、回首”为例",
+      "title": "结果补语“到”使用的语义条件分析",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "回忆类心理动词的辨析——以“回忆、回想、回顾、回首”为例",
+      "title": "普通话动词与“了、过、着、在”的组合与限制",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "主观评价与中间态：“X不X，Y不Y”构式的研究",
+      "title": "谈“x不x, y不y”结构",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "主观评价与中间态：“X不X，Y不Y”构式的研究",
+      "title": "“连A也/都B”框式结构及其框式化特点",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "主观评价与中间态：“X不X，Y不Y”构式的研究",
+      "title": "“X不X, Y不Y”构式分析",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "主观评价与中间态：“X不X，Y不Y”构式的研究",
+      "title": "“X不X, Y不Y”构式的多维度研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "主观评价与中间态：“X不X，Y不Y”构式的研究",
+      "title": "Constructions: A Construction Grammar Approach to Argument Structure",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "主观评价与中间态：“X不X，Y不Y”构式的研究",
+      "title": "框式结构“A不像A, B不像B”",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "主观评价与中间态：“X不X，Y不Y”构式的研究",
+      "title": "主观评价构式“V的就是一个XP”",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "主观评价与中间态：“X不X，Y不Y”构式的研究",
+      "title": "反预期构式: 看起来很X, 其实一点也不Y",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "主观评价与中间态：“X不X，Y不Y”构式的研究",
+      "title": "“整天”类时间副词的负面评价表达",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "主观评价与中间态：“X不X，Y不Y”构式的研究",
+      "title": "Natural Categories",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "杂合理论视角下《伤寒论》罗希文英译本的跨文化协商研究——基于语言与文化层",
+      "title": "大中华文库汉英对照: 伤寒论",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "杂合理论视角下《伤寒论》罗希文英译本的跨文化协商研究——基于语言与文化层",
+      "title": "论阐释翻译理论视域下《伤寒论》英译本中译者主体性的发挥: 以罗希文和魏迺杰两种译本为 例",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "杂合理论视角下《伤寒论》罗希文英译本的跨文化协商研究——基于语言与文化层",
+      "title": "认知翻译学视角下中医典籍英译中的识解研究——以《伤寒论》英译本为例",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "杂合理论视角下《伤寒论》罗希文英译本的跨文化协商研究——基于语言与文化层",
+      "title": "交际翻译视角下《伤寒论》方剂名英译研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "杂合理论视角下《伤寒论》罗希文英译本的跨文化协商研究——基于语言与文化层",
+      "title": "曲与直——《伤寒论》文化负载词翻译及补偿策略研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "杂合理论视角下《伤寒论》罗希文英译本的跨文化协商研究——基于语言与文化层",
+      "title": "文化翻译观下的《伤寒论》文化负载词英译研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "杂合理论视角下《伤寒论》罗希文英译本的跨文化协商研究——基于语言与文化层",
+      "title": "语言国情学视角下的《伤寒论》文化负载词英译探析",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "杂合理论视角下《伤寒论》罗希文英译本的跨文化协商研究——基于语言与文化层",
+      "title": "纽马克翻译理论视角下《伤寒论》通假字英译研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "杂合理论视角下《伤寒论》罗希文英译本的跨文化协商研究——基于语言与文化层",
+      "title": "《伤寒论》中一词多义的原型范畴化认知及其翻译策略",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "杂合理论视角下《伤寒论》罗希文英译本的跨文化协商研究——基于语言与文化层",
+      "title": "生态翻译学视角下的《伤寒论》英译研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "杂合理论视角下《伤寒论》罗希文英译本的跨文化协商研究——基于语言与文化层",
+      "title": "知识翻译学视域下《伤寒论》英译与传播研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "杂合理论视角下《伤寒论》罗希文英译本的跨文化协商研究——基于语言与文化层",
+      "title": "“中医西传”视域下《伤寒论》英译本的海外传播与接受研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "杂合理论视角下《伤寒论》罗希文英译本的跨文化协商研究——基于语言与文化层",
+      "title": "《伤寒论》英译本的海外传播现状与启示——基于Amazon和WorldCat的统计与分析",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "杂合理论视角下《伤寒论》罗希文英译本的跨文化协商研究——基于语言与文化层",
+      "title": "书评视域下《伤寒论》英译本海外读者接受研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "杂合理论视角下《伤寒论》罗希文英译本的跨文化协商研究——基于语言与文化层",
+      "title": "The Dialogic Imagination",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "杂合理论视角下《伤寒论》罗希文英译本的跨文化协商研究——基于语言与文化层",
+      "title": "The Location of Culture",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "杂合理论视角下《伤寒论》罗希文英译本的跨文化协商研究——基于语言与文化层",
+      "title": "The Archaeology of Knowledge",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "杂合理论视角下《伤寒论》罗希文英译本的跨文化协商研究——基于语言与文化层",
+      "title": "Third Spaces, Mimicry and Attention to Ambivalence: Applying Bhabhian Discourse ",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "“谁又能把这世界想个明白呢？”——《我与地坛》疑问句的对话性功能分析",
+      "title": "史铁生的命运观",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "“谁又能把这世界想个明白呢？”——《我与地坛》疑问句的对话性功能分析",
+      "title": "“大地∙母亲∙生命∙生活”的沉思与断想——重读《我与地坛》",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "“谁又能把这世界想个明白呢？”——《我与地坛》疑问句的对话性功能分析",
+      "title": "苦难把你引向存在的意味——史铁生与存在主义",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "“谁又能把这世界想个明白呢？”——《我与地坛》疑问句的对话性功能分析",
+      "title": "Speech Acts: An Essay in the Philosophy of Language",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "“谁又能把这世界想个明白呢？”——《我与地坛》疑问句的对话性功能分析",
+      "title": "Pragmatics",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "“谁又能把这世界想个明白呢？”——《我与地坛》疑问句的对话性功能分析",
+      "title": "Beyond Rhetorical Questions: Assertive Questions in Everyday Interaction",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "“谁又能把这世界想个明白呢？”——《我与地坛》疑问句的对话性功能分析",
+      "title": "The Dialogic Imagination: Four Essays",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "“谁又能把这世界想个明白呢？”——《我与地坛》疑问句的对话性功能分析",
+      "title": "从《我与地坛》看史铁生的散文创作",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "“谁又能把这世界想个明白呢？”——《我与地坛》疑问句的对话性功能分析",
+      "title": "从《我与地坛(节选)》看阅读与写作的结合: 叙事艺术与生命哲思的探讨",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "“谁又能把这世界想个明白呢？”——《我与地坛》疑问句的对话性功能分析",
+      "title": "语言顺应论视角下反问句的人际语用功能研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "“谁又能把这世界想个明白呢？”——《我与地坛》疑问句的对话性功能分析",
+      "title": "Problems of Dostoevsky’s Poetics",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "“谁又能把这世界想个明白呢？”——《我与地坛》疑问句的对话性功能分析",
+      "title": "汉语疑问句的语用转换与信息含量",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "“谁又能把这世界想个明白呢？”——《我与地坛》疑问句的对话性功能分析",
+      "title": "You Call That a Rhetorical Question? Forms and Functions of Rhetorical Questions",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "“谁又能把这世界想个明白呢？”——《我与地坛》疑问句的对话性功能分析",
+      "title": "我与地坛",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "交际翻译视角下《城南旧事》文化负载词英译研究",
+      "title": "《城南旧事》英译本中的传统中国形象建构",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "交际翻译视角下《城南旧事》文化负载词英译研究",
+      "title": "中国小说翻译中的“文学性”再现——以林海音《城南旧事》英译变异为例",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "交际翻译视角下《城南旧事》文化负载词英译研究",
+      "title": "《城南旧事》英译本中文化负载词的英译评析",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "交际翻译视角下《城南旧事》文化负载词英译研究",
+      "title": "《城南旧事》英译本文化负载语译法的适应与选择",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "交际翻译视角下《城南旧事》文化负载词英译研究",
+      "title": "顺应论视角下《城南旧事》英译本中的方言翻译研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "交际翻译视角下《城南旧事》文化负载词英译研究",
+      "title": "从交际翻译理论视角看电影《闻香识女人》的字幕翻译",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "交际翻译视角下《城南旧事》文化负载词英译研究",
+      "title": "Approaches to Translation",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "交际翻译视角下《城南旧事》文化负载词英译研究",
+      "title": "翻译过程的概念整合新解——以《红楼梦》文化负载词英译为例",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "交际翻译视角下《城南旧事》文化负载词英译研究",
+      "title": "Language, Culture, and Translation",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "交际翻译视角下《城南旧事》文化负载词英译研究",
+      "title": "体认语言学视野下《离骚》中文化负载词的英译研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "交际翻译视角下《城南旧事》文化负载词英译研究",
+      "title": "《北京折叠》中文化负载词的英译——生态翻译学视角",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "交际翻译视角下《城南旧事》文化负载词英译研究",
+      "title": "文化负载词的翻译与跨文化理解",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于产出导向法的能源研究生学术英语写作教学模式研究",
+      "title": "再论我国大学英语教学发展方向: 通用英语和学术英语",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于产出导向法的能源研究生学术英语写作教学模式研究",
+      "title": "English for Academic Purposes: An Advanced Resource Book",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于产出导向法的能源研究生学术英语写作教学模式研究",
+      "title": "关于我国大学英语教学重新定位的思考",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于产出导向法的能源研究生学术英语写作教学模式研究",
+      "title": "语法隐喻理论视角下能源英语写作教学模式研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于产出导向法的能源研究生学术英语写作教学模式研究",
+      "title": "国内学术英语研究述评",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于产出导向法的能源研究生学术英语写作教学模式研究",
+      "title": "研究生学术英语课程的行动研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于产出导向法的能源研究生学术英语写作教学模式研究",
+      "title": "构建“产出导向法”理论体系",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于产出导向法的能源研究生学术英语写作教学模式研究",
+      "title": "学术英语写作中学习迁移与能动性投入的交互模型研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于产出导向法的能源研究生学术英语写作教学模式研究",
+      "title": "ChatGPT for Language Teaching and Learning",
+      "status": "Minor",
+      "from_library": true,
+      "mismatches": [
+        "pages"
+      ]
+    },
+    {
+      "paper": "基于产出导向法的能源研究生学术英语写作教学模式研究",
+      "title": "https://doi.org/10.1177/00336882231162868",
+      "status": "Unverified",
+      "from_library": false,
+      "mismatches": []
+    },
+    {
+      "paper": "基于产出导向法的能源研究生学术英语写作教学模式研究",
+      "title": "English for Specific Purposes: A Learning-Centred Approach",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于产出导向法的能源研究生学术英语写作教学模式研究",
+      "title": "Genre Analysis: English in Academic and Research Settings",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于产出导向法的能源研究生学术英语写作教学模式研究",
+      "title": "Developments in English for Specific Purposes: A Multi-Disciplinary Approach",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于产出导向法的能源研究生学术英语写作教学模式研究",
+      "title": "Metadiscourse: Exploring Interaction in Writing",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于产出导向法的能源研究生学术英语写作教学模式研究",
+      "title": "Teaching and Researching Writing",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于产出导向法的能源研究生学术英语写作教学模式研究",
+      "title": "ESP与我国大学英语教学发展方向",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于产出导向法的能源研究生学术英语写作教学模式研究",
+      "title": "我国大学英语教学的未来发展方向研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于产出导向法的能源研究生学术英语写作教学模式研究",
+      "title": "《大学英语教学指南》要点解读",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于产出导向法的能源研究生学术英语写作教学模式研究",
+      "title": "项目驱动下理工科博士生英语学术交流能力的培养——一项基于“国际学术交流英语”课程的实证研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于产出导向法的能源研究生学术英语写作教学模式研究",
+      "title": "ChatGPT 在英语学术论文写作与教学中的应用及潜在问题",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于产出导向法的能源研究生学术英语写作教学模式研究",
+      "title": "大型语言模型赋能英语教学: 四个场景",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于产出导向法的能源研究生学术英语写作教学模式研究",
+      "title": "人工智能辅助外语教学与研究的能力探析——以ChatGPT-4o和文心大模型4.0为例",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于产出导向法的能源研究生学术英语写作教学模式研究",
+      "title": "英语写作教学中ChatGPT与教师反馈的对比研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于产出导向法的能源研究生学术英语写作教学模式研究",
+      "title": "Writing Science: Literacy and Discursive Power",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于产出导向法的能源研究生学术英语写作教学模式研究",
+      "title": "Perceived Usefulness, Perceived Ease of Use, and User Acceptance of Information ",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于产出导向法的能源研究生学术英语写作教学模式研究",
+      "title": "动机驱动的 AI 赋能外语学习接受度研究——基于技术接受模型",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于产出导向法的能源研究生学术英语写作教学模式研究",
+      "title": "Using ChatGPT for Second Language Writing: Pitfalls and Potentials",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于产出导向法的能源研究生学术英语写作教学模式研究",
+      "title": "Cognitive Load during Problem Solving: Effects on Learning",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于产出导向法的能源研究生学术英语写作教学模式研究",
+      "title": "ChatGPT在外语过程体裁写作教学中的应用路径研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于产出导向法的能源研究生学术英语写作教学模式研究",
+      "title": "Exploring the Potential of Using an AI Language Model for Automated Essay Scorin",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "浙江绍兴方言中“上”的语法化演变探究",
+      "title": "从《越谚》看绍兴方言词汇一百年来的变化",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "浙江绍兴方言中“上”的语法化演变探究",
+      "title": "《越谚》方言字研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "浙江绍兴方言中“上”的语法化演变探究",
+      "title": "绍兴方言形容词重叠形式研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "浙江绍兴方言中“上”的语法化演变探究",
+      "title": "绍兴方言的通用言说动词及其历史演变",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "浙江绍兴方言中“上”的语法化演变探究",
+      "title": "绍兴方言句末语气词研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "浙江绍兴方言中“上”的语法化演变探究",
+      "title": "Constructions: A Construction Grammar Approach to Argument",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "浙江绍兴方言中“上”的语法化演变探究",
+      "title": "语序类型学与介词理论",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "浙江绍兴方言中“上”的语法化演变探究",
+      "title": "World Lexicon of Grammaticalization",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "浙江绍兴方言中“上”的语法化演变探究",
+      "title": "语法化中的更新、强化与叠加",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "浙江绍兴方言中“上”的语法化演变探究",
+      "title": "语法讲义",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "浙江绍兴方言中“上”的语法化演变探究",
+      "title": "淄川方言方位词研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "浙江绍兴方言中“上”的语法化演变探究",
+      "title": "吴语中的“来”和“来”字结构",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "浙江绍兴方言中“上”的语法化演变探究",
+      "title": "浙江绍兴方言中“里”的语法化轨迹",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "浙江绍兴方言中“上”的语法化演变探究",
+      "title": "“唯补词”初探",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "浙江绍兴方言中“上”的语法化演变探究",
+      "title": "绍兴市志∙方言卷",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "浙江绍兴方言中“上”的语法化演变探究",
+      "title": "现代和早期吴语中“上”的完成体用法",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "浙江绍兴方言中“上”的语法化演变探究",
+      "title": "语义范畴的寄生表达——以绍兴方言体标记“上”寄生表达反预期语义为例",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "浙江绍兴方言中“上”的语法化演变探究",
+      "title": "论与汉语副词相关的虚化机制——兼论现代汉语副词的性质、分类与范围",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "浙江绍兴方言中“上”的语法化演变探究",
+      "title": "转喻拓展机制对“上”的解释力",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "浙江绍兴方言中“上”的语法化演变探究",
+      "title": "上海市区方言志",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "浙江绍兴方言中“上”的语法化演变探究",
+      "title": "北部吴语研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "浙江绍兴方言中“上”的语法化演变探究",
+      "title": "上海方言“辣、辣辣、辣海”的比较研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于成对约束的不完整多视图聚类",
+      "title": "Manifold Based Multi-View k-Means",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于成对约束的不完整多视图聚类",
+      "title": "Multi-View Clustering via Consensus Coeff- cient Matrix and Separate Segmentatio",
+      "status": "Minor",
+      "from_library": true,
+      "mismatches": [
+        "venue"
+      ]
+    },
+    {
+      "paper": "基于成对约束的不完整多视图聚类",
+      "title": "A New Nonconvex Multi-View Subspace Clustering via Learning a Clean Low-Rank Rep",
+      "status": "Minor",
+      "from_library": true,
+      "mismatches": [
+        "venue"
+      ]
+    },
+    {
+      "paper": "基于成对约束的不完整多视图聚类",
+      "title": "Deep Matrix Factoriza- tion with Adaptive Weights for Multi-View Clustering",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于成对约束的不完整多视图聚类",
+      "title": "https://doi.0rg/10.1016/j.patcog.2025.112027",
+      "status": "Unverified",
+      "from_library": false,
+      "mismatches": []
+    },
+    {
+      "paper": "基于成对约束的不完整多视图聚类",
+      "title": "Self-Representation Subspace Clustering for Incomplete Multi-View Data",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于成对约束的不完整多视图聚类",
+      "title": "Generalized Incomplete Multiview Clustering with Flexible Locality Structure Dif",
+      "status": "Minor",
+      "from_library": true,
+      "mismatches": [
+        "venue"
+      ]
+    },
+    {
+      "paper": "基于成对约束的不完整多视图聚类",
+      "title": "Unified Embedding Alignment with Missing Views Inferring for Incomplete Multi-Vi",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于成对约束的不完整多视图聚类",
+      "title": "Doubly Aligned Incomplete Multi-View Clustering",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于成对约束的不完整多视图聚类",
+      "title": "Partial Multi-View Clustering Using Graph Regularized NMF",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于成对约束的不完整多视图聚类",
+      "title": "Incomplete Multi-Modal Visual Data Grouping",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于成对约束的不完整多视图聚类",
+      "title": "Incomplete Multiview Spectral Clustering with Adaptive Graph Learning",
+      "status": "Minor",
+      "from_library": true,
+      "mismatches": [
+        "venue"
+      ]
+    },
+    {
+      "paper": "基于成对约束的不完整多视图聚类",
+      "title": "Simultaneous Laplacian Embedding and Subspace Clustering for Incomplete Multi-Vi",
+      "status": "Minor",
+      "from_library": true,
+      "mismatches": [
+        "venue"
+      ]
+    },
+    {
+      "paper": "基于成对约束的不完整多视图聚类",
+      "title": "Notes on Elementary Spectral Graph Theory",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于成对约束的不完整多视图聚类",
+      "title": "Incomplete Multi-View Clustering via Local and Global Co-Regularization",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于成对约束的不完整多视图聚类",
+      "title": "https://doi.0rg/10.1007/s11432-020-3369-8",
+      "status": "Unverified",
+      "from_library": false,
+      "mismatches": []
+    },
+    {
+      "paper": "基于成对约束的不完整多视图聚类",
+      "title": "Nonconvex Low-Rank Tensor Ap- proximation with Denoising Model for Multi-View Su",
+      "status": "Minor",
+      "from_library": true,
+      "mismatches": [
+        "venue"
+      ]
+    },
+    {
+      "paper": "基于成对约束的不完整多视图聚类",
+      "title": "Low-Rank Preserving Projection via Graph Regularized Reconstruction",
+      "status": "Minor",
+      "from_library": true,
+      "mismatches": [
+        "venue"
+      ]
+    },
+    {
+      "paper": "基于成对约束的不完整多视图聚类",
+      "title": "Robust Sparse Linear Discriminant Analysis",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于成对约束的不完整多视图聚类",
+      "title": "Multiple Incomplete Views Clustering via Weighted Nonnegative Matrix Factorizati",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于成对约束的不完整多视图聚类",
+      "title": "Spectral Perturbation Meets Incomplete Multi-View Data",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于成对约束的不完整多视图聚类",
+      "title": "A Systematic Analysis of Performance Measures for Classification Tasks",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "从静态漫画到智能学伴——基于结构化标注的初中物理学习系统设计与原型实现",
+      "title": "义务教育物理课程标准(2022年版)",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "从静态漫画到智能学伴——基于结构化标注的初中物理学习系统设计与原型实现",
+      "title": "教育智能体赋能科学教育: 概念特征、应用价值与实施策略",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "从静态漫画到智能学伴——基于结构化标注的初中物理学习系统设计与原型实现",
+      "title": "Multimedia Learning",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "从静态漫画到智能学伴——基于结构化标注的初中物理学习系统设计与原型实现",
+      "title": "基于“教-学-评”一体化智能体的物理项目式活动设计——以奋斗者号潜水器上浮方案设计为例",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "从静态漫画到智能学伴——基于结构化标注的初中物理学习系统设计与原型实现",
+      "title": "初高中数学错题智能体技能的设计与实践",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "从静态漫画到智能学伴——基于结构化标注的初中物理学习系统设计与原型实现",
+      "title": "基于 SOLO 理论的高中物理思维可视化教学研究——智能体的交互应用实践",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "从静态漫画到智能学伴——基于结构化标注的初中物理学习系统设计与原型实现",
+      "title": "基于学习对象的教学资源设计及流程初探",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "从静态漫画到智能学伴——基于结构化标注的初中物理学习系统设计与原型实现",
+      "title": "学习资源的语义众包标注系统设计",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "从静态漫画到智能学伴——基于结构化标注的初中物理学习系统设计与原型实现",
+      "title": "对话式智能导学系统研究现状及趋势",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "从静态漫画到智能学伴——基于结构化标注的初中物理学习系统设计与原型实现",
+      "title": "Retrieval-Augmented Generation for Educational Application: A Systematic Survey",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "从静态漫画到智能学伴——基于结构化标注的初中物理学习系统设计与原型实现",
+      "title": "A Taxonomy for Learning, Teaching, and Assessing: A Revision of Bloom’s Taxonomy",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "从静态漫画到智能学伴——基于结构化标注的初中物理学习系统设计与原型实现",
+      "title": "Evaluating the Quality of Learning: The SOLO Taxonomy",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "title": "知识生产模式的转变与博士质量的危机",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "title": "Mode 3 Knowledge Production in Quadruple Helix Innovation Systems: 21st-Century ",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "title": "我国高校博士生课程设置的现状及问题分析——基于 48 所研究生院高校的调查",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "title": "知识生产模式转型驱动下研究型大学改革路径研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "title": "博士生教育改革的逻辑、目标与路向——知识生产转型的视角",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "title": "知识生产的新模式: 当代社会科学与研究的动力学",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "title": "模式3知识生产的理论阐释——内涵、情境、特质与大学向度",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "title": "知识生产模式III促进超学科快速发展的特征研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "title": "学科知识生产模式变革与“双一流”建设",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "title": "Trans-Disciplinary: Joint Problem Solving among Science, Technology, and Society",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "title": "基于价值取向分析的我国研究生课程体系优化研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "title": "拉尔夫·泰勒. 课程与教学的基本原理",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "title": "美国研究型大学跨学科研究生培养的模式分析与经验启示",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "title": "美国高校跨学科研究生培养的创新举措: 组织模式与运行机制——以美国密歇根大学 拉克哈姆研究生院为例",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "title": "Bio-X: About Bio-X. http://biox.stanford.edu/about/history.html",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "title": "Interdisciplinary Graduate Programs. https://catalog.mit.edu/interdisciplinary/g",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "title": "Harvard John A. Paulson School of Engineering and Applied Sciences. PhD in Appli",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "title": "Carnegie Mellon University. Machine Learning PhD Curriculum. https://ml.cmu.edu/",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "title": "Princeton University. Grand Challenges: Collaborating to Create a Better Future.",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "title": "New Silicon Initiative (NSI). https://eecs.berkeley.edu/academics/new-silicon-in",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "title": "EECS Students Drive AI Innovation as Amazon PhD Fellows. https://eecs.berkeley.e",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "title": "and Goldstein, S.C. Cloud Computing: 15-619/15-819, Carnegie Mellon University. ",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "title": "Harvard Medical School. Department of Biomedical Informatics. Bioinformatics and",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "title": "PhD Course Requirements. https://www-cs-staff.stanford.edu/phd-program-course-re",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "title": "Doctoral Program. https://socialthought.uchicago.edu/doctoral-program",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "title": "Graduate STEM Education for the 21st Century",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "title": "知识生产模式转型视角下研究生培养模式变革研究",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "title": "University of Minnesota. Backward Design for Syllabus Design. https://carla.umn.",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "title": "Syllabus Design Tips. https://www.umass.edu/education/facultyhub/instructional-s",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "title": "Harvard Business School. The Case Method Project: About Case Method Teaching. ht",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "title": "http://mcloonlab.neuroscience.umn.edu/8211/term_paper.htm",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "title": "https://people.csail.mit.edu/meyer/AreaII/ethics/page-03.html",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "title": "DrPH Core Curriculum & Global Health Requirements. https://www.jhsph.edu/academi",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "title": "Reform Efforts in STEM Doctoral Education: Strengthening Preparation for Scholar",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "title": "Sharing the Report of the Humanities Doctoral Education Advisory Working Group",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "title": "PhD Education Initiative. https://www.aau.edu/strategic-initiatives/undergraduat",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "title": "跨界协同: 美国研究型大学与国家实验室培养跨学科博士生的机制、取径与启示",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "title": "知识生产模式转型下博士生培养模式变革: 国际经验和本土探索",
+      "status": "Exact",
+      "from_library": true,
+      "mismatches": []
+    },
+    {
+      "paper": "基于知识生产模式III的博士生课程体系重构：逻辑、实践与借鉴",
+      "title": "分类发展视角下研究生课程建设的现状及路径优化——基于某“双一流”建设高校的实 证分析",
       "status": "Exact",
       "from_library": true,
       "mismatches": []

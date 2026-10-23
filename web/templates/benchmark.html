@@ -170,7 +170,7 @@
         <tr>
           <td>导入本地题录库后</td>
           <td class="mono-sm">能给出确定结论 {{ real.library.definite_verdicts }}/{{ real.library.refs }}（{{ '%.0f%%'|format(real.library.definite_rate * 100) }}）· 字段偏差 {{ real.library.status.get('Minor', 0) }} 条</td>
-          <td class="mono-sm">库由 10 篇论文发布版参考文献构建（{{ real.library.library_entries }} 条）</td>
+          <td class="mono-sm">库由 {{ real.library.papers }} 篇论文发布版参考文献构建（{{ real.library.library_entries }} 条）</td>
         </tr>
         {% endif %}
         {% if real.recall %}

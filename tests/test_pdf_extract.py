@@ -122,3 +122,39 @@ def test_ocr_standalone_reference_numbers_are_merged():
     assert "[1] 张三. 题名[J]." in merged
     assert "[2] 李四. 题名二[J]." in merged
     assert "正文引用[1]。" in merged  # body untouched
+
+
+def test_looks_garbled_detects_cid_fonts():
+    from citeguard.pdf_extract import _looks_garbled
+
+    assert _looks_garbled("(cid:131)(cid:243)" * 20)
+    assert not _looks_garbled("正常的中文文本，参考文献[J]。")
+    assert not _looks_garbled("")
+
+
+def test_garbled_pdf_falls_back_to_ocr(monkeypatch, tmp_path):
+    import citeguard.pdf_extract as px
+
+    pdf = tmp_path / "garbled.pdf"
+    pdf.write_bytes(b"%PDF-1.4 fake")
+    monkeypatch.setattr(px, "_pdf_pdfplumber", lambda path: "(cid:131)(cid:243)" * 50)
+    monkeypatch.setattr(px, "_pdf_pypdf", lambda path: "")
+    monkeypatch.setattr(px, "_ocr_pdf", lambda path: "参考文献\n[1] 张三. 题名[J]. 期刊, 2020.")
+
+    text = px.extract_text(pdf)
+
+    assert "张三" in text and "cid:" not in text
+
+
+def test_garbled_pdf_without_ocr_raises_clear_error(monkeypatch, tmp_path):
+    import citeguard.pdf_extract as px
+
+    pdf = tmp_path / "garbled.pdf"
+    pdf.write_bytes(b"%PDF-1.4 fake")
+    monkeypatch.setattr(px, "_pdf_pdfplumber", lambda path: "(cid:131)(cid:243)" * 50)
+    monkeypatch.setattr(px, "_pdf_pypdf", lambda path: "")
+    monkeypatch.setattr(px, "_ocr_pdf", lambda path: "")
+
+    with pytest.raises(RuntimeError) as excinfo:
+        px.extract_text(pdf)
+    assert "CID" in str(excinfo.value)

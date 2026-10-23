@@ -23,6 +23,7 @@ def main() -> int:
     ap.add_argument("--output", required=True)
     ap.add_argument("--dpi", type=int, default=150)
     ap.add_argument("--max-pages", type=int, default=0, help="0 = all pages")
+    ap.add_argument("--start-page", type=int, default=1, help="1-based first page to render")
     args = ap.parse_args()
 
     src = Path(args.input)
@@ -30,9 +31,10 @@ def main() -> int:
     out.parent.mkdir(parents=True, exist_ok=True)
     pdf = pdfium.PdfDocument(str(src))
     total = len(pdf)
-    page_count = total if not args.max_pages else min(total, args.max_pages)
+    first = max(1, args.start_page) - 1
+    last = total if not args.max_pages else min(total, first + args.max_pages)
     images: list[Image.Image] = []
-    for index in range(page_count):
+    for index in range(first, last):
         page = pdf[index]
         # scale = dpi / 72 (PDF points)
         bitmap = page.render(scale=args.dpi / 72.0)
@@ -41,7 +43,7 @@ def main() -> int:
     if not images:
         raise SystemExit("no pages rendered")
     images[0].save(out, "PDF", save_all=True, append_images=images[1:], resolution=args.dpi)
-    print(f"wrote {out} ({page_count}/{total} pages, dpi={args.dpi})")
+    print(f"wrote {out} (pages {first + 1}-{last}/{total}, dpi={args.dpi})")
     return 0
 
 

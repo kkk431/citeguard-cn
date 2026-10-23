@@ -64,6 +64,19 @@ def extract_text(path: str | Path) -> str:
         text = _pdf_pdfplumber(path)
         if not text.strip():
             text = _pdf_pypdf(path)
+        if text.strip() and _looks_garbled(text):
+            # CID/embedded fonts without a ToUnicode map produce strings such as
+            # "(cid:131)(cid:243)" — parsing those would create garbage
+            # references, so prefer OCR when it is available.
+            ocr_text = _ocr_pdf(path)
+            if ocr_text.strip():
+                text = ocr_text
+            else:
+                raise RuntimeError(
+                    "PDF 文字层损坏（CID/自定义字体编码，无法可靠提取文字）。可以："
+                    "1) 安装 OCR 依赖后重试（pip install -r requirements-ocr.txt）；"
+                    "2) 上传 Word 原稿；3) 提供可搜索 PDF。"
+                )
         if not text.strip():
             text = _ocr_pdf(path)
         if not text.strip():
@@ -76,6 +89,19 @@ def extract_text(path: str | Path) -> str:
         return normalize_text(strip_repeated_lines(text))
 
     raise ValueError(f"不支持的文件类型 {suffix}；当前支持 PDF / DOCX / TXT / MD。")
+
+
+_CID_TOKEN_RE = re.compile(r"\(cid:\d+\)")
+
+
+def _looks_garbled(text: str) -> bool:
+    """True when a PDF text layer is mostly CID placeholders instead of text."""
+    if not text:
+        return False
+    cid = len(_CID_TOKEN_RE.findall(text))
+    if cid >= 20:
+        return True
+    return cid >= 3 and cid / max(len(text), 1) > 0.01
 
 
 def _read_text_file(path: Path) -> str:

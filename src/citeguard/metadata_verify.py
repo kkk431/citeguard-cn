@@ -933,6 +933,17 @@ def verify_reference(
     if local is not None:
         return local
 
+    # 0b) A "title" that is actually a URL/DOI means the PDF/OCR text was split
+    # badly (some PDFs print references as bare links). Treat it as a parse
+    # artifact instead of accusing the paper of a fabricated citation.
+    if re.match(r"^(?:https?://|www\.|10\.\d{4,9}/)", (ref.title or "").strip(), re.I):
+        return VerifyResult(
+            status="Unverified",
+            doi_status="none",
+            notes=["题名解析为链接/DOI，疑似 PDF/OCR 噪声，请人工核对原始条目"],
+            sources=["parser:noise-guard"],
+        )
+
     # 1) DOI anchor.
     if ref.doi:
         doi_variants = [ref.doi]
