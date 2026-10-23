@@ -10,11 +10,11 @@
 <section class="wrap section">
   <div class="section-head"><h2>架构</h2><span class="hint">自研层与开源底座分离</span></div>
   <div class="arch">
-    <div class="node"><b>输入</b><span>PDF / Word / 文本</span><em>自研解析层</em></div>
+    <div class="node"><b>输入</b><span>PDF / Word / 文本</span><em>pdfplumber / python-docx</em></div>
     <div class="arrow">→</div>
     <div class="node"><b>中文引文解析</b><span>夹注↔文献表对齐、字段抽取</span><em>自研</em></div>
     <div class="arrow">→</div>
-    <div class="node"><b>多源核验</b><span>OpenAlex → Crossref → arXiv</span><em>CC0 / 开放 API</em></div>
+    <div class="node"><b>多源核验</b><span>本地题录库 → OpenAlex → Crossref → arXiv；DOI 跨机构回退</span><em>CC0 / 开放 API</em></div>
     <div class="arrow">→</div>
     <div class="node"><b>支持度判定</b><span>claim 抽取 → 摘要证据 → 四分类</span><em>自研编排 · judge 可替换</em></div>
     <div class="arrow">→</div>

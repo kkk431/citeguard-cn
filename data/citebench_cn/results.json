@@ -2,7 +2,7 @@
   "dataset": "CiteBench-CN",
   "n": 250,
   "dataset_sha256": "1a8e466b952cd1fef9fc2f897d18053eed7f91596c9d9d91d63fed2f961891d7",
-  "generated_at": "2026-10-22T15:05:14+00:00",
+  "generated_at": "2026-10-23T11:08:43+00:00",
   "metrics": {
     "macro_f1": 0.9684,
     "accuracy": 0.968
