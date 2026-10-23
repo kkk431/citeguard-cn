@@ -65,6 +65,27 @@ DEEPSEEK_API_KEY=... PYTHONPATH=src python3 scripts/experiment_support_prompt.py
 
 服务器：`PYTHONPATH=.pylibs:. python3 scripts/evaluate_support.py`；judge 缓存位于 `data/claimsupport_cn/cache/support/`，复跑可复现。
 
+### 用本地开源模型复跑（不需要任何 API key）
+
+判定后端是 OpenAI 兼容接口，同一个评测脚本可以直接跑本地模型（Ollama / vLLM / llama.cpp-server 均可）。
+这是「AI 部分可完全开源、离线」的证据链：接口一致 + 同一套 prompt + 同一套评测脚本。
+
+```bash
+# 1) 起一个 OpenAI 兼容的本地服务（示例：Ollama）
+ollama serve
+ollama pull qwen2.5:7b-instruct
+
+# 2) 指向本地服务，跑同一评测（缓存按模型名分目录，不会污染 DeepSeek 结果）
+CITEGUARD_JUDGE_BASE_URL=http://127.0.0.1:11434/v1 \
+CITEGUARD_JUDGE_MODEL=qwen2.5:7b-instruct \
+PYTHONPATH=src python3 scripts/evaluate_support.py \
+  --out data/experiments/support_local_endpoint.json \
+  --cache data/experiments/support_prompt_cache/local
+```
+
+> 已实测的 1.7B 级模型（transformers CPU，非上面命令）：20 条试点 macro-F1 **0.7059**（精简 prompt，46 s/条），
+> 远低于 DeepSeek 的 0.9328。离线可用 ≠ 质量相同；生产离线建议 8B 级 + GPU，或继续用托管 judge。
+
 ## 评测证据
 
 - judge：`citeguard.support.judge_support`（两段式：判定 + 覆盖审计），`deepseek-chat`，temperature 0；100/100 判定成功，0 次 API 失败。

@@ -1,8 +1,8 @@
 """Evaluate ClaimSupport-CN with the product's claim-support judge.
 
-Judge: ``citeguard.support.judge_support`` (DeepSeek API, optional dependency).
-Set ``DEEPSEEK_API_KEY`` in the environment for this command; the key is never
-written to any file.  Judge responses are cached under
+Judge: ``citeguard.support.judge_support`` — either a hosted OpenAI-compatible
+endpoint (``DEEPSEEK_API_KEY``) or a local server (``CITEGUARD_JUDGE_BASE_URL`` /
+``CITEGUARD_JUDGE_MODEL``, e.g. Ollama or vLLM). The key is never written to any file.  Judge responses are cached under
 ``data/claimsupport_cn/cache/support`` so re-runs are reproducible.
 
 Metrics: macro-F1 / accuracy / 4x4 confusion matrix / per-class P-R-F1.
@@ -35,7 +35,7 @@ sys.path.insert(0, str(ROOT / "src"))
 
 import citeguard.config as config  # noqa: E402
 from citeguard import support as support_mod  # noqa: E402
-from citeguard.support import judge_support  # noqa: E402
+from citeguard.support import judge_available, judge_endpoint, judge_support  # noqa: E402
 
 if hasattr(sys.stdout, "reconfigure"):
     try:
@@ -152,10 +152,11 @@ def main(argv: Optional[list[str]] = None) -> int:
     argp.add_argument("--seed", type=int, default=20261022, help="recorded seed (judging is temperature 0)")
     args = argp.parse_args(argv)
 
-    api_key = os.environ.get("DEEPSEEK_API_KEY", "").strip()
-    if not api_key:
-        print("[fatal] DEEPSEEK_API_KEY is not set; the claim-support judge requires it. "
-              "Export it for this command only (never write it to a file).", file=sys.stderr)
+    base_url, judge_model, api_key = judge_endpoint()
+    if not judge_available():
+        print("[fatal] no judge endpoint configured: set DEEPSEEK_API_KEY (hosted API) or "
+              "CITEGUARD_JUDGE_BASE_URL / CITEGUARD_JUDGE_MODEL (local OpenAI-compatible server).",
+              file=sys.stderr)
         return 2
     config.DEEPSEEK_API_KEY = api_key  # make sure the module sees it even if imported early
 
@@ -176,7 +177,7 @@ def main(argv: Optional[list[str]] = None) -> int:
         return 2
     dataset_sha = hashlib.sha256(args.dataset.read_bytes()).hexdigest()
     print(f"[info] dataset={args.dataset.name} n={len(rows)} sha256={dataset_sha[:12]} "
-          f"model={config.DEEPSEEK_MODEL} workers={args.workers}")
+          f"model={judge_model} endpoint={base_url} workers={args.workers}")
 
     results: list[Optional[dict]] = [None] * len(rows)
     done = 0
@@ -214,7 +215,8 @@ def main(argv: Optional[list[str]] = None) -> int:
         "generated_at": _utc_now(),
         "judge": {
             "module": "citeguard.support.judge_support",
-            "model": config.DEEPSEEK_MODEL,
+            "model": judge_model,
+            "endpoint": base_url,
             "endpoint": config.DEEPSEEK_BASE_URL.rstrip("/") + "/chat/completions",
             "temperature": 0,
             "prompt_sha256": hashlib.sha256(support_mod.PROMPT.encode("utf-8")).hexdigest(),
