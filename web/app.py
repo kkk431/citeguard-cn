@@ -85,14 +85,18 @@ def index(request: Request):
 def library_page(request: Request):
     library = Library.load(config.LIBRARY_FILE)
     sources: dict[str, int] = {}
+    with_abstract = 0
     for entry in library.entries:
         sources[entry.source] = sources.get(entry.source, 0) + 1
+        if (entry.abstract or "").strip():
+            with_abstract += 1
     return templates.TemplateResponse(
         request,
         "library.html",
         {
             "active": "library",
             "count": len(library),
+            "with_abstract": with_abstract,
             "sources": sorted(sources.items()),
             "sample": [entry.to_dict() for entry in library.entries[:20]],
             "path": str(config.LIBRARY_FILE),
@@ -125,10 +129,13 @@ def library_import(file: UploadFile = File(...)):
     before = len(library)
     library.add(entries)
     library.save(config.LIBRARY_FILE)
+    imported_no_abstract = sum(1 for e in entries if not (e.abstract or "").strip())
     return {
         "imported": len(entries),
         "before": before,
         "count": len(library),
+        "with_abstract": sum(1 for e in library.entries if (e.abstract or "").strip()),
+        "imported_no_abstract": imported_no_abstract,
         "format_guess": entries[0].source if entries else "",
     }
 

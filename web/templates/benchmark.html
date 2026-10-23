@@ -17,7 +17,7 @@
   </div>
 
   {% if benchmark.per_class %}
-  <div class="panel" style="padding:0;overflow:hidden;margin-bottom:22px">
+  <div class="panel table-wrap" style="padding:0;margin-bottom:22px">
     <table class="table">
       <thead><tr><th>类别</th><th>Precision</th><th>Recall</th><th>F1</th><th>Support</th><th>Predicted</th></tr></thead>
       <tbody>
@@ -54,7 +54,7 @@
   {% endif %}
 
   {% if benchmark.baselines %}
-  <div class="panel" style="padding:0;overflow:hidden;margin-bottom:22px">
+  <div class="panel table-wrap" style="padding:0;margin-bottom:22px">
     <table class="table">
       <thead><tr><th>系统</th><th>Macro-F1</th><th>Accuracy</th><th>说明</th></tr></thead>
       <tbody>
@@ -72,7 +72,7 @@
   {% endif %}
 
   {% if benchmark.ablation %}
-  <div class="panel" style="padding:0;overflow:hidden">
+  <div class="panel table-wrap" style="padding:0">
     <table class="table">
       <thead><tr><th>消融配置</th><th>Macro-F1</th><th>Δ</th></tr></thead>
       <tbody>

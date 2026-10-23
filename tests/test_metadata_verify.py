@@ -265,9 +265,176 @@ def test_field_mismatches_detects_drift():
     assert set(mismatches) == {"year", "venue", "volume", "pages"}
 
 
+def test_author_surname_matching_handles_published_formats():
+    # "Surname, Initials" (Chinese GB/T) vs "Given Family" (Crossref/OpenAlex).
+    assert mv._first_author_match(["Yu, H."], ["Hui Yu"]) is True
+    assert mv._first_author_match(["Markus, H."], ["Hazel Rose Markus"]) is True
+    assert mv._first_author_match(["Dweck, C. S.", "Chiu, C."], ["Carol Sorich Dweck", "Chi-yue Chiu"]) is True
+    assert mv._author_overlap(["Yu, H.", "Li, X."], ["Hui Yu", "Xiaomin Li"]) == pytest.approx(1.0)
+    # A review of the book is not the book: the first author really differs.
+    assert mv._first_author_match(["Hayman, W.K."], ["J. G. Clunie"]) is False
+    assert mv._author_overlap(["Hayman, W.K."], ["J. G. Clunie"]) == 0.0
+
+
+def test_author_order_mismatch_uses_family_names():
+    assert mv._author_order_mismatch(["Yi, H.X.", "Yang, C.C."], ["Chung-Chun Yang", "Hong-Xun Yi"]) is True
+    assert mv._author_order_mismatch(["Yu, H.", "Li, X."], ["Hui Yu", "Xiaomin Li"]) is False
+
+
+def test_same_title_with_review_record_is_explained(monkeypatch, isolated_cache):
+    """A book-review record sharing the title must not look like a plain typo."""
+    ref = _ref_without_doi(title="Meromorphic Functions", venue="Clarendon")
+    review = {
+        "id": "W1",
+        "title": "Meromorphic Functions",
+        "publication_year": 1964,
+        "authorships": [{"author": {"display_name": "J. G. Clunie"}}],
+        "primary_location": {"source": {"display_name": "Journal of the London Mathematical Society"}},
+    }
+
+    def handler(url, params):
+        if "openalex" in url:
+            return FakeResponse(200, {"results": [review]})
+        return FakeResponse(404, {"status": "not found"})
+
+    install_fake_get(monkeypatch, mv, handler)
+
+    result = mv.verify_reference(ref)
+
+    assert result.status == "Minor"
+    assert "authors" in result.mismatches
+    assert "书评" in " ".join(result.notes)
+
+
+def test_authors_unreliable_flags_initial_fragments_not_whole_names():
+    # Fragment list from a broken APA parse: initials pieces are not authors.
+    assert mv._authors_unreliable(["Hayman", " W.K."]) is True
+    assert mv._authors_unreliable(["Brehm", " S. S.", " Miller"]) is True
+    # Whole names from the fixed parser are comparable.
+    assert mv._authors_unreliable(["Brehm, S. S.", "Miller, R. S."]) is False
+
+
 def test_doi_resolved_without_candidates_degrades_gracefully(monkeypatch, isolated_cache):
     install_fake_get(monkeypatch, mv, lambda url, params: FakeResponse(200, {}))
 
     result = mv.verify_reference(REF)
 
     assert result.status in {"Unknown", "Major"}
+
+
+# ---------------------------------------------------------------------------
+# China DOI / DataCite landing pages (DOIs registered outside Crossref)
+# ---------------------------------------------------------------------------
+
+CNKI_DOI = "10.15886/j.cnki.hnus.202410.0119"
+
+LANDING_HTML = """<!DOCTYPE html>
+<html><body>
+<div class="feedbackresult">
+  <div class="fbHd">多重解析地址选择页面</div>
+  <div class="fbBd"><table>
+    <tr><td><label>题名：</label>大数据杀熟治理的演化博弈研究</td></tr>
+    <tr><td><label>作者：</label>熊浩;张晨;鄢慧丽;</td></tr>
+    <tr><td><label>来源：</label>湖南大学学报（社会科学版）</td></tr>
+    <tr><td><label>出版机构：</label>同济大学</td></tr>
+    <tr><td><label>出版年：</label>2024</td></tr>
+    <tr><td><label>DOI码：</label>10.15886/j.cnki.hnus.202410.0119</td></tr>
+  </table></div>
+</div>
+</body></html>"""
+
+
+def _landing_ref() -> Reference:
+    return Reference(
+        raw="[4] 熊浩, 张晨, 鄢慧丽. 大数据杀熟治理的演化博弈研究[J]. "
+        "湖南大学学报(社会科学版), 2024. DOI: 10.15886/j.cnki.hnus.202410.0119.",
+        index=4,
+        authors=["熊浩", "张晨", "鄢慧丽"],
+        title="大数据杀熟治理的演化博弈研究",
+        doc_type="J",
+        venue="湖南大学学报(社会科学版)",
+        year=2024,
+        doi=CNKI_DOI,
+    )
+
+
+def _landing_handler(calls: list[dict]):
+    """Crossref/OpenAlex 404, handle exists, DataCite 404, landing page present."""
+
+    def handler(url: str, params: dict) -> FakeResponse:
+        if "api.crossref.org/works/" in url or "api.openalex.org" in url:
+            return FakeResponse(404, {"status": "not found"})
+        if "doi.org/api/handles/" in url:
+            return FakeResponse(200, {"responseCode": 1})
+        if "api.datacite.org" in url:
+            return FakeResponse(404, {"errors": []})
+        if url == f"https://doi.org/{CNKI_DOI}":
+            return FakeResponse(200, None, text=LANDING_HTML)
+        return FakeResponse(404, {"status": "not found"})
+
+    return handler
+
+
+def test_parse_doi_landing_extracts_cnki_metadata():
+    cand = mv._parse_doi_landing(LANDING_HTML, CNKI_DOI)
+
+    assert cand is not None
+    assert cand.source == "doi:landing"
+    assert cand.title == "大数据杀熟治理的演化博弈研究"
+    assert cand.authors == ["熊浩", "张晨", "鄢慧丽"]
+    assert cand.venue == "湖南大学学报（社会科学版）"
+    assert cand.year == 2024
+    assert cand.doi == CNKI_DOI
+
+
+def test_parse_doi_landing_ignores_unrelated_pages():
+    html = "<html><body><h1>Publisher landing page</h1><p>Full text links</p></body></html>"
+    assert mv._parse_doi_landing(html, CNKI_DOI) is None
+    assert mv._parse_doi_landing("多重解析地址选择页面", CNKI_DOI) is None
+
+
+def test_lookup_doi_status_landing(monkeypatch, isolated_cache):
+    calls = install_fake_get(monkeypatch, mv, _landing_handler([]))
+
+    candidates, status = mv.lookup_doi_status(CNKI_DOI)
+
+    assert status == "resolved_landing"
+    assert [c.source for c in candidates] == ["doi:landing"]
+    assert any(f"https://doi.org/{CNKI_DOI}" in c["url"] for c in calls)
+
+
+def test_lookup_doi_status_landing_cache_keeps_candidates(monkeypatch, isolated_cache):
+    calls = install_fake_get(monkeypatch, mv, _landing_handler([]))
+
+    first, first_status = mv.lookup_doi_status(CNKI_DOI)
+    second, second_status = mv.lookup_doi_status(CNKI_DOI)
+
+    assert first_status == second_status == "resolved_landing"
+    assert [c.title for c in first] == [c.title for c in second] == ["大数据杀熟治理的演化博弈研究"]
+    landing_fetches = [c for c in calls if c["url"] == f"https://doi.org/{CNKI_DOI}"]
+    assert len(landing_fetches) == 1
+
+
+def test_verify_doi_landing_exact(monkeypatch, isolated_cache):
+    install_fake_get(monkeypatch, mv, _landing_handler([]))
+
+    result = mv.verify_reference(_landing_ref())
+
+    assert result.status == "Exact"
+    assert result.doi_status == "resolved_landing"
+    assert result.sources == ["doi:landing"]
+    assert result.mismatches == []
+    assert result.best is not None and result.best.source == "doi:landing"
+    assert "外部注册机构元数据有限" in " ".join(result.notes)
+
+
+def test_verify_doi_landing_title_mismatch_is_major(monkeypatch, isolated_cache):
+    ref = _landing_ref()
+    ref.title = "完全不相关的另一篇论文题名"
+    install_fake_get(monkeypatch, mv, _landing_handler([]))
+
+    result = mv.verify_reference(ref)
+
+    assert result.status == "Major"
+    assert "title" in result.mismatches
+    assert result.sources == ["doi:landing"]

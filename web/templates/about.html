@@ -29,18 +29,20 @@
 
 <section class="wrap section">
   <div class="section-head"><h2>开源资源</h2><span class="hint">只列实际使用的；候选资源另列</span></div>
-  <div class="panel" style="padding:0;overflow:hidden">
+  <div class="panel table-wrap" style="padding:0">
     <table class="table res-table">
       <thead><tr><th>资源</th><th>用途</th><th>许可证</th></tr></thead>
       <tbody>
         <tr><td>OpenAlex</td><td>文献元数据核验（中文作品 544 万+）</td><td>CC0 1.0</td></tr>
         <tr><td>Crossref</td><td>DOI 元数据核验</td><td>元数据开放</td></tr>
         <tr><td>arXiv</td><td>预印本元数据</td><td>CC0 1.0</td></tr>
+        <tr><td>DataCite / doi.org Handle</td><td>非 Crossref 注册 DOI 的注册信息与落地页元数据（含中国 DOI 平台）</td><td>公开接口</td></tr>
         <tr><td>FastAPI / Starlette / Uvicorn</td><td>Web 后端</td><td>MIT / BSD-3-Clause</td></tr>
         <tr><td>Jinja2</td><td>页面渲染</td><td>BSD-3-Clause</td></tr>
         <tr><td>pdfplumber / pdfminer.six / pypdf</td><td>PDF 文本层抽取</td><td>MIT / BSD-3-Clause</td></tr>
         <tr><td>python-docx</td><td>Word（.docx）段落与表格抽取</td><td>MIT</td></tr>
         <tr><td>rapidfuzz</td><td>题名相似度</td><td>MIT</td></tr>
+        <tr><td>rapidocr-onnxruntime（可选）</td><td>扫描件 OCR（不装也能跑）</td><td>Apache-2.0</td></tr>
         <tr><td>CiteBench-CN / ClaimSupport-CN</td><td>自建中文评测集</td><td>CC-BY-4.0</td></tr>
       </tbody>
     </table>
@@ -57,17 +59,20 @@
       <h3>现在</h3>
       <ul>
         <li>中文引文解析与多源核验</li>
+        <li>本地题录库（RIS / BibTeX / EndNote / CSL-JSON）</li>
+        <li>中国 DOI 注册平台元数据识别</li>
         <li>PDF / Word(.docx) / 文本输入</li>
         <li>GB/T 7714-2025 字段检查</li>
         <li>引用支持度判定（可插拔 judge）</li>
         <li>CiteBench-CN 250 条评测</li>
-        <li>Web 工作台 + 导出</li>
+        <li>Web 工作台 + 批量 + 导出</li>
       </ul>
     </div>
     <div class="col">
       <h3>下一步</h3>
       <ul>
-        <li>扫描件 OCR 接入</li>
+        <li>知网题录一键带摘要导入引导</li>
+        <li>扫描件 OCR 默认开启与版面恢复</li>
         <li>浏览器插件 / 写作工具联动</li>
         <li>更多中文文献类型与著录格式</li>
         <li>批处理与机构批量审查</li>

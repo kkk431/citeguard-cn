@@ -1,0 +1,650 @@
+{
+  "summary": {
+    "sample": 25,
+    "strategies": {
+      "openalex_search": {
+        "recall_hit": 0.92,
+        "sim_ge_078": 0.92
+      },
+      "openalex_title_search": {
+        "recall_hit": 0.84,
+        "sim_ge_078": 0.84
+      },
+      "openalex_search_year": {
+        "recall_hit": 0.92,
+        "sim_ge_078": 0.92
+      },
+      "crossref_bibliographic": {
+        "recall_hit": 0.8,
+        "sim_ge_078": 0.84
+      }
+    }
+  },
+  "rows": [
+    {
+      "id": "https://openalex.org/W2609521798",
+      "title": "临床实践中治疗性单采术应用指南——基于美国血浆置换学会编写委员会的循证策略:第七版",
+      "year": 2016,
+      "openalex_search": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      },
+      "openalex_title_search": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 1
+      },
+      "openalex_search_year": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 2
+      },
+      "crossref_bibliographic": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      }
+    },
+    {
+      "id": "https://openalex.org/W2314733460",
+      "title": "我国雾-霾成因及其治理的思考",
+      "year": 2013,
+      "openalex_search": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      },
+      "openalex_title_search": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 1
+      },
+      "openalex_search_year": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 2
+      },
+      "crossref_bibliographic": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      }
+    },
+    {
+      "id": "https://openalex.org/W3003742399",
+      "title": "肠道菌群在鱼类疾病和免疫中作用的研究进展",
+      "year": 2019,
+      "openalex_search": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      },
+      "openalex_title_search": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 1
+      },
+      "openalex_search_year": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      },
+      "crossref_bibliographic": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      }
+    },
+    {
+      "id": "https://openalex.org/W4255907190",
+      "title": "中西医结合治疗心血管疾病伴随焦虑症患者的临床分析",
+      "year": 2020,
+      "openalex_search": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      },
+      "openalex_title_search": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 1
+      },
+      "openalex_search_year": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      },
+      "crossref_bibliographic": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      }
+    },
+    {
+      "id": "https://openalex.org/W4254046232",
+      "title": "过敏和鼻科学国际共识声明 : 鼻窦炎",
+      "year": 2016,
+      "openalex_search": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      },
+      "openalex_title_search": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 2
+      },
+      "openalex_search_year": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 2
+      },
+      "crossref_bibliographic": {
+        "hit": false,
+        "best_sim": 0.882,
+        "n": 5
+      }
+    },
+    {
+      "id": "https://openalex.org/W1522253694",
+      "title": "A. Hyvärinen, J. Karhunen and E. Oja, Independent Component ",
+      "year": 2010,
+      "openalex_search": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 1
+      },
+      "openalex_title_search": {
+        "hit": false,
+        "best_sim": 0.0,
+        "n": 0
+      },
+      "openalex_search_year": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 1
+      },
+      "crossref_bibliographic": {
+        "hit": false,
+        "best_sim": 0.389,
+        "n": 5
+      }
+    },
+    {
+      "id": "https://openalex.org/W2990364311",
+      "title": "黄河流域水资源-能源-粮食的协同优化",
+      "year": 2017,
+      "openalex_search": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      },
+      "openalex_title_search": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 1
+      },
+      "openalex_search_year": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      },
+      "crossref_bibliographic": {
+        "hit": false,
+        "best_sim": 0.471,
+        "n": 5
+      }
+    },
+    {
+      "id": "https://openalex.org/W2355856605",
+      "title": "网络重要节点排序方法综述",
+      "year": 2014,
+      "openalex_search": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      },
+      "openalex_title_search": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 1
+      },
+      "openalex_search_year": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      },
+      "crossref_bibliographic": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      }
+    },
+    {
+      "id": "https://openalex.org/W2098348787",
+      "title": "A Fractal Approach to Identifying Urban Boundaries. 城市边界识别的分",
+      "year": 2011,
+      "openalex_search": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      },
+      "openalex_title_search": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 1
+      },
+      "openalex_search_year": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 1
+      },
+      "crossref_bibliographic": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      }
+    },
+    {
+      "id": "https://openalex.org/W2951322648",
+      "title": "应用动物模型探索肾脏疾病作用机制和潜在治疗靶点",
+      "year": 2018,
+      "openalex_search": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      },
+      "openalex_title_search": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 1
+      },
+      "openalex_search_year": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      },
+      "crossref_bibliographic": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      }
+    },
+    {
+      "id": "https://openalex.org/W2607416773",
+      "title": "野生动物(野鸟)对全球耐药基因传播的影响",
+      "year": 2017,
+      "openalex_search": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      },
+      "openalex_title_search": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 1
+      },
+      "openalex_search_year": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      },
+      "crossref_bibliographic": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      }
+    },
+    {
+      "id": "https://openalex.org/W2111508436",
+      "title": "相干拉曼散射显微术",
+      "year": 2012,
+      "openalex_search": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      },
+      "openalex_title_search": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 1
+      },
+      "openalex_search_year": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      },
+      "crossref_bibliographic": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      }
+    },
+    {
+      "id": "https://openalex.org/W4205895048",
+      "title": "治疗慢性阻塞性肺疾病的药物研究进展",
+      "year": 2021,
+      "openalex_search": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      },
+      "openalex_title_search": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 1
+      },
+      "openalex_search_year": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      },
+      "crossref_bibliographic": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      }
+    },
+    {
+      "id": "https://openalex.org/W2736991918",
+      "title": "Hermann Sohr: The Navier–Stokes Equations ——An Elementary Fu",
+      "year": 2014,
+      "openalex_search": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 1
+      },
+      "openalex_title_search": {
+        "hit": false,
+        "best_sim": 0.0,
+        "n": 0
+      },
+      "openalex_search_year": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 1
+      },
+      "crossref_bibliographic": {
+        "hit": false,
+        "best_sim": 0.319,
+        "n": 5
+      }
+    },
+    {
+      "id": "https://openalex.org/W4313054188",
+      "title": "基于网络药理学探讨中药鸦胆子治疗非小细胞肺癌的作用机制",
+      "year": 2022,
+      "openalex_search": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      },
+      "openalex_title_search": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 1
+      },
+      "openalex_search_year": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 2
+      },
+      "crossref_bibliographic": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      }
+    },
+    {
+      "id": "https://openalex.org/W4206389265",
+      "title": "糖尿病性胃轻瘫的中医药治疗进",
+      "year": 2021,
+      "openalex_search": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      },
+      "openalex_title_search": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 1
+      },
+      "openalex_search_year": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 2
+      },
+      "crossref_bibliographic": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      }
+    },
+    {
+      "id": "https://openalex.org/W2893312153",
+      "title": "缺氧对细胞膜 ABCA1 降解的影响及其机制研究",
+      "year": 2017,
+      "openalex_search": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      },
+      "openalex_title_search": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 1
+      },
+      "openalex_search_year": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 3
+      },
+      "crossref_bibliographic": {
+        "hit": false,
+        "best_sim": 0.462,
+        "n": 5
+      }
+    },
+    {
+      "id": "https://openalex.org/W4232254742",
+      "title": "中西医结合治疗心血管疾病伴焦虑症的疗效",
+      "year": 2020,
+      "openalex_search": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      },
+      "openalex_title_search": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 1
+      },
+      "openalex_search_year": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      },
+      "crossref_bibliographic": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      }
+    },
+    {
+      "id": "https://openalex.org/W4206140610",
+      "title": "血管内介入治疗技术在缺血性脑血管疾病中的应用效果",
+      "year": 2021,
+      "openalex_search": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      },
+      "openalex_title_search": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 1
+      },
+      "openalex_search_year": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      },
+      "crossref_bibliographic": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      }
+    },
+    {
+      "id": "https://openalex.org/W4246702649",
+      "title": "左卡尼汀联合前列地尔治疗糖尿病肾病的临床观察",
+      "year": 2020,
+      "openalex_search": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      },
+      "openalex_title_search": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 1
+      },
+      "openalex_search_year": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 1
+      },
+      "crossref_bibliographic": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      }
+    },
+    {
+      "id": "https://openalex.org/W2610900695",
+      "title": "创制动物模型,为何不用树鼩呢?",
+      "year": 2017,
+      "openalex_search": {
+        "hit": false,
+        "best_sim": 0.0,
+        "n": 0
+      },
+      "openalex_title_search": {
+        "hit": false,
+        "best_sim": 0.0,
+        "n": 0
+      },
+      "openalex_search_year": {
+        "hit": false,
+        "best_sim": 0.0,
+        "n": 0
+      },
+      "crossref_bibliographic": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      }
+    },
+    {
+      "id": "https://openalex.org/W3174859433",
+      "title": "大学英语课程“思政教育”的探索与实践研究",
+      "year": 2021,
+      "openalex_search": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      },
+      "openalex_title_search": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 1
+      },
+      "openalex_search_year": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      },
+      "crossref_bibliographic": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      }
+    },
+    {
+      "id": "https://openalex.org/W4402879061",
+      "title": "乡村振兴背景下乡村旅游高质量发展研究",
+      "year": 2024,
+      "openalex_search": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      },
+      "openalex_title_search": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 3
+      },
+      "openalex_search_year": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      },
+      "crossref_bibliographic": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      }
+    },
+    {
+      "id": "https://openalex.org/W1482698202",
+      "title": "异常在位子宫内膜是内异症的病因吗?-在位内膜在内异症发病中的作用",
+      "year": 2011,
+      "openalex_search": {
+        "hit": false,
+        "best_sim": 0.0,
+        "n": 0
+      },
+      "openalex_title_search": {
+        "hit": false,
+        "best_sim": 0.0,
+        "n": 0
+      },
+      "openalex_search_year": {
+        "hit": false,
+        "best_sim": 0.0,
+        "n": 0
+      },
+      "crossref_bibliographic": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      }
+    },
+    {
+      "id": "https://openalex.org/W4405253128",
+      "title": "新质生产力内涵特征、现实挑战及实现路径",
+      "year": 2024,
+      "openalex_search": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      },
+      "openalex_title_search": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 1
+      },
+      "openalex_search_year": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      },
+      "crossref_bibliographic": {
+        "hit": true,
+        "best_sim": 1.0,
+        "n": 5
+      }
+    }
+  ]
+}

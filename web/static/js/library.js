@@ -54,6 +54,7 @@
     }
     importBtn.disabled = true;
     let imported = 0;
+    let noAbstract = 0;
     let failed = 0;
     for (let i = 0; i < list.length; i++) {
       if (hint) hint.textContent = "导入中 " + (i + 1) + "/" + list.length;
@@ -62,15 +63,16 @@
         fd.append("file", list[i]);
         const data = await window.CiteGuard.postForm("/api/library/import", fd);
         imported += data.imported || 0;
+        noAbstract += data.imported_no_abstract || 0;
       } catch (err) {
         failed += 1;
       }
     }
     if (hint) hint.textContent = "";
-    window.CiteGuard.toast(
-      "导入 " + imported + " 条" + (failed ? "，" + failed + " 个文件失败" : "")
-    );
-    setTimeout(function () { window.location.reload(); }, 800);
+    let msg = "导入 " + imported + " 条" + (failed ? "，" + failed + " 个文件失败" : "");
+    if (noAbstract) msg += "；" + noAbstract + " 条没有摘要（元数据核验可用，支持度判定需要摘要）";
+    window.CiteGuard.toast(msg);
+    setTimeout(function () { window.location.reload(); }, 1200);
   });
 
   clearBtn.addEventListener("click", async function () {

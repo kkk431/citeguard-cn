@@ -311,14 +311,33 @@ def test_library_import_list_and_clear(client):
 
     assert resp.status_code == 200, resp.text
     assert resp.json()["count"] == 1
+    # This export has no abstract: metadata checks still work, but the
+    # claim-support judge needs one, so the UI must say so.
+    assert resp.json()["with_abstract"] == 0
+    assert resp.json()["imported_no_abstract"] == 1
     assert client.get("/api/library").json()["count"] == 1
     page = client.get("/library")
     assert page.status_code == 200
     assert "累积生态风险" in page.text
+    assert "没有摘要" in page.text
 
     cleared = client.post("/api/library/clear")
     assert cleared.json()["count"] == 0
     assert client.get("/api/library").json()["count"] == 0
+
+
+def test_library_import_counts_abstracts(client):
+    ris_with_abstract = RIS.replace("ER  - ", "AB  - 本文检验了累积生态风险的调节效应。\nER  - ")
+    resp = client.post(
+        "/api/library/import",
+        files={"file": ("cnki-abstract.ris", ris_with_abstract.encode("utf-8"), "application/x-research-info-systems")},
+    )
+
+    assert resp.status_code == 200, resp.text
+    assert resp.json()["with_abstract"] == 1
+    assert resp.json()["imported_no_abstract"] == 0
+    page = client.get("/library")
+    assert "没有摘要" not in page.text
 
 
 def test_library_import_rejects_unknown_format(client):

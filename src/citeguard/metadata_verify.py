@@ -52,7 +52,9 @@ class VerifyResult:
     title_sim: float = 0.0
     year_match: bool = False
     author_match: float = 0.0
-    doi_status: str = "none"  # none / resolved / not_found / error
+    doi_status: str = "none"
+    # none / local / resolved / resolved_landing / exists_elsewhere /
+    # not_found / error
     mismatches: list[str] = field(default_factory=list)
     notes: list[str] = field(default_factory=list)
     sources: list[str] = field(default_factory=list)
@@ -83,16 +85,47 @@ def title_sim(a: str, b: str) -> float:
     return max(fuzz.ratio(na, nb), fuzz.token_set_ratio(na, nb)) / 100.0
 
 
+def _surname(name: str) -> str:
+    """Comparable family name, tolerant of "Surname, I. N." vs "Given Surname".
+
+    Chinese citations list "Li, D." or "李东"; Crossref/OpenAlex return
+    "Dongping Li". Comparing full strings would call every correct citation an
+    author mismatch, so compare family names only.
+    """
+    n = unicodedata.normalize("NFKC", name or "").strip()
+    if not n:
+        return ""
+    if _is_cjk(n):
+        return norm_title(n)
+    if re.search(r"[,，]", n):
+        # "Smith, J. D." / "van der Waals, J." -> the part before the comma
+        return norm_title(re.split(r"[,，]", n)[0])
+    tokens = [t for t in re.split(r"[\s\-‐–—]+", n) if t]
+    # "Given Family": drop trailing initial tokens and keep the last word.
+    while len(tokens) > 1 and re.fullmatch(r"[A-Z]\.|[A-Z]", tokens[-1]):
+        tokens.pop()
+    return norm_title(tokens[-1]) if tokens else ""
+
+
+def _same_surname(a: str, b: str) -> bool:
+    if not a or not b:
+        return False
+    if a == b:
+        return True
+    # tolerate name particles and transliteration differences
+    return len(a) >= 2 and len(b) >= 2 and (a in b or b in a)
+
+
 def _author_overlap(ref_authors: list[str], cand_authors: list[str]) -> float:
     if not ref_authors or not cand_authors:
         return 0.0
-    ref = [norm_title(a) for a in ref_authors if norm_title(a)]
-    cand = [norm_title(a) for a in cand_authors if norm_title(a)]
+    ref = [_surname(a) for a in ref_authors if _surname(a)]
+    cand = [_surname(a) for a in cand_authors if _surname(a)]
     if not ref or not cand:
         return 0.0
     hits = 0
     for r in ref:
-        if any(r in c or c in r for c in cand if len(c) >= 2):
+        if any(_same_surname(r, c) for c in cand):
             hits += 1
     return hits / max(len(ref), 1)
 
@@ -150,23 +183,19 @@ def _first_author_match(ref_authors: list[str], cand_authors: list[str]) -> bool
 
     Chinese records often put an institution first ("四川大学华西第二医院") or
     include both the Chinese name and its pinyin ("黄程, Cheng Hong Huang").
-    A strict first-author comparison therefore produces false mismatches. We
-    accept if the first author matches, or if any of the first three reference
-    authors overlaps with the first six source authors.
+    A strict comparison therefore produces false mismatches. We accept if the
+    first author matches, or if any of the first three reference authors
+    overlaps with the first six source authors (family names compared).
     """
     if not ref_authors or not cand_authors:
         return True
-    ref = [norm_title(a) for a in ref_authors[:3] if norm_title(a)]
-    cand = [norm_title(a) for a in cand_authors[:6] if norm_title(a)]
+    ref = [_surname(a) for a in ref_authors[:3] if _surname(a)]
+    cand = [_surname(a) for a in cand_authors[:6] if _surname(a)]
     if not ref or not cand:
         return True
-    a, b = ref[0], cand[0]
-    if a in b or b in a or fuzz.ratio(a, b) / 100 >= 0.55:
+    if _same_surname(ref[0], cand[0]):
         return True
-    for r in ref:
-        if any(r in c or c in r for c in cand if len(c) >= 2):
-            return True
-    return False
+    return any(_same_surname(r, c) for r in ref for c in cand)
 
 
 def _volume_match(ref_v: str, cand_v: str) -> bool:
@@ -193,14 +222,13 @@ def _author_order_mismatch(ref_authors: list[str], cand_authors: list[str]) -> b
     """Detect a re-ordered author list while tolerating institution/alias noise."""
     if not ref_authors or not cand_authors:
         return False
-    a = norm_title(ref_authors[0])
-    b = norm_title(cand_authors[0])
-    if not a or not b:
+    ref = [_surname(a) for a in ref_authors[:3] if _surname(a)]
+    cand = [_surname(a) for a in cand_authors[:6] if _surname(a)]
+    if not ref or not cand:
         return False
-    if a in b or b in a or fuzz.ratio(a, b) / 100 >= 0.55:
+    if _same_surname(ref[0], cand[0]):
         return False
-    rest = [norm_title(x) for x in cand_authors[1:6] if norm_title(x)]
-    return any(a in c or c in a for c in rest)
+    return any(_same_surname(ref[0], c) for c in cand[1:])
 
 
 _INITIALS_ONLY_RE = re.compile(r"^(?:[A-Za-z]\.(?:\s*[A-Za-z]\.)*|[A-Za-z])$")
@@ -221,8 +249,14 @@ def _authors_unreliable(authors: list[str]) -> bool:
         return True
     weak = 0
     for author in real:
-        cleaned = (author or "").strip().strip(".,")
-        if len(norm_title(cleaned)) < 2 or _INITIALS_ONLY_RE.match(cleaned):
+        # Do not strip the trailing period: "W.K." is an initials fragment, and
+        # truncating it to "W.K" would hide the fragment from the checks below.
+        cleaned = (author or "").strip().strip(",，;；")
+        if _INITIALS_ONLY_RE.match(cleaned):
+            # A lone set of initials is never a complete author name once the
+            # parser has merged "Surname, I. N." pairs — the list is fragmentary.
+            return True
+        if len(norm_title(cleaned)) < 2:
             weak += 1
     return weak * 2 >= len(real)
 
@@ -558,12 +592,17 @@ def lookup_doi_status(doi: str) -> tuple[list[Candidate], str]:
     cands = lookup_doi(doi)
     if cands:
         return cands, "resolved"
-    # v2: "not_found" now also consults the global DOI handle system, so old
-    # cache entries must not short-circuit the new logic.
-    cp = _cache_path("DOI_STATUS::v2::" + doi)
+    # v3: DOI landing metadata (China DOI / DataCite) is cached together with
+    # the status, so a cached "resolved_landing" does not lose its candidate.
+    cp = _cache_path("DOI_STATUS::v3::" + doi)
     if cp.exists():
         try:
-            return [], json.loads(cp.read_text(encoding="utf-8")).get("status", "not_found")
+            data = json.loads(cp.read_text(encoding="utf-8"))
+            st = data.get("status", "not_found")
+            saved = data.get("candidates") or []
+            if st == "resolved_landing" and saved:
+                return [Candidate(**c) for c in saved], st
+            return [], st
         except Exception:
             pass
     status = "error"
@@ -584,6 +623,24 @@ def lookup_doi_status(doi: str) -> tuple[list[Candidate], str]:
         handle = _doi_handle_status(doi)
         if handle == "exists":
             status = "exists_elsewhere"
+            # Some registrars (CNKI / DataCite) expose metadata even though
+            # Crossref does not: use it instead of giving up.
+            landing = _doi_landing_candidate(doi)
+            if landing is not None:
+                try:
+                    cp.write_text(
+                        json.dumps(
+                            {
+                                "status": "resolved_landing",
+                                "candidates": [_candidate_to_dict(landing)],
+                            },
+                            ensure_ascii=False,
+                        ),
+                        encoding="utf-8",
+                    )
+                except Exception:
+                    pass
+                return [landing], "resolved_landing"
         elif handle == "error":
             status = "error"
     if status != "error":
@@ -621,6 +678,113 @@ def _doi_handle_status(doi: str) -> str:
             pass
     time.sleep(config.API_SLEEP)
     return status
+
+
+def _candidate_to_dict(cand: "Candidate") -> dict:
+    return {
+        "title": cand.title,
+        "doi": cand.doi,
+        "year": cand.year,
+        "authors": cand.authors,
+        "venue": cand.venue,
+        "volume": cand.volume,
+        "issue": cand.issue,
+        "pages": cand.pages,
+        "abstract": cand.abstract,
+        "url": cand.url,
+        "source": cand.source,
+    }
+
+
+def _landing_hint(html: str) -> bool:
+    return ("题名" in html and ("作者" in html or "DOI码" in html)) or "多重解析" in html
+
+
+def _parse_doi_landing(html: str, doi: str) -> Optional[Candidate]:
+    """Parse a China-DOI 'multiple resolution' page (metadata in table labels)."""
+    if not html or not _landing_hint(html):
+        return None
+
+    def grab(label: str) -> str:
+        m = re.search(rf"{label}\s*[:：]\s*</label>\s*([^<]*)", html)
+        return (m.group(1) or "").strip() if m else ""
+
+    title = grab("题名")
+    if not title:
+        return None
+    authors = [a.strip() for a in re.split(r"[;；]", grab("作者")) if a.strip()]
+    venue = grab("来源")
+    year = None
+    ym = re.search(r"((?:19|20)\d{2})", grab("出版年"))
+    if ym:
+        year = int(ym.group(1))
+    return Candidate(
+        source="doi:landing",
+        title=title,
+        doi=doi,
+        authors=authors,
+        venue=venue,
+        year=year,
+    )
+
+
+def _doi_landing_candidate(doi: str) -> Optional[Candidate]:
+    """Fetch DOI landing metadata for DOIs registered outside Crossref (e.g. CNKI)."""
+    key = _cache_path("DOI_LANDING::" + doi)
+    if key.exists():
+        try:
+            data = json.loads(key.read_text(encoding="utf-8"))
+            if data.get("found") and data.get("title"):
+                return Candidate(**{k: v for k, v in data.items() if k != "found"})
+            if data.get("found") is False:
+                return None
+        except Exception:
+            pass
+
+    cand: Optional[Candidate] = None
+    # 1) DataCite (datasets / some journals / repositories)
+    try:
+        data = _cached_json(f"https://api.datacite.org/dois/{doi}")
+        attr = ((data or {}).get("data") or {}).get("attributes") or {}
+        titles = attr.get("titles") or []
+        title = (titles[0].get("title") if titles else "") or ""
+        if title:
+            authors: list[str] = []
+            for creator in attr.get("creators") or []:
+                name = " ".join(
+                    x for x in (creator.get("givenName", ""), creator.get("familyName", "")) if x
+                ).strip()
+                authors.append(name or (creator.get("name") or ""))
+            container = (attr.get("container") or {}).get("title") or ""
+            cand = Candidate(
+                source="doi:datacite",
+                title=title,
+                doi=doi,
+                authors=[a for a in authors if a],
+                venue=container,
+                year=attr.get("publicationYear"),
+                url=attr.get("url", ""),
+            )
+    except Exception:
+        pass
+
+    # 2) doi.org landing page metadata (China DOI 'multiple resolution' page)
+    if cand is None:
+        try:
+            resp = _request(f"https://doi.org/{doi}")
+            if resp.status_code == 200:
+                cand = _parse_doi_landing(resp.text or "", doi)
+        except Exception:
+            cand = None
+
+    try:
+        payload = _candidate_to_dict(cand) if cand else {"found": False}
+        if cand is not None:
+            payload["found"] = True
+        key.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
+    except Exception:
+        pass
+    return cand
 
 
 # ---------------------------------------------------------------------------
@@ -780,12 +944,19 @@ def verify_reference(
         doi_status = "not_found"
         doi_cands: list[Candidate] = []
         exists_elsewhere = False
+        doi_source_note = "Crossref"
         for d in dict.fromkeys(doi_variants):
             cands, status = lookup_doi_status(d)
             if status == "resolved":
                 doi_cands = cands
                 doi_status = "resolved"
                 notes.append(f"DOI {d} resolved")
+                break
+            if status == "resolved_landing":
+                doi_cands = cands
+                doi_status = "resolved_landing"
+                doi_source_note = "中国 DOI 平台" if cands and cands[0].source == "doi:landing" else "DataCite"
+                notes.append(f"DOI {d} resolved via {doi_source_note}")
                 break
             if status == "exists_elsewhere":
                 exists_elsewhere = True
@@ -835,6 +1006,13 @@ def verify_reference(
         am = _author_overlap(ref.authors, best.authors)
         mism = _field_mismatches(ref, best)
 
+        doi_sources = ["crossref:doi", "openalex:doi"]
+        if doi_status == "resolved_landing":
+            doi_sources = ["doi:datacite"] if best.source == "doi:datacite" else ["doi:landing"]
+            notes.append(
+                f"外部注册机构元数据有限（{doi_source_note}）：只比对题名/作者/年份，卷期页可能缺"
+            )
+
         if ts < 0.50:
             if _is_cjk(ref.title) != _is_cjk(best.title):
                 # Chinese citation vs English-only source record: language variant,
@@ -867,10 +1045,10 @@ def verify_reference(
                     title_sim=round(ts, 4),
                     year_match=ym,
                     author_match=round(am, 4),
-                    doi_status="resolved",
+                    doi_status=doi_status,
                     mismatches=["title"],
                     notes=notes + ["DOI resolved but title mismatch (title/DOI 错配)"],
-                    sources=["crossref:doi", "openalex:doi"],
+                    sources=doi_sources,
                 )
         elif ts < 0.90:
             mism.append("title_partial")
@@ -886,10 +1064,10 @@ def verify_reference(
             title_sim=round(ts, 4),
             year_match=ym,
             author_match=round(am, 4),
-            doi_status="resolved",
+            doi_status=doi_status,
             mismatches=mism,
             notes=notes,
-            sources=["crossref:doi", "openalex:doi"],
+            sources=doi_sources,
         )
 
     # 2) No DOI: title search.
@@ -917,6 +1095,13 @@ def verify_reference(
         mism = _field_mismatches(ref, best)
         status = "Minor" if mism else "Exact"
         notes.append("title matched" + (f"; mismatch: {','.join(mism)}" if mism else "; fields matched"))
+        if "authors" in mism and ts >= 0.98 and am == 0.0:
+            # Same title but a completely different author list: the record is
+            # often a book review / "review of" article, not the work itself.
+            notes.append(
+                "题名一致但作者完全不同：匹配记录可能是书评/同名不同作品"
+                "（也可能是引文作者有误），请核对作者"
+            )
     elif ts >= 0.78:
         status = "Minor"
         mism = ["title"]

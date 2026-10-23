@@ -173,7 +173,10 @@
           notes.push("因上限跳过 " + supportMeta.skipped_by_cap + " 条");
         }
         if (supportMeta.skipped_no_abstract) {
-          notes.push("缺摘要 " + supportMeta.skipped_no_abstract + " 条");
+          notes.push(
+            "命中记录缺摘要 " + supportMeta.skipped_no_abstract +
+            " 条（判断引用是否被支持需要摘要；导出题录时勾选摘要再导入即可）"
+          );
         }
         if (!supportMeta.judge_available) {
           notes.push("未配置 LLM judge，全部为「未检测」");
@@ -414,6 +417,9 @@
               "作者匹配 " + (v.author_match == null ? "—" : Number(v.author_match).toFixed(2)),
             ];
         if (url && !unmatched) evidence.push('<a href="' + esc(url) + '" target="_blank" rel="noopener">查看证据</a>');
+        if (v.doi_status === "exists_elsewhere") {
+          evidence.push('<a href="https://doi.org/' + encodeURIComponent(p.doi || "") + '" target="_blank" rel="noopener">DOI 原文页</a>');
+        }
         if (unmatched) {
           const query = encodeURIComponent((p.title || item.raw || "").slice(0, 80));
           evidence.push(
@@ -429,6 +435,16 @@
         const localPill = sources.indexOf("local") !== -1
           ? '<span class="pill ok"><i></i>本地题录库</span>'
           : "";
+        const provPills = [];
+        if (sources.indexOf("doi:landing") !== -1) {
+          provPills.push('<span class="pill warn"><i></i>中国 DOI 平台 · 卷期页未核对</span>');
+        }
+        if (sources.indexOf("doi:datacite") !== -1) {
+          provPills.push('<span class="pill warn"><i></i>DataCite · 卷期页未核对</span>');
+        }
+        if (provPills.length) {
+          evidence.push("元数据来源：" + (sources.indexOf("doi:landing") !== -1 ? "中国 DOI 平台" : "DataCite") + "（题名/作者可核，卷期页可能缺）");
+        }
         const supBlock = supInfo
           ? '<div class="ref-raw" style="margin-top:8px">引用句：' + esc(sup.claim || "") + "</div>" +
             '<div class="ref-evidence">判定理由：' + esc(sup.reason || "") +
@@ -455,6 +471,7 @@
               '<span class="pill ' + st.cls + '"><i></i>' + st.label + "</span>" +
               supPill +
               localPill +
+              provPills.join("") +
               '<span class="ref-title">' + esc(p.title || short(item.raw, 80)) + "</span>" +
               '<span class="mono-sm">合规 ' + (c.score == null ? "—" : c.score) + "/100</span>" +
             "</div>" +

@@ -1,4 +1,4 @@
-﻿:root{
+:root{
   --paper:#F7F6F3; --surface:#FFFFFF; --ink:#161616; --ink-2:#4B4B4B; --muted:#8A8A8A;
   --line:#E4E1DA; --line-strong:#CFC9BE; --accent:#A63D2F; --accent-soft:#F3E7E3;
   --ok:#1F7A4D; --ok-soft:#E7F2EC; --warn:#B26A00; --warn-soft:#FBF0DF;
@@ -90,7 +90,7 @@ textarea:focus,input:focus{outline:none;border-color:var(--accent);background:va
 
 /* pills */
 .pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:2px 10px;font-size:11px;line-height:1.8;white-space:nowrap}
-.pill i{width:6px;height:6px;border-radius:50%;display:inline-block}
+.pill i{width:6px;height:6px;border-radius:50%;display:inline-block;background:currentColor}
 .pill.ok{background:var(--ok-soft);color:var(--ok)}
 .pill.warn{background:var(--warn-soft);color:var(--warn)}
 .pill.bad{background:var(--bad-soft);color:var(--bad)}
@@ -173,7 +173,7 @@ textarea:focus,input:focus{outline:none;border-color:var(--accent);background:va
 .roadmap h3{font-family:var(--serif);font-size:14px;margin:0 0 8px}
 .roadmap ul{margin:0;padding-left:18px;font-size:12px;color:var(--ink-2)}
 
-/* responsive */
+/* tablets + phones */
 @media(max-width:900px){
   .hero{grid-template-columns:1fr;gap:28px;padding-top:40px}
   .hero h1{font-size:30px}
@@ -186,12 +186,21 @@ textarea:focus,input:focus{outline:none;border-color:var(--accent);background:va
   .report-head{flex-direction:column;align-items:flex-start}
   .topbar-inner{height:auto;padding:12px 0;flex-wrap:wrap}
   .nav{gap:16px}
+  .how-grid{grid-template-columns:1fr!important}
 }
 @media(max-width:560px){
   .wrap{padding:0 16px}
   .stats{grid-template-columns:1fr 1fr}
   .riskpanel{grid-template-columns:1fr}
   .btn{padding:7px 12px}
+}
+
+/* wide tables scroll inside their panel instead of breaking the layout */
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.table-wrap .table{min-width:560px}
+.table-wrap .table.table-compact{min-width:0}
+@media(max-width:560px){
+  .col-progress{display:none}
 }
 
 /* print: the report doubles as a handout */
@@ -227,11 +236,25 @@ textarea:focus,input:focus{outline:none;border-color:var(--accent);background:va
 .batch-row{display:flex;align-items:center;gap:12px;padding:7px 0;border-bottom:1px solid var(--line);font-size:13px}
 .batch-row:last-child{border-bottom:none}
 .batch-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink-2)}
+.batch-summary{border:1px solid var(--line);border-left:3px solid var(--accent);background:var(--surface);padding:14px 16px;margin-bottom:12px}
+.batch-summary-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
+.batch-summary-head>span{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.batch-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:10px}
+.batch-stat{border-left:1px solid var(--line);padding-left:10px}
+.batch-stat:first-child{border-left:none;padding-left:0}
+.batch-stat b{display:block;font-family:var(--serif);font-size:24px;font-weight:600;line-height:1.1}
+.batch-stat b.ok{color:var(--ok)}
+.batch-stat b.warn{color:var(--warn)}
+.batch-stat b.bad{color:var(--bad)}
+.batch-stat b.muted{color:var(--unknown)}
+.batch-stat span{font-size:11px;color:var(--muted)}
+.batch-verdict{margin-top:10px;font-size:12px;color:var(--ink-2);line-height:1.7}
+.batch-verdict.muted{color:var(--muted)}
 
 /* phones: keep the page inside the viewport (nav is the usual culprit) */
 @media(max-width:560px){
   html,body{overflow-x:hidden}
-  .topbar-inner{padding:10px 0;gap:8px}
+  .topbar-inner{padding:10px 16px;gap:8px}
   .brand-text{font-size:14px}
   .brand-text small{display:none}
   .nav{gap:10px;font-size:12px;flex-wrap:wrap;justify-content:flex-end}

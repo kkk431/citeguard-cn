@@ -289,6 +289,46 @@ def _split_authors(seg: str) -> list[str]:
     return out
 
 
+def _split_apa_authors(raw: str) -> list[str]:
+    """Split a bare APA author list into whole names.
+
+    "Brehm, S. S., Miller, R. S., & Campbell, S. M." must become three authors;
+    splitting naively on every comma turns each set of initials into a separate
+    "author" and makes the verifier invent author mismatches.
+    """
+    raw = (raw or "").strip().rstrip(",，、;； ")
+    if not raw:
+        return []
+    # "and" / "&" join the last author, so they are author separators too.
+    raw = re.sub(r"\s+(?:and|&)\s+|\s*&\s*", ", ", raw, flags=re.I)
+    parts = [p.strip() for p in re.split(r"[,，、;；]", raw) if p.strip()]
+    out: list[str] = []
+    i = 0
+    while i < len(parts):
+        token = parts[i].strip().strip("&＆ ").strip()
+        if not token:
+            i += 1
+            continue
+        if _is_et_al(token):
+            i += 1
+            continue
+        if (
+            i + 1 < len(parts)
+            and _LATIN_SURNAME_RE.match(token)
+            and _INITIALS_RE.match(parts[i + 1].strip())
+        ):
+            out.append(f"{token}, {parts[i + 1].strip()}")
+            i += 2
+            continue
+        if out and re.match(r"^(?:Jr\.?|Sr\.?|II|III|IV)$", token):
+            out[-1] = f"{out[-1]}, {token}"
+            i += 1
+            continue
+        out.append(token)
+        i += 1
+    return out
+
+
 def _looks_like_initial_split(a: str, t: str) -> bool:
     """True for 'Joseph E. | Schwartz...' — a period after an initial, not the author/title boundary."""
     toks = a.split()
@@ -523,7 +563,7 @@ def _parse_apa(ref: "Reference", text: str) -> bool:
     if not rest or len(authors_raw) > 120:
         return False
     ref.year = int(m.group("year"))
-    ref.authors = [a for a in re.split(r"[,，、;；]|\s+and\s+|\s*&\s*", authors_raw) if a.strip()]
+    ref.authors = _split_apa_authors(authors_raw)
     if not ref.authors:
         ref.authors = [authors_raw]
 

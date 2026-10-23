@@ -1,4 +1,4 @@
-﻿"""Reference parsing for the styles Chinese papers actually mix together.
+"""Reference parsing for the styles Chinese papers actually mix together.
 
 GB/T entries (``[1] 作者. 题名[J]. 刊名, 年, 卷(期): 页码.``) and English
 entries (``Vol.``/``No.``/``pp.``/``In:``) often appear in the same list.
@@ -154,6 +154,32 @@ def test_apa_split_wins_over_sparse_numbered_lines():
 
     assert len(entries) == 3
     assert all("(" in e for e in entries)
+
+
+def test_apa_bare_author_list_keeps_whole_names():
+    """Bare APA lists (no [J] marker) must not split every initial into an author."""
+    ref = parse_reference(
+        "Brehm, S. S., Miller, R. S., Perlling, D., & Campbell, S. M. (2002). "
+        "Intimate Relationships. McGraw-Hill."
+    )
+
+    assert ref.authors == ["Brehm, S. S.", "Miller, R. S.", "Perlling, D.", "Campbell, S. M."]
+
+
+def test_apa_bare_author_list_with_and_separator():
+    ref = parse_reference(
+        "Tornatzky, L.G. and Fleischer, M. (1990) The Processes of Technological "
+        "Innovation. Lexington Books."
+    )
+
+    assert ref.authors == ["Tornatzky, L.G.", "Fleischer, M."]
+    assert ref.year == 1990
+
+
+def test_apa_bare_author_list_drops_et_al():
+    ref = parse_reference("Fowler, D., Freeman, D., Smith, B., et al. (2006). Brief Core Schema Scales. Springer.")
+
+    assert ref.authors == ["Fowler, D.", "Freeman, D.", "Smith, B."]
 
 
 def test_empty_type_marker_from_ocr_does_not_swallow_the_entry():

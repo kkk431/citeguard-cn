@@ -8,7 +8,7 @@
     <p class="lede" style="color:var(--muted);font-size:13px">支持 PDF / Word（.docx）/ TXT / MD · 单文件 ≤30 MB · 文件仅用于本次分析，分析后删除 · 可本地部署</p>
   </div>
   <aside class="preview" aria-hidden="true">
-    <div class="preview-head"><b>报告摘要</b><span>DEMO</span></div>
+    <div class="preview-head"><b>报告摘要</b><span>示例</span></div>
     <div class="preview-grid">
       <div><b>12</b><span>参考文献</span></div>
       <div><b style="color:var(--ok)">8</b><span>真实一致</span></div>
@@ -64,9 +64,9 @@
     <span class="hint">仅保留最近 6 条</span>
   </div>
   {% if recent %}
-  <div class="panel" style="padding:0;overflow:hidden">
-    <table class="table">
-      <thead><tr><th>文件</th><th>时间</th><th>状态</th><th>进度</th><th></th></tr></thead>
+  <div class="panel table-wrap" style="padding:0">
+    <table class="table table-compact">
+      <thead><tr><th>文件</th><th>时间</th><th>状态</th><th class="col-progress">进度</th><th></th></tr></thead>
       <tbody>
         {% for job in recent %}
         <tr>
@@ -78,7 +78,7 @@
             {% elif job.status == 'running' %}<span class="pill warn"><i></i>分析中</span>
             {% else %}<span class="pill unknown"><i></i>排队</span>{% endif %}
           </td>
-          <td style="min-width:120px"><div class="progress" style="margin:0"><i style="width:{{ job.progress or 0 }}%"></i></div></td>
+          <td class="col-progress" style="min-width:120px"><div class="progress" style="margin:0"><i style="width:{{ job.progress or 0 }}%"></i></div></td>
           <td style="text-align:right"><a class="btn btn-sm btn-ghost" href="/report/{{ job.id }}">查看</a></td>
         </tr>
         {% endfor %}
@@ -92,7 +92,7 @@
 
 <section class="wrap section">
   <div class="section-head"><h2>怎么工作</h2><span class="hint">三步</span></div>
-  <div class="panel" style="display:grid;grid-template-columns:repeat(3,1fr);gap:22px">
+  <div class="panel how-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:22px">
     <div>
       <div class="mono-sm" style="color:var(--accent)">01 / 解析</div>
       <div class="serif" style="font-size:16px;margin:6px 0">拆出每一条引文</div>
@@ -101,7 +101,7 @@
     <div>
       <div class="mono-sm" style="color:var(--accent)">02 / 核验</div>
       <div class="serif" style="font-size:16px;margin:6px 0">多源比对</div>
-      <div style="font-size:12px;color:var(--ink-2)">OpenAlex → Crossref → arXiv 三级回退，判真实一致 / 元数据偏差 / 疑似虚构。</div>
+      <div style="font-size:12px;color:var(--ink-2)">OpenAlex → Crossref → arXiv 三级回退；中文文献可优先用你导入的本地题录库，还能识别中国 DOI 注册平台。</div>
     </div>
     <div>
       <div class="mono-sm" style="color:var(--accent)">03 / 检查</div>
