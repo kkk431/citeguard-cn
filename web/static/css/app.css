@@ -247,3 +247,10 @@ textarea:focus,input:focus{outline:none;border-color:var(--accent);background:va
   .search{width:100%!important}
   .toolbar{flex-wrap:wrap;gap:8px}
 }
+
+/* report verdict summary */
+.verdict{padding:16px 18px;margin-bottom:16px;border-left:3px solid var(--accent)}
+.verdict-head{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.verdict-list{margin:0;padding-left:18px;font-size:13px;line-height:1.9;color:var(--ink-2)}
+.verdict-list b{color:var(--ink);font-weight:600}
+.verdict-list li::marker{color:var(--accent)}

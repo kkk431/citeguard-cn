@@ -959,34 +959,54 @@ def verify_many(
     on long reference lists. The default is conservative (4) to stay inside the
     polite-pool guidance of OpenAlex/Crossref; override with
     ``CITEGUARD_VERIFY_WORKERS``.
+
+    Identical references (same normalized title + year + DOI) are only looked up
+    once; theses commonly cite the same paper several times.
     """
     total = len(refs)
     if total == 0:
         return []
+
+    # Deduplicate the work while keeping the original order for results.
+    unique_refs: list[Reference] = []
+    slots: list[int] = []
+    key_to_slot: dict[tuple, int] = {}
+    for ref in refs:
+        key = (norm_title(ref.title), ref.year or 0, (ref.doi or "").lower())
+        slot = key_to_slot.get(key)
+        if slot is None:
+            slot = len(unique_refs)
+            key_to_slot[key] = slot
+            unique_refs.append(ref)
+        slots.append(slot)
+
     if workers is None:
-        workers = max(1, min(config.VERIFY_WORKERS, total))
-    results: list[Optional[VerifyResult]] = [None] * total
+        workers = max(1, min(config.VERIFY_WORKERS, len(unique_refs)))
+    unique_results: list[Optional[VerifyResult]] = [None] * len(unique_refs)
     lock = threading.Lock()
     done = 0
 
-    def one(index: int, ref: Reference) -> None:
+    def one(slot: int, ref: Reference) -> None:
         nonlocal done
         try:
             result = verify_reference(ref, use_arxiv=use_arxiv, library=library)
         except Exception:  # noqa: BLE001 - never let one bad entry kill the run
             result = VerifyResult(status="Unknown", notes=["verification crashed"])
         with lock:
-            results[index] = result
+            unique_results[slot] = result
             done += 1
             current = done
         if progress_cb is not None:
             try:
-                progress_cb(current, total)
+                progress_cb(min(current, total), total)
             except Exception:
                 pass
-        if progress and (current % 10 == 0 or current == total):
-            print(f"  verified {current}/{total}", flush=True)
+        if progress and (current % 10 == 0 or current == len(unique_refs)):
+            print(f"  verified {current}/{len(unique_refs)} unique", flush=True)
 
     with ThreadPoolExecutor(max_workers=workers) as pool:
-        list(pool.map(lambda pair: one(*pair), enumerate(refs)))
-    return [r if r is not None else VerifyResult(status="Unknown") for r in results]
+        list(pool.map(lambda pair: one(*pair), enumerate(unique_refs)))
+    resolved: list[VerifyResult] = [
+        r if r is not None else VerifyResult(status="Unknown") for r in unique_results
+    ]
+    return [resolved[slot] for slot in slots]

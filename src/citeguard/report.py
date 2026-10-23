@@ -134,6 +134,7 @@ def render_markdown(report: dict) -> str:
         f"- 参考文献：**{s['total']}** 条｜正文引注：**{s['intext_citations']}** 处",
         f"- 核验结果：真实一致 **{s['Exact']}**｜元数据偏差 **{s['Minor']}**｜疑似虚构/错配 **{s['Major']}**｜无法核验 **{s['Unknown']}**",
         f"- 新国标合规均分：**{s['avg_compliance']}/100**｜风险指数：**{s['risk_index']}**",
+        f"- 结论：{_markdown_verdict(s)}",
         "",
         "| # | 状态 | 支持度 | 题名 | 年 | 来源 | 证据 | 合规分 |",
         "|---|---|---|---|---|---|---|---|",
@@ -171,8 +172,38 @@ def render_markdown(report: dict) -> str:
     return "\n".join(lines)
 
 
+def _markdown_verdict(stats: dict) -> str:
+    """One-line conclusion for the markdown export."""
+    parts: list[str] = []
+    if stats.get("Major"):
+        parts.append(f"{stats['Major']} 条疑似虚构或错配，优先核对")
+    if stats.get("Minor"):
+        parts.append(f"{stats['Minor']} 条元数据与数据库不一致")
+    if stats.get("Unverified"):
+        parts.append(f"{stats['Unverified']} 条未找到匹配（不等于造假，建议人工核对）")
+    if stats.get("Unknown"):
+        parts.append(f"{stats['Unknown']} 条本次无法核验")
+    return "；".join(parts) if parts else "未发现疑似虚构、元数据偏差或格式错误（建议仍抽查 1–2 条）"
+
+
 def render_html(report: dict) -> str:
     s = report["stats"]
+    verdict_items: list[str] = []
+    if s.get("Major"):
+        verdict_items.append(f"<b>{s['Major']}</b> 条疑似虚构或错配，请优先核对")
+    if s.get("Minor"):
+        verdict_items.append(f"<b>{s['Minor']}</b> 条元数据与数据库不一致（年份/卷期/页/作者）")
+    if s.get("Unverified"):
+        verdict_items.append(
+            f"<b>{s['Unverified']}</b> 条在公开数据库未找到匹配（不等于造假；可导入本地题录库或人工核对）"
+        )
+    if not verdict_items:
+        verdict_items.append("未发现疑似虚构、元数据偏差或格式错误；建议仍人工抽查 1–2 条。")
+    verdict_html = (
+        '<div class="verdict"><div class="verdict-head">体检结论</div><ul>'
+        + "".join(f"<li>{item}</li>" for item in verdict_items)
+        + "</ul></div>"
+    )
     cards: list[str] = []
     for item in report["references"]:
         p = item["parsed"]
@@ -255,6 +286,9 @@ def render_html(report: dict) -> str:
   .stats {{ display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin:20px 0 28px; }}
   .stat {{ background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px; }}
   .stat b {{ display:block; font-size:24px; }}
+  .verdict {{ background:#fff; border:1px solid var(--line); border-left:4px solid #A63D2F; border-radius:12px; padding:14px 18px; margin:0 0 20px; }}
+  .verdict-head {{ font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:#A63D2F; margin-bottom:6px; }}
+  .verdict ul {{ margin:0; padding-left:18px; font-size:13px; line-height:1.8; color:#374151; }}
   .stat span {{ color:var(--muted); font-size:12px; }}
   .card {{ background:var(--card); border:1px solid var(--line); border-left:4px solid #6b7280; border-radius:12px; padding:16px 18px; margin:14px 0; }}
   .card-head {{ display:flex; align-items:center; gap:10px; margin-bottom:8px; }}
@@ -290,8 +324,10 @@ def render_html(report: dict) -> str:
     <div class="stat"><b style="color:#1f9d55">{s['Exact']}</b><span>真实且一致</span></div>
     <div class="stat"><b style="color:#d97706">{s['Minor']}</b><span>元数据偏差</span></div>
     <div class="stat"><b style="color:#dc2626">{s['Major']}</b><span>疑似虚构/错配</span></div>
+    <div class="stat"><b style="color:#6b7280">{s.get('Unverified', 0)}</b><span>未找到匹配</span></div>
     <div class="stat"><b>{s['avg_compliance']}</b><span>新国标合规均分</span></div>
   </div>
+  {verdict_html}
   {''.join(cards)}
   <footer>{html.escape(report['disclaimer'])}</footer>
 </div>

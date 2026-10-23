@@ -1,4 +1,4 @@
-﻿"""Concurrent verification: order preservation and progress reporting."""
+"""Concurrent verification: order preservation and progress reporting."""
 from __future__ import annotations
 
 import time
@@ -49,6 +49,27 @@ def test_single_failure_degrades_to_unknown(monkeypatch):
 
     assert results[2].status == "Unknown"
     assert sum(1 for r in results if r.status == "Exact") == len(REFS) - 1
+
+
+def test_duplicate_references_are_only_verified_once(monkeypatch):
+    calls: list[str] = []
+
+    def counting_verify(ref, use_arxiv=True, library=None):
+        calls.append(ref.title)
+        return mv.VerifyResult(status="Exact")
+
+    monkeypatch.setattr(mv, "verify_reference", counting_verify)
+    duplicate = Reference(raw="[1] 张三. 同一篇[J]. 期刊, 2020, 1(1): 1-9.", index=1, title="同一篇", year=2020)
+    refs = [
+        duplicate,
+        Reference(raw="[2] 李四. 另一篇[J]. 期刊, 2021, 1(1): 1-9.", index=2, title="另一篇", year=2021),
+        duplicate,
+    ]
+
+    results = mv.verify_many(refs, progress=False, workers=2)
+
+    assert len(calls) == 2  # the duplicate title/year pair is looked up once
+    assert [r.status for r in results] == ["Exact", "Exact", "Exact"]
 
 
 def test_empty_input_returns_empty():

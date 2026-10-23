@@ -73,7 +73,52 @@
     }, 1400);
   }
 
+  function renderVerdict(data) {
+    const box = document.getElementById("verdict");
+    if (!box) return;
+    const refs = data.references || [];
+    const byStatus = function (status) {
+      return refs.filter(function (r) {
+        return ((r.verify && r.verify.status) || "Unknown") === status;
+      }).map(function (r) { return r.index; });
+    };
+    const major = byStatus("Major");
+    const minor = byStatus("Minor");
+    const unverified = byStatus("Unverified");
+    const unknown = byStatus("Unknown");
+    const fmtErrors = refs.filter(hasFormatError).map(function (r) { return r.index; });
+    const items = [];
+    const idx = function (list) {
+      const head = list.slice(0, 5).map(function (i) { return "#" + i; }).join("、");
+      return list.length > 5 ? head + " 等" : head;
+    };
+    if (major.length) {
+      items.push("<b>" + major.length + "</b> 条疑似虚构/错配（" + idx(major) + "）——优先核对这几条");
+    }
+    if (minor.length) {
+      items.push("<b>" + minor.length + "</b> 条元数据与数据库不一致（年份/卷期/页/作者）");
+    }
+    if (unverified.length) {
+      items.push("<b>" + unverified.length + "</b> 条在公开数据库未找到匹配（不等于造假；可导入本地题录库或人工核对）");
+    }
+    if (unknown.length) {
+      items.push("<b>" + unknown.length + "</b> 条本次无法核验（数据源不可用）");
+    }
+    if (fmtErrors.length) {
+      items.push("<b>" + fmtErrors.length + "</b> 条存在格式错误（点上方「格式错误」筛选查看）");
+    }
+    if (!items.length) {
+      items.push("未发现疑似虚构、元数据偏差或格式错误；建议仍人工抽查 1–2 条。");
+    }
+    box.classList.remove("hidden");
+    box.innerHTML =
+      '<div class="verdict-head mono-sm">体检结论</div><ul class="verdict-list">' +
+      items.map(function (text) { return "<li>" + text + "</li>"; }).join("") +
+      "</ul>";
+  }
+
   function render(data) {
+    renderVerdict(data);
     const s = data.stats || {};
     const total = s.total || 1;
 

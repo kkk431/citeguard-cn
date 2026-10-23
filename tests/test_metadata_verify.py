@@ -235,6 +235,8 @@ def test_verify_many_reports_progress(monkeypatch):
     monkeypatch.setattr(mv, "verify_reference", fake_verify)
 
     refs = [_ref_without_doi(index=i) for i in range(1, 4)]
+    for i, ref in enumerate(refs, 1):
+        ref.title = f"不同题名 {i}"  # keep them distinct so nothing is deduplicated
     results = mv.verify_many(refs, progress=False, progress_cb=lambda i, n: seen.append((i, n)))
 
     assert [r.status for r in results] == ["Exact", "Exact", "Exact"]
