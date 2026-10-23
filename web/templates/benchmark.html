@@ -180,6 +180,16 @@
           <td class="mono-sm">30 条受控漂移（6 类 × 5）· 类型码识别 {{ '%.0f%%'|format(real.e4.type_recognition * 100) }}</td>
         </tr>
         {% endif %}
+        {% if real.scifact %}
+        <tr>
+          <td>外部公开基准 · SciFact 零样本</td>
+          <td class="mono-sm">
+            oracle 证据句 macro-F1 {{ '%.3f'|format(real.scifact.oracle_f1) if real.scifact.oracle_f1 is not none else '—' }}
+            · 整段摘要 {{ '%.3f'|format(real.scifact.abstract_f1) if real.scifact.abstract_f1 is not none else '—' }}
+          </td>
+          <td class="mono-sm">{{ real.scifact.n }} 条英文 claim（未训练/微调，四分类映射三分类）</td>
+        </tr>
+        {% endif %}
       </tbody>
     </table>
   </div>

@@ -1,0 +1,120 @@
+{
+  "dataset": "SciFact (Wadden et al., EMNLP 2020)",
+  "license": {
+    "claims_and_evidence": "CC BY 4.0",
+    "corpus_abstracts": "ODC-By 1.0",
+    "code": "Apache-2.0"
+  },
+  "note": "Zero-shot evaluation of the product judge (two-stage Chinese prompt) on English SciFact; partial is mapped to SUPPORT and no_evidence to NOT_ENOUGH_INFO. Not comparable with fine-tuned SciFact systems (no training on SciFact).",
+  "n_claims": 300,
+  "n_examples": 300,
+  "elapsed_sec": 0.8,
+  "results": {
+    "oracle": {
+      "macro_f1": 0.8224,
+      "accuracy": 0.8267,
+      "confusion": [
+        [
+          107,
+          4,
+          8
+        ],
+        [
+          12,
+          48,
+          3
+        ],
+        [
+          20,
+          5,
+          93
+        ]
+      ],
+      "per_class": {
+        "SUPPORT": {
+          "precision": 0.7698,
+          "recall": 0.8992,
+          "f1": 0.8295,
+          "support": 119,
+          "predicted": 139
+        },
+        "CONTRADICT": {
+          "precision": 0.8421,
+          "recall": 0.7619,
+          "f1": 0.8,
+          "support": 63,
+          "predicted": 57
+        },
+        "NOT_ENOUGH_INFO": {
+          "precision": 0.8942,
+          "recall": 0.7881,
+          "f1": 0.8378,
+          "support": 118,
+          "predicted": 104
+        }
+      },
+      "setting": "oracle",
+      "n": 300,
+      "raw_label_counts": {
+        "contradict": 57,
+        "partial": 86,
+        "no_evidence": 104,
+        "support": 53
+      },
+      "failures": 0
+    },
+    "abstract": {
+      "macro_f1": 0.7939,
+      "accuracy": 0.8,
+      "confusion": [
+        [
+          102,
+          5,
+          12
+        ],
+        [
+          13,
+          45,
+          5
+        ],
+        [
+          20,
+          5,
+          93
+        ]
+      ],
+      "per_class": {
+        "SUPPORT": {
+          "precision": 0.7556,
+          "recall": 0.8571,
+          "f1": 0.8031,
+          "support": 119,
+          "predicted": 135
+        },
+        "CONTRADICT": {
+          "precision": 0.8182,
+          "recall": 0.7143,
+          "f1": 0.7627,
+          "support": 63,
+          "predicted": 55
+        },
+        "NOT_ENOUGH_INFO": {
+          "precision": 0.8455,
+          "recall": 0.7881,
+          "f1": 0.8158,
+          "support": 118,
+          "predicted": 110
+        }
+      },
+      "setting": "abstract",
+      "n": 300,
+      "raw_label_counts": {
+        "support": 47,
+        "partial": 88,
+        "no_evidence": 110,
+        "contradict": 55
+      },
+      "failures": 0
+    }
+  }
+}

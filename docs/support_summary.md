@@ -32,6 +32,19 @@ true no_evidence         0        0           0           20
 
 > 与单段 v3 对比：旧版最大错误是「partial 被误判为 support」（7 条），两段式审计后降到 2 条；`contradict` 的 2 条误判来自反义关系在机器翻译摘要里不够显式（已知局限）。
 
+## 外部公开数据集验证（SciFact，英文，零样本）
+
+为避免「只在自己构造的中文集上有效」的质疑，同一套 judge（两段式中文 prompt）**未训练/未微调**直接迁移到英文公开基准 **SciFact**（Wadden et al., EMNLP 2020；dev 300 条 claim）：
+
+| 设置 | 输入 | n | Macro-F1 | Accuracy |
+|---|---|---|---|---|
+| oracle 证据句 | 标注证据句（+题名） | 300 | **0.8224** | 0.8267 |
+| 整段摘要 | 被引论文完整摘要 | 300 | **0.7939** | 0.8000 |
+
+- 映射：`support`/`partial` → `SUPPORT`，`contradict` → `CONTRADICT`，`no_evidence` → `NOT_ENOUGH_INFO`。
+- SciFact 许可证：claims/evidence **CC BY 4.0**、corpus abstracts **ODC-By 1.0**、code **Apache-2.0**；原始数据**不随仓库分发**，只提交评测脚本（`scripts/eval_support_scifact.py`）与结果（`data/experiments/scifact_support_results.json`）。
+- 说明：zero-shot 结果与 SciFact 上微调的系统不可直接比较；该实验用于验证方法的跨语言迁移能力。
+
 ## 数据集口径
 
 - **100 条** = support 40 / partial 25 / contradict 15 / no_evidence 20；`seed=20261022`，重建 SHA 一致（`4820014a…`）。

@@ -396,6 +396,14 @@ def _benchmark_context() -> dict:
             "n": e4["drift"].get("n"),
             "type_recognition": (e4.get("metrics") or {}).get("type_code_recognition", {}).get("rate"),
         }
+    scifact = _load_json(exp / "scifact_support_results.json")
+    if scifact and scifact.get("results"):
+        scifact_results = scifact["results"]
+        real["scifact"] = {
+            "n": scifact.get("n_claims"),
+            "oracle_f1": (scifact_results.get("oracle") or {}).get("macro_f1"),
+            "abstract_f1": (scifact_results.get("abstract") or {}).get("macro_f1"),
+        }
     return {"benchmark": benchmark, "support": support, "real": real}
 
 

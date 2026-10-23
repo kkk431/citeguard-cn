@@ -15,6 +15,7 @@
 | 1b | 同任务 DeepSeek 零样本基线 | 0.5159（acc 0.536） | 同上，prompt 冻结可复现 | `data/citebench_cn/deepseek_results.json` |
 | 2 | 引用支持度 macro-F1 | **0.9328**（acc 0.930） | ClaimSupport-CN 100 条（构造集），两段式 judge | `data/claimsupport_cn/results.json` |
 | 2b | 单段 judge / prompt v1 对比 | 0.9005 / 0.7951 | 同上，消融记录 | `docs/support_summary.md` |
+| 2c | 外部公开基准零样本（英文 SciFact） | **0.8224**（oracle 证据句）/ **0.7939**（整段摘要） | SciFact dev 300 条，未训练/微调，四分类映射三分类 | `data/experiments/scifact_support_results.json` |
 | 3 | 真实已发表文献被判「疑似虚构」 | **0 / 224** | 10 篇 OA 中文论文的参考文献（真实语料） | `data/experiments/verify_real.json` |
 | 3b | 真实文献判定分布（无本地库） | 真实一致 74 / 元数据偏差 50 / 未找到 100 / 疑似虚构 **0** | 同上 | 同上 |
 | 4 | 导入本地题录库后的可判定率 | **224 / 224（100%）**，字段偏差 2 条 | 库由 10 篇论文发布版参考文献构建 | `data/experiments/library_real.json` |
@@ -36,6 +37,7 @@
 | vs DeepSeek 零样本做引文真实性三分类 | 0.9684 vs 0.5159 | CiteBench-CN；说明「检索 + 规则 + 校验」比纯 LLM 判更可靠 |
 | vs 纯标题检索 / 纯 DOI 锚定（消融） | 0.9684 → 0.7744 / 0.8071 | 证明多源编排的必要性 |
 | vs 单段 LLM judge | 0.9005 → 0.9328 | 两段式覆盖审计的增益 |
+| 外部公开基准 SciFact（英文，zero-shot） | oracle 0.8224 / 摘要 0.7939 | 未训练/微调；判定方法可跨语言迁移 |
 | 本地题录库前 vs 后 | 可判定率 55% → 100% | 中文覆盖率的核心解法 |
 
 ## 演示动线（3 分钟）

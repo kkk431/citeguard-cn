@@ -33,20 +33,25 @@
 | arXiv API / 元数据 | 预印本元数据 | 可选 | 仅发送 DOI/arXiv ID | 元数据 CC0 1.0 |
 | DeepSeek API | 引用支持度 LLM judge | **可选**（未设 `DEEPSEEK_API_KEY` 时自动降级为「未检测」） | 发送引用句 + 被引论文摘要（≤1800 字），不发送论文正文 | 闭源商业 API，按服务条款使用；**不参与**真实性判定与格式合规判定；密钥只经环境变量注入，不写入仓库 |
 
-> 说明：本作品的「AI 判定」部分（引用支持度）通过 **OpenAI 兼容的 `/chat/completions` 接口**调用，接口地址与模型名均由 `DEEPSEEK_BASE_URL` / `DEEPSEEK_MODEL` 配置。因此可无缝切换到本地开源推理后端（如 vLLM / Ollama / llama.cpp 部署的 Qwen3-8B）。评测中统一使用 DeepSeek（temperature 0）以保证与基线可比，本队未在交付系统中绑定任何闭源模型权重。
+> 说明：本作品的「AI 判定」部分（引用支持度）通过 **OpenAI 兼容的 `/chat/completions` 接口**调用，接口地址与模型名均由 `DEEPSEEK_BASE_URL` / `DEEPSEEK_MODEL` 配置。因此可切换到本地开源推理后端（vLLM / Ollama / llama.cpp 部署的 Qwen3 等）。评测中统一使用 DeepSeek（temperature 0）以保证与基线可比；另有本地开源模型实测脚本 `scripts/eval_support_local.py`，证明该后端可完全离线运行（结果见 `data/experiments/`）。
+
+**可选扩展（默认不安装）**：
+
+| 组件 | 版本 | 许可证 | 用途 | 使用方式 | 来源 |
+|---|---|---|---|---|---|
+| rapidocr-onnxruntime | ≥1.3 | Apache-2.0（含 PP-OCR ONNX 模型，Apache-2.0） | 扫描件 PDF OCR 兜底 | 可选依赖 `requirements-ocr.txt`；未装时扫描件给出提示 | https://github.com/RapidAI/RapidOCR |
 
 ## 3. 候选/预留资源（本期**未集成、未分发**）
 
 | 资源 | 版本 | 许可证 | 原计划用途 | 本期状态 | 来源 |
 |---|---|---|---|---|---|
-| Qwen3-8B | 8B | Apache-2.0 | 本地开源 judge 后端（替换 §2 DeepSeek） | 未集成；接口已兼容，缺本地显卡/下载条件 | https://huggingface.co/Qwen/Qwen3-8B |
+| Qwen3-8B | 8B | Apache-2.0 | 本地开源 judge 后端（替换 §2 DeepSeek） | 接口已兼容；CPU 实测用 1.7B 验证离线可跑（见 §4.1），8B 建议 GPU | https://huggingface.co/Qwen/Qwen3-8B |
 | Qwen3-Embedding-0.6B | 0.6B | Apache-2.0 | 题名/摘要检索嵌入 | 未集成（当前用题名检索 + DOI 锚点） | https://huggingface.co/Qwen/Qwen3-Embedding-0.6B |
 | Qwen3-Reranker-0.6B | 0.6B | Apache-2.0 | 证据重排 | 未集成 | https://huggingface.co/Qwen/Qwen3-Reranker-0.6B |
 | bge-m3 | — | MIT | 多语嵌入 | 未集成 | https://huggingface.co/BAAI/bge-m3 |
-| PaddleOCR | — | Apache-2.0 | 扫描版 PDF OCR | 未集成（当前仅处理文本层 PDF） | https://github.com/PaddlePaddle/PaddleOCR |
 | Docling | — | MIT | PDF 结构化解 | 未集成 | https://github.com/docling-project/docling |
 
-> 以上资源均只用作**选型论证与路线图**，不计入「已使用开源模型」得分项，答辩时按「候选/未集成」表述。
+> 以上资源均只用作**选型论证与路线图**，不计入「已使用开源模型」得分项；已实测的部分见 §4.1。
 
 ## 4. 数据
 
@@ -57,6 +62,17 @@
 | arXiv 元数据 | CC0 1.0 | 预印本核验 | 不转存全文 | https://info.arxiv.org/help/api/tou.html |
 | **CiteBench-CN**（自建） | **CC-BY-4.0** | 中文引文真实性评测集，250 条 | 随仓库分发（仅 ID + 自建扰动 + 标签） | `data/citebench_cn/` |
 | **ClaimSupport-CN**（自建） | **CC-BY-4.0** | 中文引用支持度评测集，100 条 | 随仓库分发（claim + 短证据片段 + 来源 ID） | `data/claimsupport_cn/` |
+| **SciFact**（外部公开数据集） | claims/evidence **CC BY 4.0**；corpus abstracts **ODC-By 1.0**；code Apache-2.0 | 支持度 judge 的**外部英文零样本验证**（Wadden et al., EMNLP 2020） | **不随仓库分发**；只提交评测脚本与结果 JSON | https://github.com/allenai/scifact |
+
+### 4.1 SciFact 外部零样本验证（只评测，不再分发数据）
+
+| 设置 | 输入 | n | Macro-F1 | Accuracy | 说明 |
+|---|---|---|---|---|---|
+| oracle 证据句 | 标注的证据句（+题名） | 300 | **0.8224** | 0.8267 | 相当于「给定黄金 rationale」的标签预测 |
+| 整段摘要 | 被引论文完整摘要 | 300 | **0.7939** | 0.8000 | 更接近产品真实输入（更难） |
+
+- 映射：本产品四分类的 `support`/`partial` → SciFact `SUPPORT`，`contradict` → `CONTRADICT`，`no_evidence` → `NOT_ENOUGH_INFO`；zero-shot，**未在 SciFact 上训练/微调**，因此与 SciFact 微调系统不可直接比较。
+- 复现：下载 `https://scifact.s3-us-west-2.amazonaws.com/release/latest/data.tar.gz` → 解压到 `data/experiments/scifact_raw/`（git-ignored）→ `DEEPSEEK_API_KEY=... PYTHONPATH=src python scripts/eval_support_scifact.py`。
 
 ## 5. 许可证义务与履行方式
 
