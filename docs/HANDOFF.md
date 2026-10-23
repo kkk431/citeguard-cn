@@ -148,3 +148,11 @@ $env:DEEPSEEK_API_KEY = "..."   # 支持度判定用，不写进任何文件
 - 报告页新增「网页链接已核 / 链接失效·受限 / 页面标题不一致」标记与对应的提示文案；评测页 `/benchmark` 新增「网页型引文链接核验」行。
 - 测试 270 → **275 通过**（新增 SSRF 拦截、可达+标题一致判 Exact、死链只判未核实、标题不一致、blocked 回退 5 项）；README/`docs/real_data_eval.md` §3.1/`docs/ppt_numbers.md` 同步。
 
+## 11. 2026-10-24 凌晨：判定后端可插拔（v0.3.3）
+
+- 支持度 judge 从「只能 DeepSeek」改成**任意 OpenAI 兼容 `/chat/completions`**：`CITEGUARD_JUDGE_BASE_URL` / `CITEGUARD_JUDGE_MODEL` / `CITEGUARD_JUDGE_API_KEY`（未设置时回退 `DEEPSEEK_*`），可指向 Ollama / vLLM / llama.cpp-server / LM Studio 的本地开源模型，完全离线、无需商业 API。
+- 缓存按「模型 + prompt 版本」分键：换模型自动重判，不会复用别的模型的判定。
+- 可用性判定改为「有 key 或显式配置了本地 endpoint」；报告里未判定的原因文案同步更新。
+- 文档：README「引用支持度」给 Ollama 示例并诚实标注小模型质量差异；`docs/deployment.md` §1.4、`.env.example`、`THIRD_PARTY_NOTICES.md` §1 同步。
+- 测试 275 → **278 通过**（本地 endpoint 无 key 可判、模型切换不复用缓存、无 endpoint 降级「未检测」）。
+

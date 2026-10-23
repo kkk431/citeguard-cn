@@ -114,6 +114,19 @@ export DEEPSEEK_API_KEY=...   # 只在本地/服务器环境中设置，不要�
 PYTHONPATH=src python3 -m uvicorn web.app:app --port 8000
 ```
 
+判定后端是**可插拔的 OpenAI 兼容接口**：指向本地开源模型即可完全离线判定，不需要任何商业 API（已用 Qwen3-1.7B 在 CPU 上实测跑通，见 `data/experiments/support_local_qwen3_1.7b_simple.json`）：
+
+```bash
+# 例：Ollama 起一个开源模型（任意 OpenAI 兼容服务：vLLM / llama.cpp-server / LM Studio 同理）
+ollama serve
+ollama pull qwen2.5:7b-instruct
+export CITEGUARD_JUDGE_BASE_URL=http://127.0.0.1:11434/v1
+export CITEGUARD_JUDGE_MODEL=qwen2.5:7b-instruct
+# 本地服务通常不需要 key；要鉴权时再设 CITEGUARD_JUDGE_API_KEY
+```
+
+> 小模型（1.7B 级）在 CPU 上 20 条试点 macro-F1 0.7059（精简 prompt，46 s/条），明显低于 DeepSeek 的 0.9328——离线可用 ≠ 质量相同；生产环境建议 8B 级模型 + GPU，或继续用 API judge。判定结果按「模型 + prompt 版本」分键缓存，换模型会自动重判。
+
 ## 目录
 
 ```

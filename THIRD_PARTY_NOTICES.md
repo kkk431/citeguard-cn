@@ -33,7 +33,7 @@
 | arXiv API / 元数据 | 预印本元数据 | 可选 | 仅发送 DOI/arXiv ID | 元数据 CC0 1.0 |
 | DeepSeek API | 引用支持度 LLM judge | **可选**（未设 `DEEPSEEK_API_KEY` 时自动降级为「未检测」） | 发送引用句 + 被引论文摘要（≤1800 字），不发送论文正文 | 闭源商业 API，按服务条款使用；**不参与**真实性判定与格式合规判定；密钥只经环境变量注入，不写入仓库 |
 
-> 说明：本作品的「AI 判定」部分（引用支持度）通过 **OpenAI 兼容的 `/chat/completions` 接口**调用，接口地址与模型名均由 `DEEPSEEK_BASE_URL` / `DEEPSEEK_MODEL` 配置。因此可切换到本地开源推理后端（vLLM / Ollama / llama.cpp 部署的 Qwen3 等）。评测中统一使用 DeepSeek（temperature 0）以保证与基线可比；另有本地开源模型实测脚本 `scripts/eval_support_local.py`，证明该后端可完全离线运行（结果见 `data/experiments/`）。
+> 说明：本作品的「AI 判定」部分（引用支持度）通过 **OpenAI 兼容的 `/chat/completions` 接口**调用，接口地址、模型名与 key 均可配置（`CITEGUARD_JUDGE_BASE_URL` / `CITEGUARD_JUDGE_MODEL` / `CITEGUARD_JUDGE_API_KEY`，未设置时回退 `DEEPSEEK_*`）。因此可切换到本地开源推理后端（vLLM / Ollama / llama.cpp 部署的 Qwen3 等）。评测中统一使用 DeepSeek（temperature 0）以保证与基线可比；另有本地开源模型实测脚本 `scripts/eval_support_local.py`，证明该后端可完全离线运行（结果见 `data/experiments/`）。
 
 **可选扩展（默认不安装）**：
 

@@ -72,6 +72,47 @@ def test_judge_with_key_and_mocked_api(monkeypatch, isolated_cache):
     assert calls[0]["json"]["temperature"] == 0
 
 
+def test_judge_can_run_against_local_open_source_server(monkeypatch, isolated_cache):
+    """Any OpenAI-compatible server works; a local one needs no API key."""
+    monkeypatch.setattr(config, "DEEPSEEK_API_KEY", "")
+    monkeypatch.setenv("CITEGUARD_JUDGE_BASE_URL", "http://127.0.0.1:11434/v1")
+    monkeypatch.setenv("CITEGUARD_JUDGE_MODEL", "qwen2.5:7b-instruct")
+    monkeypatch.setattr(sp.config, "SUPPORT_AUDIT", False)
+    calls = install_fake_post(monkeypatch, sp, lambda url, body: deepseek_support_response("support"))
+
+    assert sp.judge_available() is True
+    out = sp.judge_support("引用句", "摘要内容")
+
+    assert out is not None and out["label"] == "support"
+    assert calls[0]["url"] == "http://127.0.0.1:11434/v1/chat/completions"
+    assert calls[0]["json"]["model"] == "qwen2.5:7b-instruct"
+    assert "Authorization" not in calls[0]["headers"]
+
+
+def test_judge_unavailable_without_key_or_local_endpoint(monkeypatch):
+    monkeypatch.setattr(config, "DEEPSEEK_API_KEY", "")
+    monkeypatch.delenv("CITEGUARD_JUDGE_BASE_URL", raising=False)
+    monkeypatch.delenv("CITEGUARD_JUDGE_API_KEY", raising=False)
+
+    assert sp.judge_available() is False
+    assert sp.judge_support("引用句", "摘要内容") is None
+
+
+def test_support_cache_is_namespaced_by_judge_model(monkeypatch, isolated_cache):
+    """Switching judge models must not reuse another model's cached verdicts."""
+    monkeypatch.setattr(config, "DEEPSEEK_API_KEY", "sk-test")
+    monkeypatch.setattr(sp.config, "SUPPORT_AUDIT", False)
+    calls = install_fake_post(monkeypatch, sp, lambda url, body: deepseek_support_response("support"))
+
+    monkeypatch.setenv("CITEGUARD_JUDGE_MODEL", "model-a")
+    assert sp.judge_support("同一引用句", "同一摘要")["label"] == "support"
+    monkeypatch.setenv("CITEGUARD_JUDGE_MODEL", "model-b")
+    assert sp.judge_support("同一引用句", "同一摘要")["label"] == "support"
+
+    assert len(calls) == 2  # second model re-judged instead of hitting model-a's cache
+    assert {c["json"]["model"] for c in calls} == {"model-a", "model-b"}
+
+
 def _support_then_audit(audit_payload: dict):
     seen = {"n": 0}
 

@@ -17,7 +17,7 @@ from .metadata_verify import VerifyResult, local_library_verdict, verify_many
 from .pdf_extract import extract_text, split_references
 from .reference_parser import parse_intext_citations, parse_reference_list
 from .report import build_report, save_report
-from .support import build_claims, judge_support
+from .support import build_claims, judge_available, judge_support
 
 Progress = Optional[Callable[[int, str], None]]
 
@@ -118,7 +118,7 @@ def _judge_support(
     step: Callable[[int, str], None],
 ) -> tuple[list[dict | None], dict]:
     """Attach a support verdict (or a reason why there is none) to each ref."""
-    judge_available = bool(config.DEEPSEEK_API_KEY)
+    has_judge = judge_available()
     claims = build_claims(body, intext, refs)
     results: list[dict | None] = []
     judged = 0
@@ -161,7 +161,7 @@ def _judge_support(
                     "evidence": "",
                     "claim": claim_text,
                 }
-            elif not judge_available:
+            elif not has_judge:
                 res = {
                     "label": "not_checked",
                     "confidence": 0.0,
@@ -189,7 +189,7 @@ def _judge_support(
         )
 
     meta = {
-        "judge_available": judge_available,
+        "judge_available": has_judge,
         "cap": cap,
         "candidates": candidates,
         "judged": judged,

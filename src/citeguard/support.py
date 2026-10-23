@@ -3,17 +3,19 @@
 Pipeline:
 1. Extract the sentence around each in-text citation.
 2. Reconstruct the cited paper's abstract from OpenAlex / Crossref metadata.
-3. Ask a judge model (DeepSeek API, optional) for a 4-way label:
+3. Ask a judge model for a 4-way label:
    support / partial / contradict / no_evidence.
 
-The judge is intentionally optional: if ``DEEPSEEK_API_KEY`` is not set the
-module returns ``None`` and the report marks support as "not checked". This
-keeps the open-source core runnable without any third-party key.
+The judge is intentionally optional and pluggable: ``DEEPSEEK_API_KEY`` (or any
+OpenAI-compatible local server via ``CITEGUARD_JUDGE_BASE_URL``) enables it; with
+no endpoint configured the module returns ``None`` and the report marks support
+as "not checked", so the open-source core runs without any third-party key.
 """
 from __future__ import annotations
 
 import hashlib
 import json
+import os
 import re
 import time
 from typing import Optional
@@ -115,15 +117,37 @@ def build_claims(body: str, intext: list[InTextCitation], refs: list[Reference])
     return claims
 
 
+def judge_endpoint() -> tuple[str, str, str]:
+    """Where the support judge runs: any OpenAI-compatible `/chat/completions`.
+
+    Defaults to DeepSeek. Point ``CITEGUARD_JUDGE_BASE_URL`` / ``_MODEL`` at a
+    local server (Ollama, vLLM, LM Studio, llama.cpp-server) to judge with an
+    open-source model and no third-party API; ``CITEGUARD_JUDGE_API_KEY`` is
+    optional in that case.
+    """
+    base = os.environ.get("CITEGUARD_JUDGE_BASE_URL") or config.DEEPSEEK_BASE_URL
+    model = os.environ.get("CITEGUARD_JUDGE_MODEL") or config.DEEPSEEK_MODEL
+    key = os.environ.get("CITEGUARD_JUDGE_API_KEY") or config.DEEPSEEK_API_KEY
+    return base.rstrip("/"), model, key
+
+
+def judge_available() -> bool:
+    """True when a judge endpoint is configured (a local server needs no key)."""
+    _base, _model, key = judge_endpoint()
+    return bool(key or os.environ.get("CITEGUARD_JUDGE_BASE_URL"))
+
+
 def _cache_path(claim: str, abstract: str):
-    h = hashlib.md5((claim + "||" + abstract).encode("utf-8")).hexdigest()
+    model = judge_endpoint()[1]
+    h = hashlib.md5((model + "||" + claim + "||" + abstract).encode("utf-8")).hexdigest()
     d = config.CACHE_DIR / "support" / f"v{PROMPT_VERSION}"
     d.mkdir(parents=True, exist_ok=True)
     return d / f"{h}.json"
 
 
 def _audit_cache_path(claim: str, abstract: str):
-    h = hashlib.md5(("AUDIT::" + claim + "||" + abstract).encode("utf-8")).hexdigest()
+    model = judge_endpoint()[1]
+    h = hashlib.md5(("AUDIT::" + model + "||" + claim + "||" + abstract).encode("utf-8")).hexdigest()
     d = config.CACHE_DIR / "support" / f"v{PROMPT_VERSION}"
     d.mkdir(parents=True, exist_ok=True)
     return d / f"audit-{h}.json"
@@ -131,14 +155,15 @@ def _audit_cache_path(claim: str, abstract: str):
 
 def _chat_json(prompt: str, user: str, max_tokens: int = 400) -> Optional[dict]:
     """One judge call that returns the first JSON object in the reply."""
+    base, model, key = judge_endpoint()
+    headers = {"Content-Type": "application/json"}
+    if key:
+        headers["Authorization"] = f"Bearer {key}"
     resp = requests.post(
-        config.DEEPSEEK_BASE_URL.rstrip("/") + "/chat/completions",
-        headers={
-            "Authorization": f"Bearer {config.DEEPSEEK_API_KEY}",
-            "Content-Type": "application/json",
-        },
+        base + "/chat/completions",
+        headers=headers,
         json={
-            "model": config.DEEPSEEK_MODEL,
+            "model": model,
             "messages": [
                 {"role": "system", "content": "你是严谨的学术引文核验员。"},
                 {"role": "user", "content": prompt + "\n\n" + user},
@@ -193,7 +218,7 @@ def judge_support(claim: str, abstract: str, title: str = "", doi: str = "") -> 
             "reason": "未获取到被引论文摘要，无法判断",
             "evidence": "",
         }
-    if not config.DEEPSEEK_API_KEY:
+    if not judge_available():
         return None
 
     cp = _cache_path(claim, abstract)
