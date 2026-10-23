@@ -126,6 +126,8 @@ textarea:focus,input:focus{outline:none;border-color:var(--accent);background:va
 .chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:4px 12px;font-size:12px;color:var(--ink-2);cursor:pointer}
 .chip:hover{border-color:var(--line-strong)}
 .chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.chip.chip-sup{color:var(--bad);border-color:var(--bad-soft)}
+.chip.chip-sup.on{background:var(--bad);border-color:var(--bad);color:#fff}
 .select{border:1px solid var(--line);background:var(--surface);border-radius:var(--radius-sm);padding:6px 10px;font-size:12px;color:var(--ink-2)}
 .ref-list{display:flex;flex-direction:column;gap:12px}
 .ref{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--unknown);border-radius:var(--radius);padding:16px 18px}

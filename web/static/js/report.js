@@ -28,7 +28,7 @@
     not_checked: { label: "未检测", cls: "unknown" },
   };
   const SUPPORT_ORDER = ["support", "partial", "contradict", "no_evidence", "not_checked"];
-  const state = { filter: "all", q: "", sort: "index", view: "cards", needs: false, fmt: false };
+  const state = { filter: "all", q: "", sort: "index", view: "cards", needs: false, fmt: false, sup: "" };
 
   if (!report) {
     pollJob();
@@ -87,13 +87,35 @@
     const unverified = byStatus("Unverified");
     const unknown = byStatus("Unknown");
     const fmtErrors = refs.filter(hasFormatError).map(function (r) { return r.index; });
+    const supportRefs = refs.filter(function (r) {
+      const label = (r.support && r.support.label) || "";
+      return label === "contradict" || label === "partial";
+    });
+    const contradictRefs = supportRefs.filter(function (r) {
+      return (r.support && r.support.label) === "contradict";
+    });
     const items = [];
     const idx = function (list) {
       const head = list.slice(0, 5).map(function (i) { return "#" + i; }).join("、");
       return list.length > 5 ? head + " 等" : head;
     };
+    if (contradictRefs.length) {
+      items.push(
+        "<b>" + contradictRefs.length + "</b> 条引用与被引原文矛盾（" +
+        idx(contradictRefs.map(function (r) { return r.index; })) + "）——正文论点可能站不住，优先核对"
+      );
+    }
     if (major.length) {
       items.push("<b>" + major.length + "</b> 条疑似虚构/错配（" + idx(major) + "）——优先核对这几条");
+    }
+    const partialRefs = supportRefs.filter(function (r) {
+      return (r.support && r.support.label) === "partial";
+    });
+    if (partialRefs.length) {
+      items.push(
+        "<b>" + partialRefs.length + "</b> 条引用仅被原文部分支持（" +
+        idx(partialRefs.map(function (r) { return r.index; })) + "）——建议核对表述是否夸大"
+      );
     }
     if (minor.length) {
       items.push("<b>" + minor.length + "</b> 条元数据与数据库不一致（年份/卷期/页/作者）");
@@ -213,32 +235,57 @@
     }
 
     const formatErrors = (data.references || []).filter(hasFormatError).length;
+    const supportCounts = s.support || null;
     const chips = [["all", "全部", s.total || 0]].concat(
       ["Exact", "Minor", "Major", "Unverified", "Unknown"].map(function (k) {
         return [k, STATUS[k].label, s[k] || 0];
       })
     );
     const chipEl = document.getElementById("chips");
+    const supportChips = [];
+    if (supportCounts) {
+      if (supportCounts.contradict) {
+        supportChips.push(
+          '<button class="chip chip-sup' + (state.sup === "contradict" ? " on" : "") +
+          '" data-sup="contradict" title="只显示与引用句矛盾的条目">支持度矛盾 ' + supportCounts.contradict + "</button>"
+        );
+      }
+      if (supportCounts.partial) {
+        supportChips.push(
+          '<button class="chip chip-sup' + (state.sup === "partial" ? " on" : "") +
+          '" data-sup="partial" title="只显示仅被部分支持的条目">部分支持 ' + supportCounts.partial + "</button>"
+        );
+      }
+    }
     chipEl.innerHTML =
       chips
         .map(function (c) {
-          return '<button class="chip' + (state.filter === c[0] && !state.needs && !state.fmt ? " on" : "") + '" data-filter="' + c[0] + '">' + c[1] + " " + c[2] + "</button>";
+          return '<button class="chip' + (state.filter === c[0] && !state.needs && !state.fmt && !state.sup ? " on" : "") + '" data-filter="' + c[0] + '">' + c[1] + " " + c[2] + "</button>";
         })
         .join("") +
-      '<button class="chip chip-needs' + (state.needs ? " on" : "") + '" data-needs="1" title="只显示疑似虚构/元数据偏差/格式有问题的条目">仅看需处理</button>' +
+      supportChips.join("") +
+      '<button class="chip chip-needs' + (state.needs ? " on" : "") + '" data-needs="1" title="只显示疑似虚构/元数据偏差/格式有问题/引用矛盾或部分支持的条目">仅看需处理</button>' +
       '<button class="chip' + (state.fmt ? " on" : "") + '" data-fmt="1" title="只显示存在 error 级格式问题的条目">格式错误 ' + formatErrors + "</button>";
     chipEl.querySelectorAll(".chip").forEach(function (btn) {
       btn.addEventListener("click", function () {
         if (btn.dataset.needs) {
           state.needs = !state.needs;
           state.fmt = false;
+          state.sup = "";
         } else if (btn.dataset.fmt) {
           state.fmt = !state.fmt;
           state.needs = false;
+          state.sup = "";
+        } else if (btn.dataset.sup) {
+          state.sup = state.sup === btn.dataset.sup ? "" : btn.dataset.sup;
+          state.needs = false;
+          state.fmt = false;
+          state.filter = "all";
         } else {
           state.filter = btn.dataset.filter;
           state.needs = false;
           state.fmt = false;
+          state.sup = "";
         }
         render(data);
         apply(data);
@@ -272,6 +319,7 @@
         return;
       } else if (e.key === "f") {
         state.needs = !state.needs;
+        state.sup = "";
         render(data);
         apply(data);
       } else if (e.key === "t") {
@@ -312,8 +360,21 @@
 
   function needsAttention(item) {
     const status = (item.verify && item.verify.status) || "Unknown";
+    const sup = (item.support && item.support.label) || "";
+    if (sup === "contradict" || sup === "partial") return true;
     if (status !== "Exact") return true;
     return hasFormatError(item);
+  }
+
+  function riskScore(item) {
+    const status = (item.verify && item.verify.status) || "Unknown";
+    const sup = (item.support && item.support.label) || "";
+    let score = RISK[status] || 0;
+    // A citation whose source contradicts the sentence is more urgent than a
+    // metadata drift: the paper's argument, not just the entry, may be wrong.
+    if (sup === "contradict") score += 4;
+    else if (sup === "partial") score += 1;
+    return score;
   }
 
   function suggestionText(data) {
@@ -331,13 +392,23 @@
       const p = item.parsed || {};
       const v = item.verify || {};
       const c = item.compliance || {};
+      const sup = item.support || {};
+      const supLabel = sup.label || "";
       const issues = (c.issues || []).filter(function (i) { return i.level === "error"; });
       const status = (v.status || "Unknown");
-      if (status === "Exact" && !issues.length) return;
+      const supportProblem = supLabel === "contradict" || supLabel === "partial";
+      if (status === "Exact" && !issues.length && !supportProblem) return;
       const head = "[" + (item.index || "") + "] " + (p.title || item.raw || "");
       lines.push(head);
       if (status !== "Exact") {
         lines.push("  状态：" + status + (v.mismatches && v.mismatches.length ? "（" + v.mismatches.join(", ") + "）" : ""));
+      }
+      if (supportProblem) {
+        lines.push(
+          "  支持度：" + (supLabel === "contradict" ? "与引用句矛盾" : "仅部分支持") +
+          (sup.reason ? " —— " + sup.reason : "")
+        );
+        if (sup.evidence) lines.push("  证据：" + sup.evidence);
       }
       issues.forEach(function (i) {
         lines.push("  格式：" + i.message + (i.suggestion ? " → " + i.suggestion : ""));
@@ -350,6 +421,10 @@
   function matches(item, data) {
     if (state.fmt && !hasFormatError(item)) return false;
     if (state.needs && !needsAttention(item)) return false;
+    if (state.sup) {
+      const label = (item.support && item.support.label) || "";
+      if (label !== state.sup) return false;
+    }
     if (state.filter !== "all") {
       const st = (item.verify && item.verify.status) || "Unknown";
       if (st !== state.filter) return false;
@@ -374,7 +449,7 @@
     });
     if (state.sort === "risk") {
       items.sort(function (a, b) {
-        return (RISK[(b.verify && b.verify.status) || "Unknown"] || 0) - (RISK[(a.verify && a.verify.status) || "Unknown"] || 0);
+        return riskScore(b) - riskScore(a);
       });
     } else if (state.sort === "compliance") {
       items.sort(function (a, b) {

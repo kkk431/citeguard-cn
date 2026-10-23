@@ -174,11 +174,16 @@ def render_markdown(report: dict) -> str:
 
 def _markdown_verdict(stats: dict) -> str:
     """One-line conclusion for the markdown export."""
+    support = stats.get("support") or {}
     parts: list[str] = []
     if stats.get("Major"):
         parts.append(f"{stats['Major']} 条疑似虚构或错配，优先核对")
+    if support.get("contradict"):
+        parts.append(f"{support['contradict']} 条引用与被引原文矛盾，正文论点可能站不住")
     if stats.get("Minor"):
         parts.append(f"{stats['Minor']} 条元数据与数据库不一致")
+    if support.get("partial"):
+        parts.append(f"{support['partial']} 条引用仅被部分支持")
     if stats.get("Unverified"):
         parts.append(f"{stats['Unverified']} 条未找到匹配（不等于造假，建议人工核对）")
     if stats.get("Unknown"):
@@ -188,11 +193,18 @@ def _markdown_verdict(stats: dict) -> str:
 
 def render_html(report: dict) -> str:
     s = report["stats"]
+    support = s.get("support") or {}
     verdict_items: list[str] = []
     if s.get("Major"):
         verdict_items.append(f"<b>{s['Major']}</b> 条疑似虚构或错配，请优先核对")
+    if support.get("contradict"):
+        verdict_items.append(
+            f"<b>{support['contradict']}</b> 条引用与被引原文矛盾（正文论点可能站不住），请优先核对"
+        )
     if s.get("Minor"):
         verdict_items.append(f"<b>{s['Minor']}</b> 条元数据与数据库不一致（年份/卷期/页/作者）")
+    if support.get("partial"):
+        verdict_items.append(f"<b>{support['partial']}</b> 条引用仅被原文部分支持，建议核对表述是否夸大")
     if s.get("Unverified"):
         verdict_items.append(
             f"<b>{s['Unverified']}</b> 条在公开数据库未找到匹配（不等于造假；可导入本地题录库或人工核对）"

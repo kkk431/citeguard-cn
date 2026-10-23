@@ -71,6 +71,13 @@ def test_build_report_support_counts():
     assert report_none["stats"]["support"]["not_checked"] == 1
 
 
+def test_markdown_verdict_mentions_contradictions():
+    md = render_markdown(_report(support=[{"label": "contradict"}]))
+    assert "矛盾" in md
+    html = render_html(_report(support=[{"label": "contradict"}]))
+    assert "矛盾" in html
+
+
 def test_render_markdown_contains_table_rows():
     md = render_markdown(_report())
     assert md.startswith("# 引证卫士 CiteGuard-CN")
