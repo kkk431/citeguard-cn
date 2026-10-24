@@ -29,7 +29,7 @@ $env:PYTHONPATH = "src;.pylibs"; $env:PYTHONIOENCODING = "utf-8"
 $env:DEEPSEEK_API_KEY = "..."   # 支持度判定用，不写进任何文件
 
 # 自检
-& $py -m pytest tests -q                       # 297 项，全离线
+& $py -m pytest tests -q                       # 299 项，全离线
 
 # 起工作台（演示/自用）
 & $py -m uvicorn web.app:app --host 127.0.0.1 --port 8010
@@ -39,7 +39,7 @@ $env:DEEPSEEK_API_KEY = "..."   # 支持度判定用，不写进任何文件
 
 ## 3. 当前状态（一句话）
 
-输入解析（PDF/Word/扫描件 OCR）、GB/T 格式检查（E4 漂移 29/30）、引文真实性核验（在线 + 本地题录库 + 中国 DOI 平台）、支持度判定（两段式 macro-F1 0.9328）、报告与导出全部可用；297 项测试通过。已知边界写在 `docs/plan.md`。
+输入解析（PDF/Word/扫描件 OCR）、GB/T 格式检查（E4 漂移 29/30）、引文真实性核验（在线 + 本地题录库 + 中国 DOI 平台）、支持度判定（两段式 macro-F1 0.9328）、报告与导出全部可用；299 项测试通过。已知边界写在 `docs/plan.md`。
 
 ## 4. 明天优先级
 
@@ -185,3 +185,10 @@ $env:DEEPSEEK_API_KEY = "..."   # 支持度判定用，不写进任何文件
 - 交付包 `dist/citeguard-cn-0.3.5.zip`（1.3 MB，163 个文件）已重建，排除第三方原始语料。
 - 修复中文作者误报：GB/T 检查曾把两字中文名（如「迟妍」）当成「只剩缩写」并跳过作者比对；现在只对拉丁缩写或单字中文判为残缺，新增两个用例。
 - 测试 **295 → 297 passed / 2 skipped**。
+
+## 14. 2026-10-24 傍晚：支持度判定的匹配度护栏（v0.3.6）
+
+- 修复「匹配错论文却给出支持度结论」的假阳性：产品路径原来只要 `verify` 有摘要就调用 judge，即使标题相似度只有 0.4（Crossref 里的另一篇论文）。现在只有 `Exact/Minor` 或 `title_sim >= 0.90`（`CITEGUARD_SUPPORT_MIN_TITLE_SIM` 可调）才判定；弱匹配显示「题录匹配度不足（标题相似度 X），无法确认摘要属于同一篇论文」，并计入 `support_meta.skipped_unreliable_match`。
+- 实测（扫描件 7 页，作业 `ec5bb85fc7b3`）：23 条引文，修复前有 9 条基于错误摘要给出 `no_evidence/partial`；修复后 21 条弱匹配全部为「未检测（匹配度不足）」，2 条正文未引用，0 条误判。对照用例（DOI 精确命中）仍正常判定 `support`，说明护栏没有误伤可靠匹配。
+- 报告页汇总提示新增「题录匹配度不足 N 条」；README、`docs/support_summary.md` 同步说明，评测口径不变（ClaimSupport-CN 0.9328 / 0.930）。
+- 测试 **297 → 299 passed / 2 skipped**（新增弱匹配跳过、弱匹配高相似度仍判定两个用例）；`verify_artifacts.py` 72/72；版本 **0.3.6**。

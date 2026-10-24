@@ -109,6 +109,8 @@ PYTHONPATH=src:.pylibs python3 scripts/evaluate_citebench.py --limit 0
 
 支持度判定需要一个 LLM judge。默认读环境变量 `DEEPSEEK_API_KEY`；没有 key 时自动降级为「未检测」，不影响真实性/格式核验。
 
+判定只在**题录匹配可靠时**才进行：状态为 `Exact/Minor`，或标题相似度 ≥ 0.90（`CITEGUARD_SUPPORT_MIN_TITLE_SIM` 可调）。原因是摘要必须属于被引论文本身——相似度 0.4 的 Crossref 记录往往是另一篇论文，拿它判「无证据」会把匹配失败误报成引用问题。这类条目会显示「题录匹配度不足」，修复题录或导入带摘要的本地库后重跑即可。
+
 ```bash
 export DEEPSEEK_API_KEY=...   # 只在本地/服务器环境中设置，不要提交
 PYTHONPATH=src python3 -m uvicorn web.app:app --port 8000
@@ -267,6 +269,7 @@ PYTHONPATH=src python3 scripts/enrich_library_abstracts.py
 
 - 中文文献在 OpenAlex / Crossref 的覆盖率有限：约 48% 的中文参考文献会显示「未找到匹配记录」——**导入本地题录库可以把这一比例降到 0**（见上节，20 篇测试中 409/409 可判定），不导入时需要人工核对。
 - 摘要覆盖更少，部分条目支持度会显示「未检测」；若命中的是本地题录，导出题录时勾选「摘要/Abstract」再导入，支持度才能判定。
+- 匹配度不足（标题相似度 < 0.90 且非 Exact/Minor）的条目不会做支持度判定：此时摘要是另一篇论文的可能性很高，宁可显示「未检测」也不输出误导性的「无证据」。
 - 支持度判定默认只判前 30 条有摘要且被正文引用的文献（可在上传时选 10/30/80/全部或关闭），未判定的条目会写明原因。
 - 扫描件可自动 OCR（可选依赖 `rapidocr-onnxruntime`）；OCR 会偶发字符错误（例如把 `[J]` 识别成 `[]`），此类条目会保留题目/来源但标注「类型码丢失」，请人工核对。
 - 两栏排版、复杂表格版式仍可能影响抽取（已按页面中线做两栏切分，但非通用版面分析）。

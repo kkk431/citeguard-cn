@@ -135,11 +135,20 @@ def _judge_support(
     skipped_by_cap = 0
     skipped_no_abstract = 0
     skipped_no_claim = 0
+    skipped_unreliable_match = 0
 
     for i, (ref, ver) in enumerate(zip(refs, verify_results)):
         claim_text = claims.get(ref.index)
         abstract = (ver.best.abstract if ver and ver.best else "") or ""
         best_title = ver.best.title if ver and ver.best else ""
+        sim = float(ver.title_sim or 0.0) if ver else 0.0
+        trusted = bool(
+            ver
+            and (
+                ver.status in {"Exact", "Minor"}
+                or sim >= config.SUPPORT_MIN_TITLE_SIM
+            )
+        )
         if not claim_text:
             skipped_no_claim += 1
             res: dict | None = {
@@ -147,6 +156,21 @@ def _judge_support(
                 "confidence": 0.0,
                 "reason": "正文未引用该文献，未做支持度判定",
                 "evidence": "",
+            }
+        elif not trusted:
+            # The abstract may belong to a different paper: at similarity 0.4
+            # a Crossref record is often unrelated. Judging on it would make
+            # "no evidence" look like a property of the cited paper.
+            skipped_unreliable_match += 1
+            res = {
+                "label": "not_checked",
+                "confidence": 0.0,
+                "reason": (
+                    f"题录匹配度不足（标题相似度 {sim:.2f}），"
+                    "无法确认摘要属于同一篇论文，未做支持度判定"
+                ),
+                "evidence": "",
+                "claim": claim_text,
             }
         elif not abstract:
             skipped_no_abstract += 1
@@ -205,6 +229,7 @@ def _judge_support(
         "skipped_by_cap": skipped_by_cap,
         "skipped_no_abstract": skipped_no_abstract,
         "skipped_no_claim": skipped_no_claim,
+        "skipped_unreliable_match": skipped_unreliable_match,
     }
     return results, meta
 

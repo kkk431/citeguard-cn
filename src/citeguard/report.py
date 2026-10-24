@@ -112,6 +112,7 @@ def build_report(
                 "judged": 0,
                 "skipped_by_cap": 0,
                 "skipped_no_abstract": 0,
+                "skipped_unreliable_match": 0,
             },
         },
         "references": items,

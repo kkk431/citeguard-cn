@@ -233,6 +233,12 @@
             " 条（判断引用是否被支持需要摘要；导出题录时勾选摘要再导入即可）"
           );
         }
+        if (supportMeta.skipped_unreliable_match) {
+          notes.push(
+            "题录匹配度不足 " + supportMeta.skipped_unreliable_match +
+            " 条（摘要可能属于别的论文，为避免误判未做支持度判定）"
+          );
+        }
         if (!supportMeta.judge_available) {
           notes.push("未配置 LLM judge，全部为「未检测」");
         }

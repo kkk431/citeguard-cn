@@ -57,3 +57,74 @@ def test_run_job_rejects_empty_text(isolated_project):
 def test_run_job_rejects_unparseable_references(isolated_project):
     with pytest.raises(ValueError):
         pipeline.run_job("norefs", text="短文本")
+
+
+def _refs():
+    from citeguard.reference_parser import parse_reference_list
+
+    return parse_reference_list(
+        "[1] 张三. 题名[J]. 期刊, 2020, 31(2): 10-20.\n"
+        "[2] 李四. 另一个题名[J]. 期刊, 2021, 32(3): 5-9.\n"
+    )
+
+
+def test_support_skips_unreliable_title_match(monkeypatch):
+    refs = _refs()
+    monkeypatch.setattr(pipeline, "build_claims", lambda body, intext, refs: {r.index: "claim" for r in refs})
+    monkeypatch.setattr(pipeline, "judge_available", lambda: True)
+    calls = []
+
+    def fake_judge(*args, **kwargs):
+        calls.append(args)
+        return {"label": "support", "confidence": 0.9, "reason": "", "evidence": ""}
+
+    monkeypatch.setattr(pipeline, "judge_support", fake_judge)
+    results = [
+        # Weak Crossref hit: the abstract is probably another paper's.
+        VerifyResult(
+            status="Unverified",
+            title_sim=0.42,
+            best=Candidate(source="crossref", title="无关论文", abstract="某个摘要"),
+        ),
+        VerifyResult(
+            status="Exact",
+            title_sim=0.99,
+            best=Candidate(source="crossref", title=refs[1].title, abstract="真实摘要"),
+        ),
+    ]
+
+    out, meta = pipeline._judge_support("正文", [], refs, results, cap=10, step=lambda *a: None)
+
+    assert out[0]["label"] == "not_checked"
+    assert "匹配度不足" in out[0]["reason"]
+    assert "0.42" in out[0]["reason"]
+    assert out[1]["label"] == "support"
+    assert len(calls) == 1  # only the trustworthy match was judged
+    assert meta["skipped_unreliable_match"] == 1
+    assert meta["judged"] == 1
+
+
+def test_support_trusts_high_similarity_even_if_unverified(monkeypatch):
+    refs = _refs()
+    monkeypatch.setattr(pipeline, "build_claims", lambda body, intext, refs: {r.index: "claim" for r in refs})
+    monkeypatch.setattr(pipeline, "judge_available", lambda: True)
+    monkeypatch.setattr(
+        pipeline,
+        "judge_support",
+        lambda *a, **k: {"label": "partial", "confidence": 0.6, "reason": "", "evidence": ""},
+    )
+    results = [
+        VerifyResult(
+            status="Unverified",
+            title_sim=0.93,
+            best=Candidate(source="openalex", title=refs[0].title, abstract="摘要"),
+        ),
+        VerifyResult(status="Unknown"),
+    ]
+
+    out, meta = pipeline._judge_support("正文", [], refs, results, cap=10, step=lambda *a: None)
+
+    assert out[0]["label"] == "partial"
+    assert out[1]["label"] == "not_checked"
+    assert meta["skipped_unreliable_match"] == 1
+    assert meta["judged"] == 1

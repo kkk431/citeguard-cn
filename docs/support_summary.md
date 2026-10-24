@@ -10,6 +10,8 @@
 >
 > **两段式判定（正式版本）**：第一段用 v3 prompt 给出四分类 + 证据句；第二段只对判为 `support` 的条目做**覆盖审计**——把引用句拆成对象/条件/因果/量级等要素，证据若没有覆盖全部要素就降级为 `partial`。实验脚本（`scripts/experiment_support_two_stage.py`）上 0.9439 / 0.940，产品路径正式评测 **0.9328 / 0.930**（两次独立缓存，差异来自 LLM 运行间波动约 ±2 分）。可用 `CITEGUARD_SUPPORT_AUDIT=0` 关闭；开启时约 40% 的条目多一次 judge 调用。
 
+> **匹配度护栏（产品路径）**：评测集直接给定被引论文的标注摘要，产品里摘要来自元数据匹配。只有 `Exact/Minor` 或标题相似度 ≥ 0.90（`CITEGUARD_SUPPORT_MIN_TITLE_SIM`）才进入判定；弱匹配（例如相似度 0.4 的 Crossref 记录）一律「未检测」，并在 `support_meta.skipped_unreliable_match` 计数。否则会把「匹配错了论文」显示成「无证据」，制造假阳性。该护栏只影响产品报告，不变更上面的评测口径。
+
 ## 主表（per-class，两段式正式结果）
 
 | 类别 | 支持数 | Precision | Recall | F1 | 预测数 |

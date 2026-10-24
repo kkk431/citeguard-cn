@@ -49,6 +49,13 @@ SUPPORT_AUDIT = os.environ.get("CITEGUARD_SUPPORT_AUDIT", "1").strip().lower() n
     "off",
 }
 
+# The support judge needs the abstract of the *cited* paper. When verification
+# only found a weak title match (e.g. a random Crossref record at similarity
+# 0.4), that abstract belongs to a different paper and any verdict is noise.
+# Only judge when the match is trustworthy: Exact/Minor, or title similarity
+# above this threshold.
+SUPPORT_MIN_TITLE_SIM = float(os.environ.get("CITEGUARD_SUPPORT_MIN_TITLE_SIM", "0.90"))
+
 # Upload guard for the web app.
 MAX_UPLOAD_MB = int(os.environ.get("CITEGUARD_MAX_UPLOAD_MB", "30"))
 
