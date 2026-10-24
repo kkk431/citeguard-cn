@@ -541,3 +541,23 @@ python scripts/e7_usability.py --manual-finalize data/experiments/e7_manual_verd
 结果文件：`data/experiments/support_local_qwen25_{3b,7b}_{gpu,simple}.json`；
 脚本：`scripts/local_judge_server.py`、`scripts/evaluate_support.py`。
 
+## 10. E10：图表结论核验（Qwen2.5-VL-7B，2026-10-24）
+
+**问题**：引文核验只看「文献是否真实、摘要是否支持这句话」，看不到图里的数据；论文里「见图 3，A 方法最高」这类结论没有检查。
+
+**做法**：`scripts/make_synth_figtest.py` 生成 20 张可控图表（10 柱状 + 10 折线），每图两条结论：真实极值/数值（supported）与错误数值/年份（contradicted），共 40 条。另从本地真实论文 PDF 截取 5 张图（`scripts/extract_real_figures.py`），人工写 5 条支持 + 5 条矛盾结论。`scripts/vl_figtest.py` 调 OpenAI 兼容视觉服务，prompt 与产品内置一致（版本 1）。
+
+**硬件/服务**：单张 RTX 4090 24GB，bf16，峰值显存 16.0–16.1 GB；`scripts/local_vl_server.py` 懒加载，首次 8.1–8.3 秒。
+
+**结果**：
+
+| 数据 | 条数 | 准确率 | 支持类 | 矛盾类 | 误报矛盾 | 平均延迟 | P90 |
+|---|---|---|---|---|---|---|---|
+| 合成控例 | 40 | 0.90 | 17/20 | 19/20 | 0 | 1.55 s | 1.69 s |
+| 真实论文图表 | 10 | 0.90 | 5/5 | 4/5 | 0 | 2.56 s | 4.36 s |
+
+合成集的 4 个错误全部是「判成 insufficient」：3 条支持结论与 1 条矛盾结论。产品选择 v1 prompt 的原因是：v2 prompt 在合成集 0.925 但出现 2 条「支持误判为矛盾」，真实集 1.00；误报矛盾比漏判更伤作者。
+
+**集成**：`/figure` 页面 + `POST /api/figure-check`；`CITEGUARD_VL_ENDPOINT` 未配置时不展示入口。测试新增 10 个离线用例（mock 服务端），全套 330 passed。
+
+**证据**：评测 JSON 与图表图片来自本地真实语料，不随公开仓库分发；合成集与评测脚本公开、可一键重建。细节见 `docs/figure_check.md`。

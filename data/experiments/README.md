@@ -48,6 +48,8 @@
 | `e7_manual_records.json` / `e7_manual_verdicts.json` | E7：12 条引文的人工核对原始记录与判定 | 同上 | 与工具判定逐条对照，差异已写进 `docs/experiments.md` |
 | `citation_consistency.json` | 正文引注一致性检查器的 15 例规则自检用例（未引用 / 缺失编号 / 顺序倒置 / 范围引注等） | `scripts/eval_citation_consistency.py` | **15/15 通过**；用例按 GB/T 顺序编码制构造，非人工标注集 |
 
+| `vl_synth_results.json` / `vl_real_results.json` | E10：图表结论核验（Qwen2.5-VL-7B）合成 40 条 / 真实 10 条 | `scripts/vl_figtest.py`（需 GPU 服务） | 准确率 **0.90 / 0.90**，误报矛盾 0 |
+
 ## 5. 口径与注意事项
 
 - **代码快照**：`e4_format.json`、`e5_retrieval.json`、`e7_usability.json` 等记录生成时的 `code_snapshot`

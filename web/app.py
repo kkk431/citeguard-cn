@@ -21,6 +21,7 @@ from fastapi.staticfiles import StaticFiles  # noqa: E402
 from fastapi.templating import Jinja2Templates  # noqa: E402
 
 from citeguard import config  # noqa: E402
+from citeguard import figure_check  # noqa: E402
 from citeguard.abstract_enrich import MAX_ENRICH_PER_REQUEST, enrich_missing  # noqa: E402
 from citeguard.jobs import manager  # noqa: E402
 from citeguard.local_library import Library, parse_library_text  # noqa: E402
@@ -54,7 +55,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.3.11", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.4.0", lifespan=lifespan)
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
 
@@ -79,7 +80,8 @@ def index(request: Request):
     return templates.TemplateResponse(
         request,
         "index.html",
-        {"recent": manager.recent(6), "active": "home", "library_count": len(library)},
+        {"recent": manager.recent(6), "active": "home", "library_count": len(library),
+         "vl_available": figure_check.available()},
     )
 
 
@@ -528,6 +530,31 @@ def about_page(request: Request):
     return templates.TemplateResponse(request, "about.html", {"active": "about"})
 
 
+@app.get("/figure", response_class=HTMLResponse)
+def figure_page(request: Request):
+    return templates.TemplateResponse(
+        request,
+        "figure.html",
+        {
+            "active": "figure",
+            "vl_available": figure_check.available(),
+            "max_mb": config.VL_MAX_FIGURE_MB,
+        },
+    )
+
+
+@app.post("/api/figure-check")
+def figure_check_api(image: UploadFile = File(...), claim: str = Form("")):
+    if not figure_check.available():
+        return JSONResponse(
+            {"ok": False, "code": "not_configured", "error": "未配置图表核验服务（设置 CITEGUARD_VL_ENDPOINT）"},
+            status_code=503,
+        )
+    payload = image.file.read(config.VL_MAX_FIGURE_MB * 1024 * 1024 + 1)
+    result = figure_check.check_figure(payload, image.content_type or "", claim)
+    return JSONResponse(result, status_code=200 if result.get("ok") else 400)
+
+
 @app.get("/api/benchmark")
 def benchmark_api():
     ctx = _benchmark_context()
@@ -544,4 +571,4 @@ def benchmark_api():
 
 @app.get("/api/health")
 def health():
-    return {"ok": True, "version": "0.3.11", "supported": sorted(ALLOWED_SUFFIXES)}
+    return {"ok": True, "version": "0.4.0", "supported": sorted(ALLOWED_SUFFIXES)}

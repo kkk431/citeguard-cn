@@ -266,3 +266,20 @@ $env:DEEPSEEK_API_KEY = "..."   # 支持度判定用，不写进任何文件
 **验收状态（v0.3.11，2026-10-24 深夜）**
 - 测试 **320 passed**；本地 GPU 7B 证据 **0.7181**，3B 精简 **0.6291**；证据文件在 `data/experiments/support_local_qwen25_*.json`。
 - 本地演示与远端 v0.3.11 部署；交付包重建。
+
+## 20. 2026-10-24 深夜：图表结论核验（Qwen2.5-VL-7B，v0.4.0）
+
+- 新能力（可选，需自备 GPU 视觉服务）：上传图表截图 + 一句正文结论，判断 `supported` / `contradicted` / `insufficient`。
+  产品主机不加载视觉模型；未配置 `CITEGUARD_VL_ENDPOINT` 时 `/figure` 只显示说明，首页不出现入口。
+- 模型：Qwen2.5-VL-7B-Instruct（Apache-2.0，ModelScope），`scripts/local_vl_server.py` 起 OpenAI 兼容
+  `/v1/chat/completions`；单张 RTX 4090 24GB、bf16、峰值 16.0–16.1 GB、首次加载 8.1–8.3 秒。
+- 实测（prompt 与产品一致，版本 1）：
+  - 合成控例（20 图 / 40 条，seed=20261024）：准确率 **0.90**；支持类 17/20、矛盾类 19/20；误报「矛盾」0；1.55 s/条。
+  - 真实论文图表（5 图 / 10 条）：准确率 **0.90**；支持 5/5、矛盾 4/5；误报「矛盾」0；2.56 s/条。
+  - v2 更严格 prompt：合成 0.925 但出现 2 条「支持误判为矛盾」；真实 1.00。产品选 v1，优先避免误伤。
+- 集成：`src/citeguard/figure_check.py`、`web/templates/figure.html`、`web/static/js/figure.js`、
+  `GET /figure` + `POST /api/figure-check`（未配置返回 503）；首页入口与导航「图表核验」；`config.VL_*` 五个开关。
+- 文档：新增 `docs/figure_check.md`（实现/实测/局限/复现）；README 能力表与实测段；`THIRD_PARTY_NOTICES.md` §4.3；
+  `docs/deployment.md` §1.6；`docs/ppt_numbers.md` 3f 与「不能这么说」第 8 条；`.env.example`。
+- 测试 **330 passed**（新增 10 个 `tests/test_figure_check.py` 用例：未配置/坏格式/超限/成功解析/鉴权/
+  HTTP 错误/不可达/坏响应/页面与 API）；`verify_artifacts.py` 本地 89 项全过。版本 **0.4.0**。

@@ -1,4 +1,4 @@
-# CiteGuard-CN 部署手册（v0.3.11）
+# CiteGuard-CN 部署手册（v0.4.0）
 
 本文覆盖四种落地方式：本地开发、服务器 `.pylibs` 部署、SSH 隧道访问、Docker。
 所有方式都遵循同一条安全约束：**API Key 只从环境变量注入，绝不写进仓库或镜像**。
@@ -92,6 +92,30 @@ export CITEGUARD_URL_CHECK_TIMEOUT=8    # 单条链接超时（秒，最大不�
 
 安全检查：只允许 http/https、80/443 端口，目标 IP 必须是公网地址（拒绝 localhost/内网/回环），
 响应体截断 300 KB。若部署在完全隔离的内网，建议显式设为 `0`。
+
+### 1.6 可选：图表结论核验（需要一台 GPU 主机）
+
+产品本身不加载视觉模型。在 GPU 主机上：
+
+```bash
+pip install -U transformers accelerate qwen-vl-utils
+python scripts/local_vl_server.py --model /path/Qwen2.5-VL-7B-Instruct \
+    --host 0.0.0.0 --port 8099
+```
+
+在 Web 主机上配置：
+
+```bash
+export CITEGUARD_VL_ENDPOINT=http://<gpu-host>:8099/v1
+export CITEGUARD_VL_MODEL=qwen2.5-vl-7b       # 与服务端 --model-name 一致
+export CITEGUARD_VL_TIMEOUT=60                # 首次请求含加载模型的时间
+export CITEGUARD_VL_MAX_FIGURE_MB=8
+# 可选：export CITEGUARD_VL_API_KEY=...
+```
+
+未配置 `CITEGUARD_VL_ENDPOINT` 时，`/figure` 只显示说明与部署方法，不接收提交；首页也不会出现入口。
+Qwen2.5-VL-7B 在单张 RTX 4090（24 GB）上 bf16 约占 16 GB，首次加载 ~8 秒，之后 1.5–2.6 秒/条。
+评测与局限见 [figure_check.md](figure_check.md)。
 
 ---
 
@@ -244,13 +268,13 @@ ssh -L 18000:127.0.0.1:8000 jxy-2
 
 ```bash
 cd citeguard
-docker build -f docker/Dockerfile -t citeguard-cn:0.3.11 .
+docker build -f docker/Dockerfile -t citeguard-cn:0.4.0 .
 
 docker run --rm -p 127.0.0.1:8000:8000 \
   -e DEEPSEEK_API_KEY="${DEEPSEEK_API_KEY:-}" \
   -v "$PWD/data/jobs:/app/data/jobs" \
   -v "$PWD/data/cache:/app/data/cache" \
-  citeguard-cn:0.3.11
+  citeguard-cn:0.4.0
 ```
 
 镜像内固定 `PYTHONPATH=/app/src`，启动命令：
@@ -286,9 +310,9 @@ docker compose -f docker/docker-compose.yml logs -f citeguard
 
 ```bash
 # 有网机器
-docker save citeguard-cn:0.3.11 | gzip > citeguard-cn-0.3.11.tar.gz
+docker save citeguard-cn:0.4.0 | gzip > citeguard-cn-0.4.0.tar.gz
 # 目标机器
-docker load < citeguard-cn-0.3.11.tar.gz
+docker load < citeguard-cn-0.4.0.tar.gz
 ```
 
 ---
@@ -317,7 +341,7 @@ docker load < citeguard-cn-0.3.11.tar.gz
 cd citeguard
 PYTHONPATH=src:.pylibs python3 -m pytest tests -q          # 应全绿（含离线端到端）
 PYTHONPATH=src python3 scripts/verify_artifacts.py         # 应输出 [OK] all checks passed
-PYTHONPATH=src python3 scripts/package_deliverable.py      # 生成 dist/citeguard-cn-0.3.11.zip
+PYTHONPATH=src python3 scripts/package_deliverable.py      # 生成 dist/citeguard-cn-0.4.0.zip
 curl -s http://127.0.0.1:8000/api/health                   # {"ok":true,...}
 ```
 
@@ -376,4 +400,4 @@ curl -s http://127.0.0.1:8000/api/health
 避免把用户上传内容和密钥带进镜像。
 
 **Q11. 如何确认某次部署的版本？**
-`curl -s http://127.0.0.1:8000/api/health`，`version` 字段即当前版本（本手册对应 `0.3.11`）。
+`curl -s http://127.0.0.1:8000/api/health`，`version` 字段即当前版本（本手册对应 `0.4.0`）。

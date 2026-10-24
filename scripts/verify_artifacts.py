@@ -98,6 +98,12 @@ CODE_CLAIMS = (
     ("docs/ppt_numbers.md", "0.7181", "one-pager local GPU pilot"),
     ("docs/real_data_eval.md", "125（30.6%）", "real-corpus Exact count stays in sync"),
     ("docs/real_data_eval.md", "197（48.2%）", "real-corpus Unverified count stays in sync"),
+    ("README.md", "17/20 正确", "figure check synthetic supported recall"),
+    ("README.md", "19/20 正确", "figure check synthetic contradiction recall"),
+    ("docs/figure_check.md", "0.90**（36/40）", "figure check synthetic accuracy"),
+    ("docs/figure_check.md", "0.90**（9/10）", "figure check real-figure accuracy"),
+    ("docs/ppt_numbers.md", "36/40（0.90）", "one-pager figure check synthetic"),
+    ("docs/ppt_numbers.md", "9/10（0.90）", "one-pager figure check real"),
 )
 
 

@@ -110,6 +110,27 @@
   （自定义 prompt 自动使用独立缓存命名空间），并建议 `CITEGUARD_SUPPORT_AUDIT=0`。
 - 尚未实测 Qwen3-8B / 14B：8B 需要更大显存或量化；接口已经兼容，后续换模型只需改 `--model` 与环境变量。
 
+### 4.3 图表结论核验（Qwen2.5-VL-7B-Instruct，Apache-2.0）
+
+产品新增一个可选的「图表 vs 结论」检查：`web/templates/figure.html` + `src/citeguard/figure_check.py` 通过
+OpenAI 兼容的 `/v1/chat/completions` 调用视觉模型；`scripts/local_vl_server.py` 用 `transformers` 起服务
+（`transformers`、`accelerate`、`qwen-vl-utils` 仅在 GPU 主机安装，不随作品分发）。模型权重从 ModelScope 下载，
+不随作品分发；产品主机（CPU）不加载模型，未配置 `CITEGUARD_VL_ENDPOINT` 时此页面只显示说明。
+
+实测（单张 RTX 4090 24GB，bf16，峰值显存 16.0–16.1 GB，首次加载 8.1–8.3 秒；prompt 与产品一致，版本 1）：
+
+| 数据 | 条数 | 准确率 | 支持类 | 矛盾类 | 误报矛盾 | 平均延迟 |
+|---|---|---|---|---|---|---|
+| 合成控例（20 图，支持/矛盾各 20 条，seed=20261024） | 40 | 0.90 | 17/20 | 19/20 | 0 | 1.55 s |
+| 真实论文图表（5 图，支持/矛盾各 5 条） | 10 | 0.90 | 5/5 | 4/5 | 0 | 2.56 s |
+
+- 合成集由 `scripts/make_synth_figtest.py` 生成（柱状图/折线图各 10 张，每图 1 条支持 + 1 条矛盾），标签由构造决定；
+  真实图由 `scripts/extract_real_figures.py` 从本地 PDF 截取后人工挑图、人工写结论，规模小，只作方向性证据。
+- 另测了一个更严格的 v2 prompt：合成 0.925 但把 2 条支持结论误判为矛盾；真实 1.00。产品选择 v1，优先避免
+  「把支持说成矛盾」的误伤；v2 只作为实验记录。细节见 [docs/figure_check.md](docs/figure_check.md)。
+- 证据：`data/experiments/` 下的 VL 结果不随公开仓库分发（图片来自本地真实语料，不便于再分发）；评测脚本公开，
+  合成集可一键重建。真实语料上的图表截图只保存在评测机本机目录。
+
 ## 5. 许可证义务与履行方式
 
 | 许可证 | 主要义务 | 本作品如何履行 |

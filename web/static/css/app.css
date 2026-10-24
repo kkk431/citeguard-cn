@@ -295,3 +295,15 @@ textarea:focus,input:focus{outline:none;border-color:var(--accent);background:va
 .verdict-list{margin:0;padding-left:18px;font-size:13px;line-height:1.9;color:var(--ink-2)}
 .verdict-list b{color:var(--ink);font-weight:600}
 .verdict-list li::marker{color:var(--accent)}
+
+/* figure-claim check */
+.fig-preview-wrap{margin-top:16px;border:1px solid var(--line);border-radius:var(--radius-sm);padding:10px;background:var(--surface)}
+.fig-preview{display:block;max-width:100%;max-height:420px;margin:0 auto;border-radius:6px}
+.fig-examples{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.fig-example img{width:100%;height:220px;object-fit:contain;background:var(--surface-2);border-radius:8px}
+.fig-example p{font-size:13px;color:var(--ink-2);line-height:1.7;margin:12px 0}
+.fig-result{margin-top:18px;border:1px solid var(--line);border-radius:var(--radius-sm);padding:18px;background:var(--surface)}
+.fig-verdict .pill{font-size:12px;padding:4px 12px}
+.fig-reason{margin:12px 0 0;font-size:15px;line-height:1.8;color:var(--ink)}
+.fig-error{color:var(--bad);font-size:14px;line-height:1.8}
+@media (max-width:720px){.fig-examples{grid-template-columns:1fr}}

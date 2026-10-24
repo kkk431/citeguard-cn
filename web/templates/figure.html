@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}图表核验 · 引证卫士 CiteGuard{% endblock %}
+{% block content %}
+<section class="wrap" style="padding:48px 0 8px">
+  <div class="kicker">FIGURE–CLAIM CHECK</div>
+  <h1 class="serif" style="font-size:34px;font-weight:600;margin:10px 0">图表结论核验</h1>
+  <p class="lede" style="max-width:74ch">
+    论文里「见图 3，A 方法的准确率最高」这类结论，靠的是读者自己看图。把图表截图和结论交给视觉模型，
+    让它逐一核对坐标轴、图例、数值与趋势，给出「支持 / 矛盾 / 信息不足」三档判断。
+    模型是自建的开源 Qwen2.5-VL-7B-Instruct（Apache-2.0），图片只在本次请求里发给你配置的服务，不落盘、不上传到第三方。
+  </p>
+  <div class="stats stats-4">
+    <div class="stat"><b>三档</b><span>支持 / 矛盾 / 信息不足</span></div>
+    <div class="stat"><b>Qwen2.5-VL-7B</b><span>开源视觉模型</span></div>
+    <div class="stat"><b>单卡 4090</b><span>约 1.5–2.5 秒/条</span></div>
+    <div class="stat"><b>{{ '已配置' if vl_available else '未配置' }}</b><span>核验服务状态</span></div>
+  </div>
+  {% if not vl_available %}
+  <div class="lib-banner" style="margin-top:14px">
+    当前部署没有配置视觉模型服务，所以这个页面只能展示、不能提交。配置方式：在一台有 GPU 的机器上运行
+    <code>scripts/local_vl_server.py</code>，然后给本站设置
+    <code>CITEGUARD_VL_ENDPOINT=http://&lt;gpu-host&gt;:8099/v1</code>（可选 <code>CITEGUARD_VL_MODEL</code>、<code>CITEGUARD_VL_API_KEY</code>）。
+    实测效果与局限见 <a href="https://github.com/kkk431/citeguard-cn/blob/main/docs/figure_check.md" target="_blank" rel="noopener">docs/figure_check.md</a>。
+  </div>
+  {% endif %}
+</section>
+
+<section class="wrap section">
+  <div class="section-head"><h2>上传图表 + 结论</h2><span class="hint">PNG / JPEG / WebP，≤ {{ max_mb }} MB</span></div>
+  <div class="panel">
+    <form id="figure-form" enctype="multipart/form-data">
+      <label class="dropzone" for="figure-file" id="figure-dropzone">
+        <input id="figure-file" type="file" name="image" accept="image/png,image/jpeg,image/webp" hidden>
+        <div class="dz-title">选择图表截图，或拖进来</div>
+        <div class="dz-sub">单张图表效果最好；多面板大图请先在截图里保留完整坐标轴与图例</div>
+        <div class="dz-file" id="figure-file-name"></div>
+      </label>
+      <div id="figure-preview-wrap" class="fig-preview-wrap" hidden>
+        <img id="figure-preview" class="fig-preview" alt="图表预览">
+      </div>
+      <label class="field-label" for="figure-claim" style="margin-top:16px">要核验的结论</label>
+      <textarea id="figure-claim" class="textarea" rows="3" placeholder="例如：图中 2025 年的发文量最高，为 195 篇。" style="width:100%;font-size:14px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--surface)"></textarea>
+      <div class="upload-actions">
+        <button type="submit" class="btn btn-primary" id="figure-check-btn" {% if not vl_available %}disabled{% endif %}>核验这条结论</button>
+        <span class="mono-sm" id="figure-hint" style="margin-left:auto;align-self:center"></span>
+      </div>
+    </form>
+    <div class="fig-result panel hidden" id="figure-result" aria-live="polite"></div>
+  </div>
+</section>
+
+{% if vl_available %}
+<section class="wrap section">
+  <div class="section-head"><h2>示例</h2><span class="hint">点「用这张图试试」会填入图片和结论</span></div>
+  <div class="fig-examples">
+    <div class="panel fig-example" data-img="/static/img/figure_demo_bar.png" data-claim="图中 方法1 的准确率最高，约为 95%。">
+      <img src="/static/img/figure_demo_bar.png" alt="柱状图示例">
+      <p>柱状图：方法1 的准确率最高，约为 95%。</p>
+      <button type="button" class="btn btn-ghost btn-sm fig-example-use">用这张图试试</button>
+    </div>
+    <div class="panel fig-example" data-img="/static/img/figure_demo_line.png" data-claim="图中 2023 年的发文量最高，为 195 篇。">
+      <img src="/static/img/figure_demo_line.png" alt="折线图示例">
+      <p>折线图（结论故意写错年份）：2023 年的发文量最高，为 195 篇。</p>
+      <button type="button" class="btn btn-ghost btn-sm fig-example-use">用这张图试试</button>
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}
+{% block scripts %}
+<script src="/static/js/figure.js?v={{ request.app.version }}"></script>
+{% endblock %}
