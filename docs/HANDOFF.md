@@ -352,4 +352,9 @@ $env:DEEPSEEK_API_KEY = "..."   # 支持度判定用，不写进任何文件
   缓存命中 0.02 s。没有任何 relevance 标注集，**不报告排序指标**。
 - 测试：模块 9 个 + Web 7 个，全套 **369 passed**；`verify_artifacts.py` 本机 **101 项**。
 - 边界：中文召回取决于 OpenAlex 覆盖；排序是启发式、不训练；入库只存题录，不等于已核验。
-- 版本 0.6.0（`web/app.py` 两处、打包脚本、部署手册）；待部署与交付包重建。
+- 版本 0.6.0（`web/app.py` 两处、打包脚本、部署手册）。
+- 发布：commit `9bf8bd4`；SSH 推送 `a79b19d..9bf8bd4`（`GIT_SSH_COMMAND='ssh -p 22 -o HostName=github.com'`）。
+- 远端 `/data/xyjiang/aic_mental/citeguard` 已部署 v0.6.0（`/api/health` → 0.6.0）；
+  `verify_artifacts.py --api-base http://127.0.0.1:8000` **110 项全过**。
+- 交付包 `dist/citeguard-cn-0.6.0.zip`（1,759,181 bytes，sha256 `36c736a8…`）。
+- 本机验证：369 passed、`verify_artifacts.py` 101 项、浏览器实测检索 / 全选 / CSV 导出。
