@@ -34,7 +34,7 @@ from .support import judge_available, judge_endpoint
 OPENALEX_WORKS = "https://api.openalex.org/works"
 MAX_RESULTS = 50
 MAX_PAGE = 5
-MAX_PER_PAGE = 100
+STABLE_POOL = 200  # OpenAlex max page size; fixed pool keeps page slicing stable
 ABSTRACT_CHARS = 240
 CACHE_TTL = 7 * 24 * 3600  # discovery results change slowly; a week is plenty
 EXPAND_VERSION = 2
@@ -406,10 +406,12 @@ def search_papers(
     if len(query) < 2:
         raise ValueError("请输入至少两个字符的研究主题")
     limit = max(1, min(int(limit or 20), MAX_RESULTS))
-    page = max(1, min(int(page or 1), MAX_PAGE))
+    pool = min(STABLE_POOL, max(limit * MAX_PAGE, limit))
+    max_pages = max(1, min(MAX_PAGE, pool // limit))
+    page = max(1, min(int(page or 1), max_pages))
     sort = sort if sort in _SORTS else "relevance"
     # Fetch a stable pool for every page so re-ranking cannot shift items between pages.
-    per_page = MAX_PER_PAGE
+    per_page = pool
 
     expansion = None
     if expand == "on" or (expand == "auto" and _has_cjk(query)):
@@ -455,8 +457,9 @@ def search_papers(
         "generated_at": datetime.now().isoformat(timespec="seconds"),
         "matched": matched,
         "page": page,
+        "max_page": max_pages,
         "page_size": limit,
-        "has_more": len(ranked) > start + limit or matched > page * limit,
+        "has_more": page < max_pages and len(ranked) > start + limit,
         "retracted_filtered": retracted_filtered,
         "sort": sort,
         "expand": expand,

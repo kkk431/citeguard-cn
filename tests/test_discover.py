@@ -92,8 +92,20 @@ def test_search_papers_passes_filters_and_returns_ranked(monkeypatch):
     assert result["provider"] == "OpenAlex"
     assert "from_publication_date:2020-01-01" in captured["params"]["filter"]
     assert "is_oa:true" in captured["params"]["filter"]
-    assert captured["params"]["per-page"] == discover.MAX_PER_PAGE
-    assert result["has_more"] is True
+    assert captured["params"]["per-page"] == min(discover.STABLE_POOL, 5 * discover.MAX_PAGE)
+    assert result["has_more"] is False  # only two items in the fixed pool
+    assert result["max_page"] == min(discover.MAX_PAGE, discover.STABLE_POOL // 5)
+
+
+def test_search_papers_clamps_page_to_pool_size(monkeypatch):
+    def fake_fetch(url, params):
+        return {"meta": {"count": 10_000}, "results": [_work(doi=f"10.1/{i}") for i in range(10)]}
+
+    monkeypatch.setattr(discover, "_fetch_json", fake_fetch)
+    result = discover.search_papers("人工智能教育", limit=50, page=5, expand="off")
+    assert result["max_page"] == 4
+    assert result["page"] == 4
+    assert result["has_more"] is False
 
 
 def test_search_papers_merges_english_expansion_and_dedupes(monkeypatch):

@@ -594,15 +594,15 @@ python scripts/e7_usability.py --manual-finalize data/experiments/e7_manual_verd
 
 | 条件 | 上游命中 | 耗时 | 结果观察 |
 |---|---|---|---|
-| `expand=auto`，第 1 页，冷启动 | **1,141,987** | 6.16 s | 20 条，中文 3 条；扩展式 `artificial intelligence AND education` |
-| 相同查询，缓存命中 | 1,141,987 | **76 ms** | 结果一致 |
-| 第 2 页（固定候选池） | 1,141,987 | 32–143 ms | 20 条，与第 1 页零重叠 |
+| `expand=auto`，第 1 页，冷启动 | **1,141,987** | 6–10 s | 20 条，中文 3 条；扩展式 `artificial intelligence AND education` |
+| 相同查询，缓存命中 | 1,141,987 | **74 ms** | 结果一致 |
+| 第 2 页（固定候选池） | 1,141,987 | 34–62 ms | 20 条，与第 1 页零重叠 |
 | `expand=off` | 112,724 | 17 ms（缓存） | 20 条，中文 8 条 |
 
-**可用的说法**：可选双语扩展把上游命中从 11.2 万扩到 114 万；一次冷启动约 6 秒拿到按透明规则排序的候选列表，缓存后 0.1 秒内；能切换排序、筛选语言、稳定分页、一键入库/导出，不抓全文。
+**可用的说法**：可选双语扩展把上游命中从 11.2 万扩到 114 万；一次冷启动约 6–10 秒拿到按透明规则排序的候选列表，缓存后 0.1 秒内；能切换排序、筛选语言、稳定分页、一键入库/导出，不抓全文。
 
 **不能用的说法**：不能说排序质量达到多少（没有 relevance 标注集）；不能说中文文献都能搜到（取决于 OpenAlex 覆盖）；不能说中文占比低是排序差（扩展提高英文召回，两种模式都保留）；不能说入库等于已核验。
 
-**集成**：`/discover` 页面 + `POST /api/discover` + `GET /api/discover/export` + `POST /api/discover/import`；模块测试 16 个 + Web 测试，全套 376 passed。
+**集成**：`/discover` 页面 + `POST /api/discover` + `GET /api/discover/export` + `POST /api/discover/import`；模块测试 16 个 + Web 测试，全套 377 passed。
 
 **证据**：检索结果随时间变化，不固化数据文件；代码 `src/citeguard/discover.py`、`web/app.py`，说明见 `docs/discover.md`。
