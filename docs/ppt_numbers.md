@@ -55,7 +55,7 @@
 ## 复现命令（评委问「这些数字怎么来的」）
 
 ```bash
-PYTHONPATH=src python -m pytest tests -q                    # 310 passed, 2 skipped
+PYTHONPATH=src python -m pytest tests -q                    # 316 passed, 2 skipped
 PYTHONPATH=src python scripts/evaluate_citebench.py         # 真实性基准（离线缓存）
 DEEPSEEK_API_KEY=... PYTHONPATH=src python scripts/evaluate_support.py   # 支持度（两段式）
 PYTHONPATH=src python scripts/eval_parse_real.py            # 真实论文解析实测

@@ -344,6 +344,57 @@ def _page_sep(ref: Reference) -> str:
     return m.group(1) if m else ""
 
 
+def citation_consistency(refs: list[Reference], intext: list) -> dict:
+    """Cross-check in-text numeric citations against the reference list.
+
+    GB/T 7714 顺序编码制 requires every listed reference to be cited and the
+    numbers to follow the order of first citation.  Author-year papers have no
+    numeric citations, so the check is skipped rather than guessed.
+    """
+    numeric = [c for c in (intext or []) if getattr(c, "kind", "") == "numeric"]
+    ref_numbers = [r.index for r in refs if r.index is not None]
+    ref_set = set(ref_numbers)
+    if not numeric:
+        return {
+            "numeric_style": False,
+            "citations": len(intext or []),
+            "distinct_numbers": 0,
+            "missing_numbers": [],
+            "uncited_numbers": [],
+            "order_inversions": 0,
+            "order_examples": [],
+            "note": "未检测到数字型正文引注（可能使用作者-年份制或正文未标注编号），跳过一致性检查",
+        }
+
+    cited: set[int] = set()
+    first_pos: dict[int, int] = {}
+    for cite in numeric:
+        for number in cite.numbers:
+            cited.add(number)
+            first_pos.setdefault(number, cite.position)
+
+    missing = sorted(n for n in cited if n not in ref_set)
+    uncited = sorted(n for n in ref_set if n not in cited)
+
+    # Reference numbers should increase in order of first citation.
+    order = [n for n in sorted(first_pos, key=lambda n: first_pos[n]) if n in ref_set]
+    # Count pair inversions: a later-numbered ref first cited before an earlier one.
+    pairs = [(a, b) for i, a in enumerate(order) for b in order[i + 1 :] if b < a]
+    inversions = len(pairs)
+    examples = pairs[:3]
+
+    return {
+        "numeric_style": True,
+        "citations": len(numeric),
+        "distinct_numbers": len(cited),
+        "missing_numbers": missing,
+        "uncited_numbers": uncited,
+        "order_inversions": inversions,
+        "order_examples": [list(p) for p in examples],
+        "note": "",
+    }
+
+
 def check_reference_list(refs: list[Reference]) -> list[ComplianceResult]:
     """Per-reference checks plus document-level consistency checks."""
     results = [check_reference(ref) for ref in refs]

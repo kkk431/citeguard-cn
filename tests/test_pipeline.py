@@ -128,3 +128,18 @@ def test_support_trusts_high_similarity_even_if_unverified(monkeypatch):
     assert out[1]["label"] == "not_checked"
     assert meta["skipped_unreliable_match"] == 1
     assert meta["judged"] == 1
+
+
+def test_report_includes_citation_consistency(monkeypatch, isolated_project):
+    monkeypatch.setattr(pipeline, "verify_many", _fake_verify_many)
+    text = (
+        "本文讨论引文核验[1]。\n\n"
+        "## 参考文献\n"
+        "[1] 张三. 题名[J]. 期刊, 2020, 31(2): 10-20.\n"
+        "[2] 李四. 另一个题名[J]. 期刊, 2021, 32(3): 5-9.\n"
+    )
+    report = pipeline.run_job("jobcc", text=text)
+    cc = report["citation_consistency"]
+    assert cc["numeric_style"] is True
+    assert cc["uncited_numbers"] == [2]
+    assert cc["missing_numbers"] == []

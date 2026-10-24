@@ -171,9 +171,60 @@
       "</ul>";
   }
 
+  function renderCitationConsistency(data) {
+    var el = document.getElementById("citation-consistency");
+    if (!el) return;
+    var cc = data.citation_consistency || {};
+    if (!cc.numeric_style) {
+      if (!cc.note) {
+        el.classList.add("hidden");
+        return;
+      }
+      el.classList.remove("hidden");
+      el.innerHTML =
+        '<div class="mono-sm" style="margin-bottom:6px">正文引注一致性</div>' +
+        '<div class="mono-sm" style="color:var(--muted)">' + esc(cc.note) + "</div>";
+      return;
+    }
+    var items = [];
+    var uncited = cc.uncited_numbers || [];
+    var missing = cc.missing_numbers || [];
+    if (uncited.length) {
+      items.push(
+        "<li>参考文献表中未被正文引用：" +
+          uncited.slice(0, 20).map(function (n) { return "[" + n + "]"; }).join("、") +
+          (uncited.length > 20 ? " 等 " + uncited.length + " 条" : "") +
+          "</li>"
+      );
+    }
+    if (missing.length) {
+      items.push(
+        "<li>正文引注编号在文献表中不存在：" +
+          missing.map(function (n) { return "[" + n + "]"; }).join("、") +
+          "</li>"
+      );
+    }
+    if (cc.order_inversions) {
+      items.push(
+        "<li>首次引用顺序与编号不一致：" + cc.order_inversions +
+          " 处（顺序编码制应按正文首次引用顺序编号）</li>"
+      );
+    }
+    if (!items.length) {
+      items.push('<li class="ok">正文引注与参考文献表一致</li>');
+    }
+    el.classList.remove("hidden");
+    el.innerHTML =
+      '<div class="mono-sm" style="margin-bottom:6px">正文引注一致性 · 数字引注 ' +
+      (cc.citations || 0) + " 处 / 覆盖 " + (cc.distinct_numbers || 0) +
+      ' 个编号</div><ul class="verdict-list" style="margin:0;padding-left:18px;font-size:13px;line-height:1.8">' +
+      items.join("") + "</ul>";
+  }
+
   function render(data) {
     renderInputMeta(data);
     renderVerdict(data);
+    renderCitationConsistency(data);
     const s = data.stats || {};
     const total = s.total || 1;
 

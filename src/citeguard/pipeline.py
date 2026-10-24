@@ -11,7 +11,7 @@ from pathlib import Path
 from typing import Callable, Optional
 
 from . import config
-from .gbt7714 import check_reference_list
+from .gbt7714 import check_reference_list, citation_consistency
 from .jobs import manager
 from .metadata_verify import VerifyResult, local_library_verdict, verify_many
 from .pdf_extract import extract_text_with_meta, split_references
@@ -79,6 +79,7 @@ def analyze_text(
 
     step(88, "检查 GB/T 7714-2025 字段")
     compliance = check_reference_list(refs)
+    consistency = citation_consistency(refs, intext)
 
     support_results, support_meta = _judge_support(
         body,
@@ -98,6 +99,7 @@ def analyze_text(
         intext,
         support_results,
         support_meta,
+        consistency,
     )
     # How much of this report came from the user's own library, and how big it is.
     local_hits = sum(

@@ -48,6 +48,7 @@ def build_report(
     intext: list[InTextCitation],
     support_results: Optional[list[Optional[dict]]] = None,
     support_meta: Optional[dict] = None,
+    citation_consistency: Optional[dict] = None,
 ) -> dict:
     counts = _stats(verify)
     total = len(refs)
@@ -115,6 +116,17 @@ def build_report(
                 "skipped_unreliable_match": 0,
             },
         },
+        "citation_consistency": citation_consistency
+        or {
+            "numeric_style": False,
+            "citations": len(intext),
+            "distinct_numbers": 0,
+            "missing_numbers": [],
+            "uncited_numbers": [],
+            "order_inversions": 0,
+            "order_examples": [],
+            "note": "未做正文引注一致性检查",
+        },
         "references": items,
         # Re-typeset reference list built from what the paper already cites (no
         # online lookup). Useful as a first pass, but it cannot invent missing
@@ -170,6 +182,32 @@ def render_markdown(report: dict) -> str:
         f"- 新国标合规均分：**{s['avg_compliance']}/100**｜风险指数：**{s['risk_index']}**",
         f"- 结论：{_markdown_verdict(s)}",
         "",
+    ]
+    consistency = report.get("citation_consistency") or {}
+    lines += ["## 正文引注一致性", ""]
+    if not consistency.get("numeric_style"):
+        lines.append(f"- {consistency.get('note') or '未检测到数字型正文引注，跳过一致性检查'}")
+    else:
+        lines.append(
+            f"- 正文数字引注 {consistency.get('citations', 0)} 处，覆盖 "
+            f"{consistency.get('distinct_numbers', 0)} 个编号"
+        )
+        uncited = consistency.get("uncited_numbers") or []
+        missing = consistency.get("missing_numbers") or []
+        if uncited:
+            shown = "、".join(str(n) for n in uncited[:20])
+            more = f" 等 {len(uncited)} 条" if len(uncited) > 20 else ""
+            lines.append(f"- 参考文献表中未被正文引用：{shown}{more}")
+        if missing:
+            lines.append("- 正文引注编号在文献表中不存在：" + "、".join(str(n) for n in missing))
+        if consistency.get("order_inversions"):
+            lines.append(
+                f"- 首次引用顺序与编号不一致：{consistency['order_inversions']} 处"
+                "（顺序编码制应按正文首次引用顺序编号）"
+            )
+        if not uncited and not missing and not consistency.get("order_inversions"):
+            lines.append("- 未发现正文引注与参考文献表不一致")
+    lines += [
         "| # | 状态 | 支持度 | 题名 | 年 | 来源 | 证据 | 合规分 |",
         "|---|---|---|---|---|---|---|---|",
     ]
@@ -256,6 +294,38 @@ def render_html(report: dict) -> str:
         + "".join(f"<li>{item}</li>" for item in verdict_items)
         + "</ul></div>"
     )
+    consistency = report.get("citation_consistency") or {}
+    consistency_html = ""
+    if consistency.get("numeric_style"):
+        items: list[str] = []
+        uncited = consistency.get("uncited_numbers") or []
+        missing = consistency.get("missing_numbers") or []
+        if uncited:
+            shown = "、".join(str(n) for n in uncited[:20])
+            more = f" 等 {len(uncited)} 条" if len(uncited) > 20 else ""
+            items.append(f"参考文献表中未被正文引用：{shown}{more}")
+        if missing:
+            items.append("正文引注编号在文献表中不存在：" + "、".join(str(n) for n in missing))
+        if consistency.get("order_inversions"):
+            items.append(
+                f"首次引用顺序与编号不一致：{consistency['order_inversions']} 处"
+                "（顺序编码制应按正文首次引用顺序编号）"
+            )
+        if not items:
+            items.append("正文引注与参考文献表一致")
+        color = "#d97706" if (uncited or missing or consistency.get("order_inversions")) else "#1f9d55"
+        consistency_html = (
+            f'<div class="verdict" style="border-left-color:{color}">'
+            '<div class="verdict-head">正文引注一致性</div><ul>'
+            + "".join(f"<li>{html.escape(item)}</li>" for item in items)
+            + "</ul></div>"
+        )
+    elif consistency.get("note"):
+        consistency_html = (
+            '<div class="verdict" style="border-left-color:#6b7280">'
+            '<div class="verdict-head">正文引注一致性</div><ul>'
+            f"<li>{html.escape(consistency['note'])}</li></ul></div>"
+        )
     cards: list[str] = []
     for item in report["references"]:
         p = item["parsed"]
@@ -413,6 +483,7 @@ def render_html(report: dict) -> str:
     <div class="stat"><b>{s['avg_compliance']}</b><span>新国标合规均分</span></div>
   </div>
   {verdict_html}
+  {consistency_html}
   {''.join(cards)}
   {formatted_html}
   <footer>{html.escape(report['disclaimer'])}</footer>

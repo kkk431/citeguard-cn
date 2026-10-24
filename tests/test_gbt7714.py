@@ -8,9 +8,10 @@ from citeguard.gbt7714 import (
     check_punctuation,
     check_reference,
     check_reference_list,
+    citation_consistency,
     summarize,
 )
-from citeguard.reference_parser import Reference, parse_reference
+from citeguard.reference_parser import Reference, parse_intext_citations, parse_reference
 
 
 def _journal_ref(**overrides) -> Reference:
@@ -238,3 +239,51 @@ def test_canonical_entry_has_no_punctuation_error():
     punctuation_errors = [i for i in result.issues if i.field == "punctuation" and i.level == "error"]
     assert punctuation_errors == []
     assert result.errors == 0
+
+
+def _refs_for_consistency():
+    return [
+        parse_reference("[1] 张三. 题名一[J]. 期刊, 2020, 31(2): 10-20."),
+        parse_reference("[2] 李四. 题名二[J]. 期刊, 2021, 32(3): 5-9."),
+        parse_reference("[3] 王五. 题名三[J]. 期刊, 2022, 33(4): 1-4."),
+    ]
+
+
+def test_citation_consistency_flags_uncited_references():
+    refs = _refs_for_consistency()
+    intext = parse_intext_citations("正文引用[1]，另一处[3]。")
+    cc = citation_consistency(refs, intext)
+    assert cc["numeric_style"] is True
+    assert cc["uncited_numbers"] == [2]
+    assert cc["missing_numbers"] == []
+    assert cc["order_inversions"] == 0
+
+
+def test_citation_consistency_flags_missing_reference_number():
+    refs = _refs_for_consistency()[:2]
+    intext = parse_intext_citations("正文引用[1]和[5]。")
+    cc = citation_consistency(refs, intext)
+    assert cc["missing_numbers"] == [5]
+    assert cc["uncited_numbers"] == [2]
+
+
+def test_citation_consistency_detects_order_inversion():
+    refs = _refs_for_consistency()
+    intext = parse_intext_citations("先引[3]，再引[1]，最后[2]。")
+    cc = citation_consistency(refs, intext)
+    assert cc["order_inversions"] >= 1
+    assert cc["order_examples"]
+
+
+def test_citation_consistency_skips_author_year_style():
+    refs = _refs_for_consistency()
+    intext = parse_intext_citations("有研究认为（张三, 2020）如此。")
+    cc = citation_consistency(refs, intext)
+    assert cc["numeric_style"] is False
+    assert "作者-年份" in cc["note"]
+
+
+def test_citation_consistency_without_body_is_not_applicable():
+    cc = citation_consistency(_refs_for_consistency(), [])
+    assert cc["numeric_style"] is False
+    assert cc["note"]
