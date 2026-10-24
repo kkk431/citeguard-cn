@@ -155,6 +155,50 @@
 </section>
 {% endif %}
 
+{% if real.figure %}
+<section class="wrap" style="padding:8px 0 0">
+  <div class="section-head">
+    <h2>图表-结论核验（{{ real.figure.model }}，自托管）</h2>
+    <span class="hint">同一批 {{ real.figure.n }} 条结论（合成图 40 + 真实图 10）· 可选能力</span>
+  </div>
+  <div class="panel table-wrap" style="padding:0">
+    <table class="table">
+      <thead><tr><th>口径</th><th>准确率</th><th>支持召回</th><th>矛盾召回</th><th>平均延迟</th></tr></thead>
+      <tbody>
+        {% set r1 = real.figure.runs.v1 %}
+        {% set r2 = real.figure.runs.v2 %}
+        {% set r3 = real.figure.runs.v2_context %}
+        <tr>
+          <td class="mono-sm">v1：只把「图」和「结论」比对</td>
+          <td class="mono-sm">{{ '%.0f%%'|format(r1.accuracy * 100) }}</td>
+          <td class="mono-sm">{{ '%.0f%%'|format(r1.supported_recall * 100) }}</td>
+          <td class="mono-sm">{{ '%.0f%%'|format(r1.contradiction_recall * 100) }}</td>
+          <td class="mono-sm">{{ '%.2f'|format(r1.mean_latency_ms / 1000) }} s</td>
+        </tr>
+        <tr>
+          <td class="mono-sm">v2：先判图，再判正文/图注覆盖</td>
+          <td class="mono-sm">{{ '%.0f%%'|format(r2.accuracy * 100) }}</td>
+          <td class="mono-sm">{{ '%.0f%%'|format(r2.supported_recall * 100) }}</td>
+          <td class="mono-sm">{{ '%.0f%%'|format(r2.contradiction_recall * 100) }}</td>
+          <td class="mono-sm">{{ '%.2f'|format(r2.mean_latency_ms / 1000) }} s</td>
+        </tr>
+        <tr>
+          <td class="mono-sm"><b>v2 + 用户粘贴的正文/图注</b></td>
+          <td class="mono-sm"><b>{{ '%.0f%%'|format(r3.accuracy * 100) }}</b></td>
+          <td class="mono-sm"><b>{{ '%.0f%%'|format(r3.supported_recall * 100) }}</b></td>
+          <td class="mono-sm"><b>{{ '%.0f%%'|format(r3.contradiction_recall * 100) }}</b></td>
+          <td class="mono-sm">{{ '%.2f'|format(r3.mean_latency_ms / 1000) }} s</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="mono-sm" style="color:var(--muted);line-height:1.8;margin-top:10px">
+    0.94 是「带上下文」口径，仅图是 0.90；真实图只有 5 张 / 10 条结论，不当作大样本精度承诺。
+    上下文目前需要用户手动粘贴，产品尚未做版面分析自动定位图注。
+  </p>
+</section>
+{% endif %}
+
 {% if real %}
 <section class="wrap" style="padding:24px 0 40px">
   <div class="section-head">

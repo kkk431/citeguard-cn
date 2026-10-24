@@ -81,7 +81,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.8.3", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.8.4", lifespan=lifespan)
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
 
@@ -558,6 +558,13 @@ def _benchmark_context() -> dict:
                 "source": row.get("source") or "support_local_qwen3_gpu.json",
             }
         )
+    figure = _load_json(exp / "figure_prompt_eval.json")
+    if figure and figure.get("summary"):
+        real["figure"] = {
+            "model": figure.get("model"),
+            "n": (figure["summary"].get("v2") or {}).get("n"),
+            "runs": figure["summary"],
+        }
     return {"benchmark": benchmark, "support": support, "real": real, "local_models": local_models}
 
 
@@ -814,4 +821,4 @@ def benchmark_api():
 
 @app.get("/api/health")
 def health():
-    return {"ok": True, "version": "0.8.3", "supported": sorted(ALLOWED_SUFFIXES)}
+    return {"ok": True, "version": "0.8.4", "supported": sorted(ALLOWED_SUFFIXES)}
