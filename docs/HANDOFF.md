@@ -29,7 +29,7 @@ $env:PYTHONPATH = "src;.pylibs"; $env:PYTHONIOENCODING = "utf-8"
 $env:DEEPSEEK_API_KEY = "..."   # 支持度判定用，不写进任何文件
 
 # 自检
-& $py -m pytest tests -q                       # 295 项，全离线
+& $py -m pytest tests -q                       # 297 项，全离线
 
 # 起工作台（演示/自用）
 & $py -m uvicorn web.app:app --host 127.0.0.1 --port 8010
@@ -39,7 +39,7 @@ $env:DEEPSEEK_API_KEY = "..."   # 支持度判定用，不写进任何文件
 
 ## 3. 当前状态（一句话）
 
-输入解析（PDF/Word/扫描件 OCR）、GB/T 格式检查（E4 漂移 29/30）、引文真实性核验（在线 + 本地题录库 + 中国 DOI 平台）、支持度判定（两段式 macro-F1 0.9328）、报告与导出全部可用；295 项测试通过。已知边界写在 `docs/plan.md`。
+输入解析（PDF/Word/扫描件 OCR）、GB/T 格式检查（E4 漂移 29/30）、引文真实性核验（在线 + 本地题录库 + 中国 DOI 平台）、支持度判定（两段式 macro-F1 0.9328）、报告与导出全部可用；297 项测试通过。已知边界写在 `docs/plan.md`。
 
 ## 4. 明天优先级
 
@@ -183,3 +183,5 @@ $env:DEEPSEEK_API_KEY = "..."   # 支持度判定用，不写进任何文件
 - 测试 **290 → 295 passed / 2 skipped**；版本 **0.3.5**。
 - 远端演示实例已部署 v0.3.5（`/tmp/restart_remote.sh`），实跑 `verify_artifacts.py --api-base http://127.0.0.1:8000` = **70 项全过**；远端用同一扫描件上传也跑通 OCR（解析 20 条，OCR 依赖版本不同导致与本地 23 条略有差异）。
 - 交付包 `dist/citeguard-cn-0.3.5.zip`（1.3 MB，163 个文件）已重建，排除第三方原始语料。
+- 修复中文作者误报：GB/T 检查曾把两字中文名（如「迟妍」）当成「只剩缩写」并跳过作者比对；现在只对拉丁缩写或单字中文判为残缺，新增两个用例。
+- 测试 **295 → 297 passed / 2 skipped**。

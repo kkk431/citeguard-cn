@@ -20,7 +20,7 @@
 | GB/T 7714-2025 参考文献表重排导出（复制/refs.txt/CSV 列） | ✅ | `tests/test_format_gbt.py`、`tests/test_report.py` |
 | 扫描件 OCR 兜底（可选依赖；真实扫描测试 23/24 条） | ✅ 可选 | scripts/eval_ocr_scanned.py、data/experiments/ocr_scan_real.json |
 | 外部公开数据集验证（SciFact 零样本 0.8224/0.7939） | ✅ | scripts/eval_support_scifact.py |
-| 工程：Docker、CI、部署文档、295 个离线测试 | ✅ | `docker/`、`.github/workflows/ci.yml`、`docs/deployment.md` |
+| 工程：Docker、CI、部署文档、297 个离线测试 | ✅ | `docker/`、`.github/workflows/ci.yml`、`docs/deployment.md` |
 
 ## 2. 已知边界（不要对外说成"能"）
 
@@ -42,7 +42,7 @@
 
 ```bash
 pip install -r requirements.lock.txt
-PYTHONPATH=src python -m pytest tests -q                 # 295 项离线测试
+PYTHONPATH=src python -m pytest tests -q                 # 297 项离线测试
 PYTHONPATH=src python scripts/verify_artifacts.py        # 数据集/结果/文档数字一致性（63 项；加 --api-base 共 72 项）
 PYTHONPATH=src python scripts/eval_parse_real.py         # 真实论文解析实测（需先抓语料）
 PYTHONPATH=src python scripts/eval_verify_real.py        # 真实文献核验误报实测

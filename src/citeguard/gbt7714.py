@@ -134,14 +134,25 @@ def _get(ref: Reference, field_name: str) -> str:
 
 _ALL_CAPS_LATIN = re.compile(r"\b[A-Z]{2,}(?:\s+[A-Z]{2,})?\b")
 _WEAK_AUTHOR_RE = re.compile(r"^(?:[A-Za-z]\.(?:\s*[A-Za-z]\.)*|[A-Za-z])$")
+_CJK_CHAR_RE = re.compile(r"[\u4e00-\u9fff]")
 
 
 def _weak_author_fragments(authors: list[str]) -> list[str]:
-    """Author entries that look like leftovers from a broken author list."""
+    """Author entries that look like leftovers from a broken author list.
+
+    Chinese names are legitimately 2–4 characters (e.g. 迟妍), so the Latin
+    "initials only" heuristic must not be applied to them; a lone CJK
+    character is still treated as a fragment.
+    """
     fragments: list[str] = []
     for author in authors:
         text = (author or "").strip().strip(".,")
-        letters = re.sub(r"[^A-Za-z\u4e00-\u9fff]", "", text)
+        cjk_count = len(_CJK_CHAR_RE.findall(text))
+        if cjk_count:
+            if cjk_count <= 1:
+                fragments.append(author)
+            continue
+        letters = re.sub(r"[^A-Za-z]", "", text)
         if len(letters) <= 2 or _WEAK_AUTHOR_RE.match(text):
             fragments.append(author)
     return fragments

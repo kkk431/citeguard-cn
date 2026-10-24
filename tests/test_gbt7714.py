@@ -101,6 +101,25 @@ def test_fragmentary_author_list_warns_and_is_skipped():
     assert not [i for i in issues if i.level == "error"]
 
 
+def test_two_character_chinese_author_is_not_a_fragment():
+    """迟妍 / 张伟 are complete Chinese names, not broken initials."""
+    ref = _journal_ref(
+        authors=["迟妍"], raw="[2] 迟妍. 古典园林在现代景观设计中的作用[J]. 陶瓷, 2022(4): 167-169."
+    )
+
+    issues = check_authors(ref)
+
+    assert not any("不完整" in i.message for i in issues)
+
+
+def test_single_chinese_character_author_is_a_fragment():
+    ref = _journal_ref(authors=["王"], raw="[1] 王. 题名[J]. 期刊, 2020, 31(2): 10-20.")
+
+    issues = check_authors(ref)
+
+    assert any("不完整" in i.message for i in issues)
+
+
 def test_more_than_three_authors_without_et_al_is_error():
     ref = _journal_ref(
         authors=["张三", "李四", "王五", "赵六"],
