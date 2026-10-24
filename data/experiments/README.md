@@ -24,6 +24,7 @@
 | `verify_real.json` | 20 篇真实论文 409 条已发表引文的真实性核验 | `scripts/eval_verify_real.py` | Exact 125 / Minor 87 / Unverified 197，**Major 0**；网页引文链接检查 13 live / 3 mismatch / 7 blocked |
 | `library_real.json` | 本地题录库实验：库由发布版列表构建（408 条），输入为 PDF 抽取（409 条） | `scripts/eval_library_real.py` | 可判定 **409/409（100%）**，字段偏差 4 条 |
 | `ocr_scan_real.json` | 纯图片 PDF 的 OCR 兜底实测（7 页真实论文渲染成扫描件） | `scripts/make_scanned_pdf.py`、`scripts/eval_ocr_scanned.py` | 解析出 **23/24 条**；题名/年份 23/23 |
+| `real_mutation_eval.json` | 真实文献注入错误：40 条带 DOI 引文 × 5 类可控变异，另 40 条未改动基线与 13 条无锚点伪造 | `scripts/eval_real_mutation.py` | 检出 **197/200（98.5%）**；基线 Major **0/40**；无锚点伪造 13/13 Unverified（按设计不指控） |
 
 ## 3. 公开外部数据（可分发）
 

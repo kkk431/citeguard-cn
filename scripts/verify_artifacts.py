@@ -90,8 +90,10 @@ CODE_CLAIMS = (
     ("README.md", "409 条（100%）", "local library coverage"),
     ("README.md", "15/15", "citation-consistency self-check cases"),
     ("README.md", "29/30", "E4 controlled-drift detection"),
+    ("README.md", "197 / 200（98.5%）", "real-reference mutation detection"),
     ("docs/ppt_numbers.md", "0 / 409", "one-pager real-reference claim"),
     ("docs/ppt_numbers.md", "29 / 30", "one-pager drift claim"),
+    ("docs/ppt_numbers.md", "197 / 200", "one-pager mutation detection"),
     ("docs/real_data_eval.md", "125（30.6%）", "real-corpus Exact count stays in sync"),
     ("docs/real_data_eval.md", "197（48.2%）", "real-corpus Unverified count stays in sync"),
 )
@@ -159,6 +161,18 @@ def _check_experiments(c: "Checker") -> None:
         c.check(consistency.get("passed") == consistency.get("cases"),
                 f"citation-consistency self-check {consistency.get('passed')}/{consistency.get('cases')} cases")
         c.check(consistency.get("failures") == [], "citation-consistency has no failing cases")
+
+    mutation = _load_json(EXPERIMENTS / "real_mutation_eval.json") or {}
+    if mutation.get("summary"):
+        ms = mutation["summary"]
+        mut = ms.get("mutations") or {}
+        base = ms.get("baseline") or {}
+        c.check((ms.get("sample_size") or 0) >= 20, "mutation eval sample size recorded")
+        c.check((mut.get("n") or 0) >= 100, f"mutation eval has {mut.get('n')} injected-error cases")
+        c.check(0 < (mut.get("detection_rate") or 0) <= 1,
+                f"mutation detection rate {mut.get('detection_rate')} in (0,1]")
+        c.check((base.get("n") or 0) >= 20, "mutation eval baseline recorded")
+        c.check(0 <= (base.get("exact_rate") or 0) <= 1, "mutation baseline exact rate in [0,1]")
 
     recall = _load_json(EXPERIMENTS / "search_recall.json") or {}
     if recall.get("summary"):

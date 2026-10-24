@@ -31,9 +31,9 @@ def _make_scanned_pdf(path):
     font_path = _font_path()
     if not font_path:
         pytest.skip("no CJK font available")
-    image = Image.new("RGB", (1240, 1754), "white")
+    image = Image.new("RGB", (1600, 1754), "white")
     draw = ImageDraw.Draw(image)
-    font = ImageFont.truetype(font_path, 34)
+    font = ImageFont.truetype(font_path, 44)
     lines = [
         "参考文献",
         "[1] 张三. 论引文核验的可验证性[J]. 计算机学报, 2020, 43(5): 1-10.",
@@ -41,8 +41,8 @@ def _make_scanned_pdf(path):
     ]
     y = 100
     for line in lines:
-        draw.text((100, y), line, fill="black", font=font)
-        y += 70
+        draw.text((80, y), line, fill="black", font=font)
+        y += 100
     image.save(str(path), "PDF", resolution=150.0)
     return path
 

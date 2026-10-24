@@ -11,19 +11,26 @@ else
   export PYTHONPATH="src"
 fi
 
-echo "[1/5] CLI demo on the sample paper"
+echo "[1/6] CLI demo on the sample paper"
 $PY -m citeguard.cli --input web/static/samples/sample_paper.txt --out out/demo
 
-echo "[2/5] CiteBench-CN evaluation"
+echo "[2/6] CiteBench-CN evaluation"
 $PY scripts/evaluate_citebench.py --limit 0 --out data/citebench_cn/results.json
 
-echo "[3/5] citation-consistency self-check (offline)"
+echo "[3/6] citation-consistency self-check (offline)"
 $PY scripts/eval_citation_consistency.py
 
-echo "[4/5] artifact consistency check"
+echo "[4/6] real-reference mutation eval (network; needs data/real_corpus)"
+if [ -d data/real_corpus ]; then
+  $PY scripts/eval_real_mutation.py --sample 40 --workers 4
+else
+  echo "[skip] data/real_corpus missing (downloaded corpus is gitignored)"
+fi
+
+echo "[5/6] artifact consistency check"
 $PY scripts/verify_artifacts.py || echo "[warn] verify_artifacts reported issues; inspect the output above"
 
-echo "[5/5] offline test suite"
+echo "[6/6] offline test suite"
 if $PY -c "import pytest" >/dev/null 2>&1; then
   $PY -m pytest tests -q
 else

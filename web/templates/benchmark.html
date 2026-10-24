@@ -173,6 +173,16 @@
           <td class="mono-sm">真实语料中的 [EB/OL] 引文 · 链接失效只提示人工核对，不判「疑似虚构」</td>
         </tr>
         {% endif %}
+        {% if real.mutation %}
+        <tr>
+          <td>真实文献注入错误检出</td>
+          <td class="mono-sm">
+            检出 <b>{{ '%.1f%%'|format((real.mutation.detection_rate or 0) * 100) }}</b>（{{ real.mutation.detected }}/{{ real.mutation.n }}）
+            · 漏判（判 Exact）{{ '%.1f%%'|format((real.mutation.exact_rate or 0) * 100) }}
+          </td>
+          <td class="mono-sm">{{ real.mutation.sample }} 条带 DOI 的真实引文 ×5 类注入错误 · 未改动基线 Exact {{ '%.0f%%'|format((real.mutation.baseline_exact_rate or 0) * 100) }}</td>
+        </tr>
+        {% endif %}
         {% if real.library %}
         <tr>
           <td>导入本地题录库后</td>

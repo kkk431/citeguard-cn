@@ -1,0 +1,4482 @@
+{
+  "schema": "citeguard.real_mutation.v1",
+  "summary": {
+    "generated_at": "2026-10-24T17:01:32+0800",
+    "seed": 20261024,
+    "sample_size": 40,
+    "workers": 4,
+    "corpus": {
+      "papers_with_published_list": 20,
+      "refs": 409
+    },
+    "usable_doi_refs": 125,
+    "elapsed_seconds": 88.3,
+    "design": {
+      "catch_rule": "status in {Major, Minor}",
+      "doi_bad": "伪造 DOI -> 期望 Major",
+      "year_shift": "真实 DOI + 年份 -7/+7 -> 期望 Minor(year)",
+      "authors_swap": "真实 DOI + 他人作者 -> 期望 Minor(authors)",
+      "venue_swap": "真实 DOI + 他人刊名 -> 期望 Minor(venue)",
+      "title_swap": "真实 DOI + 他人题名 -> 期望 Major 或 Minor",
+      "baseline": "未改动，用于误报基线（Exact 越高越好）"
+    },
+    "baseline": {
+      "Exact": 28,
+      "Minor": 12,
+      "Major": 0,
+      "Unverified": 0,
+      "Unknown": 0,
+      "n": 40,
+      "exact_rate": 0.7
+    },
+    "mutations": {
+      "n": 200,
+      "detected": 197,
+      "detection_rate": 0.985,
+      "exact": 3,
+      "exact_rate": 0.015,
+      "unverified": 0,
+      "unknown": 0,
+      "by_family": {
+        "doi_bad": {
+          "n": 40,
+          "Exact": 0,
+          "Minor": 0,
+          "Major": 40,
+          "Unverified": 0,
+          "Unknown": 0,
+          "detection_rate": 1.0,
+          "exact_rate": 0.0
+        },
+        "year_shift": {
+          "n": 40,
+          "Exact": 1,
+          "Minor": 39,
+          "Major": 0,
+          "Unverified": 0,
+          "Unknown": 0,
+          "detection_rate": 0.975,
+          "exact_rate": 0.025
+        },
+        "authors_swap": {
+          "n": 40,
+          "Exact": 1,
+          "Minor": 39,
+          "Major": 0,
+          "Unverified": 0,
+          "Unknown": 0,
+          "detection_rate": 0.975,
+          "exact_rate": 0.025
+        },
+        "venue_swap": {
+          "n": 40,
+          "Exact": 1,
+          "Minor": 39,
+          "Major": 0,
+          "Unverified": 0,
+          "Unknown": 0,
+          "detection_rate": 0.975,
+          "exact_rate": 0.025
+        },
+        "title_swap": {
+          "n": 40,
+          "Exact": 0,
+          "Minor": 40,
+          "Major": 0,
+          "Unverified": 0,
+          "Unknown": 0,
+          "detection_rate": 1.0,
+          "exact_rate": 0.0
+        }
+      }
+    },
+    "fabricated_noanchor": {
+      "n": 13,
+      "Exact": 0,
+      "Minor": 0,
+      "Major": 0,
+      "Unverified": 13,
+      "Unknown": 0,
+      "note": "无索引锚点的伪造条：产品按设计给 Unverified 而非指控；不计入检出率"
+    },
+    "code_version": "0.3.10"
+  },
+  "cases": [
+    {
+      "family": "baseline",
+      "expected": "Exact/Minor",
+      "note": "未改动的真实条目",
+      "status": "Exact",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [],
+      "title": "Schemas, Sexuality, and Romantic Attachment",
+      "doi": "10.1037/0022-3514.74.5.1364",
+      "notes": [
+        "DOI 10.1037/0022-3514.74.5.1364 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "family": "doi_bad",
+      "expected": "Major",
+      "note": "真实字段 + 伪造 DOI",
+      "status": "Major",
+      "title_sim": 0.0,
+      "year_match": false,
+      "doi_status": "not_found",
+      "mismatches": [],
+      "title": "Schemas, Sexuality, and Romantic Attachment",
+      "doi": "10.99999/mut-w62izs2zzt",
+      "notes": [
+        "DOI 不存在（Crossref 404，DOI 系统也无记录）"
+      ]
+    },
+    {
+      "family": "year_shift",
+      "expected": "Minor",
+      "note": "真实 DOI + 年份偏移 7 年",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year"
+      ],
+      "title": "Schemas, Sexuality, and Romantic Attachment",
+      "doi": "10.1037/0022-3514.74.5.1364",
+      "notes": [
+        "DOI 10.1037/0022-3514.74.5.1364 resolved",
+        "DOI resolved; metadata mismatch: year"
+      ]
+    },
+    {
+      "family": "authors_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的作者",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "authors"
+      ],
+      "title": "Schemas, Sexuality, and Romantic Attachment",
+      "doi": "10.1037/0022-3514.74.5.1364",
+      "notes": [
+        "DOI 10.1037/0022-3514.74.5.1364 resolved",
+        "DOI resolved; metadata mismatch: authors"
+      ]
+    },
+    {
+      "family": "venue_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的刊名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "venue"
+      ],
+      "title": "Schemas, Sexuality, and Romantic Attachment",
+      "doi": "10.1037/0022-3514.74.5.1364",
+      "notes": [
+        "DOI 10.1037/0022-3514.74.5.1364 resolved",
+        "DOI resolved; metadata mismatch: venue"
+      ]
+    },
+    {
+      "family": "title_swap",
+      "expected": "Major/Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的题名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "doi"
+      ],
+      "title": "Attachment, Trust, and Satisfaction in Relationships: Investigating Actor, Partn",
+      "doi": "10.1037/0022-3514.74.5.1364",
+      "notes": [
+        "DOI 10.1037/0022-3514.74.5.1364 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "family": "baseline",
+      "expected": "Exact/Minor",
+      "note": "未改动的真实条目",
+      "status": "Exact",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [],
+      "title": "Attachment, Trust, and Satisfaction in Relationships: Investigating Actor, Partn",
+      "doi": "10.1111/pere.12203",
+      "notes": [
+        "DOI 10.1111/pere.12203 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "family": "doi_bad",
+      "expected": "Major",
+      "note": "真实字段 + 伪造 DOI",
+      "status": "Major",
+      "title_sim": 0.0,
+      "year_match": false,
+      "doi_status": "not_found",
+      "mismatches": [],
+      "title": "Attachment, Trust, and Satisfaction in Relationships: Investigating Actor, Partn",
+      "doi": "10.99999/mut-xugnrben93",
+      "notes": [
+        "DOI 不存在（Crossref 404，DOI 系统也无记录）"
+      ]
+    },
+    {
+      "family": "year_shift",
+      "expected": "Minor",
+      "note": "真实 DOI + 年份偏移 7 年",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year"
+      ],
+      "title": "Attachment, Trust, and Satisfaction in Relationships: Investigating Actor, Partn",
+      "doi": "10.1111/pere.12203",
+      "notes": [
+        "DOI 10.1111/pere.12203 resolved",
+        "DOI resolved; metadata mismatch: year"
+      ]
+    },
+    {
+      "family": "authors_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的作者",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "authors"
+      ],
+      "title": "Attachment, Trust, and Satisfaction in Relationships: Investigating Actor, Partn",
+      "doi": "10.1111/pere.12203",
+      "notes": [
+        "DOI 10.1111/pere.12203 resolved",
+        "DOI resolved; metadata mismatch: authors"
+      ]
+    },
+    {
+      "family": "venue_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的刊名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "venue"
+      ],
+      "title": "Attachment, Trust, and Satisfaction in Relationships: Investigating Actor, Partn",
+      "doi": "10.1111/pere.12203",
+      "notes": [
+        "DOI 10.1111/pere.12203 resolved",
+        "DOI resolved; metadata mismatch: venue"
+      ]
+    },
+    {
+      "family": "title_swap",
+      "expected": "Major/Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的题名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "doi"
+      ],
+      "title": "Locally Adaptive Metrics for Clustering High Dimensional Data",
+      "doi": "10.1111/pere.12203",
+      "notes": [
+        "DOI 10.1111/pere.12203 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "family": "baseline",
+      "expected": "Exact/Minor",
+      "note": "未改动的真实条目",
+      "status": "Exact",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [],
+      "title": "Locally Adaptive Metrics for Clustering High Dimensional Data",
+      "doi": "10.1007/s10618-006-0060-8",
+      "notes": [
+        "DOI 10.1007/s10618-006-0060-8 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "family": "doi_bad",
+      "expected": "Major",
+      "note": "真实字段 + 伪造 DOI",
+      "status": "Major",
+      "title_sim": 0.0,
+      "year_match": false,
+      "doi_status": "not_found",
+      "mismatches": [],
+      "title": "Locally Adaptive Metrics for Clustering High Dimensional Data",
+      "doi": "10.99999/mut-aa6fr6av4g",
+      "notes": [
+        "DOI 不存在（Crossref 404，DOI 系统也无记录）"
+      ]
+    },
+    {
+      "family": "year_shift",
+      "expected": "Minor",
+      "note": "真实 DOI + 年份偏移 7 年",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year"
+      ],
+      "title": "Locally Adaptive Metrics for Clustering High Dimensional Data",
+      "doi": "10.1007/s10618-006-0060-8",
+      "notes": [
+        "DOI 10.1007/s10618-006-0060-8 resolved",
+        "DOI resolved; metadata mismatch: year"
+      ]
+    },
+    {
+      "family": "authors_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的作者",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "authors_order"
+      ],
+      "title": "Locally Adaptive Metrics for Clustering High Dimensional Data",
+      "doi": "10.1007/s10618-006-0060-8",
+      "notes": [
+        "DOI 10.1007/s10618-006-0060-8 resolved",
+        "DOI resolved; metadata mismatch: authors_order"
+      ]
+    },
+    {
+      "family": "venue_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的刊名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "venue"
+      ],
+      "title": "Locally Adaptive Metrics for Clustering High Dimensional Data",
+      "doi": "10.1007/s10618-006-0060-8",
+      "notes": [
+        "DOI 10.1007/s10618-006-0060-8 resolved",
+        "DOI resolved; metadata mismatch: venue"
+      ]
+    },
+    {
+      "family": "title_swap",
+      "expected": "Major/Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的题名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "doi"
+      ],
+      "title": "Self-Schemata and Processing Information about the Self",
+      "doi": "10.1007/s10618-006-0060-8",
+      "notes": [
+        "DOI 10.1007/s10618-006-0060-8 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "family": "baseline",
+      "expected": "Exact/Minor",
+      "note": "未改动的真实条目",
+      "status": "Exact",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [],
+      "title": "Self-Schemata and Processing Information about the Self",
+      "doi": "10.1037/0022-3514.35.2.63",
+      "notes": [
+        "DOI 10.1037/0022-3514.35.2.63 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "family": "doi_bad",
+      "expected": "Major",
+      "note": "真实字段 + 伪造 DOI",
+      "status": "Major",
+      "title_sim": 0.0,
+      "year_match": false,
+      "doi_status": "not_found",
+      "mismatches": [],
+      "title": "Self-Schemata and Processing Information about the Self",
+      "doi": "10.99999/mut-ysbgq6gjcd",
+      "notes": [
+        "DOI 不存在（Crossref 404，DOI 系统也无记录）"
+      ]
+    },
+    {
+      "family": "year_shift",
+      "expected": "Minor",
+      "note": "真实 DOI + 年份偏移 7 年",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year"
+      ],
+      "title": "Self-Schemata and Processing Information about the Self",
+      "doi": "10.1037/0022-3514.35.2.63",
+      "notes": [
+        "DOI 10.1037/0022-3514.35.2.63 resolved",
+        "DOI resolved; metadata mismatch: year"
+      ]
+    },
+    {
+      "family": "authors_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的作者",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "authors"
+      ],
+      "title": "Self-Schemata and Processing Information about the Self",
+      "doi": "10.1037/0022-3514.35.2.63",
+      "notes": [
+        "DOI 10.1037/0022-3514.35.2.63 resolved",
+        "DOI resolved; metadata mismatch: authors"
+      ]
+    },
+    {
+      "family": "venue_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的刊名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "venue"
+      ],
+      "title": "Self-Schemata and Processing Information about the Self",
+      "doi": "10.1037/0022-3514.35.2.63",
+      "notes": [
+        "DOI 10.1037/0022-3514.35.2.63 resolved",
+        "DOI resolved; metadata mismatch: venue"
+      ]
+    },
+    {
+      "family": "title_swap",
+      "expected": "Major/Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的题名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "doi"
+      ],
+      "title": "Self-Efficacy: Toward a Unifying Theory of Behavioral Change",
+      "doi": "10.1037/0022-3514.35.2.63",
+      "notes": [
+        "DOI 10.1037/0022-3514.35.2.63 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "family": "baseline",
+      "expected": "Exact/Minor",
+      "note": "未改动的真实条目",
+      "status": "Exact",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [],
+      "title": "Self-Efficacy: Toward a Unifying Theory of Behavioral Change",
+      "doi": "10.1037/0033-295X.84.2.191",
+      "notes": [
+        "DOI 10.1037/0033-295X.84.2.191 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "family": "doi_bad",
+      "expected": "Major",
+      "note": "真实字段 + 伪造 DOI",
+      "status": "Major",
+      "title_sim": 0.0,
+      "year_match": false,
+      "doi_status": "not_found",
+      "mismatches": [],
+      "title": "Self-Efficacy: Toward a Unifying Theory of Behavioral Change",
+      "doi": "10.99999/mut-c4936z5y5r",
+      "notes": [
+        "DOI 不存在（Crossref 404，DOI 系统也无记录）"
+      ]
+    },
+    {
+      "family": "year_shift",
+      "expected": "Minor",
+      "note": "真实 DOI + 年份偏移 7 年",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year"
+      ],
+      "title": "Self-Efficacy: Toward a Unifying Theory of Behavioral Change",
+      "doi": "10.1037/0033-295X.84.2.191",
+      "notes": [
+        "DOI 10.1037/0033-295X.84.2.191 resolved",
+        "DOI resolved; metadata mismatch: year"
+      ]
+    },
+    {
+      "family": "authors_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的作者",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "authors"
+      ],
+      "title": "Self-Efficacy: Toward a Unifying Theory of Behavioral Change",
+      "doi": "10.1037/0033-295X.84.2.191",
+      "notes": [
+        "DOI 10.1037/0033-295X.84.2.191 resolved",
+        "DOI resolved; metadata mismatch: authors"
+      ]
+    },
+    {
+      "family": "venue_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的刊名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "venue"
+      ],
+      "title": "Self-Efficacy: Toward a Unifying Theory of Behavioral Change",
+      "doi": "10.1037/0033-295X.84.2.191",
+      "notes": [
+        "DOI 10.1037/0033-295X.84.2.191 resolved",
+        "DOI resolved; metadata mismatch: venue"
+      ]
+    },
+    {
+      "family": "title_swap",
+      "expected": "Major/Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的题名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "doi"
+      ],
+      "title": "Examining the Relationship between Problematic Media Use and Screen Time in Chil",
+      "doi": "10.1037/0033-295X.84.2.191",
+      "notes": [
+        "DOI 10.1037/0033-295X.84.2.191 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "family": "baseline",
+      "expected": "Exact/Minor",
+      "note": "未改动的真实条目",
+      "status": "Exact",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [],
+      "title": "Examining the Relationship between Problematic Media Use and Screen Time in Chil",
+      "doi": "10.14812/cuefd.1671077",
+      "notes": [
+        "DOI 10.14812/cuefd.1671077 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "family": "doi_bad",
+      "expected": "Major",
+      "note": "真实字段 + 伪造 DOI",
+      "status": "Major",
+      "title_sim": 0.0,
+      "year_match": false,
+      "doi_status": "not_found",
+      "mismatches": [],
+      "title": "Examining the Relationship between Problematic Media Use and Screen Time in Chil",
+      "doi": "10.99999/mut-yyrwh4z7jt",
+      "notes": [
+        "DOI 不存在（Crossref 404，DOI 系统也无记录）"
+      ]
+    },
+    {
+      "family": "year_shift",
+      "expected": "Minor",
+      "note": "真实 DOI + 年份偏移 7 年",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year"
+      ],
+      "title": "Examining the Relationship between Problematic Media Use and Screen Time in Chil",
+      "doi": "10.14812/cuefd.1671077",
+      "notes": [
+        "DOI 10.14812/cuefd.1671077 resolved",
+        "DOI resolved; metadata mismatch: year"
+      ]
+    },
+    {
+      "family": "authors_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的作者",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "authors"
+      ],
+      "title": "Examining the Relationship between Problematic Media Use and Screen Time in Chil",
+      "doi": "10.14812/cuefd.1671077",
+      "notes": [
+        "DOI 10.14812/cuefd.1671077 resolved",
+        "DOI resolved; metadata mismatch: authors"
+      ]
+    },
+    {
+      "family": "venue_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的刊名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "venue"
+      ],
+      "title": "Examining the Relationship between Problematic Media Use and Screen Time in Chil",
+      "doi": "10.14812/cuefd.1671077",
+      "notes": [
+        "DOI 10.14812/cuefd.1671077 resolved",
+        "DOI resolved; metadata mismatch: venue"
+      ]
+    },
+    {
+      "family": "title_swap",
+      "expected": "Major/Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的题名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "doi"
+      ],
+      "title": "Parent-Child Attachment and Emotion Regulation",
+      "doi": "10.14812/cuefd.1671077",
+      "notes": [
+        "DOI 10.14812/cuefd.1671077 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "family": "baseline",
+      "expected": "Exact/Minor",
+      "note": "未改动的真实条目",
+      "status": "Exact",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [],
+      "title": "Parent-Child Attachment and Emotion Regulation",
+      "doi": "10.1002/cad.20098",
+      "notes": [
+        "DOI 10.1002/cad.20098 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "family": "doi_bad",
+      "expected": "Major",
+      "note": "真实字段 + 伪造 DOI",
+      "status": "Major",
+      "title_sim": 0.0,
+      "year_match": false,
+      "doi_status": "not_found",
+      "mismatches": [],
+      "title": "Parent-Child Attachment and Emotion Regulation",
+      "doi": "10.99999/mut-8a2um2rfak",
+      "notes": [
+        "DOI 不存在（Crossref 404，DOI 系统也无记录）"
+      ]
+    },
+    {
+      "family": "year_shift",
+      "expected": "Minor",
+      "note": "真实 DOI + 年份偏移 7 年",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year"
+      ],
+      "title": "Parent-Child Attachment and Emotion Regulation",
+      "doi": "10.1002/cad.20098",
+      "notes": [
+        "DOI 10.1002/cad.20098 resolved",
+        "DOI resolved; metadata mismatch: year"
+      ]
+    },
+    {
+      "family": "authors_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的作者",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "authors"
+      ],
+      "title": "Parent-Child Attachment and Emotion Regulation",
+      "doi": "10.1002/cad.20098",
+      "notes": [
+        "DOI 10.1002/cad.20098 resolved",
+        "DOI resolved; metadata mismatch: authors"
+      ]
+    },
+    {
+      "family": "venue_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的刊名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "venue"
+      ],
+      "title": "Parent-Child Attachment and Emotion Regulation",
+      "doi": "10.1002/cad.20098",
+      "notes": [
+        "DOI 10.1002/cad.20098 resolved",
+        "DOI resolved; metadata mismatch: venue"
+      ]
+    },
+    {
+      "family": "title_swap",
+      "expected": "Major/Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的题名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "doi"
+      ],
+      "title": "Retrieval-Augmented Generation for Educational Application: A Systematic Survey",
+      "doi": "10.1002/cad.20098",
+      "notes": [
+        "DOI 10.1002/cad.20098 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "family": "baseline",
+      "expected": "Exact/Minor",
+      "note": "未改动的真实条目",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "pages"
+      ],
+      "title": "Retrieval-Augmented Generation for Educational Application: A Systematic Survey",
+      "doi": "10.1016/j.caeai.2025.100417",
+      "notes": [
+        "DOI 10.1016/j.caeai.2025.100417 resolved",
+        "DOI resolved; metadata mismatch: pages"
+      ]
+    },
+    {
+      "family": "doi_bad",
+      "expected": "Major",
+      "note": "真实字段 + 伪造 DOI",
+      "status": "Major",
+      "title_sim": 0.0,
+      "year_match": false,
+      "doi_status": "not_found",
+      "mismatches": [],
+      "title": "Retrieval-Augmented Generation for Educational Application: A Systematic Survey",
+      "doi": "10.99999/mut-hgcwqspxar",
+      "notes": [
+        "DOI 不存在（Crossref 404，DOI 系统也无记录）"
+      ]
+    },
+    {
+      "family": "year_shift",
+      "expected": "Minor",
+      "note": "真实 DOI + 年份偏移 7 年",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year",
+        "pages"
+      ],
+      "title": "Retrieval-Augmented Generation for Educational Application: A Systematic Survey",
+      "doi": "10.1016/j.caeai.2025.100417",
+      "notes": [
+        "DOI 10.1016/j.caeai.2025.100417 resolved",
+        "DOI resolved; metadata mismatch: year,pages"
+      ]
+    },
+    {
+      "family": "authors_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的作者",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "authors",
+        "pages"
+      ],
+      "title": "Retrieval-Augmented Generation for Educational Application: A Systematic Survey",
+      "doi": "10.1016/j.caeai.2025.100417",
+      "notes": [
+        "DOI 10.1016/j.caeai.2025.100417 resolved",
+        "DOI resolved; metadata mismatch: authors,pages"
+      ]
+    },
+    {
+      "family": "venue_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的刊名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "venue",
+        "pages"
+      ],
+      "title": "Retrieval-Augmented Generation for Educational Application: A Systematic Survey",
+      "doi": "10.1016/j.caeai.2025.100417",
+      "notes": [
+        "DOI 10.1016/j.caeai.2025.100417 resolved",
+        "DOI resolved; metadata mismatch: venue,pages"
+      ]
+    },
+    {
+      "family": "title_swap",
+      "expected": "Major/Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的题名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "doi"
+      ],
+      "title": "Marital Satisfaction and Quality of Life among Married Women: Moderating Role of",
+      "doi": "10.1016/j.caeai.2025.100417",
+      "notes": [
+        "DOI 10.1016/j.caeai.2025.100417 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "family": "baseline",
+      "expected": "Exact/Minor",
+      "note": "未改动的真实条目",
+      "status": "Exact",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [],
+      "title": "Marital Satisfaction and Quality of Life among Married Women: Moderating Role of",
+      "doi": "10.58800/oglm4067",
+      "notes": [
+        "DOI 10.58800/oglm4067 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "family": "doi_bad",
+      "expected": "Major",
+      "note": "真实字段 + 伪造 DOI",
+      "status": "Major",
+      "title_sim": 0.0,
+      "year_match": false,
+      "doi_status": "not_found",
+      "mismatches": [],
+      "title": "Marital Satisfaction and Quality of Life among Married Women: Moderating Role of",
+      "doi": "10.99999/mut-5uvqwqbzyd",
+      "notes": [
+        "DOI 不存在（Crossref 404，DOI 系统也无记录）"
+      ]
+    },
+    {
+      "family": "year_shift",
+      "expected": "Minor",
+      "note": "真实 DOI + 年份偏移 7 年",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year"
+      ],
+      "title": "Marital Satisfaction and Quality of Life among Married Women: Moderating Role of",
+      "doi": "10.58800/oglm4067",
+      "notes": [
+        "DOI 10.58800/oglm4067 resolved",
+        "DOI resolved; metadata mismatch: year"
+      ]
+    },
+    {
+      "family": "authors_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的作者",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "authors"
+      ],
+      "title": "Marital Satisfaction and Quality of Life among Married Women: Moderating Role of",
+      "doi": "10.58800/oglm4067",
+      "notes": [
+        "DOI 10.58800/oglm4067 resolved",
+        "DOI resolved; metadata mismatch: authors"
+      ]
+    },
+    {
+      "family": "venue_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的刊名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "venue"
+      ],
+      "title": "Marital Satisfaction and Quality of Life among Married Women: Moderating Role of",
+      "doi": "10.58800/oglm4067",
+      "notes": [
+        "DOI 10.58800/oglm4067 resolved",
+        "DOI resolved; metadata mismatch: venue"
+      ]
+    },
+    {
+      "family": "title_swap",
+      "expected": "Major/Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的题名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "doi"
+      ],
+      "title": "Extending the Study of Autobiographical Memory: Thinking Back about Life across ",
+      "doi": "10.58800/oglm4067",
+      "notes": [
+        "DOI 10.58800/oglm4067 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "family": "baseline",
+      "expected": "Exact/Minor",
+      "note": "未改动的真实条目",
+      "status": "Exact",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [],
+      "title": "Extending the Study of Autobiographical Memory: Thinking Back about Life across ",
+      "doi": "10.1037/1089-2680.5.2.135",
+      "notes": [
+        "DOI 10.1037/1089-2680.5.2.135 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "family": "doi_bad",
+      "expected": "Major",
+      "note": "真实字段 + 伪造 DOI",
+      "status": "Major",
+      "title_sim": 0.0,
+      "year_match": false,
+      "doi_status": "not_found",
+      "mismatches": [],
+      "title": "Extending the Study of Autobiographical Memory: Thinking Back about Life across ",
+      "doi": "10.99999/mut-jt7cehnapf",
+      "notes": [
+        "DOI 不存在（Crossref 404，DOI 系统也无记录）"
+      ]
+    },
+    {
+      "family": "year_shift",
+      "expected": "Minor",
+      "note": "真实 DOI + 年份偏移 7 年",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year"
+      ],
+      "title": "Extending the Study of Autobiographical Memory: Thinking Back about Life across ",
+      "doi": "10.1037/1089-2680.5.2.135",
+      "notes": [
+        "DOI 10.1037/1089-2680.5.2.135 resolved",
+        "DOI resolved; metadata mismatch: year"
+      ]
+    },
+    {
+      "family": "authors_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的作者",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "authors"
+      ],
+      "title": "Extending the Study of Autobiographical Memory: Thinking Back about Life across ",
+      "doi": "10.1037/1089-2680.5.2.135",
+      "notes": [
+        "DOI 10.1037/1089-2680.5.2.135 resolved",
+        "DOI resolved; metadata mismatch: authors"
+      ]
+    },
+    {
+      "family": "venue_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的刊名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "venue"
+      ],
+      "title": "Extending the Study of Autobiographical Memory: Thinking Back about Life across ",
+      "doi": "10.1037/1089-2680.5.2.135",
+      "notes": [
+        "DOI 10.1037/1089-2680.5.2.135 resolved",
+        "DOI resolved; metadata mismatch: venue"
+      ]
+    },
+    {
+      "family": "title_swap",
+      "expected": "Major/Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的题名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "doi"
+      ],
+      "title": "Joint Sample Position Based Noise Filtering and Mean Shift Clustering for Imbala",
+      "doi": "10.1037/1089-2680.5.2.135",
+      "notes": [
+        "DOI 10.1037/1089-2680.5.2.135 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "family": "baseline",
+      "expected": "Exact/Minor",
+      "note": "未改动的真实条目",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year"
+      ],
+      "title": "Joint Sample Position Based Noise Filtering and Mean Shift Clustering for Imbala",
+      "doi": "10.26599/tst.2023.9010006",
+      "notes": [
+        "DOI 10.26599/tst.2023.9010006 resolved",
+        "DOI resolved; metadata mismatch: year"
+      ]
+    },
+    {
+      "family": "doi_bad",
+      "expected": "Major",
+      "note": "真实字段 + 伪造 DOI",
+      "status": "Major",
+      "title_sim": 0.0,
+      "year_match": false,
+      "doi_status": "not_found",
+      "mismatches": [],
+      "title": "Joint Sample Position Based Noise Filtering and Mean Shift Clustering for Imbala",
+      "doi": "10.99999/mut-cvpjwvygfd",
+      "notes": [
+        "DOI 不存在（Crossref 404，DOI 系统也无记录）"
+      ]
+    },
+    {
+      "family": "year_shift",
+      "expected": "Minor",
+      "note": "真实 DOI + 年份偏移 7 年",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year"
+      ],
+      "title": "Joint Sample Position Based Noise Filtering and Mean Shift Clustering for Imbala",
+      "doi": "10.26599/tst.2023.9010006",
+      "notes": [
+        "DOI 10.26599/tst.2023.9010006 resolved",
+        "DOI resolved; metadata mismatch: year"
+      ]
+    },
+    {
+      "family": "authors_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的作者",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year",
+        "authors"
+      ],
+      "title": "Joint Sample Position Based Noise Filtering and Mean Shift Clustering for Imbala",
+      "doi": "10.26599/tst.2023.9010006",
+      "notes": [
+        "DOI 10.26599/tst.2023.9010006 resolved",
+        "DOI resolved; metadata mismatch: year,authors"
+      ]
+    },
+    {
+      "family": "venue_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的刊名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year",
+        "venue"
+      ],
+      "title": "Joint Sample Position Based Noise Filtering and Mean Shift Clustering for Imbala",
+      "doi": "10.26599/tst.2023.9010006",
+      "notes": [
+        "DOI 10.26599/tst.2023.9010006 resolved",
+        "DOI resolved; metadata mismatch: year,venue"
+      ]
+    },
+    {
+      "family": "title_swap",
+      "expected": "Major/Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的题名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "doi"
+      ],
+      "title": "Using ChatGPT for Second Language Writing: Pitfalls and Potentials",
+      "doi": "10.26599/tst.2023.9010006",
+      "notes": [
+        "DOI 10.26599/tst.2023.9010006 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "family": "baseline",
+      "expected": "Exact/Minor",
+      "note": "未改动的真实条目",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "pages"
+      ],
+      "title": "Using ChatGPT for Second Language Writing: Pitfalls and Potentials",
+      "doi": "10.1016/j.asw.2023.100745",
+      "notes": [
+        "DOI 10.1016/j.asw.2023.100745 resolved",
+        "DOI resolved; metadata mismatch: pages"
+      ]
+    },
+    {
+      "family": "doi_bad",
+      "expected": "Major",
+      "note": "真实字段 + 伪造 DOI",
+      "status": "Major",
+      "title_sim": 0.0,
+      "year_match": false,
+      "doi_status": "not_found",
+      "mismatches": [],
+      "title": "Using ChatGPT for Second Language Writing: Pitfalls and Potentials",
+      "doi": "10.99999/mut-nuwsmisn99",
+      "notes": [
+        "DOI 不存在（Crossref 404，DOI 系统也无记录）"
+      ]
+    },
+    {
+      "family": "year_shift",
+      "expected": "Minor",
+      "note": "真实 DOI + 年份偏移 7 年",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year",
+        "pages"
+      ],
+      "title": "Using ChatGPT for Second Language Writing: Pitfalls and Potentials",
+      "doi": "10.1016/j.asw.2023.100745",
+      "notes": [
+        "DOI 10.1016/j.asw.2023.100745 resolved",
+        "DOI resolved; metadata mismatch: year,pages"
+      ]
+    },
+    {
+      "family": "authors_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的作者",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "authors",
+        "pages"
+      ],
+      "title": "Using ChatGPT for Second Language Writing: Pitfalls and Potentials",
+      "doi": "10.1016/j.asw.2023.100745",
+      "notes": [
+        "DOI 10.1016/j.asw.2023.100745 resolved",
+        "DOI resolved; metadata mismatch: authors,pages"
+      ]
+    },
+    {
+      "family": "venue_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的刊名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "venue",
+        "pages"
+      ],
+      "title": "Using ChatGPT for Second Language Writing: Pitfalls and Potentials",
+      "doi": "10.1016/j.asw.2023.100745",
+      "notes": [
+        "DOI 10.1016/j.asw.2023.100745 resolved",
+        "DOI resolved; metadata mismatch: venue,pages"
+      ]
+    },
+    {
+      "family": "title_swap",
+      "expected": "Major/Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的题名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "doi"
+      ],
+      "title": "Generative Artificial Intelligence and Internationalization Green Innovation: Ro",
+      "doi": "10.1016/j.asw.2023.100745",
+      "notes": [
+        "DOI 10.1016/j.asw.2023.100745 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "family": "baseline",
+      "expected": "Exact/Minor",
+      "note": "未改动的真实条目",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "pages"
+      ],
+      "title": "Generative Artificial Intelligence and Internationalization Green Innovation: Ro",
+      "doi": "10.1016/j.techsoc.2025.102898",
+      "notes": [
+        "DOI 10.1016/j.techsoc.2025.102898 resolved",
+        "DOI resolved; metadata mismatch: pages"
+      ]
+    },
+    {
+      "family": "doi_bad",
+      "expected": "Major",
+      "note": "真实字段 + 伪造 DOI",
+      "status": "Major",
+      "title_sim": 0.0,
+      "year_match": false,
+      "doi_status": "not_found",
+      "mismatches": [],
+      "title": "Generative Artificial Intelligence and Internationalization Green Innovation: Ro",
+      "doi": "10.99999/mut-5ecjhmsxxx",
+      "notes": [
+        "DOI 不存在（Crossref 404，DOI 系统也无记录）"
+      ]
+    },
+    {
+      "family": "year_shift",
+      "expected": "Minor",
+      "note": "真实 DOI + 年份偏移 7 年",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year",
+        "pages"
+      ],
+      "title": "Generative Artificial Intelligence and Internationalization Green Innovation: Ro",
+      "doi": "10.1016/j.techsoc.2025.102898",
+      "notes": [
+        "DOI 10.1016/j.techsoc.2025.102898 resolved",
+        "DOI resolved; metadata mismatch: year,pages"
+      ]
+    },
+    {
+      "family": "authors_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的作者",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "authors",
+        "pages"
+      ],
+      "title": "Generative Artificial Intelligence and Internationalization Green Innovation: Ro",
+      "doi": "10.1016/j.techsoc.2025.102898",
+      "notes": [
+        "DOI 10.1016/j.techsoc.2025.102898 resolved",
+        "DOI resolved; metadata mismatch: authors,pages"
+      ]
+    },
+    {
+      "family": "venue_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的刊名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "venue",
+        "pages"
+      ],
+      "title": "Generative Artificial Intelligence and Internationalization Green Innovation: Ro",
+      "doi": "10.1016/j.techsoc.2025.102898",
+      "notes": [
+        "DOI 10.1016/j.techsoc.2025.102898 resolved",
+        "DOI resolved; metadata mismatch: venue,pages"
+      ]
+    },
+    {
+      "family": "title_swap",
+      "expected": "Major/Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的题名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "doi"
+      ],
+      "title": "Adolescents' Perceptions of Communication with Parents Relative to Specific Aspe",
+      "doi": "10.1016/j.techsoc.2025.102898",
+      "notes": [
+        "DOI 10.1016/j.techsoc.2025.102898 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "family": "baseline",
+      "expected": "Exact/Minor",
+      "note": "未改动的真实条目",
+      "status": "Exact",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [],
+      "title": "Adolescents' Perceptions of Communication with Parents Relative to Specific Aspe",
+      "doi": "10.1006/jado.1998.0155",
+      "notes": [
+        "DOI 10.1006/jado.1998.0155 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "family": "doi_bad",
+      "expected": "Major",
+      "note": "真实字段 + 伪造 DOI",
+      "status": "Major",
+      "title_sim": 0.0,
+      "year_match": false,
+      "doi_status": "not_found",
+      "mismatches": [],
+      "title": "Adolescents' Perceptions of Communication with Parents Relative to Specific Aspe",
+      "doi": "10.99999/mut-rnnyt7udqh",
+      "notes": [
+        "DOI 不存在（Crossref 404，DOI 系统也无记录）"
+      ]
+    },
+    {
+      "family": "year_shift",
+      "expected": "Minor",
+      "note": "真实 DOI + 年份偏移 7 年",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year"
+      ],
+      "title": "Adolescents' Perceptions of Communication with Parents Relative to Specific Aspe",
+      "doi": "10.1006/jado.1998.0155",
+      "notes": [
+        "DOI 10.1006/jado.1998.0155 resolved",
+        "DOI resolved; metadata mismatch: year"
+      ]
+    },
+    {
+      "family": "authors_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的作者",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "authors"
+      ],
+      "title": "Adolescents' Perceptions of Communication with Parents Relative to Specific Aspe",
+      "doi": "10.1006/jado.1998.0155",
+      "notes": [
+        "DOI 10.1006/jado.1998.0155 resolved",
+        "DOI resolved; metadata mismatch: authors"
+      ]
+    },
+    {
+      "family": "venue_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的刊名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "venue"
+      ],
+      "title": "Adolescents' Perceptions of Communication with Parents Relative to Specific Aspe",
+      "doi": "10.1006/jado.1998.0155",
+      "notes": [
+        "DOI 10.1006/jado.1998.0155 resolved",
+        "DOI resolved; metadata mismatch: venue"
+      ]
+    },
+    {
+      "family": "title_swap",
+      "expected": "Major/Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的题名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "doi"
+      ],
+      "title": "Entropy-Based Subspace Clustering for Mining Numerical Data",
+      "doi": "10.1006/jado.1998.0155",
+      "notes": [
+        "DOI 10.1006/jado.1998.0155 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "family": "baseline",
+      "expected": "Exact/Minor",
+      "note": "未改动的真实条目",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "pages"
+      ],
+      "title": "Entropy-Based Subspace Clustering for Mining Numerical Data",
+      "doi": "10.1145/312129.312199",
+      "notes": [
+        "DOI 10.1145/312129.312199 resolved",
+        "DOI resolved; metadata mismatch: pages"
+      ]
+    },
+    {
+      "family": "doi_bad",
+      "expected": "Major",
+      "note": "真实字段 + 伪造 DOI",
+      "status": "Major",
+      "title_sim": 0.0,
+      "year_match": false,
+      "doi_status": "not_found",
+      "mismatches": [],
+      "title": "Entropy-Based Subspace Clustering for Mining Numerical Data",
+      "doi": "10.99999/mut-ugsitnjvxs",
+      "notes": [
+        "DOI 不存在（Crossref 404，DOI 系统也无记录）"
+      ]
+    },
+    {
+      "family": "year_shift",
+      "expected": "Minor",
+      "note": "真实 DOI + 年份偏移 7 年",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year",
+        "pages"
+      ],
+      "title": "Entropy-Based Subspace Clustering for Mining Numerical Data",
+      "doi": "10.1145/312129.312199",
+      "notes": [
+        "DOI 10.1145/312129.312199 resolved",
+        "DOI resolved; metadata mismatch: year,pages"
+      ]
+    },
+    {
+      "family": "authors_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的作者",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "pages"
+      ],
+      "title": "Entropy-Based Subspace Clustering for Mining Numerical Data",
+      "doi": "10.1145/312129.312199",
+      "notes": [
+        "DOI 10.1145/312129.312199 resolved",
+        "DOI resolved; metadata mismatch: pages"
+      ]
+    },
+    {
+      "family": "venue_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的刊名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "venue",
+        "pages"
+      ],
+      "title": "Entropy-Based Subspace Clustering for Mining Numerical Data",
+      "doi": "10.1145/312129.312199",
+      "notes": [
+        "DOI 10.1145/312129.312199 resolved",
+        "DOI resolved; metadata mismatch: venue,pages"
+      ]
+    },
+    {
+      "family": "title_swap",
+      "expected": "Major/Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的题名",
+      "status": "Minor",
+      "title_sim": 0.5,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "pages",
+        "title_partial"
+      ],
+      "title": "Subspace Clustering of Text Documents with Feature Weighting K-Means Algorithm",
+      "doi": "10.1145/312129.312199",
+      "notes": [
+        "DOI 10.1145/312129.312199 resolved",
+        "DOI resolved; metadata mismatch: pages,title_partial"
+      ]
+    },
+    {
+      "family": "baseline",
+      "expected": "Exact/Minor",
+      "note": "未改动的真实条目",
+      "status": "Exact",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [],
+      "title": "Subspace Clustering of Text Documents with Feature Weighting K-Means Algorithm",
+      "doi": "10.1007/11430919_94",
+      "notes": [
+        "DOI 10.1007/11430919_94 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "family": "doi_bad",
+      "expected": "Major",
+      "note": "真实字段 + 伪造 DOI",
+      "status": "Major",
+      "title_sim": 0.0,
+      "year_match": false,
+      "doi_status": "not_found",
+      "mismatches": [],
+      "title": "Subspace Clustering of Text Documents with Feature Weighting K-Means Algorithm",
+      "doi": "10.99999/mut-htsw67hcv5",
+      "notes": [
+        "DOI 不存在（Crossref 404，DOI 系统也无记录）"
+      ]
+    },
+    {
+      "family": "year_shift",
+      "expected": "Minor",
+      "note": "真实 DOI + 年份偏移 7 年",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year"
+      ],
+      "title": "Subspace Clustering of Text Documents with Feature Weighting K-Means Algorithm",
+      "doi": "10.1007/11430919_94",
+      "notes": [
+        "DOI 10.1007/11430919_94 resolved",
+        "DOI resolved; metadata mismatch: year"
+      ]
+    },
+    {
+      "family": "authors_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的作者",
+      "status": "Exact",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [],
+      "title": "Subspace Clustering of Text Documents with Feature Weighting K-Means Algorithm",
+      "doi": "10.1007/11430919_94",
+      "notes": [
+        "DOI 10.1007/11430919_94 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "family": "venue_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的刊名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "venue"
+      ],
+      "title": "Subspace Clustering of Text Documents with Feature Weighting K-Means Algorithm",
+      "doi": "10.1007/11430919_94",
+      "notes": [
+        "DOI 10.1007/11430919_94 resolved",
+        "DOI resolved; metadata mismatch: venue"
+      ]
+    },
+    {
+      "family": "title_swap",
+      "expected": "Major/Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的题名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "doi"
+      ],
+      "title": "A Novel Fuzzy Clustering Algorithm Based on a Fuzzy Scatter Matrix with Optimali",
+      "doi": "10.1007/11430919_94",
+      "notes": [
+        "DOI 10.1007/11430919_94 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "family": "baseline",
+      "expected": "Exact/Minor",
+      "note": "未改动的真实条目",
+      "status": "Exact",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [],
+      "title": "A Novel Fuzzy Clustering Algorithm Based on a Fuzzy Scatter Matrix with Optimali",
+      "doi": "10.1016/j.patrec.2004.09.016",
+      "notes": [
+        "DOI 10.1016/j.patrec.2004.09.016 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "family": "doi_bad",
+      "expected": "Major",
+      "note": "真实字段 + 伪造 DOI",
+      "status": "Major",
+      "title_sim": 0.0,
+      "year_match": false,
+      "doi_status": "not_found",
+      "mismatches": [],
+      "title": "A Novel Fuzzy Clustering Algorithm Based on a Fuzzy Scatter Matrix with Optimali",
+      "doi": "10.99999/mut-nirm7t645i",
+      "notes": [
+        "DOI 不存在（Crossref 404，DOI 系统也无记录）"
+      ]
+    },
+    {
+      "family": "year_shift",
+      "expected": "Minor",
+      "note": "真实 DOI + 年份偏移 7 年",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year"
+      ],
+      "title": "A Novel Fuzzy Clustering Algorithm Based on a Fuzzy Scatter Matrix with Optimali",
+      "doi": "10.1016/j.patrec.2004.09.016",
+      "notes": [
+        "DOI 10.1016/j.patrec.2004.09.016 resolved",
+        "DOI resolved; metadata mismatch: year"
+      ]
+    },
+    {
+      "family": "authors_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的作者",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "authors"
+      ],
+      "title": "A Novel Fuzzy Clustering Algorithm Based on a Fuzzy Scatter Matrix with Optimali",
+      "doi": "10.1016/j.patrec.2004.09.016",
+      "notes": [
+        "DOI 10.1016/j.patrec.2004.09.016 resolved",
+        "DOI resolved; metadata mismatch: authors"
+      ]
+    },
+    {
+      "family": "venue_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的刊名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "venue"
+      ],
+      "title": "A Novel Fuzzy Clustering Algorithm Based on a Fuzzy Scatter Matrix with Optimali",
+      "doi": "10.1016/j.patrec.2004.09.016",
+      "notes": [
+        "DOI 10.1016/j.patrec.2004.09.016 resolved",
+        "DOI resolved; metadata mismatch: venue"
+      ]
+    },
+    {
+      "family": "title_swap",
+      "expected": "Major/Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的题名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "doi"
+      ],
+      "title": "Learned Helplessness in Humans: Critique and Reformulation",
+      "doi": "10.1016/j.patrec.2004.09.016",
+      "notes": [
+        "DOI 10.1016/j.patrec.2004.09.016 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "family": "baseline",
+      "expected": "Exact/Minor",
+      "note": "未改动的真实条目",
+      "status": "Exact",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [],
+      "title": "Learned Helplessness in Humans: Critique and Reformulation",
+      "doi": "10.1037/0021-843x.87.1.49",
+      "notes": [
+        "DOI 10.1037/0021-843x.87.1.49 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "family": "doi_bad",
+      "expected": "Major",
+      "note": "真实字段 + 伪造 DOI",
+      "status": "Major",
+      "title_sim": 0.0,
+      "year_match": false,
+      "doi_status": "not_found",
+      "mismatches": [],
+      "title": "Learned Helplessness in Humans: Critique and Reformulation",
+      "doi": "10.99999/mut-z48ru7enpz",
+      "notes": [
+        "DOI 不存在（Crossref 404，DOI 系统也无记录）"
+      ]
+    },
+    {
+      "family": "year_shift",
+      "expected": "Minor",
+      "note": "真实 DOI + 年份偏移 7 年",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year"
+      ],
+      "title": "Learned Helplessness in Humans: Critique and Reformulation",
+      "doi": "10.1037/0021-843x.87.1.49",
+      "notes": [
+        "DOI 10.1037/0021-843x.87.1.49 resolved",
+        "DOI resolved; metadata mismatch: year"
+      ]
+    },
+    {
+      "family": "authors_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的作者",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "authors"
+      ],
+      "title": "Learned Helplessness in Humans: Critique and Reformulation",
+      "doi": "10.1037/0021-843x.87.1.49",
+      "notes": [
+        "DOI 10.1037/0021-843x.87.1.49 resolved",
+        "DOI resolved; metadata mismatch: authors"
+      ]
+    },
+    {
+      "family": "venue_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的刊名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "venue"
+      ],
+      "title": "Learned Helplessness in Humans: Critique and Reformulation",
+      "doi": "10.1037/0021-843x.87.1.49",
+      "notes": [
+        "DOI 10.1037/0021-843x.87.1.49 resolved",
+        "DOI resolved; metadata mismatch: venue"
+      ]
+    },
+    {
+      "family": "title_swap",
+      "expected": "Major/Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的题名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "doi"
+      ],
+      "title": "An Attributional Theory of Achievement Motivation and Emotion",
+      "doi": "10.1037/0021-843x.87.1.49",
+      "notes": [
+        "DOI 10.1037/0021-843x.87.1.49 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "family": "baseline",
+      "expected": "Exact/Minor",
+      "note": "未改动的真实条目",
+      "status": "Exact",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [],
+      "title": "An Attributional Theory of Achievement Motivation and Emotion",
+      "doi": "10.1037/0033-295x.92.4.548",
+      "notes": [
+        "DOI 10.1037/0033-295x.92.4.548 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "family": "doi_bad",
+      "expected": "Major",
+      "note": "真实字段 + 伪造 DOI",
+      "status": "Major",
+      "title_sim": 0.0,
+      "year_match": false,
+      "doi_status": "not_found",
+      "mismatches": [],
+      "title": "An Attributional Theory of Achievement Motivation and Emotion",
+      "doi": "10.99999/mut-arazyy99xc",
+      "notes": [
+        "DOI 不存在（Crossref 404，DOI 系统也无记录）"
+      ]
+    },
+    {
+      "family": "year_shift",
+      "expected": "Minor",
+      "note": "真实 DOI + 年份偏移 7 年",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year"
+      ],
+      "title": "An Attributional Theory of Achievement Motivation and Emotion",
+      "doi": "10.1037/0033-295x.92.4.548",
+      "notes": [
+        "DOI 10.1037/0033-295x.92.4.548 resolved",
+        "DOI resolved; metadata mismatch: year"
+      ]
+    },
+    {
+      "family": "authors_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的作者",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "authors"
+      ],
+      "title": "An Attributional Theory of Achievement Motivation and Emotion",
+      "doi": "10.1037/0033-295x.92.4.548",
+      "notes": [
+        "DOI 10.1037/0033-295x.92.4.548 resolved",
+        "DOI resolved; metadata mismatch: authors"
+      ]
+    },
+    {
+      "family": "venue_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的刊名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "venue"
+      ],
+      "title": "An Attributional Theory of Achievement Motivation and Emotion",
+      "doi": "10.1037/0033-295x.92.4.548",
+      "notes": [
+        "DOI 10.1037/0033-295x.92.4.548 resolved",
+        "DOI resolved; metadata mismatch: venue"
+      ]
+    },
+    {
+      "family": "title_swap",
+      "expected": "Major/Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的题名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "doi"
+      ],
+      "title": "Implicit Theories and Their Role in Judgments and Reactions: A Word from Two Per",
+      "doi": "10.1037/0033-295x.92.4.548",
+      "notes": [
+        "DOI 10.1037/0033-295x.92.4.548 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "family": "baseline",
+      "expected": "Exact/Minor",
+      "note": "未改动的真实条目",
+      "status": "Exact",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [],
+      "title": "Implicit Theories and Their Role in Judgments and Reactions: A Word from Two Per",
+      "doi": "10.1207/s15327965pli0604_1",
+      "notes": [
+        "DOI 10.1207/s15327965pli0604_1 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "family": "doi_bad",
+      "expected": "Major",
+      "note": "真实字段 + 伪造 DOI",
+      "status": "Major",
+      "title_sim": 0.0,
+      "year_match": false,
+      "doi_status": "not_found",
+      "mismatches": [],
+      "title": "Implicit Theories and Their Role in Judgments and Reactions: A Word from Two Per",
+      "doi": "10.99999/mut-5krksz2muk",
+      "notes": [
+        "DOI 不存在（Crossref 404，DOI 系统也无记录）"
+      ]
+    },
+    {
+      "family": "year_shift",
+      "expected": "Minor",
+      "note": "真实 DOI + 年份偏移 7 年",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year"
+      ],
+      "title": "Implicit Theories and Their Role in Judgments and Reactions: A Word from Two Per",
+      "doi": "10.1207/s15327965pli0604_1",
+      "notes": [
+        "DOI 10.1207/s15327965pli0604_1 resolved",
+        "DOI resolved; metadata mismatch: year"
+      ]
+    },
+    {
+      "family": "authors_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的作者",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "authors"
+      ],
+      "title": "Implicit Theories and Their Role in Judgments and Reactions: A Word from Two Per",
+      "doi": "10.1207/s15327965pli0604_1",
+      "notes": [
+        "DOI 10.1207/s15327965pli0604_1 resolved",
+        "DOI resolved; metadata mismatch: authors"
+      ]
+    },
+    {
+      "family": "venue_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的刊名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "venue"
+      ],
+      "title": "Implicit Theories and Their Role in Judgments and Reactions: A Word from Two Per",
+      "doi": "10.1207/s15327965pli0604_1",
+      "notes": [
+        "DOI 10.1207/s15327965pli0604_1 resolved",
+        "DOI resolved; metadata mismatch: venue"
+      ]
+    },
+    {
+      "family": "title_swap",
+      "expected": "Major/Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的题名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "doi"
+      ],
+      "title": "Data-Intensive Inventory Forecasting with Artificial Intelligence Models for Cro",
+      "doi": "10.1207/s15327965pli0604_1",
+      "notes": [
+        "DOI 10.1207/s15327965pli0604_1 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "family": "baseline",
+      "expected": "Exact/Minor",
+      "note": "未改动的真实条目",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "pages"
+      ],
+      "title": "Data-Intensive Inventory Forecasting with Artificial Intelligence Models for Cro",
+      "doi": "10.3390/app13053051",
+      "notes": [
+        "DOI 10.3390/app13053051 resolved",
+        "DOI resolved; metadata mismatch: pages"
+      ]
+    },
+    {
+      "family": "doi_bad",
+      "expected": "Major",
+      "note": "真实字段 + 伪造 DOI",
+      "status": "Major",
+      "title_sim": 0.0,
+      "year_match": false,
+      "doi_status": "not_found",
+      "mismatches": [],
+      "title": "Data-Intensive Inventory Forecasting with Artificial Intelligence Models for Cro",
+      "doi": "10.99999/mut-wue65akrz7",
+      "notes": [
+        "DOI 不存在（Crossref 404，DOI 系统也无记录）"
+      ]
+    },
+    {
+      "family": "year_shift",
+      "expected": "Minor",
+      "note": "真实 DOI + 年份偏移 7 年",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year",
+        "pages"
+      ],
+      "title": "Data-Intensive Inventory Forecasting with Artificial Intelligence Models for Cro",
+      "doi": "10.3390/app13053051",
+      "notes": [
+        "DOI 10.3390/app13053051 resolved",
+        "DOI resolved; metadata mismatch: year,pages"
+      ]
+    },
+    {
+      "family": "authors_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的作者",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "authors",
+        "pages"
+      ],
+      "title": "Data-Intensive Inventory Forecasting with Artificial Intelligence Models for Cro",
+      "doi": "10.3390/app13053051",
+      "notes": [
+        "DOI 10.3390/app13053051 resolved",
+        "DOI resolved; metadata mismatch: authors,pages"
+      ]
+    },
+    {
+      "family": "venue_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的刊名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "venue",
+        "pages"
+      ],
+      "title": "Data-Intensive Inventory Forecasting with Artificial Intelligence Models for Cro",
+      "doi": "10.3390/app13053051",
+      "notes": [
+        "DOI 10.3390/app13053051 resolved",
+        "DOI resolved; metadata mismatch: venue,pages"
+      ]
+    },
+    {
+      "family": "title_swap",
+      "expected": "Major/Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的题名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "doi"
+      ],
+      "title": "Current Patterns of Parental Authority",
+      "doi": "10.3390/app13053051",
+      "notes": [
+        "DOI 10.3390/app13053051 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "family": "baseline",
+      "expected": "Exact/Minor",
+      "note": "未改动的真实条目",
+      "status": "Exact",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [],
+      "title": "Current Patterns of Parental Authority",
+      "doi": "10.1037/h0030372",
+      "notes": [
+        "DOI 10.1037/h0030372 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "family": "doi_bad",
+      "expected": "Major",
+      "note": "真实字段 + 伪造 DOI",
+      "status": "Major",
+      "title_sim": 0.0,
+      "year_match": false,
+      "doi_status": "not_found",
+      "mismatches": [],
+      "title": "Current Patterns of Parental Authority",
+      "doi": "10.99999/mut-q9c8q7bjxg",
+      "notes": [
+        "DOI 不存在（Crossref 404，DOI 系统也无记录）"
+      ]
+    },
+    {
+      "family": "year_shift",
+      "expected": "Minor",
+      "note": "真实 DOI + 年份偏移 7 年",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year"
+      ],
+      "title": "Current Patterns of Parental Authority",
+      "doi": "10.1037/h0030372",
+      "notes": [
+        "DOI 10.1037/h0030372 resolved",
+        "DOI resolved; metadata mismatch: year"
+      ]
+    },
+    {
+      "family": "authors_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的作者",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "authors"
+      ],
+      "title": "Current Patterns of Parental Authority",
+      "doi": "10.1037/h0030372",
+      "notes": [
+        "DOI 10.1037/h0030372 resolved",
+        "DOI resolved; metadata mismatch: authors"
+      ]
+    },
+    {
+      "family": "venue_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的刊名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "venue"
+      ],
+      "title": "Current Patterns of Parental Authority",
+      "doi": "10.1037/h0030372",
+      "notes": [
+        "DOI 10.1037/h0030372 resolved",
+        "DOI resolved; metadata mismatch: venue"
+      ]
+    },
+    {
+      "family": "title_swap",
+      "expected": "Major/Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的题名",
+      "status": "Minor",
+      "title_sim": 0.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "title_language"
+      ],
+      "title": "监管与市场调节下大数据杀熟治理的演化博弈研究",
+      "doi": "10.1037/h0030372",
+      "notes": [
+        "DOI 10.1037/h0030372 resolved",
+        "DOI resolved; metadata mismatch: title_language"
+      ]
+    },
+    {
+      "family": "baseline",
+      "expected": "Exact/Minor",
+      "note": "未改动的真实条目",
+      "status": "Exact",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved_landing",
+      "mismatches": [],
+      "title": "监管与市场调节下大数据杀熟治理的演化博弈研究",
+      "doi": "10.15886/j.cnki.hnus.202410.0119",
+      "notes": [
+        "DOI 10.15886/j.cnki.hnus.202410.0119 resolved via 中国 DOI 平台",
+        "外部注册机构元数据有限（中国 DOI 平台）：只比对题名/作者/年份，卷期页可能缺",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "family": "doi_bad",
+      "expected": "Major",
+      "note": "真实字段 + 伪造 DOI",
+      "status": "Major",
+      "title_sim": 0.0,
+      "year_match": false,
+      "doi_status": "not_found",
+      "mismatches": [],
+      "title": "监管与市场调节下大数据杀熟治理的演化博弈研究",
+      "doi": "10.99999/mut-mmzkt4veub",
+      "notes": [
+        "DOI 不存在（Crossref 404，DOI 系统也无记录）"
+      ]
+    },
+    {
+      "family": "year_shift",
+      "expected": "Minor",
+      "note": "真实 DOI + 年份偏移 7 年",
+      "status": "Exact",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved_landing",
+      "mismatches": [],
+      "title": "监管与市场调节下大数据杀熟治理的演化博弈研究",
+      "doi": "10.15886/j.cnki.hnus.202410.0119",
+      "notes": [
+        "DOI 10.15886/j.cnki.hnus.202410.0119 resolved via 中国 DOI 平台",
+        "外部注册机构元数据有限（中国 DOI 平台）：只比对题名/作者/年份，卷期页可能缺",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "family": "authors_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的作者",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved_landing",
+      "mismatches": [
+        "authors"
+      ],
+      "title": "监管与市场调节下大数据杀熟治理的演化博弈研究",
+      "doi": "10.15886/j.cnki.hnus.202410.0119",
+      "notes": [
+        "DOI 10.15886/j.cnki.hnus.202410.0119 resolved via 中国 DOI 平台",
+        "外部注册机构元数据有限（中国 DOI 平台）：只比对题名/作者/年份，卷期页可能缺",
+        "DOI resolved; metadata mismatch: authors"
+      ]
+    },
+    {
+      "family": "venue_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的刊名",
+      "status": "Exact",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved_landing",
+      "mismatches": [],
+      "title": "监管与市场调节下大数据杀熟治理的演化博弈研究",
+      "doi": "10.15886/j.cnki.hnus.202410.0119",
+      "notes": [
+        "DOI 10.15886/j.cnki.hnus.202410.0119 resolved via 中国 DOI 平台",
+        "外部注册机构元数据有限（中国 DOI 平台）：只比对题名/作者/年份，卷期页可能缺",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "family": "title_swap",
+      "expected": "Major/Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的题名",
+      "status": "Minor",
+      "title_sim": 0.0,
+      "year_match": false,
+      "doi_status": "resolved_landing",
+      "mismatches": [
+        "title_language"
+      ],
+      "title": "Attachment Patterns and Autobiographical Episodic Memory Functioning: A Systemic",
+      "doi": "10.15886/j.cnki.hnus.202410.0119",
+      "notes": [
+        "DOI 10.15886/j.cnki.hnus.202410.0119 resolved via 中国 DOI 平台",
+        "外部注册机构元数据有限（中国 DOI 平台）：只比对题名/作者/年份，卷期页可能缺",
+        "DOI resolved; metadata mismatch: title_language"
+      ]
+    },
+    {
+      "family": "baseline",
+      "expected": "Exact/Minor",
+      "note": "未改动的真实条目",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "pages"
+      ],
+      "title": "Attachment Patterns and Autobiographical Episodic Memory Functioning: A Systemic",
+      "doi": "10.1016/j.cpr.2023.102254",
+      "notes": [
+        "DOI 10.1016/j.cpr.2023.102254 resolved",
+        "DOI resolved; metadata mismatch: pages"
+      ]
+    },
+    {
+      "family": "doi_bad",
+      "expected": "Major",
+      "note": "真实字段 + 伪造 DOI",
+      "status": "Major",
+      "title_sim": 0.0,
+      "year_match": false,
+      "doi_status": "not_found",
+      "mismatches": [],
+      "title": "Attachment Patterns and Autobiographical Episodic Memory Functioning: A Systemic",
+      "doi": "10.99999/mut-7rtdrgkr8k",
+      "notes": [
+        "DOI 不存在（Crossref 404，DOI 系统也无记录）"
+      ]
+    },
+    {
+      "family": "year_shift",
+      "expected": "Minor",
+      "note": "真实 DOI + 年份偏移 7 年",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year",
+        "pages"
+      ],
+      "title": "Attachment Patterns and Autobiographical Episodic Memory Functioning: A Systemic",
+      "doi": "10.1016/j.cpr.2023.102254",
+      "notes": [
+        "DOI 10.1016/j.cpr.2023.102254 resolved",
+        "DOI resolved; metadata mismatch: year,pages"
+      ]
+    },
+    {
+      "family": "authors_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的作者",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "authors",
+        "pages"
+      ],
+      "title": "Attachment Patterns and Autobiographical Episodic Memory Functioning: A Systemic",
+      "doi": "10.1016/j.cpr.2023.102254",
+      "notes": [
+        "DOI 10.1016/j.cpr.2023.102254 resolved",
+        "DOI resolved; metadata mismatch: authors,pages"
+      ]
+    },
+    {
+      "family": "venue_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的刊名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "venue",
+        "pages"
+      ],
+      "title": "Attachment Patterns and Autobiographical Episodic Memory Functioning: A Systemic",
+      "doi": "10.1016/j.cpr.2023.102254",
+      "notes": [
+        "DOI 10.1016/j.cpr.2023.102254 resolved",
+        "DOI resolved; metadata mismatch: venue,pages"
+      ]
+    },
+    {
+      "family": "title_swap",
+      "expected": "Major/Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的题名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "doi"
+      ],
+      "title": "Automatic Subspace Clustering of High Dimensional Data for Data Mining Applicati",
+      "doi": "10.1016/j.cpr.2023.102254",
+      "notes": [
+        "DOI 10.1016/j.cpr.2023.102254 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "family": "baseline",
+      "expected": "Exact/Minor",
+      "note": "未改动的真实条目",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "pages"
+      ],
+      "title": "Automatic Subspace Clustering of High Dimensional Data for Data Mining Applicati",
+      "doi": "10.1145/276304.276314",
+      "notes": [
+        "DOI 10.1145/276304.276314 resolved",
+        "DOI resolved; metadata mismatch: pages"
+      ]
+    },
+    {
+      "family": "doi_bad",
+      "expected": "Major",
+      "note": "真实字段 + 伪造 DOI",
+      "status": "Major",
+      "title_sim": 0.0,
+      "year_match": false,
+      "doi_status": "not_found",
+      "mismatches": [],
+      "title": "Automatic Subspace Clustering of High Dimensional Data for Data Mining Applicati",
+      "doi": "10.99999/mut-vf74prd6ua",
+      "notes": [
+        "DOI 不存在（Crossref 404，DOI 系统也无记录）"
+      ]
+    },
+    {
+      "family": "year_shift",
+      "expected": "Minor",
+      "note": "真实 DOI + 年份偏移 7 年",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year",
+        "pages"
+      ],
+      "title": "Automatic Subspace Clustering of High Dimensional Data for Data Mining Applicati",
+      "doi": "10.1145/276304.276314",
+      "notes": [
+        "DOI 10.1145/276304.276314 resolved",
+        "DOI resolved; metadata mismatch: year,pages"
+      ]
+    },
+    {
+      "family": "authors_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的作者",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "authors",
+        "pages"
+      ],
+      "title": "Automatic Subspace Clustering of High Dimensional Data for Data Mining Applicati",
+      "doi": "10.1145/276304.276314",
+      "notes": [
+        "DOI 10.1145/276304.276314 resolved",
+        "DOI resolved; metadata mismatch: authors,pages"
+      ]
+    },
+    {
+      "family": "venue_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的刊名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "venue",
+        "pages"
+      ],
+      "title": "Automatic Subspace Clustering of High Dimensional Data for Data Mining Applicati",
+      "doi": "10.1145/276304.276314",
+      "notes": [
+        "DOI 10.1145/276304.276314 resolved",
+        "DOI resolved; metadata mismatch: venue,pages"
+      ]
+    },
+    {
+      "family": "title_swap",
+      "expected": "Major/Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的题名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "doi"
+      ],
+      "title": "Meromorphic Functions of Finite φ-Order and Linear q-Difference Equations",
+      "doi": "10.1145/276304.276314",
+      "notes": [
+        "DOI 10.1145/276304.276314 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "family": "baseline",
+      "expected": "Exact/Minor",
+      "note": "未改动的真实条目",
+      "status": "Exact",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [],
+      "title": "Meromorphic Functions of Finite φ-Order and Linear q-Difference Equations",
+      "doi": "10.1080/10236198.2021.1982919",
+      "notes": [
+        "DOI 10.1080/10236198.2021.1982919 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "family": "doi_bad",
+      "expected": "Major",
+      "note": "真实字段 + 伪造 DOI",
+      "status": "Major",
+      "title_sim": 0.0,
+      "year_match": false,
+      "doi_status": "not_found",
+      "mismatches": [],
+      "title": "Meromorphic Functions of Finite φ-Order and Linear q-Difference Equations",
+      "doi": "10.99999/mut-6fiwv6wcam",
+      "notes": [
+        "DOI 不存在（Crossref 404，DOI 系统也无记录）"
+      ]
+    },
+    {
+      "family": "year_shift",
+      "expected": "Minor",
+      "note": "真实 DOI + 年份偏移 7 年",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year"
+      ],
+      "title": "Meromorphic Functions of Finite φ-Order and Linear q-Difference Equations",
+      "doi": "10.1080/10236198.2021.1982919",
+      "notes": [
+        "DOI 10.1080/10236198.2021.1982919 resolved",
+        "DOI resolved; metadata mismatch: year"
+      ]
+    },
+    {
+      "family": "authors_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的作者",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "authors"
+      ],
+      "title": "Meromorphic Functions of Finite φ-Order and Linear q-Difference Equations",
+      "doi": "10.1080/10236198.2021.1982919",
+      "notes": [
+        "DOI 10.1080/10236198.2021.1982919 resolved",
+        "DOI resolved; metadata mismatch: authors"
+      ]
+    },
+    {
+      "family": "venue_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的刊名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "venue"
+      ],
+      "title": "Meromorphic Functions of Finite φ-Order and Linear q-Difference Equations",
+      "doi": "10.1080/10236198.2021.1982919",
+      "notes": [
+        "DOI 10.1080/10236198.2021.1982919 resolved",
+        "DOI resolved; metadata mismatch: venue"
+      ]
+    },
+    {
+      "family": "title_swap",
+      "expected": "Major/Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的题名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "doi"
+      ],
+      "title": "Adult Attachment, Working Models, and Relationship Quality in Dating Couples",
+      "doi": "10.1080/10236198.2021.1982919",
+      "notes": [
+        "DOI 10.1080/10236198.2021.1982919 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "family": "baseline",
+      "expected": "Exact/Minor",
+      "note": "未改动的真实条目",
+      "status": "Exact",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [],
+      "title": "Adult Attachment, Working Models, and Relationship Quality in Dating Couples",
+      "doi": "10.1037/0022-3514.58.4.644",
+      "notes": [
+        "DOI 10.1037/0022-3514.58.4.644 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "family": "doi_bad",
+      "expected": "Major",
+      "note": "真实字段 + 伪造 DOI",
+      "status": "Major",
+      "title_sim": 0.0,
+      "year_match": false,
+      "doi_status": "not_found",
+      "mismatches": [],
+      "title": "Adult Attachment, Working Models, and Relationship Quality in Dating Couples",
+      "doi": "10.99999/mut-9g54hfeq4f",
+      "notes": [
+        "DOI 不存在（Crossref 404，DOI 系统也无记录）"
+      ]
+    },
+    {
+      "family": "year_shift",
+      "expected": "Minor",
+      "note": "真实 DOI + 年份偏移 7 年",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year"
+      ],
+      "title": "Adult Attachment, Working Models, and Relationship Quality in Dating Couples",
+      "doi": "10.1037/0022-3514.58.4.644",
+      "notes": [
+        "DOI 10.1037/0022-3514.58.4.644 resolved",
+        "DOI resolved; metadata mismatch: year"
+      ]
+    },
+    {
+      "family": "authors_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的作者",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "authors"
+      ],
+      "title": "Adult Attachment, Working Models, and Relationship Quality in Dating Couples",
+      "doi": "10.1037/0022-3514.58.4.644",
+      "notes": [
+        "DOI 10.1037/0022-3514.58.4.644 resolved",
+        "DOI resolved; metadata mismatch: authors"
+      ]
+    },
+    {
+      "family": "venue_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的刊名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "venue"
+      ],
+      "title": "Adult Attachment, Working Models, and Relationship Quality in Dating Couples",
+      "doi": "10.1037/0022-3514.58.4.644",
+      "notes": [
+        "DOI 10.1037/0022-3514.58.4.644 resolved",
+        "DOI resolved; metadata mismatch: venue"
+      ]
+    },
+    {
+      "family": "title_swap",
+      "expected": "Major/Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的题名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "doi"
+      ],
+      "title": "Protecting Adolescents from Harm",
+      "doi": "10.1037/0022-3514.58.4.644",
+      "notes": [
+        "DOI 10.1037/0022-3514.58.4.644 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "family": "baseline",
+      "expected": "Exact/Minor",
+      "note": "未改动的真实条目",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "venue",
+        "pages"
+      ],
+      "title": "Protecting Adolescents from Harm",
+      "doi": "10.1001/jama.1997.03550100049038",
+      "notes": [
+        "DOI 10.1001/jama.1997.03550100049038 resolved",
+        "DOI resolved; metadata mismatch: venue,pages"
+      ]
+    },
+    {
+      "family": "doi_bad",
+      "expected": "Major",
+      "note": "真实字段 + 伪造 DOI",
+      "status": "Major",
+      "title_sim": 0.0,
+      "year_match": false,
+      "doi_status": "not_found",
+      "mismatches": [],
+      "title": "Protecting Adolescents from Harm",
+      "doi": "10.99999/mut-tmctp6xsxa",
+      "notes": [
+        "DOI 不存在（Crossref 404，DOI 系统也无记录）"
+      ]
+    },
+    {
+      "family": "year_shift",
+      "expected": "Minor",
+      "note": "真实 DOI + 年份偏移 7 年",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year",
+        "venue",
+        "pages"
+      ],
+      "title": "Protecting Adolescents from Harm",
+      "doi": "10.1001/jama.1997.03550100049038",
+      "notes": [
+        "DOI 10.1001/jama.1997.03550100049038 resolved",
+        "DOI resolved; metadata mismatch: year,venue,pages"
+      ]
+    },
+    {
+      "family": "authors_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的作者",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "authors",
+        "venue",
+        "pages"
+      ],
+      "title": "Protecting Adolescents from Harm",
+      "doi": "10.1001/jama.1997.03550100049038",
+      "notes": [
+        "DOI 10.1001/jama.1997.03550100049038 resolved",
+        "DOI resolved; metadata mismatch: authors,venue,pages"
+      ]
+    },
+    {
+      "family": "venue_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的刊名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "venue",
+        "pages"
+      ],
+      "title": "Protecting Adolescents from Harm",
+      "doi": "10.1001/jama.1997.03550100049038",
+      "notes": [
+        "DOI 10.1001/jama.1997.03550100049038 resolved",
+        "DOI resolved; metadata mismatch: venue,pages"
+      ]
+    },
+    {
+      "family": "title_swap",
+      "expected": "Major/Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的题名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "doi"
+      ],
+      "title": "Fuzzy Clustering with the Entropy of Attribute Weights",
+      "doi": "10.1001/jama.1997.03550100049038",
+      "notes": [
+        "DOI 10.1001/jama.1997.03550100049038 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "family": "baseline",
+      "expected": "Exact/Minor",
+      "note": "未改动的真实条目",
+      "status": "Exact",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [],
+      "title": "Fuzzy Clustering with the Entropy of Attribute Weights",
+      "doi": "10.1016/j.neucom.2015.09.127",
+      "notes": [
+        "DOI 10.1016/j.neucom.2015.09.127 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "family": "doi_bad",
+      "expected": "Major",
+      "note": "真实字段 + 伪造 DOI",
+      "status": "Major",
+      "title_sim": 0.0,
+      "year_match": false,
+      "doi_status": "not_found",
+      "mismatches": [],
+      "title": "Fuzzy Clustering with the Entropy of Attribute Weights",
+      "doi": "10.99999/mut-zp77rs67ra",
+      "notes": [
+        "DOI 不存在（Crossref 404，DOI 系统也无记录）"
+      ]
+    },
+    {
+      "family": "year_shift",
+      "expected": "Minor",
+      "note": "真实 DOI + 年份偏移 7 年",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year"
+      ],
+      "title": "Fuzzy Clustering with the Entropy of Attribute Weights",
+      "doi": "10.1016/j.neucom.2015.09.127",
+      "notes": [
+        "DOI 10.1016/j.neucom.2015.09.127 resolved",
+        "DOI resolved; metadata mismatch: year"
+      ]
+    },
+    {
+      "family": "authors_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的作者",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "authors"
+      ],
+      "title": "Fuzzy Clustering with the Entropy of Attribute Weights",
+      "doi": "10.1016/j.neucom.2015.09.127",
+      "notes": [
+        "DOI 10.1016/j.neucom.2015.09.127 resolved",
+        "DOI resolved; metadata mismatch: authors"
+      ]
+    },
+    {
+      "family": "venue_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的刊名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "venue"
+      ],
+      "title": "Fuzzy Clustering with the Entropy of Attribute Weights",
+      "doi": "10.1016/j.neucom.2015.09.127",
+      "notes": [
+        "DOI 10.1016/j.neucom.2015.09.127 resolved",
+        "DOI resolved; metadata mismatch: venue"
+      ]
+    },
+    {
+      "family": "title_swap",
+      "expected": "Major/Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的题名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "doi"
+      ],
+      "title": "Development and Validation of the Problematic Media Use Measure: A Parent Report",
+      "doi": "10.1016/j.neucom.2015.09.127",
+      "notes": [
+        "DOI 10.1016/j.neucom.2015.09.127 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "family": "baseline",
+      "expected": "Exact/Minor",
+      "note": "未改动的真实条目",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year"
+      ],
+      "title": "Development and Validation of the Problematic Media Use Measure: A Parent Report",
+      "doi": "10.1037/ppm0000163",
+      "notes": [
+        "DOI 10.1037/ppm0000163 resolved",
+        "DOI resolved; metadata mismatch: year"
+      ]
+    },
+    {
+      "family": "doi_bad",
+      "expected": "Major",
+      "note": "真实字段 + 伪造 DOI",
+      "status": "Major",
+      "title_sim": 0.0,
+      "year_match": false,
+      "doi_status": "not_found",
+      "mismatches": [],
+      "title": "Development and Validation of the Problematic Media Use Measure: A Parent Report",
+      "doi": "10.99999/mut-uruyc4q8uv",
+      "notes": [
+        "DOI 不存在（Crossref 404，DOI 系统也无记录）"
+      ]
+    },
+    {
+      "family": "year_shift",
+      "expected": "Minor",
+      "note": "真实 DOI + 年份偏移 7 年",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year"
+      ],
+      "title": "Development and Validation of the Problematic Media Use Measure: A Parent Report",
+      "doi": "10.1037/ppm0000163",
+      "notes": [
+        "DOI 10.1037/ppm0000163 resolved",
+        "DOI resolved; metadata mismatch: year"
+      ]
+    },
+    {
+      "family": "authors_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的作者",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year",
+        "authors"
+      ],
+      "title": "Development and Validation of the Problematic Media Use Measure: A Parent Report",
+      "doi": "10.1037/ppm0000163",
+      "notes": [
+        "DOI 10.1037/ppm0000163 resolved",
+        "DOI resolved; metadata mismatch: year,authors"
+      ]
+    },
+    {
+      "family": "venue_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的刊名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year",
+        "venue"
+      ],
+      "title": "Development and Validation of the Problematic Media Use Measure: A Parent Report",
+      "doi": "10.1037/ppm0000163",
+      "notes": [
+        "DOI 10.1037/ppm0000163 resolved",
+        "DOI resolved; metadata mismatch: year,venue"
+      ]
+    },
+    {
+      "family": "title_swap",
+      "expected": "Major/Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的题名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "doi"
+      ],
+      "title": "Subspace Clustering of High Dimensional Data",
+      "doi": "10.1037/ppm0000163",
+      "notes": [
+        "DOI 10.1037/ppm0000163 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "family": "baseline",
+      "expected": "Exact/Minor",
+      "note": "未改动的真实条目",
+      "status": "Exact",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [],
+      "title": "Subspace Clustering of High Dimensional Data",
+      "doi": "10.1137/1.9781611972740.58",
+      "notes": [
+        "DOI 10.1137/1.9781611972740.58 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "family": "doi_bad",
+      "expected": "Major",
+      "note": "真实字段 + 伪造 DOI",
+      "status": "Major",
+      "title_sim": 0.0,
+      "year_match": false,
+      "doi_status": "not_found",
+      "mismatches": [],
+      "title": "Subspace Clustering of High Dimensional Data",
+      "doi": "10.99999/mut-jr8q9z2vph",
+      "notes": [
+        "DOI 不存在（Crossref 404，DOI 系统也无记录）"
+      ]
+    },
+    {
+      "family": "year_shift",
+      "expected": "Minor",
+      "note": "真实 DOI + 年份偏移 7 年",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year"
+      ],
+      "title": "Subspace Clustering of High Dimensional Data",
+      "doi": "10.1137/1.9781611972740.58",
+      "notes": [
+        "DOI 10.1137/1.9781611972740.58 resolved",
+        "DOI resolved; metadata mismatch: year"
+      ]
+    },
+    {
+      "family": "authors_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的作者",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "authors"
+      ],
+      "title": "Subspace Clustering of High Dimensional Data",
+      "doi": "10.1137/1.9781611972740.58",
+      "notes": [
+        "DOI 10.1137/1.9781611972740.58 resolved",
+        "DOI resolved; metadata mismatch: authors"
+      ]
+    },
+    {
+      "family": "venue_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的刊名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "venue"
+      ],
+      "title": "Subspace Clustering of High Dimensional Data",
+      "doi": "10.1137/1.9781611972740.58",
+      "notes": [
+        "DOI 10.1137/1.9781611972740.58 resolved",
+        "DOI resolved; metadata mismatch: venue"
+      ]
+    },
+    {
+      "family": "title_swap",
+      "expected": "Major/Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的题名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "doi"
+      ],
+      "title": "Cumulative Risk and Child Development",
+      "doi": "10.1137/1.9781611972740.58",
+      "notes": [
+        "DOI 10.1137/1.9781611972740.58 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "family": "baseline",
+      "expected": "Exact/Minor",
+      "note": "未改动的真实条目",
+      "status": "Exact",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [],
+      "title": "Cumulative Risk and Child Development",
+      "doi": "10.1037/a0031808",
+      "notes": [
+        "DOI 10.1037/a0031808 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "family": "doi_bad",
+      "expected": "Major",
+      "note": "真实字段 + 伪造 DOI",
+      "status": "Major",
+      "title_sim": 0.0,
+      "year_match": false,
+      "doi_status": "not_found",
+      "mismatches": [],
+      "title": "Cumulative Risk and Child Development",
+      "doi": "10.99999/mut-j4tmy3wxm5",
+      "notes": [
+        "DOI 不存在（Crossref 404，DOI 系统也无记录）"
+      ]
+    },
+    {
+      "family": "year_shift",
+      "expected": "Minor",
+      "note": "真实 DOI + 年份偏移 7 年",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year"
+      ],
+      "title": "Cumulative Risk and Child Development",
+      "doi": "10.1037/a0031808",
+      "notes": [
+        "DOI 10.1037/a0031808 resolved",
+        "DOI resolved; metadata mismatch: year"
+      ]
+    },
+    {
+      "family": "authors_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的作者",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "authors"
+      ],
+      "title": "Cumulative Risk and Child Development",
+      "doi": "10.1037/a0031808",
+      "notes": [
+        "DOI 10.1037/a0031808 resolved",
+        "DOI resolved; metadata mismatch: authors"
+      ]
+    },
+    {
+      "family": "venue_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的刊名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "venue"
+      ],
+      "title": "Cumulative Risk and Child Development",
+      "doi": "10.1037/a0031808",
+      "notes": [
+        "DOI 10.1037/a0031808 resolved",
+        "DOI resolved; metadata mismatch: venue"
+      ]
+    },
+    {
+      "family": "title_swap",
+      "expected": "Major/Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的题名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "doi"
+      ],
+      "title": "On the Number of Linearly Independent Admissible Solutions to Linear Differentia",
+      "doi": "10.1037/a0031808",
+      "notes": [
+        "DOI 10.1037/a0031808 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "family": "baseline",
+      "expected": "Exact/Minor",
+      "note": "未改动的真实条目",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year"
+      ],
+      "title": "On the Number of Linearly Independent Admissible Solutions to Linear Differentia",
+      "doi": "10.4153/s0008414x20000607",
+      "notes": [
+        "DOI 10.4153/s0008414x20000607 resolved",
+        "DOI resolved; metadata mismatch: year"
+      ]
+    },
+    {
+      "family": "doi_bad",
+      "expected": "Major",
+      "note": "真实字段 + 伪造 DOI",
+      "status": "Major",
+      "title_sim": 0.0,
+      "year_match": false,
+      "doi_status": "not_found",
+      "mismatches": [],
+      "title": "On the Number of Linearly Independent Admissible Solutions to Linear Differentia",
+      "doi": "10.99999/mut-j3ynjf572c",
+      "notes": [
+        "DOI 不存在（Crossref 404，DOI 系统也无记录）"
+      ]
+    },
+    {
+      "family": "year_shift",
+      "expected": "Minor",
+      "note": "真实 DOI + 年份偏移 7 年",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year"
+      ],
+      "title": "On the Number of Linearly Independent Admissible Solutions to Linear Differentia",
+      "doi": "10.4153/s0008414x20000607",
+      "notes": [
+        "DOI 10.4153/s0008414x20000607 resolved",
+        "DOI resolved; metadata mismatch: year"
+      ]
+    },
+    {
+      "family": "authors_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的作者",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year",
+        "authors"
+      ],
+      "title": "On the Number of Linearly Independent Admissible Solutions to Linear Differentia",
+      "doi": "10.4153/s0008414x20000607",
+      "notes": [
+        "DOI 10.4153/s0008414x20000607 resolved",
+        "DOI resolved; metadata mismatch: year,authors"
+      ]
+    },
+    {
+      "family": "venue_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的刊名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year",
+        "venue"
+      ],
+      "title": "On the Number of Linearly Independent Admissible Solutions to Linear Differentia",
+      "doi": "10.4153/s0008414x20000607",
+      "notes": [
+        "DOI 10.4153/s0008414x20000607 resolved",
+        "DOI resolved; metadata mismatch: year,venue"
+      ]
+    },
+    {
+      "family": "title_swap",
+      "expected": "Major/Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的题名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "doi"
+      ],
+      "title": "ChatGPT for Language Teaching and Learning",
+      "doi": "10.4153/s0008414x20000607",
+      "notes": [
+        "DOI 10.4153/s0008414x20000607 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "family": "baseline",
+      "expected": "Exact/Minor",
+      "note": "未改动的真实条目",
+      "status": "Exact",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [],
+      "title": "ChatGPT for Language Teaching and Learning",
+      "doi": "10.1177/00336882231162868",
+      "notes": [
+        "DOI 10.1177/00336882231162868 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "family": "doi_bad",
+      "expected": "Major",
+      "note": "真实字段 + 伪造 DOI",
+      "status": "Major",
+      "title_sim": 0.0,
+      "year_match": false,
+      "doi_status": "not_found",
+      "mismatches": [],
+      "title": "ChatGPT for Language Teaching and Learning",
+      "doi": "10.99999/mut-86ivetcifi",
+      "notes": [
+        "DOI 不存在（Crossref 404，DOI 系统也无记录）"
+      ]
+    },
+    {
+      "family": "year_shift",
+      "expected": "Minor",
+      "note": "真实 DOI + 年份偏移 7 年",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year"
+      ],
+      "title": "ChatGPT for Language Teaching and Learning",
+      "doi": "10.1177/00336882231162868",
+      "notes": [
+        "DOI 10.1177/00336882231162868 resolved",
+        "DOI resolved; metadata mismatch: year"
+      ]
+    },
+    {
+      "family": "authors_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的作者",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "authors"
+      ],
+      "title": "ChatGPT for Language Teaching and Learning",
+      "doi": "10.1177/00336882231162868",
+      "notes": [
+        "DOI 10.1177/00336882231162868 resolved",
+        "DOI resolved; metadata mismatch: authors"
+      ]
+    },
+    {
+      "family": "venue_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的刊名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "venue"
+      ],
+      "title": "ChatGPT for Language Teaching and Learning",
+      "doi": "10.1177/00336882231162868",
+      "notes": [
+        "DOI 10.1177/00336882231162868 resolved",
+        "DOI resolved; metadata mismatch: venue"
+      ]
+    },
+    {
+      "family": "title_swap",
+      "expected": "Major/Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的题名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "doi"
+      ],
+      "title": "Cumulative Environmental Risk and Youth Maladjustment: The Role of Youth Attribu",
+      "doi": "10.1177/00336882231162868",
+      "notes": [
+        "DOI 10.1177/00336882231162868 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "family": "baseline",
+      "expected": "Exact/Minor",
+      "note": "未改动的真实条目",
+      "status": "Exact",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [],
+      "title": "Cumulative Environmental Risk and Youth Maladjustment: The Role of Youth Attribu",
+      "doi": "10.1111/j.1467-8624.2004.00820.x",
+      "notes": [
+        "DOI 10.1111/j.1467-8624.2004.00820.x resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "family": "doi_bad",
+      "expected": "Major",
+      "note": "真实字段 + 伪造 DOI",
+      "status": "Major",
+      "title_sim": 0.0,
+      "year_match": false,
+      "doi_status": "not_found",
+      "mismatches": [],
+      "title": "Cumulative Environmental Risk and Youth Maladjustment: The Role of Youth Attribu",
+      "doi": "10.99999/mut-x3ukth266p",
+      "notes": [
+        "DOI 不存在（Crossref 404，DOI 系统也无记录）"
+      ]
+    },
+    {
+      "family": "year_shift",
+      "expected": "Minor",
+      "note": "真实 DOI + 年份偏移 7 年",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year"
+      ],
+      "title": "Cumulative Environmental Risk and Youth Maladjustment: The Role of Youth Attribu",
+      "doi": "10.1111/j.1467-8624.2004.00820.x",
+      "notes": [
+        "DOI 10.1111/j.1467-8624.2004.00820.x resolved",
+        "DOI resolved; metadata mismatch: year"
+      ]
+    },
+    {
+      "family": "authors_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的作者",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "authors"
+      ],
+      "title": "Cumulative Environmental Risk and Youth Maladjustment: The Role of Youth Attribu",
+      "doi": "10.1111/j.1467-8624.2004.00820.x",
+      "notes": [
+        "DOI 10.1111/j.1467-8624.2004.00820.x resolved",
+        "DOI resolved; metadata mismatch: authors"
+      ]
+    },
+    {
+      "family": "venue_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的刊名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "venue"
+      ],
+      "title": "Cumulative Environmental Risk and Youth Maladjustment: The Role of Youth Attribu",
+      "doi": "10.1111/j.1467-8624.2004.00820.x",
+      "notes": [
+        "DOI 10.1111/j.1467-8624.2004.00820.x resolved",
+        "DOI resolved; metadata mismatch: venue"
+      ]
+    },
+    {
+      "family": "title_swap",
+      "expected": "Major/Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的题名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "doi"
+      ],
+      "title": "Finding Generalized Projected Clusters in High Dimensional Spaces",
+      "doi": "10.1111/j.1467-8624.2004.00820.x",
+      "notes": [
+        "DOI 10.1111/j.1467-8624.2004.00820.x resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "family": "baseline",
+      "expected": "Exact/Minor",
+      "note": "未改动的真实条目",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "pages"
+      ],
+      "title": "Finding Generalized Projected Clusters in High Dimensional Spaces",
+      "doi": "10.1145/342009.335383",
+      "notes": [
+        "DOI 10.1145/342009.335383 resolved",
+        "DOI resolved; metadata mismatch: pages"
+      ]
+    },
+    {
+      "family": "doi_bad",
+      "expected": "Major",
+      "note": "真实字段 + 伪造 DOI",
+      "status": "Major",
+      "title_sim": 0.0,
+      "year_match": false,
+      "doi_status": "not_found",
+      "mismatches": [],
+      "title": "Finding Generalized Projected Clusters in High Dimensional Spaces",
+      "doi": "10.99999/mut-9n4shtwgkm",
+      "notes": [
+        "DOI 不存在（Crossref 404，DOI 系统也无记录）"
+      ]
+    },
+    {
+      "family": "year_shift",
+      "expected": "Minor",
+      "note": "真实 DOI + 年份偏移 7 年",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year",
+        "pages"
+      ],
+      "title": "Finding Generalized Projected Clusters in High Dimensional Spaces",
+      "doi": "10.1145/342009.335383",
+      "notes": [
+        "DOI 10.1145/342009.335383 resolved",
+        "DOI resolved; metadata mismatch: year,pages"
+      ]
+    },
+    {
+      "family": "authors_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的作者",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "authors",
+        "pages"
+      ],
+      "title": "Finding Generalized Projected Clusters in High Dimensional Spaces",
+      "doi": "10.1145/342009.335383",
+      "notes": [
+        "DOI 10.1145/342009.335383 resolved",
+        "DOI resolved; metadata mismatch: authors,pages"
+      ]
+    },
+    {
+      "family": "venue_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的刊名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "venue",
+        "pages"
+      ],
+      "title": "Finding Generalized Projected Clusters in High Dimensional Spaces",
+      "doi": "10.1145/342009.335383",
+      "notes": [
+        "DOI 10.1145/342009.335383 resolved",
+        "DOI resolved; metadata mismatch: venue,pages"
+      ]
+    },
+    {
+      "family": "title_swap",
+      "expected": "Major/Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的题名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "doi"
+      ],
+      "title": "Maternal Phubbing and Problematic Media Use in Preschoolers: The Independent and",
+      "doi": "10.1145/342009.335383",
+      "notes": [
+        "DOI 10.1145/342009.335383 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "family": "baseline",
+      "expected": "Exact/Minor",
+      "note": "未改动的真实条目",
+      "status": "Exact",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [],
+      "title": "Maternal Phubbing and Problematic Media Use in Preschoolers: The Independent and",
+      "doi": "10.2147/prbm.s471208",
+      "notes": [
+        "DOI 10.2147/prbm.s471208 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "family": "doi_bad",
+      "expected": "Major",
+      "note": "真实字段 + 伪造 DOI",
+      "status": "Major",
+      "title_sim": 0.0,
+      "year_match": false,
+      "doi_status": "not_found",
+      "mismatches": [],
+      "title": "Maternal Phubbing and Problematic Media Use in Preschoolers: The Independent and",
+      "doi": "10.99999/mut-8cdi4vp7x7",
+      "notes": [
+        "DOI 不存在（Crossref 404，DOI 系统也无记录）"
+      ]
+    },
+    {
+      "family": "year_shift",
+      "expected": "Minor",
+      "note": "真实 DOI + 年份偏移 7 年",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year"
+      ],
+      "title": "Maternal Phubbing and Problematic Media Use in Preschoolers: The Independent and",
+      "doi": "10.2147/prbm.s471208",
+      "notes": [
+        "DOI 10.2147/prbm.s471208 resolved",
+        "DOI resolved; metadata mismatch: year"
+      ]
+    },
+    {
+      "family": "authors_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的作者",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "authors"
+      ],
+      "title": "Maternal Phubbing and Problematic Media Use in Preschoolers: The Independent and",
+      "doi": "10.2147/prbm.s471208",
+      "notes": [
+        "DOI 10.2147/prbm.s471208 resolved",
+        "DOI resolved; metadata mismatch: authors"
+      ]
+    },
+    {
+      "family": "venue_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的刊名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "venue"
+      ],
+      "title": "Maternal Phubbing and Problematic Media Use in Preschoolers: The Independent and",
+      "doi": "10.2147/prbm.s471208",
+      "notes": [
+        "DOI 10.2147/prbm.s471208 resolved",
+        "DOI resolved; metadata mismatch: venue"
+      ]
+    },
+    {
+      "family": "title_swap",
+      "expected": "Major/Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的题名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "doi"
+      ],
+      "title": "Interpersonal Expectations, Expectancy Violations, and Emotional Communication",
+      "doi": "10.2147/prbm.s471208",
+      "notes": [
+        "DOI 10.2147/prbm.s471208 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "family": "baseline",
+      "expected": "Exact/Minor",
+      "note": "未改动的真实条目",
+      "status": "Exact",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [],
+      "title": "Interpersonal Expectations, Expectancy Violations, and Emotional Communication",
+      "doi": "10.1177/0261927x93121003",
+      "notes": [
+        "DOI 10.1177/0261927x93121003 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "family": "doi_bad",
+      "expected": "Major",
+      "note": "真实字段 + 伪造 DOI",
+      "status": "Major",
+      "title_sim": 0.0,
+      "year_match": false,
+      "doi_status": "not_found",
+      "mismatches": [],
+      "title": "Interpersonal Expectations, Expectancy Violations, and Emotional Communication",
+      "doi": "10.99999/mut-qy4w4ezffr",
+      "notes": [
+        "DOI 不存在（Crossref 404，DOI 系统也无记录）"
+      ]
+    },
+    {
+      "family": "year_shift",
+      "expected": "Minor",
+      "note": "真实 DOI + 年份偏移 7 年",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year"
+      ],
+      "title": "Interpersonal Expectations, Expectancy Violations, and Emotional Communication",
+      "doi": "10.1177/0261927x93121003",
+      "notes": [
+        "DOI 10.1177/0261927x93121003 resolved",
+        "DOI resolved; metadata mismatch: year"
+      ]
+    },
+    {
+      "family": "authors_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的作者",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "authors"
+      ],
+      "title": "Interpersonal Expectations, Expectancy Violations, and Emotional Communication",
+      "doi": "10.1177/0261927x93121003",
+      "notes": [
+        "DOI 10.1177/0261927x93121003 resolved",
+        "DOI resolved; metadata mismatch: authors"
+      ]
+    },
+    {
+      "family": "venue_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的刊名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "venue"
+      ],
+      "title": "Interpersonal Expectations, Expectancy Violations, and Emotional Communication",
+      "doi": "10.1177/0261927x93121003",
+      "notes": [
+        "DOI 10.1177/0261927x93121003 resolved",
+        "DOI resolved; metadata mismatch: venue"
+      ]
+    },
+    {
+      "family": "title_swap",
+      "expected": "Major/Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的题名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "doi"
+      ],
+      "title": "Generalized Fuzzy C-Means Clustering Algorithm with Improved Fuzzy Partitions",
+      "doi": "10.1177/0261927x93121003",
+      "notes": [
+        "DOI 10.1177/0261927x93121003 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "family": "baseline",
+      "expected": "Exact/Minor",
+      "note": "未改动的真实条目",
+      "status": "Exact",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [],
+      "title": "Generalized Fuzzy C-Means Clustering Algorithm with Improved Fuzzy Partitions",
+      "doi": "10.1109/tsmcb.2008.2004818",
+      "notes": [
+        "DOI 10.1109/tsmcb.2008.2004818 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "family": "doi_bad",
+      "expected": "Major",
+      "note": "真实字段 + 伪造 DOI",
+      "status": "Major",
+      "title_sim": 0.0,
+      "year_match": false,
+      "doi_status": "not_found",
+      "mismatches": [],
+      "title": "Generalized Fuzzy C-Means Clustering Algorithm with Improved Fuzzy Partitions",
+      "doi": "10.99999/mut-b5kyv68jq7",
+      "notes": [
+        "DOI 不存在（Crossref 404，DOI 系统也无记录）"
+      ]
+    },
+    {
+      "family": "year_shift",
+      "expected": "Minor",
+      "note": "真实 DOI + 年份偏移 7 年",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year"
+      ],
+      "title": "Generalized Fuzzy C-Means Clustering Algorithm with Improved Fuzzy Partitions",
+      "doi": "10.1109/tsmcb.2008.2004818",
+      "notes": [
+        "DOI 10.1109/tsmcb.2008.2004818 resolved",
+        "DOI resolved; metadata mismatch: year"
+      ]
+    },
+    {
+      "family": "authors_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的作者",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "authors"
+      ],
+      "title": "Generalized Fuzzy C-Means Clustering Algorithm with Improved Fuzzy Partitions",
+      "doi": "10.1109/tsmcb.2008.2004818",
+      "notes": [
+        "DOI 10.1109/tsmcb.2008.2004818 resolved",
+        "DOI resolved; metadata mismatch: authors"
+      ]
+    },
+    {
+      "family": "venue_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的刊名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "venue"
+      ],
+      "title": "Generalized Fuzzy C-Means Clustering Algorithm with Improved Fuzzy Partitions",
+      "doi": "10.1109/tsmcb.2008.2004818",
+      "notes": [
+        "DOI 10.1109/tsmcb.2008.2004818 resolved",
+        "DOI resolved; metadata mismatch: venue"
+      ]
+    },
+    {
+      "family": "title_swap",
+      "expected": "Major/Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的题名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "doi"
+      ],
+      "title": "Enhanced E-Commerce Personalization through AI-Powered Content Generation Tools",
+      "doi": "10.1109/tsmcb.2008.2004818",
+      "notes": [
+        "DOI 10.1109/tsmcb.2008.2004818 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "family": "baseline",
+      "expected": "Exact/Minor",
+      "note": "未改动的真实条目",
+      "status": "Exact",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [],
+      "title": "Enhanced E-Commerce Personalization through AI-Powered Content Generation Tools",
+      "doi": "10.1109/access.2025.3550956",
+      "notes": [
+        "DOI 10.1109/access.2025.3550956 resolved",
+        "DOI resolved; checked fields match"
+      ]
+    },
+    {
+      "family": "doi_bad",
+      "expected": "Major",
+      "note": "真实字段 + 伪造 DOI",
+      "status": "Major",
+      "title_sim": 0.0,
+      "year_match": false,
+      "doi_status": "not_found",
+      "mismatches": [],
+      "title": "Enhanced E-Commerce Personalization through AI-Powered Content Generation Tools",
+      "doi": "10.99999/mut-du5q6vi8x4",
+      "notes": [
+        "DOI 不存在（Crossref 404，DOI 系统也无记录）"
+      ]
+    },
+    {
+      "family": "year_shift",
+      "expected": "Minor",
+      "note": "真实 DOI + 年份偏移 7 年",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "year"
+      ],
+      "title": "Enhanced E-Commerce Personalization through AI-Powered Content Generation Tools",
+      "doi": "10.1109/access.2025.3550956",
+      "notes": [
+        "DOI 10.1109/access.2025.3550956 resolved",
+        "DOI resolved; metadata mismatch: year"
+      ]
+    },
+    {
+      "family": "authors_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的作者",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "authors"
+      ],
+      "title": "Enhanced E-Commerce Personalization through AI-Powered Content Generation Tools",
+      "doi": "10.1109/access.2025.3550956",
+      "notes": [
+        "DOI 10.1109/access.2025.3550956 resolved",
+        "DOI resolved; metadata mismatch: authors"
+      ]
+    },
+    {
+      "family": "venue_swap",
+      "expected": "Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的刊名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": true,
+      "doi_status": "resolved",
+      "mismatches": [
+        "venue"
+      ],
+      "title": "Enhanced E-Commerce Personalization through AI-Powered Content Generation Tools",
+      "doi": "10.1109/access.2025.3550956",
+      "notes": [
+        "DOI 10.1109/access.2025.3550956 resolved",
+        "DOI resolved; metadata mismatch: venue"
+      ]
+    },
+    {
+      "family": "title_swap",
+      "expected": "Major/Minor",
+      "note": "真实 DOI + 换成另一篇真实文献的题名",
+      "status": "Minor",
+      "title_sim": 1.0,
+      "year_match": false,
+      "doi_status": "resolved",
+      "mismatches": [
+        "doi"
+      ],
+      "title": "Schemas, Sexuality, and Romantic Attachment",
+      "doi": "10.1109/access.2025.3550956",
+      "notes": [
+        "DOI 10.1109/access.2025.3550956 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    }
+  ],
+  "fabricated": [
+    {
+      "family": "fabricated_noanchor",
+      "expected": "Unverified（设计上不指控）",
+      "note": "拼接的假题名，无 DOI/URL",
+      "status": "Unverified",
+      "title_sim": 0.2273,
+      "year_match": false,
+      "doi_status": "none",
+      "mismatches": [],
+      "title": "基于Schemas, Sexua的Locally Adapti研究",
+      "doi": "",
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.23); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "family": "fabricated_noanchor",
+      "expected": "Unverified（设计上不指控）",
+      "note": "拼接的假题名，无 DOI/URL",
+      "status": "Unverified",
+      "title_sim": 0.25,
+      "year_match": false,
+      "doi_status": "none",
+      "mismatches": [],
+      "title": "基于Attachment, Tr的Self-Schemata 研究",
+      "doi": "",
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.25); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "family": "fabricated_noanchor",
+      "expected": "Unverified（设计上不指控）",
+      "note": "拼接的假题名，无 DOI/URL",
+      "status": "Unverified",
+      "title_sim": 0.2456,
+      "year_match": false,
+      "doi_status": "none",
+      "mismatches": [],
+      "title": "基于Locally Adapti的Self-Efficacy:研究",
+      "doi": "",
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.25); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "family": "fabricated_noanchor",
+      "expected": "Unverified（设计上不指控）",
+      "note": "拼接的假题名，无 DOI/URL",
+      "status": "Unverified",
+      "title_sim": 0.4167,
+      "year_match": false,
+      "doi_status": "none",
+      "mismatches": [],
+      "title": "基于Self-Schemata 的Examining the 研究",
+      "doi": "",
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.42); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "family": "fabricated_noanchor",
+      "expected": "Unverified（设计上不指控）",
+      "note": "拼接的假题名，无 DOI/URL",
+      "status": "Unverified",
+      "title_sim": 0.4124,
+      "year_match": false,
+      "doi_status": "none",
+      "mismatches": [],
+      "title": "基于Self-Efficacy:的Parent-Child A研究",
+      "doi": "",
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.41); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "family": "fabricated_noanchor",
+      "expected": "Unverified（设计上不指控）",
+      "note": "拼接的假题名，无 DOI/URL",
+      "status": "Unverified",
+      "title_sim": 0.2807,
+      "year_match": false,
+      "doi_status": "none",
+      "mismatches": [],
+      "title": "基于Examining the 的Retrieval-Augm研究",
+      "doi": "",
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.28); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "family": "fabricated_noanchor",
+      "expected": "Unverified（设计上不指控）",
+      "note": "拼接的假题名，无 DOI/URL",
+      "status": "Unverified",
+      "title_sim": 0.2714,
+      "year_match": false,
+      "doi_status": "none",
+      "mismatches": [],
+      "title": "基于Parent-Child A的Marital Satisf研究",
+      "doi": "",
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.27); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "family": "fabricated_noanchor",
+      "expected": "Unverified（设计上不指控）",
+      "note": "拼接的假题名，无 DOI/URL",
+      "status": "Unverified",
+      "title_sim": 0.2807,
+      "year_match": false,
+      "doi_status": "none",
+      "mismatches": [],
+      "title": "基于Retrieval-Augm的Extending the 研究",
+      "doi": "",
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.28); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "family": "fabricated_noanchor",
+      "expected": "Unverified（设计上不指控）",
+      "note": "拼接的假题名，无 DOI/URL",
+      "status": "Unverified",
+      "title_sim": 0.2456,
+      "year_match": false,
+      "doi_status": "none",
+      "mismatches": [],
+      "title": "基于Marital Satisf的Joint Sample P研究",
+      "doi": "",
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.25); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "family": "fabricated_noanchor",
+      "expected": "Unverified（设计上不指控）",
+      "note": "拼接的假题名，无 DOI/URL",
+      "status": "Unverified",
+      "title_sim": 0.44,
+      "year_match": false,
+      "doi_status": "none",
+      "mismatches": [],
+      "title": "基于Extending the 的Using ChatGPT 研究",
+      "doi": "",
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.44); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "family": "fabricated_noanchor",
+      "expected": "Unverified（设计上不指控）",
+      "note": "拼接的假题名，无 DOI/URL",
+      "status": "Unverified",
+      "title_sim": 0.25,
+      "year_match": false,
+      "doi_status": "none",
+      "mismatches": [],
+      "title": "基于Joint Sample P的Generative Art研究",
+      "doi": "",
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.25); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "family": "fabricated_noanchor",
+      "expected": "Unverified（设计上不指控）",
+      "note": "拼接的假题名，无 DOI/URL",
+      "status": "Unverified",
+      "title_sim": 0.48,
+      "year_match": false,
+      "doi_status": "none",
+      "mismatches": [],
+      "title": "基于Using ChatGPT 的Adolescents' P研究",
+      "doi": "",
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.48); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    },
+    {
+      "family": "fabricated_noanchor",
+      "expected": "Unverified（设计上不指控）",
+      "note": "拼接的假题名，无 DOI/URL",
+      "status": "Unverified",
+      "title_sim": 0.4051,
+      "year_match": false,
+      "doi_status": "none",
+      "mismatches": [],
+      "title": "基于Generative Art的Entropy-Based 研究",
+      "doi": "",
+      "notes": [
+        "no close title match in OpenAlex/Crossref/arXiv (best 0.41); the article may be unindexed or the reference may be wrong — check manually"
+      ]
+    }
+  ]
+}

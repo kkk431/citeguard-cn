@@ -54,7 +54,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.3.9", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.3.10", lifespan=lifespan)
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
 
@@ -474,6 +474,20 @@ def _benchmark_context() -> dict:
             "passed": consistency.get("passed"),
             "accuracy": consistency.get("accuracy"),
         }
+    mutation = _load_json(exp / "real_mutation_eval.json")
+    if mutation and mutation.get("summary"):
+        m = mutation["summary"]
+        mut = m.get("mutations") or {}
+        base = m.get("baseline") or {}
+        real["mutation"] = {
+            "n": mut.get("n"),
+            "detected": mut.get("detected"),
+            "detection_rate": mut.get("detection_rate"),
+            "exact_rate": mut.get("exact_rate"),
+            "sample": m.get("sample_size"),
+            "baseline_n": base.get("n"),
+            "baseline_exact_rate": base.get("exact_rate"),
+        }
     return {"benchmark": benchmark, "support": support, "real": real}
 
 
@@ -505,4 +519,4 @@ def benchmark_api():
 
 @app.get("/api/health")
 def health():
-    return {"ok": True, "version": "0.3.9", "supported": sorted(ALLOWED_SUFFIXES)}
+    return {"ok": True, "version": "0.3.10", "supported": sorted(ALLOWED_SUFFIXES)}
