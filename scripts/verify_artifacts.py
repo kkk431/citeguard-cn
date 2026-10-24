@@ -107,6 +107,7 @@ CODE_CLAIMS = (
     ("README.md", "4/4 篇抽取成功", "multi-paper compare success count"),
     ("README.md", "总耗时 **8.0 秒**", "multi-paper compare measured runtime"),
     ("docs/compare.md", "总耗时 8.0 秒", "compare doc runtime matches evidence"),
+    ("docs/ppt_numbers.md", "4/4 篇成功", "one-pager compare success count"),
 )
 
 
