@@ -84,7 +84,7 @@
 1. **代码**：<https://github.com/kkk431/citeguard-cn>，Apache-2.0（`LICENSE`、`NOTICE`）。
 2. **数据集**：CiteBench-CN（250 条）、ClaimSupport-CN（100 条），CC-BY-4.0，含数据卡与标注说明；
    只含自建标注与公开元数据 ID，不含第三方全文/摘要。
-3. **可验证证据**：`data/experiments/*.json`（含原始预测、混淆矩阵、延迟）、`scripts/verify_artifacts.py`
+3. **可验证证据**：`data/experiments/*.json`（含原始预测、混淆矩阵、延迟、显存峰值 `local_gpu_memory.json`）、`scripts/verify_artifacts.py`
    （v0.8.1 起本机 114 项 / 远端 123 项一致性检查）、`reproduce.sh` 一键复现。
 4. **上游贡献**：向 RefChecker（MIT）提交过 PR #77（BibTeX 裸字段解析，避免数字年份被丢弃）；
    是否合并以 GitHub 页面实时状态为准，不写成「已合并」。

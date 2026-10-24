@@ -610,3 +610,16 @@ v0.6.1 上线后继续压测文献发现，发现并修掉三个具体问题：
 - 验证与发布（v0.8.5）：全量 **392 passed**；erify_artifacts.py 本机 **118 项**、远端 --api-base **127 项** 全过；
   commit 6631d30 已推送；远端 /api/health → **0.8.5**；本地演示服务同 0.8.5。
 - 交付包：dist/citeguard-cn-0.8.5.zip（2031869 bytes，sha256 `c69efc44…`；每次重打包 hash 会变，以实际文件为准）。
+
+## 34. 思考模式（thinking）负结果：明确关闭（2026-10-25）
+
+- 目的：验证「让 Qwen3-8B 先思考再判定」是否能补上它和 14B 的差距。
+- 做法：`scripts/local_text_server.py` 以 `THINKING=1 MAX_NEW_TOKENS=900` 重启 8B（:8098），
+  用 v10 + 审计 v2 跑 dev 40；同一权重、同一 prompt，只差 thinking 开关。
+- 结果：**macro-F1 0.8084 / acc 0.775**，平均 **41.8 秒/条**（非 thinking 时为 0.8882 / 7.6 秒/条）。
+  混淆矩阵 `[[8,1,0,7],[0,9,0,1],[0,0,6,0],[0,0,0,8]]`：support 召回只有 0.5，大量 support 被判成
+  `no_evidence`，partial/contradict 反而正常。
+- 处理：不采用；8B 服务已恢复 `THINKING=0`，产品默认保持关闭。证据
+  `data/experiments/support_local_qwen3_8b_v10_thinking_dev.json`，汇总行在
+  `data/experiments/support_local_qwen3_gpu.json`（`thinking=true`）。
+- 结论：思考链不是免费的能力提升，至少在这个判定任务上会放大「找不到证据就判无证据」的倾向。

@@ -147,7 +147,7 @@ PYTHONPATH=src python3 scripts/evaluate_support.py \
 
 - judge：`citeguard.support.judge_support`（两段式：判定 + 覆盖审计），`deepseek-chat`，temperature 0；100/100 判定成功，0 次 API 失败。
 - 结果记录数据集 SHA-256、per-class、混淆矩阵与逐条预测（`results.json` / `predictions.csv`）。
-- 消融记录：单段 v3 0.9005；三票投票 0.9005；v4 两段式 0.9439（实验脚本）/ 0.9328（产品路径）；v8 两段式 0.9544（产品路径）；v9 重述规则 dev 0.9447（未采用）；**v10 产品路径 0.9597**；v10 在 14B 上 test 60 0.9574、dev 40 1.0000、全 100 条 0.9744；产品代码路径直调 14B 0.9744、8B 0.8664（`support_local_qwen3_{14b,8b}_product_all.json`）。
+- 消融记录：单段 v3 0.9005；三票投票 0.9005；v4 两段式 0.9439（实验脚本）/ 0.9328（产品路径）；v8 两段式 0.9544（产品路径）；v9 重述规则 dev 0.9447（未采用）；**v10 产品路径 0.9597**；v10 在 14B 上 test 60 0.9574、dev 40 1.0000、全 100 条 0.9744；产品代码路径直调 14B 0.9744、8B 0.8664（`support_local_qwen3_{14b,8b}_product_all.json`）。 **8B thinking 模式实测更差**：dev 0.8084/0.775，41.8 s/条（关闭 thinking 时 0.8882、7.6 s/条），故默认关闭 thinking。
 
 ## 已知局限
 

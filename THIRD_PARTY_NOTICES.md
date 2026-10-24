@@ -127,6 +127,9 @@
 - 覆盖审计 v2 对自托管端点默认启用、托管 API 仍用 v1（`CITEGUARD_SUPPORT_AUDIT_STYLE=auto`）；
   托管 v2 反而降分（test 0.9009 vs v1 0.9470），这是保留 v1 的原因。v9 重述规则、3 票自洽、混合审计 v3、
   v7 少样本都没超过 v10 + v2，失败尝试记录在 `docs/support_summary.md`。
+- thinking 模式也实测过（Qwen3-8B，v10 两段式 dev）：**0.8084/0.775、41.8 秒/条**，比关闭 thinking 的
+  0.8882/7.6 秒低 8 分且慢 5 倍（support 召回只有 0.5，大量 support 被判成 no_evidence），因此默认关闭；
+  证据 `data/experiments/support_local_qwen3_8b_v10_thinking_dev.json`。
 - 产品长 prompt 是为强托管模型调优的：3B 跟不动（0.3894），换精简 prompt 后升到 0.6291；7B 已能执行两段式判定，
   产品路径 0.7181，反而略高于精简 prompt 的 0.7022（差 0.016，在 100 条样本上不宜过度解读）。
 - 整条链路（题录解析 → 核验 → 支持度判定）可以完全离线，接口、缓存、评测脚本与线上一致，
