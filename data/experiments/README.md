@@ -9,8 +9,8 @@
 | 文件 | 内容 | 脚本 | 关键数字 |
 |---|---|---|---|
 | 上级目录 `data/citebench_cn/` | CiteBench-CN：250 条中文引文真实性评测集 + 结果 + 数据卡 | `scripts/build_citebench.py`、`scripts/evaluate_citebench.py` | macro-F1 **0.9684** / acc 0.968；DeepSeek 零样本基线 0.5159 |
-| 上级目录 `data/claimsupport_cn/` | ClaimSupport-CN：100 条引用支持度评测集 + 两段式 judge 结果 | `scripts/build_claimsupport.py`、`scripts/evaluate_support.py` | macro-F1 **0.9328** / acc 0.930 |
-| `support_two_stage_results.json` | 两段式 judge 的独立 harness（与产品路径分列） | `scripts/experiment_support_two_stage.py` | macro-F1 0.9439（harness） vs 0.9328（产品路径） |
+| 上级目录 `data/claimsupport_cn/` | ClaimSupport-CN：100 条引用支持度评测集 + 两段式 judge 正式结果（现行 v8 prompt；历史 v4 为 0.9328） | `scripts/build_claimsupport.py`、`scripts/evaluate_support.py` | macro-F1 **0.9544** / acc 0.950 |
+| `support_two_stage_results.json` | 两段式 judge 的独立 harness（历史对照，v4 时期） | `scripts/experiment_support_two_stage.py` | harness 0.9439 vs 当时产品路径 0.9328；现行 v8 产品路径 0.9544 |
 | `support_v2_results.json` … `support_v5_results.json`、`support_v3_rerun_results.json`、`support_v3_vote3_results.json` | 支持度 prompt 消融记录（v1–v5、自一致性投票等） | `scripts/experiment_support_prompt.py` | v3 单段 0.9005、v1 0.7951；prompt 版本见 `scripts/support_prompt_*.txt` |
 
 ## 2. 真实已发表论文语料（本地语料，不随仓库分发）
