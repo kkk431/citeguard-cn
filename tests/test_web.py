@@ -307,3 +307,85 @@ def test_compare_job_end_to_end(client, monkeypatch):
     assert "字段" in csv_resp.text
     bad = client.get(f"/api/compare/{job_id}/export?format=bib")
     assert bad.status_code == 400
+
+
+def test_discover_page_renders(plain_client):
+    resp = plain_client.get("/discover")
+    assert resp.status_code == 200
+    assert "discover-form" in resp.text
+
+
+def test_discover_api_rejects_short_query(plain_client):
+    resp = plain_client.post("/api/discover", json={"query": "a"})
+    assert resp.status_code in (400, 422)
+
+
+def test_discover_api_returns_results(plain_client, monkeypatch):
+    import web.app as webapp
+    def fake_search(query, **kwargs):
+        assert query == "ai education"
+        assert kwargs["limit"] == 5
+        return {
+            "query": query,
+            "matched": 2,
+            "results": [
+                {"title": "Paper A", "authors": ["A"], "year": 2020, "venue": "V",
+                 "doi": "10.1/a", "cited_by": 3, "is_oa": False, "oa_url": "",
+                 "openalex_id": "W1"},
+                {"title": "Paper B", "authors": [], "year": 2021, "venue": "",
+                 "doi": "", "cited_by": 0, "is_oa": True, "oa_url": "https://x",
+                 "openalex_id": "W2"},
+            ],
+        }
+
+    monkeypatch.setattr(webapp.discover, "search_papers", fake_search)
+    resp = plain_client.post("/api/discover", json={"query": "ai education", "limit": 5})
+    assert resp.status_code == 200, resp.text
+    payload = resp.json()
+    assert payload["matched"] == 2
+    assert [item["title"] for item in payload["results"]] == ["Paper A", "Paper B"]
+
+
+def test_discover_api_maps_upstream_error(plain_client, monkeypatch):
+    import web.app as webapp
+    def boom(query, **kwargs):
+        raise webapp.discover.DiscoverError("OpenAlex 请求失败：500")
+
+    monkeypatch.setattr(webapp.discover, "search_papers", boom)
+    resp = plain_client.post("/api/discover", json={"query": "test topic"})
+    assert resp.status_code == 502
+    assert "OpenAlex" in resp.json()["detail"]
+
+
+def test_discover_import_returns_counts(plain_client, monkeypatch):
+    import web.app as webapp
+    monkeypatch.setattr(
+        webapp.discover,
+        "import_entries",
+        lambda items: {"added": len(items), "skipped": 1, "count": 7},
+    )
+    resp = plain_client.post(
+        "/api/discover/import",
+        json={"items": [{"title": "Paper A", "year": 2020}]},
+    )
+    assert resp.status_code == 200, resp.text
+    assert resp.json()["added"] == 1
+    assert resp.json()["count"] == 7
+
+
+def test_discover_import_rejects_empty(plain_client):
+    resp = plain_client.post("/api/discover/import", json={"items": []})
+    assert resp.status_code == 400
+
+
+def test_discover_export_csv(plain_client, monkeypatch):
+    import web.app as webapp
+    monkeypatch.setattr(
+        webapp.discover,
+        "search_papers",
+        lambda query, **kwargs: {"query": query, "matched": 1, "results": []},
+    )
+    monkeypatch.setattr(webapp.discover, "render_csv", lambda result: "title,doi\nA,\n")
+    resp = plain_client.get("/api/discover/export?query=test")
+    assert resp.status_code == 200
+    assert resp.headers["content-type"].startswith("text/csv")

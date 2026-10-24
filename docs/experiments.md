@@ -583,3 +583,25 @@ python scripts/e7_usability.py --manual-finalize data/experiments/e7_manual_verd
 **集成**：`/compare` 页面 + `POST /api/compare`，2–6 篇；未配置判官时不展示入口。测试新增 11 个模块用例 + 4 个 Web 用例，全套 353 passed。
 
 **证据**：`data/experiments/compare_real.json`；细节与边界见 `docs/compare.md`。
+
+## 12. E12：选题→文献发现（OpenAlex 实测，2026-10-24）
+
+**问题**：从一个研究主题开始找候选论文，通常要在多个数据库里重复检索、手工整理。
+
+**做法**：`src/citeguard/discover.py` 调 OpenAlex `/works`，按「OpenAlex relevancy 顺序 + 标题重合度 + 被引 + 新近度 + OA」透明规则重排，返回 10–30 条；选中可写入本地题录库或导出 CSV。排序是启发式规则，无训练、无标注集。
+
+**结果**（工程可用性，不是排序质量评测）：
+
+| 查询 | 条件 | 上游命中 | 首次请求 | 结果观察 |
+|---|---|---|---|---|
+| `人工智能 教育` | 10 条 | 112,724 | 1.82 s | 前 10 条均为中文 AI 教育论文 |
+| `retrieval augmented generation` | 2022 起 + 仅 OA，10 条 | 133,725 | 1.56 s | 前 10 条均为 RAG 主题，2023–2025 |
+| 重复请求 | 命中缓存 | — | 0.02 s | 结果一致 |
+
+**可用的说法**：一次请求 1.6–1.8 秒拿到按透明规则排序的候选列表；能一键入库/导出，不抓全文。
+
+**不能用的说法**：不能说排序质量达到多少（没有 relevance 标注集）；不能说中文文献都能搜到（取决于 OpenAlex 覆盖）；不能说入库等于已核验。
+
+**集成**：`/discover` 页面 + `POST /api/discover` + `GET /api/discover/export` + `POST /api/discover/import`；模块测试 9 个 + Web 测试 7 个，全套 369 passed。
+
+**证据**：检索结果随时间变化，不固化数据文件；代码 `src/citeguard/discover.py`、`web/app.py`，说明见 `docs/discover.md`。

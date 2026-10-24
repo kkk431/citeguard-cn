@@ -10,6 +10,7 @@ import sys
 import time
 from contextlib import asynccontextmanager
 from pathlib import Path
+from typing import Optional
 
 BASE = Path(__file__).resolve().parent          # citeguard/web
 ROOT = BASE.parent                               # citeguard
@@ -19,9 +20,11 @@ from fastapi import FastAPI, File, Form, HTTPException, Request, Response, Uploa
 from fastapi.responses import FileResponse, HTMLResponse, JSONResponse  # noqa: E402
 from fastapi.staticfiles import StaticFiles  # noqa: E402
 from fastapi.templating import Jinja2Templates  # noqa: E402
+from pydantic import BaseModel  # noqa: E402
 
 from citeguard import compare  # noqa: E402
 from citeguard import config  # noqa: E402
+from citeguard import discover  # noqa: E402
 from citeguard import figure_check  # noqa: E402
 from citeguard.abstract_enrich import MAX_ENRICH_PER_REQUEST, enrich_missing  # noqa: E402
 from citeguard.jobs import manager  # noqa: E402
@@ -78,7 +81,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.5.0", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.6.0", lifespan=lifespan)
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
 
@@ -697,6 +700,75 @@ def compare_export(job_id: str, format: str = "md"):
     )
 
 
+class DiscoverRequest(BaseModel):
+    query: str = ""
+    limit: int = 20
+    year_from: Optional[int] = None
+    oa_only: bool = False
+
+
+class DiscoverImportRequest(BaseModel):
+    items: list[dict] = []
+
+
+@app.get("/discover", response_class=HTMLResponse)
+def discover_page(request: Request):
+    return templates.TemplateResponse(
+        request,
+        "discover.html",
+        {"active": "discover", "max_results": discover.MAX_RESULTS},
+    )
+
+
+@app.post("/api/discover")
+def discover_api(payload: DiscoverRequest):
+    try:
+        result = discover.search_papers(
+            payload.query,
+            limit=payload.limit,
+            year_from=payload.year_from,
+            oa_only=payload.oa_only,
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except discover.DiscoverError as exc:
+        raise HTTPException(status_code=502, detail=str(exc)) from exc
+    return {"ok": True, **result}
+
+
+@app.get("/api/discover/export")
+def discover_export(
+    query: str = "",
+    limit: int = 20,
+    year_from: Optional[int] = None,
+    oa_only: bool = False,
+):
+    try:
+        result = discover.search_papers(
+            query, limit=limit, year_from=year_from, oa_only=oa_only
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except discover.DiscoverError as exc:
+        raise HTTPException(status_code=502, detail=str(exc)) from exc
+    body = "\ufeff" + discover.render_csv(result)
+    return Response(
+        content=body.encode("utf-8"),
+        media_type="text/csv; charset=utf-8",
+        headers={"Content-Disposition": 'attachment; filename="citeguard-discover.csv"'},
+    )
+
+
+@app.post("/api/discover/import")
+def discover_import(payload: DiscoverImportRequest):
+    if not payload.items:
+        raise HTTPException(status_code=400, detail="没有选中任何文献")
+    if len(payload.items) > discover.MAX_RESULTS:
+        raise HTTPException(status_code=400, detail=f"一次最多导入 {discover.MAX_RESULTS} 条")
+    stats = discover.import_entries(payload.items)
+    return {"ok": True, **stats}
+
+
 @app.get("/api/benchmark")
 def benchmark_api():
     ctx = _benchmark_context()
@@ -713,4 +785,4 @@ def benchmark_api():
 
 @app.get("/api/health")
 def health():
-    return {"ok": True, "version": "0.5.0", "supported": sorted(ALLOWED_SUFFIXES)}
+    return {"ok": True, "version": "0.6.0", "supported": sorted(ALLOWED_SUFFIXES)}

@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}选题与文献发现 · 引证卫士 CiteGuard{% endblock %}
+{% block content %}
+<section class="wrap" style="padding:48px 0 8px">
+  <div class="kicker">LITERATURE DISCOVERY</div>
+  <h1 class="serif" style="font-size:34px;font-weight:600;margin:10px 0">选题与文献发现</h1>
+  <p class="lede" style="max-width:74ch">
+    给一个研究主题，从 OpenAlex 开放索引里找候选论文：按「相关度 + 标题重合 + 被引 + 新近度 + 开放获取」做一个透明的启发式排序，
+    可直接勾选加入本地题录库，再回到工作台做引文核验与多篇对比。
+    它只展示 OpenAlex 返回的元数据，不抓取、不转存全文；排序是规则，不是训练出来的推荐模型。
+  </p>
+  <div class="stats stats-4">
+    <div class="stat"><b>OpenAlex</b><span>开放元数据（CC0）</span></div>
+    <div class="stat"><b>透明排序</b><span>相关度 + 重合 + 引用 + 新近度</span></div>
+    <div class="stat"><b>一键入库</b><span>选中后可加入题录库</span></div>
+    <div class="stat"><b>不抓全文</b><span>只消费公开元数据</span></div>
+  </div>
+</section>
+
+<section class="wrap section">
+  <div class="section-head"><h2>输入主题</h2><span class="hint">中文或英文均可；建议用 2–8 个关键词</span></div>
+  <div class="panel">
+    <form id="discover-form">
+      <div class="discover-grid">
+        <label class="field" style="grid-column:1/-1">
+          <span>研究主题 / 关键词</span>
+          <input id="discover-query" type="text" name="query" placeholder="例如：人工智能 教育 高等教育 教学" required maxlength="120">
+        </label>
+        <label class="field">
+          <span>返回条数</span>
+          <select id="discover-limit" name="limit">
+            <option value="10">10 条</option>
+            <option value="20" selected>20 条</option>
+            <option value="30">30 条</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>起始年份（可选）</span>
+          <input id="discover-year" type="number" name="year_from" min="1900" max="2100" placeholder="如 2018">
+        </label>
+        <label class="checkline" style="align-self:end;padding-bottom:8px">
+          <input id="discover-oa" type="checkbox" name="oa_only">
+          <span>只看开放获取（OA）</span>
+        </label>
+      </div>
+      <div class="upload-actions">
+        <button type="submit" class="btn btn-primary" id="discover-btn">开始检索</button>
+        <span class="mono-sm" id="discover-hint" style="margin-left:auto;align-self:center"></span>
+      </div>
+    </form>
+    <div class="lib-banner hidden" id="discover-status" aria-live="polite"></div>
+  </div>
+</section>
+
+<section class="wrap section hidden" id="discover-result-section">
+  <div class="section-head">
+    <h2>候选文献</h2>
+    <span class="hint" id="discover-meta"></span>
+  </div>
+  <div class="upload-actions" style="margin-bottom:10px">
+    <label class="checkline"><input type="checkbox" id="discover-select-all"> <span>全选</span></label>
+    <button class="btn btn-ghost btn-sm" id="discover-import-btn" disabled>加入题录库</button>
+    <a class="btn btn-ghost btn-sm" id="discover-export" href="#">导出 CSV</a>
+    <span class="mono-sm" style="margin-left:auto;align-self:center">元数据来自 OpenAlex；引用前请核对原文</span>
+  </div>
+  <div class="panel" style="overflow-x:auto;padding:0">
+    <table class="discover-table" id="discover-table">
+      <thead>
+        <tr><th style="width:34px"></th><th>题名</th><th>作者</th><th>年份</th><th>来源</th><th>被引</th><th>获取</th></tr>
+      </thead>
+      <tbody id="discover-body"></tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}<script src="/static/js/discover.js?v={{ request.app.version }}"></script>{% endblock %}

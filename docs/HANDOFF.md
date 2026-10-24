@@ -339,3 +339,17 @@ $env:DEEPSEEK_API_KEY = "..."   # 支持度判定用，不写进任何文件
   ssh 代理当时被阻断，改用 22 端口推送）；远端 `/data/xyjiang/aic_mental/citeguard` 已部署
   v0.5.0（`/api/health` → 0.5.0），`verify_artifacts.py --api-base` **105 项全过**；
   交付包 `dist/citeguard-cn-0.5.0.zip`（1,742,409 bytes，sha256 `5fb50f9d…`，1.7 MB）。
+
+## 23. v0.6.0：选题与文献发现（模块 E，2026-10-24）
+
+- 新增 `src/citeguard/discover.py`：OpenAlex `/works` 检索 + 透明启发式重排
+  （`1/(1+序号) + 2×标题重合度 + 0.35×log10(1+被引) + 新近度 + OA`），7 天本地缓存，
+  只消费元数据、不抓全文；`import_entries()` 按规范化题名去重写入本地题录库。
+- Web：`GET /discover` 页面 + `POST /api/discover`、`GET /api/discover/export`（CSV）、
+  `POST /api/discover/import`；导航与首页入口；判官/视觉服务均不参与，纯公开数据。
+- 实测（工程可用性，不是排序质量）：`人工智能 教育` 命中 112,724 条、首次 1.82 s；
+  `retrieval augmented generation`（2022+ / 仅 OA）命中 133,725 条、首次 1.56 s；
+  缓存命中 0.02 s。没有任何 relevance 标注集，**不报告排序指标**。
+- 测试：模块 9 个 + Web 7 个，全套 **369 passed**；`verify_artifacts.py` 本机 **101 项**。
+- 边界：中文召回取决于 OpenAlex 覆盖；排序是启发式、不训练；入库只存题录，不等于已核验。
+- 版本 0.6.0（`web/app.py` 两处、打包脚本、部署手册）；待部署与交付包重建。
