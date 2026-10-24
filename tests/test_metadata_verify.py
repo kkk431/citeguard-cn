@@ -551,3 +551,60 @@ def test_verify_doi_landing_title_mismatch_is_major(monkeypatch, isolated_cache)
     assert result.status == "Major"
     assert "title" in result.mismatches
     assert result.sources == ["doi:landing"]
+
+
+def test_openalex_retracted_flag_is_surfaced(monkeypatch, isolated_cache):
+    """A retracted paper should keep its metadata status but carry a warning."""
+    ref = _ref_without_doi()
+    work = openalex_work(ref)
+    work["is_retracted"] = True
+
+    def handler(url, params):
+        if url.endswith("/works") and "openalex" in url:
+            return FakeResponse(200, {"results": [work]})
+        return FakeResponse(404, {"status": "not found"})
+
+    install_fake_get(monkeypatch, mv, handler)
+
+    result = mv.verify_reference(ref)
+
+    assert result.status == "Exact"
+    assert result.retracted is True
+    assert any("撤稿" in n for n in result.notes)
+    # to_dict must expose the flag to the web report
+    assert result.to_dict()["retracted"] is True
+
+
+def test_openalex_retraction_does_not_flip_status(monkeypatch, isolated_cache):
+    """Retraction must not turn an accurate citation into Minor/Major."""
+    ref = _ref_without_doi()
+    work = openalex_work(ref, year=2021)  # year drift => Minor by metadata
+    work["is_retracted"] = True
+
+    def handler(url, params):
+        if url.endswith("/works") and "openalex" in url:
+            return FakeResponse(200, {"results": [work]})
+        return FakeResponse(404, {"status": "not found"})
+
+    install_fake_get(monkeypatch, mv, handler)
+
+    result = mv.verify_reference(ref)
+
+    assert result.status == "Minor"
+    assert result.retracted is True
+
+
+def test_retraction_flag_not_set_for_normal_records(monkeypatch, isolated_cache):
+    ref = _ref_without_doi()
+
+    def handler(url, params):
+        if url.endswith("/works") and "openalex" in url:
+            return FakeResponse(200, {"results": [openalex_work(ref)]})
+        return FakeResponse(404, {"status": "not found"})
+
+    install_fake_get(monkeypatch, mv, handler)
+
+    result = mv.verify_reference(ref)
+
+    assert result.retracted is False
+    assert not any("撤稿" in n for n in result.notes)

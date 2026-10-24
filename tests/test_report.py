@@ -71,6 +71,61 @@ def test_build_report_support_counts():
     assert report_none["stats"]["support"]["not_checked"] == 1
 
 
+def test_review_summary_clean_report_is_ok():
+    review = _report()["review_summary"]
+    assert review["level"] == "ok"
+    assert "可送审" in review["decision"]
+    assert review["issues"] == []
+    assert "不替代同行评审" in review["note"]
+
+
+def test_review_summary_flags_retracted_reference():
+    result = _verified("Exact")
+    result.retracted = True
+    review = _report(verify=[result])["review_summary"]
+    assert review["level"] == "blocker"
+    assert review["retracted"] == 1
+    assert any(x["kind"] == "已撤稿" for x in review["issues"])
+
+
+def test_review_summary_flags_major_match():
+    review = _report(verify=[_verified("Major")])["review_summary"]
+    assert review["level"] == "blocker"
+    assert review["blockers"] >= 1
+    assert "修改" in review["decision"]
+
+
+def test_review_summary_flags_uncited_number():
+    report = build_report(
+        "paper.txt",
+        BODY,
+        [REF],
+        [_verified("Exact")],
+        [ComplianceResult(score=100)],
+        [],
+        citation_consistency={
+            "numeric_style": True,
+            "citations": 0,
+            "distinct_numbers": 0,
+            "missing_numbers": [],
+            "uncited_numbers": [1],
+            "order_inversions": 0,
+            "note": "",
+        },
+    )
+    review = report["review_summary"]
+    assert review["level"] == "minor"
+    assert any(x["kind"] == "未被引用" for x in review["issues"])
+
+
+def test_review_summary_exported_in_markdown_and_html():
+    report = _report(verify=[_verified("Major")])
+    md = render_markdown(report)
+    page = render_html(report)
+    assert "审稿视角" in md and "建议修改" in md
+    assert "审稿视角" in page and "建议修改" in page
+
+
 def test_markdown_verdict_mentions_contradictions():
     md = render_markdown(_report(support=[{"label": "contradict"}]))
     assert "矛盾" in md

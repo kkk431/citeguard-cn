@@ -158,6 +158,15 @@
     if (unknown.length) {
       items.push("<b>" + unknown.length + "</b> 条本次无法核验（数据源不可用）");
     }
+    const retracted = refs
+      .filter(function (r) { return r.verify && r.verify.retracted; })
+      .map(function (r) { return r.index; });
+    if (retracted.length) {
+      items.push(
+        "<b>" + retracted.length + "</b> 条文献在 OpenAlex 有撤稿标记（" +
+        idx(retracted) + "）——引用前必须核对原文与撤稿声明"
+      );
+    }
     if (fmtErrors.length) {
       items.push("<b>" + fmtErrors.length + "</b> 条存在格式错误（点上方「格式错误」筛选查看）");
     }
@@ -241,9 +250,36 @@
       items.join("") + "</ul>";
   }
 
+  function renderReviewSummary(data) {
+    const el = document.getElementById("review-summary");
+    if (!el) return;
+    const r = data.review_summary;
+    if (!r || !r.decision) return;
+    const color = r.level === "blocker" ? "var(--bad)" : r.level === "minor" ? "var(--warn)" : "var(--ok)";
+    const issues = (r.issues || []).slice(0, 8).map(function (x) {
+      return "<li>" +
+        (x.index == null ? "" : "<b>[" + x.index + "]</b> ") +
+        "<b>" + esc(x.kind || "") + "</b>：" + esc(x.text || "") + "</li>";
+    }).join("");
+    el.classList.remove("hidden");
+    el.innerHTML =
+      '<div class="mono-sm">审稿视角 · 自动汇总（仅供参考）</div>' +
+      '<div style="font-size:15px;font-weight:600;margin:6px 0 4px;color:' + color + '">' +
+      esc(r.decision) + "</div>" +
+      '<div class="mono-sm" style="color:var(--muted);margin-bottom:6px">' +
+      "阻断级问题 " + (r.blockers || 0) + " 项 · 提示级问题 " + (r.minor_issues || 0) +
+      " 项 · 已判定支持度 " + (r.support_judged || 0) + " 条" +
+      (r.retracted ? " · 撤稿标记 " + r.retracted + " 条" : "") + "</div>" +
+      (issues
+        ? '<ul class="verdict-list" style="margin:0;padding-left:18px;font-size:13px;line-height:1.8">' + issues + "</ul>"
+        : "") +
+      '<div class="mono-sm" style="color:var(--muted);margin-top:6px">' + esc(r.note || "") + "</div>";
+  }
+
   function render(data) {
     renderInputMeta(data);
     renderVerdict(data);
+    renderReviewSummary(data);
     renderCitationConsistency(data);
     const s = data.stats || {};
     const total = s.total || 1;
@@ -660,6 +696,9 @@
         const localPill = sources.indexOf("local") !== -1
           ? '<span class="pill ok"><i></i>本地题录库</span>'
           : "";
+        const retractPill = v.retracted
+          ? '<span class="pill warn" title="OpenAlex 撤稿标记；引用前请核对原文与撤稿声明"><i></i>该文献已撤稿</span>'
+          : "";
         const provPills = [];
         if (sources.indexOf("doi:landing") !== -1) {
           provPills.push('<span class="pill warn"><i></i>中国 DOI 平台 · 卷期页未核对</span>');
@@ -707,6 +746,7 @@
               '<span class="pill ' + st.cls + '"><i></i>' + st.label + "</span>" +
               supPill +
               localPill +
+              retractPill +
               provPills.join("") +
               urlPills.join("") +
               '<span class="ref-title">' + esc(p.title || short(item.raw, 80)) + "</span>" +
@@ -747,7 +787,8 @@
         return (
           "<tr>" +
             "<td class='mono-sm'>" + (item.index || "") + "</td>" +
-            '<td><span class="pill ' + st.cls + '"><i></i>' + st.label + "</span></td>" +
+            '<td><span class="pill ' + st.cls + '"><i></i>' + st.label + "</span>" +
+              (v.retracted ? ' <span class="pill warn">撤稿</span>' : "") + "</td>" +
             '<td><span class="pill ' + (supInfo ? supInfo.cls : "unknown") + '">' + (supInfo ? supInfo.label : "—") + "</span></td>" +
             "<td>" + esc(short(p.title || item.raw, 60)) + "</td>" +
             "<td class='mono-sm'>" + esc(p.year || "") + "</td>" +

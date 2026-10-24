@@ -46,6 +46,7 @@ class Candidate:
     pages: str = ""
     abstract: str = ""
     url: str = ""
+    retracted: bool = False
     raw: dict = field(default_factory=dict)
 
 
@@ -62,10 +63,28 @@ class VerifyResult:
     mismatches: list[str] = field(default_factory=list)
     notes: list[str] = field(default_factory=list)
     sources: list[str] = field(default_factory=list)
+    retracted: bool = False
 
     def to_dict(self) -> dict:
         d = asdict(self)
         return d
+
+
+def _apply_retraction(result: "VerifyResult") -> "VerifyResult":
+    """Surface the OpenAlex retraction flag without changing metadata status.
+
+    Retraction is orthogonal to "does this citation match its record": a
+    retracted paper can still be cited accurately, but the user should know
+    before relying on it. Keeping ``status`` unchanged avoids turning a
+    legitimate citation into a false accusation.
+    """
+    if result.best is not None and getattr(result.best, "retracted", False):
+        result.retracted = True
+        if not any("撤稿" in n for n in result.notes):
+            result.notes.append(
+                "OpenAlex 标记该文献已被撤稿（retraction），引用前请核对原文与撤稿声明"
+            )
+    return result
 
 
 # ---------------------------------------------------------------------------
@@ -592,7 +611,7 @@ def search_openalex(title: str, limit: int = 5) -> list[Candidate]:
         {
             "search": title,
             "per-page": limit,
-            "select": "id,doi,title,publication_year,authorships,primary_location,biblio,type,language,abstract_inverted_index",
+            "select": "id,doi,title,publication_year,authorships,primary_location,biblio,type,language,abstract_inverted_index,is_retracted",
             "mailto": config.OPENALEX_MAILTO,
         },
     )
@@ -623,6 +642,7 @@ def search_openalex(title: str, limit: int = 5) -> list[Candidate]:
                     pages=str(pages),
                     abstract=_reconstruct_abstract(w.get("abstract_inverted_index")),
                     url=w.get("id", ""),
+                    retracted=bool(w.get("is_retracted")),
                 )
             )
         except Exception:
@@ -770,6 +790,7 @@ def lookup_doi(doi: str) -> list[Candidate]:
                 pages=str(pages),
                 abstract=_reconstruct_abstract(data2.get("abstract_inverted_index")),
                 url=data2.get("id", ""),
+                retracted=bool(data2.get("is_retracted")),
             )
         )
     return out
@@ -1105,7 +1126,7 @@ def local_library_verdict(
     return None
 
 
-def verify_reference(
+def _verify_reference(
     ref: Reference,
     use_arxiv: bool = True,
     library: Optional["Library"] = None,  # noqa: F821 - imported lazily to avoid a cycle
@@ -1353,6 +1374,15 @@ def verify_reference(
         notes=notes,
         sources=sources,
     )
+
+
+def verify_reference(
+    ref: Reference,
+    use_arxiv: bool = True,
+    library: Optional["Library"] = None,  # noqa: F821 - imported lazily to avoid a cycle
+) -> VerifyResult:
+    """Verify one reference and annotate retraction status when known."""
+    return _apply_retraction(_verify_reference(ref, use_arxiv=use_arxiv, library=library))
 
 
 def verify_many(

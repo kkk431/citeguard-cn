@@ -39,6 +39,101 @@ def _stats(verify: list[VerifyResult]) -> dict:
     return counts
 
 
+def _review_summary(
+    items: list[dict],
+    counts: dict,
+    support_counts: Optional[dict],
+    consistency: dict,
+    total: int,
+) -> dict:
+    """Reviewer-style verdict: aggregate every check into one decision.
+
+    This is deliberately conservative about language: it says 「建议核对/修改」
+    rather than asserting misconduct, because the checks are automated and
+    can be wrong (unindexed Chinese papers, parse noise).
+    """
+    issues: list[dict] = []
+    for it in items:
+        idx = it.get("index")
+        v = it.get("verify") or {}
+        p = it.get("parsed") or {}
+        title = (p.get("title") or it.get("raw") or "")[:48]
+        if v.get("status") == "Major":
+            issues.append(
+                {"index": idx, "severity": "blocker", "kind": "可能虚构/错配",
+                 "text": f"{title}：DOI 或题名与数据库记录严重不符，请核对原始出处"}
+            )
+        if v.get("retracted"):
+            issues.append(
+                {"index": idx, "severity": "blocker", "kind": "已撤稿",
+                 "text": f"{title}：OpenAlex 标记为撤稿，引用前必须核对撤稿声明"}
+            )
+        sup = it.get("support") or {}
+        if sup.get("label") == "contradict":
+            issues.append(
+                {"index": idx, "severity": "blocker", "kind": "引用矛盾",
+                 "text": f"{title}：正文引用句与被引原文结论矛盾"}
+            )
+        elif sup.get("label") == "partial":
+            issues.append(
+                {"index": idx, "severity": "minor", "kind": "部分支持",
+                 "text": f"{title}：原文只部分支持正文表述，注意是否夸大"}
+            )
+        c = it.get("compliance") or {}
+        if c.get("errors"):
+            issues.append(
+                {"index": idx, "severity": "minor", "kind": "格式错误",
+                 "text": f"{title}：GB/T 7714 规则发现 {c['errors']} 处错误级问题"}
+            )
+    cc = consistency or {}
+    if cc.get("numeric_style"):
+        for n in (cc.get("uncited_numbers") or [])[:10]:
+            issues.append(
+                {"index": n, "severity": "minor", "kind": "未被引用",
+                 "text": f"[{n}] 列于参考文献表但正文未引用"}
+            )
+        for n in (cc.get("missing_numbers") or [])[:10]:
+            issues.append(
+                {"index": n, "severity": "minor", "kind": "编号缺失",
+                 "text": f"正文引注 [{n}] 在参考文献表中不存在"}
+            )
+        if cc.get("order_inversions"):
+            issues.append(
+                {"index": None, "severity": "minor", "kind": "顺序不一致",
+                 "text": f"正文首次引用顺序与编号有 {cc['order_inversions']} 处不一致"}
+            )
+
+    blockers = sum(1 for x in issues if x["severity"] == "blocker")
+    minors = sum(1 for x in issues if x["severity"] == "minor")
+    support = support_counts or {}
+    judged = sum(v for k, v in support.items() if k != "not_checked")
+    if blockers:
+        level = "blocker"
+        decision = "建议修改后再投稿：存在可能虚构/错配、引用矛盾或已撤稿文献"
+    elif minors:
+        level = "minor"
+        decision = "建议小修后再投稿：存在元数据偏差、格式或引注规范问题"
+    elif counts.get("Unverified"):
+        level = "ok"
+        decision = "可送审，但建议先人工核对未找到匹配的条目（不等于造假）"
+    else:
+        level = "ok"
+        decision = "可送审：本轮自动检查未发现阻断性问题"
+
+    return {
+        "decision": decision,
+        "level": level,
+        "blockers": blockers,
+        "minor_issues": minors,
+        "issues": issues[:30],
+        "issue_total": len(issues),
+        "support_judged": judged,
+        "support_contradict": support.get("contradict", 0),
+        "retracted": sum(1 for it in items if (it.get("verify") or {}).get("retracted")),
+        "note": "审稿视角聚合为自动检查结果，不替代同行评审；未匹配条目请人工核对。",
+    }
+
+
 def build_report(
     input_path: str,
     body: str,
@@ -95,6 +190,18 @@ def build_report(
             }
         )
 
+    consistency = citation_consistency or {
+        "numeric_style": False,
+        "citations": len(intext),
+        "distinct_numbers": 0,
+        "missing_numbers": [],
+        "uncited_numbers": [],
+        "order_inversions": 0,
+        "order_examples": [],
+        "note": "未做正文引注一致性检查",
+    }
+    review = _review_summary(items, counts, support_counts, consistency, total)
+
     return {
         "generated_at": datetime.now().isoformat(timespec="seconds"),
         "input": str(input_path),
@@ -116,17 +223,8 @@ def build_report(
                 "skipped_unreliable_match": 0,
             },
         },
-        "citation_consistency": citation_consistency
-        or {
-            "numeric_style": False,
-            "citations": len(intext),
-            "distinct_numbers": 0,
-            "missing_numbers": [],
-            "uncited_numbers": [],
-            "order_inversions": 0,
-            "order_examples": [],
-            "note": "未做正文引注一致性检查",
-        },
+        "citation_consistency": consistency,
+        "review_summary": review,
         "references": items,
         # Re-typeset reference list built from what the paper already cites (no
         # online lookup). Useful as a first pass, but it cannot invent missing
@@ -183,6 +281,13 @@ def render_markdown(report: dict) -> str:
         f"- 结论：{_markdown_verdict(s)}",
         "",
     ]
+    review = report.get("review_summary") or {}
+    if review.get("decision"):
+        lines += ["## 审稿视角（自动汇总，仅供参考）", "", f"- **{review['decision']}**"]
+        for x in (review.get("issues") or [])[:10]:
+            prefix = f"[{x.get('index')}] " if x.get("index") is not None else ""
+            lines.append(f"- {prefix}{x.get('kind', '')}：{x.get('text', '')}")
+        lines += [f"- {review.get('note', '')}", ""]
     consistency = report.get("citation_consistency") or {}
     lines += ["## 正文引注一致性", ""]
     if not consistency.get("numeric_style"):
@@ -325,6 +430,32 @@ def render_html(report: dict) -> str:
             '<div class="verdict" style="border-left-color:#6b7280">'
             '<div class="verdict-head">正文引注一致性</div><ul>'
             f"<li>{html.escape(consistency['note'])}</li></ul></div>"
+        )
+    review = report.get("review_summary") or {}
+    review_html = ""
+    if review.get("decision"):
+        r_color = {"blocker": "#dc2626", "minor": "#d97706", "ok": "#1f9d55"}.get(
+            review.get("level"), "#6b7280"
+        )
+        r_items = "".join(
+            "<li>"
+            + (f"[{html.escape(str(x.get('index')))}] " if x.get("index") is not None else "")
+            + f"<b>{html.escape(x.get('kind', ''))}</b>：{html.escape(x.get('text', ''))}"
+            + "</li>"
+            for x in (review.get("issues") or [])[:10]
+        )
+        review_html = (
+            f'<div class="verdict" style="border-left-color:{r_color}">'
+            '<div class="verdict-head">审稿视角 · 自动汇总（仅供参考）</div>'
+            f'<div style="font-size:14px;font-weight:600;margin-bottom:6px;color:{r_color}">'
+            f"{html.escape(review['decision'])}</div>"
+            f'<div style="font-size:12px;color:#6b7280;margin-bottom:6px">阻断级问题 '
+            f"{review.get('blockers', 0)} 项 · 提示级问题 {review.get('minor_issues', 0)} 项"
+            + (f" · 撤稿标记 {review.get('retracted')} 条" if review.get("retracted") else "")
+            + "</div>"
+            + (f"<ul>{r_items}</ul>" if r_items else "")
+            + f'<div style="font-size:12px;color:#6b7280;margin-top:6px">{html.escape(review.get("note", ""))}</div>'
+            "</div>"
         )
     cards: list[str] = []
     for item in report["references"]:
@@ -483,6 +614,7 @@ def render_html(report: dict) -> str:
     <div class="stat"><b>{s['avg_compliance']}</b><span>新国标合规均分</span></div>
   </div>
   {verdict_html}
+  {review_html}
   {consistency_html}
   {''.join(cards)}
   {formatted_html}
