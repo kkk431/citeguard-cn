@@ -579,3 +579,7 @@ v0.6.1 上线后继续压测文献发现，发现并修掉三个具体问题：
 - 文档：`docs/figure_check.md` 重写（v2 表、上下文用法、复现命令）；README、`docs/experiments.md` E10、
   `docs/ppt_numbers.md` 3f/§8、`docs/deployment.md` §1.6、`data/experiments/README.md` 索引同步。
 - 证据：`data/experiments/figure_prompt_eval.json`（50 条逐条 verdict/reason/latency）。
+- 验证与发布（v0.8.3）：全量 **387 passed**；`verify_artifacts.py` 本机 **118 项**、远端 `--api-base` **127 项** 全过；
+  commit `4a039fe` 已推送；远端 `/api/health` → **0.8.3**；本地演示服务同 0.8.3（`/api/figure-check` 带 `context`
+  实测返回 `prompt_version=2`、`context_chars=29`）。
+- 交付包：`dist/citeguard-cn-0.8.3.zip`（2,026,337 bytes，sha256 `084080f4…`；每次重打包 hash 会变，以实际文件为准）。
