@@ -29,7 +29,7 @@ $env:PYTHONPATH = "src;.pylibs"; $env:PYTHONIOENCODING = "utf-8"
 $env:DEEPSEEK_API_KEY = "..."   # 支持度判定用，不写进任何文件
 
 # 自检
-& $py -m pytest tests -q                       # 290 项，全离线
+& $py -m pytest tests -q                       # 295 项，全离线
 
 # 起工作台（演示/自用）
 & $py -m uvicorn web.app:app --host 127.0.0.1 --port 8010
@@ -39,7 +39,7 @@ $env:DEEPSEEK_API_KEY = "..."   # 支持度判定用，不写进任何文件
 
 ## 3. 当前状态（一句话）
 
-输入解析（PDF/Word/扫描件 OCR）、GB/T 格式检查（E4 漂移 29/30）、引文真实性核验（在线 + 本地题录库 + 中国 DOI 平台）、支持度判定（两段式 macro-F1 0.9328）、报告与导出全部可用；290 项测试通过。已知边界写在 `docs/plan.md`。
+输入解析（PDF/Word/扫描件 OCR）、GB/T 格式检查（E4 漂移 29/30）、引文真实性核验（在线 + 本地题录库 + 中国 DOI 平台）、支持度判定（两段式 macro-F1 0.9328）、报告与导出全部可用；295 项测试通过。已知边界写在 `docs/plan.md`。
 
 ## 4. 明天优先级
 
@@ -175,3 +175,9 @@ $env:DEEPSEEK_API_KEY = "..."   # 支持度判定用，不写进任何文件
 - 版本 **0.3.4**；测试 283 → **290 passed / 2 skipped**（新增 OCR 元数据、导出文字来源、干净打包用例）；`docs/real_data_eval.md` §2.2、README 同步。
 - 交付包不再夹带第三方原始语料：`scripts/package_deliverable.py` 排除 `data/real_corpus/**` 与 `data/experiments/scifact_raw/**`（证据 JSON 仍保留），`dist/citeguard-cn-0.3.4.zip` 从 24.6 MB 降到 **1.3 MB**（163 个文件），避免把未获再分发许可的论文 PDF 打进包。
 
+## 13. 2026-10-24 傍晚：OCR 失败不再静默（v0.3.5）
+
+- 修复回退链静默失败：`_ocr_pdf` 原来吞掉 OCR 异常并返回空串，用户只看到「没有可提取的文字层 / 请安装 OCR」。现在异常写日志并转成可读原因（未装依赖 / 缺 pypdfium2 / 具体异常），报错带「OCR 回退也失败：…」，现场可定位。
+- 回归修复：OCR 成功分支漏了 `text = ocr_text`，导致扫描件提取为 0 字符；已补回并加内容断言，另加两个用例覆盖 OCR 异常与缺依赖文案。
+- 本地实测：扫描件 7 页重新上传，OCR 10,054 字符，解析 23 条，支持度判定 10/10，报告页与导出正常。
+- 测试 **290 → 295 passed / 2 skipped**；版本 **0.3.5**。

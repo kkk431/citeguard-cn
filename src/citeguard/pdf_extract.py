@@ -6,9 +6,12 @@ caller can tell the user to OCR the file first.
 """
 from __future__ import annotations
 
+import logging
 import re
 import unicodedata
 from pathlib import Path
+
+logger = logging.getLogger(__name__)
 
 _REF_HEADINGS = {
     "参考文献",
@@ -114,7 +117,15 @@ def extract_text_with_meta(path: str | Path) -> tuple[str, dict]:
         # "(cid:131)(cid:243)" — parsing those would create garbage references,
         # so prefer OCR when it is available.
         garbled = True
-        ocr_text = _ocr_pdf(path)
+        try:
+            ocr_text = _ocr_pdf(path)
+        except Exception as exc:
+            raise RuntimeError(
+                "PDF 文字层损坏（CID/自定义字体编码，无法可靠提取文字），"
+                f"OCR 回退也失败：{_ocr_failure_hint(exc)}。可以："
+                "1) 检查 OCR 运行环境（服务日志里有具体原因）；"
+                "2) 上传 Word 原稿；3) 提供可搜索 PDF。"
+            ) from exc
         if ocr_text.strip():
             text = ocr_text
             meta["method"] = "ocr"
@@ -126,13 +137,22 @@ def extract_text_with_meta(path: str | Path) -> tuple[str, dict]:
                 "2) 上传 Word 原稿；3) 提供可搜索 PDF。"
             )
     if not text.strip():
-        text = _ocr_pdf(path)
-        if not text.strip():
+        try:
+            ocr_text = _ocr_pdf(path)
+        except Exception as exc:
+            raise RuntimeError(
+                "PDF 中没有可提取的文字层，可能是扫描件，"
+                f"OCR 回退也失败：{_ocr_failure_hint(exc)}。可以："
+                "1) 检查 OCR 运行环境（服务日志里有具体原因）；"
+                "2) 直接上传 Word 原稿；3) 先用 OCR 工具转成可搜索 PDF。"
+            ) from exc
+        if not ocr_text.strip():
             raise RuntimeError(
                 "PDF 中没有可提取的文字层，可能是扫描件。可以：1) 直接上传 Word 原稿；"
                 "2) 安装可选 OCR 依赖后重试（pip install rapidocr-onnxruntime）；"
                 "3) 先用 OCR 工具转成可搜索 PDF。"
             )
+        text = ocr_text
         meta["method"] = "ocr"
         meta["ocr"] = True
     if meta["ocr"]:
@@ -292,14 +312,30 @@ def _pdf_pypdf(path: Path) -> str:
         return ""
 
 
-def _ocr_pdf(path: Path) -> str:
-    """Optional OCR fallback for scanned PDFs (rapidocr-onnxruntime)."""
-    try:
-        from .ocr import ocr_pdf
+def _ocr_failure_hint(exc: Exception) -> str:
+    """Turn an OCR exception into a short, honest user-facing reason."""
+    msg = str(exc).strip() or exc.__class__.__name__
+    lowered = msg.lower()
+    if "需要可选依赖" in msg or "rapidocr-onnxruntime" in lowered:
+        return f"未安装 OCR 依赖（{msg}）"
+    if "pypdfium2" in lowered:
+        return f"缺少 PDF 渲染依赖 pypdfium2（{msg}）"
+    return f"{exc.__class__.__name__}: {msg}"
 
+
+def _ocr_pdf(path: Path) -> str:
+    """Optional OCR fallback for scanned PDFs (rapidocr-onnxruntime).
+
+    Errors are propagated (after logging) instead of being swallowed: a broken
+    OCR environment must not be reported as "the file has no text layer".
+    """
+    from .ocr import ocr_pdf
+
+    try:
         return ocr_pdf(path)
-    except Exception:
-        return ""
+    except Exception as exc:
+        logger.warning("OCR fallback failed for %s: %s", path, exc, exc_info=True)
+        raise
 
 
 def _docx_text(path: Path) -> str:

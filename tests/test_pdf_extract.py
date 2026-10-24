@@ -194,8 +194,9 @@ def test_extract_text_with_meta_marks_scan_without_text_layer(monkeypatch, tmp_p
     monkeypatch.setattr(px, "_pdf_pypdf", lambda path: "")
     monkeypatch.setattr(px, "_ocr_pdf", lambda path: "参考文献\n[1] 张三. 题名[J]. 期刊, 2020.")
 
-    _text, meta = px.extract_text_with_meta(pdf)
+    text, meta = px.extract_text_with_meta(pdf)
 
+    assert "张三" in text
     assert meta["method"] == "ocr"
     assert any("没有可用的文字层" in w for w in meta["warnings"])
 
@@ -251,3 +252,46 @@ def test_garbled_pdf_without_ocr_raises_clear_error(monkeypatch, tmp_path):
     with pytest.raises(RuntimeError) as excinfo:
         px.extract_text(pdf)
     assert "CID" in str(excinfo.value)
+
+
+def test_ocr_failure_is_reported_instead_of_no_text_layer(monkeypatch, tmp_path):
+    """A broken OCR environment must surface the real error, not "scanned PDF"."""
+    import citeguard.pdf_extract as px
+
+    pdf = tmp_path / "scan.pdf"
+    pdf.write_bytes(b"%PDF-1.4 fake")
+    monkeypatch.setattr(px, "_pdf_page_count", lambda path: 7)
+    monkeypatch.setattr(px, "_pdf_pdfplumber", lambda path: "")
+    monkeypatch.setattr(px, "_pdf_pypdf", lambda path: "")
+
+    def broken_ocr(path):
+        raise RuntimeError("OpenCV bindings requires numpy package")
+
+    monkeypatch.setattr(px, "_ocr_pdf", broken_ocr)
+
+    with pytest.raises(RuntimeError) as excinfo:
+        px.extract_text(pdf)
+    message = str(excinfo.value)
+    assert "OCR 回退也失败" in message
+    assert "OpenCV bindings requires numpy package" in message
+
+
+def test_missing_ocr_dependency_is_explained(monkeypatch, tmp_path):
+    import citeguard.pdf_extract as px
+
+    pdf = tmp_path / "scan.pdf"
+    pdf.write_bytes(b"%PDF-1.4 fake")
+    monkeypatch.setattr(px, "_pdf_page_count", lambda path: 2)
+    monkeypatch.setattr(px, "_pdf_pdfplumber", lambda path: "")
+    monkeypatch.setattr(px, "_pdf_pypdf", lambda path: "")
+
+    def missing_dependency(path):
+        raise RuntimeError(
+            "扫描件 OCR 需要可选依赖 rapidocr-onnxruntime，请先执行 pip install rapidocr-onnxruntime"
+        )
+
+    monkeypatch.setattr(px, "_ocr_pdf", missing_dependency)
+
+    with pytest.raises(RuntimeError) as excinfo:
+        px.extract_text(pdf)
+    assert "未安装 OCR 依赖" in str(excinfo.value)
