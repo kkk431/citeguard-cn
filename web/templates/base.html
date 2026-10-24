@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}引证卫士 CiteGuard · 中文论文引文体检{% endblock %}</title>
   <meta name="description" content="中文论文引文体检：真实性核验、引用支持度、GB/T 7714-2025 合规检查。">
-  <link rel="stylesheet" href="/static/css/app.css">
+  <link rel="stylesheet" href="/static/css/app.css?v={{ request.app.version }}">
 </head>
 <body>
   <header class="topbar">
@@ -34,7 +34,7 @@
   </footer>
 
   <div id="toast" class="toast" aria-live="polite"></div>
-  <script src="/static/js/app.js"></script>
+  <script src="/static/js/app.js?v={{ request.app.version }}"></script>
   {% block scripts %}{% endblock %}
 </body>
 </html>

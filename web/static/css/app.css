@@ -202,6 +202,18 @@ textarea:focus,input:focus{outline:none;border-color:var(--accent);background:va
 .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
 .table-wrap .table{min-width:560px}
 .table-wrap .table.table-compact{min-width:0}
+
+/* local library management toolbar */
+.lib-toolbar{display:flex;gap:10px;align-items:center;margin:0 0 12px}
+.lib-search{flex:1;min-width:180px;max-width:420px;background:var(--surface);border:1px solid var(--line);
+  border-radius:8px;padding:8px 12px;font:inherit;font-size:13px;color:inherit}
+.lib-search:focus{outline:2px solid var(--accent);outline-offset:1px}
+.lib-del{white-space:nowrap;opacity:.7}
+.lib-del:hover{opacity:1;color:#b42318;border-color:#b42318}
+@media(max-width:560px){
+  .lib-toolbar{flex-wrap:wrap}
+  .lib-search{max-width:none}
+}
 @media(max-width:560px){
   .col-progress{display:none}
   .stats-4{grid-template-columns:1fr 1fr!important}

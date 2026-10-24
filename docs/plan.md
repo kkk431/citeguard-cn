@@ -31,7 +31,7 @@
 
 ## 3. 下一步（按优先级）
 
-1. **题录库体验**（P0）：支持知网/NoteExpress 更多导出变体；题库导出为 BibTeX；批量导入文件夹；摘要补全（`scripts/enrich_library_abstracts.py` 已实现）。
+1. **题录库体验**（P0，v0.3.7 已完成网页端主体）：搜索 / 逐条删除 / 导入去重统计 / 一键补摘要已上线（`src/citeguard/abstract_enrich.py`，页面每请求 3 条）；剩余：知网/NoteExpress 更多导出变体、文件夹递归导入、补摘要进度条。
 2. **格式规则扩展**（P1）：页码连接号/卷期一致性规则已加（info 提示 / 启发式 warning），仍需核实标准原文并给规则依据打标；把「规则依据/是否已核原文」写进每条 issue，避免过度断言。
 3. **OCR 质量**（P1）：类型码/句读 OCR 后处理已做首版（`[J.`/`[]`/`[刀.` 修复、日期碎片过滤、年份误作卷号修正），仍需在低分辨率/手写样本上验证；按页限流与进度提示。
 4. **核验准确率**（P2）：作者中英文混写归一化、机构作者过滤；本地库比对的题名相似度阈值调参（当前 0.90/0.78）。
@@ -42,7 +42,7 @@
 
 ```bash
 pip install -r requirements.lock.txt
-PYTHONPATH=src python -m pytest tests -q                 # 299 项离线测试
+PYTHONPATH=src python -m pytest tests -q                 # 310 项离线测试
 PYTHONPATH=src python scripts/verify_artifacts.py        # 数据集/结果/文档数字一致性（63 项；加 --api-base 共 72 项）
 PYTHONPATH=src python scripts/eval_parse_real.py         # 真实论文解析实测（需先抓语料）
 PYTHONPATH=src python scripts/eval_verify_real.py        # 真实文献核验误报实测

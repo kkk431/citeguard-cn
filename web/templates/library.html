@@ -19,7 +19,8 @@
   <div class="lib-banner" style="margin-top:14px">
     有 <b>{{ count - with_abstract }}</b> 条题录没有摘要。元数据核验不受影响；但要判断「正文是否真的支持这条引文」，
     题录需要带摘要——在知网/EndNote/Zotero 导出时勾选「摘要/Abstract」再导入即可；
-    也可以在服务器上运行 <code>python scripts/enrich_library_abstracts.py</code>，从 OpenAlex/Crossref 自动补全（只取公开元数据）。
+    也可以点下方「自动补摘要」，从 OpenAlex/Crossref 公开元数据补全（只取公开元数据，可随时停止）。
+    服务器命令行等价方式：<code>python scripts/enrich_library_abstracts.py</code>。
   </div>
   {% endif %}
 </section>
@@ -49,12 +50,16 @@
 </section>
 
 <section class="wrap section">
-  <div class="section-head"><h2>库内题录</h2><span class="hint">最多展示 20 条</span></div>
-  {% if sample %}
-  <div class="panel table-wrap" style="padding:0">
-    <table class="table">
-      <thead><tr><th>题名</th><th>作者</th><th>来源</th><th>年份</th><th>DOI</th><th>摘要</th></tr></thead>
-      <tbody>
+  <div class="section-head"><h2>库内题录</h2><span class="hint" id="library-count-hint">最多展示 20 条</span></div>
+  <div class="lib-toolbar">
+    <input id="library-search" class="lib-search" type="search" placeholder="搜索题名 / 作者 / 来源 / DOI" autocomplete="off">
+    <button type="button" class="btn btn-ghost btn-sm" id="library-enrich-btn"{% if not count or with_abstract >= count %} hidden{% endif %}>自动补摘要（联网）</button>
+    <span class="mono-sm" id="library-toolbar-hint" style="color:var(--muted)"></span>
+  </div>
+  <div class="panel table-wrap" id="library-panel" style="padding:0"{% if not sample %} hidden{% endif %}>
+    <table class="table" id="library-table">
+      <thead><tr><th>题名</th><th>作者</th><th>来源</th><th>年份</th><th>DOI</th><th>摘要</th><th>操作</th></tr></thead>
+      <tbody id="library-body">
         {% for e in sample %}
         <tr>
           <td style="max-width:380px">{{ e.title }}</td>
@@ -63,14 +68,13 @@
           <td class="mono-sm">{{ e.year or '—' }}</td>
           <td class="mono-sm" style="max-width:180px">{{ e.doi or '—' }}</td>
           <td class="mono-sm">{{ '有' if e.abstract else '—' }}</td>
+          <td></td>
         </tr>
         {% endfor %}
       </tbody>
     </table>
   </div>
-  {% else %}
-  <div class="empty">题库为空。导入一份题录导出文件后，中文文献也能被核验。</div>
-  {% endif %}
+  <div class="empty" id="library-empty"{% if sample %} hidden{% endif %}>题库为空。导入一份题录导出文件后，中文文献也能被核验。</div>
 </section>
 {% endblock %}
-{% block scripts %}<script src="/static/js/library.js"></script>{% endblock %}
+{% block scripts %}<script src="/static/js/library.js?v={{ request.app.version }}"></script>{% endblock %}

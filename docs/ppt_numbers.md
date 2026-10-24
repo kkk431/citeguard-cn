@@ -49,13 +49,13 @@
 1. 首页拖入示例论文 → 报告：四类结论 + 每题证据链接；
 2. 批量上传 2 篇 → 汇总面板（篇数/条数/各状态/格式均分）+ 导出 CSV；
 3. 报告页点「支持度矛盾」筛选 → 展示「元数据一致但正文与原文矛盾」条目；
-4. 题录库页展示「带摘要」统计与本地库命中；回报告看「本地题录库」标签；
+4. 题录库页展示搜索/删除/一键补摘要（只补缺摘要，标题相似度 ≥ 0.92 才接受）；回报告看「本地题录库」标签；
 5. 评测页 `/benchmark`：CiteBench / ClaimSupport / 真实语料三块数字一屏看完。
 
 ## 复现命令（评委问「这些数字怎么来的」）
 
 ```bash
-PYTHONPATH=src python -m pytest tests -q                    # 299 passed, 2 skipped
+PYTHONPATH=src python -m pytest tests -q                    # 310 passed, 2 skipped
 PYTHONPATH=src python scripts/evaluate_citebench.py         # 真实性基准（离线缓存）
 DEEPSEEK_API_KEY=... PYTHONPATH=src python scripts/evaluate_support.py   # 支持度（两段式）
 PYTHONPATH=src python scripts/eval_parse_real.py            # 真实论文解析实测

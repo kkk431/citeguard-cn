@@ -192,3 +192,12 @@ $env:DEEPSEEK_API_KEY = "..."   # 支持度判定用，不写进任何文件
 - 实测（扫描件 7 页，作业 `ec5bb85fc7b3`）：23 条引文，修复前有 9 条基于错误摘要给出 `no_evidence/partial`；修复后 21 条弱匹配全部为「未检测（匹配度不足）」，2 条正文未引用，0 条误判。对照用例（DOI 精确命中）仍正常判定 `support`，说明护栏没有误伤可靠匹配。
 - 报告页汇总提示新增「题录匹配度不足 N 条」；README、`docs/support_summary.md` 同步说明，评测口径不变（ClaimSupport-CN 0.9328 / 0.930）。
 - 测试 **297 → 299 passed / 2 skipped**（新增弱匹配跳过、弱匹配高相似度仍判定两个用例）；`verify_artifacts.py` 72/72；版本 **0.3.6**。
+
+## 15. 2026-10-24 傍晚：题录库管理页升级（v0.3.7）
+
+- 「题录库」页从「只读展示前 20 条」改成可管理：全量列表（服务端 `limit/offset`，默认一次 500、上限 2000）、前端即时搜索（题名 / 作者 / 来源 / 年份 / DOI / 摘要）、逐条删除（`DELETE /api/library/{index}`，带确认）、导入统计「解析 N 条 / 新增 A 条 / 跳过重复 S 条」。
+- 新增**一键自动补摘要**：只处理缺摘要的题录，先 DOI 精确查询，再 OpenAlex / Crossref 题名检索；沿用 `local_library.abstract_from_candidates` 的保守规则（标题相似度 ≥ 0.92、年份兼容才接受），网络错误逐条记录、不丢已有数据。新增 `src/citeguard/abstract_enrich.py`（`MAX_ENRICH_PER_REQUEST = 20`；页面每请求 3 条、循环到补完或不再有进展），命令行脚本 `scripts/enrich_library_abstracts.py` 保留。
+- 新 API：`GET /api/library` 返回含 index 的条目、`missing_abstract`、`truncated`；`POST /api/library/enrich?limit=N` 返回 `tried/enriched/missing/errors/remaining/details`；导入响应新增 `added/skipped`（兼容旧字段）。
+- 静态资源加 `?v={{ request.app.version }}` 缓存版本号：升级后浏览器不会继续用旧 JS/CSS（本轮实测旧 `library.js` 被缓存导致新按钮逻辑不生效，已修）。
+- 实测：本地库 10 条（8 条有摘要），对 2 条缺摘要记录调用补摘要 → 0 条误补、0 错误；搜索「鱼类」命中 1 条；删除接口越界返回 404。
+- 测试 **299 → 310 passed / 2 skipped**（新增 6 个 `abstract_enrich` 单元用例 + 5 个题录库 Web API 用例）；版本 **0.3.7**。

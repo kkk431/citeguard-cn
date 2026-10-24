@@ -84,4 +84,4 @@
 
 <script id="report-data" type="application/json">{{ report|tojson if report else 'null' }}</script>
 {% endblock %}
-{% block scripts %}<script src="/static/js/report.js"></script>{% endblock %}
+{% block scripts %}<script src="/static/js/report.js?v={{ request.app.version }}"></script>{% endblock %}

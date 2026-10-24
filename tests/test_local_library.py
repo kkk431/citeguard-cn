@@ -386,3 +386,95 @@ def test_analysis_uses_imported_library(client, monkeypatch):
     report = client.get(f"/api/report/{job['id']}").json()
     assert report["stats"]["library_hits"] == 1
     assert report["stats"]["Exact"] == 1
+
+
+# ---------------------------------------------------------------------------
+# Web API: management table (list / delete / enrich) added in 0.3.7
+# ---------------------------------------------------------------------------
+
+def _import(client, ris_text: str, filename: str = "cnki.ris"):
+    return client.post(
+        "/api/library/import",
+        files={"file": (filename, ris_text.encode("utf-8"), "application/x-research-info-systems")},
+    )
+
+
+def test_library_api_lists_all_entries_with_stable_indexes(client):
+    second = RIS.replace("累积生态风险与青少年的学业和社交能力", "自我决定理论视角下的学习动机研究")
+    _import(client, RIS)
+    _import(client, second, "second.ris")
+
+    payload = client.get("/api/library?limit=2000").json()
+    assert payload["count"] == 2
+    assert payload["missing_abstract"] == 2
+    assert [e["index"] for e in payload["entries"]] == [0, 1]
+    assert payload["entries"][0]["title"].startswith("累积生态风险")
+    assert payload["truncated"] is False
+
+    page = client.get("/api/library?limit=1").json()
+    assert page["count"] == 2
+    assert len(page["entries"]) == 1
+    assert page["truncated"] is True
+
+
+def test_library_delete_removes_one_entry_and_reports_missing_index(client):
+    _import(client, RIS)
+    _import(client, RIS.replace("累积生态风险与青少年的学业和社交能力", "第二篇测试题录"), "two.ris")
+
+    resp = client.delete("/api/library/0")
+    assert resp.status_code == 200, resp.text
+    assert resp.json()["count"] == 1
+    remaining = client.get("/api/library").json()
+    assert remaining["count"] == 1
+    assert "第二篇测试题录" in remaining["entries"][0]["title"]
+
+    assert client.delete("/api/library/9").status_code == 404
+
+
+def test_library_import_reports_added_and_skipped_duplicates(client):
+    first = _import(client, RIS)
+    assert first.json()["added"] == 1
+    assert first.json()["skipped"] == 0
+
+    again = _import(client, RIS)
+    assert again.status_code == 200
+    assert again.json()["imported"] == 1
+    assert again.json()["added"] == 0
+    assert again.json()["skipped"] == 1
+    assert again.json()["count"] == 1
+
+
+def test_library_enrich_endpoint_persists_filled_abstract(client, monkeypatch):
+    _import(client, RIS)
+    import web.app as webapp
+
+    def fake_enrich(library, limit=10):
+        entry = library.entries[0]
+        entry.abstract = "从公开元数据补来的摘要"
+        return {
+            "tried": 1,
+            "enriched": 1,
+            "missing": 0,
+            "errors": 0,
+            "remaining": 0,
+            "total_missing": 1,
+            "details": [{"title": entry.title, "status": "enriched", "chars": 12}],
+        }
+
+    monkeypatch.setattr(webapp, "enrich_missing", fake_enrich)
+    resp = client.post("/api/library/enrich?limit=3")
+    assert resp.status_code == 200, resp.text
+    payload = resp.json()
+    assert payload["enriched"] == 1
+    assert payload["remaining"] == 0
+    assert payload["with_abstract"] == 1
+
+    listed = client.get("/api/library").json()
+    assert listed["with_abstract"] == 1
+    assert listed["missing_abstract"] == 0
+    # Persisted, not just mutated in memory.
+    assert client.get("/api/library").json()["entries"][0]["abstract"] == "从公开元数据补来的摘要"
+
+
+def test_library_enrich_empty_library_is_a_400(client):
+    assert client.post("/api/library/enrich").status_code == 400

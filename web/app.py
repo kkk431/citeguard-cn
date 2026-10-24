@@ -21,6 +21,7 @@ from fastapi.staticfiles import StaticFiles  # noqa: E402
 from fastapi.templating import Jinja2Templates  # noqa: E402
 
 from citeguard import config  # noqa: E402
+from citeguard.abstract_enrich import MAX_ENRICH_PER_REQUEST, enrich_missing  # noqa: E402
 from citeguard.jobs import manager  # noqa: E402
 from citeguard.local_library import Library, parse_library_text  # noqa: E402
 from citeguard.pdf_extract import SUPPORTED_SUFFIXES  # noqa: E402
@@ -53,7 +54,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.3.6", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.3.7", lifespan=lifespan)
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
 
@@ -130,9 +131,12 @@ def library_import(file: UploadFile = File(...)):
     before = len(library)
     library.add(entries)
     library.save(config.LIBRARY_FILE)
+    added = len(library) - before
     imported_no_abstract = sum(1 for e in entries if not (e.abstract or "").strip())
     return {
         "imported": len(entries),
+        "added": added,
+        "skipped": len(entries) - added,
         "before": before,
         "count": len(library),
         "with_abstract": sum(1 for e in library.entries if (e.abstract or "").strip()),
@@ -148,9 +152,61 @@ def library_clear():
 
 
 @app.get("/api/library")
-def library_api():
+def library_api(limit: int = 500, offset: int = 0):
+    """List library entries for the management table (indexes are stable)."""
     library = Library.load(config.LIBRARY_FILE)
-    return {"count": len(library), "sample": [e.to_dict() for e in library.entries[:5]]}
+    total = len(library)
+    limit = max(1, min(int(limit or 500), 2000))
+    offset = max(0, int(offset or 0))
+    window = library.entries[offset : offset + limit]
+    entries = []
+    for i, entry in enumerate(window, start=offset):
+        item = entry.to_dict()
+        item["index"] = i
+        entries.append(item)
+    return {
+        "count": total,
+        "with_abstract": sum(1 for e in library.entries if (e.abstract or "").strip()),
+        "missing_abstract": sum(1 for e in library.entries if not (e.abstract or "").strip()),
+        "offset": offset,
+        "entries": entries,
+        "truncated": offset + len(entries) < total,
+    }
+
+
+@app.delete("/api/library/{index}")
+def library_delete(index: int):
+    """Remove one record by its list index (the UI confirms before calling)."""
+    library = Library.load(config.LIBRARY_FILE)
+    if index < 0 or index >= len(library):
+        raise HTTPException(status_code=404, detail="题录不存在（列表可能已刷新，请重试）")
+    removed = library.entries.pop(index)
+    library.save(config.LIBRARY_FILE)
+    return {
+        "removed": removed.title,
+        "count": len(library),
+        "with_abstract": sum(1 for e in library.entries if (e.abstract or "").strip()),
+    }
+
+
+@app.post("/api/library/enrich")
+def library_enrich(limit: int = 10):
+    """Opt-in: fill missing abstracts from OpenAlex / Crossref public metadata.
+
+    Runs in the request thread but is capped (``MAX_ENRICH_PER_REQUEST``) and the
+    UI calls it in small batches so one click cannot hang on a huge library.
+    """
+    library = Library.load(config.LIBRARY_FILE)
+    if not library:
+        raise HTTPException(status_code=400, detail="题录库为空，先导入题录")
+    missing_before = sum(1 for e in library.entries if not (e.abstract or "").strip())
+    if not missing_before:
+        return {"tried": 0, "enriched": 0, "remaining": 0, "total_missing": 0, "details": []}
+    limit = max(1, min(int(limit or 10), MAX_ENRICH_PER_REQUEST))
+    result = enrich_missing(library, limit=limit)
+    library.save(config.LIBRARY_FILE)
+    result["with_abstract"] = sum(1 for e in library.entries if (e.abstract or "").strip())
+    return result
 
 
 @app.get("/api/library/export")
@@ -442,4 +498,4 @@ def benchmark_api():
 
 @app.get("/api/health")
 def health():
-    return {"ok": True, "version": "0.3.6", "supported": sorted(ALLOWED_SUFFIXES)}
+    return {"ok": True, "version": "0.3.7", "supported": sorted(ALLOWED_SUFFIXES)}
