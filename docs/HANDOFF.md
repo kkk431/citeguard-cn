@@ -235,3 +235,34 @@ $env:DEEPSEEK_API_KEY = "..."   # 支持度判定用，不写进任何文件
 **验收状态（v0.3.10，2026-10-24 夜）**
 - 测试 **318 passed**（含 OCR 端到端）；真实文献注入检出 **197/200（98.5%）**；基线误报 **0/40**。
 - 本地演示与远端随后按同一提交部署 v0.3.10；交付包重建。
+
+## 19. 2026-10-24 深夜：开源模型本地判官实测（4×GPU，v0.3.11）
+
+- 新增 `scripts/local_judge_server.py`：用 `transformers` 起 OpenAI 兼容服务（`/v1/chat/completions`、`/health`），
+  支持 `--device auto` + `CITEGUARD_LOCAL_MAX_MEMORY` 把 7B 拆到多张 12GB 卡；产品侧只改
+  `CITEGUARD_JUDGE_BASE_URL/MODEL/API_KEY`，接口/缓存/评测脚本不变。
+- 硬件：4×NVIDIA TITAN Xp 12GB（2017 年，CUDA 11.4 驱动）。3B 单卡；7B 用 GPU2+3（fp16，11GiB 上限均分，12.18GB 权重）。
+- 结果（ClaimSupport-CN，同一数据/脚本；参考 DeepSeek 0.9328）：
+
+  | 模型 | 硬件 | 产品 prompt | 精简 prompt | 速度 |
+  |---|---|---|---|---|
+  | Qwen3-1.7B | CPU | 0.5060（20 条） | **0.7059** | 93 / 46 s 每条 |
+  | Qwen2.5-3B-Instruct | 1×TITAN Xp | 0.3894 | **0.6291** | 5.9 s/条 |
+  | Qwen2.5-7B-Instruct | 2×TITAN Xp | **0.7181** | 0.7022 | 8.5 s/条（两段式） |
+
+- 结论：整条链路可以完全离线；7B 已能执行产品两段式 prompt，但 0.7181 与托管 0.9328 差 0.21，「离线可用 ≠ 质量相同」。
+  3B 跟不动长 prompt，换精简 prompt（`CITEGUARD_SUPPORT_PROMPT_FILE=scripts/support_prompt_simple.txt` +
+  `CITEGUARD_SUPPORT_AUDIT=0`）后升到 0.6291。
+- 集成：`README`、`THIRD_PARTY_NOTICES.md` §4.2、`docs/support_summary.md`、`docs/experiments.md` §9、
+  `docs/ppt_numbers.md` 2d、`data/experiments/README.md`、`/benchmark` 页本地模型表均已写入；`verify_artifacts.py`
+  增加 4 个 GPU 证据文件结构与 2 处文档数字校验。
+- 顺带修掉两个证据元数据 bug：`scripts/evaluate_support.py` 里 `endpoint` 键重复导致本地评测被记成
+  `api.deepseek.com`；`scripts/experiment_support_prompt.py` 硬编码 DeepSeek 地址、忽略
+  `CITEGUARD_JUDGE_BASE_URL`/`DEEPSEEK_BASE_URL`。修复后用缓存重生成 4 份证据 JSON（数字不变，endpoint 现为
+  `http://127.0.0.1:8099/v1`），避免「本地模型结果被误认为来自托管 API」的口径风险。
+- 产品默认仍是托管 DeepSeek（`judge_available` 逻辑不变）；本地模型由环境变量显式启用。
+- 版本 **0.3.11**；测试 **320 passed**。
+
+**验收状态（v0.3.11，2026-10-24 深夜）**
+- 测试 **320 passed**；本地 GPU 7B 证据 **0.7181**，3B 精简 **0.6291**；证据文件在 `data/experiments/support_local_qwen25_*.json`。
+- 本地演示与远端 v0.3.11 部署；交付包重建。

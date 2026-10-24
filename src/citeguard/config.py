@@ -56,6 +56,11 @@ SUPPORT_AUDIT = os.environ.get("CITEGUARD_SUPPORT_AUDIT", "1").strip().lower() n
 # above this threshold.
 SUPPORT_MIN_TITLE_SIM = float(os.environ.get("CITEGUARD_SUPPORT_MIN_TITLE_SIM", "0.90"))
 
+# Optional custom system prompt for the support judge. Small local models follow
+# the shorter scripts/support_prompt_simple.txt better than the built-in long
+# prompt; custom prompts get a separate cache namespace automatically.
+SUPPORT_PROMPT_FILE = os.environ.get("CITEGUARD_SUPPORT_PROMPT_FILE", "").strip()
+
 # Upload guard for the web app.
 MAX_UPLOAD_MB = int(os.environ.get("CITEGUARD_MAX_UPLOAD_MB", "30"))
 

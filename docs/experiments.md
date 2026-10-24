@@ -501,3 +501,43 @@ python scripts/e7_usability.py --manual-finalize data/experiments/e7_manual_verd
 - ✅「3 条漏判的原因是索引记录缺字段，说明提升检出率要靠更完整的题录源（本地库/机构库），不是靠调低判错阈值。」
 - ❌「抓假率 98.5%」——样本是带 DOI 的真实引文注入错误，不含无锚点伪造；无锚点伪造按设计不指控。
 - ❌「100% 准确」——3 条漏判与 12 条基线 Minor 必须同时说明。
+
+## 9. E9：开源模型本地判官实测（Qwen2.5-3B/7B，2026-10-24）
+
+### 9.1 目的
+
+回答「AI 部分能不能完全用开源模型、离线跑」：judge 走 OpenAI 兼容接口，同一套 prompt、同一套评测脚本，
+只把后端从托管 DeepSeek 换成 `transformers` 本地服务，看真实差距与可用性。
+
+### 9.2 设置
+
+- 硬件：服务器 4×NVIDIA TITAN Xp 12GB（2017 年卡，CUDA 11.4 驱动）；3B 单卡，7B 用两张卡（`--device auto`，
+  fp16，`CITEGUARD_LOCAL_MAX_MEMORY` 均分）。
+- 服务：`scripts/local_judge_server.py`（FastAPI + transformers，OpenAI 兼容 `/v1/chat/completions`、`/health`）。
+- 数据：ClaimSupport-CN 100 条（1.7B 为 20 条试点）；指标 macro-F1。
+- 路径：产品两段式 prompt（含覆盖审计）/ 精简 prompt（`support_prompt_simple.txt`）两档。
+
+### 9.3 结果
+
+| 模型 | 硬件 | 产品 prompt | 精简 prompt | 速度 |
+|---|---|---|---|---|
+| Qwen3-1.7B | CPU | 0.5060（20 条） | **0.7059**（20 条） | 93 / 46 s 每条 |
+| Qwen2.5-3B-Instruct | 1×TITAN Xp | 0.3894 | **0.6291** | 5.9 s/条（2 workers） |
+| Qwen2.5-7B-Instruct | 2×TITAN Xp | **0.7181** | 0.7022 | 8.5 s/条（2 workers） |
+| （参考）DeepSeek 托管 | — | **0.9328** | — | 2.6 s/条（中位，单条判定） |
+
+- 7B 产品路径 847.6 s / 100 条（两段式、2 workers）；3B 591.5 s。换更强模型只需改 `--model` 与环境变量。
+- 3B 跟不动长 prompt（0.3894），换精简 prompt 到 0.6291；7B 能执行两段式产品 prompt（0.7181），精简 prompt 0.7022。
+- 7B 的 support/partial 边界仍是主要错误来源；与托管 0.9328 差 0.21，属于「可用但需要更大模型」的诚实差距。
+
+### 9.4 可用的 / 不能用的说法
+
+- ✅「同一接口下，7B 开源模型离线跑 ClaimSupport-CN 得 macro-F1 0.7181；3B 换精简 prompt 0.6291；
+  DeepSeek 托管 0.9328——开源可替换、已实测，但质量有差距。」
+- ✅「整条链路（解析→核验→判定）可完全离线，无需商业 API；服务代码在仓库内。」
+- ❌「开源模型效果和 DeepSeek 一样」——差 0.21。
+- ❌「7B 已经够生产用」——8.5 s/条 + 0.72 F1 只适合离线/隐私场景的小批量。
+
+结果文件：`data/experiments/support_local_qwen25_{3b,7b}_{gpu,simple}.json`；
+脚本：`scripts/local_judge_server.py`、`scripts/evaluate_support.py`。
+

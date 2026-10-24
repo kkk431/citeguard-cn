@@ -217,7 +217,6 @@ def main(argv: Optional[list[str]] = None) -> int:
             "module": "citeguard.support.judge_support",
             "model": judge_model,
             "endpoint": base_url,
-            "endpoint": config.DEEPSEEK_BASE_URL.rstrip("/") + "/chat/completions",
             "temperature": 0,
             "prompt_sha256": hashlib.sha256(support_mod.PROMPT.encode("utf-8")).hexdigest(),
         },

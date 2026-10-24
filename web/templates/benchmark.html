@@ -124,10 +124,33 @@
     </table>
   </div>
   {% endif %}
+  {% if local_models %}
+  <div class="panel table-wrap" style="padding:0;margin-bottom:16px">
+    <table class="table">
+      <thead><tr><th>本地开源判官（离线）</th><th>Prompt</th><th>条数</th><th>Macro-F1</th><th>Accuracy</th><th>证据文件</th></tr></thead>
+      <tbody>
+        {% for m in local_models %}
+        <tr>
+          <td class="mono-sm">{{ m.model }}</td>
+          <td class="mono-sm">{{ m.prompt }}</td>
+          <td class="mono-sm">{{ m.n }}</td>
+          <td class="mono-sm">{{ '%.3f'|format(m.macro_f1) }}</td>
+          <td class="mono-sm">{{ '%.3f'|format(m.accuracy) if m.accuracy is not none else '—' }}</td>
+          <td class="mono-sm">{{ m.source }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
   <div class="mono-sm" style="color:var(--muted);line-height:1.8">
     两段式判定：第一段给「支持/部分支持/矛盾/无证据」并摘证据句；第二段只对「支持」结论做覆盖审计，
     证据没覆盖引用句全部要素时降级为「部分支持」。该审计把 Macro-F1 从 0.9005 提升到
     {{ '%.4f'|format(support.metrics.macro_f1) if support.metrics and support.metrics.macro_f1 is not none else '0.9328' }}。
+    {% if local_models %}
+    本地开源模型用 `scripts/local_judge_server.py` 起 OpenAI 兼容服务（transformers + CUDA，支持多卡 device_map），
+    同一评测脚本、同一数据；小模型建议用精简 prompt（见 THIRD_PARTY_NOTICES.md §4.2）。
+    {% endif %}
   </div>
 </section>
 {% endif %}

@@ -1,0 +1,985 @@
+{
+  "dataset": "ClaimSupport-CN",
+  "n": 100,
+  "dataset_sha256": "4820014a741cd8148182cc1035d5a605c16280813999dcfc15fb9a3b27c4d4a3",
+  "generated_at": "2026-10-24T10:26:20+00:00",
+  "judge": {
+    "module": "citeguard.support.judge_support",
+    "model": "qwen2.5-3b-instruct",
+    "endpoint": "http://127.0.0.1:8099/v1",
+    "temperature": 0,
+    "prompt_sha256": "cb86c4fa9a1fec7a9228d015ce55d8a33e9004ded505c7f5f23143f9a7ec4d7f"
+  },
+  "metrics": {
+    "macro_f1": 0.3894,
+    "accuracy": 0.4
+  },
+  "per_class": {
+    "support": {
+      "precision": 1.0,
+      "recall": 0.025,
+      "f1": 0.0488,
+      "support": 40,
+      "predicted": 1
+    },
+    "partial": {
+      "precision": 0.2692,
+      "recall": 0.56,
+      "f1": 0.3636,
+      "support": 25,
+      "predicted": 52
+    },
+    "contradict": {
+      "precision": 1.0,
+      "recall": 0.3333,
+      "f1": 0.5,
+      "support": 15,
+      "predicted": 5
+    },
+    "no_evidence": {
+      "precision": 0.4762,
+      "recall": 1.0,
+      "f1": 0.6452,
+      "support": 20,
+      "predicted": 42
+    }
+  },
+  "confusion": {
+    "labels": [
+      "support",
+      "partial",
+      "contradict",
+      "no_evidence"
+    ],
+    "matrix": [
+      [
+        1,
+        30,
+        0,
+        9
+      ],
+      [
+        0,
+        14,
+        0,
+        11
+      ],
+      [
+        0,
+        8,
+        5,
+        2
+      ],
+      [
+        0,
+        0,
+        0,
+        20
+      ]
+    ]
+  },
+  "failures": 0,
+  "note": "Labels are fixed by construction (no human double annotation, no kappa); the judge is a zero-shot DeepSeek 4-way classifier. Failures are mapped to 'no_evidence' and counted.",
+  "predictions": [
+    {
+      "id": "cs-0001",
+      "label": "partial",
+      "pred": "partial",
+      "confidence": 1.0,
+      "reason": "证据直接复制了引用句的核心内容，没有额外的信息或修改，完全支持引用句的命题。；覆盖审计：证据未完整覆盖引用句",
+      "error": "",
+      "elapsed_ms": 7.3
+    },
+    {
+      "id": "cs-0002",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "",
+      "error": "",
+      "elapsed_ms": 14.5
+    },
+    {
+      "id": "cs-0003",
+      "label": "support",
+      "pred": "partial",
+      "confidence": 1.0,
+      "reason": "证据直接支持了引用句的核心命题，即药剂学实验课程改革聚焦于技能培养与思政教育的融合。；覆盖审计：证据未完整覆盖引用句",
+      "error": "",
+      "elapsed_ms": 6.7
+    },
+    {
+      "id": "cs-0004",
+      "label": "partial",
+      "pred": "partial",
+      "confidence": 0.9,
+      "reason": "证据片段直接支持了引用句中的核心命题，即分析影响老年人老年护理服务的因素。；覆盖审计：证据未完整覆盖引用句（缺：研究对象）",
+      "error": "",
+      "elapsed_ms": 10.0
+    },
+    {
+      "id": "cs-0005",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "",
+      "error": "",
+      "elapsed_ms": 9.6
+    },
+    {
+      "id": "cs-0006",
+      "label": "partial",
+      "pred": "partial",
+      "confidence": 1.0,
+      "reason": "证据直接支持了引用句的核心命题，即‘新工科’建设为新兴领域工程科技人才培养模式的构建带来了新思路。；覆盖审计：证据未完整覆盖引用句（缺：研究对象；条件/人群；关系或因果）",
+      "error": "",
+      "elapsed_ms": 22.1
+    },
+    {
+      "id": "cs-0007",
+      "label": "support",
+      "pred": "partial",
+      "confidence": 1.0,
+      "reason": "证据直接支持了引用句中的核心命题，即主要对心血管伴随焦虑症的患者实施中西医结合治疗，并探究其治疗效果。；覆盖审计：证据未完整覆盖引用句",
+      "error": "",
+      "elapsed_ms": 16.8
+    },
+    {
+      "id": "cs-0008",
+      "label": "contradict",
+      "pred": "partial",
+      "confidence": 0.9,
+      "reason": "证据中提到中国经济实力增强导致国有企业经济实力增强，但未提及中国经济实力削弱这一前提条件，因此仅部分支持引用句。",
+      "error": "",
+      "elapsed_ms": 16.8
+    },
+    {
+      "id": "cs-0009",
+      "label": "partial",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "证据片段仅说明了光声光谱是一种基于光声效应的吸收光谱分析技术，但没有提及其应用领域、检测物质类型或对生物医学领域的关注，无法支持引用句中的详细信息。",
+      "error": "",
+      "elapsed_ms": 13.6
+    },
+    {
+      "id": "cs-0010",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "",
+      "error": "",
+      "elapsed_ms": 13.6
+    },
+    {
+      "id": "cs-0011",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "证据片段没有提及任何关于人才竞争、人力资源管理、人力资源分配、浪费、应用价值和效率、创新能力、企业发展等方面的内容，无法支持或反驳引用句中的任何一个核心命题。",
+      "error": "",
+      "elapsed_ms": 9.5
+    },
+    {
+      "id": "cs-0012",
+      "label": "support",
+      "pred": "partial",
+      "confidence": 1.0,
+      "reason": "证据片段中直接重复了引用句中的核心内容，并且提供了相同的数据。；覆盖审计：证据未完整覆盖引用句",
+      "error": "",
+      "elapsed_ms": 8.1
+    },
+    {
+      "id": "cs-0013",
+      "label": "partial",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "证据片段仅提及 Mucoadhesion 的生物起源，未提及 Mucoadhesion 的定义、Mucoadhesion 的两个部件、界面力量的作用以及时间的延长，因此无法直接支持引用句中的完整表述。",
+      "error": "",
+      "elapsed_ms": 7.8
+    },
+    {
+      "id": "cs-0014",
+      "label": "support",
+      "pred": "support",
+      "confidence": 1.0,
+      "reason": "证据直接重复了引用句中的核心内容，并进一步详细说明了研究的具体方法和发现，包括对核心预测变量和中介变量的验证以及对马基雅维利主义性质的尝试性回答，完全支持引用句中的所有信息。",
+      "error": "",
+      "elapsed_ms": 24.8
+    },
+    {
+      "id": "cs-0015",
+      "label": "partial",
+      "pred": "partial",
+      "confidence": 0.9,
+      "reason": "证据片段仅提及了提升学生英语学科综合素养的目标，并未直接支持引用句中关于英语课堂教学理念、活动组织方式以及多样化的实践活动的具体内容。",
+      "error": "",
+      "elapsed_ms": 16.0
+    },
+    {
+      "id": "cs-0016",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "证据片段与引用句无关，未提及任何关于农村老年人、银色数字鸿沟、接入、使用与数字素养等方面的内容。",
+      "error": "",
+      "elapsed_ms": 1.9
+    },
+    {
+      "id": "cs-0017",
+      "label": "support",
+      "pred": "partial",
+      "confidence": 1.0,
+      "reason": "证据直接支持了引用句中的核心命题，包括研究目的、方法、发现和建议，完全一致。；覆盖审计：证据未完整覆盖引用句",
+      "error": "",
+      "elapsed_ms": 1.2
+    },
+    {
+      "id": "cs-0018",
+      "label": "support",
+      "pred": "partial",
+      "confidence": 0.9,
+      "reason": "证据片段中提到教师通过创造语言环境来培养学生的语言运用、文化认知和想象能力，并且有助于推广汉语言文化，这与引用句中的情景教学使课堂生动有趣、激发学习兴趣以及便于学生更好地理解和掌握相关知识有一定的关联，但并未直接说明情景教学的具体效果如“直接性、互动性强”等，因此属于部分支持。",
+      "error": "",
+      "elapsed_ms": 15.2
+    },
+    {
+      "id": "cs-0019",
+      "label": "support",
+      "pred": "partial",
+      "confidence": 1.0,
+      "reason": "证据直接重复了引用句的核心内容，并且进一步详细阐述了如何通过数字韧性来应对研究生教育和培养中的挑战，支持了引用句的观点。；覆盖审计：证据未完整覆盖引用句",
+      "error": "",
+      "elapsed_ms": 14.5
+    },
+    {
+      "id": "cs-0020",
+      "label": "contradict",
+      "pred": "contradict",
+      "confidence": 0.9,
+      "reason": "引用句和证据片段中的核心命题完全相反，引用句认为锂绿泥石与Li含量呈显著负相关，而证据片段认为锂绿泥石与Li含量呈显著正相关。",
+      "error": "",
+      "elapsed_ms": 8.8
+    },
+    {
+      "id": "cs-0021",
+      "label": "support",
+      "pred": "partial",
+      "confidence": 1.0,
+      "reason": "证据中的句子完全与引用句一致，包括目的和提供的数据支持的内容。；覆盖审计：证据未完整覆盖引用句",
+      "error": "",
+      "elapsed_ms": 0.9
+    },
+    {
+      "id": "cs-0022",
+      "label": "support",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "证据片段讨论了当前遥感图像分类方法存在的问题，但并未直接支持引用句中关于遥感图像分类在农业管理、城市规划、灾害监测等领域的重要性的陈述。",
+      "error": "",
+      "elapsed_ms": 7.9
+    },
+    {
+      "id": "cs-0023",
+      "label": "support",
+      "pred": "partial",
+      "confidence": 0.9,
+      "reason": "证据中明确提到自媒体受到越来越多高校学生的认可，这直接支持了引用句中的第一部分，即自媒体成为热门话题且受到学生认可。但证据也指出自媒体给高校开展思想教育工作带来困难，这与引用句的第二部分存在矛盾。",
+      "error": "",
+      "elapsed_ms": 16.5
+    },
+    {
+      "id": "cs-0024",
+      "label": "support",
+      "pred": "partial",
+      "confidence": 1.0,
+      "reason": "证据片段直接明确提到研究精神障碍患者治疗中采用沟通技巧的应用效果，完全支持引用句中的核心命题。；覆盖审计：证据未完整覆盖引用句（缺：条件/人群）",
+      "error": "",
+      "elapsed_ms": 1.2
+    },
+    {
+      "id": "cs-0025",
+      "label": "partial",
+      "pred": "partial",
+      "confidence": 1.0,
+      "reason": "证据直接支持了引用句的核心命题，即'多样的联合治疗被表明了在有在个人联合侧面的复杂疾病的治疗潜在'，完全吻合引用句的内容。；覆盖审计：证据未完整覆盖引用句（缺：研究对象；关系或因果）",
+      "error": "",
+      "elapsed_ms": 1.1
+    },
+    {
+      "id": "cs-0026",
+      "label": "support",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "证据片段中并没有直接支持引用句中的核心命题，即‘从辽宁省的 Yixian 形成描述早白垩纪鸟的新种’，而是提供了额外的信息关于该新种鸟的营养的专门化起源时间。",
+      "error": "",
+      "elapsed_ms": 1.1
+    },
+    {
+      "id": "cs-0027",
+      "label": "support",
+      "pred": "partial",
+      "confidence": 0.9,
+      "reason": "证据直接重复了引用句的核心命题，并且提供了具体的背景信息和实施细节，明确指出了研究对象和教学方法，因此可以单独引用作为支持依据。；覆盖审计：证据未完整覆盖引用句（缺：关系或因果）",
+      "error": "",
+      "elapsed_ms": 27.7
+    },
+    {
+      "id": "cs-0028",
+      "label": "contradict",
+      "pred": "partial",
+      "confidence": 0.95,
+      "reason": "证据中提到的手段是‘一种行之有效的全新手段’，这与引用句中的‘一种行之有效的全新手段’一致，但证据进一步指出该手段也是‘提高人才培养质量的重要途径’，而引用句则强调其为‘降低人才培养质量的重要途径’，因此存在部分矛盾。",
+      "error": "",
+      "elapsed_ms": 27.6
+    },
+    {
+      "id": "cs-0029",
+      "label": "partial",
+      "pred": "partial",
+      "confidence": 1.0,
+      "reason": "证据直接支持了引用句中的第二个分句 '旅游地的地理特征对旅游资源的开发与利用具有重要影响'，完全吻合引用句的内容。；覆盖审计：证据未完整覆盖引用句（缺：研究对象；条件/人群）",
+      "error": "",
+      "elapsed_ms": 27.0
+    },
+    {
+      "id": "cs-0030",
+      "label": "partial",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "",
+      "error": "",
+      "elapsed_ms": 27.6
+    },
+    {
+      "id": "cs-0031",
+      "label": "partial",
+      "pred": "partial",
+      "confidence": 1.0,
+      "reason": "证据直接支持了引用句中关于使用 Akaike 的信息标准( AIC )来识别主要基因的部分，完全吻合。；覆盖审计：证据未完整覆盖引用句（缺：研究对象；条件/人群；结果）",
+      "error": "",
+      "elapsed_ms": 20.1
+    },
+    {
+      "id": "cs-0032",
+      "label": "support",
+      "pred": "partial",
+      "confidence": 1.0,
+      "reason": "证据片段直接复制了引用句的核心命题，并且进一步详细说明了语言在个体意识与群体意识联系中的作用，以及幼儿教师语言的具体特点和功能，完全支持了引用句的观点。；覆盖审计：证据未完整覆盖引用句",
+      "error": "",
+      "elapsed_ms": 12.3
+    },
+    {
+      "id": "cs-0033",
+      "label": "support",
+      "pred": "partial",
+      "confidence": 0.9,
+      "reason": "证据中提到提高教师的数字素养对于教育数字化转型成功至关重要，并且主要研究了相关实践策略，这直接支持了引用句中的第一个部分。但是，证据并没有直接提及高中教师的具体挑战，因此对引用句的完整支持度有限。",
+      "error": "",
+      "elapsed_ms": 13.5
+    },
+    {
+      "id": "cs-0034",
+      "label": "partial",
+      "pred": "partial",
+      "confidence": 1.0,
+      "reason": "证据直接支持了引用句的核心命题，即互联网经济已成为社会经济发展中的最大增量。；覆盖审计：证据未完整覆盖引用句（缺：研究对象；关系或因果）",
+      "error": "",
+      "elapsed_ms": 13.5
+    },
+    {
+      "id": "cs-0035",
+      "label": "support",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "",
+      "error": "",
+      "elapsed_ms": 13.5
+    },
+    {
+      "id": "cs-0036",
+      "label": "support",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "",
+      "error": "",
+      "elapsed_ms": 13.7
+    },
+    {
+      "id": "cs-0037",
+      "label": "partial",
+      "pred": "partial",
+      "confidence": 1.0,
+      "reason": "证据直接支持了引用句的核心命题，即现在的学习是性质的调查 poly (乙烯基白酒) 将在某些方面比常规 HEMA 更好。；覆盖审计：证据未完整覆盖引用句（缺：研究对象；条件/人群）",
+      "error": "",
+      "elapsed_ms": 1.1
+    },
+    {
+      "id": "cs-0038",
+      "label": "support",
+      "pred": "partial",
+      "confidence": 0.9,
+      "reason": "证据中提到美联储实施量化宽松政策对美国经济的影响，并提及中国作为美国最大贸易伙伴受到的溢出效应，但未直接说明量化宽松政策导致美国经济逐步走出阴霾。",
+      "error": "",
+      "elapsed_ms": 1.2
+    },
+    {
+      "id": "cs-0039",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "",
+      "error": "",
+      "elapsed_ms": 0.8
+    },
+    {
+      "id": "cs-0040",
+      "label": "contradict",
+      "pred": "partial",
+      "confidence": 0.9,
+      "reason": "证据中提到的重点关注的是“有效性的思维模式”，而非“无效性的思维模式”，这与引用句中的核心命题不完全一致。",
+      "error": "",
+      "elapsed_ms": 12.7
+    },
+    {
+      "id": "cs-0041",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "",
+      "error": "",
+      "elapsed_ms": 11.8
+    },
+    {
+      "id": "cs-0042",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "",
+      "error": "",
+      "elapsed_ms": 8.4
+    },
+    {
+      "id": "cs-0043",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "证据片段讨论的是光频域反射技术及其优点，与引用句中关于英语在各行各业中发挥重要作用以及加强职业英语教育的内容无关。",
+      "error": "",
+      "elapsed_ms": 0.8
+    },
+    {
+      "id": "cs-0044",
+      "label": "support",
+      "pred": "partial",
+      "confidence": 1.0,
+      "reason": "证据直接支持了引用句中的核心命题，即多价的金属性的阳离子（如 Ca2+ 和 Fe3+）在锂辉石和绿玉的筹款上被学习，并且这些阳离子在锂辉石和绿玉的筹款上展出有效激活。；覆盖审计：证据未完整覆盖引用句（缺：条件/人群）",
+      "error": "",
+      "elapsed_ms": 2.0
+    },
+    {
+      "id": "cs-0045",
+      "label": "partial",
+      "pred": "partial",
+      "confidence": 1.0,
+      "reason": "证据直接支持了引用句的核心命题，即专业课程思政已成为高校课程改革的重点方向。；覆盖审计：证据未完整覆盖引用句（缺：研究对象；关系或因果）",
+      "error": "",
+      "elapsed_ms": 2.3
+    },
+    {
+      "id": "cs-0046",
+      "label": "partial",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "",
+      "error": "",
+      "elapsed_ms": 1.8
+    },
+    {
+      "id": "cs-0047",
+      "label": "support",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "证据片段与引用句讨论的是相同背景下的问题，但证据片段并未直接支持引用句中的具体干扰因素，而是描述了作者构建的OCTA数据实时处理框架及其实现效果。",
+      "error": "",
+      "elapsed_ms": 2.2
+    },
+    {
+      "id": "cs-0048",
+      "label": "support",
+      "pred": "partial",
+      "confidence": 1.0,
+      "reason": "证据直接支持了引用句的核心命题，包括提升临床技能、应对能力、团队协作和沟通能力等方面的优势，以及实验组学生的具体表现和满意度。；覆盖审计：证据未完整覆盖引用句",
+      "error": "",
+      "elapsed_ms": 15.4
+    },
+    {
+      "id": "cs-0049",
+      "label": "partial",
+      "pred": "partial",
+      "confidence": 1.0,
+      "reason": "证据直接支持了引用句中的所有关键信息：处理过程（锻烧）、废物蛋壳的准备步骤（压碎弄干）、处理时间（2 h）、处理温度（800 ° C）、处理设备（炉子）。；覆盖审计：证据未完整覆盖引用句（缺：研究对象；条件/人群）",
+      "error": "",
+      "elapsed_ms": 14.8
+    },
+    {
+      "id": "cs-0050",
+      "label": "partial",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "",
+      "error": "",
+      "elapsed_ms": 14.2
+    },
+    {
+      "id": "cs-0051",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "",
+      "error": "",
+      "elapsed_ms": 14.2
+    },
+    {
+      "id": "cs-0052",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "证据片段中未提及任何关于互联网发展、乡村振兴或发展机遇的内容。",
+      "error": "",
+      "elapsed_ms": 14.2
+    },
+    {
+      "id": "cs-0053",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "证据片段中没有提到任何关于随机数余数分组、骨科创伤及感染创面患者、常规引流治疗、VSD治疗、临床疗效对比等方面的内容。",
+      "error": "",
+      "elapsed_ms": 0.4
+    },
+    {
+      "id": "cs-0054",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "证据片段讨论的是新课程标准对高中数学教学的要求以及如何创新教学模式，但并未提及任何关于 Qing 统治时期领土扩大的历史背景或时间点的信息。",
+      "error": "",
+      "elapsed_ms": 1.1
+    },
+    {
+      "id": "cs-0055",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "证据片段与引用句无关，未提及任何关于硝酸盐处理、氨基酸替代、植物射击硝酸盐浓度的内容。",
+      "error": "",
+      "elapsed_ms": 7.0
+    },
+    {
+      "id": "cs-0056",
+      "label": "partial",
+      "pred": "partial",
+      "confidence": 1.0,
+      "reason": "证据直接支持了引用句的核心命题，即探讨了不明确的单个时间延期系统的延期依赖者稳定性分析和柔韧的稳定。；覆盖审计：证据未完整覆盖引用句（缺：研究对象；关系或因果）",
+      "error": "",
+      "elapsed_ms": 2.8
+    },
+    {
+      "id": "cs-0057",
+      "label": "contradict",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "证据片段与引用句在主体概念上一致，但引用句中提到的是“纺织品削弱的水泥(TRC )”，而证据片段中说的是“纺织品增强的水泥(TRC )”，两者描述的对象不同，因此没有直接证据支持引用句。",
+      "error": "",
+      "elapsed_ms": 1.4
+    },
+    {
+      "id": "cs-0058",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "证据片段讨论的是太赫兹超表面器件的应用局限性及解决方案，与引用句中关于“互联网+”、ICT 技术引发各学科教学变革的内容无关。",
+      "error": "",
+      "elapsed_ms": 1.0
+    },
+    {
+      "id": "cs-0059",
+      "label": "support",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "",
+      "error": "",
+      "elapsed_ms": 1.7
+    },
+    {
+      "id": "cs-0060",
+      "label": "support",
+      "pred": "partial",
+      "confidence": 0.95,
+      "reason": "证据直接支持了引用句中的核心命题，即研究良性前列腺增生采用穴位敷贴护理的疗效。；覆盖审计：证据未完整覆盖引用句（缺：量级/程度词）",
+      "error": "",
+      "elapsed_ms": 0.8
+    },
+    {
+      "id": "cs-0061",
+      "label": "partial",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "证据片段没有提供关于该系统在油气勘探传感市场中的地位的信息",
+      "error": "",
+      "elapsed_ms": 1.0
+    },
+    {
+      "id": "cs-0062",
+      "label": "support",
+      "pred": "partial",
+      "confidence": 1.0,
+      "reason": "证据直接支持了引用句中的两个核心命题：类风湿关节炎是一种慢性侵蚀性关节炎，以及其基本症状属于全身性免疫病。；覆盖审计：证据未完整覆盖引用句（缺：研究对象；关系或因果）",
+      "error": "",
+      "elapsed_ms": 6.8
+    },
+    {
+      "id": "cs-0063",
+      "label": "contradict",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "",
+      "error": "",
+      "elapsed_ms": 7.6
+    },
+    {
+      "id": "cs-0064",
+      "label": "contradict",
+      "pred": "contradict",
+      "confidence": 1.0,
+      "reason": "引用句断言全息三维显示技术能无效地重建波前，但证据中明确断言其能有效地重建波前，二者矛盾。",
+      "error": "",
+      "elapsed_ms": 6.7
+    },
+    {
+      "id": "cs-0065",
+      "label": "partial",
+      "pred": "partial",
+      "confidence": 1.0,
+      "reason": "证据直接支持了引用句的核心命题，即土壤环境影响人类生活质量。；覆盖审计：证据未完整覆盖引用句（缺：研究对象；关系或因果）",
+      "error": "",
+      "elapsed_ms": 1.7
+    },
+    {
+      "id": "cs-0066",
+      "label": "support",
+      "pred": "partial",
+      "confidence": 1.0,
+      "reason": "证据直接支持了引用句中的核心命题，即AI技术的发展与国家战略推动导致传媒教育经历智能化、数字化转型。；覆盖审计：证据未完整覆盖引用句（缺：研究对象；条件/人群）",
+      "error": "",
+      "elapsed_ms": 7.2
+    },
+    {
+      "id": "cs-0067",
+      "label": "partial",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "证据片段仅描述了宁夏民间美术的特点，并未提及其受到社会潮流发展的影响，也没有提到对民间美术发展的阻碍。",
+      "error": "",
+      "elapsed_ms": 5.9
+    },
+    {
+      "id": "cs-0068",
+      "label": "partial",
+      "pred": "partial",
+      "confidence": 1.0,
+      "reason": "证据直接支持了引用句中关于对患者身体及心理产生的影响给本人和家庭造成巨大负担的内容。；覆盖审计：证据未完整覆盖引用句（缺：关系或因果）",
+      "error": "",
+      "elapsed_ms": 5.2
+    },
+    {
+      "id": "cs-0069",
+      "label": "support",
+      "pred": "partial",
+      "confidence": 0.9,
+      "reason": "证据中提到进修生的分子诊断理论水平与实践技能水平需要提高，但未直接说明疫情对进修需求的具体影响，仅指出这是一个需要解决的问题。",
+      "error": "",
+      "elapsed_ms": 1.9
+    },
+    {
+      "id": "cs-0070",
+      "label": "support",
+      "pred": "partial",
+      "confidence": 1.0,
+      "reason": "证据直接复制了引用句的核心内容，包括胶质瘤的性质、研究对象（WHO 2级及3级胶质瘤患者）、分析目标（ITGB1基因表达）以及研究目的（预后价值）。；覆盖审计：证据未完整覆盖引用句（缺：条件/人群）",
+      "error": "",
+      "elapsed_ms": 1.0
+    },
+    {
+      "id": "cs-0071",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "证据片段内容与引用句无关，讨论的是现代美术教育的重点和利用旅游资源开发美术课程，未提及任何关于喉癌根治术患者的心理护理干预及其对术后疼痛及生活质量的影响。",
+      "error": "",
+      "elapsed_ms": 1.1
+    },
+    {
+      "id": "cs-0072",
+      "label": "partial",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "",
+      "error": "",
+      "elapsed_ms": 1.1
+    },
+    {
+      "id": "cs-0073",
+      "label": "contradict",
+      "pred": "contradict",
+      "confidence": 1.0,
+      "reason": "证据直接与引用句中的核心命题相矛盾，引用句说人口尺寸显著增加，而证据中说显著减少。",
+      "error": "",
+      "elapsed_ms": 2.2
+    },
+    {
+      "id": "cs-0074",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "证据片段内容与引用句无关，讨论的是中医护理对癌症患者灵性健康和疼痛的影响，未提及任何地质或油气相关的地理区域。",
+      "error": "",
+      "elapsed_ms": 1.1
+    },
+    {
+      "id": "cs-0075",
+      "label": "support",
+      "pred": "partial",
+      "confidence": 1.0,
+      "reason": "证据直接支持了引用句中的核心命题，即在当前背景下，德育成为学校教育的首要环节，并且强调了这种变化的原因是不适应时代的发展和教育的进步。；覆盖审计：证据未完整覆盖引用句（缺：研究对象；条件/人群）",
+      "error": "",
+      "elapsed_ms": 0.8
+    },
+    {
+      "id": "cs-0076",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "",
+      "error": "",
+      "elapsed_ms": 0.8
+    },
+    {
+      "id": "cs-0077",
+      "label": "partial",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "",
+      "error": "",
+      "elapsed_ms": 0.8
+    },
+    {
+      "id": "cs-0078",
+      "label": "support",
+      "pred": "partial",
+      "confidence": 1.0,
+      "reason": "证据片段直接复制了引用句中的核心理念及其实施措施，并且强调了提高学生道德素养和落实立德树人根本任务，完全支持引用句的每一个部分。；覆盖审计：证据未完整覆盖引用句",
+      "error": "",
+      "elapsed_ms": 2.2
+    },
+    {
+      "id": "cs-0079",
+      "label": "contradict",
+      "pred": "partial",
+      "confidence": 0.8,
+      "reason": "证据中提到的‘其传播力的提升’与引用句中的‘传播力的降低’方向相反，但都强调了传播力的重要性，因此只能判为部分支持。",
+      "error": "",
+      "elapsed_ms": 0.6
+    },
+    {
+      "id": "cs-0080",
+      "label": "partial",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "证据片段没有直接提及提升学生数学理论与创新、实践及应用能力，也没有提到德育与智育的共生问题。",
+      "error": "",
+      "elapsed_ms": 1.3
+    },
+    {
+      "id": "cs-0081",
+      "label": "support",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "证据片段中并没有直接支持或反驳引用句中的具体信息，仅提及人参皂甙 Rg3 的作用，但未明确指出其为背景人参皂甙的一部分或其重要性。",
+      "error": "",
+      "elapsed_ms": 0.9
+    },
+    {
+      "id": "cs-0082",
+      "label": "contradict",
+      "pred": "partial",
+      "confidence": 0.9,
+      "reason": "证据中提到「大幅减少」而非「大幅增加」，与引用句中的「大幅增加」不一致，但整体趋势方向一致，因此属于部分支持。",
+      "error": "",
+      "elapsed_ms": 1.0
+    },
+    {
+      "id": "cs-0083",
+      "label": "contradict",
+      "pred": "partial",
+      "confidence": 0.9,
+      "reason": "引用句提到的是“保障光纤光栅传感技术无效应用的关键”，而证据片段说的是“保障光纤光栅传感技术有效应用的关键”。两者方向相反，因此属于partial。",
+      "error": "",
+      "elapsed_ms": 1.0
+    },
+    {
+      "id": "cs-0084",
+      "label": "contradict",
+      "pred": "partial",
+      "confidence": 0.9,
+      "reason": "证据中提到生活水平与质量不断提高，与引用句中“生活水平与质量不断降低”矛盾，其余部分与引用句一致。",
+      "error": "",
+      "elapsed_ms": 2.0
+    },
+    {
+      "id": "cs-0085",
+      "label": "contradict",
+      "pred": "contradict",
+      "confidence": 1.0,
+      "reason": "引用句中提到的是\"各种无效途径\",而证据片段中提到的是\"各种有效途径\",二者完全相反。",
+      "error": "",
+      "elapsed_ms": 1.0
+    },
+    {
+      "id": "cs-0086",
+      "label": "support",
+      "pred": "partial",
+      "confidence": 1.0,
+      "reason": "证据直接支持了引用句中的两个核心命题：肝癌是中国高发的恶性肿瘤之一，以及中国国内因肝癌死亡人数占全球一半以上。；覆盖审计：证据未完整覆盖引用句（缺：条件/人群）",
+      "error": "",
+      "elapsed_ms": 1.2
+    },
+    {
+      "id": "cs-0087",
+      "label": "support",
+      "pred": "partial",
+      "confidence": 1.0,
+      "reason": "证据直接重复了引用句的核心内容，且没有提供额外的信息来改变或削弱引用句的含义。；覆盖审计：证据未完整覆盖引用句（缺：中介路径）",
+      "error": "",
+      "elapsed_ms": 1.2
+    },
+    {
+      "id": "cs-0088",
+      "label": "support",
+      "pred": "partial",
+      "confidence": 1.0,
+      "reason": "证据直接支持了引用句中的核心命题，即厘定了华北克拉通各时期的岩石圈属性，并发现了晚中生代和新生代岩石圈地幔的水含量特征。；覆盖审计：证据未完整覆盖引用句（缺：中介路径）",
+      "error": "",
+      "elapsed_ms": 0.8
+    },
+    {
+      "id": "cs-0089",
+      "label": "partial",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "证据片段没有直接提及光传输的优势，也没有提及光学神经网络，无法单独支持引用句中的核心命题。",
+      "error": "",
+      "elapsed_ms": 1.8
+    },
+    {
+      "id": "cs-0090",
+      "label": "support",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "证据片段没有明确断言中国职业教育的‘实战化’源于德国‘双元制’和新加坡‘教学工厂’，而是强调了中国职业教育与其他国家的不同。",
+      "error": "",
+      "elapsed_ms": 1.0
+    },
+    {
+      "id": "cs-0091",
+      "label": "support",
+      "pred": "partial",
+      "confidence": 1.0,
+      "reason": "证据直接重复了引用句的核心命题，并且提供了背景信息，但并未对引用句的具体原因进行解释。；覆盖审计：证据未完整覆盖引用句（缺：研究对象；条件/人群）",
+      "error": "",
+      "elapsed_ms": 1.0
+    },
+    {
+      "id": "cs-0092",
+      "label": "support",
+      "pred": "partial",
+      "confidence": 1.0,
+      "reason": "证据完全支持引用句中的所有内容。；覆盖审计：证据未完整覆盖引用句",
+      "error": "",
+      "elapsed_ms": 0.9
+    },
+    {
+      "id": "cs-0093",
+      "label": "contradict",
+      "pred": "contradict",
+      "confidence": 1.0,
+      "reason": "引用句和证据片段中的核心命题完全相反，引用句主张的是降低财务管理水平和决策效能，而证据片段主张的是提高财务管理水平和决策效能。",
+      "error": "",
+      "elapsed_ms": 13.7
+    },
+    {
+      "id": "cs-0094",
+      "label": "support",
+      "pred": "partial",
+      "confidence": 1.0,
+      "reason": "证据直接支持了引用句中的所有内容，包括随机抽取高校、进行问卷调查以及调查结果的具体描述。；覆盖审计：证据未完整覆盖引用句",
+      "error": "",
+      "elapsed_ms": 33.5
+    },
+    {
+      "id": "cs-0095",
+      "label": "contradict",
+      "pred": "partial",
+      "confidence": 0.95,
+      "reason": "引用句主张的是“非常有效地控制血糖”和“更好地抑制康复”，而证据片段仅支持“更好地促进康复”，未提及控制血糖的效果，因此属于部分支持。",
+      "error": "",
+      "elapsed_ms": 16.6
+    },
+    {
+      "id": "cs-0096",
+      "label": "support",
+      "pred": "partial",
+      "confidence": 1.0,
+      "reason": "证据直接支持了引用句中的两个核心命题：'仅仅一些男花在开花期被生产' 和 '水果从一样或不同的植物仅仅通过在不同的花之间的授粉被生产'。；覆盖审计：证据未完整覆盖引用句",
+      "error": "",
+      "elapsed_ms": 29.9
+    },
+    {
+      "id": "cs-0097",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "证据片段中没有提到任何关于报纸、扫描电子显微镜、磷吸附散X光检查光谱学的内容，无法支持或反驳引用句",
+      "error": "",
+      "elapsed_ms": 29.6
+    },
+    {
+      "id": "cs-0098",
+      "label": "support",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "",
+      "error": "",
+      "elapsed_ms": 29.7
+    },
+    {
+      "id": "cs-0099",
+      "label": "support",
+      "pred": "partial",
+      "confidence": 1.0,
+      "reason": "证据直接复制了引用句的核心命题，并且提供了背景信息，如研究对象和时间范围，但没有提供额外的具体细节。；覆盖审计：证据未完整覆盖引用句（缺：关系或因果(含方向)；结果；量级/程度词）",
+      "error": "",
+      "elapsed_ms": 20.4
+    },
+    {
+      "id": "cs-0100",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "",
+      "error": "",
+      "elapsed_ms": 17.0
+    }
+  ]
+}

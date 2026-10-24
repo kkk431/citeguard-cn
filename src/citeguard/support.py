@@ -18,6 +18,7 @@ import json
 import os
 import re
 import time
+from pathlib import Path
 from typing import Optional
 
 import requests
@@ -71,6 +72,20 @@ AUDIT_PROMPT = """你是学术引文的「覆盖审计员」。给定【引用�
 3. 引用句是肯定的因果断言，而证据只说「相关/可能/有助于/提示」，算 not fully covered；
 4. 引用句包含多个并列结论时，证据只覆盖其中一项，算 not fully covered；
 5. 只有证据明确覆盖全部要素时才输出 fully_covered=true；拿不准时输出 false。"""
+
+
+# Optional custom prompt file (``CITEGUARD_SUPPORT_PROMPT_FILE``): small local
+# models follow the shorter ``scripts/support_prompt_simple.txt`` better than the
+# built-in long prompt. A custom prompt gets its own cache namespace so its
+# verdicts never mix with the built-in prompt's cache.
+if config.SUPPORT_PROMPT_FILE:
+    _prompt_path = Path(config.SUPPORT_PROMPT_FILE)
+    if not _prompt_path.exists():
+        raise RuntimeError(
+            f"CITEGUARD_SUPPORT_PROMPT_FILE points to a missing file: {_prompt_path}"
+        )
+    PROMPT = _prompt_path.read_text(encoding="utf-8")
+    PROMPT_VERSION = f"{PROMPT_VERSION}-{hashlib.sha256(PROMPT.encode('utf-8')).hexdigest()[:8]}"
 
 
 def extract_claim(body: str, position: int, max_len: int = 220) -> str:

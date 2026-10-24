@@ -28,6 +28,7 @@ import requests
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 import citeguard.config as config  # noqa: E402
+from citeguard.support import judge_available, judge_endpoint  # noqa: E402
 
 DATASET = ROOT / "data" / "claimsupport_cn" / "claimsupport_cn.jsonl"
 LABELS = ["support", "partial", "contradict", "no_evidence"]
@@ -58,9 +59,10 @@ def judge(
         except Exception:
             pass
     user = f"【引用句】{claim}\n【证据片段】{evidence}"
+    base, _, key = judge_endpoint()
     resp = requests.post(
-        config.DEEPSEEK_BASE_URL.rstrip("/") + "/chat/completions",
-        headers={"Authorization": f"Bearer {config.DEEPSEEK_API_KEY}"},
+        base.rstrip("/") + "/chat/completions",
+        headers={"Authorization": f"Bearer {key}"},
         json={
             "model": model,
             "messages": [
@@ -146,8 +148,8 @@ def main() -> int:
     ap.add_argument("--temperature", type=float, default=0.0)
     args = ap.parse_args()
 
-    if not config.DEEPSEEK_API_KEY:
-        print("DEEPSEEK_API_KEY is not set", file=sys.stderr)
+    if not judge_available():
+        print("no judge endpoint: set DEEPSEEK_API_KEY or CITEGUARD_JUDGE_BASE_URL", file=sys.stderr)
         return 2
     prompt = Path(args.prompt_file).read_text(encoding="utf-8")
     rows = load(DATASET)
@@ -171,6 +173,7 @@ def main() -> int:
         list(ex.map(work, range(len(rows))))
 
     result = metrics(rows, preds)
+    base, _, _ = judge_endpoint()
     result.update(
         {
             "prompt_file": args.prompt_file,
@@ -179,6 +182,11 @@ def main() -> int:
             "model": args.model,
             "votes": args.votes,
             "temperature": args.temperature,
+            "judge": {
+                "module": "citeguard.support.judge_support",
+                "endpoint": base,
+                "model": args.model,
+            },
         }
     )
     Path(args.out).parent.mkdir(parents=True, exist_ok=True)

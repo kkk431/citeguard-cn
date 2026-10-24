@@ -32,6 +32,8 @@
 |---|---|---|---|
 | `scifact_support_results.json` | 英文 SciFact dev 300 条**零样本**支持度判定（未训练/微调） | `scripts/eval_support_scifact.py` | oracle 证据句 macro-F1 **0.8224** / 整段摘要 **0.7939** |
 | `search_recall.json` | 中文题名检索召回（OpenAlex 已收录的 25 篇中文论文回搜） | `scripts/experiment_search_recall.py` | OpenAlex 标题检索召回 **0.92** |
+| `support_local_qwen25_3b_gpu.json` / `_simple.json` | Qwen2.5-3B-Instruct 在 1×TITAN Xp 上的支持度判定（100 条，产品/精简 prompt） | `scripts/local_judge_server.py` + `scripts/evaluate_support.py` | 产品 0.3894 / 精简 **0.6291** |
+| `support_local_qwen25_7b_gpu.json` / `_simple.json` | Qwen2.5-7B-Instruct 在 2×TITAN Xp 上的支持度判定（100 条，产品/精简 prompt） | 同上 | 产品两段式 **0.7181** / 精简 0.7022 |
 | `support_local_qwen3_1.7b_simple.json` | Qwen3-1.7B（Apache-2.0）在 CPU 上离线跑支持度（20 条试点，精简 prompt） | `scripts/eval_support_local.py` | macro-F1 **0.7059**（46 s/条） |
 | `support_local_Qwen_Qwen3-1_7B.json` | 同模型、产品长 prompt 的试点（对照） | 同上 | macro-F1 0.5060（93 s/条） |
 

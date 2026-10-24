@@ -54,7 +54,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.3.10", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.3.11", lifespan=lifespan)
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
 
@@ -488,7 +488,31 @@ def _benchmark_context() -> dict:
             "baseline_n": base.get("n"),
             "baseline_exact_rate": base.get("exact_rate"),
         }
-    return {"benchmark": benchmark, "support": support, "real": real}
+    local_models = []
+    for name in (
+        "support_local_qwen25_3b_gpu.json",
+        "support_local_qwen25_3b_simple.json",
+        "support_local_qwen25_7b_gpu.json",
+        "support_local_qwen25_7b_simple.json",
+    ):
+        d = _load_json(exp / name)
+        if not d or not d.get("n"):
+            continue
+        metrics = d.get("metrics") or {}
+        f1 = d.get("macro_f1", metrics.get("macro_f1"))
+        if f1 is None:
+            continue
+        local_models.append(
+            {
+                "model": d.get("model") or (d.get("judge") or {}).get("model") or name,
+                "n": d.get("n"),
+                "macro_f1": f1,
+                "accuracy": d.get("accuracy", metrics.get("accuracy")),
+                "prompt": "精简 prompt" if "simple" in name else "产品长 prompt",
+                "source": name,
+            }
+        )
+    return {"benchmark": benchmark, "support": support, "real": real, "local_models": local_models}
 
 
 @app.get("/benchmark", response_class=HTMLResponse)
@@ -514,9 +538,10 @@ def benchmark_api():
         **ctx["benchmark"],
         "support_benchmark": ctx["support"],
         "real_data": ctx["real"],
+        "local_models": ctx["local_models"],
     }
 
 
 @app.get("/api/health")
 def health():
-    return {"ok": True, "version": "0.3.10", "supported": sorted(ALLOWED_SUFFIXES)}
+    return {"ok": True, "version": "0.3.11", "supported": sorted(ALLOWED_SUFFIXES)}

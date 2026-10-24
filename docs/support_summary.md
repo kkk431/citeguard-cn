@@ -69,24 +69,35 @@ DEEPSEEK_API_KEY=... PYTHONPATH=src python3 scripts/experiment_support_prompt.py
 
 ### 用本地开源模型复跑（不需要任何 API key）
 
-判定后端是 OpenAI 兼容接口，同一个评测脚本可以直接跑本地模型（Ollama / vLLM / llama.cpp-server 均可）。
-这是「AI 部分可完全开源、离线」的证据链：接口一致 + 同一套 prompt + 同一套评测脚本。
+判定后端是 OpenAI 兼容接口，同一个评测脚本可以直接跑本地模型（Ollama / vLLM / llama.cpp-server /
+仓库自带的 `scripts/local_judge_server.py` 均可）。这是「AI 部分可完全开源、离线」的证据链：
+接口一致 + 同一套 prompt + 同一套评测脚本。仓库自带服务还支持把 7B 拆到多张 12GB 卡。
 
 ```bash
-# 1) 起一个 OpenAI 兼容的本地服务（示例：Ollama）
-ollama serve
-ollama pull qwen2.5:7b-instruct
+# 1) 起一个 OpenAI 兼容的本地服务（二选一）
+python3 scripts/local_judge_server.py --model /path/Qwen2.5-7B-Instruct \
+  --device auto --dtype float16 --port 8099
+# 或者
+ollama serve && ollama pull qwen2.5:7b-instruct
 
 # 2) 指向本地服务，跑同一评测（缓存按模型名分目录，不会污染 DeepSeek 结果）
-CITEGUARD_JUDGE_BASE_URL=http://127.0.0.1:11434/v1 \
-CITEGUARD_JUDGE_MODEL=qwen2.5:7b-instruct \
+CITEGUARD_JUDGE_BASE_URL=http://127.0.0.1:8099/v1 \
+CITEGUARD_JUDGE_MODEL=Qwen2.5-7B-Instruct \
 PYTHONPATH=src python3 scripts/evaluate_support.py \
-  --out data/experiments/support_local_endpoint.json \
-  --cache data/experiments/support_prompt_cache/local
+  --out data/experiments/support_local_qwen25_7b_gpu.json
 ```
 
-> 已实测的 1.7B 级模型（transformers CPU，非上面命令）：20 条试点 macro-F1 **0.7059**（精简 prompt，46 s/条），
-> 远低于 DeepSeek 的 0.9328。离线可用 ≠ 质量相同；生产离线建议 8B 级 + GPU，或继续用托管 judge。
+实测（同一份 100 条 ClaimSupport-CN；1.7B 是 20 条试点；DeepSeek 参考 0.9328）：
+
+| 模型 | 硬件 | 产品长 prompt | 精简 prompt | 备注 |
+|---|---|---|---|---|
+| Qwen3-1.7B | CPU | 0.5060 | **0.7059** | 93 / 46 s 每条 |
+| Qwen2.5-3B-Instruct | 1×TITAN Xp | 0.3894 | **0.6291** | 3B 跟不动长 prompt |
+| Qwen2.5-7B-Instruct | 2×TITAN Xp | **0.7181** | 0.7022 | 两段式含审计，8.5 s/条 |
+
+> 小模型（3B 及以下）建议精简 prompt：`CITEGUARD_SUPPORT_PROMPT_FILE=scripts/support_prompt_simple.txt`
+> （自定义 prompt 自动独立缓存），并 `CITEGUARD_SUPPORT_AUDIT=0`。7B 用产品两段式 prompt 反而更高。
+> 离线可用 ≠ 质量相同；生产离线建议更大模型（量化 14B/32B）或继续用托管 judge。
 
 ## 评测证据
 

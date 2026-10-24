@@ -105,10 +105,24 @@ def load_model(path: str, device: str, dtype: str) -> None:
 
     print(f"[local-judge] loading {path} on {device} ({dtype})", flush=True)
     tok = AutoTokenizer.from_pretrained(path, local_files_only=True)
-    model = AutoModelForCausalLM.from_pretrained(
-        path, torch_dtype=getattr(torch, dtype), local_files_only=True
-    )
-    model = model.to(device).eval()
+    if device == "auto":
+        # Split a model that does not fit one GPU. Requires `accelerate`.
+        # Restrict visible devices before launch, e.g. CUDA_VISIBLE_DEVICES=2,3.
+        max_memory = os.environ.get("CITEGUARD_LOCAL_MAX_MEMORY")
+        kwargs = {"device_map": "auto", "local_files_only": True}
+        if max_memory:
+            mem = [m.strip() for m in max_memory.split(",") if m.strip()]
+            kwargs["max_memory"] = {i: m for i, m in enumerate(mem)}
+        model = AutoModelForCausalLM.from_pretrained(
+            path, torch_dtype=getattr(torch, dtype), **kwargs
+        )
+    else:
+        model = AutoModelForCausalLM.from_pretrained(
+            path, torch_dtype=getattr(torch, dtype), local_files_only=True
+        )
+        model = model.to(device)
+    model.eval()
+    first = next(model.parameters())
     _state.update(
         {
             "model": model,
@@ -116,7 +130,7 @@ def load_model(path: str, device: str, dtype: str) -> None:
             "name": os.environ.get("CITEGUARD_LOCAL_MODEL_NAME") or os.path.basename(path.rstrip("/")),
         }
     )
-    print(f"[local-judge] ready on {next(model.parameters()).device}", flush=True)
+    print(f"[local-judge] ready on {first.device}", flush=True)
 
 
 def main() -> int:

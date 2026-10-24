@@ -1,0 +1,265 @@
+{
+  "dataset": "ClaimSupport-CN",
+  "n": 20,
+  "dataset_sha256": "4820014a741cd8148182cc1035d5a605c16280813999dcfc15fb9a3b27c4d4a3",
+  "generated_at": "2026-10-24T10:30:32+00:00",
+  "judge": {
+    "module": "citeguard.support.judge_support",
+    "model": "qwen2.5-3b-instruct",
+    "endpoint": "http://127.0.0.1:8099/v1",
+    "temperature": 0,
+    "prompt_sha256": "cb86c4fa9a1fec7a9228d015ce55d8a33e9004ded505c7f5f23143f9a7ec4d7f"
+  },
+  "metrics": {
+    "macro_f1": 0.5552,
+    "accuracy": 0.55
+  },
+  "per_class": {
+    "support": {
+      "precision": 1.0,
+      "recall": 0.1429,
+      "f1": 0.25,
+      "support": 7,
+      "predicted": 1
+    },
+    "partial": {
+      "precision": 0.3636,
+      "recall": 0.6667,
+      "f1": 0.4706,
+      "support": 6,
+      "predicted": 11
+    },
+    "contradict": {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6667,
+      "support": 2,
+      "predicted": 1
+    },
+    "no_evidence": {
+      "precision": 0.7143,
+      "recall": 1.0,
+      "f1": 0.8333,
+      "support": 5,
+      "predicted": 7
+    }
+  },
+  "confusion": {
+    "labels": [
+      "support",
+      "partial",
+      "contradict",
+      "no_evidence"
+    ],
+    "matrix": [
+      [
+        1,
+        6,
+        0,
+        0
+      ],
+      [
+        0,
+        4,
+        0,
+        2
+      ],
+      [
+        0,
+        1,
+        1,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        5
+      ]
+    ]
+  },
+  "failures": 0,
+  "note": "Labels are fixed by construction (no human double annotation, no kappa); the judge is a zero-shot DeepSeek 4-way classifier. Failures are mapped to 'no_evidence' and counted.",
+  "predictions": [
+    {
+      "id": "cs-0001",
+      "label": "partial",
+      "pred": "partial",
+      "confidence": 1.0,
+      "reason": "证据直接复制了引用句的核心内容，没有额外的信息或修改，完全支持引用句的命题。；覆盖审计：证据未完整覆盖引用句",
+      "error": "",
+      "elapsed_ms": 1.5
+    },
+    {
+      "id": "cs-0002",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "",
+      "error": "",
+      "elapsed_ms": 2.5
+    },
+    {
+      "id": "cs-0003",
+      "label": "support",
+      "pred": "partial",
+      "confidence": 1.0,
+      "reason": "证据直接支持了引用句的核心命题，即药剂学实验课程改革聚焦于技能培养与思政教育的融合。；覆盖审计：证据未完整覆盖引用句",
+      "error": "",
+      "elapsed_ms": 0.9
+    },
+    {
+      "id": "cs-0004",
+      "label": "partial",
+      "pred": "partial",
+      "confidence": 0.9,
+      "reason": "证据片段直接支持了引用句中的核心命题，即分析影响老年人老年护理服务的因素。；覆盖审计：证据未完整覆盖引用句（缺：研究对象）",
+      "error": "",
+      "elapsed_ms": 1.9
+    },
+    {
+      "id": "cs-0005",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "",
+      "error": "",
+      "elapsed_ms": 1.7
+    },
+    {
+      "id": "cs-0006",
+      "label": "partial",
+      "pred": "partial",
+      "confidence": 1.0,
+      "reason": "证据直接支持了引用句的核心命题，即‘新工科’建设为新兴领域工程科技人才培养模式的构建带来了新思路。；覆盖审计：证据未完整覆盖引用句（缺：研究对象；条件/人群；关系或因果）",
+      "error": "",
+      "elapsed_ms": 1.4
+    },
+    {
+      "id": "cs-0007",
+      "label": "support",
+      "pred": "partial",
+      "confidence": 1.0,
+      "reason": "证据直接支持了引用句中的核心命题，即主要对心血管伴随焦虑症的患者实施中西医结合治疗，并探究其治疗效果。；覆盖审计：证据未完整覆盖引用句",
+      "error": "",
+      "elapsed_ms": 2.4
+    },
+    {
+      "id": "cs-0008",
+      "label": "contradict",
+      "pred": "partial",
+      "confidence": 0.9,
+      "reason": "证据中提到中国经济实力增强导致国有企业经济实力增强，但未提及中国经济实力削弱这一前提条件，因此仅部分支持引用句。",
+      "error": "",
+      "elapsed_ms": 0.9
+    },
+    {
+      "id": "cs-0009",
+      "label": "partial",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "证据片段仅说明了光声光谱是一种基于光声效应的吸收光谱分析技术，但没有提及其应用领域、检测物质类型或对生物医学领域的关注，无法支持引用句中的详细信息。",
+      "error": "",
+      "elapsed_ms": 1.1
+    },
+    {
+      "id": "cs-0010",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "",
+      "error": "",
+      "elapsed_ms": 1.7
+    },
+    {
+      "id": "cs-0011",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "证据片段没有提及任何关于人才竞争、人力资源管理、人力资源分配、浪费、应用价值和效率、创新能力、企业发展等方面的内容，无法支持或反驳引用句中的任何一个核心命题。",
+      "error": "",
+      "elapsed_ms": 1.3
+    },
+    {
+      "id": "cs-0012",
+      "label": "support",
+      "pred": "partial",
+      "confidence": 1.0,
+      "reason": "证据片段中直接重复了引用句中的核心内容，并且提供了相同的数据。；覆盖审计：证据未完整覆盖引用句",
+      "error": "",
+      "elapsed_ms": 1.0
+    },
+    {
+      "id": "cs-0013",
+      "label": "partial",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "证据片段仅提及 Mucoadhesion 的生物起源，未提及 Mucoadhesion 的定义、Mucoadhesion 的两个部件、界面力量的作用以及时间的延长，因此无法直接支持引用句中的完整表述。",
+      "error": "",
+      "elapsed_ms": 0.4
+    },
+    {
+      "id": "cs-0014",
+      "label": "support",
+      "pred": "support",
+      "confidence": 1.0,
+      "reason": "证据直接重复了引用句中的核心内容，并进一步详细说明了研究的具体方法和发现，包括对核心预测变量和中介变量的验证以及对马基雅维利主义性质的尝试性回答，完全支持引用句中的所有信息。",
+      "error": "",
+      "elapsed_ms": 0.4
+    },
+    {
+      "id": "cs-0015",
+      "label": "partial",
+      "pred": "partial",
+      "confidence": 0.9,
+      "reason": "证据片段仅提及了提升学生英语学科综合素养的目标，并未直接支持引用句中关于英语课堂教学理念、活动组织方式以及多样化的实践活动的具体内容。",
+      "error": "",
+      "elapsed_ms": 0.9
+    },
+    {
+      "id": "cs-0016",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "confidence": 0.5,
+      "reason": "证据片段与引用句无关，未提及任何关于农村老年人、银色数字鸿沟、接入、使用与数字素养等方面的内容。",
+      "error": "",
+      "elapsed_ms": 1.3
+    },
+    {
+      "id": "cs-0017",
+      "label": "support",
+      "pred": "partial",
+      "confidence": 1.0,
+      "reason": "证据直接支持了引用句中的核心命题，包括研究目的、方法、发现和建议，完全一致。；覆盖审计：证据未完整覆盖引用句",
+      "error": "",
+      "elapsed_ms": 1.1
+    },
+    {
+      "id": "cs-0018",
+      "label": "support",
+      "pred": "partial",
+      "confidence": 0.9,
+      "reason": "证据片段中提到教师通过创造语言环境来培养学生的语言运用、文化认知和想象能力，并且有助于推广汉语言文化，这与引用句中的情景教学使课堂生动有趣、激发学习兴趣以及便于学生更好地理解和掌握相关知识有一定的关联，但并未直接说明情景教学的具体效果如“直接性、互动性强”等，因此属于部分支持。",
+      "error": "",
+      "elapsed_ms": 1.1
+    },
+    {
+      "id": "cs-0019",
+      "label": "support",
+      "pred": "partial",
+      "confidence": 1.0,
+      "reason": "证据直接重复了引用句的核心内容，并且进一步详细阐述了如何通过数字韧性来应对研究生教育和培养中的挑战，支持了引用句的观点。；覆盖审计：证据未完整覆盖引用句",
+      "error": "",
+      "elapsed_ms": 0.6
+    },
+    {
+      "id": "cs-0020",
+      "label": "contradict",
+      "pred": "contradict",
+      "confidence": 0.9,
+      "reason": "引用句和证据片段中的核心命题完全相反，引用句认为锂绿泥石与Li含量呈显著负相关，而证据片段认为锂绿泥石与Li含量呈显著正相关。",
+      "error": "",
+      "elapsed_ms": 0.5
+    }
+  ]
+}

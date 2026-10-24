@@ -91,9 +91,11 @@ CODE_CLAIMS = (
     ("README.md", "15/15", "citation-consistency self-check cases"),
     ("README.md", "29/30", "E4 controlled-drift detection"),
     ("README.md", "197 / 200（98.5%）", "real-reference mutation detection"),
+    ("README.md", "0.7181", "local Qwen2.5-7B GPU pilot macro-F1"),
     ("docs/ppt_numbers.md", "0 / 409", "one-pager real-reference claim"),
     ("docs/ppt_numbers.md", "29 / 30", "one-pager drift claim"),
     ("docs/ppt_numbers.md", "197 / 200", "one-pager mutation detection"),
+    ("docs/ppt_numbers.md", "0.7181", "one-pager local GPU pilot"),
     ("docs/real_data_eval.md", "125（30.6%）", "real-corpus Exact count stays in sync"),
     ("docs/real_data_eval.md", "197（48.2%）", "real-corpus Unverified count stays in sync"),
 )
@@ -178,10 +180,20 @@ def _check_experiments(c: "Checker") -> None:
     if recall.get("summary"):
         c.check((recall["summary"].get("sample") or 0) >= 20, "search_recall sample recorded")
 
-    for name in ("support_local_qwen3_1.7b_simple.json", "support_local_Qwen_Qwen3-1_7B.json"):
+    for name in (
+        "support_local_qwen3_1.7b_simple.json",
+        "support_local_Qwen_Qwen3-1_7B.json",
+        "support_local_qwen25_3b_gpu.json",
+        "support_local_qwen25_3b_simple.json",
+        "support_local_qwen25_7b_gpu.json",
+        "support_local_qwen25_7b_simple.json",
+    ):
         local = _load_json(EXPERIMENTS / name) or {}
         if local:
-            c.check(0 < (local.get("macro_f1") or 0) <= 1, f"{name}: local-model macro_f1 in (0,1]")
+            metrics = local.get("metrics") or local
+            c.check(0 < (metrics.get("macro_f1") or 0) <= 1, f"{name}: local-model macro_f1 in (0,1]")
+            if "qwen25" in name:
+                c.check(local.get("n") == 100, f"{name}: full 100-case ClaimSupport-CN run")
 
 
 def _check_doc_claims(c: "Checker") -> None:

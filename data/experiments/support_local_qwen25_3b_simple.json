@@ -1,0 +1,63 @@
+{
+  "macro_f1": 0.6291,
+  "accuracy": 0.68,
+  "confusion": [
+    [
+      36,
+      0,
+      0,
+      4
+    ],
+    [
+      20,
+      2,
+      0,
+      3
+    ],
+    [
+      3,
+      2,
+      10,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      20
+    ]
+  ],
+  "per_class": {
+    "support": {
+      "precision": 0.6102,
+      "recall": 0.9,
+      "f1": 0.7273
+    },
+    "partial": {
+      "precision": 0.5,
+      "recall": 0.08,
+      "f1": 0.1379
+    },
+    "contradict": {
+      "precision": 1.0,
+      "recall": 0.6667,
+      "f1": 0.8
+    },
+    "no_evidence": {
+      "precision": 0.7407,
+      "recall": 1.0,
+      "f1": 0.8511
+    }
+  },
+  "prompt_file": "scripts/support_prompt_simple.txt",
+  "prompt_sha256": "2f9b85ff6c4fe64f",
+  "n": 100,
+  "model": "qwen2.5-3b-instruct",
+  "votes": 1,
+  "temperature": 0.0,
+  "judge": {
+    "module": "citeguard.support.judge_support",
+    "endpoint": "http://127.0.0.1:8099/v1",
+    "model": "qwen2.5-3b-instruct"
+  }
+}

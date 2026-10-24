@@ -69,7 +69,7 @@ no_evidence    [  0,   0,   0,  20 ]
 >
 > 外部验证：同一 judge 零样本迁移到英文公开基准 **SciFact**（300 条 dev claims，**未在 SciFact 上训练/微调**，四分类映射为三分类）：给定标注证据句 macro-F1 **0.8224**，给定整段摘要 **0.7939**。说明判定方法不是只在自建中文集上有效。
 >
-> 本地开源模型：接口是 OpenAI 兼容的，可切到 Qwen3 等开源模型。已在 CPU 上用 **Qwen3-1.7B（Apache-2.0）** 离线跑通（20 条试点 macro-F1 0.71，明显低于托管大模型但完全离线）；生产离线场景建议 Qwen3-8B + GPU。细节见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) §4.2。
+> 本地开源模型：接口是 OpenAI 兼容的，可切到 Qwen 系列开源模型完全离线运行。CPU 上 Qwen3-1.7B（20 条、精简 prompt）macro-F1 0.71；GPU 上（2×TITAN Xp）实测 Qwen2.5-3B/7B，各 100 条：**7B 用产品 prompt 0.7181**、3B 换精简 prompt 0.6291，都明显低于托管 DeepSeek 的 0.9328——离线可用 ≠ 质量相同。细节与复现命令见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) §4.2。
 
 ## 架构
 
@@ -116,18 +116,31 @@ export DEEPSEEK_API_KEY=...   # 只在本地/服务器环境中设置，不要�
 PYTHONPATH=src python3 -m uvicorn web.app:app --port 8000
 ```
 
-判定后端是**可插拔的 OpenAI 兼容接口**：指向本地开源模型即可完全离线判定，不需要任何商业 API（已用 Qwen3-1.7B 在 CPU 上实测跑通，见 `data/experiments/support_local_qwen3_1.7b_simple.json`）：
+判定后端是**可插拔的 OpenAI 兼容接口**：指向本地开源模型即可完全离线判定，不需要任何商业 API。仓库自带 `scripts/local_judge_server.py`（transformers + CUDA，支持 `--device auto` 把 7B 拆到多张 12GB 卡），也可用 Ollama / vLLM / llama.cpp-server：
 
 ```bash
-# 例：Ollama 起一个开源模型（任意 OpenAI 兼容服务：vLLM / llama.cpp-server / LM Studio 同理）
-ollama serve
-ollama pull qwen2.5:7b-instruct
+# 服务器上直接起本地判官（示例：Qwen2.5-7B，两张卡）
+python scripts/local_judge_server.py --model /path/Qwen2.5-7B-Instruct \
+  --device auto --dtype float16 --port 8099
+export CITEGUARD_JUDGE_BASE_URL=http://127.0.0.1:8099/v1
+export CITEGUARD_JUDGE_MODEL=Qwen2.5-7B-Instruct
+export CITEGUARD_JUDGE_API_KEY=local   # 本地服务随便填；不校验
+
+# 或者用 Ollama（任意 OpenAI 兼容服务同理）
+ollama serve && ollama pull qwen2.5:7b-instruct
 export CITEGUARD_JUDGE_BASE_URL=http://127.0.0.1:11434/v1
 export CITEGUARD_JUDGE_MODEL=qwen2.5:7b-instruct
-# 本地服务通常不需要 key；要鉴权时再设 CITEGUARD_JUDGE_API_KEY
 ```
 
-> 小模型（1.7B 级）在 CPU 上 20 条试点 macro-F1 0.7059（精简 prompt，46 s/条），明显低于 DeepSeek 的 0.9328——离线可用 ≠ 质量相同；生产环境建议 8B 级模型 + GPU，或继续用 API judge。判定结果按「模型 + prompt 版本」分键缓存，换模型会自动重判。
+实测（ClaimSupport-CN，与托管模型同一数据/脚本；DeepSeek 参考 **0.9328**）：
+
+| 本地模型 | 硬件 | 产品长 prompt | 精简 prompt |
+|---|---|---|---|
+| Qwen3-1.7B（20 条试点） | CPU | 0.5060 | **0.7059** |
+| Qwen2.5-3B-Instruct | 1×TITAN Xp | 0.3894 | **0.6291** |
+| Qwen2.5-7B-Instruct | 2×TITAN Xp | **0.7181** | 0.7022 |
+
+> 小模型（3B 及以下）跟不动产品长 prompt，建议换精简 prompt：`CITEGUARD_SUPPORT_PROMPT_FILE=scripts/support_prompt_simple.txt`（自定义 prompt 自动使用独立缓存），并设 `CITEGUARD_SUPPORT_AUDIT=0`。7B 反而适合两段式产品 prompt。判定结果按「模型 + prompt 版本」分键缓存，换模型会自动重判。
 
 ## 目录
 

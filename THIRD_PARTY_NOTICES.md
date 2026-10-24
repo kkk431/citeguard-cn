@@ -74,16 +74,41 @@
 - 映射：本产品四分类的 `support`/`partial` → SciFact `SUPPORT`，`contradict` → `CONTRADICT`，`no_evidence` → `NOT_ENOUGH_INFO`；zero-shot，**未在 SciFact 上训练/微调**，因此与 SciFact 微调系统不可直接比较。
 - 复现：下载 `https://scifact.s3-us-west-2.amazonaws.com/release/latest/data.tar.gz` → 解压到 `data/experiments/scifact_raw/`（git-ignored）→ `DEEPSEEK_API_KEY=... PYTHONPATH=src python scripts/eval_support_scifact.py`。
 
-### 4.2 本地开源模型离线实测（Qwen3-1.7B，Apache-2.0）
+### 4.2 本地开源模型离线实测（Qwen2.5-3B/7B、Qwen3-1.7B，Apache-2.0）
 
-用 `transformers` 在 CPU 上加载 **Qwen3-1.7B**（Apache-2.0）跑同一支持度任务（`scripts/eval_support_local.py`，只做 20 条试点，不能外推为全量指标）：
+产品 judge 走 OpenAI 兼容接口。`scripts/local_judge_server.py` 用 `transformers` 起一个同样的
+`/v1/chat/completions` 服务，支持 `--device auto` + `CITEGUARD_LOCAL_MAX_MEMORY` 把 7B 拆到多张卡上
+（实测 2×NVIDIA TITAN Xp 12GB，fp16，CUDA 11.4 驱动；3B 单卡即可）。评测脚本、数据、prompt 版本都与
+托管模型一致，因此这些数字可直接对比：
 
-| 设置 | 20 条试点 Macro-F1 | Accuracy | CPU 速度 |
-|---|---|---|---|
-| 产品长 prompt（v3） | 0.5060 | 0.55 | ~93 s/条 |
-| 精简 prompt（`scripts/support_prompt_simple.txt`） | **0.7059** | 0.75 | ~46 s/条 |
+| 模型 | 硬件 | Prompt | 条数 | Macro-F1 | Accuracy | 速度 |
+|---|---|---|---|---|---|---|
+| Qwen3-1.7B | CPU | 产品长 prompt | 20 | 0.5060 | 0.55 | ~93 s/条 |
+| Qwen3-1.7B | CPU | 精简 prompt | 20 | **0.7059** | 0.75 | ~46 s/条 |
+| Qwen2.5-3B-Instruct | 1×TITAN Xp | 产品长 prompt | 100 | 0.3894 | 0.40 | 5.9 s/条（2 workers） |
+| Qwen2.5-3B-Instruct | 1×TITAN Xp | 精简 prompt | 100 | **0.6291** | 0.68 | — |
+| Qwen2.5-7B-Instruct | 2×TITAN Xp | 产品长 prompt（含覆盖审计） | 100 | **0.7181** | 0.66 | 8.5 s/条（2 workers） |
+| Qwen2.5-7B-Instruct | 2×TITAN Xp | 精简 prompt | 100 | 0.7022 | 0.73 | — |
 
-结论：**该后端可以完全离线运行、接口与产品一致**，但 1.7B 小模型在 CPU 上又慢又弱；生产离线场景建议 Qwen3-8B + GPU（接口已兼容，未在本机实测）。因此产品默认仍用托管大模型保证质量，并在文档中把本地开源模型标为「可替换、已验证可跑通、质量待大模型」。
+- 产品长 prompt 是为强托管模型调优的：3B 跟不动（0.3894），换精简 prompt 后升到 0.6291；7B 已能执行两段式判定，
+  产品路径 0.7181，反而略高于精简 prompt 的 0.7022（差 0.016，在 100 条样本上不宜过度解读）。
+- 与托管 DeepSeek 的 0.9328 仍有明显差距——**离线可跑通 ≠ 质量相同**。但整条链路（题录解析 → 核验 → 支持度判定）
+  可以完全离线，接口、缓存、评测脚本与线上一致，这是「AI 部分开源可替换」的可复现证据。
+- 7B 用产品 prompt 跑 100 条耗时 847.6 s（两段式、2 workers）；3B 591.5 s。硬件是 2017 年的 TITAN Xp，
+  换成 24GB 级新卡或 4-bit 量化可进一步提速/放大模型。
+- 复现（服务器示例）：
+  ```bash
+  python scripts/local_judge_server.py --model /path/Qwen2.5-7B-Instruct \
+    --device auto --dtype float16 --port 8099
+  CITEGUARD_JUDGE_BASE_URL=http://127.0.0.1:8099/v1 \
+  CITEGUARD_JUDGE_MODEL=Qwen2.5-7B-Instruct CITEGUARD_JUDGE_API_KEY=local \
+  PYTHONPATH=src python scripts/evaluate_support.py --limit 100 \
+    --out data/experiments/support_local_qwen25_7b_gpu.json
+  ```
+- 证据文件：`data/experiments/support_local_qwen25_{3b,7b}_{gpu,simple}.json`（含 confusion / per-class / prompt hash）。
+  小模型换精简 prompt 时，产品侧可设 `CITEGUARD_SUPPORT_PROMPT_FILE=scripts/support_prompt_simple.txt`
+  （自定义 prompt 自动使用独立缓存命名空间），并建议 `CITEGUARD_SUPPORT_AUDIT=0`。
+- 尚未实测 Qwen3-8B / 14B：8B 需要更大显存或量化；接口已经兼容，后续换模型只需改 `--model` 与环境变量。
 
 ## 5. 许可证义务与履行方式
 
