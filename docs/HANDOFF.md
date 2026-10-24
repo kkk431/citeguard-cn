@@ -291,3 +291,27 @@ $env:DEEPSEEK_API_KEY = "..."   # 支持度判定用，不写进任何文件
 - 远端已配置 `CITEGUARD_VL_ENDPOINT=http://222.20.126.148:8099/v1`（dmz 可直连 lmh GPU），重启后首页入口出现，
   `/api/figure-check` 实测返回 `contradicted`（1.81 s）；本机演示服务同样已配置，四个默认示例图可直接跑通。
   注意：`.env.remote` 需要 `set -a` 才导出给 uvicorn，`/tmp/restart_remote.sh` 已修正。
+
+## 21. 2026-10-24 晚：撤稿提醒 + 审稿视角汇总（v0.4.1）
+
+- 背景：用户问「SciCopilot 式融合功能到底做到哪一步了」。诚实盘点：C（图表结论核验）已交付；
+  B（撤稿/问题文献提醒）与 D（审稿视角汇总）此前只是设想。本轮把 B、D 做成产品功能，A（多篇对比）、
+  E（选题→文献发现）仍留在路线图，不假装已做。
+- B 撤稿提醒：`OpenAlex` 查询增加 `select=...,is_retracted`，`Candidate.retracted` /
+  `VerifyResult.retracted` 透传到报告 JSON；`verify_reference` 统一走 `_apply_retraction`
+  wrapper，命中即加提示「OpenAlex 标记该文献已被撤稿（retraction），引用前请核对撤稿声明」，
+  **但不改真实性状态**（准确引用撤稿论文仍然是 Exact，避免把合法引用误判成问题引文）。
+  UI：卡片/表格显示「该文献已撤稿」pill，体检结论增加撤稿条数；CSV/Markdown/HTML 导出带提示。
+- D 审稿视角汇总：`report.build_report` 新增 `review_summary`（decision / level / blockers /
+  minor_issues / issues / note），聚合 Major、撤稿、支持度矛盾/部分支持、格式 error、未被引用编号、
+  编号缺失、顺序不一致；输出「建议修改后再投稿 / 建议小修 / 可送审但需人工核对 / 可送审」一档结论。
+  报告页新增「审稿视角 · 自动汇总」面板，Markdown/HTML 导出同步；措辞固定为「自动检查、不替代同行评审」。
+- 实测：本机上传 3 条测试文献（2 条假 DOI + 1 条未被引），判 Major 2 / Unverified 1，
+  审稿结论 `blocker`、阻断级 2 项，卡片 pill 与导出均出现；面板文案见浏览器检查。
+- 测试 **338 passed**（新增：撤稿 3 例、审稿汇总 5 例、导出 1 例）；`verify_artifacts.py` 本机 89 项、
+  远端 `--api-base` **98 项全过**；版本 **0.4.1**。
+- 发布：commit `740bf23`（代码/文档），SSH 推送 `8894a83..740bf23`；远端
+  `/data/xyjiang/aic_mental/citeguard` 已部署 v0.4.1（`/api/health` → 0.4.1），
+  交付包 `dist/citeguard-cn-0.4.1.zip`（1,719,179 bytes，sha256 `ac6a92e4…`，1.6 MB）。
+- 局限（不要写成已解决）：撤稿标记目前只来自 OpenAlex `is_retracted`，Crossref `update-to`
+  与中文库撤稿声明未接入；审稿汇总是规则聚合，不替代同行评审；A/E 未实现。
