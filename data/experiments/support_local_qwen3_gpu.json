@@ -62,6 +62,22 @@
         "model": "qwen3-14b"
       },
       "generated_at": "2026-10-24T17:30:58+00:00"
+    },
+    {
+      "model": "Qwen3-14B",
+      "split": "test 60",
+      "n": 60,
+      "macro_f1": 0.9063,
+      "accuracy": 0.9,
+      "prompt": "少样本 v7 prompt + 覆盖审计 v2",
+      "latency_mean_ms": 7727.6,
+      "source": "support_local_qwen3_14b_v7_test.json",
+      "judge": {
+        "base": "http://127.0.0.1:8097/v1",
+        "model": "qwen3-14b"
+      },
+      "generated_at": "2026-10-25T01:55:00+08:00"
     }
-  ]
+  ],
+  "note": "v7 为 dev 40（0.8740）选出的少样本 prompt；test 60 只报一次。"
 }

@@ -92,14 +92,19 @@
 | Qwen3-8B | 1×RTX 4090 | 产品 v4 + 审计 v2（dev 40） | 40 | 0.9014 | 0.900 | 7.3 s/条 |
 | Qwen3-8B | 1×RTX 4090 | 产品 v4 + 审计 v2（**test 60**） | 60 | 0.7817 | 0.783 | 7.1 s/条 |
 | Qwen3-14B | 2×RTX 4090 | 产品 v4 + 审计 v2（dev 40） | 40 | 0.8676 | 0.875 | 8.9 s/条 |
-| Qwen3-14B | 2×RTX 4090 | 产品 v4 + 审计 v2（**test 60**） | 60 | **0.8887** | 0.883 | 8.5 s/条 |
+| Qwen3-14B | 2×RTX 4090 | 产品 v4 + 审计 v2（**test 60**） | 60 | 0.8887 | 0.883 | 8.5 s/条 |
+| Qwen3-14B | 2×RTX 4090 | 少样本 v7 + 审计 v2（**test 60**） | 60 | **0.9063** | 0.900 | 7.7 s/条 |
 
 - 2026-10 追加的 Qwen3-8B/14B 用固定划分：dev 40 选 prompt/审计方式，test 60 只报最终数字
-  （`data/claimsupport_cn/split_seed20261024.json`）。14B 在 test 上 0.8887，比托管 DeepSeek 的 0.9470
-  低约 5.8 分；8B 在 test 上 0.7817，差距扩大到约 16.5 分。硬件为实验室已有 GPU，不是为参赛购买。
-- 覆盖审计 v2 比旧 v1 明显更好（8B：dev 0.8372→0.9014，test 0.7090→0.7817），因此产品对自托管端点
-  默认用 v2：`CITEGUARD_SUPPORT_AUDIT_STYLE=auto`（本地端点 → v2，托管 API → v1，保持已发布口径）。
-  3 票自洽与少样本 prompt 均未超过单票 v2，记录在 `docs/support_summary.md`。
+  （`data/claimsupport_cn/split_seed20261024.json`）。14B 最好配置（少样本 v7 + 审计 v2）在 test 上
+  **0.9063**，比托管 DeepSeek 的 0.9470 低约 4.1 分；v4 prompt 是 0.8887。8B 在 test 上 0.7817，
+  差距扩大到约 16.5 分。硬件为实验室已有 GPU，不是为参赛购买。
+- 托管 DeepSeek 上 v7 反而略低（test 0.9441 vs v4 的 0.9470），所以产品按端点自动选 prompt：
+  **自托管端点默认 v7，托管 API 仍用 v4**（`support.py` 导入时判断 `CITEGUARD_JUDGE_BASE_URL`/`DEEPSEEK_BASE_URL`，
+  显式设置 `CITEGUARD_SUPPORT_PROMPT_FILE` 仍可覆盖）；缓存命名空间会随 prompt 版本变化。
+- 覆盖审计 v2 比旧 v1 明显更好（8B：dev 0.8372→0.9014，test 0.7090→0.7817），但托管模型上 v2 反而降分
+  （test 0.9009 vs v1 0.9470），因此产品对自托管端点默认用 v2、托管 API 用 v1：
+  `CITEGUARD_SUPPORT_AUDIT_STYLE=auto`。3 票自洽与混合审计 v3 均未超过单票方案，记录在 `docs/support_summary.md`。
 - 产品长 prompt 是为强托管模型调优的：3B 跟不动（0.3894），换精简 prompt 后升到 0.6291；7B 已能执行两段式判定，
   产品路径 0.7181，反而略高于精简 prompt 的 0.7022（差 0.016，在 100 条样本上不宜过度解读）。
 - 与托管 DeepSeek 的 0.9328 仍有明显差距——**离线可跑通 ≠ 质量相同**。但整条链路（题录解析 → 核验 → 支持度判定）

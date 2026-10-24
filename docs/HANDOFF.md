@@ -431,18 +431,22 @@ v0.6.1 上线后继续压测文献发现，发现并修掉三个具体问题：
   |---|---|---|---|---|
   | Qwen3-8B | 1×RTX 4090 | 0.9014 / 0.900 | **0.7817 / 0.783** | 7.3 / 7.1 s/条 |
   | Qwen3-14B | 2×RTX 4090 | 0.8676 / 0.875 | **0.8887 / 0.883** | 8.9 / 8.5 s/条 |
+  | Qwen3-14B + 少样本 v7 | 2×RTX 4090 | 0.8740 / 0.875 | **0.9063 / 0.900** | 7.7 s/条 |
   | 托管 DeepSeek（参考） | — | 0.8916 | 0.9470 | — |
 
-  14B 与托管差距约 5.8 分，8B 约 16.5 分；14B test 混淆矩阵为
-  `[[23,0,0,1],[5,10,0,0],[0,1,8,0],[0,0,0,12]]`（部分支持召回 10/15，矛盾 8/9）。
+  14B 最好配置与托管差距约 4.1 分，8B 约 16.5 分；14B v4 的 test 混淆矩阵为
+  `[[23,0,0,1],[5,10,0,0],[0,1,8,0],[0,0,0,12]]`，换 v7 后为
+  `[[23,0,0,1],[4,10,0,1],[0,0,9,0],[0,0,0,12]]`（partial precision 1.00、recall 10/15）。
 - **审计 v2**：旧 v1 审计假设「证据须覆盖实证要素」，会把逐字复述也降级；v2 改为通用方案。
   8B dev 0.8372→0.9014、test 0.7090→0.7817；8B v6 prompt + v2 为 0.8577，14B v6 + v2 为 0.8740。
-  v3 混合审计（0.8824）、少样本 v7（8B 0.8608 / 14B 0.8740）、3 票自洽（8B v4+v2 0.9014，耗时 16.6 s/条）
-  均未超过单票 v2，不采用。
+  v3 混合审计（0.8824）、3 票自洽（8B v4+v2 0.9014，耗时 16.6 s/条）均未超过单票 v2，不采用。
+  v7 少样本 prompt 在 8B 上更差（0.8608），在 14B 上有效（0.9063 vs v4 0.8887）；托管 DeepSeek 上
+  v7 反而略低（test 0.9441 vs v4 0.9470），所以不做全局默认。
 - **产品默认**：`CITEGUARD_SUPPORT_AUDIT_STYLE=auto`——自托管端点自动用 v2，托管 API 仍用 v1
-  （保持已发布的 0.9328 口径）。`support.py` 增加 `_audit_style()` 与按 style 分键的审计缓存。
-- **证据**：`data/experiments/support_local_qwen3_{8b,14b}_{dev,test}.json`（原始预测）+ 
-  `support_local_qwen3_gpu.json`（汇总）；评测页「本地开源判官」表自动读取后者。
+  （保持已发布的 0.9328 口径）；prompt 也按端点自动选：自托管默认 v7，托管默认 v4，
+  `CITEGUARD_SUPPORT_PROMPT_FILE` 可显式覆盖。`support.py` 增加 `_audit_style()` 与按 style 分键的审计缓存。
+- **证据**：`data/experiments/support_local_qwen3_{8b,14b}_{dev,test}.json`、`support_local_qwen3_14b_v7_test.json`
+  （原始预测）+ `support_local_qwen3_gpu.json`（汇总）；评测页「本地开源判官」表自动读取后者。
 - 文档同步：README 本地模型表、THIRD_PARTY_NOTICES §4.2、docs/ppt_numbers.md 2d、
   docs/deployment.md §1.4、`.env.example` 都已写入 dev/test 与 auto 说明。
 - 验证：全套 **383 passed**；`verify_artifacts.py` 本机 **106 项**、远端 `--api-base` **115 项** 全过。

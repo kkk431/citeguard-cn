@@ -109,24 +109,30 @@ PYTHONPATH=src python3 scripts/evaluate_support.py \
 | Qwen3-8B | 产品 v4 + 审计 v3（混合） | 0.8824 / 0.875 | — | 8.1 s/条 |
 | Qwen3-8B | 少样本 v7 + 审计 v3 | 0.8608 / 0.850 | — | 6.7 s/条 |
 | Qwen3-8B | v4 + v2，3 票自洽 | 0.9014 / 0.900 | — | 16.6 s/条 |
-| Qwen3-14B | 产品 v4 + 审计 v2 | 0.8676 / 0.850 | 见下方补充 | 9.4 s/条 |
-| DeepSeek-Chat（托管，参考） | 产品 v4 + 审计 v1 | 0.8916 / 0.900 | **0.9470 / 0.950** | 2–3 s/条 |
+| Qwen3-14B | 产品 v4 + 审计 v2 | 0.8676 / 0.850 | **0.8887 / 0.883** | 9.4 / 8.5 s/条 |
+| Qwen3-14B | 少样本 v7 + 审计 v2 | 0.8740 / 0.875 | **0.9063 / 0.900** | 7.7 s/条 |
+| DeepSeek-Chat（托管，参考） | 产品 v4 + 审计 v1 | 0.8916 / 0.900 | **0.9470 / 0.933** | 2–3 s/条 |
 
 结论（如实）：
 
-- 本地 8B 在 test 上最好 0.7817，比托管 0.9470 低约 16.5 分；dev→test 的下降说明
-  prompt/审计选择在 dev 上有过拟合，报告里只引用 test 数字。
+- 本地最好成绩是 **Qwen3-14B + 少样本 v7 + 审计 v2：test 60 上 0.9063 / 0.900**，比托管同口径
+  0.9470 低约 4.1 分；同模型换回产品 v4 prompt 是 0.8887，说明 prompt 在这档模型上还有约 1.8 分的空间。
+- 8B 在 test 上最好 0.7817，比托管低约 16.5 分；dev→test 的下降说明 prompt/审计选择在 dev 上有过拟合，
+  报告里只引用 test 数字。
 - 3 票自洽没有带来提升（与单票完全相同），说明 8B 的错法是稳定的「partial→support」，
-  不是随机波动；少样本 v7 反而更差。
+  不是随机波动；v7 在 8B 上反而更差（0.8608），在 14B 上才有效。
 - 覆盖审计 v2 比旧 v1 明显更好（dev 0.8372→0.9014，test 0.7090→0.7817），
   因此产品对自托管端点默认用 v2：`CITEGUARD_SUPPORT_AUDIT_STYLE=auto`
   （`auto`：本地 `CITEGUARD_JUDGE_BASE_URL` → v2，托管 API → v1，保持已发布口径）。
-- 差距主要来自 partial 与 support 的边界：8B 把「证据只覆盖 claim 一部分」判成 support；
-  这是模型能力问题，不是 prompt 一句话能补上的。生产离线建议 14B+ 或接受这档差距。
+- prompt 也按端点自动选：**自托管端点默认 v7，托管 API 仍用 v4**。托管 DeepSeek 上 v7 反而略低
+  （test 0.9441 vs v4 0.9470），所以不做成全局默认。显式设置 `CITEGUARD_SUPPORT_PROMPT_FILE` 仍可覆盖。
+- 差距主要来自 partial 与 support 的边界：模型倾向把「证据只覆盖 claim 一部分」判成 support；
+  14B+v7 已把 partial 的 precision 做到 1.00、recall 10/15。生产离线建议 14B 级起步；
+  32B/4-bit 是下一步，但没有实测就不写数字。
 
 > 小模型（3B 及以下）建议精简 prompt：`CITEGUARD_SUPPORT_PROMPT_FILE=scripts/support_prompt_simple.txt`
-> （自定义 prompt 自动独立缓存），并 `CITEGUARD_SUPPORT_AUDIT=0`。7B 用产品两段式 prompt 反而更高。
-> 离线可用 ≠ 质量相同；生产离线建议更大模型（量化 14B/32B）或继续用托管 judge。
+> （自定义 prompt 自动独立缓存），并 `CITEGUARD_SUPPORT_AUDIT=0`。7B/8B/14B 用产品两段式 prompt 反而更高。
+> 离线可用 ≠ 质量相同；14B 已到 0.9063，但仍低于托管 0.9470。
 
 ## 评测证据
 
