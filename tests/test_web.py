@@ -242,3 +242,68 @@ def test_rejected_upload_does_not_create_job(client, isolated_project):
     before = len(jobs.manager._jobs)
     client.post("/api/analyze", files={"file": ("evil.exe", b"MZ", "application/octet-stream")})
     assert len(jobs.manager._jobs) == before
+
+def test_compare_page_renders(plain_client):
+    resp = plain_client.get("/compare")
+    assert resp.status_code == 200
+    assert "多篇文献对比" in resp.text
+
+
+def test_compare_api_rejects_without_judge(plain_client, monkeypatch):
+    from citeguard import compare
+
+    monkeypatch.setattr(compare, "available", lambda: False)
+    resp = plain_client.post(
+        "/api/compare", files=[("files", ("a.txt", b"x", "text/plain"))]
+    )
+    assert resp.status_code == 503
+
+
+def test_compare_api_validates_file_count(client, monkeypatch):
+    from citeguard import compare
+
+    monkeypatch.setattr(compare, "available", lambda: True)
+    resp = client.post(
+        "/api/compare", files=[("files", ("a.txt", b"x", "text/plain"))]
+    )
+    assert resp.status_code == 400
+
+
+def test_compare_job_end_to_end(client, monkeypatch):
+    from citeguard import compare
+
+    monkeypatch.setattr(compare, "available", lambda: True)
+
+    def fake_extract(text, *, use_cache=True):
+        return {
+            "fields": {key: f"{key}-内容" for key in compare.FIELD_KEYS},
+            "model": "fake",
+            "excerpt_chars": len(text),
+            "latency_ms": 1,
+            "cached": False,
+        }
+
+    monkeypatch.setattr(compare, "extract_profile", fake_extract)
+    files = [
+        ("files", ("paper_a.txt", "标题A\n摘要：研究问题A。".encode("utf-8"), "text/plain")),
+        ("files", ("paper_b.txt", "标题B\n摘要：研究问题B。".encode("utf-8"), "text/plain")),
+    ]
+    resp = client.post("/api/compare", files=files)
+    assert resp.status_code == 202, resp.text
+    job_id = resp.json()["job_id"]
+    job = wait_for_job(client, job_id)
+    assert job["status"] == "done", job
+
+    data = client.get(f"/api/compare/{job_id}").json()
+    result = data["result"]
+    assert [paper["name"] for paper in result["papers"]] == ["paper_a", "paper_b"]
+    assert result["papers"][0]["fields"]["method"] == "method-内容"
+
+    md = client.get(f"/api/compare/{job_id}/export?format=md")
+    assert md.status_code == 200
+    assert "多篇文献对比" in md.text
+    csv_resp = client.get(f"/api/compare/{job_id}/export?format=csv")
+    assert csv_resp.status_code == 200
+    assert "字段" in csv_resp.text
+    bad = client.get(f"/api/compare/{job_id}/export?format=bib")
+    assert bad.status_code == 400

@@ -1,0 +1,99 @@
+{
+  "generated_at": "2026-10-24T21:31:41",
+  "model": "deepseek-chat",
+  "fields": [
+    {
+      "key": "research_question",
+      "label": "研究问题"
+    },
+    {
+      "key": "method",
+      "label": "方法 / 设计"
+    },
+    {
+      "key": "data",
+      "label": "数据 / 样本"
+    },
+    {
+      "key": "findings",
+      "label": "主要结论"
+    },
+    {
+      "key": "limitations",
+      "label": "局限"
+    },
+    {
+      "key": "contribution",
+      "label": "贡献 / 创新点"
+    }
+  ],
+  "papers": [
+    {
+      "name": "hanspub_152678",
+      "chars": 18175,
+      "fields": {
+        "research_question": "知识生产模式III转型下如何重构我国博士生课程体系",
+        "method": "以模式III为框架的逻辑耦合分析、美国经验剖析与借鉴",
+        "data": "美国博士生课程改革实践；我国博士生课程体系现状",
+        "findings": "美国以超学科整合、情境化教学、多主体协同及伦理规约回应高阶知识生产需求",
+        "limitations": "",
+        "contribution": "提出超学科集群重构、数据驱动迭代、跨界场域创设及伦理嵌入评价四维路径"
+      },
+      "error": "",
+      "cached": false,
+      "excerpt_chars": 3600,
+      "latency_ms": 1929
+    },
+    {
+      "name": "hanspub_152699",
+      "chars": 14214,
+      "fields": {
+        "research_question": "绍兴方言中“上”的语法化阶段、轨迹及历史层次动因",
+        "method": "历时与共时视角结合历史语言学与认知语法理论",
+        "data": "浙江绍兴方言中多功能词“上”的文献与方言材料",
+        "findings": "“上”由实词虚化为后置词，印证“空间>时间>逻辑关系”规律",
+        "limitations": "",
+        "contribution": "为吴语语法研究和跨方言研究提供典型例证"
+      },
+      "error": "",
+      "cached": false,
+      "excerpt_chars": 3600,
+      "latency_ms": 2067
+    },
+    {
+      "name": "hanspub_152703",
+      "chars": 18347,
+      "fields": {
+        "research_question": "杂合理论视角下罗希文《伤寒论》英译本如何在语言与文化层面进行跨文化协商",
+        "method": "以霍米·巴巴杂合理论为基础，结合权力话语视角的案例分析法",
+        "data": "罗希文《伤寒论》英译本",
+        "findings": "译本通过句式重构、逻辑显性化、音译保留与注释补偿等策略形成“第三空间”，是话语规范压力下协商的结果",
+        "limitations": "实际传播效果仍有待接受研究进一步验证",
+        "contribution": "整合语言、文化与译者主体维度，揭示译本在两种医学话语边界生成新意义空间"
+      },
+      "error": "",
+      "cached": false,
+      "excerpt_chars": 3600,
+      "latency_ms": 1934
+    },
+    {
+      "name": "hanspub_152704",
+      "chars": 9279,
+      "fields": {
+        "research_question": "考察“X不X,Y不Y”构式的构件组成及关系、语用功能与构式义",
+        "method": "构式语法理论，多维度分析构件、语用和构式义",
+        "data": "真实语料（含《人民日报》、新浪微博等）",
+        "findings": "该构式依托双重否定并列结构形成区别于字面组合的整体意义",
+        "limitations": "",
+        "contribution": "结合真实语料系统考察构件、语用功能与构式义"
+      },
+      "error": "",
+      "cached": false,
+      "excerpt_chars": 3600,
+      "latency_ms": 2006
+    }
+  ],
+  "warnings": [],
+  "elapsed_s": 8.0,
+  "source": "data/real_corpus (hanspub PDFs, 4 papers)"
+}

@@ -561,3 +561,25 @@ python scripts/e7_usability.py --manual-finalize data/experiments/e7_manual_verd
 **集成**：`/figure` 页面 + `POST /api/figure-check`；`CITEGUARD_VL_ENDPOINT` 未配置时不展示入口。测试新增 10 个离线用例（mock 服务端），全套 330 passed。
 
 **证据**：评测 JSON 与图表图片来自本地真实语料，不随公开仓库分发；合成集与评测脚本公开、可一键重建。细节见 `docs/figure_check.md`。
+
+## 11. E11：多篇文献对比抽取（4 篇真实论文，2026-10-24）
+
+**问题**：写综述要在多篇论文间反复翻「研究问题/方法/数据/结论/局限/贡献」，费时且容易漏。
+
+**做法**：`src/citeguard/compare.py` 对每篇取摘要与正文前部（截断参考文献，最多 3600 字），用产品统一判官接口按六字段抽取，`scripts/eval_compare_real.py` 复现。数据为 `data/real_corpus` 中 4 篇文本型 hanspub PDF（教育学/语言学），不是合成样例；判官 `deepseek-chat`、`temperature=0`。
+
+**结果**：
+
+| 指标 | 数值 |
+|---|---|
+| 抽取成功 | 4/4 篇（0 报错） |
+| 总耗时 | 8.0 秒（约 1.9–2.1 秒/篇） |
+| 每篇字段 | 5–6 / 6 |
+| 「局限」为空 | 3/4 篇（摘要本身不写，按规则留「未提及」） |
+
+**可用的说法**：「4 篇真实论文全部抽取成功，2 秒/篇量级，字段基本齐全」。  
+**不能用的说法**：不能说字段准确率 90%+——没有标注集，只有工程成功率与耗时；也不能说它能自动写出综述（它只并排字段，不做跨文献综合）。
+
+**集成**：`/compare` 页面 + `POST /api/compare`，2–6 篇；未配置判官时不展示入口。测试新增 11 个模块用例 + 4 个 Web 用例，全套 353 passed。
+
+**证据**：`data/experiments/compare_real.json`；细节与边界见 `docs/compare.md`。

@@ -20,12 +20,13 @@ from fastapi.responses import FileResponse, HTMLResponse, JSONResponse  # noqa: 
 from fastapi.staticfiles import StaticFiles  # noqa: E402
 from fastapi.templating import Jinja2Templates  # noqa: E402
 
+from citeguard import compare  # noqa: E402
 from citeguard import config  # noqa: E402
 from citeguard import figure_check  # noqa: E402
 from citeguard.abstract_enrich import MAX_ENRICH_PER_REQUEST, enrich_missing  # noqa: E402
 from citeguard.jobs import manager  # noqa: E402
 from citeguard.local_library import Library, parse_library_text  # noqa: E402
-from citeguard.pdf_extract import SUPPORTED_SUFFIXES  # noqa: E402
+from citeguard.pdf_extract import SUPPORTED_SUFFIXES, extract_text  # noqa: E402
 from citeguard.pipeline import run_job  # noqa: E402
 from citeguard.report import render_reference_list  # noqa: E402
 
@@ -47,15 +48,37 @@ def _cleanup_uploads(max_age_seconds: int = UPLOAD_MAX_AGE_SECONDS) -> None:
             continue
 
 
+def _cleanup_compare(max_age_seconds: int = UPLOAD_MAX_AGE_SECONDS) -> None:
+    """Remove comparison results left over from old jobs."""
+    now = time.time()
+    try:
+        paths = list(_compare_dir().glob("*.json"))
+    except OSError:
+        return
+    for path in paths:
+        try:
+            if path.is_file() and now - path.stat().st_mtime > max_age_seconds:
+                path.unlink(missing_ok=True)
+        except OSError:
+            continue
+
+
+def _compare_dir() -> Path:
+    folder = config.DATA_DIR / "compare"
+    folder.mkdir(parents=True, exist_ok=True)
+    return folder
+
+
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
     # Startup hygiene: old job records/reports and stale uploads.
     manager.cleanup()
     _cleanup_uploads()
+    _cleanup_compare()
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.4.1", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.5.0", lifespan=lifespan)
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
 
@@ -81,7 +104,7 @@ def index(request: Request):
         request,
         "index.html",
         {"recent": manager.recent(6), "active": "home", "library_count": len(library),
-         "vl_available": figure_check.available()},
+         "vl_available": figure_check.available(), "compare_available": compare.available()},
     )
 
 
@@ -231,6 +254,26 @@ def library_export(format: str = "bibtex"):
     )
 
 
+def _save_upload(file: UploadFile, dst: Path) -> int:
+    """Stream one upload to ``dst`` under the size cap; return bytes written."""
+    written = 0
+    with dst.open("wb") as fh:
+        while True:
+            chunk = file.file.read(1024 * 1024)
+            if not chunk:
+                break
+            written += len(chunk)
+            if written > MAX_UPLOAD_BYTES:
+                raise HTTPException(
+                    status_code=413,
+                    detail=f"文件超过 {config.MAX_UPLOAD_MB} MB 上限，请压缩或拆分后再传",
+                )
+            fh.write(chunk)
+    if written == 0:
+        raise HTTPException(status_code=400, detail="上传的文件是空的")
+    return written
+
+
 @app.post("/api/analyze")
 def analyze(
     file: UploadFile | None = File(default=None),
@@ -250,22 +293,8 @@ def analyze(
     job = manager.create(filename=filename)
     if file is not None:
         dst = UPLOAD_DIR / f"{job['id']}{suffix}"
-        written = 0
         try:
-            with dst.open("wb") as fh:
-                while True:
-                    chunk = file.file.read(1024 * 1024)
-                    if not chunk:
-                        break
-                    written += len(chunk)
-                    if written > MAX_UPLOAD_BYTES:
-                        raise HTTPException(
-                            status_code=413,
-                            detail=f"文件超过 {config.MAX_UPLOAD_MB} MB 上限，请压缩或拆分后再传",
-                        )
-                    fh.write(chunk)
-            if written == 0:
-                raise HTTPException(status_code=400, detail="上传的文件是空的")
+            _save_upload(file, dst)
         except HTTPException:
             dst.unlink(missing_ok=True)
             manager.discard(job["id"])
@@ -555,6 +584,119 @@ def figure_check_api(image: UploadFile = File(...), claim: str = Form("")):
     return JSONResponse(result, status_code=200 if result.get("ok") else 400)
 
 
+def _load_compare(job_id: str) -> dict | None:
+    path = _compare_dir() / f"{job_id}.json"
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+
+
+def _run_compare_job(job_id: str, items: list[tuple[str, str]]) -> None:
+    texts: list[tuple[str, str]] = []
+    for name, path in items:
+        text = extract_text(path)
+        texts.append((name, text))
+
+    def progress(index: int, total: int, name: str) -> None:
+        manager.update(
+            job_id,
+            progress=min(95, 10 + int(85 * index / max(total, 1))),
+            stage=f"抽取第 {index}/{total} 篇：{name}",
+        )
+
+    result = compare.compare_texts(texts, on_progress=progress)
+    result["job_id"] = job_id
+    (_compare_dir() / f"{job_id}.json").write_text(
+        json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
+
+
+@app.get("/compare", response_class=HTMLResponse)
+def compare_page(request: Request):
+    return templates.TemplateResponse(
+        request,
+        "compare.html",
+        {
+            "active": "compare",
+            "judge_available": compare.available(),
+            "min_papers": compare.MIN_PAPERS,
+            "max_papers": compare.MAX_PAPERS,
+            "fields": compare.FIELDS,
+        },
+    )
+
+
+@app.post("/api/compare")
+def compare_api(files: list[UploadFile] = File(...)):
+    if not compare.available():
+        return JSONResponse(
+            {"ok": False, "code": "not_configured", "error": "未配置判官接口（CITEGUARD_JUDGE_BASE_URL / API_KEY）"},
+            status_code=503,
+        )
+    if not compare.MIN_PAPERS <= len(files) <= compare.MAX_PAPERS:
+        raise HTTPException(
+            status_code=400,
+            detail=f"一次需要 {compare.MIN_PAPERS}–{compare.MAX_PAPERS} 篇文献（当前 {len(files)} 篇）",
+        )
+    names: list[str] = []
+    suffixes: list[str] = []
+    for index, upload in enumerate(files, 1):
+        suffix = Path(upload.filename or "").suffix.lower()
+        if suffix not in ALLOWED_SUFFIXES:
+            raise HTTPException(
+                status_code=400,
+                detail=f"第 {index} 个文件格式不支持（仅 PDF / DOCX / TXT / MD）",
+            )
+        names.append(Path(upload.filename or f"文献{index}").stem[:60] or f"文献{index}")
+        suffixes.append(suffix)
+    job = manager.create(filename=" / ".join(names))
+    items: list[tuple[str, str]] = []
+    try:
+        for index, (upload, name, suffix) in enumerate(zip(files, names, suffixes)):
+            dst = UPLOAD_DIR / f"{job['id']}-{index}{suffix}"
+            _save_upload(upload, dst)
+            items.append((name, str(dst)))
+    except HTTPException:
+        for _name, path in items:
+            Path(path).unlink(missing_ok=True)
+        manager.discard(job["id"])
+        raise
+    manager.submit(job["id"], _run_compare_job, items)
+    return JSONResponse({"job_id": job["id"]}, status_code=202)
+
+
+@app.get("/api/compare/{job_id}")
+def compare_result(job_id: str):
+    job = manager.get(job_id)
+    if not job:
+        raise HTTPException(status_code=404, detail="job not found")
+    return {"job": job, "result": _load_compare(job_id)}
+
+
+@app.get("/api/compare/{job_id}/export")
+def compare_export(job_id: str, format: str = "md"):
+    result = _load_compare(job_id)
+    if result is None:
+        raise HTTPException(status_code=404, detail="结果还没准备好")
+    fmt = (format or "md").lower()
+    if fmt == "csv":
+        body = "\ufeff" + compare.render_csv(result)
+        media = "text/csv; charset=utf-8"
+        ext = "csv"
+    elif fmt == "md":
+        body = compare.render_markdown(result)
+        media = "text/markdown; charset=utf-8"
+        ext = "md"
+    else:
+        raise HTTPException(status_code=400, detail="format must be md or csv")
+    return Response(
+        content=body.encode("utf-8"),
+        media_type=media,
+        headers={"Content-Disposition": f'attachment; filename="citeguard-compare-{job_id}.{ext}"'},
+    )
+
+
 @app.get("/api/benchmark")
 def benchmark_api():
     ctx = _benchmark_context()
@@ -571,4 +713,4 @@ def benchmark_api():
 
 @app.get("/api/health")
 def health():
-    return {"ok": True, "version": "0.4.1", "supported": sorted(ALLOWED_SUFFIXES)}
+    return {"ok": True, "version": "0.5.0", "supported": sorted(ALLOWED_SUFFIXES)}

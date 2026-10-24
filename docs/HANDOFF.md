@@ -315,3 +315,23 @@ $env:DEEPSEEK_API_KEY = "..."   # 支持度判定用，不写进任何文件
   交付包 `dist/citeguard-cn-0.4.1.zip`（1,719,179 bytes，sha256 `ac6a92e4…`，1.6 MB）。
 - 局限（不要写成已解决）：撤稿标记目前只来自 OpenAlex `is_retracted`，Crossref `update-to`
   与中文库撤稿声明未接入；审稿汇总是规则聚合，不替代同行评审；A/E 未实现。
+
+## 22. 2026-10-24 晚：多篇文献对比（模块 A，v0.5.0）
+
+- 背景：用户要求「自己规划融合，自己推进」。融合清单里仅剩 A（多篇文献对比）与 E（选题→文献发现）；
+  先做 A，因为它是「读懂文献」的直接能力、可复用现有判官与任务机制，不需要新后端。
+- 核心 `src/citeguard/compare.py`：2–6 篇论文，每篇取摘要与正文前部（截断参考文献，最多 3600 字），
+  用统一判官接口（`support.judge_endpoint`）按六字段抽取：研究问题 / 方法 / 数据 / 结论 / 局限 / 贡献；
+  字段清洗、缺字段留「未提及」、逐篇错误不拖垮整体；结果按「模型 + 截断文本」缓存。
+  `compare_texts` / `render_markdown` / `render_csv`，CLI 可直接调。
+- Web：`GET /compare` 页面（导航「文献对比」）；`POST /api/compare` 后台任务、`GET /api/compare/{id}` 轮询、
+  `GET /api/compare/{id}/export?format=md|csv` 导出。复用 `/api/analyze` 的 30 MB 上传限制与清理逻辑，
+  判官未配置时页面只说明、不显示提交入口；首页新增可选入口提示。
+- 实测（2026-10-24，4 篇真实 hanspub PDF，`deepseek-chat`，temperature 0）：
+  **4/4 篇抽取成功、0 报错、总耗时 8.0 秒**（约 1.9–2.1 秒/篇），每篇 5–6/6 字段；
+  「局限」有 3 篇为空（摘要本身不写局限，系统留「未提及」而不是编造）。证据 `data/experiments/compare_real.json`，
+  复现 `scripts/eval_compare_real.py`。
+- 测试 **353 passed**（新增 11 个模块用例 + 4 个 Web 用例）；`verify_artifacts.py` 本机 **96 项**。
+- 边界（不要写成已解决）：只读摘要与正文前部，不读全文方法/实验；字段是机器抽取，引用前须回原文核对；
+  没有字段级标注集，不能说「字段准确率 90%」；不做跨文献综合（研究空白仍需人来写）。
+- 路线图：E（选题→文献发现）仍未实现，不假装已做。

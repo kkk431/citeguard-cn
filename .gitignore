@@ -7,6 +7,7 @@ out/
 data/cache/
 data/jobs/
 data/uploads/
+data/compare/
 data/real_corpus/
 data/citebench_cn/cache/
 *.log

@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}多篇文献对比 · 引证卫士 CiteGuard{% endblock %}
+{% block content %}
+<section class="wrap" style="padding:48px 0 8px">
+  <div class="kicker">MULTI-PAPER COMPARISON</div>
+  <h1 class="serif" style="font-size:34px;font-weight:600;margin:10px 0">多篇文献对比</h1>
+  <p class="lede" style="max-width:74ch">
+    写综述时最费时的，是把十几篇论文的「研究问题、方法、样本、结论、局限」逐条摊开对照。
+    一次上传 2–6 篇，系统从每篇的摘要与正文前部抽取这六个维度，排成一张对比矩阵，可导出 Markdown / CSV。
+    字段由模型自动读取，用于快速建立全局印象；写作引用前仍须回到原文核对。
+  </p>
+  <div class="stats stats-4">
+    <div class="stat"><b>{{ min_papers }}–{{ max_papers }} 篇</b><span>一次对比的文献数</span></div>
+    <div class="stat"><b>6 个维度</b><span>问题 / 方法 / 数据 / 结论 / 局限 / 贡献</span></div>
+    <div class="stat"><b>机器抽取</b><span>仅读摘要与正文前部</span></div>
+    <div class="stat"><b>{{ '已配置' if judge_available else '未配置' }}</b><span>判官接口状态</span></div>
+  </div>
+  {% if not judge_available %}
+  <div class="lib-banner" style="margin-top:14px">
+    当前部署没有配置判官接口，所以这个页面只能展示、不能提交。配置任意 OpenAI 兼容服务即可：
+    <code>CITEGUARD_JUDGE_BASE_URL</code>、<code>CITEGUARD_JUDGE_MODEL</code>，
+    以及可选的 <code>CITEGUARD_JUDGE_API_KEY</code>（本地 Ollama / vLLM 不需要 Key）。
+  </div>
+  {% endif %}
+</section>
+
+<section class="wrap section">
+  <div class="section-head"><h2>上传文献</h2><span class="hint">PDF / DOCX / TXT / MD，单篇 ≤ 30 MB</span></div>
+  <div class="panel">
+    <form id="compare-form" enctype="multipart/form-data" data-min="{{ min_papers }}" data-max="{{ max_papers }}">
+      <label class="dropzone" for="compare-files" id="compare-dropzone">
+        <input id="compare-files" type="file" name="files" multiple accept=".pdf,.docx,.txt,.md" hidden>
+        <div class="dz-title">选择 {{ min_papers }}–{{ max_papers }} 篇论文，或拖进来</div>
+        <div class="dz-sub">按上传顺序生成列；建议同一主题的论文一起对比</div>
+        <div class="dz-file" id="compare-file-list"></div>
+      </label>
+      <div class="upload-actions">
+        <button type="submit" class="btn btn-primary" id="compare-btn" {% if not judge_available %}disabled{% endif %}>开始对比</button>
+        <span class="mono-sm" id="compare-hint" style="margin-left:auto;align-self:center"></span>
+      </div>
+    </form>
+    <div class="lib-banner hidden" id="compare-progress" aria-live="polite"></div>
+  </div>
+</section>
+
+<section class="wrap section hidden" id="compare-result-section">
+  <div class="section-head"><h2>对比矩阵</h2><span class="hint" id="compare-meta"></span></div>
+  <div class="panel" style="overflow-x:auto;padding:0">
+    <table class="compare-table" id="compare-table"></table>
+  </div>
+  <div class="upload-actions" style="margin-top:14px">
+    <a class="btn btn-ghost btn-sm" id="compare-export-md" href="#">导出 Markdown</a>
+    <a class="btn btn-ghost btn-sm" id="compare-export-csv" href="#">导出 CSV</a>
+    <span class="mono-sm" style="margin-left:auto;align-self:center">抽取自摘要/正文前部；引用前请回原文核对</span>
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}<script src="/static/js/compare.js?v={{ request.app.version }}"></script>{% endblock %}

@@ -104,6 +104,9 @@ CODE_CLAIMS = (
     ("docs/figure_check.md", "0.90**（9/10）", "figure check real-figure accuracy"),
     ("docs/ppt_numbers.md", "36/40（0.90）", "one-pager figure check synthetic"),
     ("docs/ppt_numbers.md", "9/10（0.90）", "one-pager figure check real"),
+    ("README.md", "4/4 篇抽取成功", "multi-paper compare success count"),
+    ("README.md", "总耗时 **8.0 秒**", "multi-paper compare measured runtime"),
+    ("docs/compare.md", "总耗时 8.0 秒", "compare doc runtime matches evidence"),
 )
 
 
@@ -185,6 +188,15 @@ def _check_experiments(c: "Checker") -> None:
     recall = _load_json(EXPERIMENTS / "search_recall.json") or {}
     if recall.get("summary"):
         c.check((recall["summary"].get("sample") or 0) >= 20, "search_recall sample recorded")
+
+    compare = _load_json(EXPERIMENTS / "compare_real.json") or {}
+    if compare.get("papers"):
+        ok = [p for p in compare["papers"] if not p.get("error")]
+        c.check(len(compare["papers"]) >= 2, "compare_real covers at least two papers")
+        c.check(len(ok) == len(compare["papers"]), "compare_real has no failed paper")
+        c.check(compare.get("elapsed_s", 0) > 0, "compare_real records elapsed seconds")
+        c.check(all(len(p.get("fields") or {}) == 6 for p in compare["papers"]),
+                "compare_real stores all six fields per paper")
 
     for name in (
         "support_local_qwen3_1.7b_simple.json",
