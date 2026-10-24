@@ -493,3 +493,9 @@ v0.6.1 上线后继续压测文献发现，发现并修掉三个具体问题：
 - 失败尝试仍留存：审计 v3（8B dev 0.8824）、3 票自洽（0.9014、16.6 s/条）、v6（0.8577/0.8740）均低于 v8。
 - 32B：ModelScope 下载实测约 0.7 MB/s、预计 ~25 h，已中止；没有实测就不写数字。
 - 验证：383 passed；`verify_artifacts.py` 本机 **113 项** 全过。
+
+- 验证（发布态）：全套 **383 passed**；`verify_artifacts.py` 本机 **113 项**、远端 `--api-base` **122 项** 全过；
+  远端 `/api/benchmark` 的 ClaimSupport-CN 为 0.9544 / 0.950、prompt hash `b136b8ef…`，本地判官表 12 行、末行 14B all 100 0.9661。
+- 发布：commit `ebc756b`（已推送 `b1d322c..ebc756b`）；远端 `/data/xyjiang/aic_mental/citeguard` 已更新，
+  `/api/health` → 0.8.0；本地演示服务同为 0.8.0。
+- 交付包 `dist/citeguard-cn-0.8.0.zip`（源码 `ebc756b` + 本文件；每次重打包 hash 会变，以实际文件为准）。
