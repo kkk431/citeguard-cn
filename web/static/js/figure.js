@@ -53,7 +53,7 @@
     paperInput.addEventListener("change", function () {
       const paper = paperInput.files && paperInput.files[0];
       if (paper) {
-        setHint("已选择论文 PDF，提交时会读取第 " + ((pageInput && pageInput.value) || "1") + " 页正文");
+        setHint("已选择论文 PDF，提交时按页读取正文（页码留空则自动定位图注页）");
       }
     });
   }
@@ -94,9 +94,15 @@
   function verdictHtml(data) {
     const info = LABELS[data.verdict] || { text: "未知判定", cls: "unknown" };
     const reason = data.reason ? "<p class=\"fig-reason\">" + escapeHtml(data.reason) + "</p>" : "";
-    const source = data.context_source
-      ? "正文取自 PDF 第 " + escapeHtml(String(data.context_source).replace("pdf_page:", "")) + " 页"
-      : "";
+    let source = "";
+    if (data.context_source) {
+      const raw = String(data.context_source);
+      if (raw.indexOf("pdf_auto:") === 0) {
+        source = "正文取自 PDF 第 " + escapeHtml(raw.slice(9)) + " 页（按图注自动定位）";
+      } else {
+        source = "正文取自 PDF 第 " + escapeHtml(raw.replace("pdf_page:", "")) + " 页";
+      }
+    }
     const meta = [
       data.model ? "模型 " + escapeHtml(data.model) : "",
       data.latency_ms != null ? (data.latency_ms / 1000).toFixed(1) + " 秒" : "",
@@ -133,10 +139,11 @@
     const paper = paperInput && paperInput.files && paperInput.files[0];
     if (paper) {
       fd.append("paper", paper);
-      fd.append("page", (pageInput && pageInput.value) || "1");
+      const pageValue = pageInput && pageInput.value.trim();
+      if (pageValue) fd.append("page", pageValue);
     }
     btn.disabled = true;
-    setHint(paper ? "正在读取 PDF 指定页并核验…" : "核验中…首次请求需要加载模型，可能等十几秒");
+    setHint(paper ? "正在读取 PDF 正文并核验…" : "核验中…首次请求需要加载模型，可能等十几秒");
     result.classList.add("hidden");
     try {
       const resp = await fetch("/api/figure-check", { method: "POST", body: fd });

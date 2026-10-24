@@ -623,3 +623,18 @@ v0.6.1 上线后继续压测文献发现，发现并修掉三个具体问题：
   `data/experiments/support_local_qwen3_8b_v10_thinking_dev.json`，汇总行在
   `data/experiments/support_local_qwen3_gpu.json`（`thinking=true`）。
 - 结论：思考链不是免费的能力提升，至少在这个判定任务上会放大「找不到证据就判无证据」的倾向。
+
+## 35. v0.8.6：图表核验可按图号自动定位图注页（2026-10-25）
+
+- 起因：v0.8.5 已经能按页码读 PDF，但用户还得自己翻到图所在页；真实审稿时更自然的是「指出图号」。
+- 做法：`pdf_extract` 新增 `figure_number_from_claim()`（从「如图 3/Figure 4a」提取图号）与
+  `find_figure_page()`（扫 PDF 前 40 页，匹配行首 `图 N`/`Figure N` 图注，按图号精确匹配）。
+  `/api/figure-check` 的 `page` 改为可选：留空且声明带图号时自动定位，返回 `context_source=pdf_auto:N`，
+  并把匹配到的图注行拼在正文前；找不到或扫描页无文字层时返回 `page_not_found` / `page_text_unavailable`，
+  提示手动填页码或粘贴，不静默用错页。
+- 前端：页码输入框默认留空（占位「自动」），提示按图号自动找；结果里区分「按图注自动定位」与指定页。
+- 测试：新增 2 条 PDF 层测试（图号提取/按号找页/扫描件返回 None）+ 2 条接口测试（自动定位、找不到图注），
+  全套 **397 passed**；`verify_artifacts.py` 118 项全过。
+- 实测：真实论文 `hanspub_152575.pdf`（claim 为 Figure 1 趋势）→ 自动定位第 3 页、`context_chars=1173`、
+  1.59 秒、判 insufficient（示例图与声明不符，属正确拒答）；扫描版 PDF → `page_not_found` 明确提示手动粘贴。
+- 诚实边界：文本匹配而非版面分析；声明里没有图号、图注不在行首、扫描件都仍需手动页码/粘贴。

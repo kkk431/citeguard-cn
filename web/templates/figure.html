@@ -46,9 +46,10 @@
       <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
         <input id="figure-paper" type="file" accept="application/pdf" style="flex:1;min-width:220px;font-size:13px;color:var(--ink-2)">
         <label class="mono-sm" for="figure-page" style="white-space:nowrap">第
-          <input id="figure-page" type="number" min="1" value="1" style="width:70px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface)"> 页
+          <input id="figure-page" type="number" min="1" placeholder="自动" style="width:78px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface)"> 页
         </label>
       </div>
+      <p class="mono-sm" style="margin:8px 0 0;color:var(--ink-3)">页码留空时，按声明里的「图 N」自动找图注页；找不到或扫描页无文字层时，请手动填页码或粘贴正文。</p>
       <div class="mono-sm" style="color:var(--muted);margin-top:6px">PDF 只在服务进程里临时按页取文字，不保存；扫描页取不到文字时会提示你手动粘贴。</div>
       <div class="upload-actions">
         <button type="submit" class="btn btn-primary" id="figure-check-btn" {% if not vl_available %}disabled{% endif %}>核验这条结论</button>

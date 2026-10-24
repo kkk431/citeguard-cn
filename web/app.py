@@ -30,7 +30,13 @@ from citeguard import figure_check  # noqa: E402
 from citeguard.abstract_enrich import MAX_ENRICH_PER_REQUEST, enrich_missing  # noqa: E402
 from citeguard.jobs import manager  # noqa: E402
 from citeguard.local_library import Library, parse_library_text  # noqa: E402
-from citeguard.pdf_extract import SUPPORTED_SUFFIXES, extract_page_text, extract_text  # noqa: E402
+from citeguard.pdf_extract import (  # noqa: E402
+    SUPPORTED_SUFFIXES,
+    extract_page_text,
+    extract_text,
+    figure_number_from_claim,
+    find_figure_page,
+)
 from citeguard.pipeline import run_job  # noqa: E402
 from citeguard.report import render_reference_list  # noqa: E402
 
@@ -82,7 +88,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.8.5", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.8.6", lifespan=lifespan)
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
 
@@ -610,6 +616,7 @@ def figure_check_api(
         )
     payload = image.file.read(config.VL_MAX_FIGURE_MB * 1024 * 1024 + 1)
     page_no = 0
+    auto_caption = ""
     if paper is not None and paper.filename:
         if Path(paper.filename).suffix.lower() != ".pdf":
             return JSONResponse(
@@ -624,8 +631,6 @@ def figure_check_api(
                     {"ok": False, "code": "bad_page", "error": "页码要填整数（从 1 开始）"},
                     status_code=400,
                 )
-        else:
-            page_no = 1
         raw = paper.file.read(config.MAX_UPLOAD_MB * 1024 * 1024 + 1)
         if len(raw) > config.MAX_UPLOAD_MB * 1024 * 1024:
             return JSONResponse(
@@ -637,6 +642,20 @@ def figure_check_api(
             with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as fh:
                 fh.write(raw)
                 tmp = Path(fh.name)
+            if not page_no:
+                number = figure_number_from_claim(claim)
+                found = find_figure_page(tmp, number)
+                if not found:
+                    label = f"图 {number} 的图注" if number else "图注"
+                    return JSONResponse(
+                        {
+                            "ok": False,
+                            "code": "page_not_found",
+                            "error": f"未在前 40 页找到{label}，请手动填写页码或粘贴该页正文",
+                        },
+                        status_code=400,
+                    )
+                page_no, auto_caption = found
             page_text = extract_page_text(tmp, page_no)
         except ValueError as exc:
             return JSONResponse(
@@ -649,10 +668,12 @@ def figure_check_api(
         finally:
             if tmp is not None:
                 tmp.unlink(missing_ok=True)
-        context = (page_text + "\n\n" + context).strip() if context.strip() else page_text
+        prefix = f"图注：{auto_caption}\n\n" if auto_caption else ""
+        body = prefix + page_text
+        context = (body + "\n\n" + context).strip() if context.strip() else body
     result = figure_check.check_figure(payload, image.content_type or "", claim, context)
     if page_no and result.get("ok"):
-        result["context_source"] = f"pdf_page:{page_no}"
+        result["context_source"] = f"pdf_auto:{page_no}" if auto_caption else f"pdf_page:{page_no}"
     return JSONResponse(result, status_code=200 if result.get("ok") else 400)
 
 
@@ -867,4 +888,4 @@ def benchmark_api():
 
 @app.get("/api/health")
 def health():
-    return {"ok": True, "version": "0.8.5", "supported": sorted(ALLOWED_SUFFIXES)}
+    return {"ok": True, "version": "0.8.6", "supported": sorted(ALLOWED_SUFFIXES)}

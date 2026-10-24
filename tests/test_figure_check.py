@@ -227,3 +227,50 @@ def test_figure_api_reads_pdf_page_as_context(monkeypatch):
     assert resp.json()["context_source"] == "pdf_page:3"
     assert captured["context"].startswith("第 3 页正文")
     assert "手动补充" in captured["context"]
+
+def test_figure_api_auto_locates_figure_page(monkeypatch):
+    from fastapi.testclient import TestClient
+    from web import app as webapp
+
+    monkeypatch.setattr(figure_check, "available", lambda: True)
+    monkeypatch.setattr(webapp, "find_figure_page", lambda path, number: (3, "图1 方法1 的准确率（%）"))
+    monkeypatch.setattr(webapp, "extract_page_text", lambda path, page: "第 3 页正文：方法1 的准确率约 95%。")
+    captured = {}
+
+    def fake_check(payload, content_type, claim, context=""):
+        captured["context"] = context
+        return {"ok": True, "verdict": "supported", "reason": "一致", "model": "m", "latency_ms": 5}
+
+    monkeypatch.setattr(figure_check, "check_figure", fake_check)
+    client = TestClient(webapp.app)
+    resp = client.post(
+        "/api/figure-check",
+        files={
+            "image": ("a.png", b"img", "image/png"),
+            "paper": ("paper.pdf", b"%PDF-1.4 fake", "application/pdf"),
+        },
+        data={"claim": "如图 1 所示，方法1 的准确率最高。"},
+    )
+    assert resp.status_code == 200
+    assert resp.json()["context_source"] == "pdf_auto:3"
+    assert captured["context"].startswith("图注：图1")
+
+
+def test_figure_api_reports_missing_figure_caption(monkeypatch):
+    from fastapi.testclient import TestClient
+    from web import app as webapp
+
+    monkeypatch.setattr(figure_check, "available", lambda: True)
+    monkeypatch.setattr(webapp, "find_figure_page", lambda path, number: None)
+    client = TestClient(webapp.app)
+    resp = client.post(
+        "/api/figure-check",
+        files={
+            "image": ("a.png", b"img", "image/png"),
+            "paper": ("paper.pdf", b"%PDF-1.4 fake", "application/pdf"),
+        },
+        data={"claim": "如图 1 所示，结论成立。"},
+    )
+    assert resp.status_code == 400
+    assert resp.json()["code"] == "page_not_found"
+    assert "图 1" in resp.json()["error"]

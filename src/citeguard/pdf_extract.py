@@ -102,6 +102,60 @@ def extract_page_text(path: str | Path, page_number: int, *, max_chars: int = 60
     return text[:max_chars]
 
 
+_FIG_REF_RE = re.compile(
+    r"(?:图|figure|fig\.?)\s*([0-9]{1,3}(?:\.[0-9]+)?[a-zA-Z]?)", re.IGNORECASE
+)
+_FIG_CAPTION_RE = re.compile(
+    r"^\s*(?:图|figure|fig\.?)\s*([0-9]{1,3}(?:\.[0-9]+)?[a-zA-Z]?)(?=[\s、.．:：]|$)",
+    re.IGNORECASE,
+)
+
+
+def figure_number_from_claim(claim: str) -> str:
+    """Return the figure number referenced by a claim ('' when there is none).
+
+    Examples: ``如图 3 所示`` → ``3``; ``Figure 4a`` → ``4a``.
+    """
+    match = _FIG_REF_RE.search(claim or "")
+    return match.group(1).lower() if match else ""
+
+
+def find_figure_page(
+    path: str | Path, number: str = "", *, max_pages: int = 40
+) -> tuple[int, str] | None:
+    """Locate a figure caption (``图 N`` / ``Figure N``) in a PDF text layer.
+
+    Returns ``(page_no, caption_line)`` for the first matching page, or ``None``
+    when no caption is found. Scanned PDFs have no text layer, so this is a
+    best-effort helper: callers must keep a manual-page fallback.
+    """
+    p = Path(path)
+    if p.suffix.lower() != ".pdf":
+        return None
+    target = re.sub(r"[^0-9a-z.]", "", (number or "").lower())
+    try:
+        import pdfplumber
+    except Exception:  # pragma: no cover - dependency guard
+        return None
+    try:
+        with pdfplumber.open(str(p)) as pdf:
+            for index, page in enumerate(pdf.pages[:max_pages], start=1):
+                text = _page_text(page) or ""
+                if not text.strip() or _looks_garbled(text):
+                    continue
+                for line in text.splitlines():
+                    match = _FIG_CAPTION_RE.match(line.strip())
+                    if not match:
+                        continue
+                    found = re.sub(r"[^0-9a-z.]", "", match.group(1).lower())
+                    if target and found != target:
+                        continue
+                    return index, line.strip()[:200]
+    except Exception:
+        return None
+    return None
+
+
 def extract_text_with_meta(path: str | Path) -> tuple[str, dict]:
     """Extract text and describe how it was obtained.
 

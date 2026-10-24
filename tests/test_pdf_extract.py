@@ -7,6 +7,8 @@ from citeguard.pdf_extract import (
     extract_page_text,
     extract_text,
     extract_text_with_meta,
+    figure_number_from_claim,
+    find_figure_page,
     normalize_text,
     split_references,
 )
@@ -329,3 +331,50 @@ def test_extract_page_text_rejects_page_out_of_range(tmp_path):
     with pytest.raises(ValueError) as excinfo:
         extract_page_text(pdf, 2)
     assert "超出范围" in str(excinfo.value)
+
+
+def test_figure_number_from_claim():
+    assert figure_number_from_claim("如图 3 所示，方法1 最好") == "3"
+    assert figure_number_from_claim("Figure 4a shows the trend") == "4a"
+    assert figure_number_from_claim("表 2 给出了样本量") == ""
+    assert figure_number_from_claim("") == ""
+
+
+def test_find_figure_page_matches_claim_number(tmp_path, monkeypatch):
+    import sys
+    import types
+
+    from citeguard import pdf_extract as px
+
+    class _Page:
+        def __init__(self, text):
+            self.text = text
+
+    class _Doc:
+        def __init__(self, pages):
+            self.pages = pages
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *exc):
+            return False
+
+    fake_module = types.ModuleType("pdfplumber")
+    fake_module.open = lambda path: _Doc(
+        [_Page("引言段落，没有图注。"), _Page("图1 方法1 的准确率（%）\n正文继续")]
+    )
+    monkeypatch.setitem(sys.modules, "pdfplumber", fake_module)
+    monkeypatch.setattr(px, "_page_text", lambda page: page.text)
+    pdf = tmp_path / "fake.pdf"
+    pdf.write_bytes(b"%PDF-1.4")
+    found = find_figure_page(pdf, "1")
+    assert found is not None
+    assert found[0] == 2
+    assert found[1].startswith("图1")
+    assert find_figure_page(pdf, "9") is None
+
+
+def test_find_figure_page_scanned_pdf_returns_none(tmp_path):
+    pdf = _blank_pdf(tmp_path, pages=2)
+    assert find_figure_page(pdf, "1") is None
