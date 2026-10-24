@@ -73,9 +73,9 @@ PYTHONPATH=src python scripts/make_scanned_pdf.py --input data/real_corpus/xxx.p
 PYTHONPATH=src python scripts/eval_ocr_scanned.py --input data/real_corpus/xxx.pdf --expected-refs 24
 ```
 
-### 2.2 产品整链路实测（2026-10-24，同一扫描件，v0.3.5）
+### 2.2 产品整链路实测（2026-10-24，同一扫描件，v0.3.6）
 
-从网页工作台上传同一份 7 页扫描件，走「OCR → 解析 → 核验 → 格式检查」全链路（本地作业 `21a33f3d7cbd`；远端同一文件的作业 `275bdd5e6dcd` 因 OCR 依赖版本不同解析出 20 条，其余结论一致）：
+从网页工作台上传同一份 7 页扫描件，走「OCR → 解析 → 核验 → 格式检查」全链路（本地作业 `ec5bb85fc7b3`；远端 v0.3.5 的同一文件作业 `275bdd5e6dcd` 因 OCR 依赖版本不同解析出 20 条，其余结论一致）：
 
 | 指标 | 结果 |
 |---|---|
@@ -84,7 +84,9 @@ PYTHONPATH=src python scripts/eval_ocr_scanned.py --input data/real_corpus/xxx.p
 | 类型码 | 19 条 `[J]`、3 条 `[EB/OL]`、1 条 `[D]`（OCR 丢码/粘码的条目已按结构恢复） |
 | 核验 | 元数据偏差 0、未找到匹配 23、疑似虚构 0（这些中文期刊不在 OpenAlex/Crossref，未找到属预期） |
 | 新国标合规均分 | 92.2/100（只剩缺卷期/页码/DOI 等提示） |
-| 引用支持度 | 3 条 partial、7 条 no_evidence、13 条 not_checked（缺摘要无法判定，如实标注） |
+| 引用支持度 | **0 条判定**：21 条「题录匹配度不足」、2 条正文未引用；21 条弱匹配（相似度 0.20–0.76）的摘要可能属于别的论文，按护栏不做判定 |
+
+> v0.3.5 时这里曾显示「3 条 partial、7 条 no_evidence」——复查发现那 10 条用的是相似度 0.35–0.76 的无关记录摘要（Crossref 返回的其他论文），属于「拿错论文摘要判支持度」的假阳性。v0.3.6 增加匹配度护栏后，这类条目统一显示「题录匹配度不足」，不再输出误导性结论；有可靠匹配（Exact/Minor 或相似度 ≥ 0.90）时才判定。
 
 报告页顶部、Markdown 与 HTML 导出都会写明文字来源；OCR 报告额外提示「识别错字会传递到引文解析与核验结果」，避免把 OCR 噪声当成原文错误。
 
