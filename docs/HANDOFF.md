@@ -658,3 +658,6 @@ v0.6.1 上线后继续压测文献发现，发现并修掉三个具体问题：
 - 验证与发布（v0.9.0）：全量 **397 passed**；verify_artifacts 本机 **118 项**、远端 **127 项**全过；
   commit `57df713` 已推送；远端 /api/health → **0.9.0**；本地演示服务同 0.9.0。
 - 交付包：`dist/citeguard-cn-0.9.0.zip`（2079162 bytes，sha256 `92534e37…`；重打包 hash 会变）。
+- 验证与发布（v0.9.1）：全量 **397 passed**；verify_artifacts 本机 **118 项**、远端 **127 项**全过；
+  commit `deeadad` 已推送；远端 `/api/health` → **0.9.1**；本地演示服务同 0.9.1。
+- 交付包：`dist/citeguard-cn-0.9.1.zip`（2079222 bytes，sha256 `2fdaa0c5…`；重打包 hash 会变）。
