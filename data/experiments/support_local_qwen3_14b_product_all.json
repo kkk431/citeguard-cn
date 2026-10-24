@@ -1,0 +1,985 @@
+{
+ "dataset": "ClaimSupport-CN",
+ "n": 100,
+ "dataset_sha256": "4820014a741cd8148182cc1035d5a605c16280813999dcfc15fb9a3b27c4d4a3",
+ "generated_at": "2026-10-24T20:20:02+00:00",
+ "judge": {
+  "module": "citeguard.support.judge_support",
+  "model": "qwen3-14b",
+  "endpoint": "http://127.0.0.1:8097/v1",
+  "temperature": 0,
+  "prompt_sha256": "fe9d721cfc211fb1811df4c6c0e977d59b77dfe8c63a6295c1bc9a5e00185b6c"
+ },
+ "metrics": {
+  "macro_f1": 0.9744,
+  "accuracy": 0.97
+ },
+ "per_class": {
+  "support": {
+   "precision": 0.9744,
+   "recall": 0.95,
+   "f1": 0.962,
+   "support": 40,
+   "predicted": 39
+  },
+  "partial": {
+   "precision": 0.96,
+   "recall": 0.96,
+   "f1": 0.96,
+   "support": 25,
+   "predicted": 25
+  },
+  "contradict": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 15,
+   "predicted": 15
+  },
+  "no_evidence": {
+   "precision": 0.9524,
+   "recall": 1.0,
+   "f1": 0.9756,
+   "support": 20,
+   "predicted": 21
+  }
+ },
+ "confusion": {
+  "labels": [
+   "support",
+   "partial",
+   "contradict",
+   "no_evidence"
+  ],
+  "matrix": [
+   [
+    38,
+    1,
+    0,
+    1
+   ],
+   [
+    1,
+    24,
+    0,
+    0
+   ],
+   [
+    0,
+    0,
+    15,
+    0
+   ],
+   [
+    0,
+    0,
+    0,
+    20
+   ]
+  ]
+ },
+ "failures": 0,
+ "note": "Labels are fixed by construction (no human double annotation, no kappa); the judge is a zero-shot DeepSeek 4-way classifier. Failures are mapped to 'no_evidence' and counted.",
+ "predictions": [
+  {
+   "id": "cs-0001",
+   "label": "partial",
+   "pred": "support",
+   "confidence": 0.9,
+   "reason": "证据完整复现了引用句的核心内容，对象、设计目标和功能一致",
+   "error": "",
+   "elapsed_ms": 30862.2
+  },
+  {
+   "id": "cs-0002",
+   "label": "no_evidence",
+   "pred": "no_evidence",
+   "confidence": 0.9,
+   "reason": "证据片段讨论的是吸附技术及其在页岩气开采中的应用，与热成像技术及其发展无关",
+   "error": "",
+   "elapsed_ms": 4291.7
+  },
+  {
+   "id": "cs-0003",
+   "label": "support",
+   "pred": "support",
+   "confidence": 0.95,
+   "reason": "证据明确断言了引用句的核心命题，对象、范围、关系方向完全一致",
+   "error": "",
+   "elapsed_ms": 41089.7
+  },
+  {
+   "id": "cs-0004",
+   "label": "partial",
+   "pred": "partial",
+   "confidence": 0.85,
+   "reason": "证据只覆盖引用句的一部分，未涉及提出有效措施进行探究的部分",
+   "error": "",
+   "elapsed_ms": 14920.9
+  },
+  {
+   "id": "cs-0005",
+   "label": "no_evidence",
+   "pred": "no_evidence",
+   "confidence": 0.9,
+   "reason": "证据只讨论课程思政及其作用，未涉及三农问题、乡村振兴战略或乡村文化振兴相关内容",
+   "error": "",
+   "elapsed_ms": 20414.7
+  },
+  {
+   "id": "cs-0006",
+   "label": "partial",
+   "pred": "partial",
+   "confidence": 0.85,
+   "reason": "证据只覆盖引用句的后半部分，未涉及「新工科」建设指明工程教育改革新方向这一核心断言",
+   "error": "",
+   "elapsed_ms": 21654.6
+  },
+  {
+   "id": "cs-0007",
+   "label": "support",
+   "pred": "support",
+   "confidence": 0.95,
+   "reason": "证据明确断言了引用句的核心命题，即对心血管伴随焦虑症患者实施中西医结合治疗并探究其治疗效果",
+   "error": "",
+   "elapsed_ms": 42906.7
+  },
+  {
+   "id": "cs-0008",
+   "label": "contradict",
+   "pred": "contradict",
+   "confidence": 0.95,
+   "reason": "证据与引用句在「中国经济实力的不断削弱」与「中国经济实力的不断增强」方向上完全相反，构成直接矛盾",
+   "error": "",
+   "elapsed_ms": 24096.7
+  },
+  {
+   "id": "cs-0009",
+   "label": "partial",
+   "pred": "partial",
+   "confidence": 0.8,
+   "reason": "证据只覆盖引用句的定义部分，未涉及检测声波、样品形态、生化分子或生物组织等核心应用信息",
+   "error": "",
+   "elapsed_ms": 24193.8
+  },
+  {
+   "id": "cs-0010",
+   "label": "no_evidence",
+   "pred": "no_evidence",
+   "confidence": 0.9,
+   "reason": "证据片段讨论的是教育教学改革，与大米进口无关联",
+   "error": "",
+   "elapsed_ms": 22821.9
+  },
+  {
+   "id": "cs-0011",
+   "label": "no_evidence",
+   "pred": "no_evidence",
+   "confidence": 0.9,
+   "reason": "证据只讨论研究的时间、对象和分组方式，未涉及企业竞争、人力资源管理或创新能力等主题",
+   "error": "",
+   "elapsed_ms": 16776.4
+  },
+  {
+   "id": "cs-0012",
+   "label": "support",
+   "pred": "support",
+   "confidence": 0.95,
+   "reason": "证据明确断言了引用句中的对象、条件、概率数值及破坏类型，完全一致",
+   "error": "",
+   "elapsed_ms": 49961.4
+  },
+  {
+   "id": "cs-0013",
+   "label": "partial",
+   "pred": "partial",
+   "confidence": 0.7,
+   "reason": "证据只覆盖了引用句的一部分定义，未涉及其余部分如两个部件、界面力量、时间扩大时期等",
+   "error": "",
+   "elapsed_ms": 21793.5
+  },
+  {
+   "id": "cs-0014",
+   "label": "support",
+   "pred": "support",
+   "confidence": 0.95,
+   "reason": "证据完整覆盖了引用句中关于研究方法、样本规模、研究目的的核心内容",
+   "error": "",
+   "elapsed_ms": 54416.1
+  },
+  {
+   "id": "cs-0015",
+   "label": "partial",
+   "pred": "partial",
+   "confidence": 0.8,
+   "reason": "证据只覆盖引用句的最后一个分句，未涉及其他学习理念和教学方法的具体内容",
+   "error": "",
+   "elapsed_ms": 30575.1
+  },
+  {
+   "id": "cs-0016",
+   "label": "no_evidence",
+   "pred": "no_evidence",
+   "confidence": 0.9,
+   "reason": "证据未涉及农村老年人、银色数字鸿沟或相关层面的现实困境",
+   "error": "",
+   "elapsed_ms": 28589.3
+  },
+  {
+   "id": "cs-0017",
+   "label": "support",
+   "pred": "support",
+   "confidence": 0.95,
+   "reason": "证据明确断言了引用句的核心命题，对象、范围、研究目的与引用句完全一致",
+   "error": "",
+   "elapsed_ms": 51908.3
+  },
+  {
+   "id": "cs-0018",
+   "label": "support",
+   "pred": "support",
+   "confidence": 0.95,
+   "reason": "证据完整覆盖了引用句的核心内容，包括情景教学受到关注、其特点及对教学效果的积极影响",
+   "error": "",
+   "elapsed_ms": 50129.3
+  },
+  {
+   "id": "cs-0019",
+   "label": "support",
+   "pred": "support",
+   "confidence": 0.95,
+   "reason": "证据明确断言了引用句的全部核心命题，对象、范围、关系方向与引用句一致",
+   "error": "",
+   "elapsed_ms": 52968.4
+  },
+  {
+   "id": "cs-0020",
+   "label": "contradict",
+   "pred": "contradict",
+   "confidence": 0.95,
+   "reason": "证据中‘显著正相关’与引用句中的‘显著负相关’方向相反，构成直接矛盾",
+   "error": "",
+   "elapsed_ms": 27783.4
+  },
+  {
+   "id": "cs-0021",
+   "label": "support",
+   "pred": "support",
+   "confidence": 0.95,
+   "reason": "证据明确断言了引用句的全部核心命题，对象、目的和作用完全一致",
+   "error": "",
+   "elapsed_ms": 46443.5
+  },
+  {
+   "id": "cs-0022",
+   "label": "support",
+   "pred": "support",
+   "confidence": 0.95,
+   "reason": "证据明确断言了引用句的全部核心命题，对象、范围、关系方向与引用句一致",
+   "error": "",
+   "elapsed_ms": 46913.0
+  },
+  {
+   "id": "cs-0023",
+   "label": "support",
+   "pred": "support",
+   "confidence": 0.95,
+   "reason": "证据完整覆盖了引用句的核心内容，包括背景、特征比较和结论",
+   "error": "",
+   "elapsed_ms": 45189.6
+  },
+  {
+   "id": "cs-0024",
+   "label": "support",
+   "pred": "support",
+   "confidence": 0.95,
+   "reason": "证据明确断言了引用句的核心命题，即研究精神障碍患者治疗中采用沟通技巧的应用效果",
+   "error": "",
+   "elapsed_ms": 41920.2
+  },
+  {
+   "id": "cs-0025",
+   "label": "partial",
+   "pred": "partial",
+   "confidence": 0.8,
+   "reason": "证据覆盖了引用句的一部分内容，但未提及「与疾病网络的复杂性一致」这一背景信息",
+   "error": "",
+   "elapsed_ms": 18846.7
+  },
+  {
+   "id": "cs-0026",
+   "label": "support",
+   "pred": "support",
+   "confidence": 0.95,
+   "reason": "证据明确断言了引用句的核心命题，对象、范围、关系方向完全一致",
+   "error": "",
+   "elapsed_ms": 43138.4
+  },
+  {
+   "id": "cs-0027",
+   "label": "support",
+   "pred": "no_evidence",
+   "confidence": 0.8,
+   "reason": "证据片段仅重复了引用句的表述，未提供任何实际数据或结论来支持效果满意度的具体内容",
+   "error": "",
+   "elapsed_ms": 19972.7
+  },
+  {
+   "id": "cs-0028",
+   "label": "contradict",
+   "pred": "contradict",
+   "confidence": 0.95,
+   "reason": "证据中\"提高人才培养质量\"与引用句中的\"降低人才培养质量\"在核心断言方向上完全相反",
+   "error": "",
+   "elapsed_ms": 25679.8
+  },
+  {
+   "id": "cs-0029",
+   "label": "partial",
+   "pred": "partial",
+   "confidence": 0.85,
+   "reason": "证据只覆盖引用句的后半部分，未涉及「旅游资源是促进旅游业发展的重要因素」这一核心断言",
+   "error": "",
+   "elapsed_ms": 25376.2
+  },
+  {
+   "id": "cs-0030",
+   "label": "partial",
+   "pred": "partial",
+   "confidence": 0.85,
+   "reason": "证据覆盖了引用句的后半部分，但未提及「作为新型体外肿瘤模型」这一背景信息",
+   "error": "",
+   "elapsed_ms": 24124.5
+  },
+  {
+   "id": "cs-0031",
+   "label": "partial",
+   "pred": "partial",
+   "confidence": 0.8,
+   "reason": "证据只覆盖了引用句中关于AIC用于识别主要基因的部分，未涉及后续关于主要基因和多基因效果估计的内容",
+   "error": "",
+   "elapsed_ms": 21382.9
+  },
+  {
+   "id": "cs-0032",
+   "label": "support",
+   "pred": "support",
+   "confidence": 0.95,
+   "reason": "证据明确断言了引用句的全部核心命题，对象、范围、关系方向与引用句一致",
+   "error": "",
+   "elapsed_ms": 42417.3
+  },
+  {
+   "id": "cs-0033",
+   "label": "support",
+   "pred": "support",
+   "confidence": 0.95,
+   "reason": "证据明确断言了引用句的核心命题，对象、范围、关系方向与引用句一致",
+   "error": "",
+   "elapsed_ms": 43484.4
+  },
+  {
+   "id": "cs-0034",
+   "label": "partial",
+   "pred": "partial",
+   "confidence": 0.85,
+   "reason": "证据只覆盖主句，引用句的「随着互联网的发展」这一背景未被证据交代",
+   "error": "",
+   "elapsed_ms": 22571.5
+  },
+  {
+   "id": "cs-0035",
+   "label": "support",
+   "pred": "support",
+   "confidence": 1.0,
+   "reason": "证据明确断言了引用句的全部核心命题，对象、范围、关系方向完全一致",
+   "error": "",
+   "elapsed_ms": 42179.3
+  },
+  {
+   "id": "cs-0036",
+   "label": "support",
+   "pred": "support",
+   "confidence": 0.9,
+   "reason": "证据明确断言了引用句的核心命题，即「能力去 -- 把品红酸从解决方案移开的 CD 也被学习」",
+   "error": "",
+   "elapsed_ms": 41390.0
+  },
+  {
+   "id": "cs-0037",
+   "label": "partial",
+   "pred": "partial",
+   "confidence": 0.8,
+   "reason": "证据只覆盖引用句的后半部分，未涉及「现在的学习是性质的调查 poly (乙烯基白酒)」这一背景信息",
+   "error": "",
+   "elapsed_ms": 21340.0
+  },
+  {
+   "id": "cs-0038",
+   "label": "support",
+   "pred": "support",
+   "confidence": 0.95,
+   "reason": "证据明确断言了引用句的核心命题，对象、时间、政策及结果均一致",
+   "error": "",
+   "elapsed_ms": 45274.5
+  },
+  {
+   "id": "cs-0039",
+   "label": "no_evidence",
+   "pred": "no_evidence",
+   "confidence": 0.9,
+   "reason": "证据只讨论腰椎间盘突出患者的治疗效果，未涉及高校体育教育或其研究现状",
+   "error": "",
+   "elapsed_ms": 19641.4
+  },
+  {
+   "id": "cs-0040",
+   "label": "contradict",
+   "pred": "contradict",
+   "confidence": 0.95,
+   "reason": "证据中提到的是「有效性思维模式」，而引用句中是「无效性思维模式」，核心断言方向相反",
+   "error": "",
+   "elapsed_ms": 23320.9
+  },
+  {
+   "id": "cs-0041",
+   "label": "no_evidence",
+   "pred": "no_evidence",
+   "confidence": 0.9,
+   "reason": "证据未涉及中职教育或数学教育的重要性",
+   "error": "",
+   "elapsed_ms": 21849.9
+  },
+  {
+   "id": "cs-0042",
+   "label": "no_evidence",
+   "pred": "no_evidence",
+   "confidence": 0.9,
+   "reason": "证据未涉及亲子关系、孤独感、抑郁或感恩等主题，与引用句无关",
+   "error": "",
+   "elapsed_ms": 21657.1
+  },
+  {
+   "id": "cs-0043",
+   "label": "no_evidence",
+   "pred": "no_evidence",
+   "confidence": 0.9,
+   "reason": "证据片段讨论的是光频域反射技术的原理和优势，与引用句中关于英语教育和经济社会发展的话题无关",
+   "error": "",
+   "elapsed_ms": 16552.5
+  },
+  {
+   "id": "cs-0044",
+   "label": "support",
+   "pred": "partial",
+   "confidence": 0.8,
+   "reason": "证据确认了 Fe3+ 和 Ca2+ 的有效性，但未明确提及「筹款」的具体效果或机制，且引用句表述较为模糊",
+   "error": "",
+   "elapsed_ms": 17980.7
+  },
+  {
+   "id": "cs-0045",
+   "label": "partial",
+   "pred": "partial",
+   "confidence": 0.85,
+   "reason": "证据只覆盖引用句的后半部分，未涉及「为落实教育教学立德树人的根本任务」这一背景",
+   "error": "",
+   "elapsed_ms": 20325.7
+  },
+  {
+   "id": "cs-0046",
+   "label": "partial",
+   "pred": "partial",
+   "confidence": 0.8,
+   "reason": "证据只覆盖分组方法，未涉及时间范围、患者数量及疾病类型等核心信息",
+   "error": "",
+   "elapsed_ms": 20967.9
+  },
+  {
+   "id": "cs-0047",
+   "label": "support",
+   "pred": "support",
+   "confidence": 0.95,
+   "reason": "证据明确断言了引用句中关于OCTA系统数据采集受多种因素干扰的核心命题，内容完全一致",
+   "error": "",
+   "elapsed_ms": 52616.8
+  },
+  {
+   "id": "cs-0048",
+   "label": "support",
+   "pred": "support",
+   "confidence": 0.95,
+   "reason": "证据明确断言了引用句的全部核心命题，对象、范围、关系方向和结论完全一致",
+   "error": "",
+   "elapsed_ms": 51311.3
+  },
+  {
+   "id": "cs-0049",
+   "label": "partial",
+   "pred": "partial",
+   "confidence": 0.8,
+   "reason": "证据只覆盖了处理过程的具体操作，未涉及「作为为从废物蛋壳的再使用的材料的准备的一个预告」这一背景和目的",
+   "error": "",
+   "elapsed_ms": 28326.1
+  },
+  {
+   "id": "cs-0050",
+   "label": "partial",
+   "pred": "partial",
+   "confidence": 0.9,
+   "reason": "证据只覆盖引用句的一部分，未涉及「人格发展的最佳时期」这一核心断言",
+   "error": "",
+   "elapsed_ms": 28479.6
+  },
+  {
+   "id": "cs-0051",
+   "label": "no_evidence",
+   "pred": "no_evidence",
+   "confidence": 0.9,
+   "reason": "证据未涉及经济快速发展、资源消耗或经济可持续发展等主题",
+   "error": "",
+   "elapsed_ms": 21016.5
+  },
+  {
+   "id": "cs-0052",
+   "label": "no_evidence",
+   "pred": "no_evidence",
+   "confidence": 0.9,
+   "reason": "证据未涉及乡村振兴或互联网发展相关主题",
+   "error": "",
+   "elapsed_ms": 19327.8
+  },
+  {
+   "id": "cs-0053",
+   "label": "no_evidence",
+   "pred": "no_evidence",
+   "confidence": 0.9,
+   "reason": "证据片段讨论的是低渗透水库的排水量测试，与骨科创伤及感染创面患者的分组治疗无关联",
+   "error": "",
+   "elapsed_ms": 16145.6
+  },
+  {
+   "id": "cs-0054",
+   "label": "no_evidence",
+   "pred": "no_evidence",
+   "confidence": 0.9,
+   "reason": "证据片段讨论的是新课程背景下高中数学教学模式的创新，与引用句中提到的中国现代历史、Qing统治及领土扩大等主题完全无关",
+   "error": "",
+   "elapsed_ms": 15666.8
+  },
+  {
+   "id": "cs-0055",
+   "label": "no_evidence",
+   "pred": "no_evidence",
+   "confidence": 0.9,
+   "reason": "证据与引用句主题完全无关，未涉及硝酸盐处理、氨基酸替代或植物射击的硝酸盐集中",
+   "error": "",
+   "elapsed_ms": 16634.2
+  },
+  {
+   "id": "cs-0056",
+   "label": "partial",
+   "pred": "partial",
+   "confidence": 0.8,
+   "reason": "证据只覆盖引用句的核心内容，但引用句开头的「在这篇论文」这一背景信息未被证据覆盖",
+   "error": "",
+   "elapsed_ms": 21041.0
+  },
+  {
+   "id": "cs-0057",
+   "label": "contradict",
+   "pred": "contradict",
+   "confidence": 0.95,
+   "reason": "证据断言的是「纺织品增强的水泥」，而引用句说的是「纺织品削弱的水泥」，方向相反",
+   "error": "",
+   "elapsed_ms": 23456.1
+  },
+  {
+   "id": "cs-0058",
+   "label": "no_evidence",
+   "pred": "no_evidence",
+   "confidence": 0.9,
+   "reason": "证据讨论的是太赫兹超表面器件的技术改进，与引用句中提到的信息化时代、‘互联网+’、ICT技术及教学变革无直接关联",
+   "error": "",
+   "elapsed_ms": 23445.2
+  },
+  {
+   "id": "cs-0059",
+   "label": "support",
+   "pred": "support",
+   "confidence": 0.95,
+   "reason": "证据明确断言了引用句的全部核心命题，对象、用途和功能完全一致",
+   "error": "",
+   "elapsed_ms": 47775.0
+  },
+  {
+   "id": "cs-0060",
+   "label": "support",
+   "pred": "support",
+   "confidence": 0.95,
+   "reason": "证据明确断言了引用句的核心命题，即研究穴位敷贴护理在良性前列腺增生中的疗效",
+   "error": "",
+   "elapsed_ms": 45004.4
+  },
+  {
+   "id": "cs-0061",
+   "label": "partial",
+   "pred": "partial",
+   "confidence": 0.9,
+   "reason": "证据只覆盖引用句的前半部分，未涉及「在油气勘探传感的巨大市场中占据半壁江山」这一核心断言",
+   "error": "",
+   "elapsed_ms": 22790.9
+  },
+  {
+   "id": "cs-0062",
+   "label": "support",
+   "pred": "support",
+   "confidence": 0.95,
+   "reason": "证据明确断言了引用句的全部核心命题，对象、范围、关系方向一致",
+   "error": "",
+   "elapsed_ms": 45565.2
+  },
+  {
+   "id": "cs-0063",
+   "label": "contradict",
+   "pred": "contradict",
+   "confidence": 0.95,
+   "reason": "证据与引用句在「降低农民经济收入」与「提升农民经济收入」的方向上直接相反，构成核心断言冲突",
+   "error": "",
+   "elapsed_ms": 24005.3
+  },
+  {
+   "id": "cs-0064",
+   "label": "contradict",
+   "pred": "contradict",
+   "confidence": 0.95,
+   "reason": "证据断言技术能「有效地」重建波前，与引用句中「能无效地」方向相反",
+   "error": "",
+   "elapsed_ms": 23687.9
+  },
+  {
+   "id": "cs-0065",
+   "label": "partial",
+   "pred": "partial",
+   "confidence": 0.85,
+   "reason": "证据只覆盖引用句的最后一个分句，未涉及土壤作为地球组成元素及人类生存基础的背景信息",
+   "error": "",
+   "elapsed_ms": 24385.5
+  },
+  {
+   "id": "cs-0066",
+   "label": "support",
+   "pred": "support",
+   "confidence": 0.95,
+   "reason": "证据明确断言了引用句的核心命题，对象、背景与转型方向完全一致",
+   "error": "",
+   "elapsed_ms": 41237.3
+  },
+  {
+   "id": "cs-0067",
+   "label": "partial",
+   "pred": "partial",
+   "confidence": 0.8,
+   "reason": "证据只覆盖引用句中关于宁夏民间美术性质的描述，未涉及社会潮流影响及阻碍发展的核心断言",
+   "error": "",
+   "elapsed_ms": 22305.4
+  },
+  {
+   "id": "cs-0068",
+   "label": "partial",
+   "pred": "partial",
+   "confidence": 0.85,
+   "reason": "证据只覆盖引用句中关于患者影响的部分，未涉及发病率、死亡率及对医疗卫生系统的费用影响",
+   "error": "",
+   "elapsed_ms": 21113.1
+  },
+  {
+   "id": "cs-0069",
+   "label": "support",
+   "pred": "support",
+   "confidence": 0.95,
+   "reason": "证据明确断言了引用句的全部核心命题，对象、范围、关系方向与引用句一致",
+   "error": "",
+   "elapsed_ms": 43675.3
+  },
+  {
+   "id": "cs-0070",
+   "label": "support",
+   "pred": "support",
+   "confidence": 0.95,
+   "reason": "证据明确断言了引用句的全部核心命题，包括对象、研究内容和研究目的，与引用句完全一致",
+   "error": "",
+   "elapsed_ms": 44861.3
+  },
+  {
+   "id": "cs-0071",
+   "label": "no_evidence",
+   "pred": "no_evidence",
+   "confidence": 0.9,
+   "reason": "证据片段讨论的是美术教育教学与旅游资源开发，与引用句中的喉癌根治术、心理护理干预、术后疼痛及生活质量等主题完全无关",
+   "error": "",
+   "elapsed_ms": 22966.3
+  },
+  {
+   "id": "cs-0072",
+   "label": "partial",
+   "pred": "partial",
+   "confidence": 0.9,
+   "reason": "证据只覆盖让步分句，未涉及「行政控权功能」这一核心断言",
+   "error": "",
+   "elapsed_ms": 22964.0
+  },
+  {
+   "id": "cs-0073",
+   "label": "contradict",
+   "pred": "contradict",
+   "confidence": 0.95,
+   "reason": "证据断言人口尺寸‘显著减少’，与引用句中‘显著增加’方向相反",
+   "error": "",
+   "elapsed_ms": 21898.7
+  },
+  {
+   "id": "cs-0074",
+   "label": "no_evidence",
+   "pred": "no_evidence",
+   "confidence": 0.9,
+   "reason": "证据片段讨论的是中医护理对中晚期癌症患者灵性健康的影响，与引用句中关于油气富集的地质内容完全无关",
+   "error": "",
+   "elapsed_ms": 21776.0
+  },
+  {
+   "id": "cs-0075",
+   "label": "support",
+   "pred": "support",
+   "confidence": 0.95,
+   "reason": "证据完整覆盖了引用句的核心内容，对象、背景和结论均一致",
+   "error": "",
+   "elapsed_ms": 45225.9
+  },
+  {
+   "id": "cs-0076",
+   "label": "no_evidence",
+   "pred": "no_evidence",
+   "confidence": 0.9,
+   "reason": "证据未涉及数学学科或小学数学教学大纲相关内容",
+   "error": "",
+   "elapsed_ms": 19238.2
+  },
+  {
+   "id": "cs-0077",
+   "label": "partial",
+   "pred": "partial",
+   "confidence": 0.8,
+   "reason": "证据只覆盖分组命名部分，未涉及研究对象选取时间、地点及总数",
+   "error": "",
+   "elapsed_ms": 18790.9
+  },
+  {
+   "id": "cs-0078",
+   "label": "support",
+   "pred": "support",
+   "confidence": 0.95,
+   "reason": "证据完整覆盖了引用句的核心内容，包括对象、理念、实施方式和目标，与引用句完全一致",
+   "error": "",
+   "elapsed_ms": 49767.2
+  },
+  {
+   "id": "cs-0079",
+   "label": "contradict",
+   "pred": "contradict",
+   "confidence": 0.95,
+   "reason": "证据中「传播力的提升」与引用句中「传播力的降低」方向相反，构成直接矛盾",
+   "error": "",
+   "elapsed_ms": 27468.2
+  },
+  {
+   "id": "cs-0080",
+   "label": "partial",
+   "pred": "partial",
+   "confidence": 0.8,
+   "reason": "证据只覆盖引用句的结论部分，未涉及「提升学生数学理论与创新、实践及应用能力」及「德育与智育共生」等核心内容",
+   "error": "",
+   "elapsed_ms": 28350.7
+  },
+  {
+   "id": "cs-0081",
+   "label": "support",
+   "pred": "support",
+   "confidence": 0.95,
+   "reason": "证据明确断言了引用句的全部核心命题，对象、范围和关系方向完全一致",
+   "error": "",
+   "elapsed_ms": 51732.1
+  },
+  {
+   "id": "cs-0082",
+   "label": "contradict",
+   "pred": "contradict",
+   "confidence": 0.95,
+   "reason": "证据与引用句在核心断言方向上相反（「大幅增加」↔「大幅减少」），构成直接矛盾",
+   "error": "",
+   "elapsed_ms": 26961.6
+  },
+  {
+   "id": "cs-0083",
+   "label": "contradict",
+   "pred": "contradict",
+   "confidence": 0.95,
+   "reason": "证据断言解调是保障技术‘有效应用’的关键，而引用句称其是保障技术‘无效应用’的关键，方向相反",
+   "error": "",
+   "elapsed_ms": 27906.9
+  },
+  {
+   "id": "cs-0084",
+   "label": "contradict",
+   "pred": "contradict",
+   "confidence": 0.95,
+   "reason": "证据与引用句在「生活水平与质量」的变化方向上完全相反，一个为「提高」，一个为「降低」，属于核心断言方向相反",
+   "error": "",
+   "elapsed_ms": 26993.1
+  },
+  {
+   "id": "cs-0085",
+   "label": "contradict",
+   "pred": "contradict",
+   "confidence": 0.95,
+   "reason": "证据与引用句在「有效途径」与「无效途径」的断言方向上完全相反",
+   "error": "",
+   "elapsed_ms": 21620.7
+  },
+  {
+   "id": "cs-0086",
+   "label": "support",
+   "pred": "support",
+   "confidence": 0.95,
+   "reason": "证据明确断言了引用句的全部核心命题，对象、范围、关系方向和量级都与引用句一致",
+   "error": "",
+   "elapsed_ms": 45884.5
+  },
+  {
+   "id": "cs-0087",
+   "label": "support",
+   "pred": "support",
+   "confidence": 0.95,
+   "reason": "证据明确断言了引用句的核心命题，对象、范围和内容完全一致",
+   "error": "",
+   "elapsed_ms": 44107.8
+  },
+  {
+   "id": "cs-0088",
+   "label": "support",
+   "pred": "support",
+   "confidence": 0.95,
+   "reason": "证据明确断言了引用句的全部核心命题，对象、范围、特征描述完全一致",
+   "error": "",
+   "elapsed_ms": 48425.9
+  },
+  {
+   "id": "cs-0089",
+   "label": "partial",
+   "pred": "partial",
+   "confidence": 0.8,
+   "reason": "证据只覆盖引用句的结论部分，未涉及光传输的优势或其应对能耗和计算效率挑战的论述",
+   "error": "",
+   "elapsed_ms": 25760.2
+  },
+  {
+   "id": "cs-0090",
+   "label": "support",
+   "pred": "support",
+   "confidence": 0.95,
+   "reason": "证据明确断言了引用句的核心命题，对象、来源完全一致",
+   "error": "",
+   "elapsed_ms": 45256.5
+  },
+  {
+   "id": "cs-0091",
+   "label": "support",
+   "pred": "support",
+   "confidence": 0.95,
+   "reason": "证据完整覆盖引用句的核心命题，对象、背景与结论一致",
+   "error": "",
+   "elapsed_ms": 43333.1
+  },
+  {
+   "id": "cs-0092",
+   "label": "support",
+   "pred": "support",
+   "confidence": 1.0,
+   "reason": "证据与引用句内容完全一致，明确支持引用句的全部核心命题",
+   "error": "",
+   "elapsed_ms": 43346.8
+  },
+  {
+   "id": "cs-0093",
+   "label": "contradict",
+   "pred": "contradict",
+   "confidence": 0.95,
+   "reason": "证据断言财务数智化转型「提高」财务管理水平和决策效能，与引用句中「降低」方向相反，构成直接矛盾",
+   "error": "",
+   "elapsed_ms": 23819.1
+  },
+  {
+   "id": "cs-0094",
+   "label": "support",
+   "pred": "support",
+   "confidence": 0.95,
+   "reason": "证据明确断言了引用句的全部核心命题，即调查目的、对象和方法完全一致",
+   "error": "",
+   "elapsed_ms": 43403.8
+  },
+  {
+   "id": "cs-0095",
+   "label": "contradict",
+   "pred": "contradict",
+   "confidence": 0.95,
+   "reason": "证据与引用句在「抑制了患者的康复」与「促进了患者的康复」这一核心断言上方向相反",
+   "error": "",
+   "elapsed_ms": 21887.4
+  },
+  {
+   "id": "cs-0096",
+   "label": "support",
+   "pred": "support",
+   "confidence": 0.95,
+   "reason": "证据明确断言了引用句的全部核心命题，对象、范围、关系方向与引用句一致",
+   "error": "",
+   "elapsed_ms": 45516.7
+  },
+  {
+   "id": "cs-0097",
+   "label": "no_evidence",
+   "pred": "no_evidence",
+   "confidence": 0.9,
+   "reason": "证据片段讨论的是国学经典的文化价值和社会价值，与引用句中提到的报纸、扫描电子显微镜、磷吸附、X光检查光谱学等内容完全无关",
+   "error": "",
+   "elapsed_ms": 25678.6
+  },
+  {
+   "id": "cs-0098",
+   "label": "support",
+   "pred": "support",
+   "confidence": 0.95,
+   "reason": "证据明确断言了引用句的核心命题，对象、范围、关系方向完全一致",
+   "error": "",
+   "elapsed_ms": 40836.9
+  },
+  {
+   "id": "cs-0099",
+   "label": "support",
+   "pred": "support",
+   "confidence": 0.95,
+   "reason": "证据明确断言了引用句的核心命题，即探讨和分析血清降钙素原在重症感染患者临床治疗中的应用效果",
+   "error": "",
+   "elapsed_ms": 32601.7
+  },
+  {
+   "id": "cs-0100",
+   "label": "no_evidence",
+   "pred": "no_evidence",
+   "confidence": 0.9,
+   "reason": "证据讨论的是医学影像科护理方式与效果，与农业经济及其对人民群众生产生活质量的影响无关",
+   "error": "",
+   "elapsed_ms": 19785.1
+  }
+ ]
+}

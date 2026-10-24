@@ -225,7 +225,11 @@ def judge_available() -> bool:
 
 def _cache_path(claim: str, abstract: str):
     model = judge_endpoint()[1]
-    h = hashlib.md5((model + "||" + claim + "||" + abstract).encode("utf-8")).hexdigest()
+    # The cached value is the *final* verdict (after the coverage audit), so the
+    # audit style must be part of the key; otherwise switching v1<->v2 keeps
+    # serving verdicts produced by the old audit prompt.
+    audit_tag = _audit_style() if config.SUPPORT_AUDIT else "off"
+    h = hashlib.md5((model + "||" + audit_tag + "||" + claim + "||" + abstract).encode("utf-8")).hexdigest()
     d = config.CACHE_DIR / "support" / f"v{PROMPT_VERSION}"
     d.mkdir(parents=True, exist_ok=True)
     return d / f"{h}.json"
@@ -236,8 +240,16 @@ def _audit_style() -> str:
     if style == "auto":
         # 自托管（OpenAI 兼容本地端点）模型用通用覆盖审计 v2：实测比 v1
         # 更少把“部分支持”误升为支持；托管 API 继续用 v1 保持已发布口径。
-        return "v2" if os.environ.get("CITEGUARD_JUDGE_BASE_URL", "").strip() else "v1"
+        # 注意：本地端点既可能通过 CITEGUARD_JUDGE_BASE_URL 配置，也可能
+        # 直接覆盖 DEEPSEEK_BASE_URL（部署文档里的写法），因此要看实际生效的
+        # endpoint，而不是某一个环境变量。
+        return "v2" if not _is_hosted_endpoint(judge_endpoint()[0]) else "v1"
     return style if style in AUDIT_PROMPTS else "v1"
+
+
+def _is_hosted_endpoint(base: str) -> bool:
+    """DeepSeek 托管端点；其余（localhost/内网/Ollama/vLLM）都按自托管处理。"""
+    return "deepseek.com" in (base or "").lower()
 
 
 def _audit_cache_path(claim: str, abstract: str):

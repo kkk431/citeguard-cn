@@ -120,13 +120,20 @@ PYTHONPATH=src python3 scripts/evaluate_support.py \
 - 本地最好成绩是 **Qwen3-14B + v10 few-shot + 审计 v2：test 60 上 0.9574 / 0.950**，与托管同口径
   0.9598 / 0.950 只差 **0.24 分**；dev 40 上 **1.0000 / 1.000**，全 100 条 **0.9744 / 0.970**，高于托管的 0.9597 / 0.950。
   两个口径并列报告，不挑高的说。
+- **产品路径直调验证**：不经评测脚本，直接 `citeguard.support.judge_support`（自动 v10 + 审计 v2）
+  跑同一 100 条：14B **0.9744 / 0.970**、8B **0.8664 / 0.850**，与离线脚本逐条一致。
+  证据 `data/experiments/support_local_qwen3_{14b,8b}_product_all.json`。该核对同时暴露并修掉两个
+  只在自托管端点出现的问题：① 审计风格原先只认 `CITEGUARD_JUDGE_BASE_URL`，`DEEPSEEK_BASE_URL`
+  指向本地时会错用 v1（产品路径一度只有 0.6864）；② 判定缓存键原先不含审计风格，切换 v1/v2 会复用
+  旧最终标签。现在按「模型 + prompt 版本 + 审计风格」分键。
 - v8 把 partial 边界写明白（14B test 0.8887 → 0.9063 → 0.9574）；v10 再补「方向相反 → contradict」，
   14B dev 0.9793 → 1.0000、test 保持 0.9574；8B v10 test 0.8515。v9 重述规则、混合审计 v3、3 票自洽都没超过 v10 + v2。
 - **口径风险**：v10 的三条边界与这份构造集的划分规则同源，提升有一部分来自规则对齐；
   因此同时保留 v4 历史数字、托管同口径（0.9598）与全量（0.9597）对照，避免只挑有利数字。
 - `contradict` 现在 15/15 全对（v10 修掉反义漏判）；剩余错误是 3 条 partial→support、2 条 support→partial。
   生产离线建议 14B 级起步；32B/4-bit 尚未实测，不写数字。
-- 覆盖审计 v2 对自托管端点自动启用（`CITEGUARD_SUPPORT_AUDIT_STYLE=auto`：本地 → v2，
+- 覆盖审计 v2 对自托管端点自动启用（`CITEGUARD_SUPPORT_AUDIT_STYLE=auto`：按**实际生效的 endpoint**
+  判断，`CITEGUARD_JUDGE_BASE_URL` 或 `DEEPSEEK_BASE_URL` 指向本地都算自托管 → v2，
   托管 API → v1 保持历史可比）；prompt 现在两端统一用 v10（`scripts/support_prompt_v10.txt`）。
 - 显式设置 `CITEGUARD_SUPPORT_PROMPT_FILE` 可覆盖 prompt。
 
@@ -138,7 +145,7 @@ PYTHONPATH=src python3 scripts/evaluate_support.py \
 
 - judge：`citeguard.support.judge_support`（两段式：判定 + 覆盖审计），`deepseek-chat`，temperature 0；100/100 判定成功，0 次 API 失败。
 - 结果记录数据集 SHA-256、per-class、混淆矩阵与逐条预测（`results.json` / `predictions.csv`）。
-- 消融记录：单段 v3 0.9005；三票投票 0.9005；v4 两段式 0.9439（实验脚本）/ 0.9328（产品路径）；v8 两段式 0.9544（产品路径）；v9 重述规则 dev 0.9447（未采用）；**v10 产品路径 0.9597**；v10 在 14B 上 test 60 0.9574、dev 40 1.0000、全 100 条 0.9744。
+- 消融记录：单段 v3 0.9005；三票投票 0.9005；v4 两段式 0.9439（实验脚本）/ 0.9328（产品路径）；v8 两段式 0.9544（产品路径）；v9 重述规则 dev 0.9447（未采用）；**v10 产品路径 0.9597**；v10 在 14B 上 test 60 0.9574、dev 40 1.0000、全 100 条 0.9744；产品代码路径直调 14B 0.9744、8B 0.8664（`support_local_qwen3_{14b,8b}_product_all.json`）。
 
 ## 已知局限
 

@@ -212,6 +212,38 @@
         "model": "qwen3-14b"
       },
       "generated_at": "2026-10-24T19:35:35+00:00"
+    },
+    {
+      "model": "Qwen3-14B",
+      "split": "产品路径",
+      "n": 100,
+      "macro_f1": 0.9744,
+      "accuracy": 0.97,
+      "prompt": "产品默认 v10 + 自动审计 v2（judge_support 直调）",
+      "latency_mean_ms": null,
+      "source": "support_local_qwen3_14b_product_all.json",
+      "judge": {
+        "base": "http://127.0.0.1:8097/v1",
+        "model": "qwen3-14b"
+      },
+      "generated_at": "2026-10-24T20:20:02+00:00",
+      "latency_note": "4 并发评测墙钟 8.1 s/条（14B）/ 6.0 s/条（8B），含排队；单条模型耗时见对应 all 100 行"
+    },
+    {
+      "model": "Qwen3-8B",
+      "split": "产品路径",
+      "n": 100,
+      "macro_f1": 0.8664,
+      "accuracy": 0.85,
+      "prompt": "产品默认 v10 + 自动审计 v2（judge_support 直调）",
+      "latency_mean_ms": null,
+      "source": "support_local_qwen3_8b_product_all.json",
+      "judge": {
+        "base": "http://127.0.0.1:8098/v1",
+        "model": "qwen3-8b"
+      },
+      "generated_at": "2026-10-24T20:16:30+00:00",
+      "latency_note": "4 并发评测墙钟 8.1 s/条（14B）/ 6.0 s/条（8B），含排队；单条模型耗时见对应 all 100 行"
     }
   ],
   "note": "v10 为当前默认；v8/v7/v4 为历史对照。托管 DeepSeek v10：dev 0.9793 / test 0.9598 / all 0.9597。"

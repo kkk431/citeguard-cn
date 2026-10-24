@@ -38,7 +38,8 @@
 | `support_local_Qwen_Qwen3-1_7B.json` | 同模型、产品长 prompt 的试点（对照） | 同上 | macro-F1 0.5060（93 s/条） |
 | `support_local_qwen3_8b_v8_test.json` / `support_local_qwen3_14b_v8_{dev,test,all}.json` | Qwen3-8B/14B 在 4×RTX 4090 上的 **v8 few-shot + 审计 v2** 实测（历史对照） | `scripts/local_judge_server.py` + `scripts/eval_support_prompt.py`（`--prompt-file scripts/support_prompt_v8.txt --audit-style v2`） | 14B test 0.9574、all 100 0.9661；8B test 0.8346 |
 | `support_local_qwen3_8b_v10_{dev,test}.json` / `support_local_qwen3_14b_v10_{dev,test,all}.json` | Qwen3-8B/14B **v10 few-shot + 审计 v2** 实测（dev 40 / test 60 / all 100） | 同上（`--prompt-file scripts/support_prompt_v10.txt --audit-style v2`） | 14B dev **1.0000**、test **0.9574**、all 100 **0.9744**；8B test **0.8515**；托管 v10 0.9597 |
-| `support_local_qwen3_gpu.json` | 上面各本地模型的汇总表（供 `/benchmark` 页面直接读取） | 手工汇总自各 JSON | 13 行（v4 基线 + v7/v8/v10） |
+| `support_local_qwen3_{14b,8b}_product_all.json` | **产品代码路径直调**（`support.judge_support`，自动 v10 + 审计 v2，全 100 条），证明本地模型不是只在评测脚本里成立 | `scripts/evaluate_support.py`（`DEEPSEEK_BASE_URL` 指向本地 OpenAI 兼容服务） | 14B **0.9744** / 8B **0.8664**，与脚本逐条一致；该复核修掉审计风格检测与缓存键两个产品 bug |
+| `support_local_qwen3_gpu.json` | 上面各本地模型的汇总表（供 `/benchmark` 页面直接读取） | 手工汇总自各 JSON | 16 行（v4 基线 + v7/v8/v10 + 产品路径） |
 
 ## 4. 格式规则与工程实验
 

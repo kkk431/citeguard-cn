@@ -103,6 +103,7 @@
 | Qwen3-14B | 2×RTX 4090 | v10 few-shot + 审计 v2（dev 40） | 40 | **1.0000** | 1.000 | 7.8 s/条 |
 | Qwen3-14B | 2×RTX 4090 | v10 few-shot + 审计 v2（**test 60**） | 60 | **0.9574** | 0.950 | 7.9 s/条 |
 | Qwen3-14B | 2×RTX 4090 | v10 few-shot + 审计 v2（all 100） | 100 | **0.9744** | 0.970 | 7.8 s/条 |
+| Qwen3-8B / 14B | 1×/2×RTX 4090 | **产品代码路径**（`judge_support` 直调，自动 v10 + 审计 v2，all 100） | 100 | **0.8664 / 0.9744** | 0.850 / 0.970 | 6.0 / 8.1 s/条 |
 | DeepSeek-Chat（托管，参考） | API | v10 + 审计 v1（all 100） | 100 | **0.9597** | 0.950 | 2–3 s/条 |
 
 - 2026-10 追加的 Qwen3-8B/14B 用固定划分：dev 40 选 prompt/审计方式，test 60 只报最终数字
@@ -113,6 +114,11 @@
   与这份构造集的划分规则同源，提升有一部分来自规则对齐；所以同时保留 v4 历史数字、托管同 test 60/全量对照。
 - prompt 现在两端统一用 v10（`scripts/support_prompt_v10.txt`）；显式设置 `CITEGUARD_SUPPORT_PROMPT_FILE`
   仍可覆盖；缓存命名空间随 prompt 版本变化（`PROMPT_VERSION=10-<hash8>`）。
+- **产品路径直调核对**：不经评测脚本、直接 `citeguard.support.judge_support`（自动 v10 + 审计 v2）
+  跑同一 100 条：14B 0.9744、8B 0.8664，与离线脚本逐条一致。这一步修掉两个只在自托管端点暴露的
+  产品 bug：审计风格原先只认 `CITEGUARD_JUDGE_BASE_URL`，用 `DEEPSEEK_BASE_URL` 指向本地时错用 v1
+  （产品路径一度只有 0.6864）；判定缓存键原先不含审计风格，切换 v1/v2 会复用旧最终标签。修复后按
+  「模型 + prompt 版本 + 审计风格」分键，证据 `data/experiments/support_local_qwen3_{14b,8b}_product_all.json`。
 - 覆盖审计 v2 对自托管端点默认启用、托管 API 仍用 v1（`CITEGUARD_SUPPORT_AUDIT_STYLE=auto`）；
   托管 v2 反而降分（test 0.9009 vs v1 0.9470），这是保留 v1 的原因。v9 重述规则、3 票自洽、混合审计 v3、
   v7 少样本都没超过 v10 + v2，失败尝试记录在 `docs/support_summary.md`。

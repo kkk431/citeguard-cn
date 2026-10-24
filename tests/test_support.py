@@ -113,6 +113,17 @@ def test_support_cache_is_namespaced_by_judge_model(monkeypatch, isolated_cache)
     assert {c["json"]["model"] for c in calls} == {"model-a", "model-b"}
 
 
+def test_support_cache_is_namespaced_by_audit_style(monkeypatch, isolated_cache):
+    """Cached verdicts already include the coverage audit, so style must key the cache."""
+    monkeypatch.setattr(config, "DEEPSEEK_API_KEY", "sk-test")
+    monkeypatch.setattr(config, "SUPPORT_AUDIT", True)
+    monkeypatch.setattr(config, "SUPPORT_AUDIT_STYLE", "v1")
+    p1 = sp._cache_path("引用句", "摘要")
+    monkeypatch.setattr(config, "SUPPORT_AUDIT_STYLE", "v2")
+    p2 = sp._cache_path("引用句", "摘要")
+    assert p1 != p2
+
+
 def _support_then_audit(audit_payload: dict):
     seen = {"n": 0}
 
@@ -270,3 +281,11 @@ def test_audit_style_auto_keeps_v1_for_hosted(monkeypatch):
     monkeypatch.setattr(config, "SUPPORT_AUDIT_STYLE", "auto")
     monkeypatch.delenv("CITEGUARD_JUDGE_BASE_URL", raising=False)
     assert sp._audit_style() == "v1"
+
+
+def test_audit_style_auto_uses_effective_endpoint(monkeypatch):
+    """A local endpoint set via DEEPSEEK_BASE_URL must also select audit v2."""
+    monkeypatch.setattr(config, "SUPPORT_AUDIT_STYLE", "auto")
+    monkeypatch.delenv("CITEGUARD_JUDGE_BASE_URL", raising=False)
+    monkeypatch.setattr(config, "DEEPSEEK_BASE_URL", "http://127.0.0.1:8097/v1")
+    assert sp._audit_style() == "v2"

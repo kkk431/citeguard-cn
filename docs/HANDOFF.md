@@ -39,7 +39,7 @@ $env:DEEPSEEK_API_KEY = "..."   # 支持度判定用，不写进任何文件
 
 ## 3. 当前状态（一句话）
 
-输入解析（PDF/Word/扫描件 OCR）、GB/T 格式检查（E4 漂移 29/30）、引文真实性核验（在线 + 本地题录库 + 中国 DOI 平台）、支持度判定（两段式 macro-F1 0.9597）、报告与导出全部可用；383 项测试通过。已知边界写在 `docs/plan.md`。
+输入解析（PDF/Word/扫描件 OCR）、GB/T 格式检查（E4 漂移 29/30）、引文真实性核验（在线 + 本地题录库 + 中国 DOI 平台）、支持度判定（两段式 macro-F1 0.9597；14B/8B 本地判官经产品代码路径复核 0.9744/0.8664）、报告与导出全部可用；385 项测试通过。已知边界写在 `docs/plan.md`。
 
 ## 4. 明天优先级
 
@@ -525,3 +525,28 @@ v0.6.1 上线后继续压测文献发现，发现并修掉三个具体问题：
 - 发布：commit `3fa07b3`（已推送 `b22ef92..3fa07b3`）；远端 `/data/xyjiang/aic_mental/citeguard` 已更新，
   `/api/health` → 0.8.1；本地演示服务同为 0.8.1。
 - 交付包 `dist/citeguard-cn-0.8.1.zip`（每次重打包 hash 会变，以实际文件为准）。
+
+## 30. v0.8.2：产品代码路径复核本地模型（2026-10-25）
+
+- 目的：证明 14B/8B 的 0.9744/0.8664 不是只在评测脚本里成立，而是产品 `judge_support` 真跑出来。
+- 做法：`scripts/evaluate_support.py` 直接调 `citeguard.support.judge_support`（不额外拼 prompt），
+  `DEEPSEEK_BASE_URL` 指向 lmh 本地 OpenAI 兼容服务，审计风格 `auto`。
+- 首跑异常：14B 只有 **0.6864 / 0.640**，8B **0.7735 / 0.720**——远低于脚本口径。两个产品 bug：
+  1. `_audit_style()` 的 auto 只检查 `CITEGUARD_JUDGE_BASE_URL`；用 `DEEPSEEK_BASE_URL` 指向本地时被判成托管、
+     错选审计 v1（v1 在大模型上会把一条完整支持的条目降成 partial，14B 的 support 召回被打穿）。
+     修复：按**实际生效 endpoint** 判断，新增 `_is_hosted_endpoint(base)`（含 `deepseek.com` 才算托管）。
+  2. 修完仍复现 0.6864：`_cache_path()` 只按「模型+引文+摘要」缓存最终标签，不含审计风格；首跑 v1 的最终标签
+     被 v2 复用。修复：缓存键加 `audit_tag`（`_audit_style()` 或 `off`），按「模型 + prompt 版本 + 审计风格」分键。
+- 修复后（产品路径，全 100 条，0 失败）：
+
+  | 模型 | 产品路径 F1/Acc | 脚本口径 F1 | 混淆矩阵 |
+  |---|---|---|---|
+  | Qwen3-14B | **0.9744 / 0.970** | 0.9744 | [[38,1,0,1],[1,24,0,0],[0,0,15,0],[0,0,0,20]] |
+  | Qwen3-8B | **0.8664 / 0.850** | 0.8664 | [[34,5,0,1],[7,16,0,2],[0,0,15,0],[0,0,0,20]] |
+
+- 新增测试：`test_audit_style_auto_uses_effective_endpoint`、`test_support_cache_is_namespaced_by_audit_style`；
+  全量 **385 passed**。
+- 证据：`data/experiments/support_local_qwen3_{14b,8b}_product_all.json`；汇总 `support_local_qwen3_gpu.json` 16 行
+  （产品路径行的 latency 置 null，避免把 4 并发墙钟当成单条耗时）。
+- 文档：README、THIRD_PARTY §4.2、docs/support_summary.md、docs/experiments.md、docs/ppt_numbers.md、
+  docs/compliance_ai_open.md、data/experiments/README.md 均已写入口径与 bug 说明。

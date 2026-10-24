@@ -529,13 +529,19 @@ python scripts/e7_usability.py --manual-finalize data/experiments/e7_manual_verd
 
 - 7B 产品路径 847.6 s / 100 条（两段式、2 workers）；3B 591.5 s。换更强模型只需改 `--model` 与环境变量。
 - 3B 跟不动长 prompt（0.3894），换精简 prompt 到 0.6291；7B 能执行两段式产品 prompt（0.7181），精简 prompt 0.7022。
-- 7B 的 support/partial 边界仍是主要错误来源；与托管 v10 0.9597 差 0.24，属于「可用但需要更大模型」的诚实差距。
+- 7B 的 support/partial 边界仍是主要错误来源；14B 与托管 v10 0.9597 差 0.24，属于「可用但需要更大模型」的诚实差距。
+- **产品代码路径复核**：不经评测脚本、直接用 `citeguard.support.judge_support`（自动 v10 + 审计 v2）跑全 100 条，
+  14B **0.9744**、8B **0.8664**，与评测脚本逐条一致。该复核修掉两个只在自托管端点暴露的产品 bug：审计风格原先只认
+  `CITEGUARD_JUDGE_BASE_URL`（用 `DEEPSEEK_BASE_URL` 指向本地会错用 v1，产品路径一度只有 0.6864）；判定缓存键原先
+  不含审计风格（切换 v1/v2 会复用旧最终标签）。修复后缓存按「模型 + prompt 版本 + 审计风格」分键，证据在
+  `data/experiments/support_local_qwen3_{14b,8b}_product_all.json`。
 
 ### 9.4 可用的 / 不能用的说法
 
 - ✅「同一接口下，7B 开源模型离线跑 ClaimSupport-CN 得 macro-F1 0.7181；3B 换精简 prompt 0.6291；
   DeepSeek 托管 v10 0.9597——开源可替换、已实测，但小模型质量仍有差距。」
 - ✅「整条链路（解析→核验→判定）可完全离线，无需商业 API；服务代码在仓库内。」
+- ✅「产品代码路径直调全 100 条：14B 0.9744、8B 0.8664，与离线评测脚本一致——不是只在实验脚本里成立。」
 - ❌「开源模型效果和 DeepSeek 一样」——差 0.24。
 - ❌「7B 已经够生产用」——8.5 s/条 + 0.72 F1 只适合离线/隐私场景的小批量。
 

@@ -96,6 +96,8 @@ CODE_CLAIMS = (
     ("README.md", "1.0000", "local Qwen3-14B v10 dev macro-F1"),
     ("README.md", "0.8515", "local Qwen3-8B v10 test macro-F1"),
     ("README.md", "0.9744", "local Qwen3-14B v10 all-split macro-F1"),
+    ("README.md", "0.8664", "product-code-path Qwen3-8B all-split macro-F1"),
+    ("README.md", "14B **0.9744**、8B **0.8664**", "product-code-path Qwen3-14B all-split macro-F1"),
     ("docs/ppt_numbers.md", "0.9574", "one-pager Qwen3-14B v10 test"),
     ("docs/ppt_numbers.md", "0.8515", "one-pager Qwen3-8B v10 test"),
     ("docs/ppt_numbers.md", "0.9744", "one-pager Qwen3-14B v10 all"),
