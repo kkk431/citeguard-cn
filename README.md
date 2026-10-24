@@ -158,8 +158,9 @@ export CITEGUARD_JUDGE_MODEL=qwen2.5:7b-instruct
 | Qwen3-8B（dev 40 / test 60） | 1×RTX 4090 | 0.7817 | **0.8882 / 0.8515** |
 | Qwen3-14B（dev 40 / test 60） | 2×RTX 4090 | 0.8676 / 0.8887（v7: 0.9063） | **1.0000 / 0.9574**；全 100 条 **0.9744** |
 | Qwen3-8B / 14B（产品路径，全 100 条） | 1× / 2×RTX 4090 | — | **0.8664 / 0.9744**（`judge_support` 直调，自动 v10 + 审计 v2） |
+| Qwen3-14B（4-bit NF4，单卡 24GB） | 1×RTX 4090 | — | **1.0000 / 0.9588 / 0.9754**（dev 40 / test 60 / 全 100 条；显存约 11.7GB，13.3 s/条） |
 
-> 2026-10 的 Qwen3-8B/14B 用固定划分：dev 40 选方案，test 60 只报最终数字（`data/claimsupport_cn/split_seed20261024.json`）。v8 先立住两条边界（引用句含证据之外的目的/设计细节 → partial；证据只覆盖部分断言 → partial），把 14B 的 test 从 v4 0.8887 / v7 0.9063 提到 **0.9574**；v10 再补一条「证据与引文方向相反 → contradict」，把 14B 的 dev 从 0.9793 推到 **1.0000**，test 保持 **0.9574**（剩余 3 条固定错误），全 100 条 **0.9744**；托管 v10 同口径 0.9597。需要说明：v10 的三条边界与这份构造集的划分规则同源，提升里有一部分来自规则对齐；因此同时保留旧版历史数字与同口径托管对照，不挑高的说。硬件是实验室已有 GPU，不是为参赛购买。覆盖审计 v2 对自托管端点自动启用（`CITEGUARD_SUPPORT_AUDIT_STYLE=auto`），托管 API 仍用 v1 以保持历史可比；prompt 现在两端统一用 v10。
+> 2026-10 的 Qwen3-8B/14B 用固定划分：dev 40 选方案，test 60 只报最终数字（`data/claimsupport_cn/split_seed20261024.json`）。v8 先立住两条边界（引用句含证据之外的目的/设计细节 → partial；证据只覆盖部分断言 → partial），把 14B 的 test 从 v4 0.8887 / v7 0.9063 提到 **0.9574**；v10 再补一条「证据与引文方向相反 → contradict」，把 14B 的 dev 从 0.9793 推到 **1.0000**，test 保持 **0.9574**（剩余 3 条固定错误），全 100 条 **0.9744**；托管 v10 同口径 0.9597。需要说明：v10 的三条边界与这份构造集的划分规则同源，提升里有一部分来自规则对齐；因此同时保留旧版历史数字与同口径托管对照，不挑高的说。硬件是实验室已有 GPU，不是为参赛购买。 4-bit NF4 量化后 14B 可压到单张 24GB 卡（约 11.7GB 显存），dev 40 1.0000、test 60 0.9588，质量与 bf16 基本一致。覆盖审计 v2 对自托管端点自动启用（`CITEGUARD_SUPPORT_AUDIT_STYLE=auto`），托管 API 仍用 v1 以保持历史可比；prompt 现在两端统一用 v10。
 >
 > 小模型（3B 及以下）跟不动长 prompt，建议换精简 prompt：`CITEGUARD_SUPPORT_PROMPT_FILE=scripts/support_prompt_simple.txt`（自定义 prompt 自动使用独立缓存），并设 `CITEGUARD_SUPPORT_AUDIT=0`。7B/8B/14B 适合两段式产品 prompt。判定结果按「模型 + prompt 版本 + 审计版本」分键缓存，换模型会自动重判。
 >

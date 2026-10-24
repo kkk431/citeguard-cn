@@ -641,3 +641,17 @@ v0.6.1 上线后继续压测文献发现，发现并修掉三个具体问题：
 - 验证与发布（v0.8.6）：全量 **397 passed**；verify_artifacts 本机 **118 项**、远端 **127 项**全过；
   commit `c78d943` 已推送；远端 /api/health → **0.8.6**；本地演示服务同 0.8.6。
 - 交付包：`dist/citeguard-cn-0.8.6.zip`（2052875 bytes，sha256 `b3f87612…`；重打包 hash 会变）。
+
+## 36. v0.9.0：Qwen3-14B 4-bit NF4 单卡部署实测（2026-10-25）
+
+- 起因：14B bf16 要两张 24GB 卡，普通实验室/个人机器门槛高；量化能否保住质量需要实测而不是假设。
+- 做法：`scripts/local_text_server.py` 增加 `LOAD_IN_4BIT=1`（bitsandbytes NF4 + double quant，
+  compute dtype bf16），其余接口与 bf16 完全一致；lmh 上停掉 8B 服务，在单张 4090（GPU1）起 4-bit 14B（:8096）。
+- 结果（同一 ClaimSupport-CN、同一 v10 prompt + 审计 v2）：
+  - dev 40：**1.0000 / 1.000**（13.1 s/条）；test 60：**0.9588 / 0.950**（13.4 s/条）；全 100 条：**0.9754 / 0.970**（13.3 s/条）。
+  - 对照 bf16 双卡：dev 1.0000、test 0.9574、all 0.9744——量化后质量没有下降（差异在 1 条以内）。
+  - 显存：**11.7 GB / 单卡 24GB**（bf16 跨两卡共 29.2 GB）；代价是延迟约 1.7×（7.8 → 13.3 s/条）。
+- 证据：`data/experiments/support_local_qwen3_14b_4bit_{dev,test,all}.json`、`local_gpu_memory.json`；
+  产品评测页 `/benchmark` 的本地模型矩阵同步展示 4-bit 行。
+- 诚实边界：4-bit 质量只在 ClaimSupport-CN（100 条构造集）上验证，不能外推成对所有任务的保证；
+  13 s/条也意味着不适合大批量实时审核，适合离线/单机低并发场景。

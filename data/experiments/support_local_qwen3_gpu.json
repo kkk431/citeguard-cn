@@ -257,7 +257,46 @@
       "latency_mean_ms": 41778.2,
       "thinking": true,
       "file": "support_local_qwen3_8b_v10_thinking_dev.json"
+    },
+    {
+      "model": "Qwen3-14B (4-bit NF4)",
+      "split": "dev 40",
+      "n": 40,
+      "macro_f1": 1.0,
+      "accuracy": 1.0,
+      "prompt": "v10 + 审计 v2（bitsandbytes nf4，单卡 24GB）",
+      "prompt_sha256": "",
+      "latency_mean_ms": 13107.7,
+      "quant": "nf4-4bit",
+      "vram_mib": 11970,
+      "file": "support_local_qwen3_14b_4bit_dev.json"
+    },
+    {
+      "model": "Qwen3-14B (4-bit NF4)",
+      "split": "test 60",
+      "n": 60,
+      "macro_f1": 0.9588,
+      "accuracy": 0.95,
+      "prompt": "v10 + 审计 v2（bitsandbytes nf4，单卡 24GB）",
+      "prompt_sha256": "",
+      "latency_mean_ms": 13447.0,
+      "quant": "nf4-4bit",
+      "vram_mib": 11970,
+      "file": "support_local_qwen3_14b_4bit_test.json"
+    },
+    {
+      "model": "Qwen3-14B (4-bit NF4)",
+      "split": "all 100",
+      "n": 100,
+      "macro_f1": 0.9754,
+      "accuracy": 0.97,
+      "prompt": "v10 + 审计 v2（bitsandbytes nf4，单卡 24GB）",
+      "prompt_sha256": "",
+      "latency_mean_ms": 13256.3,
+      "quant": "nf4-4bit",
+      "vram_mib": 11970,
+      "file": "support_local_qwen3_14b_4bit_all.json"
     }
   ],
-  "note": "v10 为当前默认；v8/v7/v4 为历史对照。托管 DeepSeek v10：dev 0.9793 / test 0.9598 / all 0.9597。 thinking 模式实测更差（dev 0.8084、41.8 s/条），默认关闭。"
+  "note": "本地模型汇总；4-bit NF4 行是单卡 24GB 部署口径，质量与 bf16 基本一致（test 0.9588 vs 0.9574），延迟约 1.7×。"
 }

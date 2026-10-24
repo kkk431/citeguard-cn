@@ -16,7 +16,7 @@
 | 2 | 引用支持度 macro-F1 | **0.9597**（acc 0.950） | ClaimSupport-CN 100 条（构造集），v10 两段式 judge | `data/claimsupport_cn/results.json` |
 | 2b | 单段 judge / prompt v1 对比 | 0.9005 / 0.7951 | 同上，消融记录 | `docs/support_summary.md` |
 | 2c | 外部公开基准零样本（英文 SciFact） | **0.8224**（oracle 证据句）/ **0.7939**（整段摘要） | SciFact dev 300 条，未训练/微调，四分类映射三分类 | `data/experiments/scifact_support_results.json` |
-| 2d | 本地开源模型离线（Qwen3-14B/8B、Qwen2.5-7B/3B、Qwen3-1.7B，Apache-2.0） | **Qwen3-14B + v10，test 60：0.9574**（dev 40 **1.0000**；全 100 条 **0.9744**；v7 为 0.9063）；Qwen3-8B test 0.8515；Qwen2.5-7B 0.7181；3B 0.6291（精简）；1.7B CPU 0.7059（20 条）；产品代码路径直调全 100 条：14B **0.9744**、8B **0.8664** | 同一接口、同一脚本、完全离线；14B 与托管同 test 口径（0.9598）差 **0.24 分**；硬件为实验室已有 4090/TITAN Xp，非购买 | `data/experiments/support_local_qwen3_gpu.json`；产品路径 `support_local_qwen3_{14b,8b}_product_all.json` |
+| 2d | 本地开源模型离线（Qwen3-14B/8B、Qwen2.5-7B/3B、Qwen3-1.7B，Apache-2.0） | **Qwen3-14B + v10，test 60：0.9574**（dev 40 **1.0000**；全 100 条 **0.9744**；v7 为 0.9063）；Qwen3-8B test 0.8515；Qwen2.5-7B 0.7181；3B 0.6291（精简）；1.7B CPU 0.7059（20 条）；产品代码路径直调全 100 条：14B **0.9744**、8B **0.8664**；4-bit NF4 单卡：dev 40 **1.0000**、test 60 **0.9588**、全 100 条 **0.9754**（显存 ~11.7GB，13.3 s/条） | 同一接口、同一脚本、完全离线；14B 与托管同 test 口径（0.9598）差 **0.24 分**；硬件为实验室已有 4090/TITAN Xp，非购买 | `data/experiments/support_local_qwen3_gpu.json`；产品路径 `support_local_qwen3_{14b,8b}_product_all.json` |
 | 3 | 真实已发表文献被判「疑似虚构」 | **0 / 409** | 20 篇 OA 中文论文的参考文献（真实语料） | `data/experiments/verify_real.json` |
 | 3b | 真实文献判定分布（无本地库） | 真实一致 125 / 元数据偏差 87 / 未找到 197 / 疑似虚构 **0** | 同上 | 同上 |
 | 3c | 网页型引文（`[EB/OL]`）链接核验 | 23 条真实网页引文中 **13 条链接可达且页面标题一致**（判 Exact）；3 条标题不一致、7 条访问受限 | 真实语料 §3.1，链路检查带 SSRF 防护 | `data/experiments/verify_real.json` |

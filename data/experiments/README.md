@@ -42,6 +42,7 @@
 | `support_local_qwen3_gpu.json` | 上面各本地模型的汇总表（供 `/benchmark` 页面直接读取） | 手工汇总自各 JSON | 16 行（v4 基线 + v7/v8/v10 + 产品路径） |
 | `support_local_qwen3_8b_v10_v2_thinking_dev.json` | 消融：Qwen3-8B 开 thinking（`THINKING=1`，v10 + 审计 v2，dev 40） | `scripts/eval_support_prompt.py --max-tokens 900` | **0.8084 / 0.70**，54.2 s/条——比非 thinking 的 0.8882 更差，未采用 |
 | `local_gpu_memory.json` | 本地模型显存/延迟实测（VL、8B、14B；含峰值显存与单卡/双卡口径） | 实测采集 | VL-7B 17.2 GB / 1.55 s；Qwen3-8B 16.7 GB / 6.0 s；Qwen3-14B 29.9 GB（双卡）/ 8.1 s |
+| `support_local_qwen3_14b_4bit_{dev,test}.json` | 4-bit NF4 单卡部署实测（bitsandbytes，v10 + 审计 v2） | `scripts/local_text_server.py`（`LOAD_IN_4BIT=1`）+ `eval_support_prompt.py` | dev 40 **1.0000**、test 60 **0.9588**、全 100 条 **0.9754**；显存 ~11.7 GB，13.3 s/条 |
 
 ## 4. 格式规则与工程实验
 

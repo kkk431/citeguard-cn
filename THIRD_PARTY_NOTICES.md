@@ -103,6 +103,7 @@
 | Qwen3-14B | 2×RTX 4090 | v10 few-shot + 审计 v2（dev 40） | 40 | **1.0000** | 1.000 | 7.8 s/条 |
 | Qwen3-14B | 2×RTX 4090 | v10 few-shot + 审计 v2（**test 60**） | 60 | **0.9574** | 0.950 | 7.9 s/条 |
 | Qwen3-14B | 2×RTX 4090 | v10 few-shot + 审计 v2（all 100） | 100 | **0.9744** | 0.970 | 7.8 s/条 |
+| Qwen3-14B（4-bit NF4） | 1×RTX 4090 | v10 few-shot + 审计 v2 | 100 | **1.0000 / 0.9588 / 0.9754**（dev/test/all） | 1.000 / 0.950 / 0.970 | 13.1–13.4 s/条 |
 | Qwen3-8B / 14B | 1×/2×RTX 4090 | **产品代码路径**（`judge_support` 直调，自动 v10 + 审计 v2，all 100） | 100 | **0.8664 / 0.9744** | 0.850 / 0.970 | 6.0 / 8.1 s/条 |
 | DeepSeek-Chat（托管，参考） | API | v10 + 审计 v1（all 100） | 100 | **0.9597** | 0.950 | 2–3 s/条 |
 
@@ -114,7 +115,7 @@
 - 2026-10 追加的 Qwen3-8B/14B 用固定划分：dev 40 选 prompt/审计方式，test 60 只报最终数字
   （`data/claimsupport_cn/split_seed20261024.json`）。v8 立住两条 partial 边界，把 14B test 从 v4 0.8887 / v7 0.9063 提到 0.9574；
   **v10 再补一条「方向相反必须判 contradict」的规则**，14B dev 从 0.9793 推到 **1.0000**，test 保持 0.9574，全 100 条 **0.9744**。
-  托管 v10 全 100 条 0.9597，同 test 60 为 0.9598（与 14B 差 **0.24 分**）；8B v10 test 0.8515。硬件为实验室已有 GPU，不是为参赛购买。
+  托管 v10 全 100 条 0.9597，同 test 60 为 0.9598（与 14B 差 **0.24 分**）；8B v10 test 0.8515。硬件为实验室已有 GPU，不是为参赛购买。**单卡部署**：14B bf16 需 2 张 24GB 卡（约 29.2GB 显存）；用 bitsandbytes NF4 4-bit 量化后单卡约 **11.7GB**，dev 40 1.0000、test 60 0.9588、全 100 条 0.9754（bf16 0.9744），质量与 bf16 基本一致，延迟约 13.4 s/条（1.7×）。证据 `data/experiments/support_local_qwen3_14b_4bit_{dev,test}.json`、`local_gpu_memory.json`。
 - **口径风险**：v10 的三条边界（引用句含证据之外的目的/设计细节 → partial；证据只覆盖部分断言 → partial；方向相反 → contradict）
   与这份构造集的划分规则同源，提升有一部分来自规则对齐；所以同时保留 v4 历史数字、托管同 test 60/全量对照。
 - prompt 现在两端统一用 v10（`scripts/support_prompt_v10.txt`）；显式设置 `CITEGUARD_SUPPORT_PROMPT_FILE`

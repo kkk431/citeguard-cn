@@ -114,6 +114,8 @@ PYTHONPATH=src python3 scripts/evaluate_support.py \
 | Qwen3-14B | v8 few-shot + v2（历史） | 0.9793 / 0.975 | 0.9574 / 0.950 | 7.5–7.9 s/条 |
 | Qwen3-14B | **v10 few-shot + v2** | **1.0000 / 1.000** | **0.9574 / 0.950** | 7.8–7.9 s/条 |
 | Qwen3-14B | v10 + v2（全 100 条） | — | **0.9744 / 0.970** | 7.8 s/条 |
+| Qwen3-14B（4-bit NF4，单卡） | v10 + v2 | **1.0000 / 1.000** | **0.9588 / 0.950** | 13.1–13.4 s/条 |
+| Qwen3-14B（4-bit NF4，单卡，全 100 条） | v10 + v2 | — | **0.9754 / 0.970** | 13.3 s/条 |
 | DeepSeek-Chat（托管，参考） | v10 + 审计 v1 | 0.9793 / 0.975 | **0.9598 / 0.950** | 2–3 s/条 |
 | DeepSeek-Chat（托管，全 100 条） | v10 + 审计 v1 | — | **0.9597 / 0.950** | 2–3 s/条 |
 
@@ -133,7 +135,9 @@ PYTHONPATH=src python3 scripts/evaluate_support.py \
 - **口径风险**：v10 的三条边界与这份构造集的划分规则同源，提升有一部分来自规则对齐；
   因此同时保留 v4 历史数字、托管同口径（0.9598）与全量（0.9597）对照，避免只挑有利数字。
 - `contradict` 现在 15/15 全对（v10 修掉反义漏判）；剩余错误是 3 条 partial→support、2 条 support→partial。
-  生产离线建议 14B 级起步；32B/4-bit 尚未实测，不写数字。
+  生产离线建议 14B 级起步：bf16 需 2 张 24GB 卡（约 29.2 GB 显存）；
+**4-bit NF4 量化后单卡 24GB 即可（约 11.7 GB 显存）**，dev 40 1.0000、test 60 0.9588（bf16 0.9574）、全 100 条 0.9754（bf16 0.9744），
+代价是单条约 13.4 秒（约为 bf16 的 1.7 倍）。8B 单卡即可但 test 只有 0.8515。32B 未实测，不写数字。
 - 覆盖审计 v2 对自托管端点自动启用（`CITEGUARD_SUPPORT_AUDIT_STYLE=auto`：按**实际生效的 endpoint**
   判断，`CITEGUARD_JUDGE_BASE_URL` 或 `DEEPSEEK_BASE_URL` 指向本地都算自托管 → v2，
   托管 API → v1 保持历史可比）；prompt 现在两端统一用 v10（`scripts/support_prompt_v10.txt`）。

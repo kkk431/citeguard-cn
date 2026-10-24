@@ -9,6 +9,7 @@ Environment:
     CUDA_VISIBLE_DEVICES=1
     THINKING=0            # Qwen3 hybrid reasoning; 0 for fast JSON judging
     MAX_NEW_TOKENS=400
+    LOAD_IN_4BIT=0        # 1 = bitsandbytes nf4 (fits 14B on one 24 GB card)
 
 Endpoints: GET /health, GET /v1/models, POST /v1/chat/completions
 """
@@ -30,6 +31,7 @@ PORT = int(os.environ.get("PORT", "8098"))
 THINKING = os.environ.get("THINKING", "0") == "1"
 MAX_NEW_TOKENS = int(os.environ.get("MAX_NEW_TOKENS", "400"))
 DEVICE_MAP = os.environ.get("DEVICE_MAP", "cuda")
+LOAD_IN_4BIT = os.environ.get("LOAD_IN_4BIT", "0") == "1"
 
 app = FastAPI(title="local text judge", version="0.1")
 _lock = threading.Lock()
@@ -57,19 +59,34 @@ def _load() -> None:
     print(f"[server] loading {MODEL_PATH} thinking={THINKING}", flush=True)
     started = time.time()
     _tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH, trust_remote_code=True)
-    _model = AutoModelForCausalLM.from_pretrained(
-        MODEL_PATH,
-        torch_dtype=torch.bfloat16,
-        device_map=DEVICE_MAP,
-        trust_remote_code=True,
-    )
+    kwargs: dict[str, Any] = {
+        "torch_dtype": torch.bfloat16,
+        "device_map": DEVICE_MAP,
+        "trust_remote_code": True,
+    }
+    if LOAD_IN_4BIT:
+        from transformers import BitsAndBytesConfig
+
+        kwargs["quantization_config"] = BitsAndBytesConfig(
+            load_in_4bit=True,
+            bnb_4bit_quant_type="nf4",
+            bnb_4bit_compute_dtype=torch.bfloat16,
+            bnb_4bit_use_double_quant=True,
+        )
+    _model = AutoModelForCausalLM.from_pretrained(MODEL_PATH, **kwargs)
     _model.eval()
     print(f"[server] loaded in {time.time() - started:.1f}s", flush=True)
 
 
 @app.get("/health")
 def health() -> dict[str, Any]:
-    return {"ok": True, "model": MODEL_PATH, "loaded": _model is not None, "thinking": THINKING}
+    return {
+        "ok": True,
+        "model": MODEL_PATH,
+        "loaded": _model is not None,
+        "thinking": THINKING,
+        "load_in_4bit": LOAD_IN_4BIT,
+    }
 
 
 @app.get("/v1/models")
