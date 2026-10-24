@@ -9,6 +9,8 @@
   const preview = document.getElementById("figure-preview");
   const claimInput = document.getElementById("figure-claim");
   const contextInput = document.getElementById("figure-context");
+  const paperInput = document.getElementById("figure-paper");
+  const pageInput = document.getElementById("figure-page");
   const btn = document.getElementById("figure-check-btn");
   const hint = document.getElementById("figure-hint");
   const result = document.getElementById("figure-result");
@@ -47,6 +49,14 @@
   fileInput.addEventListener("change", function () {
     setFile(fileInput.files && fileInput.files[0]);
   });
+  if (paperInput) {
+    paperInput.addEventListener("change", function () {
+      const paper = paperInput.files && paperInput.files[0];
+      if (paper) {
+        setHint("已选择论文 PDF，提交时会读取第 " + ((pageInput && pageInput.value) || "1") + " 页正文");
+      }
+    });
+  }
   ["dragenter", "dragover"].forEach(function (ev) {
     dropzone.addEventListener(ev, function (e) {
       e.preventDefault();
@@ -84,9 +94,13 @@
   function verdictHtml(data) {
     const info = LABELS[data.verdict] || { text: "未知判定", cls: "unknown" };
     const reason = data.reason ? "<p class=\"fig-reason\">" + escapeHtml(data.reason) + "</p>" : "";
+    const source = data.context_source
+      ? "正文取自 PDF 第 " + escapeHtml(String(data.context_source).replace("pdf_page:", "")) + " 页"
+      : "";
     const meta = [
       data.model ? "模型 " + escapeHtml(data.model) : "",
       data.latency_ms != null ? (data.latency_ms / 1000).toFixed(1) + " 秒" : "",
+      source,
     ].filter(Boolean).join(" · ");
     return (
       "<div class=\"fig-verdict\">" +
@@ -116,8 +130,13 @@
     fd.append("claim", claim);
     const context = contextInput ? (contextInput.value || "").trim() : "";
     if (context) fd.append("context", context);
+    const paper = paperInput && paperInput.files && paperInput.files[0];
+    if (paper) {
+      fd.append("paper", paper);
+      fd.append("page", (pageInput && pageInput.value) || "1");
+    }
     btn.disabled = true;
-    setHint("核验中…首次请求需要加载模型，可能等十几秒");
+    setHint(paper ? "正在读取 PDF 指定页并核验…" : "核验中…首次请求需要加载模型，可能等十几秒");
     result.classList.add("hidden");
     try {
       const resp = await fetch("/api/figure-check", { method: "POST", body: fd });

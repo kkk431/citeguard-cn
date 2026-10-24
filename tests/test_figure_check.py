@@ -173,3 +173,57 @@ def test_context_omitted_keeps_figure_only_prompt(monkeypatch):
     figure_check.check_figure(b"img", "image/png", "结论足够长的测试句子。")
     prompt = captured["json"]["messages"][0]["content"][1]["text"]
     assert "正文/图注摘录（可能不完整）" not in prompt
+
+def test_figure_api_rejects_non_pdf_paper(monkeypatch):
+    from fastapi.testclient import TestClient
+    from web import app as webapp
+
+    monkeypatch.setattr(figure_check, "available", lambda: True)
+    monkeypatch.setattr(
+        figure_check,
+        "check_figure",
+        lambda *a, **k: {"ok": True, "verdict": "supported", "reason": "x", "model": "m", "latency_ms": 1},
+    )
+    client = TestClient(webapp.app)
+    resp = client.post(
+        "/api/figure-check",
+        files={
+            "image": ("a.png", b"img", "image/png"),
+            "paper": ("paper.txt", b"hello", "text/plain"),
+        },
+        data={"claim": "这个结论成立吗？"},
+    )
+    assert resp.status_code == 400
+    assert resp.json()["code"] == "paper_not_pdf"
+
+
+def test_figure_api_reads_pdf_page_as_context(monkeypatch):
+    from fastapi.testclient import TestClient
+    from web import app as webapp
+
+    monkeypatch.setattr(figure_check, "available", lambda: True)
+    monkeypatch.setattr(
+        webapp,
+        "extract_page_text",
+        lambda path, page: "第 3 页正文：方法1 的准确率约 95%。",
+    )
+    captured = {}
+
+    def fake_check(payload, content_type, claim, context=""):
+        captured["context"] = context
+        return {"ok": True, "verdict": "supported", "reason": "一致", "model": "m", "latency_ms": 5}
+
+    monkeypatch.setattr(figure_check, "check_figure", fake_check)
+    client = TestClient(webapp.app)
+    resp = client.post(
+        "/api/figure-check",
+        files={
+            "image": ("a.png", b"img", "image/png"),
+            "paper": ("paper.pdf", b"%PDF-1.4 fake", "application/pdf"),
+        },
+        data={"claim": "方法1 的准确率最高，约为 95%。", "page": "3", "context": "手动补充"},
+    )
+    assert resp.status_code == 200
+    assert resp.json()["context_source"] == "pdf_page:3"
+    assert captured["context"].startswith("第 3 页正文")
+    assert "手动补充" in captured["context"]

@@ -101,6 +101,8 @@ PYTHONPATH=src python3 scripts/evaluate_support.py \
 **dev 40**（调 prompt / 选审计方式）与 **test 60**（只用于最终报告）；划分文件
 `data/claimsupport_cn/split_seed20261024.json`。本地服务为
 `scripts/local_judge_server.py`（OpenAI 兼容，bf16，4×RTX 4090）。硬件不是购买：实验室已有卡。
+显存实测（`nvidia-smi`，bf16）：7B 级单卡 16.3–16.8 GB，14B 双卡 29.2 GB（13.7 + 16.2）；证据
+`data/experiments/local_gpu_memory.json`。单张 24 GB 卡可跑 7B/8B，14B 需两张或量化。
 
 | 模型（自托管） | 配置 | dev 40 Macro-F1 / Acc | test 60 Macro-F1 / Acc | 延迟 |
 |---|---|---|---|---|

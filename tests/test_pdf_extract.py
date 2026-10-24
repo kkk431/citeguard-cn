@@ -4,6 +4,7 @@ from __future__ import annotations
 import pytest
 
 from citeguard.pdf_extract import (
+    extract_page_text,
     extract_text,
     extract_text_with_meta,
     normalize_text,
@@ -295,3 +296,36 @@ def test_missing_ocr_dependency_is_explained(monkeypatch, tmp_path):
     with pytest.raises(RuntimeError) as excinfo:
         px.extract_text(pdf)
     assert "未安装 OCR 依赖" in str(excinfo.value)
+
+def _blank_pdf(tmp_path, pages=1):
+    from pypdf import PdfWriter
+
+    writer = PdfWriter()
+    for _ in range(pages):
+        writer.add_blank_page(width=200, height=200)
+    path = tmp_path / "blank.pdf"
+    with path.open("wb") as fh:
+        writer.write(fh)
+    return path
+
+
+def test_extract_page_text_rejects_non_pdf(tmp_path):
+    p = tmp_path / "x.txt"
+    p.write_text("hi", encoding="utf-8")
+    with pytest.raises(ValueError):
+        extract_page_text(p, 1)
+
+
+def test_extract_page_text_reports_blank_page(tmp_path):
+    pdf = _blank_pdf(tmp_path, pages=2)
+    assert pdf.exists()
+    with pytest.raises(ValueError) as excinfo:
+        extract_page_text(pdf, 1)
+    assert "没有可提取的文字" in str(excinfo.value)
+
+
+def test_extract_page_text_rejects_page_out_of_range(tmp_path):
+    pdf = _blank_pdf(tmp_path, pages=1)
+    with pytest.raises(ValueError) as excinfo:
+        extract_page_text(pdf, 2)
+    assert "超出范围" in str(excinfo.value)

@@ -1,0 +1,63 @@
+{
+  "generated_at": "2026-10-25T05:00:00+08:00",
+  "host": {
+    "name": "lmh",
+    "gpu": "NVIDIA GeForce RTX 4090",
+    "gpu_memory_total_mib": 24564,
+    "driver": "535.129.03",
+    "note": "共享实验室服务器，单卡 24 GB；测量时卡上仅有本项目的推理进程（另有他人少量常驻，未计入本表）"
+  },
+  "measurement": {
+    "method": "nvidia-smi --query-compute-apps=pid,used_memory --format=csv,noheader",
+    "caveat": "used_memory 是该进程占用的显存（含 bf16 权重、CUDA 上下文与推理缓存），不是模型权重的理论大小；不同 prompt/输出长度下会有小幅浮动。"
+  },
+  "models": [
+    {
+      "model": "Qwen2.5-VL-7B-Instruct",
+      "task": "图表-结论核验（可选能力）",
+      "served_by": "scripts/local_vl_server.py",
+      "pid": 743023,
+      "used_memory_mib": 17226,
+      "gpus": 1,
+      "dtype": "bf16",
+      "note": "含视觉编码器；单条图表核验 1.8–2.6 s"
+    },
+    {
+      "model": "Qwen3-8B",
+      "task": "引文支持度（非思考模式）",
+      "served_by": "scripts/local_text_server.py",
+      "pid": 762456,
+      "used_memory_mib": 16714,
+      "gpus": 1,
+      "dtype": "bf16",
+      "note": "v10 + 审计 v2，全 100 条 0.8664，约 6.0 s/条"
+    },
+    {
+      "model": "Qwen3-8B",
+      "task": "引文支持度（思考模式试点）",
+      "served_by": "scripts/local_text_server.py",
+      "pid": 824023,
+      "used_memory_mib": 16450,
+      "gpus": 1,
+      "dtype": "bf16",
+      "thinking": true,
+      "note": "THINKING=1、MAX_NEW_TOKENS=900；单条 dev 冒烟 54.2 s，显存与常模接近"
+    },
+    {
+      "model": "Qwen3-14B",
+      "task": "引文支持度",
+      "served_by": "scripts/local_text_server.py",
+      "pid": 772889,
+      "used_memory_mib": 29916,
+      "gpus": 2,
+      "dtype": "bf16",
+      "note": "13696 + 16220 MiB，device_map=auto 跨 2 卡；v10 + 审计 v2，全 100 条 0.9744，约 7.8 s/条"
+    }
+  ],
+  "summary": {
+    "7b_vl_one_gpu_gib": 16.8,
+    "8b_text_one_gpu_gib": 16.3,
+    "14b_text_two_gpu_gib": 29.2,
+    "conclusion": "7B/8B 级模型单张 24 GB 卡即可自托管；14B 需 2 张 24 GB 卡（或量化到单卡）。这解释了为什么本项目的开源模型方案可以在普通实验室 GPU 上复现。"
+  }
+}

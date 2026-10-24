@@ -42,6 +42,14 @@
       <textarea id="figure-claim" class="textarea" rows="3" placeholder="例如：图中 2025 年的发文量最高，为 195 篇。" style="width:100%;font-size:14px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--surface)"></textarea>
       <label class="field-label" for="figure-context" style="margin-top:14px">论文正文 / 图注摘录（可选，最多 4000 字）</label>
       <textarea id="figure-context" class="textarea" rows="4" placeholder="粘贴图表所在段落或图注，用来判断「正文是否也支持这条结论」；不填则只核对图表本身。" style="width:100%;font-size:14px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--surface)"></textarea>
+      <label class="field-label" for="figure-paper" style="margin-top:14px">或上传论文 PDF（可选，自动取指定页正文）</label>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <input id="figure-paper" type="file" accept="application/pdf" style="flex:1;min-width:220px;font-size:13px;color:var(--ink-2)">
+        <label class="mono-sm" for="figure-page" style="white-space:nowrap">第
+          <input id="figure-page" type="number" min="1" value="1" style="width:70px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface)"> 页
+        </label>
+      </div>
+      <div class="mono-sm" style="color:var(--muted);margin-top:6px">PDF 只在服务进程里临时按页取文字，不保存；扫描页取不到文字时会提示你手动粘贴。</div>
       <div class="upload-actions">
         <button type="submit" class="btn btn-primary" id="figure-check-btn" {% if not vl_available %}disabled{% endif %}>核验这条结论</button>
         <span class="mono-sm" id="figure-hint" style="margin-left:auto;align-self:center"></span>

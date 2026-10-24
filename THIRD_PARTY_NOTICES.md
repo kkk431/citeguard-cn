@@ -106,6 +106,11 @@
 | Qwen3-8B / 14B | 1×/2×RTX 4090 | **产品代码路径**（`judge_support` 直调，自动 v10 + 审计 v2，all 100） | 100 | **0.8664 / 0.9744** | 0.850 / 0.970 | 6.0 / 8.1 s/条 |
 | DeepSeek-Chat（托管，参考） | API | v10 + 审计 v1（all 100） | 100 | **0.9597** | 0.950 | 2–3 s/条 |
 
+显存实测（`nvidia-smi --query-compute-apps`，bf16，共享卡，含 CUDA 上下文与推理缓存）：Qwen2.5-VL-7B
+单卡 **16.8 GB**、Qwen3-8B 单卡 **16.3 GB**、Qwen3-14B 双卡 **29.2 GB**（13.7 + 16.2）；证据
+`data/experiments/local_gpu_memory.json`。结论：7B/8B 级模型一张 24 GB 卡即可自托管，14B 需要两张 24 GB
+卡（或量化到单卡）——这是「开源模型、本地可复现」的硬件门槛，不作为买卡理由。
+
 - 2026-10 追加的 Qwen3-8B/14B 用固定划分：dev 40 选 prompt/审计方式，test 60 只报最终数字
   （`data/claimsupport_cn/split_seed20261024.json`）。v8 立住两条 partial 边界，把 14B test 从 v4 0.8887 / v7 0.9063 提到 0.9574；
   **v10 再补一条「方向相反必须判 contradict」的规则**，14B dev 从 0.9793 推到 **1.0000**，test 保持 0.9574，全 100 条 **0.9744**。

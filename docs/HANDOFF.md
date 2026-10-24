@@ -592,3 +592,18 @@ v0.6.1 上线后继续压测文献发现，发现并修掉三个具体问题：
 - 验证：387 passed；`verify_artifacts.py` 本机 118 项、远端 `--api-base` 127 项全过；commit `8c6acf4`
   已推送；远端 `/api/health` → 0.8.4；本地演示服务同 0.8.4，评测页图表段渲染正常。
 - 交付包：`dist/citeguard-cn-0.8.4.zip`（2,026,978 bytes，sha256 `56d21c5c…`；每次重打包 hash 会变，以实际文件为准）。
+
+## 33. v0.8.5：图表核验可按页读取 PDF 正文（2026-10-25）
+
+- 起因：图表核验的「正文是否支撑结论」原先只能手动粘贴；用户希望更接近真实审稿流程。
+- 做法：`/figure` 表单新增可选的论文 PDF 与页码；`POST /api/figure-check` 接受 `paper` + `page`，
+  服务端把 PDF 写到临时文件，用 `pdf_extract.extract_page_text()`（pdfplumber，按页、带双栏处理、4000 字截断）
+  取出该页文字后拼到 `context` 前面，返回 `context_source="pdf_page:N"`。取不到文字（扫描页/文字层损坏）时
+  返回 `page_text_unavailable` 并提示手动粘贴；PDF 不保存。
+- 新增：`pdf_extract.extract_page_text`；接口对非 PDF、页码非整数、超页、超大文件分别给明确 400 错误。
+- 测试：新增 3 条 PDF 按页测试（非 PDF / 空白页 / 页码越界）+ 2 条接口测试（拒绝非 PDF、按页取文并拼上手动上下文），
+  全套 **392 passed**。
+- 实测（本机 → lmh VL 服务）：真实论文 `hanspub_152572.pdf` 第 1 页 → `context_chars=976`、`context_source=pdf_page:1`、
+  2.37 秒、判 supported；扫描版 PDF 同一接口返回「第 1 页没有可提取的文字…请手动粘贴」，不再伪装成已读正文。
+- 诚实边界：仍需用户指认页码，没有做「自动定位图注」的版面分析；扫描页必须退回手动粘贴。
+- 文档：`docs/figure_check.md` 增加按页用法与局限；README 图表段同步；`docs/deployment.md`、版本号 → 0.8.5。

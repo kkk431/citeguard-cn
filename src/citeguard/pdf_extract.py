@@ -68,6 +68,40 @@ def _pdf_page_count(path: Path) -> int:
         return 0
 
 
+def extract_page_text(path: str | Path, page_number: int, *, max_chars: int = 6000) -> str:
+    """Extract one 1-based page of a PDF, for figure-claim context.
+
+    Raises ``ValueError`` with a user-facing message when the page has no usable
+    text (scanned page / broken text layer); the caller should fall back to
+    asking the user to paste the page text manually.
+    """
+    p = Path(path)
+    if p.suffix.lower() != ".pdf":
+        raise ValueError("按页取正文只支持 PDF 论文（.pdf）")
+    if page_number < 1:
+        raise ValueError("页码从 1 开始")
+    try:
+        import pdfplumber
+    except Exception as exc:  # pragma: no cover - dependency guard
+        raise RuntimeError("缺少 pdfplumber，无法按页提取 PDF 文字") from exc
+    try:
+        with pdfplumber.open(str(p)) as pdf:
+            total = len(pdf.pages)
+            if page_number > total:
+                raise ValueError(f"页码超出范围：PDF 共 {total} 页")
+            text = normalize_text(_page_text(pdf.pages[page_number - 1]))
+    except ValueError:
+        raise
+    except Exception as exc:
+        raise RuntimeError(f"读取 PDF 第 {page_number} 页失败：{exc}") from exc
+    if not text.strip() or _looks_garbled(text):
+        raise ValueError(
+            f"第 {page_number} 页没有可提取的文字（可能是扫描页或文字层损坏），"
+            "请手动粘贴该页正文或图注"
+        )
+    return text[:max_chars]
+
+
 def extract_text_with_meta(path: str | Path) -> tuple[str, dict]:
     """Extract text and describe how it was obtained.
 

@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import json
 import sys
+import tempfile
 import time
 from contextlib import asynccontextmanager
 from pathlib import Path
@@ -29,7 +30,7 @@ from citeguard import figure_check  # noqa: E402
 from citeguard.abstract_enrich import MAX_ENRICH_PER_REQUEST, enrich_missing  # noqa: E402
 from citeguard.jobs import manager  # noqa: E402
 from citeguard.local_library import Library, parse_library_text  # noqa: E402
-from citeguard.pdf_extract import SUPPORTED_SUFFIXES, extract_text  # noqa: E402
+from citeguard.pdf_extract import SUPPORTED_SUFFIXES, extract_page_text, extract_text  # noqa: E402
 from citeguard.pipeline import run_job  # noqa: E402
 from citeguard.report import render_reference_list  # noqa: E402
 
@@ -81,7 +82,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.8.4", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.8.5", lifespan=lifespan)
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
 
@@ -599,6 +600,8 @@ def figure_check_api(
     image: UploadFile = File(...),
     claim: str = Form(""),
     context: str = Form(""),
+    paper: UploadFile | None = File(None),
+    page: str = Form(""),
 ):
     if not figure_check.available():
         return JSONResponse(
@@ -606,7 +609,50 @@ def figure_check_api(
             status_code=503,
         )
     payload = image.file.read(config.VL_MAX_FIGURE_MB * 1024 * 1024 + 1)
+    page_no = 0
+    if paper is not None and paper.filename:
+        if Path(paper.filename).suffix.lower() != ".pdf":
+            return JSONResponse(
+                {"ok": False, "code": "paper_not_pdf", "error": "按页取正文只支持 PDF 论文"},
+                status_code=400,
+            )
+        if page.strip():
+            try:
+                page_no = int(page.strip())
+            except ValueError:
+                return JSONResponse(
+                    {"ok": False, "code": "bad_page", "error": "页码要填整数（从 1 开始）"},
+                    status_code=400,
+                )
+        else:
+            page_no = 1
+        raw = paper.file.read(config.MAX_UPLOAD_MB * 1024 * 1024 + 1)
+        if len(raw) > config.MAX_UPLOAD_MB * 1024 * 1024:
+            return JSONResponse(
+                {"ok": False, "code": "paper_too_large", "error": f"论文 PDF 超过 {config.MAX_UPLOAD_MB} MB"},
+                status_code=400,
+            )
+        tmp = None
+        try:
+            with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as fh:
+                fh.write(raw)
+                tmp = Path(fh.name)
+            page_text = extract_page_text(tmp, page_no)
+        except ValueError as exc:
+            return JSONResponse(
+                {"ok": False, "code": "page_text_unavailable", "error": str(exc)}, status_code=400
+            )
+        except RuntimeError as exc:
+            return JSONResponse(
+                {"ok": False, "code": "page_text_failed", "error": str(exc)}, status_code=400
+            )
+        finally:
+            if tmp is not None:
+                tmp.unlink(missing_ok=True)
+        context = (page_text + "\n\n" + context).strip() if context.strip() else page_text
     result = figure_check.check_figure(payload, image.content_type or "", claim, context)
+    if page_no and result.get("ok"):
+        result["context_source"] = f"pdf_page:{page_no}"
     return JSONResponse(result, status_code=200 if result.get("ok") else 400)
 
 
@@ -821,4 +867,4 @@ def benchmark_api():
 
 @app.get("/api/health")
 def health():
-    return {"ok": True, "version": "0.8.4", "supported": sorted(ALLOWED_SUFFIXES)}
+    return {"ok": True, "version": "0.8.5", "supported": sorted(ALLOWED_SUFFIXES)}
