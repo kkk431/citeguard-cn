@@ -287,6 +287,7 @@ $env:DEEPSEEK_API_KEY = "..."   # 支持度判定用，不写进任何文件
 - 发布：commit `ad5456c`；GitHub 通过 SSH 推送（发布时本机 https 代理不可用，`git push git@github.com:kkk431/citeguard-cn.git main`）；远端
   `/data/xyjiang/aic_mental/citeguard` 已部署 v0.4.0（`/api/health` → version 0.4.0），
   `verify_artifacts.py --api-base http://127.0.0.1:8000` **98 项全过**；交付包
-  `dist/citeguard-cn-0.4.0.zip`（1,715,392 bytes，sha256 `63807fe242a5e49aff321cd77fab61f6c9a6c8a74a63661b78abf13b051b841e`）。
-- 远端未配置 `CITEGUARD_VL_*`，`/figure` 显示配置说明、首页不出现入口（设计如此）；本机演示服务已配置 lmh VL 服务，
-  四个默认示例图可直接跑通。
+  `dist/citeguard-cn-0.4.0.zip`（1.6 MB）。
+- 远端已配置 `CITEGUARD_VL_ENDPOINT=http://222.20.126.148:8099/v1`（dmz 可直连 lmh GPU），重启后首页入口出现，
+  `/api/figure-check` 实测返回 `contradicted`（1.81 s）；本机演示服务同样已配置，四个默认示例图可直接跑通。
+  注意：`.env.remote` 需要 `set -a` 才导出给 uvicorn，`/tmp/restart_remote.sh` 已修正。

@@ -148,6 +148,8 @@ python3 -m uvicorn web.app:app --host 0.0.0.0 --port 8000
 
 - `PYTHONPATH=src:.pylibs`：先源码、后本地依赖；不需要 `pip install -e .`。
 - `data/`、`data/jobs/`、`data/cache/` 需要可写；上传文件在解析完成后立即删除。
+- 用 `.env.remote` 保存密钥时，务必 `set -a; . ./.env.remote; set +a` 后再启动，否则这些变量只是 shell 变量、
+  不会传给 uvicorn 子进程（实测踩过的坑；`CITEGUARD_VL_*` 就因此一度没生效）。
 - 服务默认无守护。长期运行建议交给 `systemd`、`tmux` 或 `nohup`：
 
 ```bash
