@@ -1,0 +1,567 @@
+{
+  "dataset": "ClaimSupport-CN",
+  "split": "dev",
+  "n": 40,
+  "tag": "qwen3-8b-v10-v2-dev",
+  "generated_at": "2026-10-24T19:25:49+00:00",
+  "judge": {
+    "base": "http://127.0.0.1:8098/v1",
+    "model": "qwen3-8b"
+  },
+  "prompt": {
+    "tag": "support_prompt_v10",
+    "sha256": "fe9d721cfc211fb1811df4c6c0e977d59b77dfe8c63a6295c1bc9a5e00185b6c",
+    "votes": 1,
+    "temperature": 0.0,
+    "audit": true,
+    "audit_style": "v2"
+  },
+  "metrics": {
+    "macro_f1": 0.8882,
+    "accuracy": 0.875,
+    "per_class": {
+      "support": {
+        "precision": 0.875,
+        "recall": 0.875,
+        "f1": 0.875,
+        "support": 16,
+        "predicted": 16
+      },
+      "partial": {
+        "precision": 0.7778,
+        "recall": 0.7,
+        "f1": 0.7368,
+        "support": 10,
+        "predicted": 9
+      },
+      "contradict": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 6,
+        "predicted": 6
+      },
+      "no_evidence": {
+        "precision": 0.8889,
+        "recall": 1.0,
+        "f1": 0.9412,
+        "support": 8,
+        "predicted": 9
+      }
+    },
+    "confusion": [
+      [
+        14,
+        2,
+        0,
+        0
+      ],
+      [
+        2,
+        7,
+        0,
+        1
+      ],
+      [
+        0,
+        0,
+        6,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        8
+      ]
+    ]
+  },
+  "latency": {
+    "total_s": 235.5,
+    "mean_ms": 5887.6,
+    "p50_ms": 5055.1
+  },
+  "errors": 0,
+  "predictions": [
+    {
+      "id": "cs-0002",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "votes": [
+        "no_evidence"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"\",\"label\":\"no_evidence\",\"confidence\":0.95,\"reason\":\"证据片段讨论的是吸附技术及其在页岩气体井中的应用，与引用句中提到的热成像技术及其发展无关\"}",
+      "error": "",
+      "elapsed_ms": 3245.5
+    },
+    {
+      "id": "cs-0003",
+      "label": "support",
+      "pred": "support",
+      "votes": [
+        "support"
+      ],
+      "audit_fully_covered": true,
+      "raw": "{\"evidence_quote\":\"药剂学实验课程作为医药教育的关键环节，其改革聚焦于技能培养与思政教育的融合\",\"label\":\"support\",\"confidence\":0.95,\"reason\":\"证据明确断言了引用句的全部核心命题：对象（药剂学实验课程）、范围（医药教育的关键环节）、关系方向（改革聚焦于技能培养与思政教育的融合）\"}",
+      "error": "",
+      "elapsed_ms": 9428.4
+    },
+    {
+      "id": "cs-0012",
+      "label": "support",
+      "pred": "support",
+      "votes": [
+        "support"
+      ],
+      "audit_fully_covered": true,
+      "raw": "{\"evidence_quote\":\"在烈度为VII的地震力作用下同时考虑3种蓄水工况，该滑坡分别有34.067%、38.061%和38.405%的概率发生整体渐进破坏\",\"label\":\"support\",\"confidence\":0.95,\"reason\":\"证据明确断言了引用句的对象、范围、关系方向和量级，与引用句完全一致\"}",
+      "error": "",
+      "elapsed_ms": 12025.5
+    },
+    {
+      "id": "cs-0013",
+      "label": "partial",
+      "pred": "partial",
+      "votes": [
+        "partial"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"Mucoadhesion 能被定义为哪个具有生物起源\",\"label\":\"partial\",\"confidence\":0.9,\"reason\":\"证据只覆盖了引用句的一部分，未涉及「二个部件被界面的力量的帮助为时间的扩大时期在保持完整的一个状态」这一核心断言\"}",
+      "error": "",
+      "elapsed_ms": 4219.7
+    },
+    {
+      "id": "cs-0015",
+      "label": "partial",
+      "pred": "partial",
+      "votes": [
+        "partial"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"促进学生英语学科综合素养的提升。\",\"label\":\"partial\",\"confidence\":0.9,\"reason\":\"证据只覆盖引用句的结论部分，未涉及教学理念、真实情境、实践活动等核心内容\"}",
+      "error": "",
+      "elapsed_ms": 3217.4
+    },
+    {
+      "id": "cs-0019",
+      "label": "support",
+      "pred": "support",
+      "votes": [
+        "support"
+      ],
+      "audit_fully_covered": true,
+      "raw": "{\"evidence_quote\":\"数字化时代对研究生的教育和培养提出了新的挑战，其中数字韧性是研究生在数字化转型中保持竞争力的关键因素，也成为研究生培养的应有之义。\",\"label\":\"support\",\"confidence\":0.95,\"reason\":\"证据完整复现了引用句的核心命题，包括对象、范围、关系方向和结论，无需补充信息即可支持引用句\"}",
+      "error": "",
+      "elapsed_ms": 10274.0
+    },
+    {
+      "id": "cs-0020",
+      "label": "contradict",
+      "pred": "contradict",
+      "votes": [
+        "contradict"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"黏土岩中锂绿泥石的大量存在及与全岩Li含量呈显著正相关关系指示锂绿泥石是Li的主要载体矿物，且锂绿泥石可能为成岩过程中由叶腊石、伊利石等黏土矿物与富Li、Mg滨海浅层地下卤水或孔隙水/地下水反应形成\",\"label\":\"contradict\",\"confidence\":0.95,\"reason\":\"证据中锂绿泥石与全岩Li含量呈显著正相关，与引用句中的「显著负相关」方向相反\"}",
+      "error": "",
+      "elapsed_ms": 7872.7
+    },
+    {
+      "id": "cs-0021",
+      "label": "support",
+      "pred": "support",
+      "votes": [
+        "support"
+      ],
+      "audit_fully_covered": true,
+      "raw": "{\"evidence_quote\":\"目的掌握仁寿县2023年户籍居民恶性肿瘤死亡特点，为防癌治癌工作提供数据支持。\",\"label\":\"support\",\"confidence\":0.95,\"reason\":\"证据明确断言了引用句的全部核心命题，包括对象、范围和目的\"}",
+      "error": "",
+      "elapsed_ms": 8381.2
+    },
+    {
+      "id": "cs-0022",
+      "label": "support",
+      "pred": "support",
+      "votes": [
+        "support"
+      ],
+      "audit_fully_covered": true,
+      "raw": "{\"evidence_quote\":\"遥感图像分类是遥感图像解译的基础，且在农业管理、城市规划、灾害监测等领域中发挥着重要作用\",\"label\":\"support\",\"confidence\":0.95,\"reason\":\"证据完整覆盖了引用句的核心命题：对象、范围与作用，且无方向性冲突\"}",
+      "error": "",
+      "elapsed_ms": 8584.4
+    },
+    {
+      "id": "cs-0023",
+      "label": "support",
+      "pred": "support",
+      "votes": [
+        "support"
+      ],
+      "audit_fully_covered": true,
+      "raw": "{\"evidence_quote\":\"随着网络技术和移动网络设备的不断普及，自媒体成为近年比较热门的话题，自媒体相较传统媒体更具有多样化和现代化的特征，所以受到越来越多高校学生的认可。\",\"label\":\"support\",\"confidence\":0.95,\"reason\":\"证据完整覆盖了引用句的所有核心命题，包括对象、范围、关系方向和结论\"}",
+      "error": "",
+      "elapsed_ms": 8504.7
+    },
+    {
+      "id": "cs-0030",
+      "label": "partial",
+      "pred": "support",
+      "votes": [
+        "support"
+      ],
+      "audit_fully_covered": true,
+      "raw": "{\"evidence_quote\":\"肿瘤类器官在肿瘤生物学研究及个体化药物敏感性评估中具有重要价值。\",\"label\":\"support\",\"confidence\":0.95,\"reason\":\"对象、范围与价值判断完全一致，覆盖引用句的核心命题\"}",
+      "error": "",
+      "elapsed_ms": 7071.4
+    },
+    {
+      "id": "cs-0033",
+      "label": "support",
+      "pred": "support",
+      "votes": [
+        "support"
+      ],
+      "audit_fully_covered": true,
+      "raw": "{\"evidence_quote\":\"提高教师的数字素养，对于教育数字化转型的成功至关重要，本文主要研究了相关实践策略。\",\"label\":\"support\",\"confidence\":0.95,\"reason\":\"引用句与证据片段完全一致，对象、范围、关系方向和结论均一致\"}",
+      "error": "",
+      "elapsed_ms": 7819.8
+    },
+    {
+      "id": "cs-0038",
+      "label": "support",
+      "pred": "support",
+      "votes": [
+        "support"
+      ],
+      "audit_fully_covered": true,
+      "raw": "{\"evidence_quote\":\"美联储为纾2008年金融危机之难实施了长达七年的量化宽松政策，让美国经济逐步走出阴霾\",\"label\":\"support\",\"confidence\":0.95,\"reason\":\"证据完整复现了引用句的核心命题，包括对象（美联储）、时间（长达七年）、政策（量化宽松）、结果（美国经济走出阴霾）\"}",
+      "error": "",
+      "elapsed_ms": 9384.2
+    },
+    {
+      "id": "cs-0041",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "votes": [
+        "no_evidence"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"\",\"label\":\"no_evidence\",\"confidence\":0.95,\"reason\":\"证据片段未涉及中职教育、数学教育的重要性或其与其他学科的关系\"}",
+      "error": "",
+      "elapsed_ms": 2464.3
+    },
+    {
+      "id": "cs-0042",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "votes": [
+        "no_evidence"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"\",\"label\":\"no_evidence\",\"confidence\":0.95,\"reason\":\"证据片段未涉及农村留守儿童、一般儿童、问卷法、亲子关系、孤独感、抑郁、感恩、中介与调节作用等任何引用句中的核心要素\"}",
+      "error": "",
+      "elapsed_ms": 3593.5
+    },
+    {
+      "id": "cs-0045",
+      "label": "partial",
+      "pred": "partial",
+      "votes": [
+        "partial"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"专业课程思政已成为高校课程改革的的重点方向\",\"label\":\"partial\",\"confidence\":0.9,\"reason\":\"证据只覆盖主句，引用句的「为落实教育教学立德树人的根本任务」这一背景未被证据交代\"}",
+      "error": "",
+      "elapsed_ms": 3654.6
+    },
+    {
+      "id": "cs-0051",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "votes": [
+        "no_evidence"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"\",\"label\":\"no_evidence\",\"confidence\":0.95,\"reason\":\"证据片段讨论的是高职院校‘大思政课’与数智技术的关系，未涉及经济快速发展、资源消耗型城市或经济可持续发展等主题\"}",
+      "error": "",
+      "elapsed_ms": 3532.6
+    },
+    {
+      "id": "cs-0054",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "votes": [
+        "no_evidence"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"\",\"label\":\"no_evidence\",\"confidence\":0.95,\"reason\":\"证据片段讨论的是高中数学教学模式的创新，与引用句涉及的中国历史、Qing统治、领土扩张等主题完全无关\"}",
+      "error": "",
+      "elapsed_ms": 3291.8
+    },
+    {
+      "id": "cs-0056",
+      "label": "partial",
+      "pred": "support",
+      "votes": [
+        "support"
+      ],
+      "audit_fully_covered": true,
+      "raw": "{\"evidence_quote\":\"为不明确的单个时间延期系统的延期依赖者稳定性分析和柔韧的稳定被探讨。\",\"label\":\"support\",\"confidence\":0.95,\"reason\":\"证据与引用句完全一致，对象、范围、关系方向和量级均匹配\"}",
+      "error": "",
+      "elapsed_ms": 7968.7
+    },
+    {
+      "id": "cs-0057",
+      "label": "contradict",
+      "pred": "contradict",
+      "votes": [
+        "contradict"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"纺织品增强的水泥(TRC ) 对有一个高忍受负担的能力的薄墙、小的结构的元素特别合适。\",\"label\":\"contradict\",\"confidence\":0.95,\"reason\":\"证据断言纺织品增强的水泥(TRC)适合，而引用句断言纺织品削弱的水泥(TRC)适合，方向相反\"}",
+      "error": "",
+      "elapsed_ms": 5055.1
+    },
+    {
+      "id": "cs-0059",
+      "label": "support",
+      "pred": "support",
+      "votes": [
+        "support"
+      ],
+      "audit_fully_covered": true,
+      "raw": "{\"evidence_quote\":\"激光点云技术可用于苗圃树木生长状态监测与管理，为农业植保机器人提供有效的靶标信息。\",\"label\":\"support\",\"confidence\":0.95,\"reason\":\"证据明确断言了引用句的全部核心命题：对象、范围、关系方向与功能，与引用句完全一致\"}",
+      "error": "",
+      "elapsed_ms": 8672.0
+    },
+    {
+      "id": "cs-0060",
+      "label": "support",
+      "pred": "partial",
+      "votes": [
+        "partial"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"研究良性前列腺增生采用穴位敷贴护理的疗效\",\"label\":\"partial\",\"confidence\":0.9,\"reason\":\"证据仅提及研究主题，未明确说明穴位敷贴护理是否有效或其疗效程度\"}",
+      "error": "",
+      "elapsed_ms": 3310.2
+    },
+    {
+      "id": "cs-0062",
+      "label": "support",
+      "pred": "support",
+      "votes": [
+        "support"
+      ],
+      "audit_fully_covered": true,
+      "raw": "{\"evidence_quote\":\"类风湿关节炎属于一种慢性侵蚀性关节炎，基本的症状属于全身性免疫病。\",\"label\":\"support\",\"confidence\":0.95,\"reason\":\"证据完整覆盖了引用句的核心命题，对象、范围、关系方向一致\"}",
+      "error": "",
+      "elapsed_ms": 7605.7
+    },
+    {
+      "id": "cs-0064",
+      "label": "contradict",
+      "pred": "contradict",
+      "votes": [
+        "contradict"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"全息三维显示技术能有效地重建三维物体的波前，并为人眼提供完整的深度线索，已经成为三维显示领域的研究热点。\",\"label\":\"contradict\",\"confidence\":0.95,\"reason\":\"证据断言「有效地」，与引用句的「无效地」方向相反\"}",
+      "error": "",
+      "elapsed_ms": 4368.8
+    },
+    {
+      "id": "cs-0066",
+      "label": "support",
+      "pred": "support",
+      "votes": [
+        "support"
+      ],
+      "audit_fully_covered": true,
+      "raw": "{\"evidence_quote\":\"在AI技术迅猛发展与国家战略推动的背景下，传媒教育正经历智能化、数字化转型\",\"label\":\"support\",\"confidence\":0.95,\"reason\":\"证据与引用句完全一致，对象、背景、转型方向均匹配\"}",
+      "error": "",
+      "elapsed_ms": 6397.1
+    },
+    {
+      "id": "cs-0067",
+      "label": "partial",
+      "pred": "no_evidence",
+      "votes": [
+        "no_evidence"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"\",\"label\":\"no_evidence\",\"confidence\":0.9,\"reason\":\"证据仅提及宁夏民间美术的定位，未涉及社会潮流发展、冲击或对发展的影响\"}",
+      "error": "",
+      "elapsed_ms": 2665.0
+    },
+    {
+      "id": "cs-0068",
+      "label": "partial",
+      "pred": "partial",
+      "votes": [
+        "partial"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"同时对患者身体及心理产生的影响也给本人和家庭造成了巨大的负担。\",\"label\":\"partial\",\"confidence\":0.9,\"reason\":\"证据只覆盖引用句中关于患者身体及心理影响的部分，未涉及发病率、死亡率上升及医疗卫生系统费用等核心内容\"}",
+      "error": "",
+      "elapsed_ms": 4174.9
+    },
+    {
+      "id": "cs-0071",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "votes": [
+        "no_evidence"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"\",\"label\":\"no_evidence\",\"confidence\":0.95,\"reason\":\"证据片段未涉及喉癌根治术、心理护理干预、术后疼痛或生活质量等主题\"}",
+      "error": "",
+      "elapsed_ms": 2725.3
+    },
+    {
+      "id": "cs-0073",
+      "label": "contradict",
+      "pred": "contradict",
+      "votes": [
+        "contradict"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"它的人口尺寸由于人的活动的重影响在最后几十年期间显著地减少了，包括猎物种类，引起伴随的产地损失和降级的水发展工程，水污染，和有害钓鱼的齿轮和碰撞与机械化容器引起的意外死亡过度捕捞。\",\"label\":\"contradict\",\"confidence\":0.95,\"reason\":\"证据断言人口尺寸显著减少，与引用句断言的「显著增加了」方向相反\"}",
+      "error": "",
+      "elapsed_ms": 6316.2
+    },
+    {
+      "id": "cs-0076",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "votes": [
+        "no_evidence"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"\",\"label\":\"no_evidence\",\"confidence\":0.95,\"reason\":\"证据片段未涉及数学教学大纲或逻辑思维能力培养的相关内容\"}",
+      "error": "",
+      "elapsed_ms": 2355.1
+    },
+    {
+      "id": "cs-0077",
+      "label": "partial",
+      "pred": "partial",
+      "votes": [
+        "partial"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"完成后分别命名为对比组(34例)、探究组(34例)\",\"label\":\"partial\",\"confidence\":0.9,\"reason\":\"证据只覆盖了分组命名结果，未涉及引用句中「选取2022.09-2023.09本院接诊的68例慢阻肺患者，使用数字分组法划分组别」这一背景和方法信息\"}",
+      "error": "",
+      "elapsed_ms": 6069.7
+    },
+    {
+      "id": "cs-0080",
+      "label": "partial",
+      "pred": "partial",
+      "votes": [
+        "partial"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"成为高校工科教育亟待解决的关键课题\",\"label\":\"partial\",\"confidence\":0.9,\"reason\":\"证据只覆盖引用句的结论部分，未涉及‘新工科背景下’‘提升学生数学理论与创新、实践及应用能力’‘实现‘德育’与‘智育’共生’等核心内容\"}",
+      "error": "",
+      "elapsed_ms": 4807.3
+    },
+    {
+      "id": "cs-0086",
+      "label": "support",
+      "pred": "support",
+      "votes": [
+        "support"
+      ],
+      "audit_fully_covered": true,
+      "raw": "{\"evidence_quote\":\"肝癌是中国高发的恶性肿瘤之一，中国国内每年因肝癌死亡人数占全球肝癌死亡人数一半以上。\",\"label\":\"support\",\"confidence\":0.95,\"reason\":\"证据完整复现了引用句的核心命题，包括对象、范围和量级，无任何冲突或未覆盖成分\"}",
+      "error": "",
+      "elapsed_ms": 8850.2
+    },
+    {
+      "id": "cs-0088",
+      "label": "support",
+      "pred": "support",
+      "votes": [
+        "support"
+      ],
+      "audit_fully_covered": true,
+      "raw": "{\"evidence_quote\":\"厘定了华北克拉通古生代、中生代、新生代岩石圈的属性，发现了晚中生代华北克拉通岩石圈地幔富水而新生代岩石圈地幔贫水的特征\",\"label\":\"support\",\"confidence\":0.95,\"reason\":\"证据完整覆盖了引用句的核心命题，包括对象、范围、关系方向和量级\"}",
+      "error": "",
+      "elapsed_ms": 10829.5
+    },
+    {
+      "id": "cs-0089",
+      "label": "partial",
+      "pred": "partial",
+      "votes": [
+        "partial"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"成为近年来学术界和工业界的研究热点\",\"label\":\"partial\",\"confidence\":0.9,\"reason\":\"证据只覆盖引用句的后半部分结论，未涉及光传输优势与应对能耗和计算效率挑战的核心因果关系\"}",
+      "error": "",
+      "elapsed_ms": 3554.7
+    },
+    {
+      "id": "cs-0092",
+      "label": "support",
+      "pred": "support",
+      "votes": [
+        "support"
+      ],
+      "audit_fully_covered": true,
+      "raw": "{\"evidence_quote\":\"三仓出版社欢迎广大科研学者加入我们，参与审稿，合作办刊，投稿荐稿，与中文期刊一同成长壮大。\",\"label\":\"support\",\"confidence\":1.0,\"reason\":\"证据与引用句完全一致，对象、范围、关系方向、量级均一致\"}",
+      "error": "",
+      "elapsed_ms": 8550.4
+    },
+    {
+      "id": "cs-0093",
+      "label": "contradict",
+      "pred": "contradict",
+      "votes": [
+        "contradict"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"企业财务数智化转型已成为提高财务管理水平和决策效能的关键举措\",\"label\":\"contradict\",\"confidence\":0.95,\"reason\":\"断言方向相反，引用句说「降低」而证据说「提高」\"}",
+      "error": "",
+      "elapsed_ms": 3557.0
+    },
+    {
+      "id": "cs-0095",
+      "label": "contradict",
+      "pred": "contradict",
+      "votes": [
+        "contradict"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"采用中西医结合的护理干预可以非常有效地对糖尿病患者的血糖进行控制，更好地促进了患者的康复\",\"label\":\"contradict\",\"confidence\":0.95,\"reason\":\"证据断言「促进了患者的康复」，与引用句的「抑制了患者的康复」方向相反\"}",
+      "error": "",
+      "elapsed_ms": 4183.6
+    },
+    {
+      "id": "cs-0099",
+      "label": "support",
+      "pred": "partial",
+      "votes": [
+        "partial"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"探讨和分析血清降钙素原在重症感染患者临床治疗中的应用效果\",\"label\":\"partial\",\"confidence\":0.9,\"reason\":\"证据只覆盖引用句的主句，未涉及具体的应用效果或研究结果\"}",
+      "error": "",
+      "elapsed_ms": 3557.4
+    },
+    {
+      "id": "cs-0100",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "votes": [
+        "no_evidence"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"\",\"label\":\"no_evidence\",\"confidence\":0.95,\"reason\":\"证据片段仅涉及医学影像介入治疗科的护理方式及效果，与引用句中关于农业经济及人民群众生产生活质量的内容无直接关联\"}",
+      "error": "",
+      "elapsed_ms": 3363.7
+    }
+  ]
+}

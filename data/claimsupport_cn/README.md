@@ -60,14 +60,14 @@
 
 ## 5. 评测结果（`results.json`）
 
-> 当前为**两段式 judge**（v8 少样本判定 + 托管覆盖审计 v1）的正式结果；v4/v7 历史结果见本节末尾。
+> 当前为**两段式 judge**（v10 少样本判定 + 托管覆盖审计 v1）的正式结果；v4/v7/v8 历史结果见本节末尾。
 
 | 项 | 值 |
 |---|---|
 | judge | `citeguard.support.judge_support`（两段式），`deepseek-chat`，temperature 0 |
-| judge prompt | `scripts/support_prompt_v8.txt`（SHA-256 `b136b8ef4666a8e8…`） |
+| judge prompt | `scripts/support_prompt_v10.txt`（SHA-256 `fe9d721cfc211fb1…`） |
 | 覆盖审计 prompt | `scripts/support_prompt_audit.txt`（托管端点 v1；自托管自动切 v2） |
-| macro-F1 | **0.9544** |
+| macro-F1 | **0.9597** |
 | accuracy | **0.9500** |
 | failures | 0（100/100 成功；失败会映射为 `no_evidence` 并计数） |
 
@@ -75,22 +75,22 @@ Per-class：
 
 | 类别 | Precision | Recall | F1 | 支持数 | 预测数 |
 |---|---|---|---|---|---|
-| support | 0.9500 | 0.9500 | 0.9500 | 40 | 40 |
+| support | 0.9487 | 0.9250 | 0.9367 | 40 | 39 |
 | partial | 0.8846 | 0.9200 | 0.9020 | 25 | 26 |
-| contradict | 1.0000 | 0.9333 | 0.9655 | 15 | 14 |
+| contradict | 1.0000 | 1.0000 | 1.0000 | 15 | 15 |
 | no_evidence | 1.0000 | 1.0000 | 1.0000 | 20 | 20 |
 
 混淆矩阵（行 = 真实，列 = 预测；support / partial / contradict / no_evidence）：
 
 ```text
               pred support  partial  contradict  no_evidence
-true support            38        2           0            0
+true support            37        3           0            0
 true partial             2       23           0            0
-true contradict          0        1          14            0
+true contradict          0        0          15            0
 true no_evidence         0        0           0           20
 ```
 
-**单段 prompt v3 历史结果（对比用）**：macro-F1 0.9005 / accuracy 0.8900；混淆矩阵 `[[38,2,0,0],[7,18,0,0],[2,0,13,0],[0,0,0,20]]`。**两段式 + v4 历史结果**：0.9328 / 0.9300。v8 把 support↔partial 的边界写进 prompt（引用句含证据之外的目的/设计细节 → partial；证据只覆盖部分断言 → partial），主要修掉 partial 被误判为 support 的 6 条，同时把 1 条 support 误降为 partial。
+**单段 prompt v3 历史结果（对比用）**：macro-F1 0.9005 / accuracy 0.8900；混淆矩阵 `[[38,2,0,0],[7,18,0,0],[2,0,13,0],[0,0,0,20]]`。**两段式 + v4 历史结果**：0.9328 / 0.9300；**v8**：0.9544 / 0.9500。v8 把 partial 边界写进 prompt（引用句含证据之外的目的/设计细节 → partial；证据只覆盖部分断言 → partial）；v10 再补「方向相反 → contradict」，把 contradict 从 14/15 修正到 15/15，macro-F1 提到 0.9597。
 
 ## 6. 复现命令
 

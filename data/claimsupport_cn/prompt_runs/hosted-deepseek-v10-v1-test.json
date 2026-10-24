@@ -1,0 +1,807 @@
+{
+  "dataset": "ClaimSupport-CN",
+  "split": "test",
+  "n": 60,
+  "tag": "hosted-deepseek-v10-v1-test",
+  "generated_at": "2026-10-24T19:21:42+00:00",
+  "judge": {
+    "base": "https://api.deepseek.com",
+    "model": "deepseek-chat"
+  },
+  "prompt": {
+    "tag": "support_prompt_v10",
+    "sha256": "fe9d721cfc211fb1811df4c6c0e977d59b77dfe8c63a6295c1bc9a5e00185b6c",
+    "votes": 1,
+    "temperature": 0.0,
+    "audit": true,
+    "audit_style": "v1"
+  },
+  "metrics": {
+    "macro_f1": 0.9598,
+    "accuracy": 0.95,
+    "per_class": {
+      "support": {
+        "precision": 0.9565,
+        "recall": 0.9167,
+        "f1": 0.9362,
+        "support": 24,
+        "predicted": 23
+      },
+      "partial": {
+        "precision": 0.875,
+        "recall": 0.9333,
+        "f1": 0.9032,
+        "support": 15,
+        "predicted": 16
+      },
+      "contradict": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 9,
+        "predicted": 9
+      },
+      "no_evidence": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 12,
+        "predicted": 12
+      }
+    },
+    "confusion": [
+      [
+        22,
+        2,
+        0,
+        0
+      ],
+      [
+        1,
+        14,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        9,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        12
+      ]
+    ]
+  },
+  "latency": {
+    "total_s": 121.7,
+    "mean_ms": 2028.4,
+    "p50_ms": 1631.9
+  },
+  "errors": 0,
+  "predictions": [
+    {
+      "id": "cs-0001",
+      "label": "partial",
+      "pred": "support",
+      "votes": [
+        "support"
+      ],
+      "audit_fully_covered": true,
+      "raw": "{\"evidence_quote\":\"被设计并且实现了哪个能合作本地存储和分享的存储一起进动态单个名字空间到在 IO 集中的应用程序优化 I/O 性能。\",\"label\":\"support\",\"confidence\":0.9,\"reason\":\"证据句与引用句核心断言逐字一致，对象、关系与目的均对应\"}",
+      "error": "",
+      "elapsed_ms": 2918.1
+    },
+    {
+      "id": "cs-0004",
+      "label": "partial",
+      "pred": "partial",
+      "votes": [
+        "partial"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"分析影响老年人老年护理服务的因素。\",\"label\":\"partial\",\"confidence\":0.9,\"reason\":\"证据只覆盖引用句前半部分（分析影响因素），未涉及后半部分「提出有效措施进行探究」\"}",
+      "error": "",
+      "elapsed_ms": 1444.4
+    },
+    {
+      "id": "cs-0005",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "votes": [
+        "no_evidence"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"\",\"label\":\"no_evidence\",\"confidence\":0.98,\"reason\":\"证据讨论课程思政与高职教育，与三农、乡村振兴、乡村文化振兴主题完全无关\"}",
+      "error": "",
+      "elapsed_ms": 1631.9
+    },
+    {
+      "id": "cs-0006",
+      "label": "partial",
+      "pred": "partial",
+      "votes": [
+        "partial"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"为新兴领域工程科技人才培养模式的构建带来了新思路\",\"label\":\"partial\",\"confidence\":0.9,\"reason\":\"证据只覆盖后半句，未涉及「新工科」建设指明工程教育改革新方向这一断言\"}",
+      "error": "",
+      "elapsed_ms": 1469.5
+    },
+    {
+      "id": "cs-0007",
+      "label": "support",
+      "pred": "support",
+      "votes": [
+        "support"
+      ],
+      "audit_fully_covered": true,
+      "raw": "{\"evidence_quote\":\"主要对心血管伴随焦虑症的患者实施中西医结合治疗，探究其治疗效果。\",\"label\":\"support\",\"confidence\":0.95,\"reason\":\"证据原文逐字复述了引用句的对象、干预与探究目的，核心命题完全一致\"}",
+      "error": "",
+      "elapsed_ms": 2624.4
+    },
+    {
+      "id": "cs-0008",
+      "label": "contradict",
+      "pred": "contradict",
+      "votes": [
+        "contradict"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"随着中国经济实力的不断增强，国有企业在经济发展过程中的经济实力也在不断增强，形成了较强劲的市场竞争力。\",\"label\":\"contradict\",\"confidence\":0.97,\"reason\":\"证据断言中国经济实力不断增强，与引用句的「不断削弱」方向相反\"}",
+      "error": "",
+      "elapsed_ms": 1321.4
+    },
+    {
+      "id": "cs-0009",
+      "label": "partial",
+      "pred": "partial",
+      "votes": [
+        "partial"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"光声光谱作为一种基于光声效应的吸收光谱分析技术。\",\"label\":\"partial\",\"confidence\":0.95,\"reason\":\"证据只覆盖引用句的首个定义分句，未涉及检测声波、样品形态、适用对象及生物医学关注等其余核心断言\"}",
+      "error": "",
+      "elapsed_ms": 1352.9
+    },
+    {
+      "id": "cs-0010",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "votes": [
+        "no_evidence"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"\",\"label\":\"no_evidence\",\"confidence\":0.98,\"reason\":\"证据片段讨论教育教学改革，与大米进口主题完全无关\"}",
+      "error": "",
+      "elapsed_ms": 1180.2
+    },
+    {
+      "id": "cs-0011",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "votes": [
+        "no_evidence"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"\",\"label\":\"no_evidence\",\"confidence\":0.95,\"reason\":\"证据讨论实习护生教学分组，与人力资源管理、企业竞争力和创新完全无关\"}",
+      "error": "",
+      "elapsed_ms": 1504.5
+    },
+    {
+      "id": "cs-0014",
+      "label": "support",
+      "pred": "support",
+      "votes": [
+        "support"
+      ],
+      "audit_fully_covered": true,
+      "raw": "{\"evidence_quote\":\"以“马基雅维利特质量表”(MACH-IV)、“10 项目人格量表”(TIPI)、常见社会人口学变量和其他校验项目构成的数据为基础，对马基雅维利特质进行大样本(n=35475)实证分析，以验证其核心预测变量和中介变量，并尝试性地回答马基雅维利主义是人格特质还是行为策略的问题。\",\"label\":\"support\",\"confidence\":0.95,\"reason\":\"证据原文完整复述了引用句的全部核心命题，对象、数据构成、样本量、分析目的均一致\"}",
+      "error": "",
+      "elapsed_ms": 2732.5
+    },
+    {
+      "id": "cs-0016",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "votes": [
+        "no_evidence"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"\",\"label\":\"no_evidence\",\"confidence\":0.98,\"reason\":\"证据讨论翻译教学中的模拟翻译教室方法，与农村老年人数字鸿沟主题完全无关\"}",
+      "error": "",
+      "elapsed_ms": 1524.0
+    },
+    {
+      "id": "cs-0017",
+      "label": "support",
+      "pred": "support",
+      "votes": [
+        "support"
+      ],
+      "audit_fully_covered": true,
+      "raw": "{\"evidence_quote\":\"本研究旨在分析数字经济如何驱动农村电商的多样化发展模式，并探索其优化路径。\",\"label\":\"support\",\"confidence\":0.97,\"reason\":\"证据逐字复述了引用句的研究目的，对象、范围与关系完全一致\"}",
+      "error": "",
+      "elapsed_ms": 3063.0
+    },
+    {
+      "id": "cs-0018",
+      "label": "support",
+      "pred": "support",
+      "votes": [
+        "support"
+      ],
+      "audit_fully_covered": true,
+      "raw": "{\"evidence_quote\":\"当前在对外汉语教学中，情景教学受到大家的广泛关注，其直接性、互动性强的特点，使课堂教学变得更加生动有趣，激发学生的学习兴趣，这便于学生更好的解读和掌握相关知识。\",\"label\":\"support\",\"confidence\":0.97,\"reason\":\"证据逐字覆盖引用句全部核心命题，对象、范围、关系与结论均一致\"}",
+      "error": "",
+      "elapsed_ms": 2715.1
+    },
+    {
+      "id": "cs-0024",
+      "label": "support",
+      "pred": "support",
+      "votes": [
+        "support"
+      ],
+      "audit_fully_covered": true,
+      "raw": "{\"evidence_quote\":\"研究精神障碍患者治疗中采用沟通技巧的应用效果。\",\"label\":\"support\",\"confidence\":0.9,\"reason\":\"证据原文直接复述了引用句的研究主题，对象与内容一致\"}",
+      "error": "",
+      "elapsed_ms": 2839.2
+    },
+    {
+      "id": "cs-0025",
+      "label": "partial",
+      "pred": "partial",
+      "votes": [
+        "partial"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"多样的联合治疗被表明了在有在个人联合侧面的复杂疾病的不同病人的治疗潜在。\",\"label\":\"partial\",\"confidence\":0.85,\"reason\":\"证据只覆盖主句，引用句的「与疾病网络的复杂性一致」这一背景未被证据交代\"}",
+      "error": "",
+      "elapsed_ms": 1140.3
+    },
+    {
+      "id": "cs-0026",
+      "label": "support",
+      "pred": "support",
+      "votes": [
+        "support"
+      ],
+      "audit_fully_covered": true,
+      "raw": "{\"evidence_quote\":\"我们从辽宁省的 Yixian 形成描述早白垩纪鸟的新种。\",\"label\":\"support\",\"confidence\":0.95,\"reason\":\"证据首句与引用句完全一致，明确断言了同一发现\"}",
+      "error": "",
+      "elapsed_ms": 2968.4
+    },
+    {
+      "id": "cs-0027",
+      "label": "support",
+      "pred": "partial",
+      "votes": [
+        "partial"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"在基础护理学实验教学中，应用行动导向教学法的效果满意度。\",\"label\":\"partial\",\"confidence\":0.7,\"reason\":\"证据句与引用句逐字相同，但证据片段未给出满意度结果或结论，引用句作为研究发现未被证据实际断言\"}",
+      "error": "",
+      "elapsed_ms": 1599.1
+    },
+    {
+      "id": "cs-0028",
+      "label": "contradict",
+      "pred": "contradict",
+      "votes": [
+        "contradict"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"“订单式”人才培养模式是一种行之有效的全新手段，同时也是落实教学改革和提高人才培养质量的重要途径\",\"label\":\"contradict\",\"confidence\":0.95,\"reason\":\"证据称提高人才培养质量，引用句称降低人才培养质量，方向相反\"}",
+      "error": "",
+      "elapsed_ms": 1302.9
+    },
+    {
+      "id": "cs-0029",
+      "label": "partial",
+      "pred": "partial",
+      "votes": [
+        "partial"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"且旅游地的地理特征对旅游资源的开发与利用具有重要影响\",\"label\":\"partial\",\"confidence\":0.9,\"reason\":\"证据只覆盖引用句后半句，未涉及「旅游资源是促进旅游业发展的重要因素」这一并列结论\"}",
+      "error": "",
+      "elapsed_ms": 1344.6
+    },
+    {
+      "id": "cs-0031",
+      "label": "partial",
+      "pred": "partial",
+      "votes": [
+        "partial"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"Akaike 的信息标准( AIC )被用来识别影响量的特点的主要基因。\",\"label\":\"partial\",\"confidence\":0.9,\"reason\":\"证据只覆盖引用句中AIC识别主要基因这一分句，未涉及P_1、F_1、P_2、F_2人口以及分离分析估计基因效果等内容\"}",
+      "error": "",
+      "elapsed_ms": 1557.5
+    },
+    {
+      "id": "cs-0032",
+      "label": "support",
+      "pred": "support",
+      "votes": [
+        "support"
+      ],
+      "audit_fully_covered": true,
+      "raw": "{\"evidence_quote\":\"语言是人类思维的表达方式，是最具影响力的交流工具，是个体意识与群体意识联系的纽带。\",\"label\":\"support\",\"confidence\":0.98,\"reason\":\"证据逐字完整复述了引用句的全部核心命题，对象、关系与评价均一致\"}",
+      "error": "",
+      "elapsed_ms": 2635.7
+    },
+    {
+      "id": "cs-0034",
+      "label": "partial",
+      "pred": "partial",
+      "votes": [
+        "partial"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"互联网经济已成为社会经济发展中的最大增量\",\"label\":\"partial\",\"confidence\":0.9,\"reason\":\"证据只覆盖主句，引用句的「随着互联网的发展」这一背景未被证据交代\"}",
+      "error": "",
+      "elapsed_ms": 1403.5
+    },
+    {
+      "id": "cs-0035",
+      "label": "support",
+      "pred": "support",
+      "votes": [
+        "support"
+      ],
+      "audit_fully_covered": true,
+      "raw": "{\"evidence_quote\":\"而且，从土壤 F 的数据和移开 SOM 的 F 不能被兰米尔方程描述。\",\"label\":\"support\",\"confidence\":0.98,\"reason\":\"证据与引用句逐字一致，完整覆盖其核心断言\"}",
+      "error": "",
+      "elapsed_ms": 2836.7
+    },
+    {
+      "id": "cs-0036",
+      "label": "support",
+      "pred": "support",
+      "votes": [
+        "support"
+      ],
+      "audit_fully_covered": true,
+      "raw": "{\"evidence_quote\":\"能力去 -- 把品红酸从解决方案移开的 CD 也被学习。\",\"label\":\"support\",\"confidence\":0.95,\"reason\":\"证据原文与引用句完全一致，明确断言了同一命题\"}",
+      "error": "",
+      "elapsed_ms": 2878.0
+    },
+    {
+      "id": "cs-0037",
+      "label": "partial",
+      "pred": "partial",
+      "votes": [
+        "partial"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"它将在某些方面比常规 HEMA 是更好的接触透镜材料。\",\"label\":\"partial\",\"confidence\":0.85,\"reason\":\"证据只覆盖主句的比较结论，未涉及引用句前半部分关于学习性质调查的内容\"}",
+      "error": "",
+      "elapsed_ms": 1681.5
+    },
+    {
+      "id": "cs-0039",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "votes": [
+        "no_evidence"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"\",\"label\":\"no_evidence\",\"confidence\":0.98,\"reason\":\"证据片段讨论腰椎间盘突出患者的中医针灸治疗，与高校体育教育课题完全无关\"}",
+      "error": "",
+      "elapsed_ms": 1468.6
+    },
+    {
+      "id": "cs-0040",
+      "label": "contradict",
+      "pred": "contradict",
+      "votes": [
+        "contradict"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"重点关注有效性的思维模式\",\"label\":\"contradict\",\"confidence\":0.95,\"reason\":\"引用句说关注「无效性的思维模式」，证据说关注「有效性的思维模式」，核心断言方向相反\"}",
+      "error": "",
+      "elapsed_ms": 1234.0
+    },
+    {
+      "id": "cs-0043",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "votes": [
+        "no_evidence"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"\",\"label\":\"no_evidence\",\"confidence\":1.0,\"reason\":\"证据片段讨论的是光频域反射(OFDR)光纤测量技术，与英语教育、职业英语教学完全无关。\"}",
+      "error": "",
+      "elapsed_ms": 1571.0
+    },
+    {
+      "id": "cs-0044",
+      "label": "support",
+      "pred": "support",
+      "votes": [
+        "support"
+      ],
+      "audit_fully_covered": true,
+      "raw": "{\"evidence_quote\":\"多价的金属性的阳离子的效果例如 Ca2+ 和 Fe3+，在锂辉石和绿玉的筹款上被学习。\",\"label\":\"support\",\"confidence\":0.9,\"reason\":\"证据原文与引用句完全一致，明确断言了同一研究对象与范围\"}",
+      "error": "",
+      "elapsed_ms": 2695.3
+    },
+    {
+      "id": "cs-0046",
+      "label": "partial",
+      "pred": "partial",
+      "votes": [
+        "partial"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"随机分为观察组和对照组\",\"label\":\"partial\",\"confidence\":0.9,\"reason\":\"证据只覆盖随机分组，未涉及样本来源、时间、病种、总例数及每组40例等核心信息\"}",
+      "error": "",
+      "elapsed_ms": 1709.5
+    },
+    {
+      "id": "cs-0047",
+      "label": "support",
+      "pred": "support",
+      "votes": [
+        "support"
+      ],
+      "audit_fully_covered": true,
+      "raw": "{\"evidence_quote\":\"在光学相干层析血流造影(OCTA)系统的实际应用中，高质量数据的采集受到多种因素的干扰，如屈光调节、扫描区域移动、动态成像过程中受试对象眼睛状态波动等。\",\"label\":\"support\",\"confidence\":0.98,\"reason\":\"证据逐字断言了引用句的全部核心命题，对象、范围与列举的干扰因素完全一致\"}",
+      "error": "",
+      "elapsed_ms": 3277.6
+    },
+    {
+      "id": "cs-0048",
+      "label": "support",
+      "pred": "partial",
+      "votes": [
+        "support"
+      ],
+      "audit_fully_covered": false,
+      "raw": "{\"evidence_quote\":\"本研究通过对比情景模拟教学法与传统教学法在产科临床教学中的应用效果，发现情景模拟教学法在提升学生临床技能、应对能力、团队协作和沟通能力等方面具有显著优势。\",\"label\":\"support\",\"confidence\":0.98,\"reason\":\"证据句与引用句核心命题完全一致，对象、范围、关系方向均对应\"}",
+      "error": "",
+      "elapsed_ms": 3180.9
+    },
+    {
+      "id": "cs-0049",
+      "label": "partial",
+      "pred": "partial",
+      "votes": [
+        "partial"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"锻烧在压碎弄干的废物蛋壳以后为 2 h 在 800 ° C 在炉子被执行。\",\"label\":\"partial\",\"confidence\":0.85,\"reason\":\"证据只覆盖煅烧条件这一分句，未涉及引用句开头「作为材料准备的预告处理过程」这一背景/定位成分\"}",
+      "error": "",
+      "elapsed_ms": 1562.6
+    },
+    {
+      "id": "cs-0050",
+      "label": "partial",
+      "pred": "partial",
+      "votes": [
+        "partial"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"大学时期是青年学生成长的人生重要阶段\",\"label\":\"partial\",\"confidence\":0.9,\"reason\":\"证据只覆盖前半句，未涉及「人格发展的最佳时期」这一并列结论\"}",
+      "error": "",
+      "elapsed_ms": 1291.0
+    },
+    {
+      "id": "cs-0052",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "votes": [
+        "no_evidence"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"\",\"label\":\"no_evidence\",\"confidence\":0.98,\"reason\":\"证据讨论粒子场重建方法，与乡村振兴和互联网发展无关\"}",
+      "error": "",
+      "elapsed_ms": 1441.4
+    },
+    {
+      "id": "cs-0053",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "votes": [
+        "no_evidence"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"\",\"label\":\"no_evidence\",\"confidence\":0.98,\"reason\":\"证据讨论低渗透水库的排水量测试，与骨科创伤患者分组及VSD疗效对比完全无关\"}",
+      "error": "",
+      "elapsed_ms": 1434.6
+    },
+    {
+      "id": "cs-0055",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "votes": [
+        "no_evidence"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"\",\"label\":\"no_evidence\",\"confidence\":0.98,\"reason\":\"证据片段讨论高职院校课程思政与外贸人才培养，与硝酸盐处理、氨基酸替代及植物硝酸盐浓度完全无关\"}",
+      "error": "",
+      "elapsed_ms": 1592.9
+    },
+    {
+      "id": "cs-0058",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "votes": [
+        "no_evidence"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"\",\"label\":\"no_evidence\",\"confidence\":0.98,\"reason\":\"证据讨论太赫兹超表面器件，与信息技术引发学科教学变革的主题完全无关\"}",
+      "error": "",
+      "elapsed_ms": 1300.3
+    },
+    {
+      "id": "cs-0061",
+      "label": "partial",
+      "pred": "partial",
+      "votes": [
+        "partial"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"拉曼分布式光纤温度传感(RDTS)系统因其长期稳定性成为最早商业化的光纤传感产品之一\",\"label\":\"partial\",\"confidence\":0.9,\"reason\":\"证据只覆盖前半句，未涉及油气勘探市场占据半壁江山的核心断言\"}",
+      "error": "",
+      "elapsed_ms": 1272.3
+    },
+    {
+      "id": "cs-0063",
+      "label": "contradict",
+      "pred": "contradict",
+      "votes": [
+        "contradict"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"推动农业经济发展，提升农民经济收入，强化农村基础建设\",\"label\":\"contradict\",\"confidence\":0.97,\"reason\":\"证据说「提升农民经济收入」，引用句说「降低农民经济收入」，方向相反\"}",
+      "error": "",
+      "elapsed_ms": 1683.2
+    },
+    {
+      "id": "cs-0065",
+      "label": "partial",
+      "pred": "partial",
+      "votes": [
+        "partial"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"所以在很大程度上土壤环境影响着人类的生活质量\",\"label\":\"partial\",\"confidence\":0.9,\"reason\":\"证据只覆盖结论分句，引用句关于土壤是地球组成元素和人类生存基础的前提未被证据交代\"}",
+      "error": "",
+      "elapsed_ms": 1431.3
+    },
+    {
+      "id": "cs-0069",
+      "label": "support",
+      "pred": "support",
+      "votes": [
+        "support"
+      ],
+      "audit_fully_covered": true,
+      "raw": "{\"evidence_quote\":\"新型冠状病毒肺炎疫情的发生，极大促进了分子诊断的发展，基层妇幼保健医院的检验人员进修分子诊断的需求也在增多。\",\"label\":\"support\",\"confidence\":0.98,\"reason\":\"证据原文完整复述了引用句的两个核心断言，对象、方向与关系均一致\"}",
+      "error": "",
+      "elapsed_ms": 2840.9
+    },
+    {
+      "id": "cs-0070",
+      "label": "support",
+      "pred": "support",
+      "votes": [
+        "support"
+      ],
+      "audit_fully_covered": true,
+      "raw": "{\"evidence_quote\":\"胶质瘤是中枢神经系统中最常见的恶性肿瘤，我们通过生物学信息分析WHO 2级及3级胶质瘤患者ITGB1基因表达，研究其在低级别胶质瘤中的预后价值。\",\"label\":\"support\",\"confidence\":0.95,\"reason\":\"证据逐字复述了引用句的全部核心命题，对象、范围与研究目的均一致\"}",
+      "error": "",
+      "elapsed_ms": 2666.9
+    },
+    {
+      "id": "cs-0072",
+      "label": "partial",
+      "pred": "partial",
+      "votes": [
+        "partial"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"《民法典》虽为典型私法规范\",\"label\":\"partial\",\"confidence\":0.95,\"reason\":\"证据只覆盖让步分句，未涉及「行政控权功能」这一核心断言\"}",
+      "error": "",
+      "elapsed_ms": 1358.1
+    },
+    {
+      "id": "cs-0074",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "votes": [
+        "no_evidence"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"\",\"label\":\"no_evidence\",\"confidence\":0.98,\"reason\":\"证据片段讨论中医护理对癌症患者灵性健康的效果，与油气富集规律完全无关\"}",
+      "error": "",
+      "elapsed_ms": 1464.7
+    },
+    {
+      "id": "cs-0075",
+      "label": "support",
+      "pred": "support",
+      "votes": [
+        "support"
+      ],
+      "audit_fully_covered": true,
+      "raw": "{\"evidence_quote\":\"在素质教育已经成为主流教育理念的今天，尤其是随着文化交流的频繁和社会问题的凸显，德育逐渐成为了学校教育的首要环节。\",\"label\":\"support\",\"confidence\":0.95,\"reason\":\"证据逐字包含引用句全部核心命题，对象、背景与结论完全一致\"}",
+      "error": "",
+      "elapsed_ms": 2468.1
+    },
+    {
+      "id": "cs-0078",
+      "label": "support",
+      "pred": "support",
+      "votes": [
+        "support"
+      ],
+      "audit_fully_covered": true,
+      "raw": "{\"evidence_quote\":\"课程思政的核心理念是“三全育人”，把思政教育融入各类课程教学中，让专业课教学和思政教育同行，提高学生道德素养，进一步落实立德树人根本任务。\",\"label\":\"support\",\"confidence\":0.98,\"reason\":\"证据逐字完整复述了引用句的全部核心命题，对象、范围、关系与结论均一致\"}",
+      "error": "",
+      "elapsed_ms": 2634.4
+    },
+    {
+      "id": "cs-0079",
+      "label": "contradict",
+      "pred": "contradict",
+      "votes": [
+        "contradict"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"其传播力的提升具有极为深远的意义\",\"label\":\"contradict\",\"confidence\":0.98,\"reason\":\"证据断言传播力「提升」，引用句称「降低」，方向相反\"}",
+      "error": "",
+      "elapsed_ms": 1400.7
+    },
+    {
+      "id": "cs-0081",
+      "label": "support",
+      "pred": "support",
+      "votes": [
+        "support"
+      ],
+      "audit_fully_covered": true,
+      "raw": "{\"evidence_quote\":\"背景人参皂甙是从人参提取的主要部件，并且人参皂甙 Rg3 是最重要的部分之一。\",\"label\":\"support\",\"confidence\":0.95,\"reason\":\"证据原文逐字复述了引用句的全部核心命题，对象、范围与关系完全一致\"}",
+      "error": "",
+      "elapsed_ms": 3164.5
+    },
+    {
+      "id": "cs-0082",
+      "label": "contradict",
+      "pred": "contradict",
+      "votes": [
+        "contradict"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"我国因产后出血导致的孕产妇死亡虽然已经大幅减少\",\"label\":\"contradict\",\"confidence\":0.98,\"reason\":\"证据称死亡大幅减少，引用句称大幅增加，方向相反\"}",
+      "error": "",
+      "elapsed_ms": 1619.4
+    },
+    {
+      "id": "cs-0083",
+      "label": "contradict",
+      "pred": "contradict",
+      "votes": [
+        "contradict"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"对光纤光栅特征信号进行高速高精度解调是保障光纤光栅传感技术有效应用的关键\",\"label\":\"contradict\",\"confidence\":0.95,\"reason\":\"证据说保障「有效应用」，引用句说保障「无效应用」，核心断言方向相反\"}",
+      "error": "",
+      "elapsed_ms": 1734.2
+    },
+    {
+      "id": "cs-0084",
+      "label": "contradict",
+      "pred": "contradict",
+      "votes": [
+        "contradict"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"经济开始高速发展这促使了人们的生活水平与质量不断提高\",\"label\":\"contradict\",\"confidence\":0.98,\"reason\":\"证据断言生活水平与质量不断提高，与引用句的「不断降低」方向相反\"}",
+      "error": "",
+      "elapsed_ms": 1470.3
+    },
+    {
+      "id": "cs-0085",
+      "label": "contradict",
+      "pred": "contradict",
+      "votes": [
+        "contradict"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"通过各种有效途径提升了数学专业学生的专业性和人才质量\",\"label\":\"contradict\",\"confidence\":0.95,\"reason\":\"证据称通过「有效途径」提升质量，引用句却称「无效途径」，核心断言方向相反\"}",
+      "error": "",
+      "elapsed_ms": 1980.5
+    },
+    {
+      "id": "cs-0087",
+      "label": "support",
+      "pred": "support",
+      "votes": [
+        "support"
+      ],
+      "audit_fully_covered": true,
+      "raw": "{\"evidence_quote\":\"以不同试验性的条件准备的存款的表面形态学和 X 光检查衍射(XRD ) 模式也被调查。\",\"label\":\"support\",\"confidence\":0.95,\"reason\":\"证据句与引用句逐字一致，明确断言了同一调查内容\"}",
+      "error": "",
+      "elapsed_ms": 3180.1
+    },
+    {
+      "id": "cs-0090",
+      "label": "support",
+      "pred": "support",
+      "votes": [
+        "support"
+      ],
+      "audit_fully_covered": true,
+      "raw": "{\"evidence_quote\":\"中国职业教育的“实战化”源于德国“双元制”和新加坡“教学工厂”。\",\"label\":\"support\",\"confidence\":0.95,\"reason\":\"证据原文逐字断言了引用句的全部核心命题，对象、来源与关系方向完全一致\"}",
+      "error": "",
+      "elapsed_ms": 3211.5
+    },
+    {
+      "id": "cs-0091",
+      "label": "support",
+      "pred": "support",
+      "votes": [
+        "support"
+      ],
+      "audit_fully_covered": true,
+      "raw": "{\"evidence_quote\":\"在物质文明成就取得飞速发展的今天，越来越多的人重视精神文明建设。\",\"label\":\"support\",\"confidence\":0.95,\"reason\":\"证据原文完整复现引用句，对象、背景与结论均一致\"}",
+      "error": "",
+      "elapsed_ms": 2755.6
+    },
+    {
+      "id": "cs-0094",
+      "label": "support",
+      "pred": "support",
+      "votes": [
+        "support"
+      ],
+      "audit_fully_covered": true,
+      "raw": "{\"evidence_quote\":\"为了解辽宁红色文化资源融入高校思政课教学的现状，随机抽取辽宁十所不同类型高校的学生进行问卷调查。\",\"label\":\"support\",\"confidence\":0.98,\"reason\":\"证据原文完整复述了引用句的调查目的、对象与方式，核心命题一一对应\"}",
+      "error": "",
+      "elapsed_ms": 2903.6
+    },
+    {
+      "id": "cs-0096",
+      "label": "support",
+      "pred": "support",
+      "votes": [
+        "support"
+      ],
+      "audit_fully_covered": true,
+      "raw": "{\"evidence_quote\":\"仅仅一些男花在开花期被生产，并且水果从一样或不同的植物仅仅通过在不同的花之间的授粉被生产。\",\"label\":\"support\",\"confidence\":0.95,\"reason\":\"证据逐字包含引用句全部核心断言，对象、范围与关系完全一致\"}",
+      "error": "",
+      "elapsed_ms": 2749.5
+    },
+    {
+      "id": "cs-0097",
+      "label": "no_evidence",
+      "pred": "no_evidence",
+      "votes": [
+        "no_evidence"
+      ],
+      "audit_fully_covered": null,
+      "raw": "{\"evidence_quote\":\"\",\"label\":\"no_evidence\",\"confidence\":0.99,\"reason\":\"证据讨论国学经典的价值，与引用句的报纸、扫描电子显微镜、磷吸附等主题完全无关\"}",
+      "error": "",
+      "elapsed_ms": 1485.4
+    },
+    {
+      "id": "cs-0098",
+      "label": "support",
+      "pred": "support",
+      "votes": [
+        "support"
+      ],
+      "audit_fully_covered": true,
+      "raw": "{\"evidence_quote\":\"现阶段，数字赋能是课后体育服务高质量发展的题中之义。\",\"label\":\"support\",\"confidence\":0.98,\"reason\":\"证据原文与引用句完全一致，明确断言了同一核心命题\"}",
+      "error": "",
+      "elapsed_ms": 2800.0
+    }
+  ]
+}

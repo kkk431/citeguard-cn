@@ -9,8 +9,8 @@
 | 文件 | 内容 | 脚本 | 关键数字 |
 |---|---|---|---|
 | 上级目录 `data/citebench_cn/` | CiteBench-CN：250 条中文引文真实性评测集 + 结果 + 数据卡 | `scripts/build_citebench.py`、`scripts/evaluate_citebench.py` | macro-F1 **0.9684** / acc 0.968；DeepSeek 零样本基线 0.5159 |
-| 上级目录 `data/claimsupport_cn/` | ClaimSupport-CN：100 条引用支持度评测集 + 两段式 judge 正式结果（现行 v8 prompt；历史 v4 为 0.9328） | `scripts/build_claimsupport.py`、`scripts/evaluate_support.py` | macro-F1 **0.9544** / acc 0.950 |
-| `support_two_stage_results.json` | 两段式 judge 的独立 harness（历史对照，v4 时期） | `scripts/experiment_support_two_stage.py` | harness 0.9439 vs 当时产品路径 0.9328；现行 v8 产品路径 0.9544 |
+| 上级目录 `data/claimsupport_cn/` | ClaimSupport-CN：100 条引用支持度评测集 + 两段式 judge 正式结果（现行 v10 prompt；历史 v4 为 0.9328、v8 为 0.9544） | `scripts/build_claimsupport.py`、`scripts/evaluate_support.py` | macro-F1 **0.9597** / acc 0.950 |
+| `support_two_stage_results.json` | 两段式 judge 的独立 harness（历史对照，v4 时期） | `scripts/experiment_support_two_stage.py` | harness 0.9439 vs 当时产品路径 0.9328；现行 v10 产品路径 0.9597 |
 | `support_v2_results.json` … `support_v5_results.json`、`support_v3_rerun_results.json`、`support_v3_vote3_results.json` | 支持度 prompt 消融记录（v1–v5、自一致性投票等） | `scripts/experiment_support_prompt.py` | v3 单段 0.9005、v1 0.7951；prompt 版本见 `scripts/support_prompt_*.txt` |
 
 ## 2. 真实已发表论文语料（本地语料，不随仓库分发）
@@ -36,8 +36,9 @@
 | `support_local_qwen25_7b_gpu.json` / `_simple.json` | Qwen2.5-7B-Instruct 在 2×TITAN Xp 上的支持度判定（100 条，产品/精简 prompt） | 同上 | 产品两段式 **0.7181** / 精简 0.7022 |
 | `support_local_qwen3_1.7b_simple.json` | Qwen3-1.7B（Apache-2.0）在 CPU 上离线跑支持度（20 条试点，精简 prompt） | `scripts/eval_support_local.py` | macro-F1 **0.7059**（46 s/条） |
 | `support_local_Qwen_Qwen3-1_7B.json` | 同模型、产品长 prompt 的试点（对照） | 同上 | macro-F1 0.5060（93 s/条） |
-| `support_local_qwen3_8b_v8_test.json` / `support_local_qwen3_14b_v8_{dev,test,all}.json` | Qwen3-8B/14B 在 4×RTX 4090 上的 **v8 few-shot + 审计 v2** 实测（dev 40 / test 60 / all 100） | `scripts/local_judge_server.py` + `scripts/eval_support_prompt.py`（`--prompt-file scripts/support_prompt_v8.txt --audit-style v2`） | 14B test **0.9574**、all 100 **0.9661**；8B test **0.8346**；托管同 test 0.9598 |
-| `support_local_qwen3_gpu.json` | 上面各本地模型的汇总表（供 `/benchmark` 页面直接读取） | 手工汇总自各 JSON | 8 行（v4 基线 + v7/v8） |
+| `support_local_qwen3_8b_v8_test.json` / `support_local_qwen3_14b_v8_{dev,test,all}.json` | Qwen3-8B/14B 在 4×RTX 4090 上的 **v8 few-shot + 审计 v2** 实测（历史对照） | `scripts/local_judge_server.py` + `scripts/eval_support_prompt.py`（`--prompt-file scripts/support_prompt_v8.txt --audit-style v2`） | 14B test 0.9574、all 100 0.9661；8B test 0.8346 |
+| `support_local_qwen3_8b_v10_{dev,test}.json` / `support_local_qwen3_14b_v10_{dev,test,all}.json` | Qwen3-8B/14B **v10 few-shot + 审计 v2** 实测（dev 40 / test 60 / all 100） | 同上（`--prompt-file scripts/support_prompt_v10.txt --audit-style v2`） | 14B dev **1.0000**、test **0.9574**、all 100 **0.9744**；8B test **0.8515**；托管 v10 0.9597 |
+| `support_local_qwen3_gpu.json` | 上面各本地模型的汇总表（供 `/benchmark` 页面直接读取） | 手工汇总自各 JSON | 13 行（v4 基线 + v7/v8/v10） |
 
 ## 4. 格式规则与工程实验
 

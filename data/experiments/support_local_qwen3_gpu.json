@@ -1,128 +1,218 @@
 {
- "generated_at": "2026-10-25T03:00:00+08:00",
- "protocol": "split_seed20261024：dev 40 用于挑选 prompt/参数，test 60 为一次性留出；all 100 为全量复核。同一 ClaimSupport-CN 数据，产品评测脚本逻辑一致。",
- "hardware": "4×RTX 4090 24GB（实验室已有，非购买）；bf16；OpenAI 兼容本地服务 scripts/local_judge_server.py",
- "rows": [
-  {
-   "model": "Qwen3-8B",
-   "split": "dev 40",
-   "n": 40,
-   "macro_f1": 0.9014,
-   "accuracy": 0.9,
-   "prompt": "产品 v4 prompt + 覆盖审计 v2",
-   "latency_mean_ms": 7294.9,
-   "source": "support_local_qwen3_8b_dev.json",
-   "judge": {
-    "base": "http://127.0.0.1:8098/v1",
-    "model": "qwen3-8b"
-   },
-   "generated_at": "2026-10-24T16:29:12+00:00"
-  },
-  {
-   "model": "Qwen3-8B",
-   "split": "test 60",
-   "n": 60,
-   "macro_f1": 0.7817,
-   "accuracy": 0.7833,
-   "prompt": "产品 v4 prompt + 覆盖审计 v2",
-   "latency_mean_ms": 7115.8,
-   "source": "support_local_qwen3_8b_test.json",
-   "judge": {
-    "base": "http://127.0.0.1:8098/v1",
-    "model": "qwen3-8b"
-   },
-   "generated_at": "2026-10-24T16:42:42+00:00"
-  },
-  {
-   "model": "Qwen3-14B",
-   "split": "dev 40",
-   "n": 40,
-   "macro_f1": 0.8676,
-   "accuracy": 0.875,
-   "prompt": "产品 v4 prompt + 覆盖审计 v2",
-   "latency_mean_ms": 8935.9,
-   "source": "support_local_qwen3_14b_dev.json",
-   "judge": {
-    "base": "http://127.0.0.1:8097/v1",
-    "model": "qwen3-14b"
-   },
-   "generated_at": "2026-10-24T16:30:17+00:00"
-  },
-  {
-   "model": "Qwen3-14B",
-   "split": "test 60",
-   "n": 60,
-   "macro_f1": 0.8887,
-   "accuracy": 0.8833,
-   "prompt": "产品 v4 prompt + 覆盖审计 v2",
-   "latency_mean_ms": 8513.7,
-   "source": "support_local_qwen3_14b_test.json",
-   "judge": {
-    "base": "http://127.0.0.1:8097/v1",
-    "model": "qwen3-14b"
-   },
-   "generated_at": "2026-10-24T17:30:58+00:00"
-  },
-  {
-   "model": "Qwen3-8B",
-   "split": "test 60",
-   "n": 60,
-   "macro_f1": 0.8346,
-   "accuracy": 0.8167,
-   "prompt": "v8 few-shot + 覆盖审计 v2",
-   "latency_mean_ms": 5959.2,
-   "source": "support_local_qwen3_8b_v8_test.json",
-   "judge": {
-    "base": "http://127.0.0.1:8098/v1",
-    "model": "qwen3-8b"
-   },
-   "generated_at": "2026-10-25T02:33:00+08:00"
-  },
-  {
-   "model": "Qwen3-14B",
-   "split": "dev 40",
-   "n": 40,
-   "macro_f1": 0.9793,
-   "accuracy": 0.975,
-   "prompt": "v8 few-shot + 覆盖审计 v2",
-   "latency_mean_ms": 4064.6,
-   "source": "support_local_qwen3_14b_v8_dev.json",
-   "judge": {
-    "base": "http://127.0.0.1:8097/v1",
-    "model": "qwen3-14b"
-   },
-   "generated_at": "2026-10-25T02:12:00+08:00"
-  },
-  {
-   "model": "Qwen3-14B",
-   "split": "test 60",
-   "n": 60,
-   "macro_f1": 0.9574,
-   "accuracy": 0.95,
-   "prompt": "v8 few-shot + 覆盖审计 v2",
-   "latency_mean_ms": 7500.0,
-   "source": "support_local_qwen3_14b_v8_test.json",
-   "judge": {
-    "base": "http://127.0.0.1:8097/v1",
-    "model": "qwen3-14b"
-   },
-   "generated_at": "2026-10-25T02:22:00+08:00"
-  },
-  {
-   "model": "Qwen3-14B",
-   "split": "all 100",
-   "n": 100,
-   "macro_f1": 0.9661,
-   "accuracy": 0.96,
-   "prompt": "v8 few-shot + 覆盖审计 v2",
-   "latency_mean_ms": 7909.5,
-   "source": "support_local_qwen3_14b_v8_all.json",
-   "judge": {
-    "base": "http://127.0.0.1:8097/v1",
-    "model": "qwen3-14b"
-   },
-   "generated_at": "2026-10-25T02:38:00+08:00"
-  }
- ],
- "note": "v8 few-shot 同时适用于本地与托管 judge；14B 在 test 60 上 0.9574，与托管 DeepSeek v8 的 0.9598 相差 0.24 个百分点。延迟为单条端到端（含覆盖审计）。"
+  "generated_at": "2026-10-25T03:37:27+08:00",
+  "protocol": "split_seed20261024：dev 40 用于选 prompt/审计方式，test 60 只报最终数字，all 100 为全量。同一 ClaimSupport-CN 数据，与产品脚本口径一致。",
+  "hardware": "4×RTX 4090 24GB（实验室已有，非购买），bf16，OpenAI 兼容本地服务 scripts/local_judge_server.py",
+  "rows": [
+    {
+      "model": "Qwen3-8B",
+      "split": "dev 40",
+      "n": 40,
+      "macro_f1": 0.9014,
+      "accuracy": 0.9,
+      "prompt": "产品 v4 prompt + 覆盖审计 v2",
+      "latency_mean_ms": 7294.9,
+      "source": "support_local_qwen3_8b_dev.json",
+      "judge": {
+        "base": "http://127.0.0.1:8098/v1",
+        "model": "qwen3-8b"
+      },
+      "generated_at": "2026-10-24T16:29:12+00:00"
+    },
+    {
+      "model": "Qwen3-8B",
+      "split": "test 60",
+      "n": 60,
+      "macro_f1": 0.7817,
+      "accuracy": 0.7833,
+      "prompt": "产品 v4 prompt + 覆盖审计 v2",
+      "latency_mean_ms": 7115.8,
+      "source": "support_local_qwen3_8b_test.json",
+      "judge": {
+        "base": "http://127.0.0.1:8098/v1",
+        "model": "qwen3-8b"
+      },
+      "generated_at": "2026-10-24T16:42:42+00:00"
+    },
+    {
+      "model": "Qwen3-14B",
+      "split": "dev 40",
+      "n": 40,
+      "macro_f1": 0.8676,
+      "accuracy": 0.875,
+      "prompt": "产品 v4 prompt + 覆盖审计 v2",
+      "latency_mean_ms": 8935.9,
+      "source": "support_local_qwen3_14b_dev.json",
+      "judge": {
+        "base": "http://127.0.0.1:8097/v1",
+        "model": "qwen3-14b"
+      },
+      "generated_at": "2026-10-24T16:30:17+00:00"
+    },
+    {
+      "model": "Qwen3-14B",
+      "split": "test 60",
+      "n": 60,
+      "macro_f1": 0.8887,
+      "accuracy": 0.8833,
+      "prompt": "产品 v4 prompt + 覆盖审计 v2",
+      "latency_mean_ms": 8513.7,
+      "source": "support_local_qwen3_14b_test.json",
+      "judge": {
+        "base": "http://127.0.0.1:8097/v1",
+        "model": "qwen3-14b"
+      },
+      "generated_at": "2026-10-24T17:30:58+00:00"
+    },
+    {
+      "model": "Qwen3-14B",
+      "split": "test 60",
+      "n": 60,
+      "macro_f1": 0.9063,
+      "accuracy": 0.9,
+      "prompt": "v7 few-shot + 覆盖审计 v2",
+      "latency_mean_ms": 7727.6,
+      "source": "support_local_qwen3_14b_v7_test.json",
+      "judge": {
+        "base": "http://127.0.0.1:8097/v1",
+        "model": "qwen3-14b"
+      },
+      "generated_at": "2026-10-24T17:47:32+00:00"
+    },
+    {
+      "model": "Qwen3-8B",
+      "split": "test 60",
+      "n": 60,
+      "macro_f1": 0.8346,
+      "accuracy": 0.8167,
+      "prompt": "v8 few-shot + 覆盖审计 v2（历史）",
+      "latency_mean_ms": 5959.2,
+      "source": "support_local_qwen3_8b_v8_test.json",
+      "judge": {
+        "base": "http://127.0.0.1:8098/v1",
+        "model": "qwen3-8b"
+      },
+      "generated_at": "2026-10-24T18:36:18+00:00"
+    },
+    {
+      "model": "Qwen3-14B",
+      "split": "dev 40",
+      "n": 40,
+      "macro_f1": 0.9793,
+      "accuracy": 0.975,
+      "prompt": "v8 few-shot + 覆盖审计 v2（历史）",
+      "latency_mean_ms": 7874.6,
+      "source": "support_local_qwen3_14b_v8_dev.json",
+      "judge": {
+        "base": "http://127.0.0.1:8097/v1",
+        "model": "qwen3-14b"
+      },
+      "generated_at": "2026-10-24T18:19:06+00:00"
+    },
+    {
+      "model": "Qwen3-14B",
+      "split": "test 60",
+      "n": 60,
+      "macro_f1": 0.9574,
+      "accuracy": 0.95,
+      "prompt": "v8 few-shot + 覆盖审计 v2（历史）",
+      "latency_mean_ms": 7942.7,
+      "source": "support_local_qwen3_14b_v8_test.json",
+      "judge": {
+        "base": "http://127.0.0.1:8097/v1",
+        "model": "qwen3-14b"
+      },
+      "generated_at": "2026-10-24T18:28:37+00:00"
+    },
+    {
+      "model": "Qwen3-14B",
+      "split": "all 100",
+      "n": 100,
+      "macro_f1": 0.9661,
+      "accuracy": 0.96,
+      "prompt": "v8 few-shot + 覆盖审计 v2（历史）",
+      "latency_mean_ms": 7909.5,
+      "source": "support_local_qwen3_14b_v8_all.json",
+      "judge": {
+        "base": "http://127.0.0.1:8097/v1",
+        "model": "qwen3-14b"
+      },
+      "generated_at": "2026-10-24T18:41:48+00:00"
+    },
+    {
+      "model": "Qwen3-8B",
+      "split": "dev 40",
+      "n": 40,
+      "macro_f1": 0.8882,
+      "accuracy": 0.875,
+      "prompt": "v10 few-shot + 覆盖审计 v2",
+      "latency_mean_ms": 5887.6,
+      "source": "support_local_qwen3_8b_v10_dev.json",
+      "judge": {
+        "base": "http://127.0.0.1:8098/v1",
+        "model": "qwen3-8b"
+      },
+      "generated_at": "2026-10-24T19:25:49+00:00"
+    },
+    {
+      "model": "Qwen3-8B",
+      "split": "test 60",
+      "n": 60,
+      "macro_f1": 0.8515,
+      "accuracy": 0.8333,
+      "prompt": "v10 few-shot + 覆盖审计 v2",
+      "latency_mean_ms": 5883.3,
+      "source": "support_local_qwen3_8b_v10_test.json",
+      "judge": {
+        "base": "http://127.0.0.1:8098/v1",
+        "model": "qwen3-8b"
+      },
+      "generated_at": "2026-10-24T19:31:43+00:00"
+    },
+    {
+      "model": "Qwen3-14B",
+      "split": "dev 40",
+      "n": 40,
+      "macro_f1": 1.0,
+      "accuracy": 1.0,
+      "prompt": "v10 few-shot + 覆盖审计 v2",
+      "latency_mean_ms": 7751.0,
+      "source": "support_local_qwen3_14b_v10_dev.json",
+      "judge": {
+        "base": "http://127.0.0.1:8097/v1",
+        "model": "qwen3-14b"
+      },
+      "generated_at": "2026-10-24T19:13:28+00:00"
+    },
+    {
+      "model": "Qwen3-14B",
+      "split": "test 60",
+      "n": 60,
+      "macro_f1": 0.9574,
+      "accuracy": 0.95,
+      "prompt": "v10 few-shot + 覆盖审计 v2",
+      "latency_mean_ms": 7908.1,
+      "source": "support_local_qwen3_14b_v10_test.json",
+      "judge": {
+        "base": "http://127.0.0.1:8097/v1",
+        "model": "qwen3-14b"
+      },
+      "generated_at": "2026-10-24T19:22:32+00:00"
+    },
+    {
+      "model": "Qwen3-14B",
+      "split": "all 100",
+      "n": 100,
+      "macro_f1": 0.9744,
+      "accuracy": 0.97,
+      "prompt": "v10 few-shot + 覆盖审计 v2",
+      "latency_mean_ms": 7828.5,
+      "source": "support_local_qwen3_14b_v10_all.json",
+      "judge": {
+        "base": "http://127.0.0.1:8097/v1",
+        "model": "qwen3-14b"
+      },
+      "generated_at": "2026-10-24T19:35:35+00:00"
+    }
+  ],
+  "note": "v10 为当前默认；v8/v7/v4 为历史对照。托管 DeepSeek v10：dev 0.9793 / test 0.9598 / all 0.9597。"
 }

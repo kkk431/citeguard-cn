@@ -1,4 +1,4 @@
-# CiteGuard-CN 部署手册（v0.8.0）
+# CiteGuard-CN 部署手册（v0.8.1）
 
 本文覆盖四种落地方式：本地开发、服务器 `.pylibs` 部署、SSH 隧道访问、Docker。
 所有方式都遵循同一条安全约束：**API Key 只从环境变量注入，绝不写进仓库或镜像**。
@@ -77,8 +77,8 @@ export CITEGUARD_SUPPORT_MAX_REFS=30    # 每个任务最多判定多少条（�
 ```
 
 > 优先级：`CITEGUARD_JUDGE_*` > `DEEPSEEK_*`。缓存按「模型 + prompt 版本 + 审计版本」分键，切换模型或自定义 prompt 都会自动重新判定。
-> prompt 两端统一默认 v8 few-shot（`scripts/support_prompt_v8.txt`）；设置 `CITEGUARD_SUPPORT_PROMPT_FILE` 可显式覆盖（3B 及以下建议 `scripts/support_prompt_simple.txt`）。
-> 本地 GPU 实测见 THIRD_PARTY_NOTICES.md §4.2：Qwen3-14B + v8 + 审计 v2 在留出 test 60 上 **0.9574**（同口径托管 0.9598，差 **0.24 分**；全 100 条 0.9661）；Qwen3-8B 0.8346；7B 0.7181。硬件为实验室已有 GPU，非购买。
+> prompt 两端统一默认 v10 few-shot（`scripts/support_prompt_v10.txt`）；设置 `CITEGUARD_SUPPORT_PROMPT_FILE` 可显式覆盖（3B 及以下建议 `scripts/support_prompt_simple.txt`）。
+> 本地 GPU 实测见 THIRD_PARTY_NOTICES.md §4.2：Qwen3-14B + v10 + 审计 v2 在留出 test 60 上 **0.9574**（同口径托管 0.9598，差 **0.24 分**；dev 40 为 1.0000；全 100 条 0.9744）；Qwen3-8B 0.8515；7B 0.7181。硬件为实验室已有 GPU，非购买。
 > 「多篇文献对比」（`/compare`）复用这里的同一个判官接口，没有独立配置；未配置判官时页面只展示说明、不显示提交入口。
 
 也可以复制 `.env.example` 为 `.env` 后由进程管理器 / Docker Compose 注入，
@@ -274,13 +274,13 @@ ssh -L 18000:127.0.0.1:8000 jxy-2
 
 ```bash
 cd citeguard
-docker build -f docker/Dockerfile -t citeguard-cn:0.8.0 .
+docker build -f docker/Dockerfile -t citeguard-cn:0.8.1 .
 
 docker run --rm -p 127.0.0.1:8000:8000 \
   -e DEEPSEEK_API_KEY="${DEEPSEEK_API_KEY:-}" \
   -v "$PWD/data/jobs:/app/data/jobs" \
   -v "$PWD/data/cache:/app/data/cache" \
-  citeguard-cn:0.8.0
+  citeguard-cn:0.8.1
 ```
 
 镜像内固定 `PYTHONPATH=/app/src`，启动命令：
@@ -316,9 +316,9 @@ docker compose -f docker/docker-compose.yml logs -f citeguard
 
 ```bash
 # 有网机器
-docker save citeguard-cn:0.8.0 | gzip > citeguard-cn-0.8.0.tar.gz
+docker save citeguard-cn:0.8.1 | gzip > citeguard-cn-0.8.1.tar.gz
 # 目标机器
-docker load < citeguard-cn-0.8.0.tar.gz
+docker load < citeguard-cn-0.8.1.tar.gz
 ```
 
 ---
@@ -347,7 +347,7 @@ docker load < citeguard-cn-0.8.0.tar.gz
 cd citeguard
 PYTHONPATH=src:.pylibs python3 -m pytest tests -q          # 应全绿（含离线端到端）
 PYTHONPATH=src python3 scripts/verify_artifacts.py         # 应输出 [OK] all checks passed
-PYTHONPATH=src python3 scripts/package_deliverable.py      # 生成 dist/citeguard-cn-0.8.0.zip
+PYTHONPATH=src python3 scripts/package_deliverable.py      # 生成 dist/citeguard-cn-0.8.1.zip
 curl -s http://127.0.0.1:8000/api/health                   # {"ok":true,...}
 ```
 
@@ -406,4 +406,4 @@ curl -s http://127.0.0.1:8000/api/health
 避免把用户上传内容和密钥带进镜像。
 
 **Q11. 如何确认某次部署的版本？**
-`curl -s http://127.0.0.1:8000/api/health`，`version` 字段即当前版本（本手册对应 `0.8.0`）。
+`curl -s http://127.0.0.1:8000/api/health`，`version` 字段即当前版本（本手册对应 `0.8.1`）。

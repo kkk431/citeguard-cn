@@ -14,7 +14,7 @@
 | 引文真实性核验：OpenAlex/Crossref/arXiv + DOI 全系统校验 + 网页型引文链接核验 | ✅ | 真实已发表文献误判「虚构」0/409；13 条真实网页引文经 URL 核验判 Exact；中国 DOI 落地页可补非 Crossref 注册 DOI |
 | 本地题录库（RIS/EndNote/BibTeX/CSL-JSON/纯文本）优先核验 | ✅ | 中文文献确定结论率 49% → 100%（库内命中 409/409，`scripts/eval_library_real.py`） |
 | GB/T 7714-2025 字段检查（必填/建议字段、类型码、作者数、DOI 格式、年份/页码、文档级序号与连接号一致性） | ✅ | E4：类型码 100%、必填字段 98.4%、构造漂移严格检出 **29/30（96.7%）** |
-| 引用支持度判定（LLM judge，可插拔、可选，两段式覆盖审计） | ✅ 可选 | ClaimSupport-CN macro-F1 **0.9544** / acc 0.950（单段 v3 为 0.9005） |
+| 引用支持度判定（LLM judge，可插拔、可选，两段式覆盖审计） | ✅ 可选 | ClaimSupport-CN macro-F1 **0.9597** / acc 0.950（单段 v3 为 0.9005） |
 | 报告与导出（HTML/MD/JSON/CSV，一键生成规范条目、复制建议、打印） | ✅ | `tests/test_web.py`、`tests/test_hardening.py` |
 | 批量：网页多文件上传（含汇总面板/汇总 CSV）、CLI 目录批处理 | ✅ | `web/static/js/index.js`、`tests/test_cli.py` |
 | GB/T 7714-2025 参考文献表重排导出（复制/refs.txt/CSV 列） | ✅ | `tests/test_format_gbt.py`、`tests/test_report.py` |

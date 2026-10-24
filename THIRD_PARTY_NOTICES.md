@@ -99,19 +99,23 @@
 | Qwen3-14B | 2×RTX 4090 | v8 few-shot + 审计 v2（dev 40） | 40 | **0.9793** | 0.975 | 4.1 s/条 |
 | Qwen3-14B | 2×RTX 4090 | v8 few-shot + 审计 v2（**test 60**） | 60 | **0.9574** | 0.950 | 7.5 s/条 |
 | Qwen3-14B | 2×RTX 4090 | v8 few-shot + 审计 v2（all 100） | 100 | **0.9661** | 0.960 | 7.9 s/条 |
-| DeepSeek-Chat（托管，参考） | API | v8 + 审计 v1（all 100） | 100 | **0.9544** | 0.950 | 2–3 s/条 |
+| Qwen3-8B | 1×RTX 4090 | v10 few-shot + 审计 v2（**test 60**） | 60 | **0.8515** | 0.833 | 5.9 s/条 |
+| Qwen3-14B | 2×RTX 4090 | v10 few-shot + 审计 v2（dev 40） | 40 | **1.0000** | 1.000 | 7.8 s/条 |
+| Qwen3-14B | 2×RTX 4090 | v10 few-shot + 审计 v2（**test 60**） | 60 | **0.9574** | 0.950 | 7.9 s/条 |
+| Qwen3-14B | 2×RTX 4090 | v10 few-shot + 审计 v2（all 100） | 100 | **0.9744** | 0.970 | 7.8 s/条 |
+| DeepSeek-Chat（托管，参考） | API | v10 + 审计 v1（all 100） | 100 | **0.9597** | 0.950 | 2–3 s/条 |
 
 - 2026-10 追加的 Qwen3-8B/14B 用固定划分：dev 40 选 prompt/审计方式，test 60 只报最终数字
-  （`data/claimsupport_cn/split_seed20261024.json`）。**v8 few-shot 是主要突破**：14B 在 test 60 上
-  0.9574，与托管同口径 0.9598 只差 **0.24 分**；全 100 条 0.9661 高于托管的 0.9544（test 60 略低，两个口径并列报告）。
-  8B 从 0.7817 提到 0.8346。硬件为实验室已有 GPU，不是为参赛购买。
-- **口径风险**：v8 的两条边界（引用句含证据之外的目的/设计细节 → partial；证据只覆盖部分断言 → partial）
+  （`data/claimsupport_cn/split_seed20261024.json`）。v8 立住两条 partial 边界，把 14B test 从 v4 0.8887 / v7 0.9063 提到 0.9574；
+  **v10 再补一条「方向相反必须判 contradict」的规则**，14B dev 从 0.9793 推到 **1.0000**，test 保持 0.9574，全 100 条 **0.9744**。
+  托管 v10 全 100 条 0.9597，同 test 60 为 0.9598（与 14B 差 **0.24 分**）；8B v10 test 0.8515。硬件为实验室已有 GPU，不是为参赛购买。
+- **口径风险**：v10 的三条边界（引用句含证据之外的目的/设计细节 → partial；证据只覆盖部分断言 → partial；方向相反 → contradict）
   与这份构造集的划分规则同源，提升有一部分来自规则对齐；所以同时保留 v4 历史数字、托管同 test 60/全量对照。
-- prompt 现在两端统一用 v8（`scripts/support_prompt_v8.txt`）；显式设置 `CITEGUARD_SUPPORT_PROMPT_FILE`
-  仍可覆盖；缓存命名空间随 prompt 版本变化（`PROMPT_VERSION=8-<hash8>`）。
+- prompt 现在两端统一用 v10（`scripts/support_prompt_v10.txt`）；显式设置 `CITEGUARD_SUPPORT_PROMPT_FILE`
+  仍可覆盖；缓存命名空间随 prompt 版本变化（`PROMPT_VERSION=10-<hash8>`）。
 - 覆盖审计 v2 对自托管端点默认启用、托管 API 仍用 v1（`CITEGUARD_SUPPORT_AUDIT_STYLE=auto`）；
-  托管 v2 反而降分（test 0.9009 vs v1 0.9470），这是保留 v1 的原因。3 票自洽、混合审计 v3、
-  v7 少样本都没超过 v8 + v2，失败尝试记录在 `docs/support_summary.md`。
+  托管 v2 反而降分（test 0.9009 vs v1 0.9470），这是保留 v1 的原因。v9 重述规则、3 票自洽、混合审计 v3、
+  v7 少样本都没超过 v10 + v2，失败尝试记录在 `docs/support_summary.md`。
 - 产品长 prompt 是为强托管模型调优的：3B 跟不动（0.3894），换精简 prompt 后升到 0.6291；7B 已能执行两段式判定，
   产品路径 0.7181，反而略高于精简 prompt 的 0.7022（差 0.016，在 100 条样本上不宜过度解读）。
 - 整条链路（题录解析 → 核验 → 支持度判定）可以完全离线，接口、缓存、评测脚本与线上一致，
