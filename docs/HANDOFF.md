@@ -445,5 +445,8 @@ v0.6.1 上线后继续压测文献发现，发现并修掉三个具体问题：
   `support_local_qwen3_gpu.json`（汇总）；评测页「本地开源判官」表自动读取后者。
 - 文档同步：README 本地模型表、THIRD_PARTY_NOTICES §4.2、docs/ppt_numbers.md 2d、
   docs/deployment.md §1.4、`.env.example` 都已写入 dev/test 与 auto 说明。
-- 验证：全套 **383 passed**；`verify_artifacts.py` 本机 **102 项**。
+- 验证：全套 **383 passed**；`verify_artifacts.py` 本机 **106 项**、远端 `--api-base` **115 项** 全过。
+- 发布：commit `ef4d418`（已推送 `251f8a7..ef4d418`）；远端 `/data/xyjiang/aic_mental/citeguard`
+  已更新到 `ef4d418`，`/api/health` → 0.7.0；本地演示服务同样为 0.7.0。
+- 交付包 `dist/citeguard-cn-0.7.0.zip`（源码 `ef4d418` + 本文件；每次重打包 hash 会变，以实际文件为准）。
 
