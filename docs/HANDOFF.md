@@ -454,3 +454,14 @@ v0.6.1 上线后继续压测文献发现，发现并修掉三个具体问题：
   已更新到 `ef4d418`，`/api/health` → 0.7.0；本地演示服务同样为 0.7.0。
 - 交付包 `dist/citeguard-cn-0.7.0.zip`（源码 `ef4d418` + 本文件；每次重打包 hash 会变，以实际文件为准）。
 
+## 27. v0.7.1：自托管判官默认切到实测最优 prompt
+
+- 端点感知 prompt：自托管端点默认 `scripts/support_prompt_v7.txt`（少样本、证据优先），托管 API 保持内置 v4；
+  `CITEGUARD_SUPPORT_PROMPT_FILE` 仍可覆盖；prompt 版本号带内容 hash，缓存自动分键。
+- 审计版本继续 `auto`：自托管 v2、托管 v1。
+- 14B + v7 + v2 在留出 test 60 上 **0.9063 / 0.900**（v4 0.8887），是当前开源本地产能上限；
+  托管同口径 0.9470，差距 4.1 分；8B 0.7817。
+- 验证：383 passed；`verify_artifacts.py` 本机 **108 项**、远端 `--api-base` **117 项** 全过。
+- 发布：commit `e9f5da8`（已推送 `a7b2aa0..e9f5da8`），远端 0.7.1，本地 0.7.1。
+- 交付包 `dist/citeguard-cn-0.7.1.zip`（约 1,888,600 bytes；sha256 `aa47bb99…`，重打包会变，以实际文件为准）。
+- 合规事实文档 `docs/compliance_ai_open.md`（规则逐条对照、资源清单、自研边界、证据与缺口；不含 PPT/视频）。
