@@ -498,4 +498,4 @@ v0.6.1 上线后继续压测文献发现，发现并修掉三个具体问题：
   远端 `/api/benchmark` 的 ClaimSupport-CN 为 0.9544 / 0.950、prompt hash `b136b8ef…`，本地判官表 12 行、末行 14B all 100 0.9661。
 - 发布：commit `ebc756b`（已推送 `b1d322c..ebc756b`）；远端 `/data/xyjiang/aic_mental/citeguard` 已更新，
   `/api/health` → 0.8.0；本地演示服务同为 0.8.0。
-- 交付包 `dist/citeguard-cn-0.8.0.zip`（源码 `ebc756b` + 本文件；每次重打包 hash 会变，以实际文件为准）。
+- 交付包 `dist/citeguard-cn-0.8.0.zip`（源码收尾提交 `7a3f010` + 本文件；每次重打包 hash 会变，以实际文件为准）。
