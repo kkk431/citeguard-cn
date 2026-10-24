@@ -1,0 +1,11 @@
+{
+  "label": "support",
+  "confidence": 0.95,
+  "reason": "证据原文完整复现引用句，对象、背景与结论均一致",
+  "evidence": "在物质文明成就取得飞速发展的今天，越来越多的人重视精神文明建设。",
+  "audit": {
+    "fully_covered": true,
+    "missing": [],
+    "style": "v1"
+  }
+}

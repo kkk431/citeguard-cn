@@ -1,0 +1,1 @@
+{"factors": ["FS 的设计与实现", "合作本地存储与分享的存储", "动态单个名字空间", "IO 集中应用程序的 I/O 性能优化"], "covered": [true, true, true, true], "fully_covered": true, "missing": [], "style": "v1"}

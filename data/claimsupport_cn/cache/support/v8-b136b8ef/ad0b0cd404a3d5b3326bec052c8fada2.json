@@ -1,0 +1,11 @@
+{
+  "label": "support",
+  "confidence": 0.98,
+  "reason": "证据逐字覆盖引用句全部核心命题，对象、范围与关系方向一致",
+  "evidence": "厘定了华北克拉通古生代、中生代、新生代岩石圈的属性，发现了晚中生代华北克拉通岩石圈地幔富水而新生代岩石圈地幔贫水的特征",
+  "audit": {
+    "fully_covered": true,
+    "missing": [],
+    "style": "v1"
+  }
+}

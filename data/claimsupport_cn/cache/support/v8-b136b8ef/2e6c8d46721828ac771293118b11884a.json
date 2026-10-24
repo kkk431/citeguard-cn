@@ -1,0 +1,11 @@
+{
+  "label": "support",
+  "confidence": 0.98,
+  "reason": "证据句与引用句逐字一致，完整覆盖对象、背景与转型方向",
+  "evidence": "在AI技术迅猛发展与国家战略推动的背景下，传媒教育正经历智能化、数字化转型。",
+  "audit": {
+    "fully_covered": true,
+    "missing": [],
+    "style": "v1"
+  }
+}

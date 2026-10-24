@@ -1,0 +1,11 @@
+{
+  "label": "support",
+  "confidence": 0.95,
+  "reason": "证据原文与引用句完全一致，对象、干预与目的均对应",
+  "evidence": "主要对心血管伴随焦虑症的患者实施中西医结合治疗，探究其治疗效果。",
+  "audit": {
+    "fully_covered": true,
+    "missing": [],
+    "style": "v1"
+  }
+}

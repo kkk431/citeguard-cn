@@ -1,0 +1,11 @@
+{
+  "label": "support",
+  "confidence": 0.98,
+  "reason": "证据原文逐字复述了引用句的全部核心命题，对象、范围与关系完全一致",
+  "evidence": "本研究旨在分析数字经济如何驱动农村电商的多样化发展模式，并探索其优化路径。",
+  "audit": {
+    "fully_covered": true,
+    "missing": [],
+    "style": "v1"
+  }
+}

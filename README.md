@@ -58,14 +58,14 @@ full              0.9684
 
 | 指标 | Macro-F1 | Accuracy |
 |---|---|---|
-| 支持度四分类（deepseek-chat，temperature 0，两段式 judge） | **0.9328** | **0.9300** |
+| 支持度四分类（deepseek-chat，temperature 0，两段式 judge + 少样本 v8） | **0.9544** | **0.9500** |
 | 同上，单段旧版（prompt v3，仅作对比） | 0.9005 | 0.8900 |
 
 ```
 混淆矩阵（行=真实，列=预测）            support partial contradict no_evidence
-support        [ 37,   2,   0,   1 ]
+support        [ 38,   2,   0,   0 ]
 partial        [  2,  23,   0,   0 ]
-contradict     [  1,   1,  13,   0 ]
+contradict     [  0,   1,  14,   0 ]
 no_evidence    [  0,   0,   0,  20 ]
 ```
 
@@ -74,7 +74,7 @@ no_evidence    [  0,   0,   0,  20 ]
 >
 > 外部验证：同一 judge 零样本迁移到英文公开基准 **SciFact**（300 条 dev claims，**未在 SciFact 上训练/微调**，四分类映射为三分类）：给定标注证据句 macro-F1 **0.8224**，给定整段摘要 **0.7939**。说明判定方法不是只在自建中文集上有效。
 >
-> 本地开源模型：接口是 OpenAI 兼容的，可切到 Qwen 系列开源模型完全离线运行。CPU 上 Qwen3-1.7B（20 条、精简 prompt）macro-F1 0.71；GPU 上实测 Qwen2.5-3B/7B、Qwen3-8B/14B（test 60）：**Qwen3-14B + 少样本 v7 0.9063**、Qwen3-8B 0.7817、7B 0.7181，均低于托管 DeepSeek 的 0.9328——离线可用 ≠ 质量相同。细节与复现命令见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) §4.2。
+> 本地开源模型：接口是 OpenAI 兼容的，可切到 Qwen 系列开源模型完全离线运行。CPU 上 Qwen3-1.7B（20 条、精简 prompt）macro-F1 0.71；GPU 上实测 Qwen2.5-3B/7B、Qwen3-8B/14B（test 60，同一 v8 prompt + 审计 v2）：**Qwen3-14B 0.9574**（全 100 条 **0.9661**）、Qwen3-8B 0.8346、7B 0.7181。14B 与托管 DeepSeek 同 test 口径（0.9598）只差 **0.24 分**，已接近「可离线替代」；8B/7B 仍明显更低——离线可用 ≠ 每个显存档位质量相同。细节与复现命令见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) §4.2。
 
 图表结论核验（可选，需自备 GPU 视觉服务）：
 
@@ -148,20 +148,19 @@ export CITEGUARD_JUDGE_BASE_URL=http://127.0.0.1:11434/v1
 export CITEGUARD_JUDGE_MODEL=qwen2.5:7b-instruct
 ```
 
-实测（ClaimSupport-CN，与托管模型同一数据/脚本；DeepSeek 参考 **0.9328**）：
+实测（ClaimSupport-CN，与托管模型同一数据/脚本；托管 v8 参考 **0.9544**，同 test 60 参考 0.9598）：
 
-| 本地模型 | 硬件 | 产品长 prompt | 精简 prompt |
+| 本地模型 | 硬件 | 早期配置 | 当前 v8 配置 |
 |---|---|---|---|
-| Qwen3-1.7B（20 条试点） | CPU | 0.5060 | **0.7059** |
-| Qwen2.5-3B-Instruct | 1×TITAN Xp | 0.3894 | **0.6291** |
-| Qwen2.5-7B-Instruct | 2×TITAN Xp | **0.7181** | 0.7022 |
-| Qwen3-8B（dev 40；test 60） | 1×RTX 4090 | 0.9014 / **0.7817** | — |
-| Qwen3-14B（dev 40；test 60） | 2×RTX 4090 | 0.8676 / **0.8887** | — |
-| Qwen3-14B + 少样本 v7（test 60） | 2×RTX 4090 | **0.9063** | — |
+| Qwen3-1.7B（20 条试点） | CPU | 0.5060 | 0.7059（精简 prompt） |
+| Qwen2.5-3B-Instruct | 1×TITAN Xp | 0.3894 | 0.6291（精简 prompt） |
+| Qwen2.5-7B-Instruct | 2×TITAN Xp | 0.7181 | 0.7022（精简 prompt） |
+| Qwen3-8B（test 60） | 1×RTX 4090 | 0.7817 | **0.8346** |
+| Qwen3-14B（dev 40 / test 60） | 2×RTX 4090 | 0.8676 / 0.8887（v7: 0.9063） | **0.9793 / 0.9574**；全 100 条 **0.9661** |
 
-> 2026-10 的 Qwen3-8B/14B 用固定划分：dev 40 选方案，test 60 只报最终数字。14B 最好配置（少样本 v7 + 审计 v2）在 test 上 **0.9063**，与托管 0.9328（100 条口径）/0.9470（同 test 60 口径）差约 4.1 分；8B 在 test 上 0.7817。硬件是实验室已有 GPU，不是为参赛购买。覆盖审计 v2 比旧 v1 明显更好（8B dev 0.8372→0.9014），产品对**自托管端点自动切 v2**（`CITEGUARD_SUPPORT_AUDIT_STYLE=auto`），托管 API 仍用 v1 保持已发布口径。托管模型上 v7 反而略低（0.9441 vs 0.9470），所以 prompt 也按端点自动选：自托管默认 v7，托管默认 v4；显式设置 `CITEGUARD_SUPPORT_PROMPT_FILE` 可覆盖。
+> 2026-10 的 Qwen3-8B/14B 用固定划分：dev 40 选方案，test 60 只报最终数字（`data/claimsupport_cn/split_seed20261024.json`）。v8 prompt 是主要突破：显式写出「引用句含证据之外的目的/设计细节 → partial」「证据只覆盖部分断言 → partial」两条边界，14B 的 test 从 v4 0.8887 / v7 0.9063 提到 **0.9574**，与托管同口径（0.9598）只差 **0.24 分**；全 100 条 0.9661 高于托管的 0.9544，但同 test 60 仍略低——两个口径并列报告，不挑高的说。8B 也从 0.7817 提到 0.8346。需要说明：v8 的两条边界与这份构造集的划分规则同源，提升里有一部分来自规则对齐；因此同时保留旧版历史数字与同口径托管对照。硬件是实验室已有 GPU，不是为参赛购买。覆盖审计 v2 对自托管端点自动启用（`CITEGUARD_SUPPORT_AUDIT_STYLE=auto`），托管 API 仍用 v1 以保持历史可比；prompt 现在两端统一用 v8。
 >
-> 小模型（3B 及以下）跟不动产品长 prompt，建议换精简 prompt：`CITEGUARD_SUPPORT_PROMPT_FILE=scripts/support_prompt_simple.txt`（自定义 prompt 自动使用独立缓存），并设 `CITEGUARD_SUPPORT_AUDIT=0`。7B/8B/14B 适合两段式产品 prompt。判定结果按「模型 + prompt 版本 + 审计版本」分键缓存，换模型会自动重判。
+> 小模型（3B 及以下）跟不动长 prompt，建议换精简 prompt：`CITEGUARD_SUPPORT_PROMPT_FILE=scripts/support_prompt_simple.txt`（自定义 prompt 自动使用独立缓存），并设 `CITEGUARD_SUPPORT_AUDIT=0`。7B/8B/14B 适合两段式产品 prompt。判定结果按「模型 + prompt 版本 + 审计版本」分键缓存，换模型会自动重判。
 
 ## 目录
 

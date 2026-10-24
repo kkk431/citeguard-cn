@@ -36,6 +36,8 @@
 | `support_local_qwen25_7b_gpu.json` / `_simple.json` | Qwen2.5-7B-Instruct 在 2×TITAN Xp 上的支持度判定（100 条，产品/精简 prompt） | 同上 | 产品两段式 **0.7181** / 精简 0.7022 |
 | `support_local_qwen3_1.7b_simple.json` | Qwen3-1.7B（Apache-2.0）在 CPU 上离线跑支持度（20 条试点，精简 prompt） | `scripts/eval_support_local.py` | macro-F1 **0.7059**（46 s/条） |
 | `support_local_Qwen_Qwen3-1_7B.json` | 同模型、产品长 prompt 的试点（对照） | 同上 | macro-F1 0.5060（93 s/条） |
+| `support_local_qwen3_8b_v8_test.json` / `support_local_qwen3_14b_v8_{dev,test,all}.json` | Qwen3-8B/14B 在 4×RTX 4090 上的 **v8 few-shot + 审计 v2** 实测（dev 40 / test 60 / all 100） | `scripts/local_judge_server.py` + `scripts/eval_support_prompt.py`（`--prompt-file scripts/support_prompt_v8.txt --audit-style v2`） | 14B test **0.9574**、all 100 **0.9661**；8B test **0.8346**；托管同 test 0.9598 |
+| `support_local_qwen3_gpu.json` | 上面各本地模型的汇总表（供 `/benchmark` 页面直接读取） | 手工汇总自各 JSON | 8 行（v4 基线 + v7/v8） |
 
 ## 4. 格式规则与工程实验
 

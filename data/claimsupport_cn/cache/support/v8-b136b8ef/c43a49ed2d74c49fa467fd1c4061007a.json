@@ -1,0 +1,11 @@
+{
+  "label": "support",
+  "confidence": 0.98,
+  "reason": "证据逐字断言了引用句的全部核心命题，对象、条件、数值与关系完全一致",
+  "evidence": "在烈度为VII的地震力作用下同时考虑3种蓄水工况，该滑坡分别有34.067%、38.061%和38.405%的概率发生整体渐进破坏",
+  "audit": {
+    "fully_covered": true,
+    "missing": [],
+    "style": "v1"
+  }
+}

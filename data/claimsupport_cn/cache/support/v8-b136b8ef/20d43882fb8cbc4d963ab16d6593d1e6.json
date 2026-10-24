@@ -1,0 +1,6 @@
+{
+  "label": "partial",
+  "confidence": 0.9,
+  "reason": "证据只覆盖AIC识别主要基因这一分句，未涉及P_1、F_1、P_2、F_2人口及分离分析估计基因效果等其余成分",
+  "evidence": "Akaike 的信息标准( AIC )被用来识别影响量的特点的主要基因"
+}

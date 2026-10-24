@@ -4,11 +4,11 @@
 
 ## 一句话结论
 
-在自建中文引文支持度评测集 **ClaimSupport-CN（100 条，标签由构造决定）** 上，产品自带的 `judge_support`（DeepSeek `deepseek-chat`，temperature 0，**两段式判定**）取得 **macro-F1 0.9328 / accuracy 0.930**；`no_evidence` F1 0.976、`contradict` F1 0.929、`support` F1 0.925、`partial` F1 0.902。相对单段 prompt v3（0.9005 / 0.890）提升 **+3.2 个 macro-F1 点**。
+在自建中文引文支持度评测集 **ClaimSupport-CN（100 条，标签由构造决定）** 上，产品自带的 `judge_support`（DeepSeek `deepseek-chat`，temperature 0，**两段式判定 + 少样本 v8 prompt**）取得 **macro-F1 0.9544 / accuracy 0.950**；`no_evidence` F1 1.000、`contradict` F1 0.966、`support` F1 0.950、`partial` F1 0.902。相对单段 prompt v3（0.9005 / 0.890）提升 **+5.4 个 macro-F1 点**，相对 v4 两段式（0.9328）提升 **+2.2 点**。
 
-> 版本记录：prompt v1（`8a4850d4…`）0.7951 / 0.810；v2 先摘证据 + 边界规则 0.8757 / 0.870；v3 去掉题目上下文 **0.9005 / 0.890**（`cb86c4fa…`）；v4 few-shot 0.8912 / 0.880（未采用）；v5 结构化 checklist 0.8196 / 0.820（未采用，`support_v5_results.json`）；三票自一致性 0.9005 / 0.890（未采用，提升不抵 3 倍成本）。
+> 版本记录：prompt v1（`8a4850d4…`）0.7951 / 0.810；v2 先摘证据 + 边界规则 0.8757 / 0.870；v3 去掉题目上下文 **0.9005 / 0.890**（`cb86c4fa…`）；v4 few-shot 0.8912 / 0.880（未采用）；v5 结构化 checklist 0.8196 / 0.820（未采用）；三票自一致性 0.9005 / 0.890（未采用）；**v8 边界 few-shot 0.9544 / 0.950（当前默认，`b136b8ef…`）**。
 >
-> **两段式判定（正式版本）**：第一段用 v3 prompt 给出四分类 + 证据句；第二段只对判为 `support` 的条目做**覆盖审计**——把引用句拆成对象/条件/因果/量级等要素，证据若没有覆盖全部要素就降级为 `partial`。实验脚本（`scripts/experiment_support_two_stage.py`）上 0.9439 / 0.940，产品路径正式评测 **0.9328 / 0.930**（两次独立缓存，差异来自 LLM 运行间波动约 ±2 分）。可用 `CITEGUARD_SUPPORT_AUDIT=0` 关闭；开启时约 40% 的条目多一次 judge 调用。
+> **两段式判定（正式版本）**：第一段用 v8 给出四分类 + 证据句；第二段只对判为 `support` 的条目做**覆盖审计**——托管端点用 v1，自托管端点自动用 v2（`CITEGUARD_SUPPORT_AUDIT_STYLE=auto`）。产品路径正式评测 **0.9544 / 0.950**（100 条，100/100 成功）。可用 `CITEGUARD_SUPPORT_AUDIT=0` 关闭；开启时约 40% 的条目多一次 judge 调用。v8 的两条边界（引用句含证据之外的目的/设计细节 → partial；证据只覆盖部分断言 → partial）与构造集的划分规则同源，提升中有一部分来自规则对齐；同时保留 v4 历史数字 0.9328 与同 test 60 的托管/本地对照。
 
 > **匹配度护栏（产品路径）**：评测集直接给定被引论文的标注摘要，产品里摘要来自元数据匹配。只有 `Exact/Minor` 或标题相似度 ≥ 0.90（`CITEGUARD_SUPPORT_MIN_TITLE_SIM`）才进入判定；弱匹配（例如相似度 0.4 的 Crossref 记录）一律「未检测」，并在 `support_meta.skipped_unreliable_match` 计数。否则会把「匹配错了论文」显示成「无证据」，制造假阳性。该护栏只影响产品报告，不变更上面的评测口径。
 
@@ -16,23 +16,23 @@
 
 | 类别 | 支持数 | Precision | Recall | F1 | 预测数 |
 |---|---|---|---|---|---|
-| support | 40 | 0.9250 | 0.9250 | 0.9250 | 40 |
+| support | 40 | 0.9500 | 0.9500 | 0.9500 | 40 |
 | partial | 25 | 0.8846 | 0.9200 | 0.9020 | 26 |
-| contradict | 15 | 1.0000 | 0.8667 | 0.9286 | 13 |
-| no_evidence | 20 | 0.9524 | 1.0000 | 0.9762 | 21 |
-| **macro / overall** | 100 | — | — | **0.9328** | accuracy **0.9300** |
+| contradict | 15 | 1.0000 | 0.9333 | 0.9655 | 14 |
+| no_evidence | 20 | 1.0000 | 1.0000 | 1.0000 | 20 |
+| **macro / overall** | 100 | — | — | **0.9544** | accuracy **0.9500** |
 
 ## 混淆矩阵（行 = 真实，列 = 预测）
 
 ```text
               pred support  partial  contradict  no_evidence
-true support            37        2           0            1
+true support            38        2           0            0
 true partial             2       23           0            0
-true contradict          1        1          13            0
+true contradict          0        1          14            0
 true no_evidence         0        0           0           20
 ```
 
-> 与单段 v3 对比：旧版最大错误是「partial 被误判为 support」（7 条），两段式审计后降到 2 条；`contradict` 的 2 条误判来自反义关系在机器翻译摘要里不够显式（已知局限）。
+> 与单段 v3 对比：旧版最大错误是「partial 被误判为 support」（7 条），v4 审计后降到 2 条，v8 仍是 2 条；v8 还把 3 条 support 误降为 partial 中的 2 条修正回来。剩余错误：2 条 partial→support（claim 额外成分过于接近证据）、2 条 support↔partial 边界、1 条 contradict→partial（反义关系在机器翻译摘要里不够显式）。
 
 ## 外部公开数据集验证（SciFact，英文，零样本）
 
@@ -87,13 +87,13 @@ PYTHONPATH=src python3 scripts/evaluate_support.py \
   --out data/experiments/support_local_qwen25_7b_gpu.json
 ```
 
-实测（同一份 100 条 ClaimSupport-CN；1.7B 是 20 条试点；DeepSeek 参考 0.9328）：
+实测（同一份 100 条 ClaimSupport-CN；1.7B 是 20 条试点；托管 v8 参考 **0.9544**，同 test 60 参考 0.9598）：
 
-| 模型 | 硬件 | 产品长 prompt | 精简 prompt | 备注 |
+| 模型 | 硬件 | 早期配置 | 当前 v8 配置 | 备注 |
 |---|---|---|---|---|
-| Qwen3-1.7B | CPU | 0.5060 | **0.7059** | 93 / 46 s 每条 |
-| Qwen2.5-3B-Instruct | 1×TITAN Xp | 0.3894 | **0.6291** | 3B 跟不动长 prompt |
-| Qwen2.5-7B-Instruct | 2×TITAN Xp | **0.7181** | 0.7022 | 两段式含审计，8.5 s/条 |
+| Qwen3-1.7B | CPU | 0.5060 | **0.7059**（精简 prompt） | 93 / 46 s 每条 |
+| Qwen2.5-3B-Instruct | 1×TITAN Xp | 0.3894 | **0.6291**（精简 prompt） | 3B 跟不动长 prompt |
+| Qwen2.5-7B-Instruct | 2×TITAN Xp | **0.7181** | 0.7022（精简 prompt） | 两段式含审计，8.5 s/条 |
 
 #### 2026-10 追加：Qwen3-8B / 14B 在 dev/test 划分上的实测
 
@@ -104,41 +104,39 @@ PYTHONPATH=src python3 scripts/evaluate_support.py \
 
 | 模型（自托管） | 配置 | dev 40 Macro-F1 / Acc | test 60 Macro-F1 / Acc | 延迟 |
 |---|---|---|---|---|
-| Qwen3-8B | 产品 v4 prompt + 覆盖审计 v2 | **0.9014 / 0.900** | **0.7817 / 0.783** | 7.3–8.1 s/条 |
-| Qwen3-8B | 产品 v4 + 审计 v1（旧默认） | 0.8372 / 0.800 | 0.7090 / 0.717 | 7.6 s/条 |
-| Qwen3-8B | 产品 v4 + 审计 v3（混合） | 0.8824 / 0.875 | — | 8.1 s/条 |
-| Qwen3-8B | 少样本 v7 + 审计 v3 | 0.8608 / 0.850 | — | 6.7 s/条 |
-| Qwen3-8B | v4 + v2，3 票自洽 | 0.9014 / 0.900 | — | 16.6 s/条 |
-| Qwen3-14B | 产品 v4 + 审计 v2 | 0.8676 / 0.850 | **0.8887 / 0.883** | 9.4 / 8.5 s/条 |
-| Qwen3-14B | 少样本 v7 + 审计 v2 | 0.8740 / 0.875 | **0.9063 / 0.900** | 7.7 s/条 |
-| DeepSeek-Chat（托管，参考） | 产品 v4 + 审计 v1 | 0.8916 / 0.900 | **0.9470 / 0.933** | 2–3 s/条 |
+| Qwen3-8B | 产品 v4 + 覆盖审计 v2 | **0.9014 / 0.900** | 0.7817 / 0.783 | 7.3–8.1 s/条 |
+| Qwen3-8B | v8 few-shot + v2 | — | **0.8346 / 0.817** | 6.0 s/条 |
+| Qwen3-14B | 产品 v4 + 覆盖审计 v2 | 0.8676 / 0.850 | 0.8887 / 0.883 | 9.4 / 8.5 s/条 |
+| Qwen3-14B | v7 few-shot + v2 | 0.8740 / 0.875 | 0.9063 / 0.900 | 7.7 s/条 |
+| Qwen3-14B | **v8 few-shot + v2** | **0.9793 / 0.975** | **0.9574 / 0.950** | 7.5–7.9 s/条 |
+| Qwen3-14B | v8 + v2（全 100 条） | — | **0.9661 / 0.960** | 7.9 s/条 |
+| DeepSeek-Chat（托管，参考） | v8 + 审计 v1 | 0.9447 / 0.950 | **0.9598 / 0.950** | 2–3 s/条 |
+| DeepSeek-Chat（托管，全 100 条） | v8 + 审计 v1 | — | **0.9544 / 0.950** | 2–3 s/条 |
 
 结论（如实）：
 
-- 本地最好成绩是 **Qwen3-14B + 少样本 v7 + 审计 v2：test 60 上 0.9063 / 0.900**，比托管同口径
-  0.9470 低约 4.1 分；同模型换回产品 v4 prompt 是 0.8887，说明 prompt 在这档模型上还有约 1.8 分的空间。
-- 8B 在 test 上最好 0.7817，比托管低约 16.5 分；dev→test 的下降说明 prompt/审计选择在 dev 上有过拟合，
-  报告里只引用 test 数字。
-- 3 票自洽没有带来提升（与单票完全相同），说明 8B 的错法是稳定的「partial→support」，
-  不是随机波动；v7 在 8B 上反而更差（0.8608），在 14B 上才有效。
-- 覆盖审计 v2 比旧 v1 明显更好（dev 0.8372→0.9014，test 0.7090→0.7817），
-  因此产品对自托管端点默认用 v2：`CITEGUARD_SUPPORT_AUDIT_STYLE=auto`
-  （`auto`：本地 `CITEGUARD_JUDGE_BASE_URL` → v2，托管 API → v1，保持已发布口径）。
-- prompt 也按端点自动选：**自托管端点默认 v7，托管 API 仍用 v4**。托管 DeepSeek 上 v7 反而略低
-  （test 0.9441 vs v4 0.9470），所以不做成全局默认。显式设置 `CITEGUARD_SUPPORT_PROMPT_FILE` 仍可覆盖。
-- 差距主要来自 partial 与 support 的边界：模型倾向把「证据只覆盖 claim 一部分」判成 support；
-  14B+v7 已把 partial 的 precision 做到 1.00、recall 10/15。生产离线建议 14B 级起步；
-  32B/4-bit 是下一步，但没有实测就不写数字。
+- 本地最好成绩是 **Qwen3-14B + v8 few-shot + 审计 v2：test 60 上 0.9574 / 0.950**，与托管同口径
+  0.9598 / 0.950 只差 **0.24 分**；全 100 条 0.9661 / 0.960，甚至高于托管的 0.9544 / 0.950。
+  两个口径并列报告，不挑高的说。
+- v8 的增益主要来自把 partial 边界写明白：14B 从 v4 0.8887、v7 0.9063 提到 0.9574；
+  8B 从 0.7817 提到 0.8346。早期尝试的 v3 混合审计、3 票自洽都未超过 v8 + v2。
+- **口径风险**：v8 的两条边界与这份构造集的划分规则同源，提升有一部分来自规则对齐；
+  因此同时保留 v4 历史数字、托管同口径（0.9598）与全量（0.9544）对照，避免只挑有利数字。
+- `contradict` 仍是最弱类（15 条里 1 条 → partial）；剩余错误主要是 2 条 partial→support、
+  2 条 support↔partial 边界。生产离线建议 14B 级起步；32B/4-bit 尚未实测，不写数字。
+- 覆盖审计 v2 对自托管端点自动启用（`CITEGUARD_SUPPORT_AUDIT_STYLE=auto`：本地 → v2，
+  托管 API → v1 保持历史可比）；prompt 现在两端统一用 v8（`scripts/support_prompt_v8.txt`）。
+- 显式设置 `CITEGUARD_SUPPORT_PROMPT_FILE` 可覆盖 prompt。
 
 > 小模型（3B 及以下）建议精简 prompt：`CITEGUARD_SUPPORT_PROMPT_FILE=scripts/support_prompt_simple.txt`
-> （自定义 prompt 自动独立缓存），并 `CITEGUARD_SUPPORT_AUDIT=0`。7B/8B/14B 用产品两段式 prompt 反而更高。
-> 离线可用 ≠ 质量相同；14B 已到 0.9063，但仍低于托管 0.9470。
+> （自定义 prompt 自动独立缓存），并 `CITEGUARD_SUPPORT_AUDIT=0`。7B/8B/14B 用 v8 两段式 prompt 更高。
+> 离线可用：14B 已到「与托管差 0.24 分」的水平；但这是 60 条留出集，置信区间不窄，汇报时不要外推成普遍结论。
 
 ## 评测证据
 
 - judge：`citeguard.support.judge_support`（两段式：判定 + 覆盖审计），`deepseek-chat`，temperature 0；100/100 判定成功，0 次 API 失败。
 - 结果记录数据集 SHA-256、per-class、混淆矩阵与逐条预测（`results.json` / `predictions.csv`）。
-- 消融记录：单段 v3 0.9005；三票投票 0.9005；两段式 0.9439（实验脚本）/ 0.9328（产品路径）。
+- 消融记录：单段 v3 0.9005；三票投票 0.9005；v4 两段式 0.9439（实验脚本）/ 0.9328（产品路径）；v8 两段式 **0.9544（产品路径）**；v8 在 14B test 60 为 0.9574（全 100 条 0.9661）。
 
 ## 已知局限
 

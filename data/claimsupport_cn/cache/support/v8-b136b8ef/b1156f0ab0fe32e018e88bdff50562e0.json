@@ -1,0 +1,11 @@
+{
+  "label": "support",
+  "confidence": 0.95,
+  "reason": "证据句与引用句核心断言逐字一致，对象、范围与关系完全对应",
+  "evidence": "为不明确的单个时间延期系统的延期依赖者稳定性分析和柔韧的稳定被探讨。",
+  "audit": {
+    "fully_covered": true,
+    "missing": [],
+    "style": "v1"
+  }
+}

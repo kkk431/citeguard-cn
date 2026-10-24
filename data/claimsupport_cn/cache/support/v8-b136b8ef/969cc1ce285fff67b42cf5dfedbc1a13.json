@@ -1,0 +1,11 @@
+{
+  "label": "support",
+  "confidence": 0.98,
+  "reason": "证据逐字断言了引用句的全部核心命题，对象与关系完全一致",
+  "evidence": "类风湿关节炎属于一种慢性侵蚀性关节炎，基本的症状属于全身性免疫病。",
+  "audit": {
+    "fully_covered": true,
+    "missing": [],
+    "style": "v1"
+  }
+}

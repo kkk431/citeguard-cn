@@ -1,0 +1,11 @@
+{
+  "label": "support",
+  "confidence": 0.95,
+  "reason": "证据首句与引用句完全一致，明确断言了同一对象、范围与关系",
+  "evidence": "我们从辽宁省的 Yixian 形成描述早白垩纪鸟的新种。",
+  "audit": {
+    "fully_covered": true,
+    "missing": [],
+    "style": "v1"
+  }
+}

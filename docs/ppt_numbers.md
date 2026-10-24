@@ -13,10 +13,10 @@
 |---|---|---|---|---|
 | 1 | 引文真实性分类 macro-F1 | **0.9684** | CiteBench-CN 250 条（构造集） | `data/citebench_cn/results.json` |
 | 1b | 同任务 DeepSeek 零样本基线 | 0.5159（acc 0.536） | 同上，prompt 冻结可复现 | `data/citebench_cn/deepseek_results.json` |
-| 2 | 引用支持度 macro-F1 | **0.9328**（acc 0.930） | ClaimSupport-CN 100 条（构造集），两段式 judge | `data/claimsupport_cn/results.json` |
+| 2 | 引用支持度 macro-F1 | **0.9544**（acc 0.950） | ClaimSupport-CN 100 条（构造集），v8 两段式 judge | `data/claimsupport_cn/results.json` |
 | 2b | 单段 judge / prompt v1 对比 | 0.9005 / 0.7951 | 同上，消融记录 | `docs/support_summary.md` |
 | 2c | 外部公开基准零样本（英文 SciFact） | **0.8224**（oracle 证据句）/ **0.7939**（整段摘要） | SciFact dev 300 条，未训练/微调，四分类映射三分类 | `data/experiments/scifact_support_results.json` |
-| 2d | 本地开源模型离线（Qwen3-14B/8B、Qwen2.5-7B/3B、Qwen3-1.7B，Apache-2.0） | **Qwen3-14B + 少样本 v7，test 60：0.9063**（v4 为 0.8887）；Qwen3-8B test 0.7817；Qwen2.5-7B 0.7181；3B 0.6291（精简）；1.7B CPU 0.7059（20 条） | 同一接口、同一脚本、完全离线；14B 与托管同口径（test 60）差约 4.1 分；硬件为实验室已有 4090/TITAN Xp，非购买 | `data/experiments/support_local_qwen3_gpu.json`、`support_local_qwen3_14b_v7_test.json` |
+| 2d | 本地开源模型离线（Qwen3-14B/8B、Qwen2.5-7B/3B、Qwen3-1.7B，Apache-2.0） | **Qwen3-14B + v8，test 60：0.9574**（全 100 条 0.9661；v7 为 0.9063）；Qwen3-8B test 0.8346；Qwen2.5-7B 0.7181；3B 0.6291（精简）；1.7B CPU 0.7059（20 条） | 同一接口、同一脚本、完全离线；14B 与托管同 test 口径（0.9598）差 **0.24 分**；硬件为实验室已有 4090/TITAN Xp，非购买 | `data/experiments/support_local_qwen3_gpu.json` |
 | 3 | 真实已发表文献被判「疑似虚构」 | **0 / 409** | 20 篇 OA 中文论文的参考文献（真实语料） | `data/experiments/verify_real.json` |
 | 3b | 真实文献判定分布（无本地库） | 真实一致 125 / 元数据偏差 87 / 未找到 197 / 疑似虚构 **0** | 同上 | 同上 |
 | 3c | 网页型引文（`[EB/OL]`）链接核验 | 23 条真实网页引文中 **13 条链接可达且页面标题一致**（判 Exact）；3 条标题不一致、7 条访问受限 | 真实语料 §3.1，链路检查带 SSRF 防护 | `data/experiments/verify_real.json` |
@@ -33,9 +33,9 @@
 | 6d | 正文引注一致性检查 | **15 / 15** 规则用例通过 | 按 GB/T 顺序编码制构造的自检用例（非标注集） | `data/experiments/citation_consistency.json` |
 | 7 | 中文题名检索召回 | **92%** | OpenAlex 已收录的中文论文 25 篇 | `data/experiments/search_recall.json` |
 | 8 | 中国 DOI 平台元数据接入 | CNKI DOI 从「未找到」→ **真实一致**；真实语料可补 1/409 | 真实语料 + 在线接口 | `docs/real_data_eval.md` §5 |
-| 9 | 工程与交付 | **378** 测试通过；6 个网页页面 + 报告页；批量/汇总/CSV | 离线测试，无网络依赖 | `pytest tests -q` |
+| 9 | 工程与交付 | **383** 测试通过；6 个网页页面 + 报告页；批量/汇总/CSV | 离线测试，无网络依赖 | `pytest tests -q` |
 
-> 引用时建议写法：**「真实已发表文献 0/409 误判为虚构」**、**「支持度 macro-F1 0.9328（构造集）」**、**「格式漂移检出 29/30」**。
+> 引用时建议写法：**「真实已发表文献 0/409 误判为虚构」**、**「支持度 macro-F1 0.9544（构造集）」**、**「格式漂移检出 29/30」**。
 > 这三条分别对应：敢不敢信结论、能不能判断引用是否被支持、格式规则有没有真本事。
 
 ## 与竞品/基线的对比（可讲的部分）
@@ -44,7 +44,7 @@
 |---|---|---|
 | vs DeepSeek 零样本做引文真实性三分类 | 0.9684 vs 0.5159 | CiteBench-CN；说明「检索 + 规则 + 校验」比纯 LLM 判更可靠 |
 | vs 纯标题检索 / 纯 DOI 锚定（消融） | 0.9684 → 0.7744 / 0.8071 | 证明多源编排的必要性 |
-| vs 单段 LLM judge | 0.9005 → 0.9328 | 两段式覆盖审计的增益 |
+| vs 单段 LLM judge | 0.9005 → 0.9544 | v8 few-shot + 两段式审计的增益 |
 | 外部公开基准 SciFact（英文，zero-shot） | oracle 0.8224 / 摘要 0.7939 | 未训练/微调；判定方法可跨语言迁移 |
 | 本地题录库前 vs 后 | 可判定率 49% → 100% | 中文覆盖率的核心解法 |
 
@@ -79,7 +79,7 @@ PYTHONPATH=src python scripts/verify_artifacts.py           # 数据集/结果/�
 
 ## 不能这么说（会被当场问穿）
 
-1. **不要说「支持度准确率 93%，适用于任意论文」**：ClaimSupport-CN 是程序化构造集（标签由构造决定，无人工双标、无 κ）；应说「在自建中文支持度评测集上 macro-F1 0.9328」。
+1. **不要说「支持度准确率 95%，适用于任意论文」**：ClaimSupport-CN 是程序化构造集（标签由构造决定，无人工双标、无 κ）；应说「在自建中文支持度评测集上 macro-F1 0.9544」。
 2. **不要说「中文文献都能在线核验」**：无本地库时约 48% 只能给「未找到匹配」——这是国际开放元数据覆盖不足，不是造假；本地题录库可把可判定率拉到 100%，但需要用户导入自己的题录。
 3. **不要说「覆盖知网/万方全文」**：产品不抓取、不转存授权全文；只消费用户自己导出的题录与公开元数据。
 4. **不要说「用户实测/用户满意度」**：目前只有内部实验（E4/E5/E7 是内部实验），没有真人用户研究；用户测试包已备好在 `docs/user_test_kit.md`（3–5 人可跑）。

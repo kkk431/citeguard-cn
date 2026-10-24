@@ -1,0 +1,11 @@
+{
+  "label": "support",
+  "confidence": 0.95,
+  "reason": "证据原文完整复述了引用句的全部核心命题，对象、范围与关系均一致",
+  "evidence": "背景人参皂甙是从人参提取的主要部件，并且人参皂甙 Rg3 是最重要的部分之一。",
+  "audit": {
+    "fully_covered": true,
+    "missing": [],
+    "style": "v1"
+  }
+}

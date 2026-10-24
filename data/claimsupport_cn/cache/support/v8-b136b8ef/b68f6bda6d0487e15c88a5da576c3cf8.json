@@ -1,0 +1,11 @@
+{
+  "label": "support",
+  "confidence": 0.95,
+  "reason": "证据原文与引用句完全一致，明确断言了研究对象、干预措施与疗效评价",
+  "evidence": "研究良性前列腺增生采用穴位敷贴护理的疗效。",
+  "audit": {
+    "fully_covered": true,
+    "missing": [],
+    "style": "v1"
+  }
+}

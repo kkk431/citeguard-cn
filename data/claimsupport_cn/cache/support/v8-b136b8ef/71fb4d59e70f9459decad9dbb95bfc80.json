@@ -1,0 +1,11 @@
+{
+  "label": "support",
+  "confidence": 0.98,
+  "reason": "证据逐字完整复现引用句的三个并列核心命题，对象、关系与评价均一致",
+  "evidence": "语言是人类思维的表达方式，是最具影响力的交流工具，是个体意识与群体意识联系的纽带。",
+  "audit": {
+    "fully_covered": true,
+    "missing": [],
+    "style": "v1"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "label": "support",
+  "confidence": 0.98,
+  "reason": "证据原文完整复述了引用句的全部核心命题，对象、范围与关系均一致",
+  "evidence": "遥感图像分类是遥感图像解译的基础，且在农业管理、城市规划、灾害监测等领域中发挥着重要作用。",
+  "audit": {
+    "fully_covered": true,
+    "missing": [],
+    "style": "v1"
+  }
+}

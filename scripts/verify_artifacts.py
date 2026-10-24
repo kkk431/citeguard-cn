@@ -85,19 +85,19 @@ EXPERIMENTS = ROOT / "data" / "experiments"
 CODE_CLAIMS = (
     # (file, substring, why it is checked against the result JSON)
     ("README.md", "0.9684", "CiteBench-CN macro-F1"),
-    ("README.md", "0.9328", "ClaimSupport-CN macro-F1"),
+    ("README.md", "0.9544", "ClaimSupport-CN v8 macro-F1"),
     ("README.md", "0 / 409", "real published references are never accused"),
     ("README.md", "409 条（100%）", "local library coverage"),
     ("README.md", "15/15", "citation-consistency self-check cases"),
     ("README.md", "29/30", "E4 controlled-drift detection"),
     ("README.md", "197 / 200（98.5%）", "real-reference mutation detection"),
     ("README.md", "0.7181", "local Qwen2.5-7B GPU pilot macro-F1"),
-    ("README.md", "0.8887", "local Qwen3-14B test macro-F1"),
-    ("README.md", "0.7817", "local Qwen3-8B test macro-F1"),
-    ("README.md", "0.9063", "local Qwen3-14B v7 test macro-F1"),
-    ("docs/ppt_numbers.md", "0.8887", "one-pager Qwen3-14B test"),
-    ("docs/ppt_numbers.md", "0.7817", "one-pager Qwen3-8B test"),
-    ("docs/ppt_numbers.md", "0.9063", "one-pager Qwen3-14B v7 test"),
+    ("README.md", "0.9574", "local Qwen3-14B v8 test macro-F1"),
+    ("README.md", "0.8346", "local Qwen3-8B v8 test macro-F1"),
+    ("README.md", "0.9661", "local Qwen3-14B v8 all-split macro-F1"),
+    ("docs/ppt_numbers.md", "0.9574", "one-pager Qwen3-14B v8 test"),
+    ("docs/ppt_numbers.md", "0.8346", "one-pager Qwen3-8B v8 test"),
+    ("docs/ppt_numbers.md", "0.9661", "one-pager Qwen3-14B v8 all"),
     ("docs/ppt_numbers.md", "0 / 409", "one-pager real-reference claim"),
     ("docs/ppt_numbers.md", "29 / 30", "one-pager drift claim"),
     ("docs/ppt_numbers.md", "197 / 200", "one-pager mutation detection"),
@@ -224,6 +224,17 @@ def _check_experiments(c: "Checker") -> None:
             c.check(0 < (metrics.get("macro_f1") or 0) <= 1, f"{name}: local-model macro_f1 in (0,1]")
             if "qwen25" in name:
                 c.check(local.get("n") == 100, f"{name}: full 100-case ClaimSupport-CN run")
+
+    support_main = _load_json(ROOT / "data" / "claimsupport_cn" / "results.json") or {}
+    c.check(abs(((support_main.get("metrics") or {}).get("macro_f1") or 0) - 0.9544) < 1e-4,
+            "ClaimSupport-CN product result is the v8 0.9544 run")
+    c.check(((support_main.get("judge") or {}).get("prompt_sha256") or "").startswith("b136b8ef"),
+            "ClaimSupport-CN result records the v8 prompt hash")
+    qwen3_summary = _load_json(EXPERIMENTS / "support_local_qwen3_gpu.json") or {}
+    rows = qwen3_summary.get("rows") or []
+    for value, label in ((0.9574, "14B v8 test"), (0.9661, "14B v8 all-100"), (0.8346, "8B v8 test")):
+        c.check(any(abs((r.get("macro_f1") or 0) - value) < 1e-4 for r in rows),
+                f"local summary contains {label} {value}")
 
 
 def _check_doc_claims(c: "Checker") -> None:

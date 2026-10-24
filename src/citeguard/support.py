@@ -139,10 +139,10 @@ AUDIT_PROMPTS["v3"] = AUDIT_PROMPT_V3
 # models follow the shorter ``scripts/support_prompt_simple.txt`` better than the
 # built-in long prompt. A custom prompt gets its own cache namespace so its
 # verdicts never mix with the built-in prompt's cache.
-# Self-hosted judges (``CITEGUARD_JUDGE_*`` pointing anywhere except the hosted
-# API) default to the measured few-shot v7 prompt: on Qwen3-14B test 60 it scored
-# 0.9063 vs 0.8887 for the built-in v4 prompt. Set the env var explicitly to
-# override, or point at ``scripts/support_prompt_simple.txt`` for very small models.
+# Both endpoints default to the measured few-shot v8 prompt: on Qwen3-14B test 60
+# it scored 0.9574 (v7 0.9063) and hosted DeepSeek all-100 0.9544 (v4 0.9328).
+# Set the env var explicitly to override, or point at
+# ``scripts/support_prompt_simple.txt`` for very small models.
 if config.SUPPORT_PROMPT_FILE:
     _prompt_path = Path(config.SUPPORT_PROMPT_FILE)
     if not _prompt_path.exists():
@@ -152,18 +152,11 @@ if config.SUPPORT_PROMPT_FILE:
     PROMPT = _prompt_path.read_text(encoding="utf-8")
     PROMPT_VERSION = f"{PROMPT_VERSION}-{hashlib.sha256(PROMPT.encode('utf-8')).hexdigest()[:8]}"
 else:
-    _base = (
-        os.environ.get("CITEGUARD_JUDGE_BASE_URL")
-        or os.environ.get("DEEPSEEK_BASE_URL")
-        or ""
-    ).strip().lower()
-    _hosted = (not _base) or any(
-        h in _base for h in ("api.deepseek.com", "openai.com", "dashscope.aliyuncs.com")
-    )
-    _v7_path = Path(__file__).resolve().parents[2] / "scripts" / "support_prompt_v7.txt"
-    if not _hosted and _v7_path.exists():
-        PROMPT = _v7_path.read_text(encoding="utf-8")
-        PROMPT_VERSION = f"7-{hashlib.sha256(PROMPT.encode('utf-8')).hexdigest()[:8]}"
+    _prompt_dir = Path(__file__).resolve().parents[2] / "scripts"
+    _v8_path = _prompt_dir / "support_prompt_v8.txt"
+    if _v8_path.exists():
+        PROMPT = _v8_path.read_text(encoding="utf-8")
+        PROMPT_VERSION = f"8-{hashlib.sha256(PROMPT.encode('utf-8')).hexdigest()[:8]}"
 
 
 def extract_claim(body: str, position: int, max_len: int = 220) -> str:

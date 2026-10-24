@@ -1,0 +1,11 @@
+{
+  "label": "support",
+  "confidence": 0.98,
+  "reason": "证据句与引用句完全一致，明确断言了同一命题",
+  "evidence": "而且，从土壤 F 的数据和移开 SOM 的 F 不能被兰米尔方程描述。",
+  "audit": {
+    "fully_covered": true,
+    "missing": [],
+    "style": "v1"
+  }
+}

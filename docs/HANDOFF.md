@@ -39,7 +39,7 @@ $env:DEEPSEEK_API_KEY = "..."   # 支持度判定用，不写进任何文件
 
 ## 3. 当前状态（一句话）
 
-输入解析（PDF/Word/扫描件 OCR）、GB/T 格式检查（E4 漂移 29/30）、引文真实性核验（在线 + 本地题录库 + 中国 DOI 平台）、支持度判定（两段式 macro-F1 0.9328）、报告与导出全部可用；299 项测试通过。已知边界写在 `docs/plan.md`。
+输入解析（PDF/Word/扫描件 OCR）、GB/T 格式检查（E4 漂移 29/30）、引文真实性核验（在线 + 本地题录库 + 中国 DOI 平台）、支持度判定（两段式 macro-F1 0.9544）、报告与导出全部可用；299 项测试通过。已知边界写在 `docs/plan.md`。
 
 ## 4. 明天优先级
 
@@ -465,3 +465,31 @@ v0.6.1 上线后继续压测文献发现，发现并修掉三个具体问题：
 - 发布：commit `e9f5da8`（已推送 `a7b2aa0..e9f5da8`），远端 0.7.1，本地 0.7.1。
 - 交付包 `dist/citeguard-cn-0.7.1.zip`（约 1,888,600 bytes；sha256 `aa47bb99…`，重打包会变，以实际文件为准）。
 - 合规事实文档 `docs/compliance_ai_open.md`（规则逐条对照、资源清单、自研边界、证据与缺口；不含 PPT/视频）。
+
+## 28. v0.8.0：v8 边界 few-shot，把本地 14B 推到与托管差 0.24 分
+
+- 背景：v7 之后剩余错误集中在 partial→support。检查 v7 test 的 6 条错误与构造规则后，确认缺的是
+  两条明确边界，而不是更多示例。
+- **v8 prompt**（`scripts/support_prompt_v8.txt`）：在 v7 的 few-shot 上补两条规则——
+  「引用句包含证据之外的目的/设计细节 → partial」「证据只覆盖部分断言 → partial」，并各配一个例子。
+- 结果（ClaimSupport-CN，`split_seed20261024.json`；本地服务 `scripts/local_judge_server.py`，4×RTX 4090）：
+
+  | 模型 | dev 40 | test 60 | all 100 |
+  |---|---|---|---|
+  | Qwen3-8B（v8 + 审计 v2） | — | **0.8346 / 0.817**（v7 0.7817） | — |
+  | Qwen3-14B（v8 + 审计 v2） | **0.9793 / 0.975** | **0.9574 / 0.950**（v4 0.8887、v7 0.9063） | **0.9661 / 0.960** |
+  | DeepSeek 托管（v8 + 审计 v1） | 0.9447 / 0.950 | **0.9598 / 0.950** | **0.9544 / 0.950** |
+
+- 口径：14B 与托管同 test 60 差 **0.24 分**；全 100 条本地 0.9661 高于托管 0.9544。两个口径并列报告。
+  v8 的边界与构造集划分规则同源，提升有一部分来自规则对齐——这条已写进 README / support_summary / compliance。
+- 产品默认：prompt 两端统一 v8（`support.py` 导入时读 `scripts/support_prompt_v8.txt`，`PROMPT_VERSION=8-<hash8>`）；
+  `CITEGUARD_SUPPORT_PROMPT_FILE` 仍可覆盖；审计继续 `auto`（自托管 v2、托管 v1）。
+- 证据：`data/experiments/support_local_qwen3_8b_v8_test.json`、
+  `support_local_qwen3_14b_v8_{dev,test,all}.json`、`support_local_qwen3_gpu.json`（汇总，评测页读取）；
+  正式 `data/claimsupport_cn/results.json` 已用 v8 重新生成（0.9544 / 0.950，prompt hash `b136b8ef…`）。
+- 文档同步：README（支持度表、混淆矩阵、本地模型表）、THIRD_PARTY §4.2、docs/support_summary.md、
+  docs/ppt_numbers.md（2/2d/对比/不能这么说）、docs/experiments.md、docs/plan.md、
+  docs/deployment.md、`.env.example`、docs/compliance_ai_open.md、data/claimsupport_cn/README.md。
+- 失败尝试仍留存：审计 v3（8B dev 0.8824）、3 票自洽（0.9014、16.6 s/条）、v6（0.8577/0.8740）均低于 v8。
+- 32B：ModelScope 下载实测约 0.7 MB/s、预计 ~25 h，已中止；没有实测就不写数字。
+- 验证：383 passed；`verify_artifacts.py` 本机 **113 项** 全过。

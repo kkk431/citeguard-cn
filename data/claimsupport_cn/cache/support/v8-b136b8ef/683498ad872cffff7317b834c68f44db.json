@@ -1,0 +1,11 @@
+{
+  "label": "support",
+  "confidence": 0.95,
+  "reason": "证据原文逐字断言了引用句的全部核心命题，对象、来源与关系方向完全一致",
+  "evidence": "中国职业教育的“实战化”源于德国“双元制”和新加坡“教学工厂”。",
+  "audit": {
+    "fully_covered": true,
+    "missing": [],
+    "style": "v1"
+  }
+}

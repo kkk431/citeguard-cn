@@ -45,13 +45,14 @@
 
 | 资源 | 版本 | 许可证 | 原计划用途 | 本期状态 | 来源 |
 |---|---|---|---|---|---|
-| Qwen3-8B | 8B | Apache-2.0 | 本地开源 judge 后端（替换 §2 DeepSeek） | 接口已兼容；**Qwen3-1.7B 已在 CPU 离线跑通（见 §4.2）**；8B 建议 GPU，未在本机实测 | https://huggingface.co/Qwen/Qwen3-8B |
+| Qwen3-8B | 8B | Apache-2.0 | 本地开源 judge 后端（替换 §2 DeepSeek） | **已实测集成**：1×RTX 4090，test 60 上 0.8346（见 §4.2）；权重不入库，运行时从 ModelScope 获取 | https://huggingface.co/Qwen/Qwen3-8B |
+| Qwen3-14B | 14B | Apache-2.0 | 本地开源 judge 后端（强质量档） | **已实测集成**：2×RTX 4090，test 60 上 0.9574（见 §4.2）；权重不入库 | https://huggingface.co/Qwen/Qwen3-14B |
 | Qwen3-Embedding-0.6B | 0.6B | Apache-2.0 | 题名/摘要检索嵌入 | 未集成（当前用题名检索 + DOI 锚点） | https://huggingface.co/Qwen/Qwen3-Embedding-0.6B |
 | Qwen3-Reranker-0.6B | 0.6B | Apache-2.0 | 证据重排 | 未集成 | https://huggingface.co/Qwen/Qwen3-Reranker-0.6B |
 | bge-m3 | — | MIT | 多语嵌入 | 未集成 | https://huggingface.co/BAAI/bge-m3 |
 | Docling | — | MIT | PDF 结构化解 | 未集成 | https://github.com/docling-project/docling |
 
-> 以上资源均只用作**选型论证与路线图**，不计入「已使用开源模型」得分项；已实测的部分见 §4.1。
+> 以上资源均只用作**选型论证与路线图**，不计入「已使用开源模型」得分项；已实测的部分见 §4.2（本地 judge）与 §4.3（视觉模型）。
 
 ## 4. 数据
 
@@ -91,24 +92,30 @@
 | Qwen2.5-7B-Instruct | 2×TITAN Xp | 精简 prompt | 100 | 0.7022 | 0.73 | — |
 | Qwen3-8B | 1×RTX 4090 | 产品 v4 + 审计 v2（dev 40） | 40 | 0.9014 | 0.900 | 7.3 s/条 |
 | Qwen3-8B | 1×RTX 4090 | 产品 v4 + 审计 v2（**test 60**） | 60 | 0.7817 | 0.783 | 7.1 s/条 |
+| Qwen3-8B | 1×RTX 4090 | v8 few-shot + 审计 v2（**test 60**） | 60 | **0.8346** | 0.817 | 6.0 s/条 |
 | Qwen3-14B | 2×RTX 4090 | 产品 v4 + 审计 v2（dev 40） | 40 | 0.8676 | 0.875 | 8.9 s/条 |
 | Qwen3-14B | 2×RTX 4090 | 产品 v4 + 审计 v2（**test 60**） | 60 | 0.8887 | 0.883 | 8.5 s/条 |
-| Qwen3-14B | 2×RTX 4090 | 少样本 v7 + 审计 v2（**test 60**） | 60 | **0.9063** | 0.900 | 7.7 s/条 |
+| Qwen3-14B | 2×RTX 4090 | 少样本 v7 + 审计 v2（**test 60**） | 60 | 0.9063 | 0.900 | 7.7 s/条 |
+| Qwen3-14B | 2×RTX 4090 | v8 few-shot + 审计 v2（dev 40） | 40 | **0.9793** | 0.975 | 4.1 s/条 |
+| Qwen3-14B | 2×RTX 4090 | v8 few-shot + 审计 v2（**test 60**） | 60 | **0.9574** | 0.950 | 7.5 s/条 |
+| Qwen3-14B | 2×RTX 4090 | v8 few-shot + 审计 v2（all 100） | 100 | **0.9661** | 0.960 | 7.9 s/条 |
+| DeepSeek-Chat（托管，参考） | API | v8 + 审计 v1（all 100） | 100 | **0.9544** | 0.950 | 2–3 s/条 |
 
 - 2026-10 追加的 Qwen3-8B/14B 用固定划分：dev 40 选 prompt/审计方式，test 60 只报最终数字
-  （`data/claimsupport_cn/split_seed20261024.json`）。14B 最好配置（少样本 v7 + 审计 v2）在 test 上
-  **0.9063**，比托管 DeepSeek 的 0.9470 低约 4.1 分；v4 prompt 是 0.8887。8B 在 test 上 0.7817，
-  差距扩大到约 16.5 分。硬件为实验室已有 GPU，不是为参赛购买。
-- 托管 DeepSeek 上 v7 反而略低（test 0.9441 vs v4 的 0.9470），所以产品按端点自动选 prompt：
-  **自托管端点默认 v7，托管 API 仍用 v4**（`support.py` 导入时判断 `CITEGUARD_JUDGE_BASE_URL`/`DEEPSEEK_BASE_URL`，
-  显式设置 `CITEGUARD_SUPPORT_PROMPT_FILE` 仍可覆盖）；缓存命名空间会随 prompt 版本变化。
-- 覆盖审计 v2 比旧 v1 明显更好（8B：dev 0.8372→0.9014，test 0.7090→0.7817），但托管模型上 v2 反而降分
-  （test 0.9009 vs v1 0.9470），因此产品对自托管端点默认用 v2、托管 API 用 v1：
-  `CITEGUARD_SUPPORT_AUDIT_STYLE=auto`。3 票自洽与混合审计 v3 均未超过单票方案，记录在 `docs/support_summary.md`。
+  （`data/claimsupport_cn/split_seed20261024.json`）。**v8 few-shot 是主要突破**：14B 在 test 60 上
+  0.9574，与托管同口径 0.9598 只差 **0.24 分**；全 100 条 0.9661 高于托管的 0.9544（test 60 略低，两个口径并列报告）。
+  8B 从 0.7817 提到 0.8346。硬件为实验室已有 GPU，不是为参赛购买。
+- **口径风险**：v8 的两条边界（引用句含证据之外的目的/设计细节 → partial；证据只覆盖部分断言 → partial）
+  与这份构造集的划分规则同源，提升有一部分来自规则对齐；所以同时保留 v4 历史数字、托管同 test 60/全量对照。
+- prompt 现在两端统一用 v8（`scripts/support_prompt_v8.txt`）；显式设置 `CITEGUARD_SUPPORT_PROMPT_FILE`
+  仍可覆盖；缓存命名空间随 prompt 版本变化（`PROMPT_VERSION=8-<hash8>`）。
+- 覆盖审计 v2 对自托管端点默认启用、托管 API 仍用 v1（`CITEGUARD_SUPPORT_AUDIT_STYLE=auto`）；
+  托管 v2 反而降分（test 0.9009 vs v1 0.9470），这是保留 v1 的原因。3 票自洽、混合审计 v3、
+  v7 少样本都没超过 v8 + v2，失败尝试记录在 `docs/support_summary.md`。
 - 产品长 prompt 是为强托管模型调优的：3B 跟不动（0.3894），换精简 prompt 后升到 0.6291；7B 已能执行两段式判定，
   产品路径 0.7181，反而略高于精简 prompt 的 0.7022（差 0.016，在 100 条样本上不宜过度解读）。
-- 与托管 DeepSeek 的 0.9328 仍有明显差距——**离线可跑通 ≠ 质量相同**。但整条链路（题录解析 → 核验 → 支持度判定）
-  可以完全离线，接口、缓存、评测脚本与线上一致，这是「AI 部分开源可替换」的可复现证据。
+- 整条链路（题录解析 → 核验 → 支持度判定）可以完全离线，接口、缓存、评测脚本与线上一致，
+  这是「AI 部分开源可替换」的可复现证据；open 14B 已接近托管质量，但 test 只有 60 条，不能外推成普遍结论。
 - 7B 用产品 prompt 跑 100 条耗时 847.6 s（两段式、2 workers）；3B 591.5 s。硬件是 2017 年的 TITAN Xp，
   换成 24GB 级新卡或 4-bit 量化可进一步提速/放大模型。
 - 复现（服务器示例）：

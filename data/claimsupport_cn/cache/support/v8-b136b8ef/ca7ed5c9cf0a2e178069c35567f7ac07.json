@@ -1,0 +1,11 @@
+{
+  "label": "support",
+  "confidence": 0.97,
+  "reason": "证据句与引用句完全一致，对象、背景、关系方向均一一对应",
+  "evidence": "在素质教育已经成为主流教育理念的今天，尤其是随着文化交流的频繁和社会问题的凸显，德育逐渐成为了学校教育的首要环节。",
+  "audit": {
+    "fully_covered": true,
+    "missing": [],
+    "style": "v1"
+  }
+}
