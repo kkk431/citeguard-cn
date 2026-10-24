@@ -136,7 +136,7 @@
           <td class="mono-sm">{{ m.n }}</td>
           <td class="mono-sm">{{ '%.3f'|format(m.macro_f1) }}</td>
           <td class="mono-sm">{{ '%.3f'|format(m.accuracy) if m.accuracy is not none else '—' }}</td>
-          <td class="mono-sm">{{ m.source }}</td>
+          <td class="mono-sm">{{ m.source or m.file or '' }}</td>
         </tr>
         {% endfor %}
       </tbody>
