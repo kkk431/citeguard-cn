@@ -180,7 +180,8 @@ def test_extract_text_with_meta_marks_garbled_ocr_fallback(monkeypatch, tmp_path
     assert meta["method"] == "ocr"
     assert meta["ocr"] is True
     assert meta["pages"] == 3
-    assert any("OCR" in w for w in meta["warnings"])
+    assert any("文字层损坏" in w for w in meta["warnings"])
+    assert not any("没有可用的文字层" in w for w in meta["warnings"])
 
 
 def test_extract_text_with_meta_marks_scan_without_text_layer(monkeypatch, tmp_path):

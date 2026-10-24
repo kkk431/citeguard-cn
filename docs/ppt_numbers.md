@@ -28,7 +28,7 @@
 | 6c | 30 条受控格式漂移严格检出 | **29 / 30（96.7%）** | E4，6 类 × 5 条（构造漂移） | 同上 |
 | 7 | 中文题名检索召回 | **92%** | OpenAlex 已收录的中文论文 25 篇 | `data/experiments/search_recall.json` |
 | 8 | 中国 DOI 平台元数据接入 | CNKI DOI 从「未找到」→ **真实一致**；真实语料可补 1/409 | 真实语料 + 在线接口 | `docs/real_data_eval.md` §5 |
-| 9 | 工程与交付 | **278** 测试通过；4 个网页页面 + 报告页；批量/汇总/CSV；Docker/CI | 离线测试，无网络依赖 | `pytest tests -q` |
+| 9 | 工程与交付 | **290** 测试通过；4 个网页页面 + 报告页；批量/汇总/CSV；Docker/CI | 离线测试，无网络依赖 | `pytest tests -q` |
 
 > 引用时建议写法：**「真实已发表文献 0/409 误判为虚构」**、**「支持度 macro-F1 0.9328（构造集）」**、**「格式漂移检出 29/30」**。
 > 这三条分别对应：敢不敢信结论、能不能判断引用是否被支持、格式规则有没有真本事。
@@ -54,7 +54,7 @@
 ## 复现命令（评委问「这些数字怎么来的」）
 
 ```bash
-PYTHONPATH=src python -m pytest tests -q                    # 278 passed, 2 skipped
+PYTHONPATH=src python -m pytest tests -q                    # 290 passed, 2 skipped
 PYTHONPATH=src python scripts/evaluate_citebench.py         # 真实性基准（离线缓存）
 DEEPSEEK_API_KEY=... PYTHONPATH=src python scripts/evaluate_support.py   # 支持度（两段式）
 PYTHONPATH=src python scripts/eval_parse_real.py            # 真实论文解析实测
@@ -67,7 +67,7 @@ PYTHONPATH=src python scripts/verify_artifacts.py           # 数据集/结果/�
 ## 不能这么说（会被当场问穿）
 
 1. **不要说「支持度准确率 93%，适用于任意论文」**：ClaimSupport-CN 是程序化构造集（标签由构造决定，无人工双标、无 κ）；应说「在自建中文支持度评测集上 macro-F1 0.9328」。
-2. **不要说「中文文献都能在线核验」**：无本地库时约 51% 只能给「未找到匹配」——这是国际开放元数据覆盖不足，不是造假；本地题录库可把可判定率拉到 100%，但需要用户导入自己的题录。
+2. **不要说「中文文献都能在线核验」**：无本地库时约 48% 只能给「未找到匹配」——这是国际开放元数据覆盖不足，不是造假；本地题录库可把可判定率拉到 100%，但需要用户导入自己的题录。
 3. **不要说「覆盖知网/万方全文」**：产品不抓取、不转存授权全文；只消费用户自己导出的题录与公开元数据。
 4. **不要说「用户实测/用户满意度」**：目前只有内部实验（E4/E5/E7 是内部实验），没有真人用户研究；用户测试包已备好在 `docs/user_test_kit.md`（3–5 人可跑）。
 5. **不要说「格式检查覆盖 GB/T 全部规则」**：E4 是构造漂移回归（29/30），规则引擎仍是有边界的；页码连接号只是 warning，卷/期为小数字时无法判断互换。

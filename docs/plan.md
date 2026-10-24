@@ -20,20 +20,20 @@
 | GB/T 7714-2025 参考文献表重排导出（复制/refs.txt/CSV 列） | ✅ | `tests/test_format_gbt.py`、`tests/test_report.py` |
 | 扫描件 OCR 兜底（可选依赖；真实扫描测试 23/24 条） | ✅ 可选 | scripts/eval_ocr_scanned.py、data/experiments/ocr_scan_real.json |
 | 外部公开数据集验证（SciFact 零样本 0.8224/0.7939） | ✅ | scripts/eval_support_scifact.py |
-| 工程：Docker、CI、部署文档、278 个离线测试 | ✅ | `docker/`、`.github/workflows/ci.yml`、`docs/deployment.md` |
+| 工程：Docker、CI、部署文档、290 个离线测试 | ✅ | `docker/`、`.github/workflows/ci.yml`、`docs/deployment.md` |
 
 ## 2. 已知边界（不要对外说成"能"）
 
 1. **中文文献的在线覆盖率**：无本地库时约 48% 的中文参考文献只能给「未找到匹配」（不是造假）。这是国际开放元数据对中文期刊覆盖不足，不是匹配算法问题（检索召回实测 92%）。解决路径：导入本地题录库（已实现），或获得中文数据源授权（未做）。
 2. **支持度判定依赖外部 LLM API**：无 key 时全部「未检测」；只判有摘要的条目（默认前 30 条，可调）；两段式审计后 partial↔support 仍有 4 条混淆。
-3. **格式规则边界**：页码 ASCII 连字符只给 info 提示（标准原文的一字线规定请以官方为准）、卷/期为小数字时无法判断互换；扫描件 OCR 可能丢类型码（已做「类型码丢失」标记，不臆造）。
+3. **格式规则边界**：页码 ASCII 连字符只给 info 提示（标准原文的一字线规定请以官方为准）、卷/期为小数字时无法判断互换；扫描件 OCR 可能丢类型码/句读（v0.3.4 起能补则补、补不了标「类型码丢失」，不默认按 `[J]` 臆造）。
 4. **无真实用户测试**：目前只有内部可用性自测（E7），没有外部受试者、没有 SUS；测试包见 `docs/user_test_kit.md`。
 
 ## 3. 下一步（按优先级）
 
 1. **题录库体验**（P0）：支持知网/NoteExpress 更多导出变体；题库导出为 BibTeX；批量导入文件夹；摘要补全（`scripts/enrich_library_abstracts.py` 已实现）。
 2. **格式规则扩展**（P1）：页码连接号/卷期一致性规则已加（info 提示 / 启发式 warning），仍需核实标准原文并给规则依据打标；把「规则依据/是否已核原文」写进每条 issue，避免过度断言。
-3. **OCR 质量**（P1）：类型码与标点的 OCR 后处理（`[J]`→`[]` 修复候选）、按页限流与进度提示。
+3. **OCR 质量**（P1）：类型码/句读 OCR 后处理已做首版（`[J.`/`[]`/`[刀.` 修复、日期碎片过滤、年份误作卷号修正），仍需在低分辨率/手写样本上验证；按页限流与进度提示。
 4. **核验准确率**（P2）：作者中英文混写归一化、机构作者过滤；本地库比对的题名相似度阈值调参（当前 0.90/0.78）。
 5. **性能**（P2）：同一文献去重后再查询、请求合并；大 PDF 分页进度。
 6. **真实用户测试**（P3，需要人）：`docs/user_test_kit.md` 已备好任务脚本、指标、SUS 问卷与结果模板，招募 3–5 名真实用户即可产出可用性报告。
@@ -42,7 +42,7 @@
 
 ```bash
 pip install -r requirements.lock.txt
-PYTHONPATH=src python -m pytest tests -q                 # 278 项离线测试
+PYTHONPATH=src python -m pytest tests -q                 # 290 项离线测试
 PYTHONPATH=src python scripts/verify_artifacts.py        # 数据集/结果/文档数字一致性（63 项；加 --api-base 共 72 项）
 PYTHONPATH=src python scripts/eval_parse_real.py         # 真实论文解析实测（需先抓语料）
 PYTHONPATH=src python scripts/eval_verify_real.py        # 真实文献核验误报实测

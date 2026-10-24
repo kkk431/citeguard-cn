@@ -29,7 +29,7 @@ $env:PYTHONPATH = "src;.pylibs"; $env:PYTHONIOENCODING = "utf-8"
 $env:DEEPSEEK_API_KEY = "..."   # 支持度判定用，不写进任何文件
 
 # 自检
-& $py -m pytest tests -q                       # 220 项，全离线
+& $py -m pytest tests -q                       # 290 项，全离线
 
 # 起工作台（演示/自用）
 & $py -m uvicorn web.app:app --host 127.0.0.1 --port 8010
@@ -39,7 +39,7 @@ $env:DEEPSEEK_API_KEY = "..."   # 支持度判定用，不写进任何文件
 
 ## 3. 当前状态（一句话）
 
-输入解析（PDF/Word/扫描件 OCR）、GB/T 格式检查（E4 漂移 29/30）、引文真实性核验（在线 + 本地题录库 + 中国 DOI 平台）、支持度判定（两段式 macro-F1 0.9328）、报告与导出全部可用；253 项测试通过。已知边界写在 `docs/plan.md`。
+输入解析（PDF/Word/扫描件 OCR）、GB/T 格式检查（E4 漂移 29/30）、引文真实性核验（在线 + 本地题录库 + 中国 DOI 平台）、支持度判定（两段式 macro-F1 0.9328）、报告与导出全部可用；290 项测试通过。已知边界写在 `docs/plan.md`。
 
 ## 4. 明天优先级
 

@@ -105,6 +105,7 @@ def extract_text_with_meta(path: str | Path) -> tuple[str, dict]:
 
     meta["method"] = "pdf-text"
     meta["pages"] = _pdf_page_count(path)
+    garbled = False
     text = _pdf_pdfplumber(path)
     if not text.strip():
         text = _pdf_pypdf(path)
@@ -112,7 +113,7 @@ def extract_text_with_meta(path: str | Path) -> tuple[str, dict]:
         # CID/embedded fonts without a ToUnicode map produce strings such as
         # "(cid:131)(cid:243)" — parsing those would create garbage references,
         # so prefer OCR when it is available.
-        meta["warnings"].append("PDF 文字层损坏（CID/自定义字体编码），已尝试改用 OCR")
+        garbled = True
         ocr_text = _ocr_pdf(path)
         if ocr_text.strip():
             text = ocr_text
@@ -136,9 +137,13 @@ def extract_text_with_meta(path: str | Path) -> tuple[str, dict]:
         meta["ocr"] = True
     if meta["ocr"]:
         pages = f"{meta['pages']} 页" if meta["pages"] else "整份文件"
+        reason = (
+            "PDF 文字层损坏（CID/自定义字体编码），已用 OCR 识别"
+            if garbled
+            else "本文件没有可用的文字层，已用 OCR 识别"
+        )
         meta["warnings"].append(
-            f"本文件没有可用的文字层，已用 OCR 识别 {pages}；识别文字可能有错字，"
-            "建议核对原文后再采用核验结论。"
+            f"{reason} {pages}；识别文字可能有错字，建议核对原文后再采用核验结论。"
         )
     # Running headers/footers land in the middle of the reference list.
     text = normalize_text(strip_repeated_lines(text))
