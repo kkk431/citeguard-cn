@@ -161,6 +161,26 @@
     if (fmtErrors.length) {
       items.push("<b>" + fmtErrors.length + "</b> 条存在格式错误（点上方「格式错误」筛选查看）");
     }
+    const cc = data.citation_consistency || {};
+    if (cc.numeric_style) {
+      const uncited = cc.uncited_numbers || [];
+      const missingNums = cc.missing_numbers || [];
+      if (uncited.length) {
+        items.push(
+          "<b>" + uncited.length + "</b> 条参考文献未被正文引用（" +
+          idx(uncited) + "）——按顺序编码制应删除或补引"
+        );
+      }
+      if (missingNums.length) {
+        items.push(
+          "<b>" + missingNums.length + "</b> 个正文引注编号在文献表中不存在（" +
+          missingNums.slice(0, 5).map(function (n) { return "[" + n + "]"; }).join("、") + "）"
+        );
+      }
+      if (cc.order_inversions) {
+        items.push("正文首次引用顺序与编号有 <b>" + cc.order_inversions + "</b> 处不一致");
+      }
+    }
     if (!items.length) {
       items.push("未发现疑似虚构、元数据偏差或格式错误；建议仍人工抽查 1–2 条。");
     }

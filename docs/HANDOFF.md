@@ -211,3 +211,14 @@ $env:DEEPSEEK_API_KEY = "..."   # 支持度判定用，不写进任何文件
 - 测试 **316 passed / 2 skipped**；`verify_artifacts.py` 本地 **66 项**全过，`--api-base` **75 项**全过（本地与远端各跑一遍）；正文引注一致性规则用例 **15/15**。
 - 本地演示（127.0.0.1:8010）与远端 `/data/xyjiang/aic_mental/citeguard`（0.0.0.0:8000）都已部署 v0.3.8；远端粘贴正文 + 文献表实测 `citation_consistency` 正确检出未引用编号，报告页在浏览器实跑可见。
 - 交付包 `dist/citeguard-cn-0.3.8.zip` 已重建（排除第三方原始语料），GitHub `main` 已推送本轮提交。
+
+## 17. 2026-10-24 傍晚：一致性结论进「体检结论」（v0.3.9）
+
+- 报告页顶部「体检结论」现在会汇总正文引注一致性问题：未引用条数、缺失编号（`[n]`）、首次引用顺序倒置处数；有问题才出现，不重复面板的明细。
+- 版本 **0.3.9**（仅前端结论与版本号；规则、评测、报告 JSON 结构均不变），静态资源缓存版本号随 `app.version` 刷新，升级后不会继续用旧 `report.js`。
+- `node --check web/static/js/report.js` 通过；完整测试与 `verify_artifacts.py` 口径不变（**316 passed / 2 skipped**、本地 66 项、`--api-base` 75 项）。
+
+**验收状态（v0.3.9，2026-10-24 傍晚）**
+- 测试 **316 passed / 2 skipped**；`verify_artifacts.py` 本地 **66 项**、`--api-base` **75 项**全过；正文引注一致性规则用例 **15/15**。
+- 本地演示（127.0.0.1:8010）已部署 v0.3.9 并在浏览器实跑「体检结论」；远端随后按同一提交部署。
+- 交付包 `dist/citeguard-cn-0.3.9.zip` 重建，GitHub `main` 推送本轮提交。
