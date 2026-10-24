@@ -550,3 +550,8 @@ v0.6.1 上线后继续压测文献发现，发现并修掉三个具体问题：
   （产品路径行的 latency 置 null，避免把 4 并发墙钟当成单条耗时）。
 - 文档：README、THIRD_PARTY §4.2、docs/support_summary.md、docs/experiments.md、docs/ppt_numbers.md、
   docs/compliance_ai_open.md、data/experiments/README.md 均已写入口径与 bug 说明。
+- 验证与发布（v0.8.2）：全量 **385 passed**；`verify_artifacts.py` 本机 **116 项**、远端
+  `--api-base http://127.0.0.1:8000` **125 项** 全过；commit `a0ed9a9` 已推送；远端
+  `/data/xyjiang/aic_mental/citeguard` 已更新（`/api/health` → 0.8.2），远端 `/api/benchmark` 本地判官表 20 行
+  （含产品路径 14B 0.9744 / 8B 0.8664）；本地演示服务同 0.8.2。
+- 交付包：`dist/citeguard-cn-0.8.2.zip`（2,017,620 bytes，sha256 `3657208d…`；每次重打包 hash 会变，以实际文件为准）。
