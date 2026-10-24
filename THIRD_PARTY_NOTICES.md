@@ -74,11 +74,11 @@
 - 映射：本产品四分类的 `support`/`partial` → SciFact `SUPPORT`，`contradict` → `CONTRADICT`，`no_evidence` → `NOT_ENOUGH_INFO`；zero-shot，**未在 SciFact 上训练/微调**，因此与 SciFact 微调系统不可直接比较。
 - 复现：下载 `https://scifact.s3-us-west-2.amazonaws.com/release/latest/data.tar.gz` → 解压到 `data/experiments/scifact_raw/`（git-ignored）→ `DEEPSEEK_API_KEY=... PYTHONPATH=src python scripts/eval_support_scifact.py`。
 
-### 4.2 本地开源模型离线实测（Qwen2.5-3B/7B、Qwen3-1.7B，Apache-2.0）
+### 4.2 本地开源模型离线实测（Qwen2.5-3B/7B、Qwen3-1.7B/8B/14B，Apache-2.0）
 
 产品 judge 走 OpenAI 兼容接口。`scripts/local_judge_server.py` 用 `transformers` 起一个同样的
-`/v1/chat/completions` 服务，支持 `--device auto` + `CITEGUARD_LOCAL_MAX_MEMORY` 把 7B 拆到多张卡上
-（实测 2×NVIDIA TITAN Xp 12GB，fp16，CUDA 11.4 驱动；3B 单卡即可）。评测脚本、数据、prompt 版本都与
+`/v1/chat/completions` 服务，支持 `--device auto` + `CITEGUARD_LOCAL_MAX_MEMORY` 把大模型拆到多张卡上
+（实测 2×NVIDIA TITAN Xp 12GB 跑 7B，fp16；4×RTX 4090 24GB 跑 8B/14B）。评测脚本、数据、prompt 版本都与
 托管模型一致，因此这些数字可直接对比：
 
 | 模型 | 硬件 | Prompt | 条数 | Macro-F1 | Accuracy | 速度 |
@@ -89,7 +89,17 @@
 | Qwen2.5-3B-Instruct | 1×TITAN Xp | 精简 prompt | 100 | **0.6291** | 0.68 | — |
 | Qwen2.5-7B-Instruct | 2×TITAN Xp | 产品长 prompt（含覆盖审计） | 100 | **0.7181** | 0.66 | 8.5 s/条（2 workers） |
 | Qwen2.5-7B-Instruct | 2×TITAN Xp | 精简 prompt | 100 | 0.7022 | 0.73 | — |
+| Qwen3-8B | 1×RTX 4090 | 产品 v4 + 审计 v2（dev 40） | 40 | 0.9014 | 0.900 | 7.3 s/条 |
+| Qwen3-8B | 1×RTX 4090 | 产品 v4 + 审计 v2（**test 60**） | 60 | 0.7817 | 0.783 | 7.1 s/条 |
+| Qwen3-14B | 2×RTX 4090 | 产品 v4 + 审计 v2（dev 40） | 40 | 0.8676 | 0.875 | 8.9 s/条 |
+| Qwen3-14B | 2×RTX 4090 | 产品 v4 + 审计 v2（**test 60**） | 60 | **0.8887** | 0.883 | 8.5 s/条 |
 
+- 2026-10 追加的 Qwen3-8B/14B 用固定划分：dev 40 选 prompt/审计方式，test 60 只报最终数字
+  （`data/claimsupport_cn/split_seed20261024.json`）。14B 在 test 上 0.8887，比托管 DeepSeek 的 0.9470
+  低约 5.8 分；8B 在 test 上 0.7817，差距扩大到约 16.5 分。硬件为实验室已有 GPU，不是为参赛购买。
+- 覆盖审计 v2 比旧 v1 明显更好（8B：dev 0.8372→0.9014，test 0.7090→0.7817），因此产品对自托管端点
+  默认用 v2：`CITEGUARD_SUPPORT_AUDIT_STYLE=auto`（本地端点 → v2，托管 API → v1，保持已发布口径）。
+  3 票自洽与少样本 prompt 均未超过单票 v2，记录在 `docs/support_summary.md`。
 - 产品长 prompt 是为强托管模型调优的：3B 跟不动（0.3894），换精简 prompt 后升到 0.6291；7B 已能执行两段式判定，
   产品路径 0.7181，反而略高于精简 prompt 的 0.7022（差 0.016，在 100 条样本上不宜过度解读）。
 - 与托管 DeepSeek 的 0.9328 仍有明显差距——**离线可跑通 ≠ 质量相同**。但整条链路（题录解析 → 核验 → 支持度判定）
@@ -105,10 +115,11 @@
   PYTHONPATH=src python scripts/evaluate_support.py --limit 100 \
     --out data/experiments/support_local_qwen25_7b_gpu.json
   ```
-- 证据文件：`data/experiments/support_local_qwen25_{3b,7b}_{gpu,simple}.json`（含 confusion / per-class / prompt hash）。
+- 证据文件：`data/experiments/support_local_qwen25_{3b,7b}_{gpu,simple}.json`（含 confusion / per-class / prompt hash）；
+  Qwen3 的 dev/test 原始结果与汇总在 `data/experiments/support_local_qwen3_{8b,14b}_{dev,test}.json`、
+  `support_local_qwen3_gpu.json`。
   小模型换精简 prompt 时，产品侧可设 `CITEGUARD_SUPPORT_PROMPT_FILE=scripts/support_prompt_simple.txt`
   （自定义 prompt 自动使用独立缓存命名空间），并建议 `CITEGUARD_SUPPORT_AUDIT=0`。
-- 尚未实测 Qwen3-8B / 14B：8B 需要更大显存或量化；接口已经兼容，后续换模型只需改 `--model` 与环境变量。
 
 ### 4.3 图表结论核验（Qwen2.5-VL-7B-Instruct，Apache-2.0）
 

@@ -95,6 +95,35 @@ PYTHONPATH=src python3 scripts/evaluate_support.py \
 | Qwen2.5-3B-Instruct | 1×TITAN Xp | 0.3894 | **0.6291** | 3B 跟不动长 prompt |
 | Qwen2.5-7B-Instruct | 2×TITAN Xp | **0.7181** | 0.7022 | 两段式含审计，8.5 s/条 |
 
+#### 2026-10 追加：Qwen3-8B / 14B 在 dev/test 划分上的实测
+
+为了回答「开源模型到底能做到多好、离托管 API 差多少」，把 100 条按分层抽样固定切成
+**dev 40**（调 prompt / 选审计方式）与 **test 60**（只用于最终报告）；划分文件
+`data/claimsupport_cn/split_seed20261024.json`。本地服务为
+`scripts/local_judge_server.py`（OpenAI 兼容，bf16，4×RTX 4090）。硬件不是购买：实验室已有卡。
+
+| 模型（自托管） | 配置 | dev 40 Macro-F1 / Acc | test 60 Macro-F1 / Acc | 延迟 |
+|---|---|---|---|---|
+| Qwen3-8B | 产品 v4 prompt + 覆盖审计 v2 | **0.9014 / 0.900** | **0.7817 / 0.783** | 7.3–8.1 s/条 |
+| Qwen3-8B | 产品 v4 + 审计 v1（旧默认） | 0.8372 / 0.800 | 0.7090 / 0.717 | 7.6 s/条 |
+| Qwen3-8B | 产品 v4 + 审计 v3（混合） | 0.8824 / 0.875 | — | 8.1 s/条 |
+| Qwen3-8B | 少样本 v7 + 审计 v3 | 0.8608 / 0.850 | — | 6.7 s/条 |
+| Qwen3-8B | v4 + v2，3 票自洽 | 0.9014 / 0.900 | — | 16.6 s/条 |
+| Qwen3-14B | 产品 v4 + 审计 v2 | 0.8676 / 0.850 | 见下方补充 | 9.4 s/条 |
+| DeepSeek-Chat（托管，参考） | 产品 v4 + 审计 v1 | 0.8916 / 0.900 | **0.9470 / 0.950** | 2–3 s/条 |
+
+结论（如实）：
+
+- 本地 8B 在 test 上最好 0.7817，比托管 0.9470 低约 16.5 分；dev→test 的下降说明
+  prompt/审计选择在 dev 上有过拟合，报告里只引用 test 数字。
+- 3 票自洽没有带来提升（与单票完全相同），说明 8B 的错法是稳定的「partial→support」，
+  不是随机波动；少样本 v7 反而更差。
+- 覆盖审计 v2 比旧 v1 明显更好（dev 0.8372→0.9014，test 0.7090→0.7817），
+  因此产品对自托管端点默认用 v2：`CITEGUARD_SUPPORT_AUDIT_STYLE=auto`
+  （`auto`：本地 `CITEGUARD_JUDGE_BASE_URL` → v2，托管 API → v1，保持已发布口径）。
+- 差距主要来自 partial 与 support 的边界：8B 把「证据只覆盖 claim 一部分」判成 support；
+  这是模型能力问题，不是 prompt 一句话能补上的。生产离线建议 14B+ 或接受这档差距。
+
 > 小模型（3B 及以下）建议精简 prompt：`CITEGUARD_SUPPORT_PROMPT_FILE=scripts/support_prompt_simple.txt`
 > （自定义 prompt 自动独立缓存），并 `CITEGUARD_SUPPORT_AUDIT=0`。7B 用产品两段式 prompt 反而更高。
 > 离线可用 ≠ 质量相同；生产离线建议更大模型（量化 14B/32B）或继续用托管 judge。

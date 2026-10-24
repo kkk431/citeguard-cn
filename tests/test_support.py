@@ -203,3 +203,70 @@ def test_summarize_support_counts():
     assert counts["support"] == 1
     assert counts["contradict"] == 1
     assert counts["partial"] == 0
+
+
+def test_audit_style_v2_verdict_downgrades(monkeypatch, isolated_cache):
+    monkeypatch.setattr(config, "DEEPSEEK_API_KEY", "sk-test")
+    monkeypatch.setattr(config, "SUPPORT_AUDIT_STYLE", "v2")
+    seen = {"n": 0}
+
+    def handler(url, body):
+        seen["n"] += 1
+        if seen["n"] == 1:
+            return deepseek_support_response("support")
+        payload = {"core": "干预改善症状", "verdict": "partial", "reason": "只覆盖部分要素"}
+        return FakeResponse(200, {"choices": [{"message": {"content": json.dumps(payload, ensure_ascii=False)}}]})
+
+    install_fake_post(monkeypatch, sp, handler)
+
+    out = sp.judge_support("干预显著改善症状", "干预组症状有所下降")
+
+    assert out is not None
+    assert out["label"] == "partial"
+    assert out["audit"]["fully_covered"] is False
+    assert out["audit"]["style"] == "v2"
+
+
+def test_audit_style_v3_derives_missing_elements(monkeypatch, isolated_cache):
+    monkeypatch.setattr(config, "DEEPSEEK_API_KEY", "sk-test")
+    monkeypatch.setattr(config, "SUPPORT_AUDIT_STYLE", "v3")
+    seen = {"n": 0}
+
+    def handler(url, body):
+        seen["n"] += 1
+        if seen["n"] == 1:
+            return deepseek_support_response("support")
+        payload = {"elements": ["对象", "结果"], "covered": ["对象"], "verdict": "partial", "reason": "缺结果"}
+        return FakeResponse(200, {"choices": [{"message": {"content": json.dumps(payload, ensure_ascii=False)}}]})
+
+    install_fake_post(monkeypatch, sp, handler)
+
+    out = sp.judge_support("干预改善症状", "干预与症状相关")
+
+    assert out is not None
+    assert out["label"] == "partial"
+    assert out["audit"]["missing"] == ["结果"]
+
+
+def test_audit_cache_is_namespaced_by_style(monkeypatch, isolated_cache):
+    monkeypatch.setattr(config, "DEEPSEEK_API_KEY", "sk-test")
+    monkeypatch.setattr(config, "SUPPORT_AUDIT_STYLE", "v1")
+    p1 = sp._audit_cache_path("引用句", "摘要")
+    monkeypatch.setattr(config, "SUPPORT_AUDIT_STYLE", "v2")
+    p2 = sp._audit_cache_path("引用句", "摘要")
+
+    assert p1 != p2
+    assert p1.name.startswith("audit-v1-")
+    assert p2.name.startswith("audit-v2-")
+
+
+def test_audit_style_auto_picks_v2_for_local_endpoint(monkeypatch):
+    monkeypatch.setattr(config, "SUPPORT_AUDIT_STYLE", "auto")
+    monkeypatch.setenv("CITEGUARD_JUDGE_BASE_URL", "http://127.0.0.1:8098/v1")
+    assert sp._audit_style() == "v2"
+
+
+def test_audit_style_auto_keeps_v1_for_hosted(monkeypatch):
+    monkeypatch.setattr(config, "SUPPORT_AUDIT_STYLE", "auto")
+    monkeypatch.delenv("CITEGUARD_JUDGE_BASE_URL", raising=False)
+    assert sp._audit_style() == "v1"

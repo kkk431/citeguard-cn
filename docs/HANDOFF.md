@@ -416,3 +416,34 @@ v0.6.1 上线后继续压测文献发现，发现并修掉三个具体问题：
 - 远端已部署 `2a4e8fc`：`/api/health` → 0.6.2，`verify_artifacts.py --api-base http://127.0.0.1:8000`
   **111 项全过**；`expand=off` 检索首条 `type=article`，无勘误混入。
 - 交付包 `dist/citeguard-cn-0.6.2.zip`（源码 `2a4e8fc` + 本文件；每次重打包 hash 会变，以实际文件为准）。
+
+## 26. v0.7.0：把开源判官从 0.7181 推到 0.8887（2026-10-25 凌晨）
+
+用户明确要求「开源模型能力有差距就冲，数据集、方法都行」。这一轮不再只报 7B 的 0.7181，
+而是用实验室已有的 4×RTX 4090 把 Qwen3-8B / Qwen3-14B 跑成可引用的对照。
+
+- **固定划分**：`data/claimsupport_cn/split_seed20261024.json`，dev 40（支持 16 / 部分 10 / 矛盾 6 /
+  无证据 8）用于选 prompt 与审计方式，test 60 只在最后跑一次（支持 24 / 部分 15 / 矛盾 9 / 无证据 12）。
+  旧 100 条口径保留在 `data/claimsupport_cn/results.json`，两者不可混报。
+- **结果**（产品 v4 stage-1 prompt + 审计方式）：
+
+  | 模型 | 硬件 | dev 40 | test 60 | 速度 |
+  |---|---|---|---|---|
+  | Qwen3-8B | 1×RTX 4090 | 0.9014 / 0.900 | **0.7817 / 0.783** | 7.3 / 7.1 s/条 |
+  | Qwen3-14B | 2×RTX 4090 | 0.8676 / 0.875 | **0.8887 / 0.883** | 8.9 / 8.5 s/条 |
+  | 托管 DeepSeek（参考） | — | 0.8916 | 0.9470 | — |
+
+  14B 与托管差距约 5.8 分，8B 约 16.5 分；14B test 混淆矩阵为
+  `[[23,0,0,1],[5,10,0,0],[0,1,8,0],[0,0,0,12]]`（部分支持召回 10/15，矛盾 8/9）。
+- **审计 v2**：旧 v1 审计假设「证据须覆盖实证要素」，会把逐字复述也降级；v2 改为通用方案。
+  8B dev 0.8372→0.9014、test 0.7090→0.7817；8B v6 prompt + v2 为 0.8577，14B v6 + v2 为 0.8740。
+  v3 混合审计（0.8824）、少样本 v7（8B 0.8608 / 14B 0.8740）、3 票自洽（8B v4+v2 0.9014，耗时 16.6 s/条）
+  均未超过单票 v2，不采用。
+- **产品默认**：`CITEGUARD_SUPPORT_AUDIT_STYLE=auto`——自托管端点自动用 v2，托管 API 仍用 v1
+  （保持已发布的 0.9328 口径）。`support.py` 增加 `_audit_style()` 与按 style 分键的审计缓存。
+- **证据**：`data/experiments/support_local_qwen3_{8b,14b}_{dev,test}.json`（原始预测）+ 
+  `support_local_qwen3_gpu.json`（汇总）；评测页「本地开源判官」表自动读取后者。
+- 文档同步：README 本地模型表、THIRD_PARTY_NOTICES §4.2、docs/ppt_numbers.md 2d、
+  docs/deployment.md §1.4、`.env.example` 都已写入 dev/test 与 auto 说明。
+- 验证：全套 **383 passed**；`verify_artifacts.py` 本机 **102 项**。
+

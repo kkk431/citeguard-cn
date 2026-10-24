@@ -1,0 +1,67 @@
+{
+  "generated_at": "2026-10-25T01:40:00+08:00",
+  "protocol": "split_seed20261024：dev 40 用于选 prompt/审计，test 60 为留出集；同一 ClaimSupport-CN。",
+  "hardware": "4×RTX 4090 24GB（实验室已有，非购买）；bf16；OpenAI 兼容本地服务 scripts/local_judge_server.py",
+  "rows": [
+    {
+      "model": "Qwen3-8B",
+      "split": "dev 40",
+      "n": 40,
+      "macro_f1": 0.9014,
+      "accuracy": 0.9,
+      "prompt": "产品 v4 prompt + 覆盖审计 v2",
+      "latency_mean_ms": 7294.9,
+      "source": "support_local_qwen3_8b_dev.json",
+      "judge": {
+        "base": "http://127.0.0.1:8098/v1",
+        "model": "qwen3-8b"
+      },
+      "generated_at": "2026-10-24T16:29:12+00:00"
+    },
+    {
+      "model": "Qwen3-8B",
+      "split": "test 60",
+      "n": 60,
+      "macro_f1": 0.7817,
+      "accuracy": 0.7833,
+      "prompt": "产品 v4 prompt + 覆盖审计 v2",
+      "latency_mean_ms": 7115.8,
+      "source": "support_local_qwen3_8b_test.json",
+      "judge": {
+        "base": "http://127.0.0.1:8098/v1",
+        "model": "qwen3-8b"
+      },
+      "generated_at": "2026-10-24T16:42:42+00:00"
+    },
+    {
+      "model": "Qwen3-14B",
+      "split": "dev 40",
+      "n": 40,
+      "macro_f1": 0.8676,
+      "accuracy": 0.875,
+      "prompt": "产品 v4 prompt + 覆盖审计 v2",
+      "latency_mean_ms": 8935.9,
+      "source": "support_local_qwen3_14b_dev.json",
+      "judge": {
+        "base": "http://127.0.0.1:8097/v1",
+        "model": "qwen3-14b"
+      },
+      "generated_at": "2026-10-24T16:30:17+00:00"
+    },
+    {
+      "model": "Qwen3-14B",
+      "split": "test 60",
+      "n": 60,
+      "macro_f1": 0.8887,
+      "accuracy": 0.8833,
+      "prompt": "产品 v4 prompt + 覆盖审计 v2",
+      "latency_mean_ms": 8513.7,
+      "source": "support_local_qwen3_14b_test.json",
+      "judge": {
+        "base": "http://127.0.0.1:8097/v1",
+        "model": "qwen3-14b"
+      },
+      "generated_at": "2026-10-24T17:30:58+00:00"
+    }
+  ]
+}

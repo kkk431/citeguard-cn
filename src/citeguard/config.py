@@ -49,6 +49,13 @@ SUPPORT_AUDIT = os.environ.get("CITEGUARD_SUPPORT_AUDIT", "1").strip().lower() n
     "off",
 }
 
+# Which audit prompt to use for stage 2 ("v1" strict empirical checklist,
+# "v2" general-purpose, "v3" element checklist with examples). The best style
+# depends on the judge model: hosted DeepSeek is strongest with v1, small local
+# models (Qwen3-8B) need v2/v3. Measured on ClaimSupport-CN; see
+# docs/support_summary.md. Invalid values fall back to v1.
+SUPPORT_AUDIT_STYLE = os.environ.get("CITEGUARD_SUPPORT_AUDIT_STYLE", "auto").strip().lower()
+
 # The support judge needs the abstract of the *cited* paper. When verification
 # only found a weak title match (e.g. a random Crossref record at similarity
 # 0.4), that abstract belongs to a different paper and any verdict is noise.
