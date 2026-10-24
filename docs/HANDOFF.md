@@ -335,3 +335,7 @@ $env:DEEPSEEK_API_KEY = "..."   # 支持度判定用，不写进任何文件
 - 边界（不要写成已解决）：只读摘要与正文前部，不读全文方法/实验；字段是机器抽取，引用前须回原文核对；
   没有字段级标注集，不能说「字段准确率 90%」；不做跨文献综合（研究空白仍需人来写）。
 - 路线图：E（选题→文献发现）仍未实现，不假装已做。
+- 发布：commit `5f8e20d`（代码/文档）；SSH 推送 `566ab7a..5f8e20d`（本机 `github.com:443` 的
+  ssh 代理当时被阻断，改用 22 端口推送）；远端 `/data/xyjiang/aic_mental/citeguard` 已部署
+  v0.5.0（`/api/health` → 0.5.0），`verify_artifacts.py --api-base` **105 项全过**；
+  交付包 `dist/citeguard-cn-0.5.0.zip`（1,742,409 bytes，sha256 `5fb50f9d…`，1.7 MB）。
