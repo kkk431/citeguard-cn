@@ -12,7 +12,7 @@ CiteGuard-CN 是一个开源的中文引文核验工作台，面向毕业论文�
 pip install -r requirements-ocr.txt   # rapidocr-onnxruntime + pypdfium2，CPU 即可
 ```
 
-> 实测（7 页纯图片 PDF，150 dpi）：OCR 后仍能解析出 **23/24 条**参考文献，题名/年份覆盖 23/23、作者 21/23；单页约 19 s（CPU）。扫描版 PDF 的 OCR 噪声（`[J]`→`[]`、断行、DOI 丢失）会在解析层标注，不臆造字段；报告页与 Markdown / HTML 导出还会写明「文字来源：OCR 识别（扫描件） · 页数 · 字符数」，提醒用户 OCR 错字会传递到核验结论。复现：`PYTHONPATH=src python scripts/eval_ocr_scanned.py --input <paper.pdf>`。
+> 实测（7 页纯图片 PDF，150 dpi）：OCR 后仍能解析出 **23/24 条**参考文献，题名/年份覆盖 23/23、作者 23/23；7 页约 43 s（CPU，含模型加载）。扫描版 PDF 的 OCR 噪声（`[J]`→`[]`、断行、DOI 丢失）会在解析层标注，不臆造字段；报告页与 Markdown / HTML 导出还会写明「文字来源：OCR 识别（扫描件） · 页数 · 字符数」，提醒用户 OCR 错字会传递到核验结论。复现：`PYTHONPATH=src python scripts/eval_ocr_scanned.py --input <paper.pdf>`。
 
 ## 它做什么
 

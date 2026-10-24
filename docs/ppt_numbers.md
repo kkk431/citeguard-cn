@@ -22,7 +22,7 @@
 | 3c | 网页型引文（`[EB/OL]`）链接核验 | 23 条真实网页引文中 **13 条链接可达且页面标题一致**（判 Exact）；3 条标题不一致、7 条访问受限 | 真实语料 §3.1，链路检查带 SSRF 防护 | `data/experiments/verify_real.json` |
 | 4 | 导入本地题录库后的可判定率 | **409 / 409（100%）**，字段偏差 4 条 | 库由 20 篇论文发布版参考文献构建 | `data/experiments/library_real.json` |
 | 5 | 参考文献解析干净率 | **100%**（发布版文字 409 条）/ **99.6%**（PDF 抽取 529 条，逐条） | 22 篇真实论文 | `data/experiments/parse_real.json` |
-| 5b | 扫描件 OCR 兜底 | 纯图片 PDF 仍能解析 **23/24 条**（题名/年 23/23） | 7 页真实论文扫描版，CPU 约 2.2 min | `data/experiments/ocr_scan_real.json` |
+| 5b | 扫描件 OCR 兜底 | 纯图片 PDF 仍能解析 **23/24 条**（题名/年/作者 23/23） | 7 页真实论文扫描版，CPU 约 43 s | `data/experiments/ocr_scan_real.json` |
 | 6 | GB/T 7714-2025 类型码识别 | **100 / 100** | E4：100 条真实中文文献回灌 | `data/experiments/e4_format.json` |
 | 6b | GB/T 必填字段完整率 | **98.4%** | 同上 | 同上 |
 | 6c | 30 条受控格式漂移严格检出 | **29 / 30（96.7%）** | E4，6 类 × 5 条（构造漂移） | 同上 |

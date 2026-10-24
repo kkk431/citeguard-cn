@@ -190,6 +190,31 @@ _GARBLED_TYPE_TAIL_RE = re.compile(r"([^\]］A-Za-z0-9\n]{0,2})([\]］][\.．]?|
 _DATE_ONLY_RE = re.compile(
     r"\s*(?:19|20)\d{2}\s*[-/.年]\s*\d{1,2}(?:\s*[-/.月]\s*\d{1,2}\s*日?)?\s*\.?\s*"
 )
+# OCR can drop the type code *and* the closing bracket, leaving the venue glued
+# to the title: "…区域发展模式[地理学报,2026,81(4):1157-1177."  The brackets look
+# like a title/venue boundary only when a venue is followed by a year and the
+# entry has no valid marker at all (checked in the repair function).
+_MERGED_TYPE_VENUE_RE = re.compile(
+    r"(?P<body>[\u4e00-\u9fffA-Za-z0-9，,、.．。：:；;（）()《》“”\"'\s\-—–]{8,300}?)"
+    r"[\[［](?P<venue>[\u4e00-\u9fff][\u4e00-\u9fffA-Za-z0-9（）()·\-—]{1,25})\s*[,，]\s*"
+    r"(?P<year>(?:19|20)\d{2})"
+)
+
+
+def _repair_merged_type_marker(text: str) -> tuple[str, bool]:
+    """Recover a type marker that OCR merged into the following venue name."""
+    if TYPE_RE.search(text):
+        return text, False
+    for m in _MERGED_TYPE_VENUE_RE.finditer(text):
+        body = m.group("body")
+        if not re.search(r"(?:[,，、]|等)", body):
+            return text, False
+        if not re.search(r"[.．。]\s*[\u4e00-\u9fff]", body):
+            return text, False
+        bracket = m.start("venue") - 1
+        return text[:bracket] + "[J]. " + text[bracket + 1 :], True
+    return text, False
+
 
 
 def _repair_garbled_type_marker(text: str) -> tuple[str, bool]:
@@ -245,6 +270,27 @@ def _looks_like_entry(block: str) -> bool:
     return True
 
 
+def _looks_like_leading_entry(block: str) -> bool:
+    """A genuine unnumbered first reference before the numeric markers start.
+
+    OCR often loses only the first "[1]". Accept the block only when it looks
+    like a journal entry (year + volume/issue) or carries a valid type marker,
+    so page furniture / body text before the list is not swallowed.
+    """
+    text = block.strip()
+    if not (30 <= len(text) <= 1200):
+        return False
+    if re.search(r"参考文献|^\s*References?\s*$", text, re.I | re.M):
+        return False
+    if not re.search(r"[,，、]", text):
+        return False
+    if not TYPE_RE.search(text) and not re.search(
+        r"(?:19|20)\d{2}\s*[,，]\s*\d+\s*[（(]\s*\d+\s*[)）]", text
+    ):
+        return False
+    return _looks_like_entry(text)
+
+
 def split_entries(refs_text: str) -> list[str]:
     """Split a reference section into entries.
 
@@ -274,6 +320,10 @@ def split_entries(refs_text: str) -> list[str]:
 
     if len(starts) >= 2 and len(apa) <= len(starts):
         entries: list[str] = []
+        if starts[0] > 0:
+            leading = "\n".join(lines[: starts[0]]).strip()
+            if _looks_like_leading_entry(leading):
+                entries.append(re.sub(r"\s*\n\s*", " ", leading))
         for k, start in enumerate(starts):
             end = starts[k + 1] if k + 1 < len(starts) else len(lines)
             block = _strip_leading_ids("\n".join(lines[start:end]).strip())
@@ -623,8 +673,9 @@ def parse_reference(raw: str, index: Optional[int] = None) -> Reference:
 
     ref = Reference(raw=raw.strip(), index=index)
 
+    text, merged_repaired = _repair_merged_type_marker(text)
     text, marker_repaired = _repair_garbled_type_marker(text)
-    if marker_repaired:
+    if merged_repaired or marker_repaired:
         ref.extra["type_marker_lost"] = True
 
     dm = DOI_RE.search(text)

@@ -120,7 +120,7 @@ $env:DEEPSEEK_API_KEY = "..."   # 支持度判定用，不写进任何文件
 - 评测页新增加「外部公开基准 · SciFact 零样本」行。
 
 **扫描件 OCR（真实 bug + 实测）**
-- 用真实论文 PDF 渲染成 7 页纯图片 PDF（scripts/make_scanned_pdf.py），跑通 OCR 兜底：解析出 **23/24 条**参考文献，题名/年 23/23、作者 21/23（DOI 在 150 dpi 下基本丢失，属已知边界）。
+- 用真实论文 PDF 渲染成 7 页纯图片 PDF（scripts/make_scanned_pdf.py），跑通 OCR 兜底：解析出 **23/24 条**参考文献，题名/年 23/23、作者 23/23（DOI 在 150 dpi 下基本丢失，属已知边界）。
 - 修 2 个真实 bug：①strip_repeated_lines 把单独成行的 [n] 当页码模板删除（[#] 重复）→ 编号全丢、只解析 2 条；②新增 _merge_reference_numbers() 把 OCR 独立成行的编号并回条目。
 - 新增 scripts/eval_ocr_scanned.py 与 data/experiments/ocr_scan_real.json；本地 OCR 依赖装在 out/ocrlibs（不入库）。
 

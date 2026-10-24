@@ -9,12 +9,12 @@
   "expected_refs": 24,
   "field_coverage": {
     "title": 23,
-    "authors": 21,
+    "authors": 23,
     "year": 23,
     "venue": 19,
     "doi": 0
   },
-  "elapsed_sec": 134.2,
+  "elapsed_sec": 42.5,
   "dependencies": [
     "rapidocr-onnxruntime (Apache-2.0)",
     "pypdfium2",

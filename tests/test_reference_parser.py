@@ -285,6 +285,49 @@ def test_ocr_garbled_type_marker_is_repaired():
     assert (ref2.volume, ref2.issue) == ("14", "12")
 
 
+def test_ocr_merged_type_marker_with_venue():
+    """OCR can read "[J]." as "[" so the venue is glued to the title."""
+    ref = parse_reference(
+        "张英浩,盛科荣,孙威,等.中国直播电商经济的时空演变特征与区域发展模式"
+        "[地理学报,2026,81(4):1157-1177."
+    )
+    assert ref.doc_type == "J"
+    assert ref.authors == ["张英浩", "盛科荣", "孙威"]
+    assert ref.title == "中国直播电商经济的时空演变特征与区域发展模式"
+    assert ref.venue == "地理学报"
+    assert ref.year == 2026
+    assert (ref.volume, ref.issue) == ("81", "4")
+    assert ref.pages == "1157-1177"
+    assert ref.extra.get("type_marker_lost") is True
+
+
+def test_leading_unnumbered_entry_is_recovered():
+    """OCR sometimes loses only the first "[1]"; keep that entry before [2]."""
+    refs = parse_reference_list(
+        "张英浩,盛科荣,孙威,等.中国直播电商经济的时空演变特征与区域发展模式"
+        "[地理学报,2026,81(4):1157-1177.\n"
+        "[2] 迟妍.古典园林在现代景观设计中的作用[].陶瓷,2022(4):167-169."
+    )
+    assert len(refs) == 2
+    assert refs[0].title == "中国直播电商经济的时空演变特征与区域发展模式"
+    assert refs[0].venue == "地理学报"
+    assert refs[1].index == 2
+    assert refs[1].title == "古典园林在现代景观设计中的作用"
+
+
+def test_leading_page_furniture_is_not_a_reference():
+    """A header without a year+volume/issue pattern must not become an entry."""
+    refs = parse_reference_list(
+        "第 81 卷 第 4 期 地理学报 2026 年 4 月 1157-1177\n"
+        "[2] 迟妍.古典园林在现代景观设计中的作用[].陶瓷,2022(4):167-169.\n"
+        "[3] 沈添天.全域电商视域下的传统园林IP价值重构与产业链延伸策略"
+        "[].电子商务评论,2026,15(2):955-961."
+    )
+    assert len(refs) == 2
+    assert refs[0].title == "古典园林在现代景观设计中的作用"
+    assert refs[1].title.startswith("全域电商")
+
+
 def test_ocr_full_stop_after_author_is_the_title_boundary():
     ref = parse_reference(
         "[13] 钱皓宇。短视频营销对游客文创产品购买意愿的影响研究"
