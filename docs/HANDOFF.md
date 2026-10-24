@@ -411,3 +411,8 @@ v0.6.1 上线后继续压测文献发现，发现并修掉三个具体问题：
 验证：全套 **378 passed**（发现模块 18 个用例）；`verify_artifacts.py` 本机 **102 项**；
 浏览器实测 `limit=50` 连续加载到第 4 页，200 条卡片零重复；`limit=50&page=9` 夹到第 4 页；
 勘误/杂项过滤后首条为正常论文。版本 **0.6.2**（`web/app.py` 两处、打包脚本、部署手册）。
+
+- 发布：commit `2a4e8fc`（14 files），已推送 `6be91e0..2a4e8fc`。
+- 远端已部署 `2a4e8fc`：`/api/health` → 0.6.2，`verify_artifacts.py --api-base http://127.0.0.1:8000`
+  **111 项全过**；`expand=off` 检索首条 `type=article`，无勘误混入。
+- 交付包 `dist/citeguard-cn-0.6.2.zip`（源码 `2a4e8fc` + 本文件；每次重打包 hash 会变，以实际文件为准）。
