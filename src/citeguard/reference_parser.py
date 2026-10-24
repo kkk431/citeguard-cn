@@ -32,7 +32,10 @@ def _infer_doc_type(right: str) -> str:
         if pattern.search(text):
             return code
     return "J"
-TYPE_RE = re.compile(r"\[([A-Z]{1,2})(/OL)?\]")
+# OCR often reads the closing "]" of a type marker as "." ("[J. 地理学报"):
+# accept a period/full stop as the closing delimiter too, but only right after
+# an uppercase type code, so ordinary bracketed text is not affected.
+TYPE_RE = re.compile(r"\[([A-Z]{1,2})(/OL)?[\]\.．]")
 DOI_RE = re.compile(r"(10\.\d{4,9}/[^\s,;，；]+)", re.I)
 YEAR_RE = re.compile(r"(?<!\d)((?:19|20)\d{2})(?!\d)")
 URL_RE = re.compile(r"https?://[^\s，；;]+")
@@ -67,6 +70,19 @@ def _clean(s: str) -> str:
 
 def _clean_doi(s: str) -> str:
     return re.sub(r"[)\].,;，；。]+$", "", s or "").strip()
+
+
+def _split_volume_issue(volume: str, issue: str) -> tuple[str, str]:
+    """Treat a bare year followed by "(n)" as the year+issue, not a volume.
+
+    Chinese journals that do not use volume numbers write "刊名, 2022(4): 1-8";
+    without this guard the parser reports volume="2022", which then shows up as
+    a false metadata mismatch against the database record.
+    """
+    vol = (volume or "").strip()
+    if re.fullmatch(r"(?:19|20)\d{2}", vol):
+        return "", (issue or "").strip()
+    return vol, (issue or "").strip()
 
 
 @dataclass
@@ -168,6 +184,43 @@ _URL_ONLY_RE = re.compile(
 # "J. (2017)." — an APA author-initials fragment with no title (split noise).
 _INITIALS_YEAR_RE = re.compile(r"^(?:[A-Z]\.\s*){1,4}(?:[（(]\s*(?:19|20)\d{2}\s*[)）]\.?)?$")
 
+# OCR sometimes mangles the type marker itself: "[J]." can come back as "[刀."
+# or "[." and "[]"; the marker still marks the author/title → source boundary.
+_GARBLED_TYPE_TAIL_RE = re.compile(r"([^\]］A-Za-z0-9\n]{0,2})([\]］][\.．]?|[\.．])")
+_DATE_ONLY_RE = re.compile(
+    r"\s*(?:19|20)\d{2}\s*[-/.年]\s*\d{1,2}(?:\s*[-/.月]\s*\d{1,2}\s*日?)?\s*\.?\s*"
+)
+
+
+def _repair_garbled_type_marker(text: str) -> tuple[str, bool]:
+    """Restore a lost/garbled type marker so the entry keeps its title boundary.
+
+    RapidOCR reads a small "[J]" as "[刀." surprisingly often; without this a
+    whole entry ends up with an empty type and the source text inside the title.
+    """
+    if TYPE_RE.search(text):
+        # A valid marker already exists (e.g. the title contains "[图像]" but
+        # the real type code follows later); never "repair" over it.
+        return text, False
+    for m in re.finditer(r"[\[［]", text):
+        start = m.start()
+        tail = text[start + 1 : start + 6]
+        if tail.startswith(("]", "］")):
+            # "[]" is handled by the empty-marker path, which also infers a type.
+            continue
+        if re.match(r"[A-Z]{1,2}(?:/OL)?[\]］][\.．]?", tail):
+            continue  # a valid marker; nothing to repair
+        gm = _GARBLED_TYPE_TAIL_RE.match(tail)
+        if not gm:
+            continue
+        after = text[start + 1 + gm.end() : start + 1 + gm.end() + 40]
+        if not re.search(r"(?:19|20)\d{2}|[，,]\s*\d|\d+\s*[（(]\s*\d", after):
+            continue
+        if not re.search(r"[\u4e00-\u9fffA-Za-z]", text[:start]):
+            continue
+        return text[:start] + "[J]. " + text[start + 1 + gm.end() :], True
+    return text, False
+
 
 def _looks_like_entry(block: str) -> bool:
     """Reject fragments such as a lone page number or a bare URL tail."""
@@ -182,6 +235,12 @@ def _looks_like_entry(block: str) -> bool:
     if _INITIALS_YEAR_RE.match(stripped):
         return False
     if _URL_ONLY_RE.match(re.sub(r"\s+", " ", stripped).rstrip(" .,;，；。")):
+        return False
+    # A wrapped news entry can become "[10] 2025-06-25. https://…" on its own.
+    # It is the tail of the previous entry, not a new reference.
+    core = INDEX_RE.sub("", stripped, count=1).strip()
+    dm = _DATE_ONLY_RE.match(core)
+    if dm and (re.match(r"^\s*https?://", core[dm.end() :]) or len(core) < 40):
         return False
     return True
 
@@ -399,11 +458,16 @@ def _looks_like_initial_split(a: str, t: str) -> bool:
     return bool(re.fullmatch(r"[A-Z][a-z]+", first))
 
 
-def _split_authors_title(left: str) -> tuple[list[str], str]:
+def _split_authors_title(left: str, ocr_hint: bool = False) -> tuple[list[str], str]:
     """Split the pre-[type] text into authors and title."""
     left = left.strip()
     if not left:
         return [], ""
+    if ocr_hint and "。" in left:
+        # OCR sometimes turns the author/title period into a Chinese full stop
+        # ("钱皓宇。短视频营销…"). Only do this for entries whose type marker was
+        # already lost, so clean references never risk a title split.
+        left = left.replace("。", ". ", 1)
     # Chinese references: the boundary is the *last* '. ' before a CJK title.
     # This handles English author initials such as "Joseph E. Schwartz, ... 等."
     cjk_cuts = [
@@ -436,7 +500,7 @@ def _split_authors_title(left: str) -> tuple[list[str], str]:
             return _split_authors(a), _clean(t)
     # Fallback: Chinese refs often use '．' without space; try first Chinese author run.
     m = re.match(
-        r"^([\u4e00-\u9fff·・∙•]{2,12}(?:[,，、][\u4e00-\u9fff·・∙•]{2,12})*)\s*[\.．]\s*(.+)$",
+        r"^([\u4e00-\u9fff·・∙•]{2,12}(?:[,，、](?:[\u4e00-\u9fff·・∙•]{2,12}|等|等人))*)\s*[\.．]\s*(.+)$",
         left,
     )
     if m:
@@ -559,6 +623,10 @@ def parse_reference(raw: str, index: Optional[int] = None) -> Reference:
 
     ref = Reference(raw=raw.strip(), index=index)
 
+    text, marker_repaired = _repair_garbled_type_marker(text)
+    if marker_repaired:
+        ref.extra["type_marker_lost"] = True
+
     dm = DOI_RE.search(text)
     if dm:
         ref.doi = _clean_doi(dm.group(1))
@@ -613,7 +681,9 @@ def parse_reference(raw: str, index: Optional[int] = None) -> Reference:
         return ref
 
     if not ref.title:
-        ref.authors, ref.title = _split_authors_title(left)
+        ref.authors, ref.title = _split_authors_title(
+            left, ocr_hint=bool(ref.extra.get("type_marker_lost"))
+        )
     ref.title = _clean_title_ids(ref.title, ref.url, ref.doi)
 
     # DOIs/URLs carry 4-digit runs and "/" that look like years, volume or pages
@@ -627,7 +697,7 @@ def parse_reference(raw: str, index: Optional[int] = None) -> Reference:
 
     vm = VOL_ISSUE_RE.search(right_fields)
     if vm:
-        ref.volume, ref.issue = vm.group(1), vm.group(2)
+        ref.volume, ref.issue = _split_volume_issue(vm.group(1), vm.group(2))
     else:
         # English style: "Vol. 45, No. 3"
         vol_m = VOL_NO_RE.search(right_fields)
@@ -786,7 +856,7 @@ def _parse_apa(ref: "Reference", text: str) -> bool:
     else:
         ref.doc_type = "J"
     if vm:
-        ref.volume, ref.issue = vm.group(1), vm.group(2)
+        ref.volume, ref.issue = _split_volume_issue(vm.group(1), vm.group(2))
     after_vol = tail_fields[vm.end() :] if vm else tail_fields
     pm = re.search(r"[,，:：]\s*(\d+)\s*[-–—~～]\s*(\d+)", after_vol)
     if pm:
@@ -810,9 +880,19 @@ def _parse_dataset_or_preprint(ref: Reference, right: str) -> None:
         ref.extra["date"] = m.group(1)
 
 
+def _is_date_only_ref(ref: Reference) -> bool:
+    """A title that is only a date is the tail of the previous entry."""
+    return bool(_DATE_ONLY_RE.fullmatch(ref.title or ""))
+
+
 def parse_reference_list(refs_text: str) -> list[Reference]:
-    entries = split_entries(refs_text)
-    return [parse_reference(e, i + 1) for i, e in enumerate(entries)]
+    refs: list[Reference] = []
+    for entry in split_entries(refs_text):
+        ref = parse_reference(entry, len(refs) + 1)
+        if _is_date_only_ref(ref):
+            continue
+        refs.append(ref)
+    return refs
 
 
 # ---------------------------------------------------------------------------

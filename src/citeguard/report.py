@@ -128,6 +128,30 @@ def build_report(
     }
 
 
+_INPUT_METHOD_LABEL = {
+    "ocr": "OCR 识别（扫描件）",
+    "pdf-text": "PDF 文字层",
+    "docx": "Word 正文",
+    "text": "文本",
+}
+
+
+def _input_meta_summary(meta: dict | None) -> str:
+    """Human-readable 'where the text came from' line for exports."""
+    if not meta:
+        return ""
+    parts = [_INPUT_METHOD_LABEL.get(meta.get("method"), meta.get("method") or "")]
+    if meta.get("pages"):
+        parts.append(f"{meta['pages']} 页")
+    if meta.get("chars"):
+        parts.append(f"{meta['chars']} 字符")
+    summary = " · ".join(p for p in parts if p)
+    warnings = [w for w in (meta.get("warnings") or []) if w]
+    if warnings:
+        summary += "；" + "；".join(warnings)
+    return summary
+
+
 def render_markdown(report: dict) -> str:
     s = report["stats"]
     lines = [
@@ -135,6 +159,11 @@ def render_markdown(report: dict) -> str:
         "",
         f"- 生成时间：{report['generated_at']}",
         f"- 输入文件：`{report['input']}`",
+    ]
+    meta_line = _input_meta_summary(report.get("input_meta"))
+    if meta_line:
+        lines.append(f"- 文字来源：{meta_line}")
+    lines += [
         f"- 参考文献：**{s['total']}** 条｜正文引注：**{s['intext_citations']}** 处",
         f"- 核验结果：真实一致 **{s['Exact']}**｜元数据偏差 **{s['Minor']}**｜疑似虚构/错配 **{s['Major']}**｜无法核验 **{s['Unknown']}**",
         f"- 新国标合规均分：**{s['avg_compliance']}/100**｜风险指数：**{s['risk_index']}**",
@@ -309,6 +338,18 @@ def render_html(report: dict) -> str:
                 "</div>"
             )
 
+    input_meta = report.get("input_meta") or {}
+    input_summary = _input_meta_summary(input_meta)
+    input_suffix = f" · 文字来源 {html.escape(input_summary)}" if input_summary else ""
+    ocr_note = ""
+    if input_meta.get("ocr"):
+        ocr_note = (
+            '<div class="verdict" style="border-left-color:#d97706">'
+            '<div class="verdict-head">文字来源提示</div>'
+            "<ul><li>本报告基于扫描件的 OCR 识别文字；识别错字会传递到引文解析与核验结论，"
+            "请对照原文复核后再采用。</li></ul></div>"
+        )
+
     return f"""<!doctype html>
 <html lang="zh-CN">
 <head>
@@ -358,9 +399,10 @@ def render_html(report: dict) -> str:
   <header>
     <div>
       <h1>引证卫士 CiteGuard-CN · 引文体检报告</h1>
-      <div class="sub">生成时间 {html.escape(report['generated_at'])} · 输入 {html.escape(report['input'])}</div>
+      <div class="sub">生成时间 {html.escape(report['generated_at'])} · 输入 {html.escape(report['input'])}{input_suffix}</div>
     </div>
   </header>
+  {ocr_note}
   <div class="stats">
     <div class="stat"><b>{s['total']}</b><span>参考文献</span></div>
     <div class="stat"><b style="color:#1f9d55">{s['Exact']}</b><span>真实且一致</span></div>

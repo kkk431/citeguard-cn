@@ -30,6 +30,9 @@ def _make_tree(root: Path) -> None:
         "data/uploads/u.txt": "secret paper",
         "data/experiments/cache_e4/page.json": "{}",
         "data/experiments/manual_cache/page.json": "{}",
+        "data/real_corpus/hanspub_1.pdf": "pdf",
+        "data/experiments/scifact_raw/data/corpus.jsonl": "{}",
+        "data/experiments/real_corpus.json": "{}",
         "dist/old.zip": "zip",
         ".pylibs/requests/__init__.py": "",
         ".git/config": "gitconfig",
@@ -52,6 +55,9 @@ def _make_tree(root: Path) -> None:
         ("data/uploads/paper.pdf", True),
         ("data/citebench_cn/results.json", False),
         ("data/citebench_cn/cache/x.json", True),
+        ("data/real_corpus/hanspub_1.pdf", True),
+        ("data/experiments/scifact_raw/data/corpus.jsonl", True),
+        ("data/experiments/real_corpus.json", False),
         ("src/citeguard/__pycache__/m.pyc", True),
         ("src/citeguard/__init__.py", False),
         (".pylibs/six.py", True),
@@ -78,6 +84,9 @@ def test_collect_files_skips_runtime_and_secrets(tmp_path):
     assert not any(rel.startswith("data/jobs/") for rel in rels)
     assert not any(rel.startswith("data/cache/") for rel in rels)
     assert not any(rel.startswith("data/uploads/") for rel in rels)
+    assert not any(rel.startswith("data/real_corpus/") for rel in rels)
+    assert not any("scifact_raw" in rel for rel in rels)
+    assert "data/experiments/real_corpus.json" in rels
     assert not any("__pycache__" in rel for rel in rels)
     assert not any(rel.startswith(".pylibs/") for rel in rels)
     assert not any(rel.startswith("dist/") for rel in rels)
@@ -105,6 +114,8 @@ def test_build_zip_writes_clean_archive(tmp_path, capsys):
     assert "mini/data/citebench_cn/results.json" in names
     assert "mini/.env" not in names
     assert not any("data/jobs" in name or "data/cache" in name or "data/uploads" in name for name in names)
+    assert not any("data/real_corpus" in name or "scifact_raw" in name for name in names)
+    assert "mini/data/experiments/real_corpus.json" in names
     assert not any("__pycache__" in name or name.endswith(".pyc") or name.endswith(".log") for name in names)
 
     out = capsys.readouterr().out

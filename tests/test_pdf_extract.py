@@ -3,7 +3,12 @@ from __future__ import annotations
 
 import pytest
 
-from citeguard.pdf_extract import extract_text, normalize_text, split_references
+from citeguard.pdf_extract import (
+    extract_text,
+    extract_text_with_meta,
+    normalize_text,
+    split_references,
+)
 
 
 def test_normalize_text_collapses_whitespace():
@@ -144,6 +149,93 @@ def test_garbled_pdf_falls_back_to_ocr(monkeypatch, tmp_path):
     text = px.extract_text(pdf)
 
     assert "张三" in text and "cid:" not in text
+
+
+def test_extract_text_with_meta_reports_plain_text(tmp_path):
+    p = tmp_path / "paper.txt"
+    p.write_text("Hello World", encoding="utf-8")
+
+    text, meta = extract_text_with_meta(p)
+
+    assert text == "Hello World"
+    assert meta["method"] == "text"
+    assert meta["ocr"] is False
+    assert meta["chars"] == len("Hello World")
+    assert meta["warnings"] == []
+
+
+def test_extract_text_with_meta_marks_garbled_ocr_fallback(monkeypatch, tmp_path):
+    import citeguard.pdf_extract as px
+
+    pdf = tmp_path / "garbled.pdf"
+    pdf.write_bytes(b"%PDF-1.4 fake")
+    monkeypatch.setattr(px, "_pdf_page_count", lambda path: 3)
+    monkeypatch.setattr(px, "_pdf_pdfplumber", lambda path: "(cid:131)(cid:243)" * 50)
+    monkeypatch.setattr(px, "_pdf_pypdf", lambda path: "")
+    monkeypatch.setattr(px, "_ocr_pdf", lambda path: "参考文献\n[1] 张三. 题名[J]. 期刊, 2020.")
+
+    text, meta = px.extract_text_with_meta(pdf)
+
+    assert "张三" in text
+    assert meta["method"] == "ocr"
+    assert meta["ocr"] is True
+    assert meta["pages"] == 3
+    assert any("OCR" in w for w in meta["warnings"])
+
+
+def test_extract_text_with_meta_marks_scan_without_text_layer(monkeypatch, tmp_path):
+    import citeguard.pdf_extract as px
+
+    pdf = tmp_path / "scan.pdf"
+    pdf.write_bytes(b"%PDF-1.4 fake")
+    monkeypatch.setattr(px, "_pdf_page_count", lambda path: 2)
+    monkeypatch.setattr(px, "_pdf_pdfplumber", lambda path: "")
+    monkeypatch.setattr(px, "_pdf_pypdf", lambda path: "")
+    monkeypatch.setattr(px, "_ocr_pdf", lambda path: "参考文献\n[1] 张三. 题名[J]. 期刊, 2020.")
+
+    _text, meta = px.extract_text_with_meta(pdf)
+
+    assert meta["method"] == "ocr"
+    assert any("没有可用的文字层" in w for w in meta["warnings"])
+
+
+def test_report_exports_state_ocr_input():
+    from citeguard.report import render_html, render_markdown
+
+    report = {
+        "generated_at": "2026-10-24 12:00:00",
+        "input": "scan.pdf",
+        "stats": {
+            "total": 1,
+            "Exact": 0,
+            "Minor": 0,
+            "Major": 0,
+            "Unverified": 1,
+            "Unknown": 0,
+            "intext_citations": 0,
+            "avg_compliance": 80,
+            "risk_index": 30,
+            "references": [],
+        },
+        "references": [],
+        "formatted_reference_list": [],
+        "input_meta": {
+            "method": "ocr",
+            "file_type": "pdf",
+            "pages": 22,
+            "ocr": True,
+            "chars": 31000,
+            "warnings": ["本文件没有可用的文字层，已用 OCR 识别 22 页"],
+        },
+        "disclaimer": "仅供参考。",
+    }
+
+    md = render_markdown(report)
+    page = render_html(report)
+
+    assert "文字来源：OCR 识别（扫描件） · 22 页 · 31000 字符" in md
+    assert "文字来源提示" in page
+    assert "OCR" in page
 
 
 def test_garbled_pdf_without_ocr_raises_clear_error(monkeypatch, tmp_path):

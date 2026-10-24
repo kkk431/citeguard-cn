@@ -73,6 +73,20 @@ PYTHONPATH=src python scripts/make_scanned_pdf.py --input data/real_corpus/xxx.p
 PYTHONPATH=src python scripts/eval_ocr_scanned.py --input data/real_corpus/xxx.pdf --expected-refs 24
 ```
 
+### 2.2 产品整链路实测（2026-10-24，同一扫描件）
+
+从网页工作台上传同一份 7 页扫描件，走「OCR → 解析 → 核验 → 格式检查」全链路（作业 `684b69cabc70`）：
+
+| 指标 | 结果 |
+|---|---|
+| 报告记录的文字来源 | OCR 识别（扫描件） · 7 页 · 9915 字符（含提示：识别错字会传递到结论） |
+| 解析出的参考文献 | **20 条**（22 个候选里 2 个日期碎片被丢弃，不再产出空条目） |
+| 类型码 | 18 条 `[J]`、1 条 `[EB/OL]`、1 条 `[D]`（OCR 丢码的条目不再误判为 J） |
+| 核验 | 元数据偏差 1、未找到匹配 19、疑似虚构 0（这些中文期刊不在 OpenAlex/Crossref，未找到属预期） |
+| 新国标合规均分 | 93.2/100（只剩缺卷期/页码/DOI 等提示） |
+
+报告页顶部、Markdown 与 HTML 导出都会写明文字来源；OCR 报告额外提示「识别错字会传递到引文解析与核验结果」，避免把 OCR 噪声当成原文错误。
+
 ## 3. 核验误报（`scripts/eval_verify_real.py`）
 
 语料是**已发表**论文的 409 条真实参考文献，因此出现「疑似虚构（Major）」基本可视为误报。

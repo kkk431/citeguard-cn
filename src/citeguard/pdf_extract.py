@@ -44,51 +44,106 @@ def normalize_text(text: str) -> str:
 
 
 def extract_text(path: str | Path) -> str:
-    """Extract text from .pdf/.docx/.txt/.md."""
+    """Extract text from .pdf/.docx/.txt/.md (kept for callers that want text only)."""
+    text, _meta = extract_text_with_meta(path)
+    return text
+
+
+def _pdf_page_count(path: Path) -> int:
+    try:
+        import pdfplumber
+
+        with pdfplumber.open(str(path)) as pdf:
+            return len(pdf.pages)
+    except Exception:
+        pass
+    try:
+        from pypdf import PdfReader
+
+        return len(PdfReader(str(path)).pages)
+    except Exception:
+        return 0
+
+
+def extract_text_with_meta(path: str | Path) -> tuple[str, dict]:
+    """Extract text and describe how it was obtained.
+
+    The returned metadata drives the report banner: users must be able to see
+    whether the text came from a PDF text layer or from OCR, because OCR output
+    carries character-level errors that the verification results inherit.
+    """
     path = Path(path)
     suffix = path.suffix.lower()
+    meta: dict = {
+        "method": "text",
+        "file_type": suffix.lstrip("."),
+        "pages": 0,
+        "ocr": False,
+        "chars": 0,
+        "warnings": [],
+    }
 
     if suffix in {".txt", ".md"}:
-        return normalize_text(_read_text_file(path))
+        text = normalize_text(_read_text_file(path))
+        meta["chars"] = len(text)
+        return text, meta
 
     if suffix == ".docx":
+        meta["method"] = "docx"
         text = _docx_text(path)
         if not text.strip():
             raise RuntimeError("Word 文件里没有读到文字：请确认正文不是纯图片/扫描件。")
-        return normalize_text(text)
+        text = normalize_text(text)
+        meta["chars"] = len(text)
+        return text, meta
 
     if suffix == ".doc":
         raise ValueError(_LEGACY_WORD_HINT)
 
-    if suffix == ".pdf":
-        text = _pdf_pdfplumber(path)
-        if not text.strip():
-            text = _pdf_pypdf(path)
-        if text.strip() and _looks_garbled(text):
-            # CID/embedded fonts without a ToUnicode map produce strings such as
-            # "(cid:131)(cid:243)" — parsing those would create garbage
-            # references, so prefer OCR when it is available.
-            ocr_text = _ocr_pdf(path)
-            if ocr_text.strip():
-                text = ocr_text
-            else:
-                raise RuntimeError(
-                    "PDF 文字层损坏（CID/自定义字体编码，无法可靠提取文字）。可以："
-                    "1) 安装 OCR 依赖后重试（pip install -r requirements-ocr.txt）；"
-                    "2) 上传 Word 原稿；3) 提供可搜索 PDF。"
-                )
-        if not text.strip():
-            text = _ocr_pdf(path)
+    if suffix != ".pdf":
+        raise ValueError(f"不支持的文件类型 {suffix}；当前支持 PDF / DOCX / TXT / MD。")
+
+    meta["method"] = "pdf-text"
+    meta["pages"] = _pdf_page_count(path)
+    text = _pdf_pdfplumber(path)
+    if not text.strip():
+        text = _pdf_pypdf(path)
+    if text.strip() and _looks_garbled(text):
+        # CID/embedded fonts without a ToUnicode map produce strings such as
+        # "(cid:131)(cid:243)" — parsing those would create garbage references,
+        # so prefer OCR when it is available.
+        meta["warnings"].append("PDF 文字层损坏（CID/自定义字体编码），已尝试改用 OCR")
+        ocr_text = _ocr_pdf(path)
+        if ocr_text.strip():
+            text = ocr_text
+            meta["method"] = "ocr"
+            meta["ocr"] = True
+        else:
+            raise RuntimeError(
+                "PDF 文字层损坏（CID/自定义字体编码，无法可靠提取文字）。可以："
+                "1) 安装 OCR 依赖后重试（pip install -r requirements-ocr.txt）；"
+                "2) 上传 Word 原稿；3) 提供可搜索 PDF。"
+            )
+    if not text.strip():
+        text = _ocr_pdf(path)
         if not text.strip():
             raise RuntimeError(
                 "PDF 中没有可提取的文字层，可能是扫描件。可以：1) 直接上传 Word 原稿；"
                 "2) 安装可选 OCR 依赖后重试（pip install rapidocr-onnxruntime）；"
                 "3) 先用 OCR 工具转成可搜索 PDF。"
             )
-        # Running headers/footers land in the middle of the reference list.
-        return normalize_text(strip_repeated_lines(text))
-
-    raise ValueError(f"不支持的文件类型 {suffix}；当前支持 PDF / DOCX / TXT / MD。")
+        meta["method"] = "ocr"
+        meta["ocr"] = True
+    if meta["ocr"]:
+        pages = f"{meta['pages']} 页" if meta["pages"] else "整份文件"
+        meta["warnings"].append(
+            f"本文件没有可用的文字层，已用 OCR 识别 {pages}；识别文字可能有错字，"
+            "建议核对原文后再采用核验结论。"
+        )
+    # Running headers/footers land in the middle of the reference list.
+    text = normalize_text(strip_repeated_lines(text))
+    meta["chars"] = len(text)
+    return text, meta
 
 
 _CID_TOKEN_RE = re.compile(r"\(cid:\d+\)")

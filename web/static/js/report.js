@@ -73,6 +73,38 @@
     }, 1400);
   }
 
+  function renderInputMeta(data) {
+    const el = document.getElementById("input-meta");
+    if (!el) return;
+    const meta = data.input_meta;
+    if (!meta || !meta.method) {
+      el.classList.add("hidden");
+      return;
+    }
+    const methodLabels = {
+      ocr: "OCR 识别（扫描件）",
+      "pdf-text": "PDF 文字层",
+      docx: "Word 正文",
+      text: "文本",
+    };
+    const bits = [methodLabels[meta.method] || meta.method];
+    if (meta.pages) bits.push(meta.pages + " 页");
+    if (meta.chars) bits.push(meta.chars.toLocaleString() + " 字符");
+    const warnings = (meta.warnings || []).filter(Boolean);
+    const hasOcrWarning = warnings.some(function (w) { return String(w).indexOf("OCR") >= 0; });
+    el.classList.remove("hidden");
+    el.innerHTML =
+      '<div class="mono-sm">文字来源：<b>' + esc(bits.join(" · ")) + "</b></div>" +
+      (meta.ocr && !hasOcrWarning
+        ? '<div class="mono-sm" style="margin-top:6px;color:var(--warn)">扫描件经 OCR 抽取：识别错字会传递到引文解析与核验结果，请对照原文复核后再采用本报告结论。</div>'
+        : "") +
+      (warnings.length
+        ? '<ul class="mono-sm" style="margin:8px 0 0 18px;color:var(--muted)">' +
+          warnings.map(function (w) { return "<li>" + esc(w) + "</li>"; }).join("") +
+          "</ul>"
+        : "");
+  }
+
   function renderVerdict(data) {
     const box = document.getElementById("verdict");
     if (!box) return;
@@ -140,6 +172,7 @@
   }
 
   function render(data) {
+    renderInputMeta(data);
     renderVerdict(data);
     const s = data.stats || {};
     const total = s.total || 1;

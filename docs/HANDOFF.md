@@ -163,3 +163,15 @@ $env:DEEPSEEK_API_KEY = "..."   # 支持度判定用，不写进任何文件
 - GitHub `main` 已推送到最后一个提交；`dist/citeguard-cn-0.3.3.zip` 已重建。
 - 用本地 OpenAI 兼容假服务端到端跑通 `evaluate_support.py`（2/2 判定、0 失败、记录 endpoint/model），证明「本地开源模型当 judge」链路的脚本可用。
 
+## 12. 2026-10-24 下午：OCR 报告可追溯 + 解析器抗 OCR 噪声（v0.3.4）
+
+- 真实扫描件整链路上传暴露的解析器 bug 修复：
+  - 类型码缺口：`_repair_garbled_type_marker` 在 `[]` / `[J.` / `[J。` / `[J,` / `[J；` 后补 `]`；无法确认时不再默认按 `[J]` 处理。
+  - 卷期误判：`_split_volume_issue` 在「卷号缺失、只有年+期」（如 `2024(4)`）时不再把年份当卷号。
+  - OCR 碎片：`_DATE_ONLY_RE` 与 `_looks_like_entry` 过滤 `(2024).`、`2024.` 这类日期碎片，参考文献表不再出现空条目。
+  - 句号后 DOI：解析层给出补 DOI 的提示（不再静默丢弃）。
+- 报告可追溯「文字来源」：`pdf_extract.extract_text_with_meta()` 返回 `{method, file_type, pages, ocr, chars, warnings}`，管线写入 `report["input_meta"]`；报告页顶部、Markdown/HTML 导出均显示「文字来源：OCR 识别（扫描件） · 页数 · 字符数」，OCR 文件额外提示识别错字会传递到结论。旧 JSON 报告无该字段时自动隐藏。
+- 产品整链路实测（扫描件 7 页，作业 `684b69cabc70`）：解析出 20 条（22 个候选中 2 个日期碎片被丢弃），18 条 `[J]` / 1 条 `[EB/OL]` / 1 条 `[D]`，元数据偏差 1、Major 0，国标合规均分 93.2。
+- 版本 **0.3.4**；测试 283 → **290 passed / 2 skipped**（新增 OCR 元数据、导出文字来源、干净打包用例）；`docs/real_data_eval.md` §2.2、README 同步。
+- 交付包不再夹带第三方原始语料：`scripts/package_deliverable.py` 排除 `data/real_corpus/**` 与 `data/experiments/scifact_raw/**`（证据 JSON 仍保留），`dist/citeguard-cn-0.3.4.zip` 从 24.6 MB 降到 **1.3 MB**（163 个文件），避免把未获再分发许可的论文 PDF 打进包。
+

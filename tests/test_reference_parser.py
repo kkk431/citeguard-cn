@@ -234,3 +234,76 @@ def test_doi_digits_are_not_year_publisher_or_pages():
     assert ref.doi == "10.1007/978-1-4614-2062-0"
     assert ref.publisher != "1007/978-1-4614-2062-0"
     assert "doi.org" not in ref.publisher
+
+
+def test_ocr_lost_closing_bracket_of_type_marker():
+    """OCR often reads "[J]" as "[J." — the type and fields must still parse."""
+    ref = parse_reference(
+        "[1]张英浩,盛科荣,孙威,等.中国直播电商经济的时空演变特征与区域发展模式"
+        "[J.地理学报,2026,81(4):1157-"
+    )
+    assert ref.doc_type == "J"
+    assert ref.authors == ["张英浩", "盛科荣", "孙威"]
+    assert ref.title == "中国直播电商经济的时空演变特征与区域发展模式"
+    assert ref.venue == "地理学报"
+    assert (ref.volume, ref.issue) == ("81", "4")
+
+
+def test_ocr_empty_type_marker_and_year_issue_not_volume():
+    """A lost "[J]" leaves "[]"; "2022(4)" is year+issue, not volume 2022."""
+    ref = parse_reference("[2]迟妍.古典园林在现代景观设计中的作用[].陶瓷,2022(4):167-169.")
+    assert ref.doc_type == "J"
+    assert ref.extra.get("type_marker_lost") is True
+    assert ref.title == "古典园林在现代景观设计中的作用"
+    assert ref.year == 2022
+    assert ref.volume == ""
+    assert ref.issue == "4"
+    assert ref.pages == "167-169"
+
+
+def test_ocr_garbled_type_marker_is_repaired():
+    """RapidOCR reads "[J]" as "[刀." / "[."; the entry must keep its boundary."""
+    ref = parse_reference(
+        "[14] 马浩杰,史妍欣,陈沁文.乡村振兴背景下花木电商发展路径探析"
+        "[刀.现代营销, 2023(33): 107-109."
+    )
+    assert ref.doc_type == "J"
+    assert ref.title == "乡村振兴背景下花木电商发展路径探析"
+    assert ref.venue == "现代营销"
+    assert ref.year == 2023
+    assert ref.issue == "33"
+    assert ref.pages == "107-109"
+    assert ref.extra.get("type_marker_lost") is True
+
+    ref2 = parse_reference(
+        "[19] 董翰松.AI与大数据在电商供应链优化中的应用效果及经济价值评估"
+        "[.电子商务评论,2025,14(12):3031-3040."
+    )
+    assert ref2.doc_type == "J"
+    assert ref2.title.startswith("AI与大数据")
+    assert ref2.venue == "电子商务评论"
+    assert (ref2.volume, ref2.issue) == ("14", "12")
+
+
+def test_ocr_full_stop_after_author_is_the_title_boundary():
+    ref = parse_reference(
+        "[13] 钱皓宇。短视频营销对游客文创产品购买意愿的影响研究"
+        "——以南京钟山风景区为例[].电子商务评论,2025,14(8): 1944-1949."
+    )
+    assert ref.authors == ["钱皓宇"]
+    assert ref.title.startswith("短视频营销")
+    assert ref.venue == "电子商务评论"
+    assert (ref.volume, ref.issue) == ("14", "8")
+    assert ref.pages == "1944-1949"
+
+
+def test_date_only_wrapped_fragment_is_not_a_reference():
+    refs = parse_reference_list(
+        "[9] 王志高.年轻人用创意让古典园林破圈[EB/OL].中国江苏网,2024-10-17."
+        " https://example.org/news\n"
+        "[10] 2025-06-25. https://www.example.org/magazine?id=73\n"
+        "[11] 钱雅琴.苏州园林景区经营管理模式优化研究[D].苏州:苏州大学,2021."
+    )
+    assert len(refs) == 2
+    assert [r.index for r in refs] == [1, 2]
+    assert refs[1].title == "苏州园林景区经营管理模式优化研究"

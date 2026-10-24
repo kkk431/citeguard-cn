@@ -12,7 +12,7 @@ excluded
 
 Usage
     python scripts/package_deliverable.py
-    python scripts/package_deliverable.py --name citeguard-cn-0.3.3.zip
+    python scripts/package_deliverable.py --name citeguard-cn-0.3.4.zip
     python scripts/package_deliverable.py --root . --out dist --quiet
 
 The script prints the file manifest, the total uncompressed size and the final
@@ -30,7 +30,7 @@ from typing import Iterable, Optional
 from zipfile import ZIP_DEFLATED, ZipFile
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_NAME = "citeguard-cn-0.3.3.zip"
+DEFAULT_NAME = "citeguard-cn-0.3.4.zip"
 
 # Directories pruned wherever they appear in the tree.
 EXCLUDE_DIR_NAMES = {
@@ -52,10 +52,14 @@ EXCLUDE_DIR_NAMES = {
 }
 
 # Paths (relative to the project root) pruned together with their contents.
+# Third-party raw corpora are downloaded, not redistributed: the evidence JSON
+# produced from them stays in the archive, the PDFs/raw dumps do not.
 EXCLUDE_DIR_PATHS = {
     "data/jobs",
     "data/cache",
     "data/uploads",
+    "data/real_corpus",
+    "data/experiments/scifact_raw",
     "out",
 }
 

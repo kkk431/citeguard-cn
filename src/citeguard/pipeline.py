@@ -14,7 +14,7 @@ from . import config
 from .gbt7714 import check_reference_list
 from .jobs import manager
 from .metadata_verify import VerifyResult, local_library_verdict, verify_many
-from .pdf_extract import extract_text, split_references
+from .pdf_extract import extract_text_with_meta, split_references
 from .reference_parser import parse_intext_citations, parse_reference_list
 from .report import build_report, save_report
 from .support import build_claims, judge_available, judge_support
@@ -37,6 +37,7 @@ def analyze_text(
     use_arxiv: bool = True,
     library=None,
     max_refs: int = 0,
+    input_meta: dict | None = None,
 ) -> dict:
     """Run the whole analysis on already-extracted text and return the report."""
     def step(pct: int, stage: str) -> None:
@@ -106,6 +107,14 @@ def analyze_text(
     )
     report["stats"]["library_entries"] = len(library) if library is not None else 0
     report["stats"]["library_hits"] = local_hits
+    report["input_meta"] = input_meta or {
+        "method": "text",
+        "file_type": "txt",
+        "pages": 0,
+        "ocr": False,
+        "chars": len(text or ""),
+        "warnings": [],
+    }
     return report
 
 
@@ -211,7 +220,16 @@ def run_job(
     """Run the analysis for a web job and write report.json/html/md to disk."""
     if file_path:
         manager.update(job_id, progress=4, stage="读取文件")
-        text = extract_text(file_path)
+        text, input_meta = extract_text_with_meta(file_path)
+    else:
+        input_meta = {
+            "method": "text",
+            "file_type": "txt",
+            "pages": 0,
+            "ocr": False,
+            "chars": len(text or ""),
+            "warnings": [],
+        }
 
     if library is None:
         from .local_library import Library
@@ -228,6 +246,7 @@ def run_job(
         support_max=support_max,
         progress=progress,
         library=library,
+        input_meta=input_meta,
     )
     report["job_id"] = job_id
 

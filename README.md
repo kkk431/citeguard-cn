@@ -4,7 +4,7 @@
 
 CiteGuard-CN 是一个开源的中文引文核验工作台，面向毕业论文、课程论文与期刊投稿场景。它把「中文引文解析 → 多源元数据核验 → 引用支持度判定 → 新国标规则检查」串成一条可复现的流水线，并附带一个 250 条的中文评测基准 **CiteBench-CN**。
 
-支持的输入：**PDF**（文字层优先；扫描件可自动 OCR）、**Word（.docx）**（含放在表格里的参考文献表）、**纯文本 / Markdown**。旧版 `.doc` 请先另存为 `.docx` 或 PDF。
+支持的输入：**PDF**（文字层优先；扫描件可自动 OCR）、**Word（.docx）**（含放在表格里的参考文献表）、**纯文本 / Markdown**。旧版 `.doc` 请先另存为 `.docx` 或 PDF。每份报告都会记录文字来源（PDF 文字层 / OCR / Word / 文本），OCR 生成的报告会显著提示复核。
 
 扫描件 OCR 是可选依赖（不装也能用，只是遇到扫描件会提示）：
 
@@ -12,7 +12,7 @@ CiteGuard-CN 是一个开源的中文引文核验工作台，面向毕业论文�
 pip install -r requirements-ocr.txt   # rapidocr-onnxruntime + pypdfium2，CPU 即可
 ```
 
-> 实测（7 页纯图片 PDF，150 dpi）：OCR 后仍能解析出 **23/24 条**参考文献，题名/年份覆盖 23/23、作者 21/23；单页约 19 s（CPU）。扫描版 PDF 的 OCR 噪声（`[J]`→`[]`、断行、DOI 丢失）会在解析层标注，不臆造字段。复现：`PYTHONPATH=src python scripts/eval_ocr_scanned.py --input <paper.pdf>`。
+> 实测（7 页纯图片 PDF，150 dpi）：OCR 后仍能解析出 **23/24 条**参考文献，题名/年份覆盖 23/23、作者 21/23；单页约 19 s（CPU）。扫描版 PDF 的 OCR 噪声（`[J]`→`[]`、断行、DOI 丢失）会在解析层标注，不臆造字段；报告页与 Markdown / HTML 导出还会写明「文字来源：OCR 识别（扫描件） · 页数 · 字符数」，提醒用户 OCR 错字会传递到核验结论。复现：`PYTHONPATH=src python scripts/eval_ocr_scanned.py --input <paper.pdf>`。
 
 ## 它做什么
 
