@@ -39,7 +39,7 @@ $env:DEEPSEEK_API_KEY = "..."   # 支持度判定用，不写进任何文件
 
 ## 3. 当前状态（一句话）
 
-输入解析（PDF/Word/扫描件 OCR）、GB/T 格式检查（E4 漂移 29/30）、引文真实性核验（在线 + 本地题录库 + 中国 DOI 平台）、支持度判定（两段式 macro-F1 0.9544）、报告与导出全部可用；299 项测试通过。已知边界写在 `docs/plan.md`。
+输入解析（PDF/Word/扫描件 OCR）、GB/T 格式检查（E4 漂移 29/30）、引文真实性核验（在线 + 本地题录库 + 中国 DOI 平台）、支持度判定（两段式 macro-F1 0.9597）、报告与导出全部可用；383 项测试通过。已知边界写在 `docs/plan.md`。
 
 ## 4. 明天优先级
 
@@ -499,3 +499,29 @@ v0.6.1 上线后继续压测文献发现，发现并修掉三个具体问题：
 - 发布：commit `ebc756b`（已推送 `b1d322c..ebc756b`）；远端 `/data/xyjiang/aic_mental/citeguard` 已更新，
   `/api/health` → 0.8.0；本地演示服务同为 0.8.0。
 - 交付包 `dist/citeguard-cn-0.8.0.zip`（源码收尾提交 `7a3f010` + 本文件；每次重打包 hash 会变，以实际文件为准）。
+
+## 29. v0.8.1：v10 few-shot + 托管 0.9597（2026-10-25）
+
+- 背景：v8 后 test 仍差托管 0.24；检查 14B all 100 的 3 条错误后先试 v9（完整复述→support），
+  dev 回归到 0.9447，直接否掉；v10 只加一条规则：证据与引用句方向相反而非弱支持时判 contradict。
+- 结果（同 v8 口径；`split_seed20261024.json`；本地 `scripts/local_judge_server.py`，4×RTX 4090）：
+
+  | 模型 | dev 40 | test 60 | all 100 |
+  |---|---|---|---|
+  | Qwen3-14B（v10 + 审计 v2） | **1.0000 / 1.000** | **0.9574 / 0.950** | **0.9744 / 0.970** |
+  | Qwen3-8B（v10 + 审计 v2） | 0.8882 / 0.875 | 0.8515 / 0.833 | — |
+  | DeepSeek 托管（v10 + 审计 v1） | 0.9793 / 0.975 | 0.9598 / 0.950 | **0.9597 / 0.950** |
+
+- 产品默认：两端统一 v10（`scripts/support_prompt_v10.txt`，1981 chars，sha256 `fe9d721c…`），
+  `PROMPT_VERSION=10-<hash8>`；`CITEGUARD_SUPPORT_PROMPT_FILE` 仍可覆盖；审计 `auto`（自托管 v2、托管 v1）。
+- 证据：`data/experiments/support_local_qwen3_8b_v10_{dev,test}.json`、
+  `support_local_qwen3_14b_v10_{dev,test,all}.json`、`support_local_qwen3_gpu.json`（18 行，评测页读取）；
+  正式 `data/claimsupport_cn/results.json` 已用托管 v10 重新生成（0.9597 / 0.950，prompt hash `fe9d721c…`）。
+- 诚实边界：14B v10 与托管同 test 60 差 0.24 分（0.9574 vs 0.9598）；全 100 条本地 0.9744 高于托管 0.9597，
+  两个口径并列报告。v10 的规则与构造集方向冲突样本同源，提升含规则对齐成分——已写入
+  README / THIRD_PARTY §4.2 / docs/compliance_ai_open.md。
+- 验证：383 passed；`verify_artifacts.py` 本机 **114 项**、远端 `--api-base` **123 项** 全过；
+  远端 `/api/benchmark` 的 ClaimSupport-CN 为 0.9597 / 0.950、prompt hash `fe9d721c…`，本地判官表 18 行、末行 14B v10 all 100 0.9744。
+- 发布：commit `3fa07b3`（已推送 `b22ef92..3fa07b3`）；远端 `/data/xyjiang/aic_mental/citeguard` 已更新，
+  `/api/health` → 0.8.1；本地演示服务同为 0.8.1。
+- 交付包 `dist/citeguard-cn-0.8.1.zip`（每次重打包 hash 会变，以实际文件为准）。
