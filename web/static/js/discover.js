@@ -24,7 +24,12 @@
   const exportLink = document.getElementById("discover-export");
   const moreBtn = document.getElementById("discover-more");
   const empty = document.getElementById("discover-empty");
+  const endHint = document.getElementById("discover-end");
 
+  const TYPE_LABEL = {
+    article: "期刊论文", review: "综述", preprint: "预印本", "book-chapter": "图书章节",
+    book: "图书", dissertation: "学位论文", dataset: "数据集", letter: "通讯", erratum: "勘误",
+  };
   const state = { query: "", page: 1, results: [], seen: new Set(), selected: new Set(), lastPayload: null };
 
   const esc = (value) =>
@@ -137,6 +142,7 @@
               esc(authorsShown || "作者未知") +
               (item.venue ? " · " + esc(item.venue) : "") +
               (item.year ? " · " + esc(item.year) : "") +
+              (TYPE_LABEL[item.type] ? " · " + TYPE_LABEL[item.type] : "") +
               " · 被引 " + esc(item.cited_by || 0) +
               " " + badges.join(" ") +
             "</div>" +
@@ -155,7 +161,9 @@
     } else {
       empty.textContent = "没有找到候选文献。换一组关键词、放宽年份，或勾选「包含撤稿文献」再试。";
     }
-    moreBtn.classList.toggle("hidden", !(state.lastPayload && state.lastPayload.has_more) || state.page >= 5);
+    const hasMore = Boolean(state.lastPayload && state.lastPayload.has_more);
+    moreBtn.classList.toggle("hidden", !hasMore);
+    endHint.classList.toggle("hidden", hasMore || !state.results.length);
     updateSelection();
   }
 
@@ -209,8 +217,10 @@
       meta.textContent =
         "主题「" + payload.query + "」· OpenAlex 匹配 " + payload.matched + " 条" +
         (payload.expansion && payload.expansion.en ? "（含英文扩展检索）" : "") +
+        " · 第 " + payload.page + " / " + (payload.max_page || 1) + " 页" +
         " · 本页 " + fresh.length + " 条 · 排序为规则启发式" +
-        (payload.retracted_filtered ? " · 已过滤 " + payload.retracted_filtered + " 条撤稿文献" : "");
+        (payload.retracted_filtered ? " · 已过滤 " + payload.retracted_filtered + " 条撤稿文献" : "") +
+        (payload.noise_filtered ? " · 已过滤 " + payload.noise_filtered + " 条勘误/杂项记录" : "");
       setStatus("");
       if (!state.results.length) setStatus("没有找到候选文献，换一组关键词试试。");
     } catch (error) {

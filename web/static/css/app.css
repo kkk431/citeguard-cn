@@ -363,6 +363,7 @@ textarea:focus,input:focus{outline:none;border-color:var(--accent);background:va
 .paper-side a{font-size:12px;color:var(--accent);text-decoration:none;white-space:nowrap}
 .paper-side a:hover{text-decoration:underline}
 .discover-more-wrap{text-align:center;margin-top:16px}
+.discover-end{margin-top:10px}
 .discover-empty{padding:36px 12px;text-align:center;font-size:13px;color:var(--muted);line-height:1.8}
 .pill-bad{background:var(--bad-soft);color:var(--bad)}
 @media (max-width:720px){

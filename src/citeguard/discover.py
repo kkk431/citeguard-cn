@@ -48,6 +48,9 @@ _TYPE_MAP = {
     "posted-content": "EB",
     "dataset": "DS",
 }
+# Errata, paratext and peer-review records are not usable literature; they also
+# inherit the cited paper's title/citations and would otherwise rank first.
+NOISE_TYPES = {"erratum", "paratext", "peer-review"}
 _SORTS = ("relevance", "citations", "year")
 _CJK_RE = re.compile(r"[\u4e00-\u9fff]")
 _WORD_RE = re.compile(r"[a-zA-Z][a-zA-Z0-9\-]{2,}")
@@ -422,9 +425,17 @@ def search_papers(
 
     items: list[dict] = []
     matched = 0
+    noise_filtered = 0
     for query_index, q in enumerate(queries):
         data = _fetch_json(OPENALEX_WORKS, _work_params(q, per_page, year_from, oa_only))
-        works = [work for work in (data.get("results") or []) if work.get("title")]
+        works = []
+        for work in data.get("results") or []:
+            if not work.get("title"):
+                continue
+            if (work.get("type") or "").lower() in NOISE_TYPES:
+                noise_filtered += 1
+                continue
+            works.append(work)
         matched = max(matched, int(((data.get("meta") or {}).get("count")) or 0))
         raw = [_to_item(work) for work in works]
         query_max = max((float(item.get("relevance_score") or 0.0) for item in raw), default=0.0)
@@ -461,6 +472,7 @@ def search_papers(
         "page_size": limit,
         "has_more": page < max_pages and len(ranked) > start + limit,
         "retracted_filtered": retracted_filtered,
+        "noise_filtered": noise_filtered,
         "sort": sort,
         "expand": expand,
         "results": visible,
@@ -476,6 +488,8 @@ def import_entries(items: Iterable[dict], library_path: Optional[Path] = None) -
     for item in items:
         title = (item.get("title") or "").strip()
         if not title:
+            continue
+        if (item.get("type") or "").lower() in NOISE_TYPES:
             continue
         entries.append(
             LibraryEntry(

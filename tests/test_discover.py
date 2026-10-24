@@ -10,7 +10,7 @@ from citeguard.local_library import Library
 
 
 def _work(doi="10.1/x", title="人工智能教育应用", year=2024, citations=3, oa=True,
-          cited=None, retracted=False, abstract=None, lang="zh"):
+          cited=None, retracted=False, abstract=None, lang="zh", doc_type="article"):
     index = None
     if abstract:
         words = abstract.split()
@@ -25,7 +25,7 @@ def _work(doi="10.1/x", title="人工智能教育应用", year=2024, citations=3
             {"author": {"display_name": "李四"}},
         ],
         "primary_location": {"source": {"display_name": "中国远程教育"}},
-        "type": "article",
+        "type": doc_type,
         "language": lang,
         "cited_by_count": citations if cited is None else cited,
         "open_access": {"is_oa": oa},
@@ -148,6 +148,21 @@ def test_search_papers_hides_retracted_by_default_and_can_include(monkeypatch):
     shown = discover.search_papers("论文", expand="off", include_retracted=True)
     assert len(shown["results"]) == 2
     assert shown["retracted_filtered"] == 0
+
+
+def test_search_papers_filters_errata_and_paratext(monkeypatch):
+    def fake_fetch(url, params):
+        return {"meta": {"count": 4}, "results": [
+            _work(doi="10.1/a", title="人工智能教育研究"),
+            _work(doi="10.1/e", title="Correction to 人工智能教育研究", doc_type="erratum"),
+            _work(doi="10.1/p", title="Author response", doc_type="paratext"),
+            _work(doi="10.1/r", title="Peer review report", doc_type="peer-review"),
+        ]}
+
+    monkeypatch.setattr(discover, "_fetch_json", fake_fetch)
+    result = discover.search_papers("人工智能教育", expand="off")
+    assert [item["title"] for item in result["results"]] == ["人工智能教育研究"]
+    assert result["noise_filtered"] == 3
 
 
 def test_search_papers_pages_through_results(monkeypatch):

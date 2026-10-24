@@ -69,7 +69,7 @@
   <div class="discover-expansion hidden" id="discover-expansion"></div>
   <div class="discover-toolbar">
     <div class="discover-toolbar-group">
-      <label class="checkline"><input type="checkbox" id="discover-select-all"> <span>全选本页</span></label>
+      <label class="checkline"><input type="checkbox" id="discover-select-all"> <span>全选已加载</span></label>
       <label class="discover-sort-label">排序
         <select id="discover-sort">
           <option value="relevance" selected>相关度</option>
@@ -94,6 +94,7 @@
   <div class="paper-list" id="discover-list"></div>
   <div class="discover-more-wrap">
     <button class="btn btn-ghost hidden" id="discover-more">加载更多</button>
+    <div class="discover-end hint hidden" id="discover-end">已到候选池末尾。想多看一些：调大「每页条数」（会同时扩大候选池），或换更具体的关键词、放宽年份。</div>
     <div class="discover-empty hidden" id="discover-empty">没有找到候选文献。换一组关键词、放宽年份，或勾选「包含撤稿文献」再试。</div>
   </div>
   <p class="hint" style="margin-top:14px">

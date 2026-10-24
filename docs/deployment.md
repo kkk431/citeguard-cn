@@ -1,4 +1,4 @@
-# CiteGuard-CN 部署手册（v0.6.1）
+# CiteGuard-CN 部署手册（v0.6.2）
 
 本文覆盖四种落地方式：本地开发、服务器 `.pylibs` 部署、SSH 隧道访问、Docker。
 所有方式都遵循同一条安全约束：**API Key 只从环境变量注入，绝不写进仓库或镜像**。
@@ -271,13 +271,13 @@ ssh -L 18000:127.0.0.1:8000 jxy-2
 
 ```bash
 cd citeguard
-docker build -f docker/Dockerfile -t citeguard-cn:0.6.1 .
+docker build -f docker/Dockerfile -t citeguard-cn:0.6.2 .
 
 docker run --rm -p 127.0.0.1:8000:8000 \
   -e DEEPSEEK_API_KEY="${DEEPSEEK_API_KEY:-}" \
   -v "$PWD/data/jobs:/app/data/jobs" \
   -v "$PWD/data/cache:/app/data/cache" \
-  citeguard-cn:0.6.1
+  citeguard-cn:0.6.2
 ```
 
 镜像内固定 `PYTHONPATH=/app/src`，启动命令：
@@ -313,9 +313,9 @@ docker compose -f docker/docker-compose.yml logs -f citeguard
 
 ```bash
 # 有网机器
-docker save citeguard-cn:0.6.1 | gzip > citeguard-cn-0.6.1.tar.gz
+docker save citeguard-cn:0.6.2 | gzip > citeguard-cn-0.6.2.tar.gz
 # 目标机器
-docker load < citeguard-cn-0.6.1.tar.gz
+docker load < citeguard-cn-0.6.2.tar.gz
 ```
 
 ---
@@ -344,7 +344,7 @@ docker load < citeguard-cn-0.6.1.tar.gz
 cd citeguard
 PYTHONPATH=src:.pylibs python3 -m pytest tests -q          # 应全绿（含离线端到端）
 PYTHONPATH=src python3 scripts/verify_artifacts.py         # 应输出 [OK] all checks passed
-PYTHONPATH=src python3 scripts/package_deliverable.py      # 生成 dist/citeguard-cn-0.6.1.zip
+PYTHONPATH=src python3 scripts/package_deliverable.py      # 生成 dist/citeguard-cn-0.6.2.zip
 curl -s http://127.0.0.1:8000/api/health                   # {"ok":true,...}
 ```
 
@@ -403,4 +403,4 @@ curl -s http://127.0.0.1:8000/api/health
 避免把用户上传内容和密钥带进镜像。
 
 **Q11. 如何确认某次部署的版本？**
-`curl -s http://127.0.0.1:8000/api/health`，`version` 字段即当前版本（本手册对应 `0.6.1`）。
+`curl -s http://127.0.0.1:8000/api/health`，`version` 字段即当前版本（本手册对应 `0.6.2`）。

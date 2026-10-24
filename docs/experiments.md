@@ -603,6 +603,6 @@ python scripts/e7_usability.py --manual-finalize data/experiments/e7_manual_verd
 
 **不能用的说法**：不能说排序质量达到多少（没有 relevance 标注集）；不能说中文文献都能搜到（取决于 OpenAlex 覆盖）；不能说中文占比低是排序差（扩展提高英文召回，两种模式都保留）；不能说入库等于已核验。
 
-**集成**：`/discover` 页面 + `POST /api/discover` + `GET /api/discover/export` + `POST /api/discover/import`；模块测试 16 个 + Web 测试，全套 377 passed。
+**集成**：`/discover` 页面 + `POST /api/discover` + `GET /api/discover/export` + `POST /api/discover/import`；模块测试 18 个 + Web 测试，全套 378 passed。
 
 **证据**：检索结果随时间变化，不固化数据文件；代码 `src/citeguard/discover.py`、`web/app.py`，说明见 `docs/discover.md`。

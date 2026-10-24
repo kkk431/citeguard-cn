@@ -313,6 +313,8 @@ def test_discover_page_renders(plain_client):
     resp = plain_client.get("/discover")
     assert resp.status_code == 200
     assert "discover-form" in resp.text
+    assert "discover-end" in resp.text
+    assert "全选已加载" in resp.text
 
 
 def test_discover_api_rejects_short_query(plain_client):
