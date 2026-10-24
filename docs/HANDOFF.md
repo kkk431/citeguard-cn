@@ -283,3 +283,10 @@ $env:DEEPSEEK_API_KEY = "..."   # 支持度判定用，不写进任何文件
   `docs/deployment.md` §1.6；`docs/ppt_numbers.md` 3f 与「不能这么说」第 8 条；`.env.example`。
 - 测试 **330 passed**（新增 10 个 `tests/test_figure_check.py` 用例：未配置/坏格式/超限/成功解析/鉴权/
   HTTP 错误/不可达/坏响应/页面与 API）；`verify_artifacts.py` 本地 89 项全过。版本 **0.4.0**。
+
+- 发布：commit `ad5456c`；GitHub 通过 SSH 推送（发布时本机 https 代理不可用，`git push git@github.com:kkk431/citeguard-cn.git main`）；远端
+  `/data/xyjiang/aic_mental/citeguard` 已部署 v0.4.0（`/api/health` → version 0.4.0），
+  `verify_artifacts.py --api-base http://127.0.0.1:8000` **98 项全过**；交付包
+  `dist/citeguard-cn-0.4.0.zip`（1,715,392 bytes，sha256 `63807fe242a5e49aff321cd77fab61f6c9a6c8a74a63661b78abf13b051b841e`）。
+- 远端未配置 `CITEGUARD_VL_*`，`/figure` 显示配置说明、首页不出现入口（设计如此）；本机演示服务已配置 lmh VL 服务，
+  四个默认示例图可直接跑通。
