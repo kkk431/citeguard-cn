@@ -6,13 +6,13 @@
   <h1 class="serif" style="font-size:34px;font-weight:600;margin:10px 0">图表结论核验</h1>
   <p class="lede" style="max-width:74ch">
     论文里「见图 3，A 方法的准确率最高」这类结论，靠的是读者自己看图。把图表截图和结论交给视觉模型，
-    让它逐一核对坐标轴、图例、数值与趋势，给出「支持 / 矛盾 / 信息不足」三档判断。
+    让它逐一核对坐标轴、图例、数值与趋势，给出「支持 / 矛盾 / 信息不足」三档判断；粘贴正文或图注后，还会一并判断正文是否支持同一条结论。
     模型是自建的开源 Qwen2.5-VL-7B-Instruct（Apache-2.0），图片只在本次请求里发给你配置的服务，不落盘、不上传到第三方。
   </p>
   <div class="stats stats-4">
     <div class="stat"><b>三档</b><span>支持 / 矛盾 / 信息不足</span></div>
     <div class="stat"><b>Qwen2.5-VL-7B</b><span>开源视觉模型</span></div>
-    <div class="stat"><b>单卡 4090</b><span>约 1.5–2.5 秒/条</span></div>
+    <div class="stat"><b>单卡 4090</b><span>约 1.8–2.6 秒/条</span></div>
     <div class="stat"><b>{{ '已配置' if vl_available else '未配置' }}</b><span>核验服务状态</span></div>
   </div>
   {% if not vl_available %}
@@ -40,6 +40,8 @@
       </div>
       <label class="field-label" for="figure-claim" style="margin-top:16px">要核验的结论</label>
       <textarea id="figure-claim" class="textarea" rows="3" placeholder="例如：图中 2025 年的发文量最高，为 195 篇。" style="width:100%;font-size:14px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--surface)"></textarea>
+      <label class="field-label" for="figure-context" style="margin-top:14px">论文正文 / 图注摘录（可选，最多 4000 字）</label>
+      <textarea id="figure-context" class="textarea" rows="4" placeholder="粘贴图表所在段落或图注，用来判断「正文是否也支持这条结论」；不填则只核对图表本身。" style="width:100%;font-size:14px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--surface)"></textarea>
       <div class="upload-actions">
         <button type="submit" class="btn btn-primary" id="figure-check-btn" {% if not vl_available %}disabled{% endif %}>核验这条结论</button>
         <span class="mono-sm" id="figure-hint" style="margin-left:auto;align-self:center"></span>

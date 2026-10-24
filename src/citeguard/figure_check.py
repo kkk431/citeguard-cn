@@ -4,6 +4,10 @@ The product host (CPU) never loads a vision model itself: operators point
 CITEGUARD_VL_ENDPOINT at a GPU service such as `scripts/local_vl_server.py`
 (Qwen2.5-VL-7B-Instruct, Apache-2.0). Without that endpoint the feature is
 hidden, and every call returns code="not_configured".
+
+v2 adds an optional paper-text/context excerpt: the judge first checks the
+figure, and when a context is supplied it also reports whether that context
+supports or contradicts the same claim.
 """
 
 from __future__ import annotations
@@ -17,21 +21,32 @@ import requests
 
 from . import config
 
-PROMPT_VERSION = "1"
+PROMPT_VERSION = "2"
 SUPPORTED_MIMES = {"image/png", "image/jpeg", "image/webp"}
+MAX_CONTEXT_CHARS = 4000
 
 PROMPT = (
-    "你是论文图表核验助手。下面是一张图表和一句结论。"
-    "请判断该结论是否被图表支持：完全支持输出 supported；与图表数据矛盾输出 contradicted；"
-    "图表信息不足以下结论输出 insufficient。\n"
-    "只输出一个 JSON 对象：{{\"verdict\":\"supported|contradicted|insufficient\",\"reason\":\"不超过30字\"}}\n"
-    "结论：{claim}"
+    "你是论文图表核验助手。下面是一张图表、一句结论，以及可选的论文正文/图注摘录。\n"
+    "第一步：判断结论是否被图表支持——图表数据与结论一致输出 supported；与图表数据矛盾输出 contradicted；\n"
+    "图表信息不足以判断输出 insufficient。\n"
+    "第二步：如果提供了正文/图注摘录，再判断它是否支持该结论。正文与图表冲突时以「矛盾」为准；\n"
+    "正文没有提到该结论时仍以图表为准，并在 reason 里注明「正文未覆盖」。\n"
+    "只输出一个 JSON 对象：{{\"verdict\":\"supported|contradicted|insufficient\",\"reason\":\"不超过 40 字\"}}\n"
+    "{context_block}结论：{claim}"
 )
 
 
 def available() -> bool:
     """Whether a vision endpoint is configured."""
     return bool(config.VL_ENDPOINT)
+
+
+def _context_block(context: str) -> str:
+    text = (context or "").strip()
+    if not text:
+        return ""
+    text = text[:MAX_CONTEXT_CHARS]
+    return "正文/图注摘录（可能不完整）：\n" + text + "\n"
 
 
 def _parse_verdict(text: str) -> dict:
@@ -48,7 +63,7 @@ def _parse_verdict(text: str) -> dict:
     return {"verdict": verdict, "reason": str(data.get("reason", "")).strip()[:120]}
 
 
-def check_figure(image_bytes: bytes, mime: str, claim: str) -> dict:
+def check_figure(image_bytes: bytes, mime: str, claim: str, context: str = "") -> dict:
     """Return {ok, verdict, reason, model, latency_ms} or {ok: False, code, error}."""
     if not available():
         return {
@@ -70,14 +85,14 @@ def check_figure(image_bytes: bytes, mime: str, claim: str) -> dict:
     data_uri = f"data:{mime};base64," + base64.b64encode(image_bytes).decode("ascii")
     payload = {
         "model": config.VL_MODEL,
-        "max_tokens": 160,
+        "max_tokens": 180,
         "temperature": 0,
         "messages": [
             {
                 "role": "user",
                 "content": [
                     {"type": "image_url", "image_url": {"url": data_uri}},
-                    {"type": "text", "text": PROMPT.format(claim=claim)},
+                    {"type": "text", "text": PROMPT.format(context_block=_context_block(context), claim=claim)},
                 ],
             }
         ],
@@ -115,4 +130,5 @@ def check_figure(image_bytes: bytes, mime: str, claim: str) -> dict:
         "model": config.VL_MODEL,
         "latency_ms": latency_ms,
         "prompt_version": PROMPT_VERSION,
+        "context_chars": min(len((context or "").strip()), MAX_CONTEXT_CHARS),
     }

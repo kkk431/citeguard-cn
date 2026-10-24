@@ -1,4 +1,4 @@
-# CiteGuard-CN 部署手册（v0.8.2）
+# CiteGuard-CN 部署手册（v0.8.3）
 
 本文覆盖四种落地方式：本地开发、服务器 `.pylibs` 部署、SSH 隧道访问、Docker。
 所有方式都遵循同一条安全约束：**API Key 只从环境变量注入，绝不写进仓库或镜像**。
@@ -118,7 +118,9 @@ export CITEGUARD_VL_MAX_FIGURE_MB=8
 ```
 
 未配置 `CITEGUARD_VL_ENDPOINT` 时，`/figure` 只显示说明与部署方法，不接收提交；首页也不会出现入口。
-Qwen2.5-VL-7B 在单张 RTX 4090（24 GB）上 bf16 约占 16 GB，首次加载 ~8 秒，之后 1.5–2.6 秒/条。
+Qwen2.5-VL-7B 在单张 RTX 4090（24 GB）上 bf16 约占 16 GB，首次加载 ~8 秒，之后 1.8–2.6 秒/条。
+图表页可选粘贴论文正文/图注（最多 4000 字，表单字段 `context`）：不填只核对图表，填写后同时判断正文是否支持该结论；
+50 条评测上 v2+上下文 0.94、仅图 0.90，误报矛盾 0（`docs/figure_check.md`）。
 评测与局限见 [figure_check.md](figure_check.md)。
 
 ---
@@ -274,13 +276,13 @@ ssh -L 18000:127.0.0.1:8000 jxy-2
 
 ```bash
 cd citeguard
-docker build -f docker/Dockerfile -t citeguard-cn:0.8.2 .
+docker build -f docker/Dockerfile -t citeguard-cn:0.8.3 .
 
 docker run --rm -p 127.0.0.1:8000:8000 \
   -e DEEPSEEK_API_KEY="${DEEPSEEK_API_KEY:-}" \
   -v "$PWD/data/jobs:/app/data/jobs" \
   -v "$PWD/data/cache:/app/data/cache" \
-  citeguard-cn:0.8.2
+  citeguard-cn:0.8.3
 ```
 
 镜像内固定 `PYTHONPATH=/app/src`，启动命令：
@@ -316,9 +318,9 @@ docker compose -f docker/docker-compose.yml logs -f citeguard
 
 ```bash
 # 有网机器
-docker save citeguard-cn:0.8.2 | gzip > citeguard-cn-0.8.2.tar.gz
+docker save citeguard-cn:0.8.3 | gzip > citeguard-cn-0.8.3.tar.gz
 # 目标机器
-docker load < citeguard-cn-0.8.2.tar.gz
+docker load < citeguard-cn-0.8.3.tar.gz
 ```
 
 ---
@@ -347,7 +349,7 @@ docker load < citeguard-cn-0.8.2.tar.gz
 cd citeguard
 PYTHONPATH=src:.pylibs python3 -m pytest tests -q          # 应全绿（含离线端到端）
 PYTHONPATH=src python3 scripts/verify_artifacts.py         # 应输出 [OK] all checks passed
-PYTHONPATH=src python3 scripts/package_deliverable.py      # 生成 dist/citeguard-cn-0.8.2.zip
+PYTHONPATH=src python3 scripts/package_deliverable.py      # 生成 dist/citeguard-cn-0.8.3.zip
 curl -s http://127.0.0.1:8000/api/health                   # {"ok":true,...}
 ```
 
@@ -406,4 +408,4 @@ curl -s http://127.0.0.1:8000/api/health
 避免把用户上传内容和密钥带进镜像。
 
 **Q11. 如何确认某次部署的版本？**
-`curl -s http://127.0.0.1:8000/api/health`，`version` 字段即当前版本（本手册对应 `0.8.2`）。
+`curl -s http://127.0.0.1:8000/api/health`，`version` 字段即当前版本（本手册对应 `0.8.3`）。

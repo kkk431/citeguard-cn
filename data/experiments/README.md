@@ -53,6 +53,7 @@
 | `citation_consistency.json` | 正文引注一致性检查器的 15 例规则自检用例（未引用 / 缺失编号 / 顺序倒置 / 范围引注等） | `scripts/eval_citation_consistency.py` | **15/15 通过**；用例按 GB/T 顺序编码制构造，非人工标注集 |
 
 | `vl_synth_results.json` / `vl_real_results.json` | E10：图表结论核验（Qwen2.5-VL-7B）合成 40 条 / 真实 10 条 | `scripts/vl_figtest.py`（需 GPU 服务） | 准确率 **0.90 / 0.90**，误报矛盾 0 |
+| `figure_prompt_eval.json` | E10 续：图表 prompt/上下文消融（50 条；v1 / v2 / v2+上下文） | `scripts/eval_figure_prompt.py`（需 GPU 服务） | v2+上下文 **0.94**（仅图 0.90），误报矛盾 0 |
 
 ## 5. 口径与注意事项
 

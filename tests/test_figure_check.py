@@ -131,7 +131,7 @@ def test_figure_page_and_api(monkeypatch):
     monkeypatch.setattr(
         figure_check,
         "check_figure",
-        lambda data, mime, claim: {"ok": True, "verdict": "insufficient", "reason": "图中没有该数据", "model": "m", "latency_ms": 12},
+        lambda data, mime, claim, context="": {"ok": True, "verdict": "insufficient", "reason": "图中没有该数据", "model": "m", "latency_ms": 12},
     )
     ok = client.post(
         "/api/figure-check",
@@ -140,3 +140,36 @@ def test_figure_page_and_api(monkeypatch):
     )
     assert ok.status_code == 200
     assert ok.json()["verdict"] == "insufficient"
+
+
+def test_context_is_included_and_truncated(monkeypatch):
+    monkeypatch.setattr(config, "VL_ENDPOINT", "http://gpu:8099/v1")
+    captured = {}
+
+    def fake_post(url, json=None, headers=None, timeout=None):
+        captured["json"] = json
+        return FakeResponse(200, _completion('{"verdict":"supported","reason":"正文一致"}'))
+
+    monkeypatch.setattr(figure_check.requests, "post", fake_post)
+    long_context = "这段正文说 2025 年发文量最高。" * 500
+    result = figure_check.check_figure(b"img", "image/png", "2025 年的发文量最高。", long_context)
+    assert result["ok"] is True
+    assert result["context_chars"] == figure_check.MAX_CONTEXT_CHARS
+    prompt = captured["json"]["messages"][0]["content"][1]["text"]
+    assert "正文/图注摘录（可能不完整）" in prompt
+    assert prompt.count("这段正文说") <= 500
+    assert len(prompt) < figure_check.MAX_CONTEXT_CHARS + 2000
+
+
+def test_context_omitted_keeps_figure_only_prompt(monkeypatch):
+    monkeypatch.setattr(config, "VL_ENDPOINT", "http://gpu:8099/v1")
+    captured = {}
+
+    def fake_post(url, json=None, headers=None, timeout=None):
+        captured["json"] = json
+        return FakeResponse(200, _completion('{"verdict":"insufficient","reason":"缺少坐标轴"}'))
+
+    monkeypatch.setattr(figure_check.requests, "post", fake_post)
+    figure_check.check_figure(b"img", "image/png", "结论足够长的测试句子。")
+    prompt = captured["json"]["messages"][0]["content"][1]["text"]
+    assert "正文/图注摘录（可能不完整）" not in prompt

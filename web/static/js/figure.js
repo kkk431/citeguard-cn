@@ -8,6 +8,7 @@
   const previewWrap = document.getElementById("figure-preview-wrap");
   const preview = document.getElementById("figure-preview");
   const claimInput = document.getElementById("figure-claim");
+  const contextInput = document.getElementById("figure-context");
   const btn = document.getElementById("figure-check-btn");
   const hint = document.getElementById("figure-hint");
   const result = document.getElementById("figure-result");
@@ -113,6 +114,8 @@
     const fd = new FormData();
     fd.append("image", file);
     fd.append("claim", claim);
+    const context = contextInput ? (contextInput.value || "").trim() : "";
+    if (context) fd.append("context", context);
     btn.disabled = true;
     setHint("核验中…首次请求需要加载模型，可能等十几秒");
     result.classList.add("hidden");
