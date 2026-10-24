@@ -85,7 +85,7 @@
 2. **数据集**：CiteBench-CN（250 条）、ClaimSupport-CN（100 条），CC-BY-4.0，含数据卡与标注说明；
    只含自建标注与公开元数据 ID，不含第三方全文/摘要。
 3. **可验证证据**：`data/experiments/*.json`（含原始预测、混淆矩阵、延迟、显存峰值 `local_gpu_memory.json`）、`scripts/verify_artifacts.py`
-   （v0.8.1 起本机 114 项 / 远端 123 项一致性检查）、`reproduce.sh` 一键复现。
+   （v0.8.6 起本机 118 项 / 远端 127 项一致性检查）、`reproduce.sh` 一键复现。
 4. **上游贡献**：向 RefChecker（MIT）提交过 PR #77（BibTeX 裸字段解析，避免数字年份被丢弃）；
    是否合并以 GitHub 页面实时状态为准，不写成「已合并」。
 5. **文档**：部署手册、评测规划、真实语料实测、支持度总结、图表核验、文献发现、本对照表。
