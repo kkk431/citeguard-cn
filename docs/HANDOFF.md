@@ -385,11 +385,12 @@ $env:DEEPSEEK_API_KEY = "..."   # 支持度判定用，不写进任何文件
 - 边界（不要写成已解决）：排序仍是启发式、无 relevance 标注集，不能报 NDCG/准确率；中文召回取决于
   OpenAlex 覆盖；扩展依赖判官模型，不可用时召回明显下降；入库只存题录，不等于已核验。
 - 版本 0.6.1（`web/app.py` 两处、打包脚本、部署手册）。
-- 发布：commit `fb2f88d`（代码/文档，14 files）；SSH 推送 `2983742..fb2f88d`
-  （`GIT_SSH_COMMAND='ssh -p 22 -o HostName=github.com'`）。
-- 远端 `/data/xyjiang/aic_mental/citeguard` 已部署 v0.6.1（`/api/health` → 0.6.1）；
+- 发布：commit `fb2f88d`（v2 首发，14 files）→ `d4e72fc`（分页修正：自适应池 / `max_page` 夹取 /
+  池内 `has_more`）；SSH 推送 `2983742..d4e72fc`（`GIT_SSH_COMMAND='ssh -p 22 -o HostName=github.com'`）。
+- 远端 `/data/xyjiang/aic_mental/citeguard` 已部署 `d4e72fc`（`/api/health` → 0.6.1）；
   `verify_artifacts.py --api-base http://127.0.0.1:8000` **111 项全过**；远端 `/api/discover`
-  实测 `expand=auto` 命中 1,141,987、返回双语扩展式，页面 200。
-- 交付包 `dist/citeguard-cn-0.6.1.zip`（1,768,924 bytes，sha256 `85450f6f…`）。
+  实测 `expand=auto` 命中 1,141,987、返回双语扩展式；`limit=50&page=9` 被夹到第 4 页、
+  `has_more=false`、返回 50 条。
+- 交付包 `dist/citeguard-cn-0.6.1.zip`（源码 `d4e72fc` + 本文件；每次重打包 hash 会变，以实际文件为准）。
 - 本机验证：377 passed、`verify_artifacts.py` 102 项、浏览器实测检索 / 加载更多（40 条零重复）/
-  排序 / 语言筛选 / 勾选入库 / CSV 链接。
+  排序 / 语言筛选 / 勾选入库 / CSV 链接；本机 `limit=50&page=9` → 第 4 页、50 条、`has_more=false`。
