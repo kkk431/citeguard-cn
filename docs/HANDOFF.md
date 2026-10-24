@@ -583,3 +583,12 @@ v0.6.1 上线后继续压测文献发现，发现并修掉三个具体问题：
   commit `4a039fe` 已推送；远端 `/api/health` → **0.8.3**；本地演示服务同 0.8.3（`/api/figure-check` 带 `context`
   实测返回 `prompt_version=2`、`context_chars=29`）。
 - 交付包：`dist/citeguard-cn-0.8.3.zip`（2,026,337 bytes，sha256 `084080f4…`；每次重打包 hash 会变，以实际文件为准）。
+
+## 32. v0.8.4：把图表核验评测放到评测页（2026-10-25）
+
+- 评测页新增「图表-结论核验（Qwen2.5-VL-7B，自托管）」表：v1 仅图、v2 仅图、v2+正文 三行（准确率
+  **0.88 / 0.90 / 0.94**），含支持召回、矛盾召回与平均延迟；并注明「真实图仅 5 张 10 条、上下文需手动粘贴」。
+- 数据来自 `_benchmark_context()` 新加载的 `figure_prompt_eval.json`，页面不硬编码数字。
+- 验证：387 passed；`verify_artifacts.py` 本机 118 项、远端 `--api-base` 127 项全过；commit `8c6acf4`
+  已推送；远端 `/api/health` → 0.8.4；本地演示服务同 0.8.4，评测页图表段渲染正常。
+- 交付包：`dist/citeguard-cn-0.8.4.zip`（2,026,978 bytes，sha256 `56d21c5c…`；每次重打包 hash 会变，以实际文件为准）。
