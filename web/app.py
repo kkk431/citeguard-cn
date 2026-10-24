@@ -81,7 +81,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.6.0", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.6.1", lifespan=lifespan)
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
 
@@ -703,8 +703,12 @@ def compare_export(job_id: str, format: str = "md"):
 class DiscoverRequest(BaseModel):
     query: str = ""
     limit: int = 20
+    page: int = 1
+    sort: str = "relevance"
     year_from: Optional[int] = None
     oa_only: bool = False
+    expand: str = "auto"
+    include_retracted: bool = False
 
 
 class DiscoverImportRequest(BaseModel):
@@ -728,6 +732,10 @@ def discover_api(payload: DiscoverRequest):
             limit=payload.limit,
             year_from=payload.year_from,
             oa_only=payload.oa_only,
+            page=payload.page,
+            sort=payload.sort,
+            expand=payload.expand,
+            include_retracted=payload.include_retracted,
         )
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
@@ -740,12 +748,17 @@ def discover_api(payload: DiscoverRequest):
 def discover_export(
     query: str = "",
     limit: int = 20,
+    page: int = 1,
+    sort: str = "relevance",
     year_from: Optional[int] = None,
     oa_only: bool = False,
+    expand: str = "auto",
+    include_retracted: bool = False,
 ):
     try:
         result = discover.search_papers(
-            query, limit=limit, year_from=year_from, oa_only=oa_only
+            query, limit=limit, year_from=year_from, oa_only=oa_only,
+            page=page, sort=sort, expand=expand, include_retracted=include_retracted,
         )
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
@@ -785,4 +798,4 @@ def benchmark_api():
 
 @app.get("/api/health")
 def health():
-    return {"ok": True, "version": "0.6.0", "supported": sorted(ALLOWED_SUFFIXES)}
+    return {"ok": True, "version": "0.6.1", "supported": sorted(ALLOWED_SUFFIXES)}

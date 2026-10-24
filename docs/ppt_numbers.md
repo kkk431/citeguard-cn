@@ -33,7 +33,7 @@
 | 6d | 正文引注一致性检查 | **15 / 15** 规则用例通过 | 按 GB/T 顺序编码制构造的自检用例（非标注集） | `data/experiments/citation_consistency.json` |
 | 7 | 中文题名检索召回 | **92%** | OpenAlex 已收录的中文论文 25 篇 | `data/experiments/search_recall.json` |
 | 8 | 中国 DOI 平台元数据接入 | CNKI DOI 从「未找到」→ **真实一致**；真实语料可补 1/409 | 真实语料 + 在线接口 | `docs/real_data_eval.md` §5 |
-| 9 | 工程与交付 | **353** 测试通过；6 个网页页面 + 报告页；批量/汇总/CSV | 离线测试，无网络依赖 | `pytest tests -q` |
+| 9 | 工程与交付 | **376** 测试通过；6 个网页页面 + 报告页；批量/汇总/CSV | 离线测试，无网络依赖 | `pytest tests -q` |
 
 > 引用时建议写法：**「真实已发表文献 0/409 误判为虚构」**、**「支持度 macro-F1 0.9328（构造集）」**、**「格式漂移检出 29/30」**。
 > 这三条分别对应：敢不敢信结论、能不能判断引用是否被支持、格式规则有没有真本事。
@@ -56,13 +56,13 @@
 4. 题录库页展示搜索/删除/一键补摘要（只补缺摘要，标题相似度 ≥ 0.92 才接受）；回报告看「本地题录库」标签；
 5. 图表核验页传一张图 + 结论 → 现场得到 supported/contradicted/insufficient 与理由（需 GPU 视觉服务）；
 5b. 文献对比页传 2–4 篇同主题论文 → 六维矩阵 + 导出 Markdown/CSV（约 2 秒/篇）；
-5c. 文献发现页输入「人工智能 教育」→ 10 条候选 + 勾选入库（约 2 秒）；
+5c. 文献发现页输入「人工智能 教育」→ 自动中英双语扩展，20 条带摘要的候选卡片（上游命中 114 万条，冷启动约 6 秒）→ 勾选入库；
 6. 评测页 `/benchmark`：CiteBench / ClaimSupport / 真实语料三块数字一屏看完。
 
 ## 复现命令（评委问「这些数字怎么来的」）
 
 ```bash
-PYTHONPATH=src python -m pytest tests -q                    # 353 passed
+PYTHONPATH=src python -m pytest tests -q                    # 376 passed
 PYTHONPATH=src python scripts/evaluate_citebench.py         # 真实性基准（离线缓存）
 DEEPSEEK_API_KEY=... PYTHONPATH=src python scripts/evaluate_support.py   # 支持度（两段式）
 DEEPSEEK_API_KEY=... PYTHONPATH=src python scripts/eval_compare_real.py  # 多篇对比实测
@@ -88,4 +88,4 @@ PYTHONPATH=src python scripts/verify_artifacts.py           # 数据集/结果/�
 7. **不要说「抓假率 98.5%」**：98.5%（197/200）是「对 40 条带 DOI 真实引文注入 5 类错误」的检出率；无 DOI/URL 锚点的拼接伪造 13 条全部是 Unverified（按设计不指控），不能混进来。完整口径见 `docs/experiments.md` §8。
 8. **不要说「图表核验准确率 90%，可以替代人工看图」**：合成 40 条 + 真实 10 条，真实图只有 5 张、结论是人工写的，样本很小；它只判「这张图和这句话是否一致」，不做版面分析、不核对图表数据来源，`insufficient` 仍需人工看。
 9. **不要说「多篇对比能自动写综述 / 字段准确率 90%」**：字段是模型从摘要与正文前部抽的，没有字段级标注集；只有 4 篇真实论文的工程实测（4/4 成功、8.0 秒、每篇 5–6/6 字段）。它把论文并排成矩阵，不做跨文献综合，研究空白仍要人来写。
-10. **不要说「文献发现能替代知网检索 / 排序很准」**：它只查 OpenAlex 开放元数据，中文召回取决于 OpenAlex 覆盖；排序是写死的启发式规则，没有任何 relevance 标注集，不报告 NDCG/准确率；入库只存题录，不等于已核验。
+10. **不要说「文献发现能替代知网检索 / 排序很准」**：它只查 OpenAlex 开放元数据，中文召回取决于 OpenAlex 覆盖；查询扩展依赖判定模型，不可用时会退化为原查询；排序是写死的启发式规则，没有任何 relevance 标注集，不报告 NDCG/准确率；入库只存题录，不等于已核验。

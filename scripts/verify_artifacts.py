@@ -107,9 +107,10 @@ CODE_CLAIMS = (
     ("README.md", "4/4 篇抽取成功", "multi-paper compare success count"),
     ("README.md", "总耗时 **8.0 秒**", "multi-paper compare measured runtime"),
     ("README.md", "112,724", "discovery OpenAlex Chinese matched count"),
-    ("README.md", "133,725", "discovery OpenAlex English matched count"),
+    ("README.md", "1,141,987", "discovery bilingual expansion matched count"),
     ("docs/discover.md", "112,724", "discovery doc matched count"),
-    ("docs/experiments.md", "133,725", "experiments discovery matched count"),
+    ("docs/discover.md", "1,141,987", "discovery doc expansion matched count"),
+    ("docs/experiments.md", "1,141,987", "experiments discovery matched count"),
     ("docs/compare.md", "总耗时 8.0 秒", "compare doc runtime matches evidence"),
     ("docs/ppt_numbers.md", "4/4 篇成功", "one-pager compare success count"),
 )

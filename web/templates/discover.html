@@ -4,21 +4,21 @@
 <section class="wrap" style="padding:48px 0 8px">
   <div class="kicker">LITERATURE DISCOVERY</div>
   <h1 class="serif" style="font-size:34px;font-weight:600;margin:10px 0">选题与文献发现</h1>
-  <p class="lede" style="max-width:74ch">
-    给一个研究主题，从 OpenAlex 开放索引里找候选论文：按「相关度 + 标题重合 + 被引 + 新近度 + 开放获取」做一个透明的启发式排序，
-    可直接勾选加入本地题录库，再回到工作台做引文核验与多篇对比。
-    它只展示 OpenAlex 返回的元数据，不抓取、不转存全文；排序是规则，不是训练出来的推荐模型。
+  <p class="lede" style="max-width:76ch">
+    给一个研究主题，从 OpenAlex 开放索引里找候选论文。中文主题会自动扩成英文检索（需要判词模型），中英文结果合并去重后，
+    按「相关度 + 标题/关键词重合 + 被引 + 新近度 + 开放获取」的透明规则排序；勾选后可加入本地题录库，或导出 CSV。
+    只展示公开元数据，不抓取、不转存全文；排序是写死的启发式规则，不是训练出来的推荐模型。
   </p>
   <div class="stats stats-4">
-    <div class="stat"><b>OpenAlex</b><span>开放元数据（CC0）</span></div>
-    <div class="stat"><b>透明排序</b><span>相关度 + 重合 + 引用 + 新近度</span></div>
-    <div class="stat"><b>一键入库</b><span>选中后可加入题录库</span></div>
-    <div class="stat"><b>不抓全文</b><span>只消费公开元数据</span></div>
+    <div class="stat"><b>OpenAlex</b><span>数亿条开放作品索引（CC0）</span></div>
+    <div class="stat"><b>中英双语召回</b><span>中文主题 → 英文检索式</span></div>
+    <div class="stat"><b>去重 + 撤稿过滤</b><span>DOI / 题名归并</span></div>
+    <div class="stat"><b>一键入库</b><span>只存题录，不抓全文</span></div>
   </div>
 </section>
 
 <section class="wrap section">
-  <div class="section-head"><h2>输入主题</h2><span class="hint">中文或英文均可；建议用 2–8 个关键词</span></div>
+  <div class="section-head"><h2>输入主题</h2><span class="hint">中文或英文均可；中文会尝试扩成英文检索</span></div>
   <div class="panel">
     <form id="discover-form">
       <div class="discover-grid">
@@ -27,11 +27,12 @@
           <input id="discover-query" type="text" name="query" placeholder="例如：人工智能 教育 高等教育 教学" required maxlength="120">
         </label>
         <label class="field">
-          <span>返回条数</span>
+          <span>每页条数</span>
           <select id="discover-limit" name="limit">
             <option value="10">10 条</option>
             <option value="20" selected>20 条</option>
             <option value="30">30 条</option>
+            <option value="50">50 条</option>
           </select>
         </label>
         <label class="field">
@@ -41,6 +42,14 @@
         <label class="checkline" style="align-self:end;padding-bottom:8px">
           <input id="discover-oa" type="checkbox" name="oa_only">
           <span>只看开放获取（OA）</span>
+        </label>
+        <label class="checkline" style="align-self:end;padding-bottom:8px">
+          <input id="discover-expand" type="checkbox" name="expand" checked>
+          <span>中英双语扩展</span>
+        </label>
+        <label class="checkline" style="align-self:end;padding-bottom:8px">
+          <input id="discover-retracted" type="checkbox" name="include_retracted">
+          <span>包含撤稿文献</span>
         </label>
       </div>
       <div class="upload-actions">
@@ -57,20 +66,39 @@
     <h2>候选文献</h2>
     <span class="hint" id="discover-meta"></span>
   </div>
-  <div class="upload-actions" style="margin-bottom:10px">
-    <label class="checkline"><input type="checkbox" id="discover-select-all"> <span>全选</span></label>
-    <button class="btn btn-ghost btn-sm" id="discover-import-btn" disabled>加入题录库</button>
-    <a class="btn btn-ghost btn-sm" id="discover-export" href="#">导出 CSV</a>
-    <span class="mono-sm" style="margin-left:auto;align-self:center">元数据来自 OpenAlex；引用前请核对原文</span>
+  <div class="discover-expansion hidden" id="discover-expansion"></div>
+  <div class="discover-toolbar">
+    <div class="discover-toolbar-group">
+      <label class="checkline"><input type="checkbox" id="discover-select-all"> <span>全选本页</span></label>
+      <label class="discover-sort-label">排序
+        <select id="discover-sort">
+          <option value="relevance" selected>相关度</option>
+          <option value="citations">被引次数</option>
+          <option value="year">最新年份</option>
+        </select>
+      </label>
+      <label class="discover-sort-label">语言
+        <select id="discover-lang">
+          <option value="">全部语言</option>
+          <option value="zh">中文</option>
+          <option value="en">英文</option>
+        </select>
+      </label>
+      <span class="discover-selected" id="discover-selected">已选 0 条</span>
+    </div>
+    <div class="discover-toolbar-group">
+      <button class="btn btn-ghost btn-sm" id="discover-import-btn" disabled>加入题录库</button>
+      <a class="btn btn-ghost btn-sm" id="discover-export" href="#">导出 CSV</a>
+    </div>
   </div>
-  <div class="panel" style="overflow-x:auto;padding:0">
-    <table class="discover-table" id="discover-table">
-      <thead>
-        <tr><th style="width:34px"></th><th>题名</th><th>作者</th><th>年份</th><th>来源</th><th>被引</th><th>获取</th></tr>
-      </thead>
-      <tbody id="discover-body"></tbody>
-    </table>
+  <div class="paper-list" id="discover-list"></div>
+  <div class="discover-more-wrap">
+    <button class="btn btn-ghost hidden" id="discover-more">加载更多</button>
+    <div class="discover-empty hidden" id="discover-empty">没有找到候选文献。换一组关键词、放宽年份，或勾选「包含撤稿文献」再试。</div>
   </div>
+  <p class="hint" style="margin-top:14px">
+    元数据来自 OpenAlex（CC0）；「加入题录库」只写题录，不等于已核验。引用前请回原文核对。
+  </p>
 </section>
 {% endblock %}
 {% block scripts %}<script src="/static/js/discover.js?v={{ request.app.version }}"></script>{% endblock %}
