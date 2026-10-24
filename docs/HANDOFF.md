@@ -383,3 +383,11 @@ $env:DEEPSEEK_API_KEY = "..."   # 支持度判定用，不写进任何文件
 - 边界（不要写成已解决）：排序仍是启发式、无 relevance 标注集，不能报 NDCG/准确率；中文召回取决于
   OpenAlex 覆盖；扩展依赖判官模型，不可用时召回明显下降；入库只存题录，不等于已核验。
 - 版本 0.6.1（`web/app.py` 两处、打包脚本、部署手册）。
+- 发布：commit `fb2f88d`（代码/文档，14 files）；SSH 推送 `2983742..fb2f88d`
+  （`GIT_SSH_COMMAND='ssh -p 22 -o HostName=github.com'`）。
+- 远端 `/data/xyjiang/aic_mental/citeguard` 已部署 v0.6.1（`/api/health` → 0.6.1）；
+  `verify_artifacts.py --api-base http://127.0.0.1:8000` **111 项全过**；远端 `/api/discover`
+  实测 `expand=auto` 命中 1,141,987、返回双语扩展式，页面 200。
+- 交付包 `dist/citeguard-cn-0.6.1.zip`（1,768,924 bytes，sha256 `85450f6f…`）。
+- 本机验证：376 passed、`verify_artifacts.py` 102 项、浏览器实测检索 / 加载更多（40 条零重复）/
+  排序 / 语言筛选 / 勾选入库 / CSV 链接。
