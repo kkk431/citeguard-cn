@@ -11,16 +11,19 @@ else
   export PYTHONPATH="src"
 fi
 
-echo "[1/4] CLI demo on the sample paper"
+echo "[1/5] CLI demo on the sample paper"
 $PY -m citeguard.cli --input web/static/samples/sample_paper.txt --out out/demo
 
-echo "[2/4] CiteBench-CN evaluation"
+echo "[2/5] CiteBench-CN evaluation"
 $PY scripts/evaluate_citebench.py --limit 0 --out data/citebench_cn/results.json
 
-echo "[3/4] artifact consistency check"
+echo "[3/5] citation-consistency self-check (offline)"
+$PY scripts/eval_citation_consistency.py
+
+echo "[4/5] artifact consistency check"
 $PY scripts/verify_artifacts.py || echo "[warn] verify_artifacts reported issues; inspect the output above"
 
-echo "[4/4] offline test suite"
+echo "[5/5] offline test suite"
 if $PY -c "import pytest" >/dev/null 2>&1; then
   $PY -m pytest tests -q
 else

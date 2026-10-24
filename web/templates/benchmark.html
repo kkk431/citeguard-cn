@@ -194,6 +194,13 @@
           <td class="mono-sm">30 条受控漂移（6 类 × 5）· 类型码识别 {{ '%.0f%%'|format(real.e4.type_recognition * 100) }}</td>
         </tr>
         {% endif %}
+        {% if real.consistency %}
+        <tr>
+          <td>正文引注一致性检查</td>
+          <td class="mono-sm">{{ real.consistency.passed }}/{{ real.consistency.cases }} 例规则用例（准确率 {{ '%.0f%%'|format(real.consistency.accuracy * 100) }}）</td>
+          <td class="mono-sm">按 GB/T 顺序编码制构造的 15 例自检用例（非人工标注集）</td>
+        </tr>
+        {% endif %}
         {% if real.scifact %}
         <tr>
           <td>外部公开基准 · SciFact 零样本</td>

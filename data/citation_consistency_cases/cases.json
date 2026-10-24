@@ -1,0 +1,239 @@
+{
+  "name": "CitationConsistency-CN",
+  "description": "Body-vs-reference-list consistency cases for the GB/T 7714 sequential numeric system. Hand-built; expected outputs derive from the rule spec, not from the implementation.",
+  "cases": [
+    {
+      "id": "all_consistent",
+      "body": "方法见[1]，结果见[2]，讨论见[3]。",
+      "refs": [
+        "[1] 张三. 甲[J]. 期刊, 2020, 1(1): 1-2.",
+        "[2] 李四. 乙[J]. 期刊, 2021, 2(2): 3-4.",
+        "[3] 王五. 丙[J]. 期刊, 2022, 3(3): 5-6."
+      ],
+      "expected": {
+        "numeric_style": true,
+        "missing": [],
+        "uncited": [],
+        "order_inversions": 0
+      }
+    },
+    {
+      "id": "uncited_middle",
+      "body": "方法见[1]，讨论见[3]。",
+      "refs": [
+        "[1] 张三. 甲[J]. 期刊, 2020, 1(1): 1-2.",
+        "[2] 李四. 乙[J]. 期刊, 2021, 2(2): 3-4.",
+        "[3] 王五. 丙[J]. 期刊, 2022, 3(3): 5-6."
+      ],
+      "expected": {
+        "numeric_style": true,
+        "missing": [],
+        "uncited": [
+          2
+        ],
+        "order_inversions": 0
+      }
+    },
+    {
+      "id": "missing_number",
+      "body": "方法见[1][2]，另有[5]未在表中。",
+      "refs": [
+        "[1] 张三. 甲[J]. 期刊, 2020, 1(1): 1-2.",
+        "[2] 李四. 乙[J]. 期刊, 2021, 2(2): 3-4.",
+        "[3] 王五. 丙[J]. 期刊, 2022, 3(3): 5-6."
+      ],
+      "expected": {
+        "numeric_style": true,
+        "missing": [
+          5
+        ],
+        "uncited": [
+          3
+        ],
+        "order_inversions": 0
+      }
+    },
+    {
+      "id": "order_inversion_simple",
+      "body": "先引[2]，再引[1]。",
+      "refs": [
+        "[1] 张三. 甲[J]. 期刊, 2020, 1(1): 1-2.",
+        "[2] 李四. 乙[J]. 期刊, 2021, 2(2): 3-4."
+      ],
+      "expected": {
+        "numeric_style": true,
+        "missing": [],
+        "uncited": [],
+        "order_inversions": 1
+      }
+    },
+    {
+      "id": "order_inversion_triple",
+      "body": "依次引[3][1][2]。",
+      "refs": [
+        "[1] 张三. 甲[J]. 期刊, 2020, 1(1): 1-2.",
+        "[2] 李四. 乙[J]. 期刊, 2021, 2(2): 3-4.",
+        "[3] 王五. 丙[J]. 期刊, 2022, 3(3): 5-6."
+      ],
+      "expected": {
+        "numeric_style": true,
+        "missing": [],
+        "uncited": [],
+        "order_inversions": 2
+      }
+    },
+    {
+      "id": "range_citation",
+      "body": "相关研究见[1-3]。",
+      "refs": [
+        "[1] 张三. 甲[J]. 期刊, 2020, 1(1): 1-2.",
+        "[2] 李四. 乙[J]. 期刊, 2021, 2(2): 3-4.",
+        "[3] 王五. 丙[J]. 期刊, 2022, 3(3): 5-6."
+      ],
+      "expected": {
+        "numeric_style": true,
+        "missing": [],
+        "uncited": [],
+        "order_inversions": 0
+      }
+    },
+    {
+      "id": "comma_list_citation",
+      "body": "见[1,3]。",
+      "refs": [
+        "[1] 张三. 甲[J]. 期刊, 2020, 1(1): 1-2.",
+        "[2] 李四. 乙[J]. 期刊, 2021, 2(2): 3-4.",
+        "[3] 王五. 丙[J]. 期刊, 2022, 3(3): 5-6."
+      ],
+      "expected": {
+        "numeric_style": true,
+        "missing": [],
+        "uncited": [
+          2
+        ],
+        "order_inversions": 0
+      }
+    },
+    {
+      "id": "duplicate_citations",
+      "body": "见[1]，再强调[1]，最后[2]。",
+      "refs": [
+        "[1] 张三. 甲[J]. 期刊, 2020, 1(1): 1-2.",
+        "[2] 李四. 乙[J]. 期刊, 2021, 2(2): 3-4."
+      ],
+      "expected": {
+        "numeric_style": true,
+        "missing": [],
+        "uncited": [],
+        "order_inversions": 0
+      }
+    },
+    {
+      "id": "author_year_style_skipped",
+      "body": "有研究认为（张三, 2020）如此。",
+      "refs": [
+        "[1] 张三. 甲[J]. 期刊, 2020, 1(1): 1-2.",
+        "[2] 李四. 乙[J]. 期刊, 2021, 2(2): 3-4."
+      ],
+      "expected": {
+        "numeric_style": false,
+        "missing": [],
+        "uncited": [],
+        "order_inversions": 0
+      }
+    },
+    {
+      "id": "reference_list_only_skipped",
+      "body": "",
+      "refs": [
+        "[1] 张三. 甲[J]. 期刊, 2020, 1(1): 1-2.",
+        "[2] 李四. 乙[J]. 期刊, 2021, 2(2): 3-4."
+      ],
+      "expected": {
+        "numeric_style": false,
+        "missing": [],
+        "uncited": [],
+        "order_inversions": 0
+      }
+    },
+    {
+      "id": "missing_and_uncited_multiple",
+      "body": "只引[4][5]。",
+      "refs": [
+        "[1] 张三. 甲[J]. 期刊, 2020, 1(1): 1-2.",
+        "[2] 李四. 乙[J]. 期刊, 2021, 2(2): 3-4."
+      ],
+      "expected": {
+        "numeric_style": true,
+        "missing": [
+          4,
+          5
+        ],
+        "uncited": [
+          1,
+          2
+        ],
+        "order_inversions": 0
+      }
+    },
+    {
+      "id": "range_then_earlier_number",
+      "body": "先[2-3]，后[1]。",
+      "refs": [
+        "[1] 张三. 甲[J]. 期刊, 2020, 1(1): 1-2.",
+        "[2] 李四. 乙[J]. 期刊, 2021, 2(2): 3-4.",
+        "[3] 王五. 丙[J]. 期刊, 2022, 3(3): 5-6."
+      ],
+      "expected": {
+        "numeric_style": true,
+        "missing": [],
+        "uncited": [],
+        "order_inversions": 2
+      }
+    },
+    {
+      "id": "fullwidth_comma_list",
+      "body": "见[1，2]。",
+      "refs": [
+        "[1] 张三. 甲[J]. 期刊, 2020, 1(1): 1-2.",
+        "[2] 李四. 乙[J]. 期刊, 2021, 2(2): 3-4."
+      ],
+      "expected": {
+        "numeric_style": true,
+        "missing": [],
+        "uncited": [],
+        "order_inversions": 0
+      }
+    },
+    {
+      "id": "en_dash_range",
+      "body": "见[1–2]。",
+      "refs": [
+        "[1] 张三. 甲[J]. 期刊, 2020, 1(1): 1-2.",
+        "[2] 李四. 乙[J]. 期刊, 2021, 2(2): 3-4."
+      ],
+      "expected": {
+        "numeric_style": true,
+        "missing": [],
+        "uncited": [],
+        "order_inversions": 0
+      }
+    },
+    {
+      "id": "range_exceeds_list",
+      "body": "见[1-3]，但表中只有两篇。",
+      "refs": [
+        "[1] 张三. 甲[J]. 期刊, 2020, 1(1): 1-2.",
+        "[2] 李四. 乙[J]. 期刊, 2021, 2(2): 3-4."
+      ],
+      "expected": {
+        "numeric_style": true,
+        "missing": [
+          3
+        ],
+        "uncited": [],
+        "order_inversions": 0
+      }
+    }
+  ]
+}

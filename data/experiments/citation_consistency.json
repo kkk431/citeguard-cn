@@ -1,0 +1,379 @@
+{
+  "name": "CitationConsistency-CN",
+  "generated_at": "2026-10-24T16:44:33",
+  "cases": 15,
+  "passed": 15,
+  "accuracy": 1.0,
+  "field_accuracy": {
+    "numeric_style": 1.0,
+    "missing": 1.0,
+    "uncited": 1.0,
+    "order_inversions": 1.0
+  },
+  "failures": [],
+  "rows": [
+    {
+      "id": "all_consistent",
+      "pass": true,
+      "checks": {
+        "numeric_style": true,
+        "missing": true,
+        "uncited": true,
+        "order_inversions": true
+      },
+      "expected": {
+        "numeric_style": true,
+        "missing": [],
+        "uncited": [],
+        "order_inversions": 0
+      },
+      "got": {
+        "numeric_style": true,
+        "missing": [],
+        "uncited": [],
+        "order_inversions": 0
+      }
+    },
+    {
+      "id": "uncited_middle",
+      "pass": true,
+      "checks": {
+        "numeric_style": true,
+        "missing": true,
+        "uncited": true,
+        "order_inversions": true
+      },
+      "expected": {
+        "numeric_style": true,
+        "missing": [],
+        "uncited": [
+          2
+        ],
+        "order_inversions": 0
+      },
+      "got": {
+        "numeric_style": true,
+        "missing": [],
+        "uncited": [
+          2
+        ],
+        "order_inversions": 0
+      }
+    },
+    {
+      "id": "missing_number",
+      "pass": true,
+      "checks": {
+        "numeric_style": true,
+        "missing": true,
+        "uncited": true,
+        "order_inversions": true
+      },
+      "expected": {
+        "numeric_style": true,
+        "missing": [
+          5
+        ],
+        "uncited": [
+          3
+        ],
+        "order_inversions": 0
+      },
+      "got": {
+        "numeric_style": true,
+        "missing": [
+          5
+        ],
+        "uncited": [
+          3
+        ],
+        "order_inversions": 0
+      }
+    },
+    {
+      "id": "order_inversion_simple",
+      "pass": true,
+      "checks": {
+        "numeric_style": true,
+        "missing": true,
+        "uncited": true,
+        "order_inversions": true
+      },
+      "expected": {
+        "numeric_style": true,
+        "missing": [],
+        "uncited": [],
+        "order_inversions": 1
+      },
+      "got": {
+        "numeric_style": true,
+        "missing": [],
+        "uncited": [],
+        "order_inversions": 1
+      }
+    },
+    {
+      "id": "order_inversion_triple",
+      "pass": true,
+      "checks": {
+        "numeric_style": true,
+        "missing": true,
+        "uncited": true,
+        "order_inversions": true
+      },
+      "expected": {
+        "numeric_style": true,
+        "missing": [],
+        "uncited": [],
+        "order_inversions": 2
+      },
+      "got": {
+        "numeric_style": true,
+        "missing": [],
+        "uncited": [],
+        "order_inversions": 2
+      }
+    },
+    {
+      "id": "range_citation",
+      "pass": true,
+      "checks": {
+        "numeric_style": true,
+        "missing": true,
+        "uncited": true,
+        "order_inversions": true
+      },
+      "expected": {
+        "numeric_style": true,
+        "missing": [],
+        "uncited": [],
+        "order_inversions": 0
+      },
+      "got": {
+        "numeric_style": true,
+        "missing": [],
+        "uncited": [],
+        "order_inversions": 0
+      }
+    },
+    {
+      "id": "comma_list_citation",
+      "pass": true,
+      "checks": {
+        "numeric_style": true,
+        "missing": true,
+        "uncited": true,
+        "order_inversions": true
+      },
+      "expected": {
+        "numeric_style": true,
+        "missing": [],
+        "uncited": [
+          2
+        ],
+        "order_inversions": 0
+      },
+      "got": {
+        "numeric_style": true,
+        "missing": [],
+        "uncited": [
+          2
+        ],
+        "order_inversions": 0
+      }
+    },
+    {
+      "id": "duplicate_citations",
+      "pass": true,
+      "checks": {
+        "numeric_style": true,
+        "missing": true,
+        "uncited": true,
+        "order_inversions": true
+      },
+      "expected": {
+        "numeric_style": true,
+        "missing": [],
+        "uncited": [],
+        "order_inversions": 0
+      },
+      "got": {
+        "numeric_style": true,
+        "missing": [],
+        "uncited": [],
+        "order_inversions": 0
+      }
+    },
+    {
+      "id": "author_year_style_skipped",
+      "pass": true,
+      "checks": {
+        "numeric_style": true,
+        "missing": true,
+        "uncited": true,
+        "order_inversions": true
+      },
+      "expected": {
+        "numeric_style": false,
+        "missing": [],
+        "uncited": [],
+        "order_inversions": 0
+      },
+      "got": {
+        "numeric_style": false,
+        "missing": [],
+        "uncited": [],
+        "order_inversions": 0
+      }
+    },
+    {
+      "id": "reference_list_only_skipped",
+      "pass": true,
+      "checks": {
+        "numeric_style": true,
+        "missing": true,
+        "uncited": true,
+        "order_inversions": true
+      },
+      "expected": {
+        "numeric_style": false,
+        "missing": [],
+        "uncited": [],
+        "order_inversions": 0
+      },
+      "got": {
+        "numeric_style": false,
+        "missing": [],
+        "uncited": [],
+        "order_inversions": 0
+      }
+    },
+    {
+      "id": "missing_and_uncited_multiple",
+      "pass": true,
+      "checks": {
+        "numeric_style": true,
+        "missing": true,
+        "uncited": true,
+        "order_inversions": true
+      },
+      "expected": {
+        "numeric_style": true,
+        "missing": [
+          4,
+          5
+        ],
+        "uncited": [
+          1,
+          2
+        ],
+        "order_inversions": 0
+      },
+      "got": {
+        "numeric_style": true,
+        "missing": [
+          4,
+          5
+        ],
+        "uncited": [
+          1,
+          2
+        ],
+        "order_inversions": 0
+      }
+    },
+    {
+      "id": "range_then_earlier_number",
+      "pass": true,
+      "checks": {
+        "numeric_style": true,
+        "missing": true,
+        "uncited": true,
+        "order_inversions": true
+      },
+      "expected": {
+        "numeric_style": true,
+        "missing": [],
+        "uncited": [],
+        "order_inversions": 2
+      },
+      "got": {
+        "numeric_style": true,
+        "missing": [],
+        "uncited": [],
+        "order_inversions": 2
+      }
+    },
+    {
+      "id": "fullwidth_comma_list",
+      "pass": true,
+      "checks": {
+        "numeric_style": true,
+        "missing": true,
+        "uncited": true,
+        "order_inversions": true
+      },
+      "expected": {
+        "numeric_style": true,
+        "missing": [],
+        "uncited": [],
+        "order_inversions": 0
+      },
+      "got": {
+        "numeric_style": true,
+        "missing": [],
+        "uncited": [],
+        "order_inversions": 0
+      }
+    },
+    {
+      "id": "en_dash_range",
+      "pass": true,
+      "checks": {
+        "numeric_style": true,
+        "missing": true,
+        "uncited": true,
+        "order_inversions": true
+      },
+      "expected": {
+        "numeric_style": true,
+        "missing": [],
+        "uncited": [],
+        "order_inversions": 0
+      },
+      "got": {
+        "numeric_style": true,
+        "missing": [],
+        "uncited": [],
+        "order_inversions": 0
+      }
+    },
+    {
+      "id": "range_exceeds_list",
+      "pass": true,
+      "checks": {
+        "numeric_style": true,
+        "missing": true,
+        "uncited": true,
+        "order_inversions": true
+      },
+      "expected": {
+        "numeric_style": true,
+        "missing": [
+          3
+        ],
+        "uncited": [],
+        "order_inversions": 0
+      },
+      "got": {
+        "numeric_style": true,
+        "missing": [
+          3
+        ],
+        "uncited": [],
+        "order_inversions": 0
+      }
+    }
+  ],
+  "notes": "Cases are constructed from the GB/T sequential-numeric rule; expected sets are exact."
+}

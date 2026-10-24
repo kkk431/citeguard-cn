@@ -43,6 +43,7 @@
 | `e5_cold_sample.json` | E5：冷启动 12 条抽样延迟（无缓存） | 同上 | 中位 1.54 s/条（含两次 HTTP） |
 | `e7_usability.json` | E7：Web 工作台**内部**可用性自测（不是用户研究） | `scripts/e7_usability.py` | 契约探针 + 12 条人工核对；见 `docs/user_test_kit.md` |
 | `e7_manual_records.json` / `e7_manual_verdicts.json` | E7：12 条引文的人工核对原始记录与判定 | 同上 | 与工具判定逐条对照，差异已写进 `docs/experiments.md` |
+| `citation_consistency.json` | 正文引注一致性检查器的 15 例规则自检用例（未引用 / 缺失编号 / 顺序倒置 / 范围引注等） | `scripts/eval_citation_consistency.py` | **15/15 通过**；用例按 GB/T 顺序编码制构造，非人工标注集 |
 
 ## 5. 口径与注意事项
 

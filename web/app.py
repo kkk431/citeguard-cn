@@ -467,6 +467,13 @@ def _benchmark_context() -> dict:
             "expected": ocr.get("expected_refs"),
             "pages": ocr.get("pages"),
         }
+    consistency = _load_json(exp / "citation_consistency.json")
+    if consistency and consistency.get("cases"):
+        real["consistency"] = {
+            "cases": consistency.get("cases"),
+            "passed": consistency.get("passed"),
+            "accuracy": consistency.get("accuracy"),
+        }
     return {"benchmark": benchmark, "support": support, "real": real}
 
 

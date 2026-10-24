@@ -88,6 +88,7 @@ CODE_CLAIMS = (
     ("README.md", "0.9328", "ClaimSupport-CN macro-F1"),
     ("README.md", "0 / 409", "real published references are never accused"),
     ("README.md", "409 条（100%）", "local library coverage"),
+    ("README.md", "15/15", "citation-consistency self-check cases"),
     ("README.md", "29/30", "E4 controlled-drift detection"),
     ("docs/ppt_numbers.md", "0 / 409", "one-pager real-reference claim"),
     ("docs/ppt_numbers.md", "29 / 30", "one-pager drift claim"),
@@ -152,6 +153,12 @@ def _check_experiments(c: "Checker") -> None:
     if ocr:
         c.check(0 < ocr.get("parsed_refs", 0) <= ocr.get("expected_refs", 0),
                 f"OCR fallback parsed {ocr.get('parsed_refs')}/{ocr.get('expected_refs')} references")
+
+    consistency = _load_json(EXPERIMENTS / "citation_consistency.json") or {}
+    if consistency.get("cases"):
+        c.check(consistency.get("passed") == consistency.get("cases"),
+                f"citation-consistency self-check {consistency.get('passed')}/{consistency.get('cases')} cases")
+        c.check(consistency.get("failures") == [], "citation-consistency has no failing cases")
 
     recall = _load_json(EXPERIMENTS / "search_recall.json") or {}
     if recall.get("summary"):

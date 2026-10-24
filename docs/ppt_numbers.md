@@ -27,9 +27,10 @@
 | 6 | GB/T 7714-2025 类型码识别 | **100 / 100** | E4：100 条真实中文文献回灌 | `data/experiments/e4_format.json` |
 | 6b | GB/T 必填字段完整率 | **98.4%** | 同上 | 同上 |
 | 6c | 30 条受控格式漂移严格检出 | **29 / 30（96.7%）** | E4，6 类 × 5 条（构造漂移） | 同上 |
+| 6d | 正文引注一致性检查 | **15 / 15** 规则用例通过 | 按 GB/T 顺序编码制构造的自检用例（非标注集） | `data/experiments/citation_consistency.json` |
 | 7 | 中文题名检索召回 | **92%** | OpenAlex 已收录的中文论文 25 篇 | `data/experiments/search_recall.json` |
 | 8 | 中国 DOI 平台元数据接入 | CNKI DOI 从「未找到」→ **真实一致**；真实语料可补 1/409 | 真实语料 + 在线接口 | `docs/real_data_eval.md` §5 |
-| 9 | 工程与交付 | **299** 测试通过；4 个网页页面 + 报告页；批量/汇总/CSV；Docker/CI | 离线测试，无网络依赖 | `pytest tests -q` |
+| 9 | 工程与交付 | **316** 测试通过；4 个网页页面 + 报告页；批量/汇总/CSV；Docker/CI | 离线测试，无网络依赖 | `pytest tests -q` |
 
 > 引用时建议写法：**「真实已发表文献 0/409 误判为虚构」**、**「支持度 macro-F1 0.9328（构造集）」**、**「格式漂移检出 29/30」**。
 > 这三条分别对应：敢不敢信结论、能不能判断引用是否被支持、格式规则有没有真本事。
@@ -62,7 +63,7 @@ PYTHONPATH=src python scripts/eval_parse_real.py            # 真实论文解析
 PYTHONPATH=src python scripts/eval_verify_real.py           # 真实文献误报实测
 PYTHONPATH=src python scripts/eval_library_real.py          # 本地题录库覆盖率实测
 PYTHONPATH=src python scripts/e4_format_check.py            # 格式规则回归
-PYTHONPATH=src python scripts/verify_artifacts.py           # 数据集/结果/文档数字一致性（63 项；加 --api-base 共 72 项）
+PYTHONPATH=src python scripts/verify_artifacts.py           # 数据集/结果/文档数字一致性（65 项；加 --api-base 共 74 项）
 ```
 
 ## 不能这么说（会被当场问穿）
