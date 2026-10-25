@@ -175,6 +175,17 @@ OpenAI 兼容的 `/v1/chat/completions` 调用视觉模型；`scripts/local_vl_s
 - 同一张图可一次核验最多 5 条结论，服务端逐条判定；只写一条时走原单条接口形状。
 - 合成集由 `scripts/make_synth_figtest.py` 生成（柱状图/折线图各 10 张，每图 1 条支持 + 1 条矛盾），标签由构造决定；
   真实图由 `scripts/extract_real_figures.py` 从本地 PDF 截取后人工挑图、人工写结论：主表 5 图/10 条只作方向性证据；另有扩展压力集 11 图/22 条（含 6 张中介/调节路径图，仅无上下文 v2）判定 **0.818**、矛盾类 **0.636**，说明结构关系图的否定判断仍是弱项。
+- **外部公开基准（零样本，只作诚实边界）**：ChartCheck（Akhtar et al., Findings ACL 2024）从 val 953 条按标签分层抽 60 条
+  （30/30，seed=20261025），把「图 + 图注 + claim」直接给 Qwen2.5-VL-7B（产品 prompt v1）：
+
+  | 口径 | 条数 | 3 分类准确率 | 3 分类 macro-F1 | 二分类准确率* | 二分类 macro-F1 | insufficient 占比 | 平均延迟 |
+  |---|---|---|---|---|---|---|---|
+  | Qwen2.5-VL-7B | 60 | 0.483 | 0.597 | 0.683 | 0.662 | 38.3% | 2.94 s |
+
+  \* ChartCheck 的 FALSE 表示「图不支持该 claim」（可能只是图里没有），所以二分类把 contradicted + insufficient 都算 not_supported。
+  解读：真实英文图表上 7B 明显更保守（38% 判信息不足），与自建中文图表集的 0.94 差距很大——**自建集数字不能外推到公开分布**，
+  对外只作「外部零样本压力测试」，不作产品主指标。ChartCheck 仓库为 MIT；图表来自 Wikimedia Commons，各自保留原许可，
+  仓库不重分发图片。证据：`data/experiments/chartcheck_val60.json`（只存 URL、预测与理由）。
 - 证据：`data/experiments/figure_prompt_eval.json`（7B）与 `figure_prompt_eval_3b.json`（3B）；仓库不分发真实图表截图，
   评测脚本与合成集生成器公开。细节见 [docs/figure_check.md](docs/figure_check.md)。
 

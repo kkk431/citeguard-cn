@@ -1,0 +1,579 @@
+{
+  "experiment": "chartcheck_val_zero_shot",
+  "dataset": "ChartCheck (Akhtar et al. 2024), val split stratified sample",
+  "generated_at": "2026-10-25T21:27:44",
+  "model": "qwen2.5-vl-7b",
+  "endpoint": "http://222.20.126.148:8099/v1",
+  "sample": 60,
+  "seed": 20261025,
+  "accuracy": 0.4833,
+  "macro_f1": 0.5966,
+  "binary_supported_macro_f1": 0.6622,
+  "binary_accuracy": 0.6833,
+  "binary_confusion": {
+    "supported": {
+      "supported": 13,
+      "not_supported": 17
+    },
+    "contradicted": {
+      "supported": 2,
+      "not_supported": 28
+    }
+  },
+  "confusion": {
+    "supported": {
+      "supported": 13,
+      "contradicted": 6,
+      "insufficient": 11
+    },
+    "contradicted": {
+      "supported": 2,
+      "contradicted": 16,
+      "insufficient": 12
+    }
+  },
+  "failures": 0,
+  "latency_ms_mean": 2944.0,
+  "records": [
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Banjar_Gender_Wikiproject.png",
+      "caption": "Data is from toolserver and was gather on 29 December 2011. It shows differences in accounts on wiki projects in the language referenced in the file name where users explicitly state their gender.  (T",
+      "claim": "The chart shows a gender gap in user accounts on language-specific wiki projects.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart shows a significant difference in the number of male and female accounts for the Banjar language project, with males significantly outnumbering females."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Uk_tv_platform_households_q3_2008.png",
+      "caption": "Bar graph showing TV platforms received by UK households.Source: http://www.ofcom.org.uk/research/tv/reports/dtv/dtu_2008_03/q3_2008.png",
+      "claim": "Free Digital terrestrial is received by the most UK houselholds.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The bar for 'Free dig terrestrial' is the longest among all categories, indicating it is received by the most UK households."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Edre_heitor_Contingencia-tasks.png",
+      "caption": "Contingency - tasks",
+      "claim": "Mappers complete less tasks than reducers.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows that the number of tasks completed by mappers (green line) is consistently higher than those completed by reducers (red line)."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Louisiana_Electricity_Generation_Sources_Pie_Chart.png",
+      "caption": "Pie chart showing how Louisiana generates electricity. Natural gas is the primary source.",
+      "claim": "Louisiana generates more electricity from coal than from nuclear energy.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The pie chart shows that natural gas (61.0%) is the largest source of electricity generation in Louisiana, followed by nuclear (16.9%), which is significantly higher than the combined share of coal (1"
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/RfC_on_terminating_DYK_altogether.gif",
+      "caption": "Survey at en.WP DYK talk on scrapping DYK",
+      "claim": "The majority of votes, voted to scrap DYK.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "supported",
+      "reason": "The pie chart shows that 'Oppose' (red) is the largest segment, indicating that the majority of votes were against scrapping DYK."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Male_occupation.png",
+      "caption": "Pie chart of male occupation in 1881",
+      "claim": "The pie chart of male occupations in 1881 shows a single dominant occupation",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "insufficient",
+      "reason": "The pie chart does not provide specific percentages for each occupation, so it is unclear if one occupation dominates."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Slugging1997-2004_2.jpg",
+      "caption": "Slugging Percentage from 1997-2004 for 6 players, normalized to each player's lowest SLG during that term.",
+      "claim": "The displacement of the Walker and Griffey  both were same.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "insufficient",
+      "reason": "The chart shows the normalized slugging percentage over time for six players, but it does not provide specific numerical values or displacements for Walker and Griffey to compare."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/ConstantQSL2.jpg",
+      "caption": "CPAM constant concentration responses, Rb-88",
+      "claim": "This chart measures beats per minute of a musical score.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart is titled 'CPAM constant concentration responses, Rb-88' and the y-axis is labeled 'Count rate, cpm', which stands for counts per minute, not beats per minute."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/20220824_Share_of_electricity_generated_by_wind_power,_by_country_-_Ember_Review.png",
+      "caption": "Horizontal bar chart showing % share of electricity generated by wind power, by country - Ember Review data\nSource:\n\nGlobal Electricity Review 2022. Ember 27 (March 2022). Archived from the original o",
+      "claim": "Denmark creates a greater percentage of their electricity via wind power than Brazil.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The bar chart shows that Denmark has a higher percentage of electricity generated by wind power compared to Brazil, with Denmark at approximately 45% and Brazil at around 10%."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Iowa_Electricity_Generation_Sources_Pie_Chart.png",
+      "caption": "Pie chart showing sources of electricity generated in Iowa",
+      "claim": "The majority of residents in city A have a high school education or less",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "insufficient",
+      "reason": "The pie chart shows the sources of electricity generation in Iowa for 2016 but does not provide any information about the educational levels of residents in city A."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/2008_UK_Book_Sales_Value.png",
+      "caption": "Book Sales in the UK, 2008: Total Consumer Market, Value (£m) by Key Genre. Data made available by Nielsen.",
+      "claim": "Adult Fiction makes up 11% of sales in the UK in 2008",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows that Adult Fiction makes up 26% of sales in the UK in 2008, which contradicts the claim that it makes up 11%."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Android_2.png",
+      "caption": "\nimage of versions of Android",
+      "claim": "Jelly bean has the lowest percentage rate out of the seven android versions.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows that Jelly Bean has a 7.6% share, which is higher than Gingerbread (13.5%) and Ice Cream Sandwich (16.0%)."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Average_Length_of_Stay_2010_to_2011.JPG",
+      "caption": "From 2010 to 2011, the national average length of hospital stay of spondylolisthesis patients decreased about 6%. In 2010, the average length of stay was 3.6 days and in 2011, the average length of st",
+      "claim": "The average length of stay went down at hospitals from 2010 to 2011 for spondylolisthesis patients.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The bar chart shows that the average length of stay for spondylolisthesis patients decreased from 3.6 days in 2010 to 3.4 days in 2011."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/PIA17762-MarsCuriosityRover-DAN-2M-Pulses-20140129.png",
+      "caption": "PIA17762: Russian Hydrogen-Checking Instrument on Curiosity Fires 2 Millionth Pulse \nhttp://photojournal.jpl.nasa.gov/catalog/PIA17762\nThe Russian-made instrument on NASA's Mars rover Curiosity for de",
+      "claim": "The Russian-made instrument on Curiosity, called DAN, has fired 2 millionth pulse of energetic neutrons into the ground.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart shows the cumulative total of pulses from DAN's pulsing neutron generator (PNG) reaching the 2 million level, which aligns with the claim."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/UBS_DOCU_PAYOFF_CHART.jpg",
+      "caption": "Ubs Docu payoff chart",
+      "claim": "Standard DOCU is shown by red colour. ",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "insufficient",
+      "reason": "The chart shows two types of Standard DOCU with different colors, but it does not specify which color corresponds to 'Standard DOCU'."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/2011_Duma_votes.png",
+      "caption": "2011 Russian Duma Elections: distribution of percentages cast for the top 5 parties. Based on the data collected by golos.org, see http://stat.golos.org/",
+      "claim": "There are five russian parties mentioned on the chart. ",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart lists 'United Russia', 'Fair Russia', 'LDPR', 'Yabloko', and 'KPRF' as the top 5 parties, which directly supports the claim that there are five Russian parties mentioned."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Employment_by_sector_in_Greater_Lowell_in_2010.png",
+      "caption": "\nDistribution of the labor force by sector in 2010 in the Lowell-Billerica-Chelmsford, MA-NH NECTA division. See 'Data' section below for table of raw data and links to BLS source data.",
+      "claim": "The construction sector employs fewer workers than the agricultural sector in the Lowell-Billerica-Chelmsford area.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows that the construction sector (Mining, Logging, and Construction) employs 5% of the labor force, while the agricultural sector is not explicitly listed but can be inferred as part of th"
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Wikipedians_by_Geekness_-_Sectors_-_October_2018.png",
+      "caption": "Wikipedians by Geekness - Sectors - October 2018. Follow-up to the Wikipedians by Geekness - sectors- august06 chart.",
+      "claim": "Red colour is used to represent Extreme Geek in the given chart. ",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "insufficient",
+      "reason": "The chart does not specify which color represents 'Extreme Geek'. It only shows percentages for each category but lacks a key or legend that links colors to specific labels."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Figure_1.png",
+      "caption": "mathwork",
+      "claim": "The population consistently decreases until it reaches 0. ",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The population initially increases and then plateaus at around 15, which contradicts the claim that it consistently decreases until it reaches 0."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Benton_County_Pie_Chart_New_Wiki_Version.png",
+      "caption": "Pie chart shows native vegetation of Benton County Minnesota.",
+      "claim": "'Aspen-Hardwood forest' comprises the second major source of native vegetation of Benton County Minnesota.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "insufficient",
+      "reason": "The chart does not provide specific percentages for each type of vegetation, so it is unclear if 'Aspen-Hardwood forest' comprises the second major source."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Prikaz_10.22.jpg",
+      "caption": "Prikaz_10.22",
+      "claim": "The THD+N (%) remains constant regardless of the power level in the Audio Precision APLASTSS.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows that the THD+N (%) increases as the frequency increases, indicating that it is not constant across different power levels."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/NewZealandElectionGraph2002v2.png",
+      "caption": "Pie graph of the New Zealand 2002 election results, made my  Brian New Zealand",
+      "claim": "Labour category is the large amount of the New Zealand 2002 election results.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The pie chart shows that the 'Labour' category occupies the largest portion of the chart, indicating it is the dominant party in the 2002 New Zealand election results."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/ORES-dewiki-damaging-true-precision-recall.png",
+      "caption": "Graph showing en:precision and recall of ORES's \"damaging\" model for German Wikipedia. Generated using the ORES UI.",
+      "claim": "the recall threshold is reduced at a consistant rate",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "insufficient",
+      "reason": "The chart shows the precision and recall curves as they vary with the cutoff threshold, but it does not provide enough information to determine if the recall threshold is reduced at a consistent rate."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Japan_elections_diagram_2009.png",
+      "caption": "Diagram showing mandates by party, japanese parliamentary elections 30-31 August 2009",
+      "claim": "According to the following pie chart DPJ party won the most mandates in the Japanese parliamentary elections of 2009.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The pie chart shows that the DPJ party has 308 mandates, which is more than any other party listed."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Tea_Production_2007.png",
+      "caption": "2007 Pie chart based on numbers from table in the Tea article in the English Wikipedia, which is in turn based on FAO database info.",
+      "claim": "India has the highest percentage at 24.4%.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "supported",
+      "reason": "The pie chart shows that India has 24.4%, which matches the claim."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Percentage_of_foreigners_residing_in_South_Korea_by_their_countries_of_origin.png",
+      "caption": "Percentage of foreigners residing in South Korea by their countries of origin",
+      "claim": "More than 50% of foreigners residing in South Korea are from China.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "insufficient",
+      "reason": "The chart shows that China accounts for 54% of foreigners residing in South Korea, which is more than 50%, but it does not provide the total percentage of all foreigners, so we cannot confirm if this "
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Brightness_Contrast_Gamma.png",
+      "caption": "General overview of the influences of changes in \"brightness\", \"contrast\" and/or \"gamma (correction)\" - as they are possible in many current image processors - on the respective picture and its percep",
+      "claim": "Red line in the top position which is under the brightness in the first box from right.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "insufficient",
+      "reason": "The chart does not provide specific details about the red line being in the top position or its exact placement relative to other lines for the 'Brightness' setting in the first box from the right."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Mexico_survey_barrier_09.png",
+      "caption": "Graph for Mexico phone survey report on Meta",
+      "claim": "According to the Mexico phone survey, school ranks first in using Wikipedia.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "contradicted",
+      "reason": "The chart shows that 'School' is used for Wikipedia by 50%, which is higher than any other category."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/US_female_arrests_for_family_offenses_by_age.png",
+      "caption": "Arrests in the United States of females for offenses against the family and children in 2014 by age. Data from UCR",
+      "claim": "The number of female arrests for offenses against the family and children decreases as age increases in the United States in 2014.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "contradicted",
+      "reason": "The chart shows that the number of female arrests for offenses against the family and children generally increases with age, peaking around ages 25-30 before decreasing at older ages."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Number_of_employees_in_the_companyv2.png",
+      "caption": "Number of employees in the company",
+      "claim": "There were no companies having total employee numbers between 101 and 200.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "contradicted",
+      "reason": "The chart shows that there are 8 companies with a total number of employees between 101 and 200."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/AtmosphereofVenus.png",
+      "caption": "\nPie chart of the atmosphere of Venus. Second pie chart is an expanded version of the trace elements that don't fit into the first one.",
+      "claim": "Carbon Dioxide makes up 96.5 percent of the atmosphere of Venus",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The pie chart shows that carbon dioxide (CO2) makes up 96.5% of the atmosphere of Venus."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Graph_logarithm_b%253D2.png",
+      "caption": "graph of a logarithm",
+      "claim": "A logarithm has peaks and valleys. ",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The graph shows a smooth curve with no peaks or valleys."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Lock_and_dam_15.png",
+      "caption": "http://www.mvr.usace.army.mil/Portals/48/docs/CC/FactSheets/MISS/UMR%20Locks%20&%20Dams%20-%202016%20(MVD).png",
+      "claim": "Before 2001, annual tonnage was never below 25 million.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "contradicted",
+      "reason": "The chart shows that in 2001, the annual tonnage was exactly 25 million, which contradicts the claim that before 2001, annual tonnage was never below 25 million."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Shirakiyama_sta_graph.jpg",
+      "caption": "\n白木山駅乗客数グラフ",
+      "claim": "The graph has the lowest value in the year 1994.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "insufficient",
+      "reason": "The chart does not provide specific data points for each year, making it impossible to determine if 1994 is indeed the lowest value."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Washington_state_Electricity_Source.png",
+      "caption": "Sources of electricity generation in Washington state, 2012 (US EIA)",
+      "claim": "Hydroelectric power is the largest source of electricity generation in Washington state.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart shows that hydroelectricity accounts for 76.6% of Washington state's electricity generation in 2012, which is significantly higher than any other source."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Population_Density_1881-2011_of_Hunsonby.png",
+      "caption": "Population Density 1881-2011",
+      "claim": "The population density of India has steadily increased over time.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart shows that the population density in India has generally increased from 1881 to 2011, with a peak around 1961 and then a slight decline towards 2011."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Naive_Roofline_model_example.png",
+      "caption": "Example of a naive Roofline plot where two kernels are reported. The first is underneath the peak bandwidth ceiling and is then memory-bound, while the second is underneath the peak performance celing",
+      "claim": "In this chart , The second kernel is memory-bound.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows that the second kernel is underneath the peak performance ceiling, indicating it is compute-bound, not memory-bound."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Age_Distribution_of_the_Death_due_to_Road_Injury_in_Cameroon,2017.jpg",
+      "caption": "Percentage Distribution (by age) of Death due to Road Injury in Cameroon, 2017. Data from https://vizhub.healthdata.org/gbd-compare/",
+      "claim": "Among the people who died due to road injury in Cameroon in 2017, the majority were people 15-50 years old.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart shows that 59% of deaths due to road injury in Cameroon in 2017 occurred among people aged 15-50 years."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/SPR-adsorption-data.png",
+      "caption": "SPR data measured during layer-by-layer self-assembly of PDDACl and Na-montmorillonite clay on gold nanofilm (ca. 38 nm thick).\nMeasurement data from Tamas Haraszti (at that time Department of Colloid",
+      "claim": "Gold is the majority raise during the angle 42 to 44.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "insufficient",
+      "reason": "The chart shows three curves but does not provide numerical data or labels indicating which curve corresponds to gold. Therefore, it is impossible to determine if gold is the majority phase in the spe"
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Hawaii_Electricity_Generation_Sources_Pie_Chart.png",
+      "caption": "Pie chart showing how electricity is generated in Hawaii",
+      "claim": "Petroleum fuel gives very low percentage of electricity to the people.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "insufficient",
+      "reason": "The chart shows that petroleum fuel accounts for 61.5% of electricity generation in Hawaii, which is a significant portion, but it does not provide a comparison with other sources like coal, wind, sol"
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Program_evaluation_workshops_-_recruitment_and_retention_-_2013.png",
+      "caption": "For all editing workshops reported, the total number of participants was 230, of which 87 (38%) created new user accounts). At 3-months, 5 new editors (6%) were still actively editing (i.e. 5+ edits p",
+      "claim": "At least half of the new users were still active at 6-months after the workshops.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows that only 2 out of 87 new users (2.3%) were still active at 6-months, which is far less than half."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Counterfeits_value_chart_2010.jpg",
+      "caption": "Chart of value of seized counterfeit goods in 2010",
+      "claim": "There were many counterfeit goods seized in 2010",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "insufficient",
+      "reason": "The chart shows the domestic value of seized counterfeit goods by category in 2010 but does not provide the total number of counterfeit goods seized."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Pie_chart_of_peasant_revolt_results.jpg",
+      "caption": "https://en.wikipedia.org/wiki/List_of_peasant_revolts",
+      "claim": "Peasants won the majority of the battles in the chart.\n",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows that the state won 93 battles, while peasants only won 16, which is less than half."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/OpenClinica_YSlow_Statistics.png",
+      "caption": "OpenClinica YSlow Statistics",
+      "claim": "Java script file has value 115.8k",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart shows that the JavaScript File has a total weight of 115.8K bytes."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Lock_%2526_dam_6.png",
+      "caption": "http://www.mvr.usace.army.mil/Portals/48/docs/CC/FactSheets/MISS/UMR%20Locks%20&%20Dams%20-%202016%20(MVD).png",
+      "claim": "The chart shows the number of locks and dams on the Upper Mississippi River.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "insufficient",
+      "reason": "The chart displays 'Annual Tonnage Through Lock' rather than the number of locks and dams."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Ionization_energy_as_a_function_of_atomic_number2.jpg",
+      "caption": "\nCreated with OpenOffice Calc 2.0.1 by Joseph Zullo and Thomas Levine",
+      "claim": "Ionization energy is consistently within 500-750 KJ/mol between an Atomic Number of 20 and 29.  ",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "insufficient",
+      "reason": "The chart shows that ionization energy varies significantly across the atomic numbers from 20 to 29, with some values falling below 500 KJ/mol and others exceeding 750 KJ/mol."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Pgk-edits.png",
+      "caption": "Edit count analysis chart for User:Pgk",
+      "claim": "BBetween 9/28/2005 and 11/30/2005 every day was made edits for User:Pgk.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "insufficient",
+      "reason": "The chart shows that there were days with zero edits between 9/28/2005 and 11/30/2005, which contradicts the claim that every day had at least one edit."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Impacts_of_Global_Warming.png",
+      "caption": "Graph summarizing some of the expected impacts of Global Warming according to IPCC. Temperature deviations from 1990 readings.",
+      "claim": "Global warming is expected to cause sea level rise and frequent heatwaves.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "insufficient",
+      "reason": "The chart does not provide specific data on sea level rise or heatwave frequency, which are key aspects of the claim."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/USGS_Platter_Kill.png",
+      "caption": "Graph of United States Geological Survey discharge in cubic feet/sec recorded every 15 minutes on the Platter Kill near Burtonsville, NY, USA, during the week in August 2011 when Tropical Storm Irene ",
+      "claim": "THE WATER DISCHARGE ON THE PLATTER KILL WAS AT ITS LOWEST POINT DURING THE WEEK IN AUGUST 2011 WHEN TROPICAL STORM IRENE PASSED OVER",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "insufficient",
+      "reason": "The chart shows the discharge levels over time but does not provide specific data points for each day of the week in August 2011, making it impossible to determine if the lowest point occurred during "
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/PhotonsPopulationVsTime.png",
+      "caption": "Photons & Population Vs Time in laser",
+      "claim": "The photon count in the negative correlated with time.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The blue line representing the photon number shows an increasing trend as time progresses, which contradicts the claim of a negative correlation."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Web-browser_usage_on_Wikimedia.png",
+      "caption": "SVG to replace File:Web browser usage on Wikimedia.png and File:Web-browser usage on Wikimedia.png. Data from September 2012",
+      "claim": "Opera browser users are more than Android browser users. ",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows that Opera browser users (4.53%) are less than Android browser users (4.59%)."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Gib_Challenge_Points_by_User_Dec_2nd.png",
+      "caption": "Gib Challenge Points by User Dec 2nd",
+      "claim": "All users have earned at least one Gibraltar Challenge point.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "insufficient",
+      "reason": "The chart shows percentages of users who have earned points, but it does not provide the total number of users or confirm that all users have earned at least one point."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Autobiography-week27.png",
+      "caption": "\"Autobiography\" 27-week chart performance graph",
+      "claim": "Through 17 weeks, Canada outperformed the US.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "contradicted",
+      "reason": "The chart shows that by week 17, the red line (Canada) is below the blue line (US), indicating that the US had better performance than Canada through 17 weeks."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Tcp.png",
+      "caption": "\nA diagram of the relationship between sequence numbers, initial sequence number, window location, window size, and rwnd in TCP.",
+      "claim": "There are three categories that falls under Receiver's window.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "insufficient",
+      "reason": "The chart shows different states within the Receiver's window but does not explicitly categorize them into three distinct categories as claimed."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/En-admin-vs-article-growth.png",
+      "caption": "This file has no description, and may be lacking other information.\nPlease provide a meaningful description of this file.\n\n",
+      "claim": "The number of articles increased between 2002 to 2006",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "insufficient",
+      "reason": "The chart shows the number of articles over time but does not specify the years in detail. It only provides months from September 2002 to September 2005, which is insufficient to determine if the numb"
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/US_female_arrests_by_age.png",
+      "caption": "Arrests in the United States of females in 2014 by age. Data from UCR",
+      "claim": "18 year old females had the highest number of arrests on the chart.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "insufficient",
+      "reason": "The chart shows that the highest number of arrests is for females aged 23, not 18."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/2016_Electric_Energy_Profile.jpg",
+      "caption": "Data from Electric Power Annual and Electric Power Monthly",
+      "claim": "Kilowatt usage in November exceeded kilowatt usage in January. ",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows that kilowatt usage in January (JAN) is higher than in November (NOV)."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/VTE_WikiProject_Biography_Summary.png",
+      "caption": "Project summary for WikiProject Biography",
+      "claim": "Debito Arudou is the most active article as per given chart.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows that Laurence Olivier has 369 edits, which is more than Debito Arudou's 143 edits."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Browser_usage_on_wikimedia_pie_chart.png",
+      "caption": "took stats of wikimedia browser share and made a 3d pie chart using excel",
+      "claim": "Mobile users have the high share of Wikimedia browser usage.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "insufficient",
+      "reason": "The chart shows the usage percentages for different browsers on Wikimedia in June 2011, but it does not specify which browsers are used by mobile users."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Languages.png",
+      "caption": "Pie chart of world languages by percentage of speakers",
+      "claim": "Mandarin Chinese is the spoken language in the world.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "contradicted",
+      "reason": "The pie chart shows that Mandarin Chinese (Sino-Tibetan) has only 22.0% of the world's language speakers, which is less than the 45.0% for Indo-European languages."
+    }
+  ]
+}

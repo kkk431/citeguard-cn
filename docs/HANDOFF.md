@@ -926,3 +926,15 @@ partial 多发、support 少发。
   5,802,186 bytes，SHA-256 `ca4b2754698dc6434fa4989024ea636f90413347132aaf857325be36d89134db`。
 - 推送：`b6fb34c`（`4089a40..b6fb34c main`）。
 - 按用户要求，验证 20 条抽样后不再消耗免费额度（当天额度已用尽）。
+
+
+## 44. 外部公开基准：ChartCheck 零样本（v0.9.13 后补）
+
+- 数据与许可：ChartCheck（Akhtar et al., Findings ACL 2024）仓库 MIT；图表来自 Wikimedia Commons，各自保留原许可；
+  本仓库只记录图片 URL、模型预测与理由，不重分发图片。
+- 协议：val 953 条按标签分层抽 60 条（30/30，seed=20261025），图 + 图注 + claim → Qwen2.5-VL-7B（产品 prompt v1）。
+- 结果：3 分类准确率 0.483 / macro-F1 0.597；二分类（supported vs not_supported，insufficient 计入 not_supported）
+  0.683 / 0.662；insufficient 38.3%；平均延迟 2.94 s。
+- 解读：公开英文图表上 7B 偏保守，与自建集 0.94 差距大，说明自建集数字不能外推；答辩只把它当外部零样本压力测试，
+  主指标仍用自建中文图表集（并明确其分布限制）。
+- 证据：`data/experiments/chartcheck_val60.json`；复现：`python scripts/eval_chartcheck.py --sample 60`。

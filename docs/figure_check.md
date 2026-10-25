@@ -107,3 +107,13 @@ export CITEGUARD_VL_ENDPOINT=http://<gpu-host>:8099/v1
   准确率 **0.875**（支持召回 0.80 / 矛盾召回 0.95），与 canonical 合成集差距不大；但盲测仍是合成图，
   不能替代真实论文分布。真实图表现有 22 条（其中 6 张是路径/示意图，且只测了无上下文口径），仍不足以当作大样本精度承诺；对外汇报时应同时给出合成集 40 条与真实集 22 条的数字及口径差异。
 - 服务需要 GPU；产品主机（CPU）本身不能跑这个能力。
+
+
+### 外部公开基准（ChartCheck，零样本）
+
+- 数据：ChartCheck（Akhtar et al., Findings ACL 2024），仓库 MIT，图表来自 Wikimedia Commons（各自许可）。
+- 取该数据集 val 953 条中按标签分层抽 60 条（30 支持 / 30 不支持，seed=20261025），只把「图 + 图注 + 结论」交给模型。
+- 结果（Qwen2.5-VL-7B，产品 prompt v1，单卡 4090）：3 分类准确率 0.483 / macro-F1 0.597；
+  二分类（supported vs not_supported，其中 insufficient 计入 not_supported）0.683 / 0.662；38.3% 判信息不足，延迟 2.94 s。
+- 结论：公开英文图表分布上 7B 偏保守，明显低于自建中文图表集；**自建集 0.94 不能当通用准确率对外说**。
+  复现：`python scripts/eval_chartcheck.py --sample 60`（需配置 `CITEGUARD_VL_ENDPOINT`）。
