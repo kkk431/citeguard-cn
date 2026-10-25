@@ -136,6 +136,10 @@ PYTHONPATH=.pylibs:. python3 scripts/evaluate_support.py
 
 ## 10. LLM 交叉标注审计（不是人工金标准）
 
+> 逐条分歧分析（产品 vs 多数票 10 条、构造标签 11 条）见
+> [docs/label_audit_cases.md](../../docs/label_audit_cases.md)。
+
+
 标签由构造规则决定。为检查标签是否“自己说自己对”，用三个独立模型在固定 rubric 下盲标
 （只看 claim + evidence，不看构造标签），再用多数票做共识复核：
 

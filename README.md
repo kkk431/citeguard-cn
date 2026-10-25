@@ -52,6 +52,7 @@ full              0.9684
 > 评测集、数据卡、评测脚本与 DeepSeek 基线都在 `data/citebench_cn/` 与 `scripts/` 下；`seed=20261022`，重建字节级一致（SHA-256 `1a8e466b…`）。
 > 答辩/汇报用的**已核实数字一页纸**见 [docs/ppt_numbers.md](docs/ppt_numbers.md)；网页 `/benchmark` 也有同一套数据面板。
 > `/benchmark` 已升级为能力面板：七块评测（核验、支持度、开源判官、图表、对比、发现、OCR）+ 运行状态自检（判官、审计风格、并发、访问控制、OCR、视觉模型、题录库、磁盘；只显示密钥是否配置，不回显内容）。
+> 标签审计的逐条分歧分析见 [docs/label_audit_cases.md](docs/label_audit_cases.md)：10 条产品-共识分歧中 8 条产品与构造标签一致，2 条产品更严格。
 
 支持度判定（可选）：
 
