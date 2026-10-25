@@ -44,6 +44,14 @@ Return ONLY JSON: {"verdict": "supported|contradicted|insufficient", "reason": "
 - insufficient: there is genuinely not enough information.
 Judge the chart's data, not prior knowledge. Prefer supported or contradicted when the chart clearly entails or contradicts; use insufficient only when the chart truly lacks the needed information.
 Return ONLY JSON: {"verdict": "supported|contradicted|insufficient", "reason": "<short reason>"}""",
+    "v3": """You are a rigorous chart fact-checker. Work in three steps, then answer.
+Step 1: describe what the chart actually shows - chart type, title, axes/categories, legend, and the one or two key data patterns (quote numbers or labels).
+Step 2: restate the claim's core assertion and compare it with the chart description from Step 1.
+Step 3: verdict.
+- supported: the chart clearly entails the claim.
+- contradicted: the chart clearly conflicts with the claim.
+- insufficient: the chart genuinely lacks the information.
+Return ONLY JSON: {"observation": "<step 1, short>", "verdict": "supported|contradicted|insufficient", "reason": "<step 2, short>"}""",
 }
 
 LABEL_MAP = {"TRUE": "supported", "FALSE": "contradicted"}

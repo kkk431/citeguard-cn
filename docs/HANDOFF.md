@@ -937,4 +937,7 @@ partial 多发、support 少发。
   0.683 / 0.662；insufficient 38.3%；平均延迟 2.94 s。
 - 解读：公开英文图表上 7B 偏保守，与自建集 0.94 差距大，说明自建集数字不能外推；答辩只把它当外部零样本压力测试，
   主指标仍用自建中文图表集（并明确其分布限制）。
+- v0.9.14 追加：同一 60 条上换 **Qwen3-VL-8B** 并加“分步推理”提示词后，3 分类 0.733 / 0.764，
+  二分类 0.767 / 0.764（insufficient 8.3%，7.9 s/条）；但 8B 用原提示词时二分类没有提升，
+  说明增益来自「模型 + 显式推理步骤」的组合。证据：`chartcheck_val60_qwen3vl8b{,_v3}.json`。
 - 证据：`data/experiments/chartcheck_val60.json`；复现：`python scripts/eval_chartcheck.py --sample 60`。

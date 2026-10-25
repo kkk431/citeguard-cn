@@ -21,7 +21,7 @@ import uvicorn
 from fastapi import FastAPI, HTTPException
 from PIL import Image
 from pydantic import BaseModel
-from transformers import AutoProcessor, Qwen2_5_VLForConditionalGeneration
+from transformers import AutoConfig, AutoProcessor
 
 MODEL_PATH = os.environ.get("VL_MODEL_PATH", "/data1/GYX/citeguard/models/Qwen2.5-VL-7B-Instruct")
 MODEL_NAME = os.environ.get("VL_MODEL_NAME", "qwen2.5-vl-7b")
@@ -43,7 +43,12 @@ def _load() -> None:
     global _model, _processor
     if _model is not None:
         return
-    _model = Qwen2_5_VLForConditionalGeneration.from_pretrained(
+    arch = (AutoConfig.from_pretrained(MODEL_PATH).architectures or [""])[0]
+    if "Qwen3VL" in arch:
+        from transformers import Qwen3VLForConditionalGeneration as ModelCls
+    else:
+        from transformers import Qwen2_5_VLForConditionalGeneration as ModelCls
+    _model = ModelCls.from_pretrained(
         MODEL_PATH, torch_dtype=torch.bfloat16, device_map="cuda"
     ).eval()
     _processor = AutoProcessor.from_pretrained(MODEL_PATH)
