@@ -840,3 +840,16 @@ partial 多发、support 少发。
 - 交付包：`dist/citeguard-cn-0.9.9.zip` 5,232,744 字节，
   sha256 `188441fdbe02cbf8ac98dc7da19b24fab71d9828a3497ac8bd2fd75f48bb8436`。
 - 推送：`2c5869b`（SSH；HTTPS 代理仍不可用）。
+
+
+## 41. v0.9.10：图表核验 v3 提示词 + 真实图集扩容到 13 图/26 条
+
+- 图集扩容：新增三簇子空间分布图（hanspub_152577）与四节点加权网络图（W2996762219），
+  真实集 13 图 / 26 条 claim（每条一支持一矛盾，人工按图注与结构构造）。
+- v3 提示词：新增「子图/对象归错且明显不符 → contradicted」规则，修复 v2 把属性错配判成
+  `insufficient` 的问题；`figure_check.PROMPT_VERSION="3"`。
+- 证据：66 条（40 合成 + 26 真实）v2 0.8788 → v3 **0.9242**；真实子集 0.769 → **0.885**；
+  50 条主口径 v3 仍 **0.94**（支持 0.92 / 矛盾 0.96）。
+- 文档：`docs/figure_check.md` 扩容集段落、README、`docs/ppt_numbers.md` 3f 行；
+  技术报告同步到 v0.9.10（9 页，568 KB）。
+- 测试：`tests/test_figure_check.py` + `tests/test_web.py` 48 passed（全量见发布记录）。

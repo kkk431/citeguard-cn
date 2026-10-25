@@ -5,7 +5,7 @@ CITEGUARD_VL_ENDPOINT at a GPU service such as `scripts/local_vl_server.py`
 (Qwen2.5-VL-7B-Instruct, Apache-2.0). Without that endpoint the feature is
 hidden, and every call returns code="not_configured".
 
-v2 adds an optional paper-text/context excerpt: the judge first checks the
+v3 adds an attribution rule (wrong subplot/object → contradicted); v2 adds an optional paper-text/context excerpt: the judge first checks the
 figure, and when a context is supplied it also reports whether that context
 supports or contradicts the same claim.
 """
@@ -21,7 +21,7 @@ import requests
 
 from . import config
 
-PROMPT_VERSION = "2"
+PROMPT_VERSION = "3"
 SUPPORTED_MIMES = {"image/png", "image/jpeg", "image/webp"}
 MAX_CONTEXT_CHARS = 4000
 MAX_CLAIMS = 5
@@ -30,6 +30,8 @@ PROMPT = (
     "你是论文图表核验助手。下面是一张图表、一句结论，以及可选的论文正文/图注摘录。\n"
     "第一步：判断结论是否被图表支持——图表数据与结论一致输出 supported；与图表数据矛盾输出 contradicted；\n"
     "图表信息不足以判断输出 insufficient。\n"
+    "注意：如果结论把某个子图/对象的数值或属性归到了错误的子图/对象上（例如图中是 Cluster 2 的纵轴范围，结论写成 Cluster 3），"
+    "只要图中能看出该对象明显不符，就判 contradicted，不要判 insufficient；只有确实无法从图中读出任何相关信息时才判 insufficient。\n"
     "第二步：如果提供了正文/图注摘录，再判断它是否支持该结论。正文与图表冲突时以「矛盾」为准；\n"
     "正文没有提到该结论时仍以图表为准，并在 reason 里注明「正文未覆盖」。\n"
     "只输出一个 JSON 对象：{{\"verdict\":\"supported|contradicted|insufficient\",\"reason\":\"不超过 40 字\"}}\n"

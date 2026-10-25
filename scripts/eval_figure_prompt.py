@@ -10,6 +10,7 @@ import argparse
 import base64
 import json
 import os
+import os
 import re
 import time
 from pathlib import Path
@@ -18,7 +19,9 @@ import requests
 
 ROOT = Path(__file__).resolve().parents[1]
 SYNTH = json.loads((ROOT / "out/figtest_synth/figtest_synth.json").read_text(encoding="utf-8"))
-REAL = json.loads((ROOT / "out/figtest_real/figtest_real.json").read_text(encoding="utf-8"))
+REAL_JSON = Path(os.environ.get("FIGTEST_REAL_JSON", ROOT / "out/figtest_real/figtest_real.json"))
+REAL = json.loads(Path(REAL_JSON).read_text(encoding="utf-8"))
+REAL_FOLDER = os.environ.get("FIGTEST_REAL_FOLDER", "figtest_real/images")
 ENDPOINT = os.environ.get("CITEGUARD_VL_ENDPOINT", "http://222.20.126.148:8099/v1")
 MODEL = os.environ.get("CITEGUARD_VL_MODEL", "qwen2.5-vl-7b")
 
@@ -33,6 +36,19 @@ V2 = (
     "你是论文图表核验助手。下面是一张图表、一句结论，以及可选的论文正文/图注摘录。\n"
     "第一步：判断结论是否被图表支持——图表数据与结论一致输出 supported；与图表数据矛盾输出 contradicted；\n"
     "图表信息不足以判断输出 insufficient。\n"
+    "第二步：如果提供了正文/图注摘录，再判断它是否支持该结论。正文与图表冲突时以「矛盾」为准；\n"
+    "正文没有提到该结论时仍以图表为准，并在 reason 里注明「正文未覆盖」。\n"
+    "只输出一个 JSON 对象：{{\"verdict\":\"supported|contradicted|insufficient\",\"reason\":\"不超过 40 字\"}}\n"
+    "{context_block}结论：{claim}"
+)
+
+V3 = (
+    "你是论文图表核验助手。下面是一张图表、一句结论，以及可选的论文正文/图注摘录。\n"
+    "第一步：判断结论是否被图表支持——图表数据与结论一致输出 supported；与图表数据矛盾输出 contradicted；\n"
+    "图表信息不足以判断输出 insufficient。\n"
+    "注意：如果结论把某个子图/对象的数值或属性归到了错误的子图/对象上（例如图中是 Cluster 2 的纵轴范围，结论写成 Cluster 3），"
+    "只要图中能看出该对象明显不符，就判 contradicted，不要判 insufficient；只有确实无法从图中读出任何相关信息时才判 insufficient。\n"
+
     "第二步：如果提供了正文/图注摘录，再判断它是否支持该结论。正文与图表冲突时以「矛盾」为准；\n"
     "正文没有提到该结论时仍以图表为准，并在 reason 里注明「正文未覆盖」。\n"
     "只输出一个 JSON 对象：{{\"verdict\":\"supported|contradicted|insufficient\",\"reason\":\"不超过 40 字\"}}\n"
@@ -113,6 +129,7 @@ def run(out_path: Path, variants: list[str]) -> dict:
                     ("v1", V1, ""),
                     ("v2", V2, ""),
                     ("v2_context", V2, context),
+            ("v3_context", V3, context),
                 ):
                     if variant not in variants:
                         continue
@@ -120,7 +137,7 @@ def run(out_path: Path, variants: list[str]) -> dict:
                         claim=claim,
                         context_block=("正文/图注摘录（可能不完整）：\n" + context + "\n") if ctx else "",
                     )
-                    result = _ask(item["image"], prompt, "figtest_synth/images" if family == "synth" else "figtest_real/images")
+                    result = _ask(item["image"], prompt, "figtest_synth/images" if family == "synth" else REAL_FOLDER)
                     rows.append({
                         "family": family,
                         "id": item["id"],

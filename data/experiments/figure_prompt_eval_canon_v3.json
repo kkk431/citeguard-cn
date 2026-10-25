@@ -1,0 +1,519 @@
+{
+  "generated_at": "2026-10-25T18:22:20",
+  "model": "qwen2.5-vl-7b",
+  "endpoint": "http://222.20.126.148:8099/v1",
+  "variants": [
+    "v3_context"
+  ],
+  "summary": {
+    "v3_context": {
+      "n": 50,
+      "accuracy": 0.94,
+      "supported_recall": 0.92,
+      "contradiction_recall": 0.96,
+      "mean_latency_ms": 2408.3
+    }
+  },
+  "rows": [
+    {
+      "family": "synth",
+      "id": "synth_01",
+      "gold": "supported",
+      "variant": "v3_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 2015,
+      "reason": "图表显示方法1的准确率为95%，与结论一致。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_01",
+      "gold": "contradicted",
+      "variant": "v3_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 2117,
+      "reason": "图表显示方法1的准确率为约95%，而非66%"
+    },
+    {
+      "family": "synth",
+      "id": "synth_02",
+      "gold": "supported",
+      "variant": "v3_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 2800,
+      "reason": "图表显示 2025 年发文量为 130 篇，接近峰值 132 篇。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_02",
+      "gold": "contradicted",
+      "variant": "v3_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 2849,
+      "reason": "图表显示 2025 年的发文量为 132 篇，而非 2022 年"
+    },
+    {
+      "family": "synth",
+      "id": "synth_03",
+      "gold": "supported",
+      "variant": "v3_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 1990,
+      "reason": "图表显示方法2的准确率为98%，与结论一致。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_03",
+      "gold": "contradicted",
+      "variant": "v3_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 2044,
+      "reason": "图表显示方法2的准确率为98%，而非59%"
+    },
+    {
+      "family": "synth",
+      "id": "synth_04",
+      "gold": "supported",
+      "variant": "v3_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 2245,
+      "reason": "图表显示2021年发文量为118篇，与结论一致。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_04",
+      "gold": "contradicted",
+      "variant": "v3_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 2604,
+      "reason": "图表显示2021年发文量最高，约为118篇，而非2018年。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_05",
+      "gold": "supported",
+      "variant": "v3_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 1990,
+      "reason": "图表显示方法4的准确率为73%，与结论一致。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_05",
+      "gold": "contradicted",
+      "variant": "v3_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 2031,
+      "reason": "图表显示方法4的准确率为73%，而非47%"
+    },
+    {
+      "family": "synth",
+      "id": "synth_06",
+      "gold": "supported",
+      "variant": "v3_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 2203,
+      "reason": "图表显示2021年发文量为95篇，与结论一致。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_06",
+      "gold": "contradicted",
+      "variant": "v3_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 2951,
+      "reason": "图表显示 2021 年的发文量最高，约为 95 篇，而非 2018 年。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_07",
+      "gold": "supported",
+      "variant": "v3_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 2189,
+      "reason": "图表显示方法1的准确率为95%，接近94%，与结论一致。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_07",
+      "gold": "contradicted",
+      "variant": "v3_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 2092,
+      "reason": "图表显示方法1的准确率为约94%，而非56%"
+    },
+    {
+      "family": "synth",
+      "id": "synth_08",
+      "gold": "supported",
+      "variant": "v3_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 2050,
+      "reason": "图表显示2023年发文量最高，约为47篇"
+    },
+    {
+      "family": "synth",
+      "id": "synth_08",
+      "gold": "contradicted",
+      "variant": "v3_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 2955,
+      "reason": "图表显示 2023 年的发文量最高，约为 47 篇，而非 2020 年。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_09",
+      "gold": "supported",
+      "variant": "v3_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 1997,
+      "reason": "图表显示方法2的准确率为83%，与结论一致。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_09",
+      "gold": "contradicted",
+      "variant": "v3_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 2043,
+      "reason": "图表显示方法2的准确率为83%，而非50%"
+    },
+    {
+      "family": "synth",
+      "id": "synth_10",
+      "gold": "supported",
+      "variant": "v3_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 2298,
+      "reason": "图表显示2023年的发文量最高，约为86篇，与结论一致。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_10",
+      "gold": "contradicted",
+      "variant": "v3_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 2948,
+      "reason": "图表显示 2023 年的发文量最高，约为 86 篇，而非 2020 年。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_11",
+      "gold": "supported",
+      "variant": "v3_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 1991,
+      "reason": "图表显示方法3的准确率为86%，与结论一致。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_11",
+      "gold": "contradicted",
+      "variant": "v3_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 2092,
+      "reason": "图表显示方法3的准确率为86%，而非约60%"
+    },
+    {
+      "family": "synth",
+      "id": "synth_12",
+      "gold": "supported",
+      "variant": "v3_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 2198,
+      "reason": "图表显示2021年发文量为55篇，与结论一致。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_12",
+      "gold": "contradicted",
+      "variant": "v3_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 2947,
+      "reason": "图表显示 2021 年的发文量最高，约为 55 篇，而非 2018 年。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_13",
+      "gold": "supported",
+      "variant": "v3_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 1989,
+      "reason": "图表显示方法5的准确率为98%，与结论一致。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_13",
+      "gold": "contradicted",
+      "variant": "v3_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 2039,
+      "reason": "图表显示方法5的准确率为98%，而非64%"
+    },
+    {
+      "family": "synth",
+      "id": "synth_14",
+      "gold": "supported",
+      "variant": "v3_context",
+      "verdict": "insufficient",
+      "correct": false,
+      "latency_ms": 1844,
+      "reason": "图表中没有显示2025年的数据"
+    },
+    {
+      "family": "synth",
+      "id": "synth_14",
+      "gold": "contradicted",
+      "variant": "v3_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 2812,
+      "reason": "图表显示 2022 年的发文量约为 95 篇，而非 113 篇"
+    },
+    {
+      "family": "synth",
+      "id": "synth_15",
+      "gold": "supported",
+      "variant": "v3_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 1995,
+      "reason": "图表显示方法1的准确率为91%，与结论一致。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_15",
+      "gold": "contradicted",
+      "variant": "v3_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 2043,
+      "reason": "图表显示方法1的准确率为91%，而非55%"
+    },
+    {
+      "family": "synth",
+      "id": "synth_16",
+      "gold": "supported",
+      "variant": "v3_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 2053,
+      "reason": "图表显示2023年发文量最高，约为87篇"
+    },
+    {
+      "family": "synth",
+      "id": "synth_16",
+      "gold": "contradicted",
+      "variant": "v3_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 2946,
+      "reason": "图表显示 2023 年的发文量最高，约为 87 篇，而非 2020 年。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_17",
+      "gold": "supported",
+      "variant": "v3_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 1994,
+      "reason": "图表显示方法5的准确率为89%，与结论一致。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_17",
+      "gold": "contradicted",
+      "variant": "v3_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 2084,
+      "reason": "图表显示方法5的准确率为约89%，而非62%"
+    },
+    {
+      "family": "synth",
+      "id": "synth_18",
+      "gold": "supported",
+      "variant": "v3_context",
+      "verdict": "insufficient",
+      "correct": false,
+      "latency_ms": 1950,
+      "reason": "图表中没有显示 2025 年的数据"
+    },
+    {
+      "family": "synth",
+      "id": "synth_18",
+      "gold": "contradicted",
+      "variant": "v3_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 2804,
+      "reason": "图表显示 2025 年的发文量为 99 篇，而非 2022 年"
+    },
+    {
+      "family": "synth",
+      "id": "synth_19",
+      "gold": "supported",
+      "variant": "v3_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 2195,
+      "reason": "图表显示方法4的准确率为81%，接近83%，与结论一致。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_19",
+      "gold": "contradicted",
+      "variant": "v3_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 2041,
+      "reason": "图表显示方法4的准确率为83%，而非58%"
+    },
+    {
+      "family": "synth",
+      "id": "synth_20",
+      "gold": "supported",
+      "variant": "v3_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 2526,
+      "reason": "图表显示 2018 年的发文量为 49 篇，与结论一致。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_20",
+      "gold": "contradicted",
+      "variant": "v3_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 2950,
+      "reason": "图表显示 2018 年的发文量最高，约为 49 篇，而非 2016 年。"
+    },
+    {
+      "family": "real",
+      "id": "real_01",
+      "gold": "supported",
+      "variant": "v3_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 2692,
+      "reason": "图表显示2025年的发文量为195篇，与结论一致。"
+    },
+    {
+      "family": "real",
+      "id": "real_01",
+      "gold": "contradicted",
+      "variant": "v3_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 3025,
+      "reason": "图表显示2025年的发文量最高，为195篇，而非2023年。"
+    },
+    {
+      "family": "real",
+      "id": "real_02",
+      "gold": "supported",
+      "variant": "v3_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 3306,
+      "reason": "图表显示 Ours 在 Reuters 数据集上的 ACC 值在不同缺失率下均高于其他算法，且接近 0.60 至 0.63。"
+    },
+    {
+      "family": "real",
+      "id": "real_02",
+      "gold": "contradicted",
+      "variant": "v3_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 2843,
+      "reason": "图表显示在 Yale 数据集上，Ours 在缺失率为 40% 时的 ACC 并不是最低的。"
+    },
+    {
+      "family": "real",
+      "id": "real_03",
+      "gold": "supported",
+      "variant": "v3_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 2646,
+      "reason": "图表显示参数α为10^0时ACC值最高，约为0.95。"
+    },
+    {
+      "family": "real",
+      "id": "real_03",
+      "gold": "contradicted",
+      "variant": "v3_context",
+      "verdict": "insufficient",
+      "correct": false,
+      "latency_ms": 2448,
+      "reason": "图表显示参数 alpha 对 ACC 有显著影响，曲线并非水平线"
+    },
+    {
+      "family": "real",
+      "id": "real_04",
+      "gold": "supported",
+      "variant": "v3_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 3538,
+      "reason": "图表显示了不同理论条件下消极自我图式的差异，且在累积生态风险较高时，健康实体理论组的消极自我图式确实高于健康增量理论组。"
+    },
+    {
+      "family": "real",
+      "id": "real_04",
+      "gold": "contradicted",
+      "variant": "v3_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 2714,
+      "reason": "图表显示累积生态风险越高，消极自我图式反而越高，与结论矛盾。"
+    },
+    {
+      "family": "real",
+      "id": "real_05",
+      "gold": "supported",
+      "variant": "v3_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 2724,
+      "reason": "图表 (b) 显示 BIC 在多项式阶数约为 7 时取得最小值。"
+    },
+    {
+      "family": "real",
+      "id": "real_05",
+      "gold": "contradicted",
+      "variant": "v3_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 2577,
+      "reason": "图 (a) 显示的是建成区簇数量随缓冲宽度增加而下降"
+    }
+  ]
+}
