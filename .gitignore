@@ -19,3 +19,5 @@ dist/
 data/library/
 data/experiments/support_prompt_cache/
 data/experiments/scifact_raw/
+
+report/
