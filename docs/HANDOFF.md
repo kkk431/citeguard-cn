@@ -823,3 +823,12 @@ partial 多发、support 少发。
 - 版本 0.9.8；测试 409 passed；`verify_artifacts` 本机 130 项、远端（`--api-base`）139 项全过。
 - 交付包：`dist/citeguard-cn-0.9.8.zip`（5,231,272 字节，sha256 `6ecd20bc7bbd66ba1f48e2c490ac23620c19d27c2cffd6542a0107652572b2c7`）；
   本次起包内含技术报告 PDF/DOCX（报告工作区已 gitignore，打包脚本单独收集），此前版本只有源码/证据。
+
+
+## 40. v0.9.9：任务历史页
+
+- 新增 `/history`：最近 60 个任务的创建时间、文件名、状态、进度与报告入口；
+  `active="history"` 导航项，页面不渲染任何密钥。
+- 复用 `JobManager.recent()` 与 `_report_path()`；报告保留策略不变（7 天 / 最近 100 条）。
+- `tests/test_web.py` 增加历史页渲染断言（200、含「任务历史」、不含 `sk-`）。
+- 全量 `pytest` 410 passed；`verify_artifacts.py` 130 项；版本 0.9.9。

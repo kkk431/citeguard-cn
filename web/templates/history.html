@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}任务历史 · 引证卫士{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="hero-main">
+    <div class="kicker">TASK HISTORY</div>
+    <h1>任务历史</h1>
+    <p class="lede">最近 60 个核验任务（本机保存，最多保留 7 天）。旧记录会被自动清理。</p>
+  </div>
+</section>
+
+<div class="panel">
+  {% if jobs %}
+  <table class="table">
+    <thead><tr><th>创建时间</th><th>文件</th><th>状态</th><th>进度</th><th>操作</th></tr></thead>
+    <tbody>
+    {% for job in jobs %}
+      <tr>
+        <td class="mono">{{ job.created_at }}</td>
+        <td>{{ job.filename or '—' }}</td>
+        <td>
+          {% if job.status == 'done' %}<span class="pill ok">完成</span>
+          {% elif job.status == 'error' %}<span class="pill bad">失败</span>
+          {% elif job.status == 'running' %}<span class="pill warn">运行中</span>
+          {% else %}<span class="pill">{{ job.status }}</span>{% endif %}
+        </td>
+        <td>{{ job.progress }}%</td>
+        <td>
+          {% if job.has_report %}<a href="/report/{{ job.id }}">查看报告</a>{% else %}<span class="muted">—</span>{% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="muted">还没有任务记录。回到<a href="/">工作台</a>上传一份文献试试。</p>
+  {% endif %}
+</div>
+{% endblock %}

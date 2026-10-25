@@ -54,6 +54,14 @@ def test_index_page_renders(client):
     assert "引证卫士" in resp.text
 
 
+def test_history_page_renders(client):
+    resp = client.get("/history")
+    assert resp.status_code == 200
+    text = resp.text
+    assert "任务历史" in text
+    assert "sk-" not in text
+
+
 def test_about_page_renders(client):
     resp = client.get("/about")
     assert resp.status_code == 200

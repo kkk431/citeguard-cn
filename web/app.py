@@ -90,7 +90,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.8", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.9", lifespan=lifespan)
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
 
@@ -512,6 +512,16 @@ def _report_to_csv(report: dict) -> str:
             ]
         )
     return buf.getvalue()
+
+
+@app.get("/history", response_class=HTMLResponse)
+def history_page(request: Request):
+    jobs = manager.recent(60)
+    for job in jobs:
+        job["has_report"] = _report_path(job["id"]).exists()
+    return templates.TemplateResponse(
+        request, "history.html", {"jobs": jobs, "active": "history"}
+    )
 
 
 @app.get("/report/{job_id}", response_class=HTMLResponse)
@@ -1120,4 +1130,4 @@ def benchmark_api():
 
 @app.get("/api/health")
 def health():
-    return {"ok": True, "version": "0.9.8", "supported": sorted(ALLOWED_SUFFIXES)}
+    return {"ok": True, "version": "0.9.9", "supported": sorted(ALLOWED_SUFFIXES)}
