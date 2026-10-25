@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import base64
 import io
+import os
 import threading
 
 import torch
@@ -22,7 +23,9 @@ from PIL import Image
 from pydantic import BaseModel
 from transformers import AutoProcessor, Qwen2_5_VLForConditionalGeneration
 
-MODEL_PATH = "/data1/GYX/citeguard/models/Qwen2.5-VL-7B-Instruct"
+MODEL_PATH = os.environ.get("VL_MODEL_PATH", "/data1/GYX/citeguard/models/Qwen2.5-VL-7B-Instruct")
+MODEL_NAME = os.environ.get("VL_MODEL_NAME", "qwen2.5-vl-7b")
+PORT = int(os.environ.get("PORT", "8099"))
 app = FastAPI(title="citeguard-vl", version="0.1.0")
 _lock = threading.Lock()
 _model = None
@@ -99,10 +102,10 @@ def chat(req: ChatRequest) -> dict:
     return {
         "id": "chatcmpl-vl",
         "object": "chat.completion",
-        "model": "qwen2.5-vl-7b",
+        "model": MODEL_NAME,
         "choices": [{"index": 0, "message": {"role": "assistant", "content": answer}, "finish_reason": "stop"}],
     }
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8099)
+    uvicorn.run(app, host="0.0.0.0", port=PORT)

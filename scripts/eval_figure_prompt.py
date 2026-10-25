@@ -6,8 +6,10 @@ Outputs data/experiments/figure_prompt_eval.json.
 
 from __future__ import annotations
 
+import argparse
 import base64
 import json
+import os
 import re
 import time
 from pathlib import Path
@@ -17,8 +19,8 @@ import requests
 ROOT = Path(__file__).resolve().parents[1]
 SYNTH = json.loads((ROOT / "out/figtest_synth/figtest_synth.json").read_text(encoding="utf-8"))
 REAL = json.loads((ROOT / "out/figtest_real/figtest_real.json").read_text(encoding="utf-8"))
-ENDPOINT = "http://222.20.126.148:8099/v1"
-MODEL = "qwen2.5-vl-7b"
+ENDPOINT = os.environ.get("CITEGUARD_VL_ENDPOINT", "http://222.20.126.148:8099/v1")
+MODEL = os.environ.get("CITEGUARD_VL_MODEL", "qwen2.5-vl-7b")
 
 V1 = (
     "你是论文图表核验助手。下面是一张图表和一句结论。\n"
@@ -100,7 +102,7 @@ def _allowed(verdict: str) -> str:
     return "insufficient"
 
 
-def run() -> dict:
+def run(out_path: Path, variants: list[str]) -> dict:
     rows = []
     for family, data in (("synth", SYNTH["items"]), ("real", REAL["items"])):
         for item in data:
@@ -112,6 +114,8 @@ def run() -> dict:
                     ("v2", V2, ""),
                     ("v2_context", V2, context),
                 ):
+                    if variant not in variants:
+                        continue
                     prompt = prompt_tpl.format(
                         claim=claim,
                         context_block=("正文/图注摘录（可能不完整）：\n" + context + "\n") if ctx else "",
@@ -129,7 +133,7 @@ def run() -> dict:
                     })
 
     summary = {}
-    for variant in ("v1", "v2", "v2_context"):
+    for variant in variants:
         subset = [r for r in rows if r["variant"] == variant]
         total = len(subset)
         correct = sum(r["correct"] for r in subset)
@@ -146,15 +150,20 @@ def run() -> dict:
         "generated_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
         "model": MODEL,
         "endpoint": ENDPOINT,
+        "variants": variants,
         "summary": summary,
         "rows": rows,
     }
-    (ROOT / "data/experiments/figure_prompt_eval.json").write_text(
-        json.dumps(out, ensure_ascii=False, indent=2), encoding="utf-8"
-    )
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(json.dumps(out, ensure_ascii=False, indent=2), encoding="utf-8")
     print(json.dumps(summary, ensure_ascii=False, indent=2))
     return out
 
 
 if __name__ == "__main__":
-    run()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--out", default="data/experiments/figure_prompt_eval.json")
+    parser.add_argument("--variants", default="v1,v2,v2_context")
+    args = parser.parse_args()
+    selected = [v.strip() for v in args.variants.split(",") if v.strip()]
+    run(ROOT / args.out, selected)

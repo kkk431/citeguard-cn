@@ -158,16 +158,19 @@
 {% if real.figure %}
 <section class="wrap" style="padding:8px 0 0">
   <div class="section-head">
-    <h2>图表-结论核验（{{ real.figure.model }}，自托管）</h2>
-    <span class="hint">同一批 {{ real.figure.n }} 条结论（合成图 40 + 真实图 10）· 可选能力</span>
+    <h2>图表-结论核验（自托管开源 VL 模型）</h2>
+    <span class="hint">同一批 {{ real.figure.n }} 条结论（合成图 40 + 真实图 10）· {{ real.figure.models|length }} 个模型对照 · 可选能力</span>
   </div>
-  <div class="panel table-wrap" style="padding:0">
+  {% for fm in real.figure.models %}
+  <div class="panel table-wrap" style="padding:0;margin-bottom:14px">
+    <p class="mono-sm" style="margin:12px 16px 0;color:var(--muted)">模型 {{ fm.model }}</p>
     <table class="table">
       <thead><tr><th>口径</th><th>准确率</th><th>支持召回</th><th>矛盾召回</th><th>平均延迟</th></tr></thead>
       <tbody>
-        {% set r1 = real.figure.runs.v1 %}
-        {% set r2 = real.figure.runs.v2 %}
-        {% set r3 = real.figure.runs.v2_context %}
+        {% set r1 = fm.runs.v1 %}
+        {% set r2 = fm.runs.v2 %}
+        {% set r3 = fm.runs.v2_context %}
+        {% if r1 %}
         <tr>
           <td class="mono-sm">v1：只把「图」和「结论」比对</td>
           <td class="mono-sm">{{ '%.0f%%'|format(r1.accuracy * 100) }}</td>
@@ -175,6 +178,7 @@
           <td class="mono-sm">{{ '%.0f%%'|format(r1.contradiction_recall * 100) }}</td>
           <td class="mono-sm">{{ '%.2f'|format(r1.mean_latency_ms / 1000) }} s</td>
         </tr>
+        {% endif %}
         <tr>
           <td class="mono-sm">v2：先判图，再判正文/图注覆盖</td>
           <td class="mono-sm">{{ '%.0f%%'|format(r2.accuracy * 100) }}</td>
@@ -192,9 +196,11 @@
       </tbody>
     </table>
   </div>
+  {% endfor %}
   <p class="mono-sm" style="color:var(--muted);line-height:1.8;margin-top:10px">
-    0.94 是「带上下文」口径，仅图是 0.90；真实图只有 5 张 / 10 条结论，不当作大样本精度承诺。
-    上下文目前需要用户手动粘贴，产品尚未做版面分析自动定位图注。
+    7B 的 0.94 是「带上下文」口径，仅图是 0.90；真实图只有 5 张 / 10 条结论，不当作大样本精度承诺。
+    3B 的错法几乎全是「把矛盾判成支持」（仅图 17/25、带上下文 7/25），<b>不能用于矛盾筛查</b>，只适合做廉价的“支持类”初筛。
+    上下文可手动粘贴；上传论文 PDF 时可按页取正文，页码留空则按「图 N / Figure N」自动定位图注页（扫描页或找不到会提示手动粘贴）。
   </p>
 </section>
 {% endif %}

@@ -679,3 +679,19 @@ v0.6.1 上线后继续压测文献发现，发现并修掉三个具体问题：
   中文未命中条目均显示知网/百度学术入口与中文说明；评测页语言拆分行渲染正确。
 - 边界：这是「把限制说清楚 + 给人工路径」，不是把中文自动核验做出来了；要真正自动覆盖
   中文期刊，需要授权的中文库（知网/万方/维普）或本地题录库。
+
+## 38. v0.9.3：图表核验跨模型对照（Qwen2.5-VL-3B）+ 多结论（2026-10-25）
+
+- 背景：用户追问「图表核验增强不能停在 7B 单模型」。补了同系列 3B 的 50 条对照，结论是
+  **3B 不能用于矛盾筛查**：仅图 0.64（矛盾召回 0.32，17/25 条矛盾被判成支持）、带上下文 0.86
+  （矛盾召回 0.72，7/25）；7B 仍是产品默认（仅图 0.90 / 带上下文 0.94）。
+- 同一轮还把「一张图最多 5 条结论」做进产品（`split_claims` / `check_claims`，报告一次逐条判定）。
+- 改动：`web/app.py` `_benchmark_context()` 读取 `figure_prompt_eval.json` 与
+  `figure_prompt_eval_3b.json`，评测页按模型各渲染一张表（3B 下方明确写「不能用于矛盾筛查」）；
+  `THIRD_PARTY_NOTICES.md` §4.3、`docs/figure_check.md`、README、`docs/ppt_numbers.md`（3h）、
+  `data/experiments/README.md` 同步；证据 `data/experiments/figure_prompt_eval_3b.json`。
+- 评测方法：与 7B 完全相同的 50 条结论（20 张合成图 40 条 + 5 张真实图 10 条），同一
+  `scripts/eval_figure_prompt.py`，只换 `CITEGUARD_VL_ENDPOINT` 到 3B 服务；3B 与 7B 均为
+  Apache-2.0、单卡 4090、bf16。
+- 边界：真实图仍只有 5 张 / 10 条，3B 结论只用于「选型对照」，不是大样本精度承诺；
+  3B 也不会作为产品默认或可选项暴露给用户。
