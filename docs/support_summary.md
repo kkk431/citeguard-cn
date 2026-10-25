@@ -157,7 +157,7 @@ Qwen3-8B 0.75（κ 0.638）；两两之间 κ 0.68–0.88。三模型多数票�
 **0.89（κ 0.8425）**，产品对多数票准确率 **0.90（macro-F1 0.9049）**。分歧集中在
 support↔partial（构造口径偏严）和少数矛盾条目。该结果只说明“标签不是任意标的”，
 **不能当作人工标注**；证据 `data/claimsupport_cn/llm_*`，脚本 `scripts/llm_annotate_support.py`
-与 `scripts/support_llm_consensus.py`。
+与 `scripts/support_llm_consensus.py`；完整口径（设置/留出集/分歧）见 [annotation_evidence.md](annotation_evidence.md)。
 
 ## 评测证据
 

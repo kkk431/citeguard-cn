@@ -166,4 +166,5 @@ PYTHONPATH=.pylibs:. python3 scripts/evaluate_support.py
   证据：`llm_annotation_deepseek.json`、`llm_annotation_deepseek-reasoner.json`、
   `llm_annotation_qwen3-8b.json`、`llm_consensus.json`。
 - 只能表述为「LLM 辅助标注审计 / 模型共识复核」，**不是**人工标注、不能报 human κ。
-  人工抽检仍可填 `human_review_40.csv` 后用 `scripts/check_human_labels.py` 计算。
+  三模型盲标的口径（prompt 隔离、留出集、逐条分歧）见 [docs/annotation_evidence.md](../../docs/annotation_evidence.md)。
+  人工抽检仍可填 `human_review_40.csv`（或带下拉框的 `.xlsx`）后用 `scripts/check_human_labels.py` 计算。
