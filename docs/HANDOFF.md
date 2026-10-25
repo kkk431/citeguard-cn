@@ -945,3 +945,17 @@ partial 多发、support 少发。
 - v0.9.14 追加：自建 50 条（合成 40 + 真实 10）用 Qwen3-VL-8B + v2 + 正文/图注 = **0.96**
   （7B 0.94），矛盾类召回 0.96，平均 2.31 s/条；证据 `figure_prompt_eval_8b_context.json`。
   8B 权重 17G、显存约 17–18G；7B 仍作低显存/低延迟选项。产品代码模型无关，换端点即可。
+
+## §45 v0.9.14：图表分步推理（8B）与外部基准 ChartCheck
+
+- Qwen3-VL-8B-Instruct（Apache-2.0，17G）自部署于 lmh 单卡（:8095），`scripts/local_vl_server.py`
+  走 `Qwen3VLForConditionalGeneration`/`Qwen3VLProcessor`。
+- 外部 ChartCheck（MIT，val 953 条，图表来自 Wikimedia Commons）零样本 60 条（30/30，seed=20261025）：
+  - 7B + 一步 prompt：二分类 acc **0.6833** / macro-F1 0.6622；三分类 acc 0.4833 / macro-F1 0.5966（`chartcheck_val60.json`）。
+  - 8B + 一步 prompt：二分类 0.6667 / 0.6633；8B + 分步（CoT）prompt：**0.7667 / 0.7643**（`chartcheck_val60_8b.json`、`chartcheck_val60_8b_v3.json`）。
+  - 口径：任务与原论文（GPT-4V 73.8）不完全同协议（60 条子集、含中文 prompt/标签映射），只作外部参照，不作 SOTA。
+- 内部 50 条：7B v2+context 0.94；8B v2+context 0.96（2.31 s/条）、v4 中文分步 0.96（4.78 s/条，增益只在换模型）。
+- 产品：新增 `CITEGUARD_FIGURE_PROMPT_STYLE=2|4`（默认 2，一步；4 为分步，更慢），
+  `figure_check.PROMPTS` + `prompt_style` 参数；`/benchmark` 图表面板显示 7B/8B/3B 跨模型表。
+- 验证：417 passed；本机 verify 130 项、远端 **139 项**；远端 health v0.9.14。
+- 交付：`dist/citeguard-cn-0.9.14.zip`，5,842,658 bytes，sha256 `50a92d23…`。
