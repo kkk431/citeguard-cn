@@ -899,3 +899,11 @@ partial 多发、support 少发。
   时给「加入题录库」按钮，存入后下次核验自动命中。
 - 新增 web 测试：`tests/test_web.py::test_library_add_accepts_manual_entry`。
 - 版本 0.9.12；`docs/chinese_sources.md` 登记进 README 中文覆盖一节。
+
+**验证与发布（v0.9.12，2026-10-25）**
+
+- 本机：**411 passed / 130 checks**（新增 `test_library_add_accepts_manual_entry`）。
+- 远端：health=0.9.12、`verify_artifacts --api-base` **139/139**。
+- 推送：`8c3903b`（SSH）；部署包 `git archive` 2,203,249 字节。
+- 交付包：`dist/citeguard-cn-0.9.12.zip` **5,774,867 字节**，
+  sha256 `3da09758f53c3aa351cafd01a45a0f6cd87233e4bf435aa22ab55aa832e63f01`。
