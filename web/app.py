@@ -6,6 +6,7 @@ Run (from the citeguard/ directory):
 from __future__ import annotations
 
 import json
+import re
 import sys
 import tempfile
 import time
@@ -88,7 +89,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.1", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.2", lifespan=lifespan)
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
 
@@ -479,7 +480,18 @@ def _benchmark_context() -> dict:
         real["parse"] = parse["summary"]
     verify = _load_json(exp / "verify_real.json")
     if verify and verify.get("summary"):
-        real["verify"] = verify["summary"]
+        summary = dict(verify["summary"])
+        rows = verify.get("rows") or []
+        groups = {"cjk": {"refs": 0, "definite": 0}, "latin": {"refs": 0, "definite": 0}}
+        for row in rows:
+            title = row.get("title") or ""
+            key = "cjk" if re.search(r"[\u4e00-\u9fff]", title) else "latin"
+            groups[key]["refs"] += 1
+            if row.get("status") in ("Exact", "Minor"):
+                groups[key]["definite"] += 1
+        if groups["cjk"]["refs"] or groups["latin"]["refs"]:
+            summary["by_language"] = groups
+        real["verify"] = summary
     library = _load_json(exp / "library_real.json")
     if library and library.get("summary"):
         real["library"] = library["summary"]
@@ -888,4 +900,4 @@ def benchmark_api():
 
 @app.get("/api/health")
 def health():
-    return {"ok": True, "version": "0.9.1", "supported": sorted(ALLOWED_SUFFIXES)}
+    return {"ok": True, "version": "0.9.2", "supported": sorted(ALLOWED_SUFFIXES)}

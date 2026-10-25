@@ -232,6 +232,18 @@
           </td>
           <td class="mono-sm">{{ real.verify.refs }} 条已发表参考文献 · Major 误报率 {{ '%.1f%%'|format(real.verify.major_rate * 100) }}</td>
         </tr>
+        {% if real.verify.by_language %}
+        {% set cjk = real.verify.by_language.cjk %}
+        {% set latin = real.verify.by_language.latin %}
+        <tr>
+          <td>真实性核验 · 按语言拆分</td>
+          <td class="mono-sm">
+            英文 {{ latin.definite }}/{{ latin.refs }}（{{ '%.1f%%'|format(latin.definite / latin.refs * 100) if latin.refs else '—' }}）可确认 ·
+            中文 {{ cjk.definite }}/{{ cjk.refs }}（{{ '%.1f%%'|format(cjk.definite / cjk.refs * 100) if cjk.refs else '—' }}）
+          </td>
+          <td class="mono-sm">中文期刊大多不在 OpenAlex/Crossref 的开放索引里：工具会提示并给出知网/百度学术检索入口，需人工核对，不判「疑似虚构」</td>
+        </tr>
+        {% endif %}
         {% endif %}
         {% if real.verify.url_checks %}
         <tr>

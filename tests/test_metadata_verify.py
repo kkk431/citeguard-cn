@@ -181,6 +181,9 @@ def test_verify_weak_title_match_is_unverified(monkeypatch, isolated_cache):
 
     assert result.status == "Unverified"
     assert result.title_sim < 0.78
+    notes = " ".join(result.notes)
+    assert "中文文献" in notes
+    assert "知网" in notes
 
 
 def test_verify_no_doi_partial_title_is_minor(monkeypatch, isolated_cache):

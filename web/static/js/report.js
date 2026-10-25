@@ -721,6 +721,16 @@
               '<button class="btn btn-sm btn-ghost ref-copy" type="button" data-copy="' + esc(item.suggested_entry) + '">复制</button>' +
             "</div>"
           : "";
+        const manualTitle = (item.parsed && item.parsed.title) || "";
+        const manualLinks = (v.status === "Unverified" && manualTitle)
+          ? '<div class="ref-note">人工核对入口：<a style="color:var(--accent)" target="_blank" rel="noopener" href="https://kns.cnki.net/kns8s/defaultresult/index?kw=' +
+              encodeURIComponent(manualTitle) + '">知网检索</a> · <a style="color:var(--accent)" target="_blank" rel="noopener" href="https://xueshu.baidu.com/s?wd=' +
+              encodeURIComponent(manualTitle) + '">百度学术</a>' +
+              (/[\u4e00-\u9fff]/.test(manualTitle)
+                ? "（中文文献不在 OpenAlex/Crossref 覆盖范围，开放索引查不到属正常，需人工核对）"
+                : "") +
+            "</div>"
+          : "";
         const webNote = isWeb && v.status === "Unverified"
           ? (sources.indexOf("url:dead") !== -1
               ? "引文给出的网页链接已失效（可能链接腐化或站点迁移）：请核对最新地址；链接失效不等同于伪造。"
@@ -757,6 +767,7 @@
             '<div class="ref-evidence">' + evidence.map(function (x) { return "<span>" + x + "</span>"; }).join("") + "</div>" +
             supBlock +
             noteBlock +
+            manualLinks +
             (issues ? '<ul class="issues">' + issues + "</ul>" : '<div class="clean">本规则集未发现字段/标点问题（不覆盖页码连接号、卷期互换等排版与语义错误）</div>') +
             suggestBlock +
           "</article>"

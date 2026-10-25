@@ -70,6 +70,9 @@ class VerifyResult:
         return d
 
 
+_CJK_RE = re.compile(r"[\u4e00-\u9fff]")
+
+
 def _apply_retraction(result: "VerifyResult") -> "VerifyResult":
     """Surface the OpenAlex retraction flag without changing metadata status.
 
@@ -1362,6 +1365,11 @@ def _verify_reference(
             f"no close title match in OpenAlex/Crossref/arXiv (best {ts:.2f}); "
             "the article may be unindexed or the reference may be wrong — check manually"
         )
+        if _CJK_RE.search(ref.title or ""):
+            notes.append(
+                "中文文献：OpenAlex/Crossref 对中文期刊收录有限，工具无法自动核验；"
+                "报告已附知网/百度学术检索链接，请人工核对"
+            )
 
     return VerifyResult(
         status=status,
