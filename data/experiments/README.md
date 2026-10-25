@@ -43,6 +43,7 @@
 | `support_local_qwen3_8b_v10_v2_thinking_dev.json` | 消融：Qwen3-8B 开 thinking（`THINKING=1`，v10 + 审计 v2，dev 40） | `scripts/eval_support_prompt.py --max-tokens 900` | **0.8084 / 0.70**，54.2 s/条——比非 thinking 的 0.8882 更差，未采用 |
 | `local_gpu_memory.json` | 本地模型显存/延迟实测（VL、8B、14B；含峰值显存与单卡/双卡口径） | 实测采集 | VL-7B 17.2 GB / 1.55 s；Qwen3-8B 16.7 GB / 6.0 s；Qwen3-14B 29.9 GB（双卡）/ 8.1 s |
 | `support_local_qwen3_14b_4bit_{dev,test}.json` | 4-bit NF4 单卡部署实测（bitsandbytes，v10 + 审计 v2） | `scripts/local_text_server.py`（`LOAD_IN_4BIT=1`）+ `eval_support_prompt.py` | dev 40 **1.0000**、test 60 **0.9588**、全 100 条 **0.9754**；显存 ~11.7 GB，13.3 s/条 |
+| `support_local_qwen3_8b_4bit_v10_all.json` | 8B 4-bit NF4 单卡的支持度（全 100 条，v10 + 审计 v2） | 同上 | 全 100 条 **0.8165 / 0.800**；量化对 8B 的伤害明显大于 14B（bf16 0.8664） |
 
 ## 4. 格式规则与工程实验
 
@@ -62,6 +63,7 @@
 | `discover_expand_local_qwen3_14b.json` | 文献发现查询扩展（Qwen3-14B 本地端点）4 个中文主题 | 本地脚本 | 4/4 输出有效英文查询与关键词 |
 | `compare_local_4bit14b.json` / `compare_local_8b_4bit.json` | 同一 4 篇 PDF 的多篇文献对比，分别用 14B / 8B 的 4-bit 单卡端点 | 本地脚本 | 4/4 成功、字段 6/6；59.8 s（14B 4-bit）/ 32.4 s（8B 4-bit） |
 | `discover_expand_local_4bit14b.json` / `discover_expand_local_8b_4bit.json` | 同一 4 个中文主题的查询扩展，14B / 8B 4-bit | 本地脚本 | 4/4 输出有效英文查询，5.1 s / 3.1 s 每条 |
+| `compare_local_8b_bf16.json` / `discover_expand_local_8b_bf16.json` | 同一 4 篇 PDF / 4 个中文主题，Qwen3-8B **bf16** 单卡端点 | 本地脚本 | 对比 4/4、字段 6/6、35.5 s/4 篇；扩展 4/4、约 1.7 s 每条 |
 
 ## 5. 口径与注意事项
 

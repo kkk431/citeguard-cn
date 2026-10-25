@@ -23,7 +23,7 @@
 | 3d | 支持度判定只认可靠匹配 | 扫描件 23 条引文中 **21 条弱匹配（相似度 0.20–0.76）不判定**，避免用错论文摘要编出「无证据」；可靠匹配仍正常判定 | v0.3.6 匹配度护栏；对照 DOI 用例判 `support` | `docs/HANDOFF.md` §14 |
 | 3e | 真实文献注入错误检出 | **197 / 200（98.5%）**：伪 DOI 40/40、年份偏移 39/40、作者替换 39/40、刊名替换 39/40、题名替换 40/40；未改动基线 **0/40 误判虚构** | 40 条真实带 DOI 引文 × 5 类可控变异；3 条漏判因索引记录本身缺年份/作者/刊名 | `data/experiments/real_mutation_eval.json` |
 | 3f | 图表 vs 结论核验（Qwen2.5-VL-7B，Apache-2.0） | 50 条：v2+正文上下文 **0.94**（合成 **38/40**、真实 **9/10**），仅图 0.90，误报「矛盾」**0** | 20 张合成图 + 5 张真实图；单张 RTX 4090，1.82–2.56 s/条 | `docs/figure_check.md` |
-| 3g | 多篇文献对比抽取 | **4/4 篇成功、总耗时 8.0 s**（约 2 s/篇），每篇 5–6/6 字段；「局限」3 篇留「未提及」（摘要本身不写） | 4 篇真实中文论文；无字段准确率标注集，只有工程实测 | `data/experiments/compare_real.json` |
+| 3g | 多篇文献对比抽取 | **4/4 篇成功、托管总耗时 8.0 s**（约 2 s/篇；本地 14B 43.9 s/4 篇），每篇 5–6/6 字段；「局限」3 篇留「未提及」（摘要本身不写） | 4 篇真实中文论文；无字段准确率标注集，只有工程实测 | `data/experiments/compare_real.json` |
 | 4 | 导入本地题录库后的可判定率 | **409 / 409（100%）**，字段偏差 4 条 | 库由 20 篇论文发布版参考文献构建 | `data/experiments/library_real.json` |
 | 5 | 参考文献解析干净率 | **100%**（发布版文字 409 条）/ **99.6%**（PDF 抽取 529 条，逐条） | 22 篇真实论文 | `data/experiments/parse_real.json` |
 | 5b | 扫描件 OCR 兜底 | 纯图片 PDF 仍能解析 **23/24 条**（题名/年/作者 23/23） | 7 页真实论文扫描版，CPU 约 43 s | `data/experiments/ocr_scan_real.json` |
@@ -33,7 +33,7 @@
 | 6d | 正文引注一致性检查 | **15 / 15** 规则用例通过 | 按 GB/T 顺序编码制构造的自检用例（非标注集） | `data/experiments/citation_consistency.json` |
 | 7 | 中文题名检索召回 | **92%** | OpenAlex 已收录的中文论文 25 篇 | `data/experiments/search_recall.json` |
 | 8 | 中国 DOI 平台元数据接入 | CNKI DOI 从「未找到」→ **真实一致**；真实语料可补 1/409 | 真实语料 + 在线接口 | `docs/real_data_eval.md` §5 |
-| 9 | 工程与交付 | **383** 测试通过；6 个网页页面 + 报告页；批量/汇总/CSV | 离线测试，无网络依赖 | `pytest tests -q` |
+| 9 | 工程与交付 | **397** 测试通过；6 个网页页面 + 报告页；批量/汇总/CSV | 离线测试，无网络依赖 | `pytest tests -q` |
 
 > 引用时建议写法：**「真实已发表文献 0/409 误判为虚构」**、**「支持度 macro-F1 0.9597（构造集）」**、**「格式漂移检出 29/30」**。
 > 这三条分别对应：敢不敢信结论、能不能判断引用是否被支持、格式规则有没有真本事。
@@ -62,7 +62,7 @@
 ## 复现命令（评委问「这些数字怎么来的」）
 
 ```bash
-PYTHONPATH=src python -m pytest tests -q                    # 378 passed
+PYTHONPATH=src python -m pytest tests -q                    # 397 passed
 PYTHONPATH=src python scripts/evaluate_citebench.py         # 真实性基准（离线缓存）
 DEEPSEEK_API_KEY=... PYTHONPATH=src python scripts/evaluate_support.py   # 支持度（两段式）
 DEEPSEEK_API_KEY=... PYTHONPATH=src python scripts/eval_compare_real.py  # 多篇对比实测
@@ -71,7 +71,7 @@ PYTHONPATH=src python scripts/eval_verify_real.py           # 真实文献误报
 PYTHONPATH=src python scripts/eval_real_mutation.py          # 真实文献注入错误检出（需网络）
 PYTHONPATH=src python scripts/eval_library_real.py          # 本地题录库覆盖率实测
 PYTHONPATH=src python scripts/e4_format_check.py            # 格式规则回归
-PYTHONPATH=src python scripts/verify_artifacts.py           # 数据集/结果/文档数字一致性（96 项；加 --api-base 共 105 项）
+PYTHONPATH=src python scripts/verify_artifacts.py           # 数据集/结果/文档数字一致性（118 项；加 --api-base 共 127 项）
 ```
 
 图表核验的复现命令（需要 GPU 主机）见 [figure_check.md](figure_check.md)：`make_synth_figtest.py` 生成控例，

@@ -1,0 +1,97 @@
+{
+  "generated_at": "2026-10-25T12:42:11",
+  "model": "qwen3-8b",
+  "elapsed_s": 35.5,
+  "fields": [
+    {
+      "key": "research_question",
+      "label": "研究问题"
+    },
+    {
+      "key": "method",
+      "label": "方法 / 设计"
+    },
+    {
+      "key": "data",
+      "label": "数据 / 样本"
+    },
+    {
+      "key": "findings",
+      "label": "主要结论"
+    },
+    {
+      "key": "limitations",
+      "label": "局限"
+    },
+    {
+      "key": "contribution",
+      "label": "贡献 / 创新点"
+    }
+  ],
+  "papers": [
+    {
+      "name": "hanspub_152572",
+      "chars": 11248,
+      "fields": {
+        "research_question": "电商经济下园林元素促进文旅融合发展的营销策略",
+        "method": "提出系统性营销策略升级路径",
+        "data": "未提及具体数据或样本",
+        "findings": "营销策略优化可释放园林元素核心动能",
+        "limitations": "未提及具体研究局限",
+        "contribution": "为行业高质量发展提供实践指引"
+      },
+      "error": "",
+      "cached": false,
+      "excerpt_chars": 3600,
+      "latency_ms": 15070
+    },
+    {
+      "name": "hanspub_152573",
+      "chars": 9979,
+      "fields": {
+        "research_question": "电商平台数据安全监管存在哪些困境与局限",
+        "method": "结合行业运行实际分析现状与问题",
+        "data": "电商平台数据安全现状及监管问题",
+        "findings": "数据安全问题频发，监管存在制度、技术、协同等不足",
+        "limitations": "未提及具体数据样本或实证分析",
+        "contribution": "提出制度完善、技术赋能等优化对策"
+      },
+      "error": "",
+      "cached": false,
+      "excerpt_chars": 3600,
+      "latency_ms": 6429
+    },
+    {
+      "name": "hanspub_152574",
+      "chars": 10598,
+      "fields": {
+        "research_question": "内容电商场景中的传媒生产具备哪些新特征？",
+        "method": "基于媒介经营与管理理论，结合跨学科理论体系",
+        "data": "未提及具体数据或样本",
+        "findings": "内容生产与电商交易形成闭环机制",
+        "limitations": "未提及具体局限",
+        "contribution": "提出内容电商中的四大核心生产要素"
+      },
+      "error": "",
+      "cached": false,
+      "excerpt_chars": 3600,
+      "latency_ms": 5926
+    },
+    {
+      "name": "hanspub_152575",
+      "chars": 16717,
+      "fields": {
+        "research_question": "人工智能在电子商务领域的研究图景与热点分析",
+        "method": "基于VOSviewer进行文献计量与可视化分析",
+        "data": "Web of Science核心合集2016~2025年593篇相关文献",
+        "findings": "揭示了AI在电商领域的发文特征、研究合作及热点主题",
+        "limitations": "关键词共现分析可能混淆不同研究脉络",
+        "contribution": "构建了AI在电商领域的知识图谱，识别研究盲点与前沿趋势"
+      },
+      "error": "",
+      "cached": false,
+      "excerpt_chars": 3600,
+      "latency_ms": 8102
+    }
+  ]
+}
