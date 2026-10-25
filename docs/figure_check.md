@@ -21,7 +21,7 @@
 - 模型：**Qwen2.5-VL-7B-Instruct**（Apache-2.0，来自 ModelScope/魔搭）。
 - 硬件：单张 RTX 4090（24 GB），bf16，峰值显存约 **16.0–16.1 GB**；首次加载约 **8 秒**（之后常驻）。
 - 服务：`scripts/local_vl_server.py` 起一个 OpenAI 兼容的 `/v1/chat/completions` 服务；产品只通过 HTTP 调用，CPU 主机不加载模型。
-- 产品开关：`CITEGUARD_VL_ENDPOINT`（必填，指向服务）、`CITEGUARD_VL_MODEL`（默认 `qwen2.5-vl-7b`）、`CITEGUARD_VL_API_KEY`（可选）、`CITEGUARD_VL_TIMEOUT`（默认 60 秒）、`CITEGUARD_VL_MAX_FIGURE_MB`（默认 8 MB）。未配置时 `/figure` 页面只展示说明、不接受提交。
+- 产品开关：`CITEGUARD_VL_ENDPOINT`（必填，指向服务）、`CITEGUARD_VL_MODEL`（默认 `qwen3-vl-8b`）、`CITEGUARD_VL_API_KEY`（可选）、`CITEGUARD_VL_TIMEOUT`（默认 60 秒）、`CITEGUARD_VL_MAX_FIGURE_MB`（默认 8 MB）。未配置时 `/figure` 页面只展示说明、不接受提交。
 - 正文上下文：页面可选填写，最多 4000 字，随表单字段 `context` 提交；`PROMPT_VERSION = 2`。
 - 多条结论：页面文本框一行写一条，最多 **5 条**（表单字段 `claims`，换行分隔）；服务端逐条判定，
   返回 `items[]`，每条含自己的 `verdict` / `reason`；单条失败不影响其余结论，页面渲染成一张小表。

@@ -106,9 +106,9 @@ URL_CHECK_TIMEOUT = float(os.environ.get("CITEGUARD_URL_CHECK_TIMEOUT", "8"))
 
 # Optional figure-claim verification (chart/claim consistency) through an
 # OpenAI-compatible vision endpoint (e.g. scripts/local_vl_server.py with
-# Qwen2.5-VL on a GPU host). The feature is hidden when VL_ENDPOINT is empty.
+# Qwen3-VL / Qwen2.5-VL on a GPU host). The feature is hidden when VL_ENDPOINT is empty.
 VL_ENDPOINT = os.environ.get("CITEGUARD_VL_ENDPOINT", "").strip().rstrip("/")
-VL_MODEL = os.environ.get("CITEGUARD_VL_MODEL", "qwen2.5-vl-7b").strip()
+VL_MODEL = os.environ.get("CITEGUARD_VL_MODEL", "qwen3-vl-8b").strip()
 VL_API_KEY = os.environ.get("CITEGUARD_VL_API_KEY", "").strip()
 VL_TIMEOUT = float(os.environ.get("CITEGUARD_VL_TIMEOUT", "60"))
 VL_MAX_FIGURE_MB = int(os.environ.get("CITEGUARD_VL_MAX_FIGURE_MB", "8"))

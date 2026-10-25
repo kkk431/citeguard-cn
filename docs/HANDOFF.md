@@ -959,3 +959,11 @@ partial 多发、support 少发。
   `figure_check.PROMPTS` + `prompt_style` 参数；`/benchmark` 图表面板显示 7B/8B/3B 跨模型表。
 - 验证：417 passed；本机 verify 130 项、远端 **139 项**；远端 health v0.9.14。
 - 交付：`dist/citeguard-cn-0.9.14.zip`，5,842,658 bytes，sha256 `50a92d23…`。
+
+## §46 v0.9.15：图表核验默认 8B + 技术报告 v0.9.15
+
+- 默认视觉模型改为 **Qwen3-VL-8B**（`CITEGUARD_VL_MODEL` 默认 `qwen3-vl-8b`；演示端用 lmh `:8095`，
+  `CITEGUARD_FIGURE_PROMPT_STYLE` 默认 2 一步、可切 4 分步）。7B/3B 仍可显式指定，用于对照。
+- 技术报告重生成：图表章节加入 8B（内部 0.96 / 外部 ChartCheck 0.7667）与 7B/3B/8B 跨模型口径；
+  `dist/citeguard-cn_技术报告_v0.9.15_2026-10-25.pdf`（9 页，569,653 bytes，含 Courier 字体缺失回退提示）。
+- 版本 0.9.15；417 passed；本机 verify 130 项。
