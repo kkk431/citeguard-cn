@@ -126,6 +126,7 @@ def main() -> int:
     ap.add_argument("--model", default="openai/deepseek-chat")
     ap.add_argument("--api-base", default=os.environ.get("DEEPSEEK_BASE_URL", "https://api.deepseek.com/v1"))
     ap.add_argument("--sleep", type=float, default=0.0)
+    ap.add_argument("--dataset", choices=["scifact", "claimsupport"], default="scifact")
     args = ap.parse_args()
 
     key = os.environ.get("DEEPSEEK_API_KEY") or os.environ.get("OPENAI_API_KEY")
@@ -136,9 +137,24 @@ def main() -> int:
 
     from refchecker import LLMChecker, LLMExtractor
 
-    claims = load_jsonl(DEFAULT_DATA / "claims_dev.jsonl")
-    corpus = {row["doc_id"]: row for row in load_jsonl(DEFAULT_DATA / "corpus.jsonl")}
-    examples = build_examples(claims, corpus)
+    if args.dataset == "claimsupport":
+        rows = load_jsonl(ROOT / "data" / "claimsupport_cn" / "claimsupport_cn.jsonl")
+        mapping = {"support": "SUPPORT", "contradict": "CONTRADICT", "partial": "NOT_ENOUGH_INFO", "no_evidence": "NOT_ENOUGH_INFO"}
+        examples = [
+            {
+                "id": row["id"],
+                "claim": row["claim"],
+                "gold": mapping[row["label"]],
+                "oracle_evidence": row.get("evidence") or "",
+                "abstract_evidence": row.get("evidence") or "",
+            }
+            for row in rows
+            if row.get("label") in mapping
+        ]
+    else:
+        claims = load_jsonl(DEFAULT_DATA / "claims_dev.jsonl")
+        corpus = {row["doc_id"]: row for row in load_jsonl(DEFAULT_DATA / "corpus.jsonl")}
+        examples = build_examples(claims, corpus)
     if args.limit:
         examples = examples[: args.limit]
     print(f"examples: {len(examples)}")

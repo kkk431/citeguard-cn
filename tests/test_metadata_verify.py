@@ -611,3 +611,35 @@ def test_retraction_flag_not_set_for_normal_records(monkeypatch, isolated_cache)
 
     assert result.retracted is False
     assert not any("撤稿" in n for n in result.notes)
+
+
+def test_title_candidates_uses_wanfang_for_chinese(monkeypatch):
+    from citeguard import metadata_verify as mv
+    from citeguard import wanfang
+    from citeguard.reference_parser import Reference
+
+    monkeypatch.setattr(mv, "search_openalex", lambda title, limit=5: [])
+    monkeypatch.setattr(mv, "search_crossref", lambda title, limit=5: [])
+    monkeypatch.setattr(wanfang, "available", lambda: True)
+    monkeypatch.setattr(
+        wanfang,
+        "search",
+        lambda query, rows=3: [
+            {"Title": ["人工智能教育应用"], "Creator": ["张三", "李四"], "PublishYear": 2021,
+             "PeriodicalTitle": ["现代教育技术"], "Page": "1-8", "DOI": ""}
+        ],
+    )
+    monkeypatch.setattr(
+        wanfang,
+        "record_to_candidate_fields",
+        lambda record: {
+            "title": "人工智能教育应用", "doi": "", "year": 2021,
+            "authors": "张三; 李四", "venue": "现代教育技术", "volume": "",
+            "issue": "4", "pages": "1-8", "abstract": "摘要", "url": "https://example.org/wf",
+        },
+    )
+    ref = Reference(raw="[1] 张三. 人工智能教育应用[J]. 现代教育技术, 2021(4): 1-8.", title="人工智能教育应用", authors=["张三"], year=2021, venue="现代教育技术")
+    sources: list[str] = []
+    candidates = mv._title_candidates(ref, sources=sources)
+    assert any(c.source == "wanfang" for c in candidates)
+    assert "wanfang" in sources

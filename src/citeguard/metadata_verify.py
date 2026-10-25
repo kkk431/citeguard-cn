@@ -12,6 +12,7 @@ import hashlib
 import html as html_lib
 import ipaddress
 import json
+import logging
 import re
 import socket
 import threading
@@ -29,6 +30,8 @@ from rapidfuzz import fuzz
 
 from . import config
 from .reference_parser import Reference
+
+_LOGGER = logging.getLogger(__name__)
 
 _ATOM = {"a": "http://www.w3.org/2005/Atom"}
 
@@ -1051,6 +1054,47 @@ def _title_candidates(
             candidates.extend(ax)
             if sources is not None:
                 sources.append("arxiv")
+    # 中文题录兜底：OpenAlex/Crossref 对中文期刊覆盖很低，配置万方 App Key 后补一层。
+    # 免费额度每天 100 次，失败（未订阅/限流/额度用尽）只记日志，不把条目误标成 Unknown。
+    if _CJK_RE.search(ref.title or ""):
+        try:
+            from . import wanfang
+        except ImportError:  # pragma: no cover - 可选依赖
+            wanfang = None  # type: ignore[assignment]
+        if wanfang is not None and wanfang.available():
+            try:
+                records = wanfang.search(f"Title:{ref.title}", rows=3)
+            except wanfang.WanfangError as exc:
+                _LOGGER.warning("wanfang lookup skipped: %s", exc)
+                records = []
+            found = 0
+            for record in records:
+                fields = wanfang.record_to_candidate_fields(record)
+                if not fields.get("title"):
+                    continue
+                authors = [
+                    part.strip()
+                    for part in str(fields.get("authors") or "").replace("，", ";").split(";")
+                    if part.strip()
+                ]
+                candidates.append(
+                    Candidate(
+                        source="wanfang",
+                        title=fields["title"],
+                        doi=fields.get("doi") or "",
+                        year=fields.get("year"),
+                        authors=authors,
+                        venue=fields.get("venue") or "",
+                        volume=fields.get("volume") or "",
+                        issue=fields.get("issue") or "",
+                        pages=fields.get("pages") or "",
+                        abstract=fields.get("abstract") or "",
+                        url=fields.get("url") or "",
+                    )
+                )
+                found += 1
+            if found and sources is not None:
+                sources.append("wanfang")
     return candidates
 
 

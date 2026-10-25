@@ -907,3 +907,16 @@ partial 多发、support 少发。
 - 推送：`8c3903b`（SSH）；部署包 `git archive` 2,203,249 字节。
 - 交付包：`dist/citeguard-cn-0.9.12.zip` **5,774,867 字节**，
   sha256 `3da09758f53c3aa351cafd01a45a0f6cd87233e4bf435aa22ab55aa832e63f01`。
+
+## 44. v0.9.13：万方题录兜底（可选，已停止试用）
+
+- `src/citeguard/wanfang.py`：`search()` / `get_doc()` / `record_to_candidate_fields()`；
+  鉴权头 `X-App-Key`，强制 HTTPS；内置 0.30s 节流 + 429 重试，额度不足抛可读异常。
+- `src/citeguard/metadata_verify.py`：中文无 DOI 条目在 OpenAlex/Crossref/arXiv 之后补一层
+  万方候选（`source="wanfang"`）；未配置、未订阅、限流、额度用尽都只记日志并跳过，
+  不把条目误标成 `Unknown`。
+- 证据：20 条真实中文引文抽样 **16 条题名精确命中（≥0.97）**；
+  免费额度 100 次/天（当天已用尽，按用户要求**不再继续调用试用额度**）。
+- `.env.example` / `docs/chinese_sources.md` / README 局限节已写明使用方式与额度边界。
+- 测试：`tests/test_wanfang.py` 4 条 + `tests/test_metadata_verify.py` 兜底用例 1 条。
+- 版本 0.9.13。
