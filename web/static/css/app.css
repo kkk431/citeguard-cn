@@ -304,6 +304,11 @@ textarea:focus,input:focus{outline:none;border-color:var(--accent);background:va
 .fig-example p{font-size:13px;color:var(--ink-2);line-height:1.7;margin:12px 0}
 .fig-result{margin-top:18px;border:1px solid var(--line);border-radius:var(--radius-sm);padding:18px;background:var(--surface)}
 .fig-verdict .pill{font-size:12px;padding:4px 12px}
+.fig-claim-table{width:100%;border-collapse:collapse;font-size:13px}
+.fig-claim-table th{text-align:left;font-weight:600;color:var(--muted);padding:6px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+.fig-claim-table td{vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--line-2, var(--line));line-height:1.7}
+.fig-claim-table .fig-claim-cell{min-width:200px;color:var(--ink)}
+.fig-claim-table .fig-reason-cell{color:var(--ink-2)}
 .fig-reason{margin:12px 0 0;font-size:15px;line-height:1.8;color:var(--ink)}
 .fig-error{color:var(--bad);font-size:14px;line-height:1.8}
 @media (max-width:720px){.fig-examples{grid-template-columns:1fr}}

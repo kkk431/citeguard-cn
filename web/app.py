@@ -617,6 +617,7 @@ def figure_page(request: Request):
 def figure_check_api(
     image: UploadFile = File(...),
     claim: str = Form(""),
+    claims: str = Form(""),
     context: str = Form(""),
     paper: UploadFile | None = File(None),
     page: str = Form(""),
@@ -626,6 +627,8 @@ def figure_check_api(
             {"ok": False, "code": "not_configured", "error": "未配置图表核验服务（设置 CITEGUARD_VL_ENDPOINT）"},
             status_code=503,
         )
+    claim_list = figure_check.split_claims(claims) if claims.strip() else []
+    claim_for_number = claim_list[0] if claim_list else claim
     payload = image.file.read(config.VL_MAX_FIGURE_MB * 1024 * 1024 + 1)
     page_no = 0
     auto_caption = ""
@@ -655,7 +658,7 @@ def figure_check_api(
                 fh.write(raw)
                 tmp = Path(fh.name)
             if not page_no:
-                number = figure_number_from_claim(claim)
+                number = figure_number_from_claim(claim_for_number)
                 found = find_figure_page(tmp, number)
                 if not found:
                     label = f"图 {number} 的图注" if number else "图注"
@@ -683,6 +686,11 @@ def figure_check_api(
         prefix = f"图注：{auto_caption}\n\n" if auto_caption else ""
         body = prefix + page_text
         context = (body + "\n\n" + context).strip() if context.strip() else body
+    if claim_list:
+        result = figure_check.check_claims(payload, image.content_type or "", claim_list, context)
+        if page_no and result.get("ok"):
+            result["context_source"] = f"pdf_auto:{page_no}" if auto_caption else f"pdf_page:{page_no}"
+        return JSONResponse(result, status_code=200 if result.get("ok") else 400)
     result = figure_check.check_figure(payload, image.content_type or "", claim, context)
     if page_no and result.get("ok"):
         result["context_source"] = f"pdf_auto:{page_no}" if auto_caption else f"pdf_page:{page_no}"

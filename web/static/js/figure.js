@@ -117,6 +117,39 @@
     );
   }
 
+  function itemsHtml(data) {
+    let source = "";
+    if (data.context_source) {
+      const raw = String(data.context_source);
+      source = raw.indexOf("pdf_auto:") === 0
+        ? "正文取自 PDF 第 " + escapeHtml(raw.slice(9)) + " 页（按图注自动定位）"
+        : "正文取自 PDF 第 " + escapeHtml(raw.replace("pdf_page:", "")) + " 页";
+    }
+    const rows = (data.items || []).map(function (item) {
+      const info = LABELS[item.verdict] || { text: "未判定", cls: "unknown" };
+      const reason = item.ok && item.reason ? escapeHtml(item.reason) : escapeHtml(item.error || "未判定");
+      return (
+        "<tr>" +
+        "<td class=\"fig-claim-cell\">" + escapeHtml(item.claim) + "</td>" +
+        "<td><span class=\"pill " + info.cls + "\"><i></i>" + info.text + "</span></td>" +
+        "<td class=\"fig-reason-cell\">" + reason + "</td>" +
+        "</tr>"
+      );
+    }).join("");
+    const meta = [
+      data.model ? "模型 " + escapeHtml(data.model) : "",
+      source,
+      "自动判断，请人工复核",
+    ].filter(Boolean).join(" · ");
+    return (
+      "<div class=\"fig-verdict\">" +
+      "<table class=\"fig-claim-table\"><thead><tr><th>结论</th><th>判断</th><th>理由</th></tr></thead>" +
+      "<tbody>" + rows + "</tbody></table>" +
+      "<div class=\"mono-sm\" style=\"color:var(--muted);margin-top:8px\">" + meta + "</div>" +
+      "</div>"
+    );
+  }
+
   function escapeHtml(text) {
     return String(text == null ? "" : text)
       .replace(/&/g, "&amp;")
@@ -128,12 +161,19 @@
   form.addEventListener("submit", async function (e) {
     e.preventDefault();
     const file = fileInput.files && fileInput.files[0];
-    const claim = (claimInput.value || "").trim();
+    const rawClaim = (claimInput.value || "").trim();
+    const claimLines = rawClaim.split(/\r?\n/).map(function (line) { return line.trim(); }).filter(Boolean);
     if (!file) { setHint("请先选择图表截图"); return; }
-    if (claim.length < 5) { setHint("结论至少写 5 个字"); return; }
+    if (!claimLines.length) { setHint("请写一条结论"); return; }
+    if (claimLines.length > 5) { setHint("一次最多核验 5 条结论"); return; }
+    if (claimLines.some(function (line) { return line.length < 5; })) {
+      setHint("每条结论至少写 5 个字");
+      return;
+    }
     const fd = new FormData();
     fd.append("image", file);
-    fd.append("claim", claim);
+    fd.append("claim", claimLines[0]);
+    if (claimLines.length > 1) fd.append("claims", rawClaim);
     const context = contextInput ? (contextInput.value || "").trim() : "";
     if (context) fd.append("context", context);
     const paper = paperInput && paperInput.files && paperInput.files[0];
@@ -156,7 +196,7 @@
         return;
       }
       setHint("");
-      result.innerHTML = verdictHtml(data);
+      result.innerHTML = data.items ? itemsHtml(data) : verdictHtml(data);
       result.classList.remove("hidden");
     } catch (err) {
       setHint("");

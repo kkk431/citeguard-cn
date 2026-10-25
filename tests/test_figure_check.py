@@ -274,3 +274,57 @@ def test_figure_api_reports_missing_figure_caption(monkeypatch):
     assert resp.status_code == 400
     assert resp.json()["code"] == "page_not_found"
     assert "图 1" in resp.json()["error"]
+
+
+def test_split_claims_ignores_blank_lines():
+    assert figure_check.split_claims("  第一条结论\n\n第二条结论  \n") == ["第一条结论", "第二条结论"]
+
+
+def test_check_claims_rejects_too_many(monkeypatch):
+    monkeypatch.setattr(config, "VL_ENDPOINT", "http://gpu:8099/v1")
+    claims = [f"第{i}条结论内容" for i in range(6)]
+    result = figure_check.check_claims(b"img", "image/png", claims)
+    assert result["code"] == "too_many_claims"
+
+
+def test_check_claims_runs_each_claim(monkeypatch):
+    monkeypatch.setattr(config, "VL_ENDPOINT", "http://gpu:8099/v1")
+    calls = []
+
+    def fake_check(image, mime, claim, context=""):
+        calls.append(claim)
+        verdict = "contradicted" if "矛盾" in claim else "supported"
+        return {"ok": True, "verdict": verdict, "reason": "理由", "latency_ms": 10}
+
+    monkeypatch.setattr(figure_check, "check_figure", fake_check)
+    result = figure_check.check_claims(b"img", "image/png", ["第一条成立", "第二条矛盾"], "上下文")
+    assert result["ok"] is True
+    assert [item["verdict"] for item in result["items"]] == ["supported", "contradicted"]
+    assert calls == ["第一条成立", "第二条矛盾"]
+    assert result["items"][0]["claim"] == "第一条成立"
+
+
+def test_figure_api_multi_claim_returns_items(monkeypatch):
+    from fastapi.testclient import TestClient
+    from web import app as webapp
+
+    monkeypatch.setattr(figure_check, "available", lambda: True)
+
+    def fake_check_claims(image, mime, claims, context=""):
+        return {
+            "ok": True,
+            "items": [{"claim": claim, "ok": True, "verdict": "supported", "reason": "理由"} for claim in claims],
+            "model": "fake-vl",
+        }
+
+    monkeypatch.setattr(webapp.figure_check, "check_claims", fake_check_claims)
+    client = TestClient(webapp.app)
+    resp = client.post(
+        "/api/figure-check",
+        files={"image": ("a.png", b"img", "image/png")},
+        data={"claims": "第一条结论成立\n第二条结论也成立"},
+    )
+    assert resp.status_code == 200
+    payload = resp.json()
+    assert len(payload["items"]) == 2
+    assert payload["items"][1]["claim"] == "第二条结论也成立"

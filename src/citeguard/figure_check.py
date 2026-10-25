@@ -24,6 +24,7 @@ from . import config
 PROMPT_VERSION = "2"
 SUPPORTED_MIMES = {"image/png", "image/jpeg", "image/webp"}
 MAX_CONTEXT_CHARS = 4000
+MAX_CLAIMS = 5
 
 PROMPT = (
     "你是论文图表核验助手。下面是一张图表、一句结论，以及可选的论文正文/图注摘录。\n"
@@ -130,5 +131,43 @@ def check_figure(image_bytes: bytes, mime: str, claim: str, context: str = "") -
         "model": config.VL_MODEL,
         "latency_ms": latency_ms,
         "prompt_version": PROMPT_VERSION,
+        "context_chars": min(len((context or "").strip()), MAX_CONTEXT_CHARS),
+    }
+
+
+def split_claims(text: str) -> list[str]:
+    """One claim per line; ignore blanks and trim whitespace."""
+    return [line.strip() for line in (text or "").splitlines() if line.strip()]
+
+
+def check_claims(image_bytes: bytes, mime: str, claims: list[str], context: str = "") -> dict:
+    """Judge up to ``MAX_CLAIMS`` claims against the same figure in one request batch.
+
+    Each claim is a separate call so a single bad claim cannot poison the rest;
+    the response keeps per-claim verdicts plus a summary top-level shape so the
+    page can render either one card or a small table.
+    """
+    if not claims:
+        return {"ok": False, "code": "no_claims", "error": "至少写一条结论"}
+    if len(claims) > MAX_CLAIMS:
+        return {"ok": False, "code": "too_many_claims", "error": f"一次最多核验 {MAX_CLAIMS} 条结论"}
+    bad = [c for c in claims if not 5 <= len(c) <= 500]
+    if bad:
+        return {"ok": False, "code": "bad_claim", "error": f"每条结论需为 5–500 字：{bad[0][:40]}"}
+    items = []
+    for claim in claims:
+        result = check_figure(image_bytes, mime, claim, context)
+        item = {"claim": claim}
+        for key in ("ok", "verdict", "reason", "code", "error", "latency_ms"):
+            if key in result:
+                item[key] = result[key]
+        items.append(item)
+    ok = any(item.get("ok") for item in items)
+    return {
+        "ok": ok,
+        "items": items,
+        "model": config.VL_MODEL,
+        "prompt_version": PROMPT_VERSION,
+        "max_claims": MAX_CLAIMS,
         "context_chars": min(len((context or "").strip()), MAX_CONTEXT_CHARS),
     }

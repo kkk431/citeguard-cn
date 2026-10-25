@@ -23,6 +23,9 @@
 - 服务：`scripts/local_vl_server.py` 起一个 OpenAI 兼容的 `/v1/chat/completions` 服务；产品只通过 HTTP 调用，CPU 主机不加载模型。
 - 产品开关：`CITEGUARD_VL_ENDPOINT`（必填，指向服务）、`CITEGUARD_VL_MODEL`（默认 `qwen2.5-vl-7b`）、`CITEGUARD_VL_API_KEY`（可选）、`CITEGUARD_VL_TIMEOUT`（默认 60 秒）、`CITEGUARD_VL_MAX_FIGURE_MB`（默认 8 MB）。未配置时 `/figure` 页面只展示说明、不接受提交。
 - 正文上下文：页面可选填写，最多 4000 字，随表单字段 `context` 提交；`PROMPT_VERSION = 2`。
+- 多条结论：页面文本框一行写一条，最多 **5 条**（表单字段 `claims`，换行分隔）；服务端逐条判定，
+  返回 `items[]`，每条含自己的 `verdict` / `reason`；单条失败不影响其余结论，页面渲染成一张小表。
+  只写一条时仍走原来的单条接口形状，`items` 不出现。
   也可以上传论文 PDF 并指定页码（表单字段 `paper` + `page`，从 1 开始），服务端用 pdfplumber 取该页文字后拼进
   上下文；取不到文字（扫描页/文字层损坏）时返回明确错误，提示改为手动粘贴。PDF 只在服务进程的临时文件里处理，
   不落盘保存。接口返回里的 `context_source` 会标为 `pdf_page:N`。
