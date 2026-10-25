@@ -737,3 +737,22 @@ v0.6.1 上线后继续压测文献发现，发现并修掉三个具体问题：
 - 交付包：`dist/citeguard-cn-0.9.4.zip`（2,138,299 bytes，sha256
   `6fa3dd8c4c0c75f9627ed3ec07a127778d4f61d383380b9fbddf9059a55f0426`）。
 - 提交：`a2bcea1`（已推送 GitHub；提交信息含六项加固与评测页能力面板）。
+
+## §39 v0.9.5：ClaimSupport-CN 标签质量审计（LLM 共识，非人工金标准）
+
+动机：构造标签容易被问“谁定的”。用三个独立模型在固定 rubric 下盲标（只看 claim + evidence）：
+DeepSeek-Chat 100/100 一致率 0.87（κ 0.813）、DeepSeek-Reasoner 98/100 **0.969（κ 0.957）**、
+Qwen3-8B 100/100 0.75（κ 0.638）；两两 κ 0.68–0.88。多数票与构造标签 **0.89 / κ 0.8425**
+（11 条分歧，集中在 partial↔support）；产品（托管 v10）对多数票 **0.90 / macro-F1 0.9049**。
+
+- 脚本：`scripts/llm_annotate_support.py`（支持 `--resume`、任意 OpenAI 兼容端点）、
+  `scripts/support_llm_consensus.py`；证据：`data/claimsupport_cn/llm_annotation_*.json`、
+  `llm_consensus.json`。
+- `/benchmark` 增加「标签质量审计」面板；README、`data/claimsupport_cn/README.md`、
+  `docs/support_summary.md`、`docs/ppt_numbers.md` 均已按「LLM 辅助审计」口径写入，
+  **明示不是人工标注**。
+- 验证：`pytest` 409 passed；`verify_artifacts` 本机 **124** / 远端 `--api-base` **133**。
+- 部署：本机 8010（job `pwsh-2e081064ecc648bb`）；远端 0.9.5；`/benchmark` 含审计面板。
+- 交付包：`dist/citeguard-cn-0.9.5.zip`（2,164,293 bytes，sha256
+  `fd0b1eb35d9a6afd100788f07c1c6f6265a02efd1ce5e39e0e7377182da749b7`）。
+- 提交：v0.9.5 功能提交 `c7ec519`（已推送）。
