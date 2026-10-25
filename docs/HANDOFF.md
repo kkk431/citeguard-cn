@@ -853,3 +853,12 @@ partial 多发、support 少发。
 - 文档：`docs/figure_check.md` 扩容集段落、README、`docs/ppt_numbers.md` 3f 行；
   技术报告同步到 v0.9.10（9 页，568 KB）。
 - 测试：`tests/test_figure_check.py` + `tests/test_web.py` 48 passed（全量见发布记录）。
+
+**验证与发布（v0.9.10，2026-10-25）**
+
+- 本机：410 passed / 130 checks；`/figure` 已切 v3（`PROMPT_VERSION=3`）。
+- 远端：`health=0.9.10`、`verify_artifacts --api-base` **139/139**。
+- 报告：v0.9.10 DOCX/PDF，9 页 / 568 KB，已更新图集与 v3 数字。
+- 交付包：`dist/citeguard-cn-0.9.10.zip` 5,767,853 字节，
+  sha256 `5ae0fe48b5c096442eeb4baeeace76ee262d3aa8cd2743d852c6bb1ec746e552`。
+- 推送：`6796e9a`（SSH）。
