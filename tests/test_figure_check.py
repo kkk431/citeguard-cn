@@ -69,6 +69,25 @@ def test_success_parses_json_code_fence(monkeypatch):
     assert "Authorization" not in calls["headers"]
 
 
+def test_prompt_style_v4_adds_steps(monkeypatch):
+    monkeypatch.setattr(config, "VL_ENDPOINT", "http://gpu:8099/v1")
+    monkeypatch.setattr(config, "VL_MODEL", "qwen3-vl-8b")
+    monkeypatch.setattr(config, "FIGURE_PROMPT_STYLE", "4")
+    captured = {}
+
+    def fake_post(url, json=None, headers=None, timeout=None):
+        captured["json"] = json
+        return FakeResponse(200, _completion('{"observation":"柱状图","verdict":"contradicted","reason":"数值不符"}'))
+
+    monkeypatch.setattr(figure_check.requests, "post", fake_post)
+    result = figure_check.check_figure(b"img", "image/png", "方法1 的准确率最高，约为 95%。")
+    assert result["ok"] is True
+    assert result["prompt_version"] == "4"
+    text = captured["json"]["messages"][0]["content"][1]["text"]
+    assert "第一步 读图" in text
+    assert captured["json"]["max_tokens"] == 300
+
+
 def test_sends_bearer_when_key_configured(monkeypatch):
     monkeypatch.setattr(config, "VL_ENDPOINT", "http://gpu:8099/v1")
     monkeypatch.setattr(config, "VL_API_KEY", "secret")

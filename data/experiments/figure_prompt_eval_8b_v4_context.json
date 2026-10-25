@@ -1,0 +1,519 @@
+{
+  "generated_at": "2026-10-25T23:08:08",
+  "model": "qwen3-vl-8b",
+  "endpoint": "http://222.20.126.148:8095/v1",
+  "variants": [
+    "v4_context"
+  ],
+  "summary": {
+    "v4_context": {
+      "n": 50,
+      "accuracy": 0.96,
+      "supported_recall": 0.96,
+      "contradiction_recall": 0.96,
+      "mean_latency_ms": 4777.5
+    }
+  },
+  "rows": [
+    {
+      "family": "synth",
+      "id": "synth_01",
+      "gold": "supported",
+      "variant": "v4_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 4350,
+      "reason": "图中方法1柱高对应95%，方法5对应22%，与结论一致。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_01",
+      "gold": "contradicted",
+      "variant": "v4_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 4171,
+      "reason": "结论称方法1准确率约66%，与图中95%数据冲突"
+    },
+    {
+      "family": "synth",
+      "id": "synth_02",
+      "gold": "supported",
+      "variant": "v4_context",
+      "verdict": "contradicted",
+      "correct": false,
+      "latency_ms": 5467,
+      "reason": "图中无2025年数据，结论虚构该年峰值132篇。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_02",
+      "gold": "contradicted",
+      "variant": "v4_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 6420,
+      "reason": "图中2022年发文量约97篇，非最高；2025年数据为预测，图中未呈现。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_03",
+      "gold": "supported",
+      "variant": "v4_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 4089,
+      "reason": "图中方法2柱高对应98%，方法6对应40%，与结论一致。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_03",
+      "gold": "contradicted",
+      "variant": "v4_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 4192,
+      "reason": "结论称方法2准确率约59%，与图中98%数据冲突"
+    },
+    {
+      "family": "synth",
+      "id": "synth_04",
+      "gold": "supported",
+      "variant": "v4_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 4658,
+      "reason": "图中2021年数据点最高为118，与结论一致。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_04",
+      "gold": "contradicted",
+      "variant": "v4_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 5129,
+      "reason": "结论称2018年最高，与图中2021年峰值118篇冲突。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_05",
+      "gold": "supported",
+      "variant": "v4_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 4227,
+      "reason": "图中方法4柱高对应73%，方法3对应25%，与结论一致。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_05",
+      "gold": "contradicted",
+      "variant": "v4_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 4132,
+      "reason": "结论称方法4准确率约47%，与图中73%数据冲突"
+    },
+    {
+      "family": "synth",
+      "id": "synth_06",
+      "gold": "supported",
+      "variant": "v4_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 4459,
+      "reason": "图表数据与结论一致，2021年峰值95篇明确标注。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_06",
+      "gold": "contradicted",
+      "variant": "v4_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 4996,
+      "reason": "结论称2018年最高，与图中2021年95篇峰值矛盾。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_07",
+      "gold": "supported",
+      "variant": "v4_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 4107,
+      "reason": "图中方法1柱高对应94%，方法2对应24%，与结论一致。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_07",
+      "gold": "contradicted",
+      "variant": "v4_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 4166,
+      "reason": "结论称方法1准确率约56%，与图中94%数据冲突"
+    },
+    {
+      "family": "synth",
+      "id": "synth_08",
+      "gold": "supported",
+      "variant": "v4_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 4449,
+      "reason": "图中2023年数据点为47，与结论一致。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_08",
+      "gold": "contradicted",
+      "variant": "v4_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 5200,
+      "reason": "图中2023年发文量最高为47篇，2020年仅为22篇。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_09",
+      "gold": "supported",
+      "variant": "v4_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 4081,
+      "reason": "图中方法2柱高对应83%，方法6对应21%，与结论一致。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_09",
+      "gold": "contradicted",
+      "variant": "v4_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 4144,
+      "reason": "结论称方法2准确率约50%，与图中83%数据冲突。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_10",
+      "gold": "supported",
+      "variant": "v4_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 4470,
+      "reason": "图表数据与结论一致，2023年峰值86篇正确。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_10",
+      "gold": "contradicted",
+      "variant": "v4_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 4570,
+      "reason": "图表显示2023年发文量最高，2020年并非最高。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_11",
+      "gold": "supported",
+      "variant": "v4_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 4092,
+      "reason": "图中方法3柱高对应86%，方法1对应27%，与结论一致。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_11",
+      "gold": "contradicted",
+      "variant": "v4_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 4125,
+      "reason": "结论称方法3准确率约为60%，与图中86%数据冲突"
+    },
+    {
+      "family": "synth",
+      "id": "synth_12",
+      "gold": "supported",
+      "variant": "v4_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 3822,
+      "reason": "图表数据与结论一致，2021年峰值为55篇。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_12",
+      "gold": "contradicted",
+      "variant": "v4_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 5774,
+      "reason": "结论称2018年最高，与图中2021年55篇峰值矛盾。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_13",
+      "gold": "supported",
+      "variant": "v4_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 4184,
+      "reason": "图中方法5柱高对应98%，方法1对应38%，与结论一致。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_13",
+      "gold": "contradicted",
+      "variant": "v4_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 4111,
+      "reason": "结论称方法5准确率约64%，与图中98%冲突"
+    },
+    {
+      "family": "synth",
+      "id": "synth_14",
+      "gold": "supported",
+      "variant": "v4_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 4593,
+      "reason": "图中2025年数据点为113，与结论一致。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_14",
+      "gold": "contradicted",
+      "variant": "v4_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 6176,
+      "reason": "图中2025年为峰值113篇，但2022年仅95篇，与结论中2022年最高冲突。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_15",
+      "gold": "supported",
+      "variant": "v4_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 4078,
+      "reason": "图中方法1柱高对应91%，方法3对应28%，与结论一致。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_15",
+      "gold": "contradicted",
+      "variant": "v4_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 3993,
+      "reason": "结论称方法1准确率约55%，与图中91%数据冲突。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_16",
+      "gold": "supported",
+      "variant": "v4_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 4551,
+      "reason": "图中2023年数据点最高为87，与结论一致。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_16",
+      "gold": "contradicted",
+      "variant": "v4_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 6735,
+      "reason": "图中2020-2021年发文量约85篇，非2020年最高，2023年峰值87篇正确但结论断言错误。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_17",
+      "gold": "supported",
+      "variant": "v4_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 4151,
+      "reason": "图中方法5柱高对应89%，方法4对应55%，与结论一致。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_17",
+      "gold": "contradicted",
+      "variant": "v4_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 4116,
+      "reason": "结论称方法5准确率约62%，与图中89%冲突"
+    },
+    {
+      "family": "synth",
+      "id": "synth_18",
+      "gold": "supported",
+      "variant": "v4_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 4524,
+      "reason": "图中2025年数据点为99，与结论一致。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_18",
+      "gold": "contradicted",
+      "variant": "v4_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 5836,
+      "reason": "图中2022年发文量约79篇，非最高；2025年99篇为峰值，与结论描述不符。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_19",
+      "gold": "supported",
+      "variant": "v4_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 4320,
+      "reason": "图中方法4柱高对应83%，方法6对应20%，与结论一致。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_19",
+      "gold": "contradicted",
+      "variant": "v4_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 4208,
+      "reason": "结论称方法4准确率约58%，与图中83%数据冲突"
+    },
+    {
+      "family": "synth",
+      "id": "synth_20",
+      "gold": "supported",
+      "variant": "v4_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 4494,
+      "reason": "图中2018年数据为49，与结论一致，无冲突。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_20",
+      "gold": "contradicted",
+      "variant": "v4_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 4957,
+      "reason": "结论称2016年最高，与图中2018年峰值49篇冲突。"
+    },
+    {
+      "family": "real",
+      "id": "real_01",
+      "gold": "supported",
+      "variant": "v4_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 5269,
+      "reason": "图表数据与正文描述完全一致，2025年195篇为最高值。"
+    },
+    {
+      "family": "real",
+      "id": "real_01",
+      "gold": "contradicted",
+      "variant": "v4_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 6420,
+      "reason": "图中2025年195篇为最高，但2023年为66篇，结论称2023年最高错误。"
+    },
+    {
+      "family": "real",
+      "id": "real_02",
+      "gold": "supported",
+      "variant": "v4_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 6279,
+      "reason": "图表中Reuters子图黑星线始终在所有算法上方，数值符合约0.60-0.63区间。"
+    },
+    {
+      "family": "real",
+      "id": "real_02",
+      "gold": "contradicted",
+      "variant": "v4_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 5671,
+      "reason": "图表显示Ours在Yale缺失率40%时ACC为0.75，高于多数方法，结论错误。"
+    },
+    {
+      "family": "real",
+      "id": "real_03",
+      "gold": "supported",
+      "variant": "v4_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 5829,
+      "reason": "下图显示α=10^0时ACC达0.95，与结论一致。"
+    },
+    {
+      "family": "real",
+      "id": "real_03",
+      "gold": "contradicted",
+      "variant": "v4_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 3976,
+      "reason": "图中ACC随α变化明显波动，非水平线，与结论冲突。"
+    },
+    {
+      "family": "real",
+      "id": "real_04",
+      "gold": "supported",
+      "variant": "v4_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 4207,
+      "reason": "图表数据与结论一致，高风险下健康实体理论组值更高。"
+    },
+    {
+      "family": "real",
+      "id": "real_04",
+      "gold": "contradicted",
+      "variant": "v4_context",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 4858,
+      "reason": "图表显示高风险时健康增量理论组消极自我图式更高，与结论相反。"
+    },
+    {
+      "family": "real",
+      "id": "real_05",
+      "gold": "supported",
+      "variant": "v4_context",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 5389,
+      "reason": "图b BIC最小值在7阶，图d阈值276米，与正文结论一致。"
+    },
+    {
+      "family": "real",
+      "id": "real_05",
+      "gold": "contradicted",
+      "variant": "v4_context",
+      "verdict": "supported",
+      "correct": false,
+      "latency_ms": 6659,
+      "reason": "图(a)簇数随缓冲增而升，图(b)BIC最小在7阶，图(d)阈值276米，与结论一致。"
+    }
+  ]
+}

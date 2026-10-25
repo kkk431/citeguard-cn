@@ -39,6 +39,29 @@ PROMPT = (
 )
 
 
+PROMPT_V4 = (
+    "你是论文图表核验助手。按三步工作，最后只输出一个 JSON。\n"
+    "第一步 读图：描述图表类型、标题、坐标轴/类别、图例，以及 1–2 个关键数据点（引用图中数字或标签）。\n"
+    "第二步 比对：复述结论的核心断言，与第一步的读图结果逐项比较；如提供了正文/图注摘录，也用它核对。\n"
+    "第三步 判定：图表明确蕴含结论输出 supported；图表数据与结论冲突（包括对象/子图/数值归属错误）输出 contradicted；\n"
+    "确实无法从图中读出相关信息输出 insufficient（正文未覆盖时以图表为准，reason 里注明「正文未覆盖」）。\n"
+    "只输出一个 JSON 对象：{{\"observation\":\"第一步，不超过60字\",\"verdict\":\"supported|contradicted|insufficient\",\"reason\":\"第二步+第三步，不超过40字\"}}\n"
+    "{context_block}结论：{claim}"
+)
+
+PROMPTS = {"2": PROMPT, "4": PROMPT_V4}
+
+
+def prompt_style() -> str:
+    style = (getattr(config, "FIGURE_PROMPT_STYLE", "2") or "2").strip().lower()
+    return style if style in PROMPTS else "2"
+
+
+def _prompt() -> tuple[str, str]:
+    style = prompt_style()
+    return style, PROMPTS[style]
+
+
 def available() -> bool:
     """Whether a vision endpoint is configured."""
     return bool(config.VL_ENDPOINT)
@@ -88,14 +111,14 @@ def check_figure(image_bytes: bytes, mime: str, claim: str, context: str = "") -
     data_uri = f"data:{mime};base64," + base64.b64encode(image_bytes).decode("ascii")
     payload = {
         "model": config.VL_MODEL,
-        "max_tokens": 180,
+        "max_tokens": 300 if prompt_style() == "4" else 180,
         "temperature": 0,
         "messages": [
             {
                 "role": "user",
                 "content": [
                     {"type": "image_url", "image_url": {"url": data_uri}},
-                    {"type": "text", "text": PROMPT.format(context_block=_context_block(context), claim=claim)},
+                    {"type": "text", "text": _prompt()[1].format(context_block=_context_block(context), claim=claim)},
                 ],
             }
         ],
@@ -132,7 +155,7 @@ def check_figure(image_bytes: bytes, mime: str, claim: str, context: str = "") -
         "reason": parsed["reason"],
         "model": config.VL_MODEL,
         "latency_ms": latency_ms,
-        "prompt_version": PROMPT_VERSION,
+        "prompt_version": _prompt()[0],
         "context_chars": min(len((context or "").strip()), MAX_CONTEXT_CHARS),
     }
 
@@ -169,7 +192,7 @@ def check_claims(image_bytes: bytes, mime: str, claims: list[str], context: str 
         "ok": ok,
         "items": items,
         "model": config.VL_MODEL,
-        "prompt_version": PROMPT_VERSION,
+        "prompt_version": _prompt()[0],
         "max_claims": MAX_CLAIMS,
         "context_chars": min(len((context or "").strip()), MAX_CONTEXT_CHARS),
     }

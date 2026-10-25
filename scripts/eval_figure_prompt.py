@@ -58,6 +58,17 @@ V3 = (
 )
 
 
+V4 = (
+    "你是论文图表核验助手。按三步工作，最后只输出一个 JSON。\n"
+    "第一步 读图：描述图表类型、标题、坐标轴/类别、图例，以及 1–2 个关键数据点（引用图中数字或标签）。\n"
+    "第二步 比对：复述结论的核心断言，与第一步的读图结果逐项比较；如提供了正文/图注摘录，也用它核对。\n"
+    "第三步 判定：图表明确蕴含结论输出 supported；图表数据与结论冲突（包括对象/子图/数值归属错误）输出 contradicted；\n"
+    "确实无法从图中读出相关信息输出 insufficient（正文未覆盖时以图表为准，reason 里注明「正文未覆盖」）。\n"
+    "只输出一个 JSON 对象：{{\"observation\":\"第一步，不超过60字\",\"verdict\":\"supported|contradicted|insufficient\",\"reason\":\"第二步+第三步，不超过40字\"}}\n"
+    "{context_block}结论：{claim}"
+)
+
+
 def _page_text(pdf_name: str, page_no: int) -> str:
     try:
         import pypdfium2 as pdfium
@@ -134,8 +145,10 @@ def run(out_path: Path, variants: list[str]) -> dict:
                     ("v1", V1, ""),
                     ("v2", V2, ""),
                     ("v2_context", V2, context),
-            ("v3_context", V3, context),
+                    ("v3_context", V3, context),
                     ("v3", V3, ""),
+                    ("v4", V4, ""),
+                    ("v4_context", V4, context),
                 ):
                     if variant not in variants:
                         continue

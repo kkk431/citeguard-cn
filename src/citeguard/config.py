@@ -112,6 +112,7 @@ VL_MODEL = os.environ.get("CITEGUARD_VL_MODEL", "qwen2.5-vl-7b").strip()
 VL_API_KEY = os.environ.get("CITEGUARD_VL_API_KEY", "").strip()
 VL_TIMEOUT = float(os.environ.get("CITEGUARD_VL_TIMEOUT", "60"))
 VL_MAX_FIGURE_MB = int(os.environ.get("CITEGUARD_VL_MAX_FIGURE_MB", "8"))
+FIGURE_PROMPT_STYLE = os.environ.get("CITEGUARD_FIGURE_PROMPT", "2").strip().lower()
 
 # 万方开放平台（可选）。申请到「万方文献检索」订阅后，把 App Key 放进环境变量即可。
 # 文档：https://ai.wfdata.com/api-detail?id=17 ；鉴权头 X-App-Key，必须 HTTPS。
