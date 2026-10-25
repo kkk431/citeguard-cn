@@ -43,14 +43,26 @@ def main() -> None:
         for row in data.get("predictions", []):
             model[row["id"]] = row["pred"]
 
+    sheet_path = Path(args.sheet)
+    if sheet_path.suffix.lower() == ".xlsx":
+        from openpyxl import load_workbook
+
+        wb = load_workbook(sheet_path, read_only=True, data_only=True)
+        ws = wb["盲评表"] if "盲评表" in wb.sheetnames else wb.active
+        rows = ws.iter_rows(values_only=True)
+        header = [str(x or "") for x in next(rows)]
+        records = [dict(zip(header, row)) for row in rows if row]
+    else:
+        with sheet_path.open(encoding="utf-8-sig") as fh:
+            records = list(csv.DictReader(fh))
+
     filled = []
-    with Path(args.sheet).open(encoding="utf-8-sig") as fh:
-        for row in csv.DictReader(fh):
-            label = (row.get("your_label") or "").strip()
-            if label:
-                if label not in LABELS:
-                    raise SystemExit(f"bad label {label!r} for {row['id']}")
-                filled.append((row["id"], label))
+    for row in records:
+        label = str(row.get("your_label") or "").strip()
+        if label:
+            if label not in LABELS:
+                raise SystemExit(f"bad label {label!r} for {row['id']}")
+            filled.append((row["id"], label))
     if not filled:
         raise SystemExit("sheet has no filled your_label values yet")
 
