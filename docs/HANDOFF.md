@@ -722,9 +722,18 @@ v0.6.1 上线后继续压测文献发现，发现并修掉三个具体问题：
 7. **多篇对比章节感知**：抽取输入按摘要/引言/方法/结果/讨论/结论切分并标注章节；标题不规范时
    退化为原截断；结果页显示「章节：…」，未重标字段准确率。
 
-7. **评测页能力面板 + 运行状态**：`/benchmark` 现为七块评测（CiteBench / ClaimSupport /
+8. **评测页能力面板 + 运行状态**：`/benchmark` 现为七块评测（CiteBench / ClaimSupport /
    开源判官 / 图表核验 / 多篇对比 / 选题发现 / OCR），并新增「运行状态」自检卡片：
    判官类型与模型、覆盖审计风格、判定并发、访问控制开关、OCR、视觉模型、题录库规模、
    磁盘剩余；密钥只显示「已配置/未开启」，模板测试断言页面不含 `sk-` 明文。
 
-验证：`pytest` 409 passed、`verify_artifacts` 118 项；版本 0.9.4。
+验证：`pytest` 409 passed、`verify_artifacts` 本机 118 项 / 远端 `--api-base` **127 项** 全过；版本 0.9.4。
+
+部署与交付：
+- 本机演示：uvicorn `127.0.0.1:8010`，后台 job `pwsh-aec5834b4e9a4a17`，`/api/health` = 0.9.4；
+  `/benchmark` 七块面板 + 运行状态卡片人工核验通过（页面无 `sk-` 明文）。
+- 远端：部署包 2,126,701 bytes，`/api/health` = 0.9.4，`verify_artifacts --api-base` 127/127，
+  `/benchmark` 含「运行状态」。
+- 交付包：`dist/citeguard-cn-0.9.4.zip`（2,138,299 bytes，sha256
+  `6fa3dd8c4c0c75f9627ed3ec07a127778d4f61d383380b9fbddf9059a55f0426`）。
+- 提交：`a2bcea1`（已推送 GitHub；提交信息含六项加固与评测页能力面板）。
