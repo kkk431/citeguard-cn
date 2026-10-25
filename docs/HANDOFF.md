@@ -920,3 +920,9 @@ partial 多发、support 少发。
 - `.env.example` / `docs/chinese_sources.md` / README 局限节已写明使用方式与额度边界。
 - 测试：`tests/test_wanfang.py` 4 条 + `tests/test_metadata_verify.py` 兜底用例 1 条。
 - 版本 0.9.13。
+- 验证：`pytest` **416 passed**；`verify_artifacts.py` 本机 **130** / 远端 `--api-base` **139** 全过；
+  远端 `/api/health` 版本 0.9.13。
+- 部署：`git archive` 2,229,295 bytes → 远端解压重启；zip `dist/citeguard-cn-0.9.13.zip`
+  5,802,186 bytes，SHA-256 `ca4b2754698dc6434fa4989024ea636f90413347132aaf857325be36d89134db`。
+- 推送：`b6fb34c`（`4089a40..b6fb34c main`）。
+- 按用户要求，验证 20 条抽样后不再消耗免费额度（当天额度已用尽）。
