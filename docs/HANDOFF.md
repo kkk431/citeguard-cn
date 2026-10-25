@@ -778,3 +778,32 @@ Qwen3-8B 100/100 0.75（κ 0.638）；两两 κ 0.68–0.88。多数票与构造
 - 交付包：`dist/citeguard-cn-0.9.6.zip`（2,167,662 bytes，sha256
   `7655dd096d25b9a966e925866d21f46e5f74929f70eb14f4c87cc64e89e8933c`）。
 - 提交：`fbfb8e1`（已推送）。
+
+## §41 v0.9.7：留出 test 60 的三模型盲标复验
+
+动机：100 条共识审计是同一批样本上做的解释，必须回答“是不是在这批上调的”。
+把三模型盲标（DeepSeek-Chat / DeepSeek-Reasoner / Qwen3-8B）原样跑到 **test 60**
+（split 见 `split_seed20261024.json`，test 未参与 prompt 调整）：
+
+| 指标 | test 60 | 全 100 |
+|---|---:|---:|
+| 多数票 vs 构造 | 0.883 / κ 0.834 | 0.890 / κ 0.843 |
+| 产品 vs 构造 | 0.933 | 0.950 |
+| 产品 vs 多数票 | 0.883 | 0.900 |
+| 产品 vs 多数票 macro-F1 | 0.897 | 0.905 |
+
+7 条产品-多数票分歧同型：5 条产品与构造一致（4 条背景从句→partial，1 条方向反转），
+2 条产品更严格（cs-0024、cs-0048）。partial precision 0.647 / recall 1.0，contradict F1 0.941，
+no_evidence F1 1.0。结论：模式一致，**不是过拟合**；产品“严格覆盖”在留出集上同样表现为
+partial 多发、support 少发。
+
+- 脚本：`llm_annotate_support.py --split test`、`support_llm_consensus.py --split test`
+  （Qwen3-8B 标注在 lmh 上本地跑，避免隧道）。
+- 证据：`data/claimsupport_cn/llm_consensus-test.json`、
+  `llm_annotation_{deepseek,qwen3-8b,deepseek-reasoner}-test.json`。
+- 页面：`/benchmark` 审计面板新增留出集一行。
+- 验证：`pytest` 409 passed；`verify_artifacts` 本机 124 / 远端 133。
+- 部署：本机 8010（job `pwsh-8b3fe11221fa4200`）；远端 0.9.7。
+- 交付包：`dist/citeguard-cn-0.9.7.zip`（2,182,436 bytes，sha256
+  `6eccaa57c56999d4a8619bc4be11218511ddade3ab7038b2461fdabff5ba5032`）。
+- 提交：`582a21c`（已推送）。
