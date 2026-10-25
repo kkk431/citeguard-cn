@@ -155,6 +155,9 @@
     </div>
     <p class="hint" style="margin:8px 0 0">DeepSeek-Chat / DeepSeek-Reasoner / Qwen3-8B 在固定 rubric 下盲标；只作标签审计，不能当人工标注引用。</p>
     <p class="hint" style="margin:4px 0 0">与多数票 10 条分歧：<b>8 条产品与构造标签一致</b>（5 条背景从句未覆盖→partial，3 条「有效/无效」「促进/抑制」方向反转被两模型漏判）；<b>2 条产品比构造标签更严格</b>（证据只重复研究目的 / 少一个维度）。逐条分析见 <code>docs/label_audit_cases.md</code>。</p>
+    {% if support_audit.holdout %}
+    <p class="hint" style="margin:4px 0 0">留出集 <b>test 60</b>（未参与调 prompt）：多数票 vs 构造 {{ '%.2f'|format(support_audit.holdout.majority_agreement) }} / κ {{ '%.3f'|format(support_audit.holdout.majority_kappa) }}；产品 vs 多数票 {{ '%.2f'|format(support_audit.holdout.product_accuracy) }} / macro-F1 {{ '%.3f'|format(support_audit.holdout.product_macro_f1) }} —— 与 100 条口径基本一致，说明不是在同一条集上调出来的。</p>
+    {% endif %}
   </div>
   {% endif %}
   {% if local_models %}

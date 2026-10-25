@@ -139,6 +139,11 @@ PYTHONPATH=.pylibs:. python3 scripts/evaluate_support.py
 > 逐条分歧分析（产品 vs 多数票 10 条、构造标签 11 条）见
 > [docs/label_audit_cases.md](../../docs/label_audit_cases.md)。
 
+**留出集复验（test 60，未参与 prompt 调整）**：多数票 vs 构造 0.883 / κ 0.834；
+产品 vs 构造 0.933；产品 vs 多数票 0.883 / macro-F1 0.897。7 条分歧中 5 条产品与构造
+标签一致、2 条产品更严格，模式与 100 条一致。证据 `llm_consensus-test.json` 与
+`llm_annotation_*-test.json`。
+
 
 标签由构造规则决定。为检查标签是否“自己说自己对”，用三个独立模型在固定 rubric 下盲标
 （只看 claim + evidence，不看构造标签），再用多数票做共识复核：

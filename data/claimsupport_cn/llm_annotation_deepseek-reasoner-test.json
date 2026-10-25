@@ -1,0 +1,393 @@
+{
+  "tag": "deepseek-reasoner-test",
+  "model": "deepseek-reasoner",
+  "base_url": "https://api.deepseek.com",
+  "n": 59,
+  "errors": {
+    "cs-0027": "ValueError: no json in annotator output: "
+  },
+  "agreement_with_constructed_labels": 0.9661,
+  "cohen_kappa_vs_constructed": 0.9525,
+  "confusion_gold_pred": {
+    "support": {
+      "support": 23,
+      "partial": 0,
+      "contradict": 0,
+      "no_evidence": 0
+    },
+    "partial": {
+      "support": 2,
+      "partial": 13,
+      "contradict": 0,
+      "no_evidence": 0
+    },
+    "contradict": {
+      "support": 0,
+      "partial": 0,
+      "contradict": 9,
+      "no_evidence": 0
+    },
+    "no_evidence": {
+      "support": 0,
+      "partial": 0,
+      "contradict": 0,
+      "no_evidence": 12
+    }
+  },
+  "predictions": [
+    {
+      "id": "cs-0001",
+      "gold": "partial",
+      "pred": "support",
+      "why": "evidence 与 claim 的核心表述完全一致，明确支持该陈述。"
+    },
+    {
+      "id": "cs-0004",
+      "gold": "partial",
+      "pred": "partial",
+      "why": "evidence只涉及分析影响因素，未涉及提出有效措施进行探究。"
+    },
+    {
+      "id": "cs-0005",
+      "gold": "no_evidence",
+      "pred": "no_evidence",
+      "why": "evidence 只讨论“课程思政”和职业院校教育，完全没有涉及“三农”、乡村振兴或乡村文化振兴。"
+    },
+    {
+      "id": "cs-0006",
+      "gold": "partial",
+      "pred": "partial",
+      "why": "证据只复述了“为新兴领域工程科技人才培养模式构建带来新思路”这一部分，未涉及“指明我国工程教育改革新方向”。"
+    },
+    {
+      "id": "cs-0007",
+      "gold": "support",
+      "pred": "support",
+      "why": "evidence 第一句与 claim 完全一致，明确说明对心血管伴随焦虑症患者实施中西医结合治疗并探究疗效。"
+    },
+    {
+      "id": "cs-0008",
+      "gold": "contradict",
+      "pred": "contradict",
+      "why": "evidence 说中国经济实力不断增强，而 claim 说不断削弱，方向相反。"
+    },
+    {
+      "id": "cs-0009",
+      "gold": "partial",
+      "pred": "partial",
+      "why": "Evidence only确认光声光谱是基于光声效应的吸收光谱分析技术，未涉及检测声波、样品形态、弱吸收/强散射应用及生物医学关注等其他内容。"
+    },
+    {
+      "id": "cs-0010",
+      "gold": "no_evidence",
+      "pred": "no_evidence",
+      "why": "证据讨论的是高职院校教育教学改革与引导技术，完全未涉及大米进口或粮食问题。"
+    },
+    {
+      "id": "cs-0011",
+      "gold": "no_evidence",
+      "pred": "no_evidence",
+      "why": "evidence仅描述研究时间、对象和分组方法，未涉及企业竞争、人力资源管理或创新能力等内容。"
+    },
+    {
+      "id": "cs-0014",
+      "gold": "support",
+      "pred": "support",
+      "why": "evidence 完整复述了 claim 所述的数据基础、大样本实证分析及研究目的，并补充了结果，明确支持 claim 的核心意思。"
+    },
+    {
+      "id": "cs-0016",
+      "gold": "no_evidence",
+      "pred": "no_evidence",
+      "why": "evidence 讨论的是模拟翻译教室对翻译专业学生的教学整合，未涉及农村老年人或数字鸿沟问题。"
+    },
+    {
+      "id": "cs-0017",
+      "gold": "support",
+      "pred": "support",
+      "why": "证据首句与claim完全一致，并进一步说明构建了多种农村电商发展模式及优化建议，明确支持研究目的陈述。"
+    },
+    {
+      "id": "cs-0018",
+      "gold": "support",
+      "pred": "support",
+      "why": "evidence 原文包含并明确支持 claim 的核心表述，后续补充句不改变其支持关系。"
+    },
+    {
+      "id": "cs-0024",
+      "gold": "support",
+      "pred": "support",
+      "why": "证据明确说明该研究以精神障碍患者为对象，比较技巧性沟通交流与常规护理的护理效果，支持 claim 所述研究内容。"
+    },
+    {
+      "id": "cs-0025",
+      "gold": "partial",
+      "pred": "partial",
+      "why": "Evidence repeats the core statement about diverse combination therapies but does not mention the claim’s added condition that this is consistent with the complexity of disease networks."
+    },
+    {
+      "id": "cs-0026",
+      "gold": "support",
+      "pred": "support",
+      "why": "证据第一句与 claim 完全一致，明确支持从辽宁义县组描述早白垩纪鸟新种。"
+    },
+    {
+      "id": "cs-0028",
+      "gold": "contradict",
+      "pred": "contradict",
+      "why": "证据说“提高人才培养质量”，而主张说“降低人才培养质量”，方向相反。"
+    },
+    {
+      "id": "cs-0029",
+      "gold": "partial",
+      "pred": "partial",
+      "why": "evidence 只复述并支持了 claim 中地理特征对旅游资源开发影响这一部分，未涉及“旅游资源是促进旅游业发展的重要因素”。"
+    },
+    {
+      "id": "cs-0031",
+      "gold": "partial",
+      "pred": "partial",
+      "why": "证据仅支持AIC用于识别影响量特点的主要基因，未涉及与象材料世代、主要基因存在时用分离分析估计基因效果等内容。"
+    },
+    {
+      "id": "cs-0032",
+      "gold": "support",
+      "pred": "support",
+      "why": "evidence 第一句与 claim 核心表述完全一致，明确支持语言是思维表达方式、最具影响力的交流工具及联系个体与群体意识的纽带。"
+    },
+    {
+      "id": "cs-0034",
+      "gold": "partial",
+      "pred": "support",
+      "why": "evidence 直接陈述了与 claim 核心结论相同的说法，即互联网经济已成为社会经济发展中的最大增量。"
+    },
+    {
+      "id": "cs-0035",
+      "gold": "support",
+      "pred": "support",
+      "why": "evidence 与 claim 完全一致，明确支持其核心意思。"
+    },
+    {
+      "id": "cs-0036",
+      "gold": "support",
+      "pred": "support",
+      "why": "evidence 直接复述了 claim 的内容，并补充说明 CD 对品红酸具有优良吸附能力且可循环再利用。"
+    },
+    {
+      "id": "cs-0037",
+      "gold": "partial",
+      "pred": "partial",
+      "why": "证据只重复了“在某些方面比常规 HEMA 更适合作为接触透镜材料”这一部分，未涉及“本研究是对聚乙烯醇性质的调查”这一条件。"
+    },
+    {
+      "id": "cs-0039",
+      "gold": "no_evidence",
+      "pred": "no_evidence",
+      "why": "证据讨论的是腰椎间盘突出患者的中医针灸治疗，与高校体育教育是否成为重点研究课题无关。"
+    },
+    {
+      "id": "cs-0040",
+      "gold": "contradict",
+      "pred": "contradict",
+      "why": "证据强调“有效性的思维模式”，而主张说的是“无效性的思维模式”，关键表述方向相反。"
+    },
+    {
+      "id": "cs-0043",
+      "gold": "no_evidence",
+      "pred": "no_evidence",
+      "why": "evidence 讨论的是光频域反射(OFDR)光纤测量技术，未涉及英语教育或职业英语教学内容。"
+    },
+    {
+      "id": "cs-0044",
+      "gold": "support",
+      "pred": "support",
+      "why": "evidence 明确重复并进一步说明 Ca2+ 和 Fe3+ 在锂辉石和绿玉上的作用被研究且显示有效激活，直接支持 claim。"
+    },
+    {
+      "id": "cs-0046",
+      "gold": "partial",
+      "pred": "partial",
+      "why": "证据只支持“随机分为观察组和对照组”，未涉及80例、急性阑尾炎、时间范围及每组40例。"
+    },
+    {
+      "id": "cs-0047",
+      "gold": "support",
+      "pred": "support",
+      "why": "evidence首句与claim表述完全一致，明确支持claim的核心意思。"
+    },
+    {
+      "id": "cs-0048",
+      "gold": "support",
+      "pred": "support",
+      "why": "evidence明确复述了claim的核心结论，并补充了实验组表现和满意度等支持性细节，未添加与claim冲突的条件。"
+    },
+    {
+      "id": "cs-0049",
+      "gold": "partial",
+      "pred": "partial",
+      "why": "证据只确认了锻烧条件（压碎弄干后、800°C、2 h、炉中），但未支持 claim 中“作为废物蛋壳再利用材料准备的预处理过程”这一目的/用途表述。"
+    },
+    {
+      "id": "cs-0050",
+      "gold": "partial",
+      "pred": "partial",
+      "why": "证据只支持“大学时期是青年学生成长的人生重要阶段”，未涉及“人格发展的最佳时期”。"
+    },
+    {
+      "id": "cs-0052",
+      "gold": "no_evidence",
+      "pred": "no_evidence",
+      "why": "evidence 讨论粒子场重建的 PRCNN 方法，完全未涉及互联网发展或乡村振兴。"
+    },
+    {
+      "id": "cs-0053",
+      "gold": "no_evidence",
+      "pred": "no_evidence",
+      "why": "evidence 讨论低渗透水库的排水量测试与井测试解释，完全未涉及骨科创伤及感染创面患者的随机分组或VSD疗效对比。"
+    },
+    {
+      "id": "cs-0055",
+      "gold": "no_evidence",
+      "pred": "no_evidence",
+      "why": "证据内容是关于高职院校课程思政和外贸类专业，与氨基酸处理对植物硝酸盐浓度的作用完全无关。"
+    },
+    {
+      "id": "cs-0058",
+      "gold": "no_evidence",
+      "pred": "no_evidence",
+      "why": "证据讨论太赫兹超表面器件与极化波操控，未涉及信息化时代、互联网+、ICT技术或学科教学变革。"
+    },
+    {
+      "id": "cs-0061",
+      "gold": "partial",
+      "pred": "partial",
+      "why": "证据仅支持RDTS因长期稳定性成为最早商业化光纤传感产品之一，未涉及在油气勘探市场占据半壁江山。"
+    },
+    {
+      "id": "cs-0063",
+      "gold": "contradict",
+      "pred": "contradict",
+      "why": "evidence 说“提升农民经济收入”，而 claim 说“降低农民经济收入”，方向相反。"
+    },
+    {
+      "id": "cs-0065",
+      "gold": "partial",
+      "pred": "partial",
+      "why": "evidence 只重复了“土壤环境影响生活质量”这一结论，未支持“土壤是地球重要组成元素和人类生存基础”等前提。"
+    },
+    {
+      "id": "cs-0069",
+      "gold": "support",
+      "pred": "support",
+      "why": "证据第一句与claim完全一致，明确支持其核心意思。"
+    },
+    {
+      "id": "cs-0070",
+      "gold": "support",
+      "pred": "support",
+      "why": "证据原文包含了claim关于胶质瘤最常见恶性中枢神经系统肿瘤及分析WHO 2/3级患者ITGB1表达与低级别胶质瘤预后价值的核心陈述。"
+    },
+    {
+      "id": "cs-0072",
+      "gold": "partial",
+      "pred": "partial",
+      "why": "证据只确认《民法典》是典型私法规范，未涉及或支持其蕴涵行政控权功能这一核心结论。"
+    },
+    {
+      "id": "cs-0074",
+      "gold": "no_evidence",
+      "pred": "no_evidence",
+      "why": "证据讨论的是癌症患者中医护理与灵性健康，与油气富集位置完全无关。"
+    },
+    {
+      "id": "cs-0075",
+      "gold": "support",
+      "pred": "support",
+      "why": "evidence首句与claim完全一致，并进一步说明只重知识不重德育已不适应时代，明确支持德育成为学校教育首要环节的结论。"
+    },
+    {
+      "id": "cs-0078",
+      "gold": "support",
+      "pred": "support",
+      "why": "evidence 第一句与 claim 的核心表述完全一致，明确支持该结论。"
+    },
+    {
+      "id": "cs-0079",
+      "gold": "contradict",
+      "pred": "contradict",
+      "why": "evidence 说中华优秀传统文化“传播力的提升”具有深远意义，而 claim 说“传播力的降低”具有深远意义，方向相反。"
+    },
+    {
+      "id": "cs-0081",
+      "gold": "support",
+      "pred": "support",
+      "why": "证据直接重复了claim的核心内容，即人参皂甙是主要部件且Rg3是最重要部分之一。"
+    },
+    {
+      "id": "cs-0082",
+      "gold": "contradict",
+      "pred": "contradict",
+      "why": "claim称产后出血导致的孕产妇死亡大幅增加，而evidence称已大幅减少，方向相反。"
+    },
+    {
+      "id": "cs-0083",
+      "gold": "contradict",
+      "pred": "contradict",
+      "why": "evidence 说的是保障光纤光栅传感技术“有效应用”，而 claim 写的是“无效应用”，关键结论方向相反。"
+    },
+    {
+      "id": "cs-0084",
+      "gold": "contradict",
+      "pred": "contradict",
+      "why": "claim 说生活水平与质量不断降低，而 evidence 说不断提高，方向相反。"
+    },
+    {
+      "id": "cs-0085",
+      "gold": "contradict",
+      "pred": "contradict",
+      "why": "evidence 说通过“有效途径”提升质量，而 claim 说通过“无效途径”，方向相反。"
+    },
+    {
+      "id": "cs-0087",
+      "gold": "support",
+      "pred": "support",
+      "why": "evidence 的第一句与 claim 完全一致，明确调查了不同试验条件下沉积物的表面形态学和 XRD 模式。"
+    },
+    {
+      "id": "cs-0090",
+      "gold": "support",
+      "pred": "support",
+      "why": "证据首句与原句完全一致，明确支持该claim的核心意思。"
+    },
+    {
+      "id": "cs-0091",
+      "gold": "support",
+      "pred": "support",
+      "why": "evidence 第一句与 claim 完全一致，直接复述了“物质文明飞速发展的今天，越来越多人重视精神文明建设”这一结论。"
+    },
+    {
+      "id": "cs-0094",
+      "gold": "support",
+      "pred": "support",
+      "why": "evidence 明确包含与 claim 完全一致的研究目的与调查方法表述，直接支持该 claim。"
+    },
+    {
+      "id": "cs-0096",
+      "gold": "support",
+      "pred": "support",
+      "why": "证据第一句与 claim 完全一致，明确支持其核心意思。"
+    },
+    {
+      "id": "cs-0097",
+      "gold": "no_evidence",
+      "pred": "no_evidence",
+      "why": "evidence 讨论国学经典的价值，完全未涉及报纸、扫描电子显微镜或磷吸附等内容。"
+    },
+    {
+      "id": "cs-0098",
+      "gold": "support",
+      "pred": "support",
+      "why": "evidence 直接复述了 claim 的核心表述，明确支持数字赋能是现阶段课后体育服务高质量发展的题中之义。"
+    }
+  ]
+}

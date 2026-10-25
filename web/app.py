@@ -90,7 +90,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.6", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.7", lifespan=lifespan)
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
 
@@ -675,6 +675,19 @@ def _benchmark_context() -> dict:
             }
         except Exception:
             support_audit = None
+    holdout_path = config.DATA_DIR / "claimsupport_cn" / "llm_consensus-test.json"
+    if support_audit and holdout_path.exists():
+        try:
+            hold = json.loads(holdout_path.read_text(encoding="utf-8"))["metrics"]
+            support_audit["holdout"] = {
+                "n": hold.get("n"),
+                "majority_agreement": hold.get("majority_vs_constructed", {}).get("agreement"),
+                "majority_kappa": hold.get("majority_vs_constructed", {}).get("kappa"),
+                "product_accuracy": (hold.get("product") or {}).get("accuracy_vs_majority"),
+                "product_macro_f1": (hold.get("product") or {}).get("macro_f1_vs_majority"),
+            }
+        except Exception:
+            pass
     return {
         "benchmark": benchmark,
         "support": support,
@@ -1099,4 +1112,4 @@ def benchmark_api():
 
 @app.get("/api/health")
 def health():
-    return {"ok": True, "version": "0.9.6", "supported": sorted(ALLOWED_SUFFIXES)}
+    return {"ok": True, "version": "0.9.7", "supported": sorted(ALLOWED_SUFFIXES)}

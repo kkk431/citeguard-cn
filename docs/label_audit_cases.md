@@ -52,6 +52,29 @@
 4. **cs-0001、cs-0056** 是构造标签自己的边界问题（逐字相同但 evidence 多了设计描述），
    三个模型都判 support；这也解释了为什么"多数票 vs 构造标签"有 11 条分歧。
 
+
+## 留出集验证（test 60）
+
+100 条审计做完后，为了排除“在同一批样本上解释”，把三模型盲标原样跑到 **test 60**
+（split 见 `data/claimsupport_cn/split_seed20261024.json`，test 未参与 prompt 调整）：
+
+| 指标 | test 60 | 全 100 条 |
+|---|---:|---:|
+| 多数票 vs 构造标签 | 0.883 / κ 0.834 | 0.890 / κ 0.843 |
+| 产品 vs 构造标签（准确率） | 0.933 | 0.950 |
+| 产品 vs 多数票（准确率） | 0.883 | 0.900 |
+| 产品 vs 多数票（macro-F1） | 0.897 | 0.905 |
+
+7 条产品-多数票分歧的构成与 100 条同型：**5 条产品与构造标签一致**（4 条背景从句
+→partial：cs-0025/0034/0037/0049；1 条方向反转：cs-0083 有效/无效），
+**2 条产品比构造标签更严格**（cs-0024 只重复研究目的、cs-0048 少「沟通能力」维度）。
+分类型看，产品对 partial 的 precision 0.647（多数票把 6 条背景缺失案例判成 support），
+recall 1.0；contradict F1 0.941、no_evidence F1 1.0。
+
+结论：留出集上的模式与 100 条一致——**不是过拟合**，产品对“严格覆盖”的坚持在 hold-out
+上同样表现为 partial 多发、support 少发。证据：`data/claimsupport_cn/llm_consensus-test.json`、
+`llm_annotation_{deepseek-test,qwen3-8b-test,deepseek-reasoner-test}.json`。
+
 ## 结论与用法
 
 - 对外的主数字仍用 **构造标签口径 0.9597**（可复现、标签由构造决定），

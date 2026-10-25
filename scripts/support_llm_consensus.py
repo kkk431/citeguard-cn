@@ -10,10 +10,15 @@ plus the shipped product predictions (`results.json`), then reports:
 - the disagreement list (candidate label noise).
 
 This is an *LLM-consensus audit*, not a human-labeled gold set.
+
+Usage:
+  python scripts/support_llm_consensus.py                 # all 100
+  python scripts/support_llm_consensus.py --split test    # held-out 60
 """
 
 from __future__ import annotations
 
+import argparse
 import json
 import sys
 from itertools import combinations
@@ -55,18 +60,34 @@ def f1_macro(gold: list[str], pred: list[str]) -> tuple[float, dict[str, dict]]:
     return sum(v["f1"] for v in per_class.values()) / len(LABELS), per_class
 
 
+def split_ids(split: str) -> set[str] | None:
+    if split == "all":
+        return None
+    data = json.loads((DATA / "split_seed20261024.json").read_text(encoding="utf-8"))
+    return set(data[split])
+
+
 def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--split", choices=["all", "dev", "test"], default="all",
+                        help="which held-out split to audit (default: all 100)")
+    args = parser.parse_args()
+
     rows = [json.loads(line) for line in (DATA / "claimsupport_cn.jsonl").read_text(encoding="utf-8").splitlines()
             if line.strip()]
-    gold = {r["id"]: r["label"] for r in rows}
+    wanted = split_ids(args.split)
+    gold = {r["id"]: r["label"] for r in rows if wanted is None or r["id"] in wanted}
+    ids = sorted(gold)
+    suffix = "" if args.split == "all" else f"-{args.split}"
 
     annotators: dict[str, dict[str, str]] = {}
-    for path in sorted(DATA.glob("llm_annotation_*.json")):
+    for path in sorted(DATA.glob(f"llm_annotation_*{suffix}.json")):
         run = json.loads(path.read_text(encoding="utf-8"))
-        if len(run.get("predictions", [])) < len(rows) * 0.9:
-            print(f"skip {path.name}: only {len(run.get('predictions', []))} predictions", file=sys.stderr)
+        preds = {p["id"]: p["pred"] for p in run["predictions"] if p["id"] in gold}
+        if len(preds) < len(ids) * 0.9:
+            print(f"skip {path.name}: only {len(preds)}/{len(ids)} predictions", file=sys.stderr)
             continue
-        annotators[run["tag"]] = {p["id"]: p["pred"] for p in run["predictions"]}
+        annotators[run["tag"]] = preds
     if len(annotators) < 2:
         sys.exit("need at least two complete annotator runs")
 
@@ -74,9 +95,7 @@ def main() -> None:
     results_path = DATA / "results.json"
     if results_path.exists():
         res = json.loads(results_path.read_text(encoding="utf-8"))
-        product = {p["id"]: p["pred"] for p in res["predictions"]}
-
-    ids = sorted(gold)
+        product = {p["id"]: p["pred"] for p in res["predictions"] if p["id"] in gold}
 
     # pairwise annotator agreement (only ids both annotators cover)
     pairwise = {}
@@ -109,6 +128,7 @@ def main() -> None:
 
     constructed_vs_majority = [(gold[i], majority[i]) for i in ids]
     metrics = {
+        "split": args.split,
         "n": len(ids),
         "annotators": list(annotators),
         "pairwise": pairwise,
@@ -134,18 +154,20 @@ def main() -> None:
               "votes": {t: annotators[t][i] for t in annotators if i in annotators[t]},
               "product": product.get(i, "")}
              for i in ids if gold[i] != majority[i]]
-    out = {"generated_by": "scripts/support_llm_consensus.py", "metrics": metrics,
-           "disagreements": noise,
+    out = {"generated_by": "scripts/support_llm_consensus.py", "split": args.split,
+           "metrics": metrics, "disagreements": noise,
            "items": [{"id": i, "constructed": gold[i], "majority": majority[i],
                       "annotator_votes": {t: annotators[t][i] for t in annotators if i in annotators[t]},
                       "product": product.get(i, "")} for i in ids]}
-    (DATA / "llm_consensus.json").write_text(json.dumps(out, ensure_ascii=False, indent=2), encoding="utf-8")
+    out_path = DATA / f"llm_consensus{suffix}.json"
+    out_path.write_text(json.dumps(out, ensure_ascii=False, indent=2), encoding="utf-8")
 
     print(json.dumps(metrics, ensure_ascii=False, indent=2))
     print("\nconstructed-label disagreements:", len(noise))
     for row in noise[:15]:
         print(" ", row["id"], row["constructed"], "->", row["majority"],
               "votes", row["votes"], "product", row["product"])
+    print(f"\nwrote {out_path}")
 
 
 if __name__ == "__main__":

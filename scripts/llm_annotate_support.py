@@ -42,11 +42,25 @@ RUBRIC = """你是独立的文献评审员。给你一条 claim（论文中的�
 不要输出其他内容。"""
 
 
-def _read_items(limit: int | None) -> list[dict]:
+def _split_ids(split: str) -> set[str] | None:
+    if split == "all":
+        return None
+    path = DATA / "split_seed20261024.json"
+    data = json.loads(path.read_text(encoding="utf-8"))
+    if "dev" not in data or "test" not in data:
+        raise SystemExit(f"unexpected split file format: {path}")
+    ids = data[split]
+    return set(ids)
+
+
+def _read_items(limit: int | None, split: str = "all") -> list[dict]:
+    wanted = _split_ids(split)
     rows = []
     for line in DATASET.read_text(encoding="utf-8").splitlines():
         if line.strip():
-            rows.append(json.loads(line))
+            row = json.loads(line)
+            if wanted is None or row["id"] in wanted:
+                rows.append(row)
     return rows[:limit] if limit else rows
 
 
@@ -98,7 +112,7 @@ def _kappa(pairs: list[tuple[str, str]]) -> float:
 
 
 def run(args: argparse.Namespace) -> None:
-    items = _read_items(args.limit)
+    items = _read_items(args.limit, args.split)
     results: dict[str, dict] = {}
     errors: dict[str, str] = {}
     out_path = DATA / f"llm_annotation_{args.tag}.json"
@@ -123,7 +137,7 @@ def run(args: argparse.Namespace) -> None:
             else:
                 errors[item_id] = err or "unknown"
 
-    gold = {it["id"]: it["label"] for it in _read_items(args.limit)}
+    gold = {it["id"]: it["label"] for it in _read_items(None, args.split)}
     pairs = [(gold[i], results[i]["label"]) for i in results]
     n = len(pairs)
     agreement = sum(1 for a, b in pairs if a == b) / n if n else 0.0
@@ -177,6 +191,7 @@ def main() -> None:
     parser.add_argument("--base-url", default=os.environ.get("DEEPSEEK_BASE_URL", "https://api.deepseek.com"))
     parser.add_argument("--api-key", default=os.environ.get("DEEPSEEK_API_KEY", ""))
     parser.add_argument("--limit", type=int, default=100)
+    parser.add_argument("--split", choices=["dev", "test", "all"], default="all")
     parser.add_argument("--workers", type=int, default=6)
     parser.add_argument("--report", action="store_true")
     parser.add_argument("--resume", action="store_true")

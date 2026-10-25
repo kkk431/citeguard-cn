@@ -1,6 +1,8 @@
 {
   "generated_by": "scripts/support_llm_consensus.py",
+  "split": "all",
   "metrics": {
+    "split": "all",
     "n": 100,
     "annotators": [
       "deepseek-reasoner",
