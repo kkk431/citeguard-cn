@@ -1,0 +1,97 @@
+{
+  "generated_at": "2026-10-25T11:52:33",
+  "model": "qwen3-14b",
+  "elapsed_s": 43.9,
+  "fields": [
+    {
+      "key": "research_question",
+      "label": "研究问题"
+    },
+    {
+      "key": "method",
+      "label": "方法 / 设计"
+    },
+    {
+      "key": "data",
+      "label": "数据 / 样本"
+    },
+    {
+      "key": "findings",
+      "label": "主要结论"
+    },
+    {
+      "key": "limitations",
+      "label": "局限"
+    },
+    {
+      "key": "contribution",
+      "label": "贡献 / 创新点"
+    }
+  ],
+  "papers": [
+    {
+      "name": "hanspub_152572",
+      "chars": 11248,
+      "fields": {
+        "research_question": "电商经济背景下园林元素促进文旅融合发展的营销策略",
+        "method": "",
+        "data": "",
+        "findings": "园林元素在文旅融合中面临产品体系失衡、内容营销浅层化、产业链条割裂及复合型人才匮乏等困境，需通过营销策略升级实现价值跃迁",
+        "limitations": "",
+        "contribution": "为电商经济背景下园林文旅的高质量发展提供实践指引与理论指导"
+      },
+      "error": "",
+      "cached": false,
+      "excerpt_chars": 3600,
+      "latency_ms": 9907
+    },
+    {
+      "name": "hanspub_152573",
+      "chars": 9979,
+      "fields": {
+        "research_question": "电子商务平台数据安全困境及优化路径",
+        "method": "结合行业运行实际，分析监管层面的困境与局限",
+        "data": "电商平台数据安全监管现状及行业运行实际",
+        "findings": "数据泄露、过度采集、违规共享、算法滥用等问题频发，监管存在局限",
+        "limitations": "原文未提及",
+        "contribution": "提出制度完善、平台治理、技术赋能、协同监管等优化对策"
+      },
+      "error": "",
+      "cached": false,
+      "excerpt_chars": 3600,
+      "latency_ms": 9945
+    },
+    {
+      "name": "hanspub_152574",
+      "chars": 10598,
+      "fields": {
+        "research_question": "内容电商场景中传媒生产的新特征、核心生产要素及交易闭环机制",
+        "method": "基于媒介经营与管理理论，结合跨学科理论体系进行分析与阐释",
+        "data": "",
+        "findings": "内容电商中传媒生产呈现消费驱动、平台依赖、数据闭环三大特征，新型生产要素占据主导地位",
+        "limitations": "",
+        "contribution": "提出内容电商中传媒生产的核心要素与闭环机制，构建跨学科理论工具与运营框架"
+      },
+      "error": "",
+      "cached": false,
+      "excerpt_chars": 3600,
+      "latency_ms": 10655
+    },
+    {
+      "name": "hanspub_152575",
+      "chars": 16717,
+      "fields": {
+        "research_question": "人工智能在电子商务领域应用的研究图景与热点分析",
+        "method": "运用VOSviewer软件进行文献计量与可视化分析",
+        "data": "Web of Science核心合集收录的2016~2025年间593篇相关文献",
+        "findings": "剖析人工智能在电子商务领域的发文特征、研究合作以及热点主题，呈现该领域的研究图景",
+        "limitations": "VOSviewer的关键词共现分析捕捉的主要是表层词汇模式，而非深层概念意涵",
+        "contribution": "构建人工智能在电子商务领域应用的知识图谱，识别研究热点与未来方向"
+      },
+      "error": "",
+      "cached": false,
+      "excerpt_chars": 3600,
+      "latency_ms": 13382
+    }
+  ]
+}

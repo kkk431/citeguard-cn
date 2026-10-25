@@ -58,6 +58,9 @@
 | `vl_synth_results.json` / `vl_real_results.json` | E10：图表结论核验（Qwen2.5-VL-7B）合成 40 条 / 真实 10 条 | `scripts/vl_figtest.py`（需 GPU 服务） | 准确率 **0.90 / 0.90**，误报矛盾 0 |
 | `figure_prompt_eval.json` | E10 续：图表 prompt/上下文消融（50 条；v1 / v2 / v2+上下文） | `scripts/eval_figure_prompt.py`（需 GPU 服务） | v2+上下文 **0.94**（仅图 0.90），误报矛盾 0 |
 
+| `compare_local_qwen3_14b.json` | 多篇文献对比（Qwen3-14B 本地端点）4 篇真实论文工程实测 | 本地脚本 | 4/4 成功，字段 3–6/6，43.9 s/4 篇（约 11 s/篇） |
+| `discover_expand_local_qwen3_14b.json` | 文献发现查询扩展（Qwen3-14B 本地端点）4 个中文主题 | 本地脚本 | 4/4 输出有效英文查询与关键词 |
+
 ## 5. 口径与注意事项
 
 - **代码快照**：`e4_format.json`、`e5_retrieval.json`、`e7_usability.json` 等记录生成时的 `code_snapshot`
