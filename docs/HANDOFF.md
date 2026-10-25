@@ -807,3 +807,17 @@ partial 多发、support 少发。
 - 交付包：`dist/citeguard-cn-0.9.7.zip`（2,182,436 bytes，sha256
   `6eccaa57c56999d4a8619bc4be11218511ddade3ab7038b2461fdabff5ba5032`）。
 - 提交：`582a21c`（已推送）。
+
+## §42 v0.9.8：外部同类工具同题对照（RefChecker）
+
+- 外部工具：`amazon-science/RefChecker`（Apache-2.0），官方 LLMExtractor + LLMChecker 两段式流水线；
+  本地复现放在 `out/refchecker/`（gitignore），不复制其代码、不作为运行依赖。
+- 同一底层模型 DeepSeek-Chat、同一批 SciFact dev 300 条、同一 oracle 摘要：RefChecker macro-F1 **0.7646** /
+  acc 0.7933（混淆 `[[96,3,20],[12,33,18],[6,3,109]]`）；本工作台同题 **0.8224** / 0.7939。
+  差距主要在矛盾类召回（0.524 vs 0.60）。
+- 口径：这是「同数据、同 backbone、按其官方协议」的对照，不是 SOTA 声明，也不能外推为通用提升；
+  RefChecker 面向通用回复-证据幻觉检查，不是引文支持度专用。见 `docs/experiments.md` §14、
+  `data/experiments/scifact_refchecker_deepseek.json`。
+- 产品面：`/benchmark` 「真实已发表论文上的表现」新增外部对照行；`scripts/verify_artifacts.py` 新增
+  3 条数字一致性断言（含「外部低于本工作台」的关系校验，防止未来改数时把结论写反）。
+- 版本 0.9.8；测试 409 passed；`verify_artifacts` 130 项（本机）。

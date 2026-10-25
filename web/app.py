@@ -90,7 +90,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.7", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.8", lifespan=lifespan)
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
 
@@ -577,6 +577,14 @@ def _benchmark_context() -> dict:
             "n": scifact.get("n_claims"),
             "oracle_f1": (scifact_results.get("oracle") or {}).get("macro_f1"),
             "abstract_f1": (scifact_results.get("abstract") or {}).get("macro_f1"),
+        }
+    external = _load_json(exp / "scifact_refchecker_deepseek.json")
+    ext_metrics = external.get("metrics") if external else None
+    if external and ext_metrics:
+        real["external"] = {
+            "n": external.get("n"),
+            "macro_f1": ext_metrics.get("macro_f1"),
+            "accuracy": ext_metrics.get("accuracy"),
         }
     ocr = _load_json(exp / "ocr_scan_real.json")
     if ocr and ocr.get("parsed_refs") is not None:
@@ -1112,4 +1120,4 @@ def benchmark_api():
 
 @app.get("/api/health")
 def health():
-    return {"ok": True, "version": "0.9.7", "supported": sorted(ALLOWED_SUFFIXES)}
+    return {"ok": True, "version": "0.9.8", "supported": sorted(ALLOWED_SUFFIXES)}

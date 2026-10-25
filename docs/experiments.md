@@ -639,3 +639,33 @@ v2 把规则拆成「先判图表、有上下文再判正文」两步；三种�
 **不能用的说法**：「nDCG 0.976 说明排序达到 97.6% 准」——这是关键词代理分，不是准确率，更不是人工相关性结论。
 
 **证据**：`data/experiments/discover_ndcg.json`；复现命令见 `data/experiments/README.md`。
+
+## 14. E14：外部同类工具同题对照（RefChecker + DeepSeek，2026-10-25）
+
+**问题**：内部指标再好，也常被问「和外部同类工具比呢」。需要一个同数据、同底层模型、可复跑的外部对照。
+
+**做法**：用 [amazon-science/RefChecker](https://github.com/amazon-science/RefChecker)（Apache-2.0，通用引文幻觉检查器）
+官方两段式流水线（LLMExtractor 抽三元组 → LLMChecker 逐条判 Entailment/Contradiction/Neutral），
+底层模型同样用 DeepSeek-Chat，证据用 SciFact dev 的 oracle 摘要（与 E7 同一批 300 条、同一标签映射：
+Entailment→SUPPORT、Contradiction→CONTRADICT、Neutral→NOT_ENOUGH_INFO）。评测脚本 `scripts/eval_scifact_refchecker.py`，
+结果 `data/experiments/scifact_refchecker_deepseek.json`。
+
+**结果**（300 条，同一 DeepSeek-Chat）：
+
+| 方法 | macro-F1 | accuracy | 混淆矩阵（行=金标，列=预测） |
+|---|---|---|---|
+| RefChecker 官方流水线 | **0.7646** | 0.7933 | `[[96,3,20],[12,33,18],[6,3,109]]` |
+| 本工作台（E7 同题） | **0.8224** | 0.7939 | 见 E7 |
+
+RefChecker 分类别：SUPPORT P 0.842 / R 0.807 / F1 0.824；CONTRADICT P 0.846 / R 0.524 / F1 0.647；
+NOT_ENOUGH_INFO P 0.742 / R 0.924 / F1 0.823。差距主要来自矛盾类召回（0.524 vs 本工作台 0.60）。
+
+**口径与限制**：RefChecker 是「回复—证据」通用幻觉检查器，不是为引文支持度设计；两段式 prompt 来自其仓库，
+其 README 主要面向 GPT-4 级模型；这里只说明「同数据、同 backbone 下本工作台的协议更适合该任务」，
+**不是**说本工作台超过 RefChecker 的最佳水平，也不是 SOTA 声明。
+
+**不能用的说法**：「我们打赢了 RefChecker / 超过 SOTA」；「73%→82% 是通用提升」（只在 SciFact 这一批、
+同一 backbone 上成立）。 
+
+**证据**：`data/experiments/scifact_refchecker_deepseek.json`、`scripts/eval_scifact_refchecker.py`；
+复现命令见 `data/experiments/README.md`。

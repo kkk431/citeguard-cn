@@ -28,6 +28,7 @@
 | 3g | 多篇文献对比抽取 | **4/4 篇成功、托管总耗时 8.0 s**（约 2 s/篇；本地 14B 43.9 s/4 篇），每篇 5–6/6 字段；「局限」3 篇留「未提及」（摘要本身不写） | 4 篇真实中文论文；无字段准确率标注集，只有工程实测 | `data/experiments/compare_real.json` |
 | 3j | 支持度标签审计（LLM 共识，非人工） | 100 条：多数票 vs 构造 **0.89 / κ 0.8425**；产品 vs 多数票 **0.90 / macro-F1 0.9049**；留出 test 60 复验 **0.883 / 0.897** | 三模型盲标；10 条产品-共识分歧中 8 条产品与构造标签一致，2 条产品更严格；不是人工标注 | `docs/label_audit_cases.md` |
 | 3h | 图表核验跨模型对照（Qwen2.5-VL-3B，Apache-2.0） | 同 50 条：3B 仅图 **0.64**、带上下文 **0.86**；矛盾类召回只有 0.32 / 0.72，会把矛盾判成支持 | 3B 只适合「支持类」初筛，**不用于矛盾筛查**；产品仍默认 7B | `data/experiments/figure_prompt_eval_3b.json` |
+| 3k | 外部同类工具同题对照（RefChecker 官方流水线 + 同一 DeepSeek-Chat） | SciFact dev 300 条：RefChecker **macro-F1 0.765 / acc 0.793**；本工作台同题 **0.822 / 0.794**；差距在矛盾类召回（0.52 vs 0.60） | `data/experiments/scifact_refchecker_deepseek.json` |
 | 4 | 导入本地题录库后的可判定率 | **409 / 409（100%）**，字段偏差 4 条 | 库由 20 篇论文发布版参考文献构建 | `data/experiments/library_real.json` |
 | 5 | 参考文献解析干净率 | **100%**（发布版文字 409 条）/ **99.6%**（PDF 抽取 529 条，逐条） | 22 篇真实论文 | `data/experiments/parse_real.json` |
 | 5b | 扫描件 OCR 兜底 | 纯图片 PDF 仍能解析 **23/24 条**（题名/年/作者 23/23） | 7 页真实论文扫描版，CPU 约 43 s | `data/experiments/ocr_scan_real.json` |
@@ -75,7 +76,8 @@ PYTHONPATH=src python scripts/eval_verify_real.py           # 真实文献误报
 PYTHONPATH=src python scripts/eval_real_mutation.py          # 真实文献注入错误检出（需网络）
 PYTHONPATH=src python scripts/eval_library_real.py          # 本地题录库覆盖率实测
 PYTHONPATH=src python scripts/e4_format_check.py            # 格式规则回归
-PYTHONPATH=src python scripts/verify_artifacts.py           # 数据集/结果/文档数字一致性（118 项；加 --api-base 共 127 项）
+PYTHONPATH=src python scripts/verify_artifacts.py           # 数据集/结果/文档数字一致性（加 --api-base 共 127 项）
+PYTHONPATH=out/refchecker DEEPSEEK_API_KEY=... out/rcenv/bin/python scripts/eval_scifact_refchecker.py --limit 0  # 外部对照（需先装 RefChecker）
 ```
 
 图表核验的复现命令（需要 GPU 主机）见 [figure_check.md](figure_check.md)：`make_synth_figtest.py` 生成控例，
@@ -93,3 +95,4 @@ PYTHONPATH=src python scripts/verify_artifacts.py           # 数据集/结果/�
 8. **不要说「图表核验 94%，可以替代人工看图」**：50 条里真实图只有 5 张、结论是人工写的，样本很小；0.94 是「粘贴正文/图注后」的口径，仅图是 0.90。它只判「这张图/这段正文和这句话是否一致」，不做版面分析、不核对图表数据来源，`insufficient` 仍需人工看。
 9. **不要说「多篇对比能自动写综述 / 字段准确率 90%」**：字段是模型从摘要与正文前部抽的，没有字段级标注集；只有 4 篇真实论文的工程实测（4/4 成功、8.0 秒、每篇 5–6/6 字段）。它把论文并排成矩阵，不做跨文献综合，研究空白仍要人来写。
 10. **不要说「文献发现能替代知网检索 / 排序很准」**：它只查 OpenAlex 开放元数据，中文召回取决于 OpenAlex 覆盖；查询扩展依赖判定模型，不可用时会退化为原查询；排序是写死的启发式规则，没有任何 relevance 标注集，不报告 NDCG/准确率；入库只存题录，不等于已核验。
+11. **不要说「我们打赢了 RefChecker」**：那是同数据（SciFact 300 条）、同底层模型（DeepSeek-Chat）、按其官方两段式流水线的对照；RefChecker 是通用「回复—证据」幻觉检查器，不是为引文支持度设计，其 README 主要面向 GPT-4 级模型。只能说「在本任务上，本工作台的协议更合适（macro-F1 0.822 vs 0.765）」。

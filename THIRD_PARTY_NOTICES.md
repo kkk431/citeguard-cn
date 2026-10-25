@@ -204,3 +204,9 @@ OpenAI 兼容的 `/v1/chat/completions` 调用视觉模型；`scripts/local_vl_s
 ## 8. 自研边界（不属于第三方资源）
 
 `src/citeguard/` 下全部模块为自研：中文引文解析器、元数据核验与三分类判定、GB/T 7714-2025 规则引擎、引用支持度编排、报告与 Web 工作台、评测脚本与两套数据集构造脚本。第三方资源只承担「元数据来源」「PDF 文本抽取」「HTTP/Web 框架」三类基础能力。
+
+## 6. 外部对照工具（仅用于评测，不作为运行依赖）
+
+- **RefChecker**（`amazon-science/RefChecker`，Apache-2.0）：用于 E14 的外部同题对照。
+  本地复现时只把它克隆到 `out/refchecker/`（gitignore），通过其官方 LLM 两段式流水线调用
+  DeepSeek-Chat；不复制其代码进本仓库、不作为产品依赖。数值口径见 `docs/experiments.md` §14。

@@ -107,6 +107,9 @@ CODE_CLAIMS = (
     ("docs/ppt_numbers.md", "29 / 30", "one-pager drift claim"),
     ("docs/ppt_numbers.md", "197 / 200", "one-pager mutation detection"),
     ("docs/ppt_numbers.md", "0.7181", "one-pager local GPU pilot"),
+    ("README.md", "0.765", "RefChecker external macro-F1"),
+    ("docs/ppt_numbers.md", "0.765", "one-pager RefChecker external macro-F1"),
+    ("docs/experiments.md", "0.7646", "E14 RefChecker macro-F1"),
     ("docs/real_data_eval.md", "125（30.6%）", "real-corpus Exact count stays in sync"),
     ("docs/real_data_eval.md", "197（48.2%）", "real-corpus Unverified count stays in sync"),
     ("README.md", "0.94", "figure check v2 with context accuracy"),
@@ -181,6 +184,16 @@ def _check_experiments(c: "Checker") -> None:
         for setting in ("oracle", "abstract"):
             c.check(0 < (scifact["results"].get(setting) or {}).get("macro_f1", 0) <= 1,
                     f"SciFact {setting} macro_f1 in (0,1]")
+
+    external = _load_json(EXPERIMENTS / "scifact_refchecker_deepseek.json") or {}
+    ext_metrics = external.get("metrics") or {}
+    if ext_metrics:
+        c.check(external.get("n") == 300, "E14 external comparison uses the 300-claim SciFact dev set")
+        c.check(0 < ext_metrics.get("macro_f1", 0) <= 1, "E14 external macro_f1 in (0,1]")
+        if scifact.get("results"):
+            ours = (scifact["results"].get("oracle") or {}).get("macro_f1", 0)
+            c.check(ext_metrics["macro_f1"] < ours,
+                    "E14 external RefChecker macro_f1 is below our SciFact oracle result (comparison is honest)")
 
     ocr = _load_json(EXPERIMENTS / "ocr_scan_real.json") or {}
     if ocr:

@@ -342,6 +342,16 @@
           <td class="mono-sm">{{ real.scifact.n }} 条英文 claim（未训练/微调，四分类映射三分类）</td>
         </tr>
         {% endif %}
+        {% if real.external %}
+        <tr>
+          <td>外部同类工具 · RefChecker 官方流水线（同一 DeepSeek-Chat）</td>
+          <td class="mono-sm">
+            macro-F1 {{ '%.3f'|format(real.external.macro_f1) }}
+            · accuracy {{ '%.3f'|format(real.external.accuracy) }}
+          </td>
+          <td class="mono-sm">{{ real.external.n }} 条 SciFact dev；通用引文幻觉检查器，非引文支持度专用，口径见 docs/experiments.md §14</td>
+        </tr>
+        {% endif %}
       </tbody>
     </table>
   </div>
