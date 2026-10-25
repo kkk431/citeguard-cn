@@ -233,6 +233,28 @@
     </table>
   </div>
   {% endfor %}
+  {% if real.figure_external %}
+  <div class="panel table-wrap" style="padding:0;margin-bottom:14px">
+    <p class="mono-sm" style="margin:12px 16px 0;color:var(--muted)">外部公开基准 · {{ real.figure_external.dataset }} · 零样本 {{ real.figure_external.n }} 条（一步 prompt）</p>
+    <table class="table">
+      <thead><tr><th>模型</th><th>二分类 acc</th><th>二分类 macro-F1</th><th>3 分类 acc</th><th>3 分类 macro-F1</th><th>信息不足占比</th><th>平均延迟</th></tr></thead>
+      <tbody>
+        {% for cm in real.figure_external.models %}
+        <tr>
+          <td class="mono-sm">{{ cm.model }}</td>
+          <td class="mono-sm"><b>{{ '%.0f%%'|format(cm.binary_accuracy * 100) }}</b></td>
+          <td class="mono-sm">{{ '%.0f%%'|format(cm.binary_macro_f1 * 100) }}</td>
+          <td class="mono-sm">{{ '%.0f%%'|format(cm.accuracy * 100) }}</td>
+          <td class="mono-sm">{{ '%.0f%%'|format(cm.macro_f1 * 100) }}</td>
+          <td class="mono-sm">{{ '%.0f%%'|format(cm.insufficient_rate * 100) }}</td>
+          <td class="mono-sm">{{ '%.2f'|format(cm.latency_s) }} s</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <p class="mono-sm" style="margin:8px 16px 12px;color:var(--muted)">ChartCheck 的 FALSE =「图不支持该结论」，二分类把 contradicted 与 insufficient 都算 not_supported；200 条 v3（分步）复跑因网络中断作废，表格只列一步口径。</p>
+  </div>
+  {% endif %}
   <p class="mono-sm" style="color:var(--muted);line-height:1.8;margin-top:10px">
     7B 的 0.94 是「带上下文」口径，仅图是 0.90；真实图只有 5 张 / 10 条结论，不当作大样本精度承诺。
     3B 的错法几乎全是「把矛盾判成支持」（仅图 17/25、带上下文 7/25），<b>不能用于矛盾筛查</b>，只适合做廉价的“支持类”初筛。

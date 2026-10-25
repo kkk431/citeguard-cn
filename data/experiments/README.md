@@ -82,3 +82,4 @@
 - **诚实边界**：构造集（CiteBench-CN / ClaimSupport-CN）的标签由构造过程决定，不是人工双标；真实语料评测是
   内部实验，没有真人用户研究。所有口径与「不能这么说」见 `docs/ppt_numbers.md`。
 | `scifact_refchecker_deepseek.json` | E14 外部对照：RefChecker+DeepSeek 在 SciFact 300 条 | `scripts/eval_scifact_refchecker.py` |
+| `chartcheck_val200_7b_v1.json` / `chartcheck_val200_8b_v1.json` | 外部 ChartCheck val 953 分层抽 200 条零样本（一步 prompt）；7B / 8B | `scripts/eval_chartcheck.py` | 7B 二分类 0.670/0.644、8B 0.730/0.727；3 分类 0.475/0.645；200 条 v3 复跑因网络中断作废 |

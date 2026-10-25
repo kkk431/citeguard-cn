@@ -90,7 +90,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.15", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.16", lifespan=lifespan)
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
 
@@ -716,6 +716,34 @@ def _benchmark_context() -> dict:
             "runs": figure_models[0]["runs"],
             "models": figure_models,
         }
+    chartcheck = []
+    for name, label in (
+        ("chartcheck_val200_7b_v1.json", "Qwen2.5-VL-7B"),
+        ("chartcheck_val200_8b_v1.json", "Qwen3-VL-8B"),
+    ):
+        data = _load_json(exp / name)
+        if not data or not data.get("sample"):
+            continue
+        conf = data.get("confusion") or {}
+        insuff = sum((conf.get(g) or {}).get("insufficient", 0) for g in conf)
+        chartcheck.append(
+            {
+                "model": label,
+                "n": data.get("sample"),
+                "binary_accuracy": data.get("binary_accuracy"),
+                "binary_macro_f1": data.get("binary_supported_macro_f1"),
+                "accuracy": data.get("accuracy"),
+                "macro_f1": data.get("macro_f1"),
+                "insufficient_rate": (insuff / data["sample"]) if data.get("sample") else None,
+                "latency_s": (data.get("latency_ms_mean") or 0) / 1000.0,
+            }
+        )
+    if chartcheck:
+        real["figure_external"] = {
+            "dataset": "ChartCheck（Akhtar et al., ACL 2024 Findings；MIT；val 953 分层抽取）",
+            "n": chartcheck[0]["n"],
+            "models": chartcheck,
+        }
     support_audit = None
     audit_path = config.DATA_DIR / "claimsupport_cn" / "llm_consensus.json"
     if audit_path.exists():
@@ -1168,4 +1196,4 @@ def benchmark_api():
 
 @app.get("/api/health")
 def health():
-    return {"ok": True, "version": "0.9.15", "supported": sorted(ALLOWED_SUFFIXES)}
+    return {"ok": True, "version": "0.9.16", "supported": sorted(ALLOWED_SUFFIXES)}

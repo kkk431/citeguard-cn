@@ -71,7 +71,7 @@ def _download(url: str) -> Path:
     return path
 
 
-def _ask(image: Path, caption: str, claim: str) -> tuple[str, str, float]:
+def _ask(image: Path, caption: str, claim: str, prompt_version: str = None) -> tuple[str, str, float]:
     mime = "image/png" if image.suffix.lower() == ".png" else "image/jpeg"
     b64 = base64.b64encode(image.read_bytes()).decode("ascii")
     body = {
@@ -80,7 +80,7 @@ def _ask(image: Path, caption: str, claim: str) -> tuple[str, str, float]:
             {
                 "role": "user",
                 "content": [
-                    {"type": "text", "text": PROMPTS[PROMPT_VERSION] + f"\n\nCaption: {caption}\nClaim: {claim}"},
+                    {"type": "text", "text": PROMPTS[prompt_version or PROMPT_VERSION] + f"\n\nCaption: {caption}\nClaim: {claim}"},
                     {"type": "image_url", "image_url": {"url": f"data:{mime};base64,{b64}"}},
                 ],
             }
@@ -118,6 +118,7 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--sample", type=int, default=60)
     parser.add_argument("--seed", type=int, default=20261025)
+    parser.add_argument("--prompt", default=PROMPT_VERSION, choices=sorted(PROMPTS))
     parser.add_argument("--out", default="data/experiments/chartcheck_val60.json")
     args = parser.parse_args()
 
@@ -142,7 +143,7 @@ def main() -> int:
         gold = LABEL_MAP[row["label"]]
         try:
             image = _download(row["chart_img"])
-            verdict, reason, elapsed = _ask(image, row.get("caption", ""), row["claim"])
+            verdict, reason, elapsed = _ask(image, row.get("caption", ""), row["claim"], args.prompt)
         except Exception as exc:  # noqa: BLE001
             failures += 1
             verdict, reason, elapsed = "insufficient", f"error: {exc}", 0.0
