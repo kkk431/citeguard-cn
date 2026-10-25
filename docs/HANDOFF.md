@@ -968,3 +968,15 @@ partial 多发、support 少发。
   `dist/citeguard-cn_技术报告_v0.9.15_2026-10-25.pdf`（9 页，569,653 bytes，含 Courier 字体缺失回退提示）。
 - 版本 0.9.15；417 passed；本机 verify 130 项、远端 **139 项**；远端 health v0.9.15。
 - 交付包：`dist/citeguard-cn-0.9.15.zip`（5,845,178 bytes，sha256 `c1d9a6c7…`）。
+
+## §47 v0.9.16：ChartCheck 200 条零样本主口径
+
+- 外部 ChartCheck val 953 分层抽 **200 条**（100/100，seed=20261025），一步 prompt：
+  Qwen2.5-VL-7B 二分类 0.670/0.644、3 分类 0.475/0.576；Qwen3-VL-8B 二分类 **0.730/0.727**、
+  3 分类 0.645/0.714；insufficient 36.0% / 19.5%；延迟 2.80 s / 4.15 s。证据
+  `data/experiments/chartcheck_val200_{7b,8b}_v1.json`。
+- 200 条 v3（分步）复跑因评测网络中断（8B 95 条、7B 149 条 502）作废，文件已删；正式材料只引用一步口径，
+  60 条小样本 v3 0.767 仅作补充观察。
+- `/benchmark` 图表面板新增「外部公开基准 ChartCheck 200 条」表；README/THIRD_PARTY/figure_check/ppt 同步。
+- 技术报告重生成 v0.9.16（10 页，571,902 bytes）：图表章节改为 200 条一步主口径，注明 v3 未完成。
+- 版本 0.9.16；417 passed；本机 verify **134 项**；交付包 `dist/citeguard-cn-0.9.16.zip`。
