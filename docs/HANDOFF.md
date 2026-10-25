@@ -820,4 +820,6 @@ partial 多发、support 少发。
   `data/experiments/scifact_refchecker_deepseek.json`。
 - 产品面：`/benchmark` 「真实已发表论文上的表现」新增外部对照行；`scripts/verify_artifacts.py` 新增
   3 条数字一致性断言（含「外部低于本工作台」的关系校验，防止未来改数时把结论写反）。
-- 版本 0.9.8；测试 409 passed；`verify_artifacts` 130 项（本机）。
+- 版本 0.9.8；测试 409 passed；`verify_artifacts` 本机 130 项、远端（`--api-base`）139 项全过。
+- 交付包：`dist/citeguard-cn-0.9.8.zip`（5,231,272 字节，sha256 `6ecd20bc7bbd66ba1f48e2c490ac23620c19d27c2cffd6542a0107652572b2c7`）；
+  本次起包内含技术报告 PDF/DOCX（报告工作区已 gitignore，打包脚本单独收集），此前版本只有源码/证据。
