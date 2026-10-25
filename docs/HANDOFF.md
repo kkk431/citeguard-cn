@@ -832,3 +832,11 @@ partial 多发、support 少发。
 - 复用 `JobManager.recent()` 与 `_report_path()`；报告保留策略不变（7 天 / 最近 100 条）。
 - `tests/test_web.py` 增加历史页渲染断言（200、含「任务历史」、不含 `sk-`）。
 - 全量 `pytest` 410 passed；`verify_artifacts.py` 130 项；版本 0.9.9。
+
+**验证与发布（v0.9.9，2026-10-25）**
+
+- 本机：410 passed / 130 checks；`/history` 200、含标题、无密钥明文。
+- 远端：`health=0.9.9`、`/history` 200、`verify_artifacts --api-base` **139/139**。
+- 交付包：`dist/citeguard-cn-0.9.9.zip` 5,232,744 字节，
+  sha256 `188441fdbe02cbf8ac98dc7da19b24fab71d9828a3497ac8bd2fd75f48bb8436`。
+- 推送：`2c5869b`（SSH；HTTPS 代理仍不可用）。
