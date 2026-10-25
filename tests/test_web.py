@@ -440,3 +440,23 @@ def test_rate_limit_blocks_post_floods(plain_client, monkeypatch):
     resp = plain_client.post("/api/library/enrich")
     assert resp.status_code == 429
     assert resp.headers.get("Retry-After") == "60"
+
+def test_library_add_accepts_manual_entry(client):
+    payload = {
+        "title": "中文期刊题录手工补录测试",
+        "authors": "张三；李四",
+        "year": "2024",
+        "venue": "某中文期刊",
+    }
+    resp = client.post("/api/library/add", json=payload)
+    assert resp.status_code == 200, resp.text
+    body = resp.json()
+    assert body["added"] == 1 and body["count"] == 1
+
+    again = client.post("/api/library/add", json=payload)
+    assert again.status_code == 200
+    assert again.json()["added"] == 0  # same title deduped
+
+    listing = client.get("/api/library").json()
+    assert listing["count"] == 1
+    assert listing["entries"][0]["title"] == payload["title"]

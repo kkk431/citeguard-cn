@@ -19,7 +19,7 @@ BASE = Path(__file__).resolve().parent          # citeguard/web
 ROOT = BASE.parent                               # citeguard
 sys.path.insert(0, str(ROOT / "src"))
 
-from fastapi import FastAPI, File, Form, HTTPException, Request, Response, UploadFile  # noqa: E402
+from fastapi import Body, FastAPI, File, Form, HTTPException, Request, Response, UploadFile  # noqa: E402
 from fastapi.responses import FileResponse, HTMLResponse, JSONResponse  # noqa: E402
 from fastapi.staticfiles import StaticFiles  # noqa: E402
 from fastapi.templating import Jinja2Templates  # noqa: E402
@@ -31,7 +31,7 @@ from citeguard import discover  # noqa: E402
 from citeguard import figure_check  # noqa: E402
 from citeguard.abstract_enrich import MAX_ENRICH_PER_REQUEST, enrich_missing  # noqa: E402
 from citeguard.jobs import manager  # noqa: E402
-from citeguard.local_library import Library, parse_library_text  # noqa: E402
+from citeguard.local_library import Library, LibraryEntry, parse_library_text  # noqa: E402
 from citeguard.pdf_extract import (  # noqa: E402
     SUPPORTED_SUFFIXES,
     extract_page_text,
@@ -90,7 +90,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.11", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.12", lifespan=lifespan)
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
 
@@ -244,6 +244,44 @@ def library_import(file: UploadFile = File(...)):
         "imported_no_abstract": imported_no_abstract,
         "format_guess": entries[0].source if entries else "",
     }
+
+
+@app.post("/api/library/add")
+def library_add(body: dict = Body(...)):
+    """Append one manually-confirmed record (the Chinese-paper workflow).
+
+    Chinese journals are usually absent from OpenAlex/Crossref, so the honest
+    path is: human checks CNKI/万方/百度学术, then stores the confirmed metadata
+    here once; later runs verify against the local library automatically.
+    """
+    title = str(body.get("title") or "").strip()
+    if not title:
+        raise HTTPException(status_code=400, detail="缺少题名")
+    authors = body.get("authors") or []
+    if isinstance(authors, str):
+        authors = [a for a in re.split(r"[;；、]", authors) if a.strip()]
+    year = body.get("year")
+    try:
+        year = int(year) if year not in (None, "") else None
+    except (TypeError, ValueError):
+        year = None
+    entry = LibraryEntry(
+        title=title,
+        authors=[str(a).strip() for a in authors if str(a).strip()],
+        venue=str(body.get("venue") or "").strip(),
+        year=year,
+        doi=str(body.get("doi") or "").strip(),
+        url=str(body.get("url") or "").strip(),
+        abstract=str(body.get("abstract") or "").strip(),
+        source="manual",
+    )
+    library = Library.load(config.LIBRARY_FILE)
+    before = len(library)
+    library.add([entry])
+    if len(library) == before:
+        return {"added": 0, "count": before, "message": "题录库中已有同题名记录"}
+    library.save(config.LIBRARY_FILE)
+    return {"added": 1, "count": len(library), "title": entry.title}
 
 
 @app.post("/api/library/clear")
@@ -1130,4 +1168,4 @@ def benchmark_api():
 
 @app.get("/api/health")
 def health():
-    return {"ok": True, "version": "0.9.11", "supported": sorted(ALLOWED_SUFFIXES)}
+    return {"ok": True, "version": "0.9.12", "supported": sorted(ALLOWED_SUFFIXES)}

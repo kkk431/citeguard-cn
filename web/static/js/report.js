@@ -513,6 +513,34 @@
       });
     }
 
+    document.addEventListener("click", function (ev) {
+      const btn = ev.target && ev.target.closest ? ev.target.closest(".ref-to-library") : null;
+      if (!btn) return;
+      const payload = {
+        title: btn.getAttribute("data-title") || "",
+        authors: btn.getAttribute("data-authors") || "",
+        year: btn.getAttribute("data-year") || "",
+        venue: btn.getAttribute("data-venue") || "",
+        doi: btn.getAttribute("data-doi") || "",
+      };
+      btn.disabled = true;
+      fetch("/api/library/add", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      })
+        .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+        .then(function (res) {
+          if (!res.ok) throw new Error((res.d && res.d.detail) || "加入失败");
+          btn.textContent = res.d.added ? "已加入题录库" : "题录库中已有";
+          window.CiteGuard.toast(res.d.added ? "已加入题录库，后续核验会自动使用" : "题录库中已有同题名记录");
+        })
+        .catch(function () {
+          btn.disabled = false;
+          window.CiteGuard.toast("加入失败，请稍后重试");
+        });
+    });
+
     apply(data);
   }
 
@@ -723,6 +751,11 @@
             "</div>"
           : "";
         const manualTitle = (item.parsed && item.parsed.title) || "";
+        const addToLibBtn = manualTitle
+          ? ' <button class="btn btn-sm btn-ghost ref-to-library" type="button" data-title="' + esc(manualTitle) +
+            '" data-authors="' + esc((p.authors || []).join("；")) + '" data-year="' + esc(p.year || "") +
+            '" data-venue="' + esc(p.venue || "") + '" data-doi="' + esc(p.doi || "") + '">加入题录库</button>'
+          : "";
         const manualLinks = (v.status === "Unverified" && manualTitle)
           ? '<div class="ref-note">人工核对入口：<a style="color:var(--accent)" target="_blank" rel="noopener" href="https://kns.cnki.net/kns8s/defaultresult/index?kw=' +
               encodeURIComponent(manualTitle) + '">知网检索</a> · <a style="color:var(--accent)" target="_blank" rel="noopener" href="https://xueshu.baidu.com/s?wd=' +
@@ -732,6 +765,7 @@
               (/[\u4e00-\u9fff]/.test(manualTitle)
                 ? "（中文文献不在 OpenAlex/Crossref 覆盖范围，开放索引查不到属正常，需人工核对）"
                 : "") +
+              addToLibBtn +
             "</div>"
           : "";
         const webNote = isWeb && v.status === "Unverified"

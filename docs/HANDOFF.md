@@ -889,3 +889,13 @@ partial 多发、support 少发。
 - 远端：health=0.9.11、`verify_artifacts --api-base` **139/139**。
 - 推送：`17bf89b`（SSH）。
 
+## 43. v0.9.12：中文引文「人工核对 → 一键补录 → 自动命中」闭环
+
+- 公开源核实：210 条中文引文仅 1 条带 DOI；OpenAlex/Crossref 对 12 条抽样题名
+  命中数全为 0（归一化后仍为 0）；CSTR 只有标识接口、ChinaXiv 只有预印本、
+  国家哲社文献中心/PubScholar 无公开 API、CNKI/万方无免费 API。结论写入
+  `docs/chinese_sources.md`。
+- 产品：`POST /api/library/add` 手工补录题录（按题名去重）；报告卡片 Unverified
+  时给「加入题录库」按钮，存入后下次核验自动命中。
+- 新增 web 测试：`tests/test_web.py::test_library_add_accepts_manual_entry`。
+- 版本 0.9.12；`docs/chinese_sources.md` 登记进 README 中文覆盖一节。
