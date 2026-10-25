@@ -862,3 +862,30 @@ partial 多发、support 少发。
 - 交付包：`dist/citeguard-cn-0.9.10.zip` 5,767,853 字节，
   sha256 `5ae0fe48b5c096442eeb4baeeace76ee262d3aa8cd2743d852c6bb1ec746e552`。
 - 推送：`6796e9a`（SSH）。
+
+---
+
+## 42. v0.9.11：上游 PR 状态更正、合成图盲测、远程访问边界
+
+**变更（2026-10-25，v0.9.11）**
+
+1. 上游贡献更正：PR #77 提交在 `markrussinovich/refchecker`（MIT，独立 Python 引文核验项目），
+   维护者已于 2026-10-24 **关闭、未合并**；它与 E14 对照使用的 `amazon-science/RefChecker`
+   （Apache-2.0）是**两个同名项目**。README / THIRD_PARTY §7 / compliance 已分别写明，
+   不再把 PR 说成对照工具的贡献。
+2. 图表合成集**新种子盲测**：seed=20261025，20 图 / 40 条，v3 无上下文 **0.875**
+   （支持召回 0.80 / 矛盾召回 0.95）；证据 `data/experiments/figure_prompt_eval_blind40.json`，
+   生成器与评测脚本新增 `--seed/--out` 与 `FIGTEST_SYNTH_JSON/FIGTEST_SYNTH_FOLDER/FIGTEST_FAMILIES`
+   以便复核。
+3. 远程访问边界写进 `docs/deployment.md` §3：本机访问 `http://222.20.96.215:8000/` 超时
+   （服务端 `0.0.0.0:8000` 正常，属校园网/防火墙限制）；答辩用本机或 SSH 隧道，
+   不对外承诺公网地址。
+4. 版本 0.9.11；`dist/citeguard-cn-0.9.11.zip` 5,770,447 字节，
+   sha256 `f2a08ce589048794d70845cb146240f3b4e174f33975eb7b6709db4d7a589deb`。
+
+**验证与发布（v0.9.11，2026-10-25）**
+
+- 本机：410 passed / 130 checks。
+- 远端：health=0.9.11、`verify_artifacts --api-base` **139/139**。
+- 推送：`17bf89b`（SSH）。
+
