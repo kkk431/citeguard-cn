@@ -941,3 +941,7 @@ partial 多发、support 少发。
   二分类 0.767 / 0.764（insufficient 8.3%，7.9 s/条）；但 8B 用原提示词时二分类没有提升，
   说明增益来自「模型 + 显式推理步骤」的组合。证据：`chartcheck_val60_qwen3vl8b{,_v3}.json`。
 - 证据：`data/experiments/chartcheck_val60.json`；复现：`python scripts/eval_chartcheck.py --sample 60`。
+
+- v0.9.14 追加：自建 50 条（合成 40 + 真实 10）用 Qwen3-VL-8B + v2 + 正文/图注 = **0.96**
+  （7B 0.94），矛盾类召回 0.96，平均 2.31 s/条；证据 `figure_prompt_eval_8b_context.json`。
+  8B 权重 17G、显存约 17–18G；7B 仍作低显存/低延迟选项。产品代码模型无关，换端点即可。
