@@ -74,6 +74,7 @@ def test_benchmark_page_renders(plain_client):
     assert resp.status_code == 200
     assert "CiteBench" in resp.text
     assert "运行状态" in resp.text
+    assert "标签质量审计" in resp.text
 
 
 def test_benchmark_status_never_leaks_secrets(plain_client, monkeypatch):

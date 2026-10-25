@@ -86,6 +86,8 @@ CODE_CLAIMS = (
     # (file, substring, why it is checked against the result JSON)
     ("README.md", "0.9684", "CiteBench-CN macro-F1"),
     ("README.md", "0.9597", "ClaimSupport-CN v10 macro-F1"),
+    ("docs/ppt_numbers.md", "0.8425", "LLM consensus kappa"),
+    ("docs/ppt_numbers.md", "0.9049", "product vs LLM consensus macro-F1"),
     ("README.md", "0 / 409", "real published references are never accused"),
     ("README.md", "409 条（100%）", "local library coverage"),
     ("README.md", "15/15", "citation-consistency self-check cases"),
@@ -241,6 +243,15 @@ def _check_experiments(c: "Checker") -> None:
     for value, label in ((0.9574, "14B v10 test"), (0.9744, "14B v10 all-100"), (0.8515, "8B v10 test")):
         c.check(any(abs((r.get("macro_f1") or 0) - value) < 1e-4 for r in rows),
                 f"local summary contains {label} {value}")
+
+    consensus = _load_json(ROOT / "data" / "claimsupport_cn" / "llm_consensus.json") or {}
+    cm = consensus.get("metrics") or {}
+    maj = cm.get("majority_vs_constructed") or {}
+    prod = cm.get("product") or {}
+    c.check(len(cm.get("annotators") or []) >= 3, "LLM consensus audit uses >=3 independent annotators")
+    c.check(abs((maj.get("agreement") or 0) - 0.89) < 1e-4, "LLM majority agrees with constructed labels at 0.89")
+    c.check(abs((maj.get("kappa") or 0) - 0.8425) < 1e-4, "LLM majority vs constructed kappa is 0.8425")
+    c.check(abs((prod.get("accuracy_vs_majority") or 0) - 0.9) < 1e-4, "product accuracy vs LLM majority is 0.90")
 
 
 def _check_doc_claims(c: "Checker") -> None:

@@ -1,0 +1,1289 @@
+{
+  "generated_by": "scripts/support_llm_consensus.py",
+  "metrics": {
+    "n": 100,
+    "annotators": [
+      "deepseek-reasoner",
+      "deepseek",
+      "qwen3-8b"
+    ],
+    "pairwise": {
+      "deepseek-reasoner__deepseek": {
+        "n": 98,
+        "agreement": 0.9184,
+        "kappa": 0.881
+      },
+      "deepseek-reasoner__qwen3-8b": {
+        "n": 98,
+        "agreement": 0.7857,
+        "kappa": 0.6823
+      },
+      "deepseek__qwen3-8b": {
+        "n": 100,
+        "agreement": 0.82,
+        "kappa": 0.7218
+      }
+    },
+    "majority_vs_constructed": {
+      "agreement": 0.89,
+      "kappa": 0.8425,
+      "ties": [
+        "cs-0027",
+        "cs-0028",
+        "cs-0057"
+      ]
+    },
+    "product": {
+      "accuracy_vs_constructed": 0.95,
+      "accuracy_vs_majority": 0.9,
+      "macro_f1_vs_majority": 0.9049,
+      "per_class_vs_majority": {
+        "support": {
+          "precision": 1.0,
+          "recall": 0.7959,
+          "f1": 0.8864,
+          "support": 49
+        },
+        "partial": {
+          "precision": 0.7308,
+          "recall": 1.0,
+          "f1": 0.8444,
+          "support": 19
+        },
+        "contradict": {
+          "precision": 0.8,
+          "recall": 1.0,
+          "f1": 0.8889,
+          "support": 12
+        },
+        "no_evidence": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 20
+        }
+      }
+    }
+  },
+  "disagreements": [
+    {
+      "id": "cs-0001",
+      "constructed": "partial",
+      "majority": "support",
+      "votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "support"
+    },
+    {
+      "id": "cs-0025",
+      "constructed": "partial",
+      "majority": "support",
+      "votes": {
+        "deepseek-reasoner": "partial",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "partial"
+    },
+    {
+      "id": "cs-0027",
+      "constructed": "support",
+      "majority": "partial",
+      "votes": {
+        "deepseek": "partial",
+        "qwen3-8b": "no_evidence"
+      },
+      "product": "partial"
+    },
+    {
+      "id": "cs-0030",
+      "constructed": "partial",
+      "majority": "support",
+      "votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "partial"
+    },
+    {
+      "id": "cs-0034",
+      "constructed": "partial",
+      "majority": "support",
+      "votes": {
+        "deepseek-reasoner": "partial",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "partial"
+    },
+    {
+      "id": "cs-0037",
+      "constructed": "partial",
+      "majority": "support",
+      "votes": {
+        "deepseek-reasoner": "partial",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "partial"
+    },
+    {
+      "id": "cs-0049",
+      "constructed": "partial",
+      "majority": "support",
+      "votes": {
+        "deepseek-reasoner": "partial",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "partial"
+    },
+    {
+      "id": "cs-0056",
+      "constructed": "partial",
+      "majority": "support",
+      "votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "support"
+    },
+    {
+      "id": "cs-0057",
+      "constructed": "contradict",
+      "majority": "support",
+      "votes": {
+        "deepseek": "support",
+        "qwen3-8b": "contradict"
+      },
+      "product": "contradict"
+    },
+    {
+      "id": "cs-0083",
+      "constructed": "contradict",
+      "majority": "support",
+      "votes": {
+        "deepseek-reasoner": "contradict",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "contradict"
+    },
+    {
+      "id": "cs-0095",
+      "constructed": "contradict",
+      "majority": "support",
+      "votes": {
+        "deepseek-reasoner": "contradict",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "contradict"
+    }
+  ],
+  "items": [
+    {
+      "id": "cs-0001",
+      "constructed": "partial",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "support"
+    },
+    {
+      "id": "cs-0002",
+      "constructed": "no_evidence",
+      "majority": "no_evidence",
+      "annotator_votes": {
+        "deepseek-reasoner": "no_evidence",
+        "deepseek": "no_evidence",
+        "qwen3-8b": "no_evidence"
+      },
+      "product": "no_evidence"
+    },
+    {
+      "id": "cs-0003",
+      "constructed": "support",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "support"
+    },
+    {
+      "id": "cs-0004",
+      "constructed": "partial",
+      "majority": "partial",
+      "annotator_votes": {
+        "deepseek-reasoner": "partial",
+        "deepseek": "partial",
+        "qwen3-8b": "partial"
+      },
+      "product": "partial"
+    },
+    {
+      "id": "cs-0005",
+      "constructed": "no_evidence",
+      "majority": "no_evidence",
+      "annotator_votes": {
+        "deepseek-reasoner": "no_evidence",
+        "deepseek": "no_evidence",
+        "qwen3-8b": "no_evidence"
+      },
+      "product": "no_evidence"
+    },
+    {
+      "id": "cs-0006",
+      "constructed": "partial",
+      "majority": "partial",
+      "annotator_votes": {
+        "deepseek-reasoner": "partial",
+        "deepseek": "partial",
+        "qwen3-8b": "support"
+      },
+      "product": "partial"
+    },
+    {
+      "id": "cs-0007",
+      "constructed": "support",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "support"
+    },
+    {
+      "id": "cs-0008",
+      "constructed": "contradict",
+      "majority": "contradict",
+      "annotator_votes": {
+        "deepseek-reasoner": "contradict",
+        "deepseek": "contradict",
+        "qwen3-8b": "contradict"
+      },
+      "product": "contradict"
+    },
+    {
+      "id": "cs-0009",
+      "constructed": "partial",
+      "majority": "partial",
+      "annotator_votes": {
+        "deepseek-reasoner": "partial",
+        "deepseek": "partial",
+        "qwen3-8b": "no_evidence"
+      },
+      "product": "partial"
+    },
+    {
+      "id": "cs-0010",
+      "constructed": "no_evidence",
+      "majority": "no_evidence",
+      "annotator_votes": {
+        "deepseek-reasoner": "no_evidence",
+        "deepseek": "no_evidence",
+        "qwen3-8b": "no_evidence"
+      },
+      "product": "no_evidence"
+    },
+    {
+      "id": "cs-0011",
+      "constructed": "no_evidence",
+      "majority": "no_evidence",
+      "annotator_votes": {
+        "deepseek-reasoner": "no_evidence",
+        "deepseek": "no_evidence",
+        "qwen3-8b": "no_evidence"
+      },
+      "product": "no_evidence"
+    },
+    {
+      "id": "cs-0012",
+      "constructed": "support",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "support"
+    },
+    {
+      "id": "cs-0013",
+      "constructed": "partial",
+      "majority": "partial",
+      "annotator_votes": {
+        "deepseek-reasoner": "partial",
+        "deepseek": "partial",
+        "qwen3-8b": "partial"
+      },
+      "product": "partial"
+    },
+    {
+      "id": "cs-0014",
+      "constructed": "support",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "support"
+    },
+    {
+      "id": "cs-0015",
+      "constructed": "partial",
+      "majority": "partial",
+      "annotator_votes": {
+        "deepseek-reasoner": "partial",
+        "deepseek": "partial",
+        "qwen3-8b": "partial"
+      },
+      "product": "partial"
+    },
+    {
+      "id": "cs-0016",
+      "constructed": "no_evidence",
+      "majority": "no_evidence",
+      "annotator_votes": {
+        "deepseek-reasoner": "no_evidence",
+        "deepseek": "no_evidence",
+        "qwen3-8b": "no_evidence"
+      },
+      "product": "no_evidence"
+    },
+    {
+      "id": "cs-0017",
+      "constructed": "support",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "support"
+    },
+    {
+      "id": "cs-0018",
+      "constructed": "support",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "support"
+    },
+    {
+      "id": "cs-0019",
+      "constructed": "support",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "support"
+    },
+    {
+      "id": "cs-0020",
+      "constructed": "contradict",
+      "majority": "contradict",
+      "annotator_votes": {
+        "deepseek-reasoner": "contradict",
+        "deepseek": "contradict",
+        "qwen3-8b": "contradict"
+      },
+      "product": "contradict"
+    },
+    {
+      "id": "cs-0021",
+      "constructed": "support",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "support"
+    },
+    {
+      "id": "cs-0022",
+      "constructed": "support",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "support"
+    },
+    {
+      "id": "cs-0023",
+      "constructed": "support",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "partial"
+      },
+      "product": "support"
+    },
+    {
+      "id": "cs-0024",
+      "constructed": "support",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "partial"
+    },
+    {
+      "id": "cs-0025",
+      "constructed": "partial",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "partial",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "partial"
+    },
+    {
+      "id": "cs-0026",
+      "constructed": "support",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "support"
+    },
+    {
+      "id": "cs-0027",
+      "constructed": "support",
+      "majority": "partial",
+      "annotator_votes": {
+        "deepseek": "partial",
+        "qwen3-8b": "no_evidence"
+      },
+      "product": "partial"
+    },
+    {
+      "id": "cs-0028",
+      "constructed": "contradict",
+      "majority": "contradict",
+      "annotator_votes": {
+        "deepseek-reasoner": "contradict",
+        "deepseek": "partial",
+        "qwen3-8b": "support"
+      },
+      "product": "contradict"
+    },
+    {
+      "id": "cs-0029",
+      "constructed": "partial",
+      "majority": "partial",
+      "annotator_votes": {
+        "deepseek-reasoner": "partial",
+        "deepseek": "partial",
+        "qwen3-8b": "partial"
+      },
+      "product": "partial"
+    },
+    {
+      "id": "cs-0030",
+      "constructed": "partial",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "partial"
+    },
+    {
+      "id": "cs-0031",
+      "constructed": "partial",
+      "majority": "partial",
+      "annotator_votes": {
+        "deepseek-reasoner": "partial",
+        "deepseek": "partial",
+        "qwen3-8b": "partial"
+      },
+      "product": "partial"
+    },
+    {
+      "id": "cs-0032",
+      "constructed": "support",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "support"
+    },
+    {
+      "id": "cs-0033",
+      "constructed": "support",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "support"
+    },
+    {
+      "id": "cs-0034",
+      "constructed": "partial",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "partial",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "partial"
+    },
+    {
+      "id": "cs-0035",
+      "constructed": "support",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "support"
+    },
+    {
+      "id": "cs-0036",
+      "constructed": "support",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "support"
+    },
+    {
+      "id": "cs-0037",
+      "constructed": "partial",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "partial",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "partial"
+    },
+    {
+      "id": "cs-0038",
+      "constructed": "support",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "support"
+    },
+    {
+      "id": "cs-0039",
+      "constructed": "no_evidence",
+      "majority": "no_evidence",
+      "annotator_votes": {
+        "deepseek-reasoner": "no_evidence",
+        "deepseek": "no_evidence",
+        "qwen3-8b": "no_evidence"
+      },
+      "product": "no_evidence"
+    },
+    {
+      "id": "cs-0040",
+      "constructed": "contradict",
+      "majority": "contradict",
+      "annotator_votes": {
+        "deepseek-reasoner": "contradict",
+        "deepseek": "contradict",
+        "qwen3-8b": "support"
+      },
+      "product": "contradict"
+    },
+    {
+      "id": "cs-0041",
+      "constructed": "no_evidence",
+      "majority": "no_evidence",
+      "annotator_votes": {
+        "deepseek-reasoner": "no_evidence",
+        "deepseek": "no_evidence",
+        "qwen3-8b": "no_evidence"
+      },
+      "product": "no_evidence"
+    },
+    {
+      "id": "cs-0042",
+      "constructed": "no_evidence",
+      "majority": "no_evidence",
+      "annotator_votes": {
+        "deepseek-reasoner": "no_evidence",
+        "deepseek": "no_evidence",
+        "qwen3-8b": "no_evidence"
+      },
+      "product": "no_evidence"
+    },
+    {
+      "id": "cs-0043",
+      "constructed": "no_evidence",
+      "majority": "no_evidence",
+      "annotator_votes": {
+        "deepseek-reasoner": "no_evidence",
+        "deepseek": "no_evidence",
+        "qwen3-8b": "no_evidence"
+      },
+      "product": "no_evidence"
+    },
+    {
+      "id": "cs-0044",
+      "constructed": "support",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "support"
+    },
+    {
+      "id": "cs-0045",
+      "constructed": "partial",
+      "majority": "partial",
+      "annotator_votes": {
+        "deepseek-reasoner": "partial",
+        "deepseek": "partial",
+        "qwen3-8b": "support"
+      },
+      "product": "partial"
+    },
+    {
+      "id": "cs-0046",
+      "constructed": "partial",
+      "majority": "partial",
+      "annotator_votes": {
+        "deepseek-reasoner": "partial",
+        "deepseek": "partial",
+        "qwen3-8b": "partial"
+      },
+      "product": "partial"
+    },
+    {
+      "id": "cs-0047",
+      "constructed": "support",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "partial"
+      },
+      "product": "support"
+    },
+    {
+      "id": "cs-0048",
+      "constructed": "support",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "partial"
+    },
+    {
+      "id": "cs-0049",
+      "constructed": "partial",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "partial",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "partial"
+    },
+    {
+      "id": "cs-0050",
+      "constructed": "partial",
+      "majority": "partial",
+      "annotator_votes": {
+        "deepseek-reasoner": "partial",
+        "deepseek": "partial",
+        "qwen3-8b": "support"
+      },
+      "product": "partial"
+    },
+    {
+      "id": "cs-0051",
+      "constructed": "no_evidence",
+      "majority": "no_evidence",
+      "annotator_votes": {
+        "deepseek-reasoner": "no_evidence",
+        "deepseek": "no_evidence",
+        "qwen3-8b": "no_evidence"
+      },
+      "product": "no_evidence"
+    },
+    {
+      "id": "cs-0052",
+      "constructed": "no_evidence",
+      "majority": "no_evidence",
+      "annotator_votes": {
+        "deepseek-reasoner": "no_evidence",
+        "deepseek": "no_evidence",
+        "qwen3-8b": "no_evidence"
+      },
+      "product": "no_evidence"
+    },
+    {
+      "id": "cs-0053",
+      "constructed": "no_evidence",
+      "majority": "no_evidence",
+      "annotator_votes": {
+        "deepseek-reasoner": "no_evidence",
+        "deepseek": "no_evidence",
+        "qwen3-8b": "no_evidence"
+      },
+      "product": "no_evidence"
+    },
+    {
+      "id": "cs-0054",
+      "constructed": "no_evidence",
+      "majority": "no_evidence",
+      "annotator_votes": {
+        "deepseek-reasoner": "no_evidence",
+        "deepseek": "no_evidence",
+        "qwen3-8b": "no_evidence"
+      },
+      "product": "no_evidence"
+    },
+    {
+      "id": "cs-0055",
+      "constructed": "no_evidence",
+      "majority": "no_evidence",
+      "annotator_votes": {
+        "deepseek-reasoner": "no_evidence",
+        "deepseek": "no_evidence",
+        "qwen3-8b": "no_evidence"
+      },
+      "product": "no_evidence"
+    },
+    {
+      "id": "cs-0056",
+      "constructed": "partial",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "support"
+    },
+    {
+      "id": "cs-0057",
+      "constructed": "contradict",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek": "support",
+        "qwen3-8b": "contradict"
+      },
+      "product": "contradict"
+    },
+    {
+      "id": "cs-0058",
+      "constructed": "no_evidence",
+      "majority": "no_evidence",
+      "annotator_votes": {
+        "deepseek-reasoner": "no_evidence",
+        "deepseek": "no_evidence",
+        "qwen3-8b": "no_evidence"
+      },
+      "product": "no_evidence"
+    },
+    {
+      "id": "cs-0059",
+      "constructed": "support",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "support"
+    },
+    {
+      "id": "cs-0060",
+      "constructed": "support",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "support"
+    },
+    {
+      "id": "cs-0061",
+      "constructed": "partial",
+      "majority": "partial",
+      "annotator_votes": {
+        "deepseek-reasoner": "partial",
+        "deepseek": "partial",
+        "qwen3-8b": "partial"
+      },
+      "product": "partial"
+    },
+    {
+      "id": "cs-0062",
+      "constructed": "support",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "support"
+    },
+    {
+      "id": "cs-0063",
+      "constructed": "contradict",
+      "majority": "contradict",
+      "annotator_votes": {
+        "deepseek-reasoner": "contradict",
+        "deepseek": "contradict",
+        "qwen3-8b": "support"
+      },
+      "product": "contradict"
+    },
+    {
+      "id": "cs-0064",
+      "constructed": "contradict",
+      "majority": "contradict",
+      "annotator_votes": {
+        "deepseek-reasoner": "contradict",
+        "deepseek": "contradict",
+        "qwen3-8b": "support"
+      },
+      "product": "contradict"
+    },
+    {
+      "id": "cs-0065",
+      "constructed": "partial",
+      "majority": "partial",
+      "annotator_votes": {
+        "deepseek-reasoner": "partial",
+        "deepseek": "partial",
+        "qwen3-8b": "support"
+      },
+      "product": "partial"
+    },
+    {
+      "id": "cs-0066",
+      "constructed": "support",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "support"
+    },
+    {
+      "id": "cs-0067",
+      "constructed": "partial",
+      "majority": "partial",
+      "annotator_votes": {
+        "deepseek-reasoner": "partial",
+        "deepseek": "partial",
+        "qwen3-8b": "no_evidence"
+      },
+      "product": "partial"
+    },
+    {
+      "id": "cs-0068",
+      "constructed": "partial",
+      "majority": "partial",
+      "annotator_votes": {
+        "deepseek-reasoner": "partial",
+        "deepseek": "partial",
+        "qwen3-8b": "partial"
+      },
+      "product": "partial"
+    },
+    {
+      "id": "cs-0069",
+      "constructed": "support",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "support"
+    },
+    {
+      "id": "cs-0070",
+      "constructed": "support",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "support"
+    },
+    {
+      "id": "cs-0071",
+      "constructed": "no_evidence",
+      "majority": "no_evidence",
+      "annotator_votes": {
+        "deepseek-reasoner": "no_evidence",
+        "deepseek": "no_evidence",
+        "qwen3-8b": "no_evidence"
+      },
+      "product": "no_evidence"
+    },
+    {
+      "id": "cs-0072",
+      "constructed": "partial",
+      "majority": "partial",
+      "annotator_votes": {
+        "deepseek-reasoner": "partial",
+        "deepseek": "partial",
+        "qwen3-8b": "no_evidence"
+      },
+      "product": "partial"
+    },
+    {
+      "id": "cs-0073",
+      "constructed": "contradict",
+      "majority": "contradict",
+      "annotator_votes": {
+        "deepseek-reasoner": "contradict",
+        "deepseek": "contradict",
+        "qwen3-8b": "contradict"
+      },
+      "product": "contradict"
+    },
+    {
+      "id": "cs-0074",
+      "constructed": "no_evidence",
+      "majority": "no_evidence",
+      "annotator_votes": {
+        "deepseek-reasoner": "no_evidence",
+        "deepseek": "no_evidence",
+        "qwen3-8b": "no_evidence"
+      },
+      "product": "no_evidence"
+    },
+    {
+      "id": "cs-0075",
+      "constructed": "support",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "support"
+    },
+    {
+      "id": "cs-0076",
+      "constructed": "no_evidence",
+      "majority": "no_evidence",
+      "annotator_votes": {
+        "deepseek-reasoner": "no_evidence",
+        "deepseek": "no_evidence",
+        "qwen3-8b": "no_evidence"
+      },
+      "product": "no_evidence"
+    },
+    {
+      "id": "cs-0077",
+      "constructed": "partial",
+      "majority": "partial",
+      "annotator_votes": {
+        "deepseek-reasoner": "partial",
+        "deepseek": "partial",
+        "qwen3-8b": "support"
+      },
+      "product": "partial"
+    },
+    {
+      "id": "cs-0078",
+      "constructed": "support",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "support"
+    },
+    {
+      "id": "cs-0079",
+      "constructed": "contradict",
+      "majority": "contradict",
+      "annotator_votes": {
+        "deepseek-reasoner": "contradict",
+        "deepseek": "contradict",
+        "qwen3-8b": "contradict"
+      },
+      "product": "contradict"
+    },
+    {
+      "id": "cs-0080",
+      "constructed": "partial",
+      "majority": "partial",
+      "annotator_votes": {
+        "deepseek-reasoner": "partial",
+        "deepseek": "partial",
+        "qwen3-8b": "partial"
+      },
+      "product": "partial"
+    },
+    {
+      "id": "cs-0081",
+      "constructed": "support",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "support"
+    },
+    {
+      "id": "cs-0082",
+      "constructed": "contradict",
+      "majority": "contradict",
+      "annotator_votes": {
+        "deepseek-reasoner": "contradict",
+        "deepseek": "contradict",
+        "qwen3-8b": "contradict"
+      },
+      "product": "contradict"
+    },
+    {
+      "id": "cs-0083",
+      "constructed": "contradict",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "contradict",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "contradict"
+    },
+    {
+      "id": "cs-0084",
+      "constructed": "contradict",
+      "majority": "contradict",
+      "annotator_votes": {
+        "deepseek-reasoner": "contradict",
+        "deepseek": "contradict",
+        "qwen3-8b": "contradict"
+      },
+      "product": "contradict"
+    },
+    {
+      "id": "cs-0085",
+      "constructed": "contradict",
+      "majority": "contradict",
+      "annotator_votes": {
+        "deepseek-reasoner": "contradict",
+        "deepseek": "support",
+        "qwen3-8b": "contradict"
+      },
+      "product": "contradict"
+    },
+    {
+      "id": "cs-0086",
+      "constructed": "support",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "support"
+    },
+    {
+      "id": "cs-0087",
+      "constructed": "support",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "support"
+    },
+    {
+      "id": "cs-0088",
+      "constructed": "support",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "support"
+    },
+    {
+      "id": "cs-0089",
+      "constructed": "partial",
+      "majority": "partial",
+      "annotator_votes": {
+        "deepseek-reasoner": "partial",
+        "deepseek": "partial",
+        "qwen3-8b": "partial"
+      },
+      "product": "partial"
+    },
+    {
+      "id": "cs-0090",
+      "constructed": "support",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "support"
+    },
+    {
+      "id": "cs-0091",
+      "constructed": "support",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "support"
+    },
+    {
+      "id": "cs-0092",
+      "constructed": "support",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "support"
+    },
+    {
+      "id": "cs-0093",
+      "constructed": "contradict",
+      "majority": "contradict",
+      "annotator_votes": {
+        "deepseek-reasoner": "contradict",
+        "deepseek": "contradict",
+        "qwen3-8b": "contradict"
+      },
+      "product": "contradict"
+    },
+    {
+      "id": "cs-0094",
+      "constructed": "support",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "support"
+    },
+    {
+      "id": "cs-0095",
+      "constructed": "contradict",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "contradict",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "contradict"
+    },
+    {
+      "id": "cs-0096",
+      "constructed": "support",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "support"
+    },
+    {
+      "id": "cs-0097",
+      "constructed": "no_evidence",
+      "majority": "no_evidence",
+      "annotator_votes": {
+        "deepseek-reasoner": "no_evidence",
+        "deepseek": "no_evidence",
+        "qwen3-8b": "no_evidence"
+      },
+      "product": "no_evidence"
+    },
+    {
+      "id": "cs-0098",
+      "constructed": "support",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "support"
+      },
+      "product": "support"
+    },
+    {
+      "id": "cs-0099",
+      "constructed": "support",
+      "majority": "support",
+      "annotator_votes": {
+        "deepseek-reasoner": "support",
+        "deepseek": "support",
+        "qwen3-8b": "partial"
+      },
+      "product": "support"
+    },
+    {
+      "id": "cs-0100",
+      "constructed": "no_evidence",
+      "majority": "no_evidence",
+      "annotator_votes": {
+        "deepseek-reasoner": "no_evidence",
+        "deepseek": "no_evidence",
+        "qwen3-8b": "no_evidence"
+      },
+      "product": "no_evidence"
+    }
+  ]
+}

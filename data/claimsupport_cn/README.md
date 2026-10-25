@@ -136,18 +136,25 @@ PYTHONPATH=.pylibs:. python3 scripts/evaluate_support.py
 
 ## 10. LLM 交叉标注审计（不是人工金标准）
 
-标签由构造规则决定。为检查标签是否只是“自己说自己对”，用两个独立模型在固定 rubric 下盲标
-全部 100 条（只看 claim + evidence，不看构造标签）：
+标签由构造规则决定。为检查标签是否“自己说自己对”，用三个独立模型在固定 rubric 下盲标
+（只看 claim + evidence，不看构造标签），再用多数票做共识复核：
 
-| 标注者 | 与构造标签一致率 | Cohen's κ | 说明 |
-|---|---:|---:|---|
-| DeepSeek-Chat（托管，temperature=0） | 0.87 | 0.813 | 100/100 有输出、0 解析失败 |
-| Qwen3-8B（本地 bf16，同一 rubric） | 0.75 | 0.638 | 同上 |
-| 两个模型之间 | 0.82 | 0.722 | 交叉一致性 |
+| 标注者（模型） | 覆盖率 | 与构造标签一致率 | Cohen's κ |
+|---|---:|---:|---:|
+| DeepSeek-Chat（temperature=0） | 100/100 | 0.87 | 0.813 |
+| DeepSeek-Reasoner（强推理，temperature=0） | 98/100 | **0.969** | **0.957** |
+| Qwen3-8B（本地 bf16） | 100/100 | 0.75 | 0.638 |
+| 三模型两两之间 | — | 0.79–0.92 | 0.68–0.88 |
 
-- 脚本：`scripts/llm_annotate_support.py --tag ... --model ... --base-url ...`；
-  证据：`llm_annotation_deepseek.json`、`llm_annotation_qwen3-8b.json`。
-- 混淆集中在 **support ↔ partial**：DeepSeek 把 7 条构造为 partial 的判成 support；
-  另有 5 条 contradict 未识别（4 条被判 support、1 条 partial）。
-- 只能表述为「LLM 辅助标注审计」或「模型间一致性」，**不是**人工标注、不能报 human κ。
-  人工抽检请填 `human_review_40.csv` 后用 `scripts/check_human_labels.py` 计算。
+多数票（majority vote）与构造标签：**一致率 0.89，κ 0.8425**，11 条不一致。产品（托管 v10）
+对多数票标签：**准确率 0.90，macro-F1 0.9049**（对构造标签分别为 0.95 / 0.9597）。
+
+分歧集中在 **partial ↔ support**：构造规则在“evidence 只覆盖 claim 的一个断言”时判 partial，
+但三个模型常认为这已经算 support（如 cs-0001、cs-0030、cs-0056）；另有 4 条矛盾条目
+（cs-0057/0083/0095 等）在“方向反转是否算矛盾”上出现分歧。
+
+- 脚本：`scripts/llm_annotate_support.py`、`scripts/support_llm_consensus.py`；
+  证据：`llm_annotation_deepseek.json`、`llm_annotation_deepseek-reasoner.json`、
+  `llm_annotation_qwen3-8b.json`、`llm_consensus.json`。
+- 只能表述为「LLM 辅助标注审计 / 模型共识复核」，**不是**人工标注、不能报 human κ。
+  人工抽检仍可填 `human_review_40.csv` 后用 `scripts/check_human_labels.py` 计算。

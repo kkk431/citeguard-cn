@@ -151,11 +151,13 @@ PYTHONPATH=src python3 scripts/evaluate_support.py \
 
 ## 标签质量审计（LLM 辅助，非人工金标准）
 
-ClaimSupport-CN 的标签由构造规则决定。用两个独立模型按固定 rubric 盲标 100 条：
-DeepSeek-Chat 与构造标签一致率 0.87（κ 0.813），Qwen3-8B 0.75（κ 0.638），
-两模型之间 0.82（κ 0.722）。分歧集中在 support↔partial，另有 5/15 条矛盾未被
-DeepSeek 识别。该结果只说明“标签不是任意标的”，**不能当作人工标注**。
-脚本 `scripts/llm_annotate_support.py`，证据 `data/claimsupport_cn/llm_annotation_*.json`。
+ClaimSupport-CN 的标签由构造规则决定。三个独立模型按固定 rubric 盲标：DeepSeek-Chat
+与构造标签一致率 0.87（κ 0.813），DeepSeek-Reasoner **0.969（κ 0.957，98/100）**，
+Qwen3-8B 0.75（κ 0.638）；两两之间 κ 0.68–0.88。三模型多数票与构造标签一致率
+**0.89（κ 0.8425）**，产品对多数票准确率 **0.90（macro-F1 0.9049）**。分歧集中在
+support↔partial（构造口径偏严）和少数矛盾条目。该结果只说明“标签不是任意标的”，
+**不能当作人工标注**；证据 `data/claimsupport_cn/llm_*`，脚本 `scripts/llm_annotate_support.py`
+与 `scripts/support_llm_consensus.py`。
 
 ## 评测证据
 

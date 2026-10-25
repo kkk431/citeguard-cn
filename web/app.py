@@ -90,7 +90,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.4", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.5", lifespan=lifespan)
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
 
@@ -660,11 +660,27 @@ def _benchmark_context() -> dict:
             "runs": figure_models[0]["runs"],
             "models": figure_models,
         }
+    support_audit = None
+    audit_path = config.DATA_DIR / "claimsupport_cn" / "llm_consensus.json"
+    if audit_path.exists():
+        try:
+            audit_metrics = json.loads(audit_path.read_text(encoding="utf-8"))["metrics"]
+            support_audit = {
+                "n": audit_metrics.get("n"),
+                "annotators": audit_metrics.get("annotators", []),
+                "majority_agreement": audit_metrics.get("majority_vs_constructed", {}).get("agreement"),
+                "majority_kappa": audit_metrics.get("majority_vs_constructed", {}).get("kappa"),
+                "product_accuracy": (audit_metrics.get("product") or {}).get("accuracy_vs_majority"),
+                "product_macro_f1": (audit_metrics.get("product") or {}).get("macro_f1_vs_majority"),
+            }
+        except Exception:
+            support_audit = None
     return {
         "benchmark": benchmark,
         "support": support,
         "real": real,
         "local_models": local_models,
+        "support_audit": support_audit,
         "status": _system_status(),
     }
 
@@ -1083,4 +1099,4 @@ def benchmark_api():
 
 @app.get("/api/health")
 def health():
-    return {"ok": True, "version": "0.9.4", "supported": sorted(ALLOWED_SUFFIXES)}
+    return {"ok": True, "version": "0.9.5", "supported": sorted(ALLOWED_SUFFIXES)}

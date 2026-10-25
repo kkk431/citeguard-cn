@@ -50,7 +50,7 @@ def _read_items(limit: int | None) -> list[dict]:
     return rows[:limit] if limit else rows
 
 
-def _chat(base_url: str, model: str, key: str, claim: str, evidence: str) -> dict:
+def _chat(base_url: str, model: str, key: str, claim: str, evidence: str, max_tokens: int = 120) -> dict:
     user = f"claim：{claim}\n\nevidence：{evidence}"
     payload = {
         "model": model,
@@ -59,7 +59,7 @@ def _chat(base_url: str, model: str, key: str, claim: str, evidence: str) -> dic
             {"role": "user", "content": user},
         ],
         "temperature": 0,
-        "max_tokens": 120,
+        "max_tokens": max_tokens,
     }
     req = urllib.request.Request(
         base_url.rstrip("/") + "/chat/completions",
@@ -101,11 +101,18 @@ def run(args: argparse.Namespace) -> None:
     items = _read_items(args.limit)
     results: dict[str, dict] = {}
     errors: dict[str, str] = {}
+    out_path = DATA / f"llm_annotation_{args.tag}.json"
+    if args.resume and out_path.exists():
+        prior = json.loads(out_path.read_text(encoding="utf-8"))
+        results = {p["id"]: {"label": p["pred"], "why": p.get("why", "")} for p in prior.get("predictions", [])}
+        errors = dict(prior.get("errors", {}))
+        items = [it for it in items if it["id"] not in results]
+        print(f"resume: {len(results)} done, {len(items)} remaining", file=sys.stderr)
 
     def work(item: dict) -> tuple[str, dict | None, str | None]:
         try:
             return item["id"], _chat(args.base_url, args.model, args.api_key,
-                                     item["claim"], item["evidence"]), None
+                                     item["claim"], item["evidence"], args.max_tokens), None
         except Exception as exc:  # noqa: BLE001 - annotate per item, keep going
             return item["id"], None, f"{type(exc).__name__}: {exc}"
 
@@ -116,7 +123,7 @@ def run(args: argparse.Namespace) -> None:
             else:
                 errors[item_id] = err or "unknown"
 
-    gold = {it["id"]: it["label"] for it in items}
+    gold = {it["id"]: it["label"] for it in _read_items(args.limit)}
     pairs = [(gold[i], results[i]["label"]) for i in results]
     n = len(pairs)
     agreement = sum(1 for a, b in pairs if a == b) / n if n else 0.0
@@ -138,7 +145,6 @@ def run(args: argparse.Namespace) -> None:
             for i in results
         ],
     }
-    out_path = DATA / f"llm_annotation_{args.tag}.json"
     out_path.write_text(json.dumps(out, ensure_ascii=False, indent=2), encoding="utf-8")
     print(json.dumps({k: out[k] for k in ("tag", "model", "n", "agreement_with_constructed_labels",
                                           "cohen_kappa_vs_constructed")}, ensure_ascii=False))
@@ -173,6 +179,8 @@ def main() -> None:
     parser.add_argument("--limit", type=int, default=100)
     parser.add_argument("--workers", type=int, default=6)
     parser.add_argument("--report", action="store_true")
+    parser.add_argument("--resume", action="store_true")
+    parser.add_argument("--max-tokens", type=int, default=120)
     args = parser.parse_args()
     if args.report:
         report()

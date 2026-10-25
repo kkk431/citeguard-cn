@@ -141,6 +141,21 @@
     </table>
   </div>
   {% endif %}
+  {% if support_audit %}
+  <div class="panel" style="padding:16px 18px;margin-bottom:16px">
+    <div class="section-head" style="margin-bottom:8px">
+      <h3 style="font-size:15px">标签质量审计（LLM 共识，非人工金标准）</h3>
+      <span class="hint">{{ support_audit.n }} 条 · {{ support_audit.annotators|length }} 个独立模型盲标</span>
+    </div>
+    <div class="metric-grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr))">
+      <div class="metric"><b>{{ '%.2f'|format(support_audit.majority_agreement) if support_audit.majority_agreement is not none else '—' }}</b><span>多数票 vs 构造标签一致率</span></div>
+      <div class="metric"><b>{{ '%.3f'|format(support_audit.majority_kappa) if support_audit.majority_kappa is not none else '—' }}</b><span>Cohen's κ</span></div>
+      <div class="metric"><b>{{ '%.2f'|format(support_audit.product_accuracy) if support_audit.product_accuracy is not none else '—' }}</b><span>产品 vs 多数票准确率</span></div>
+      <div class="metric"><b>{{ '%.3f'|format(support_audit.product_macro_f1) if support_audit.product_macro_f1 is not none else '—' }}</b><span>产品 vs 多数票 macro-F1</span></div>
+    </div>
+    <p class="hint" style="margin:8px 0 0">DeepSeek-Chat / DeepSeek-Reasoner / Qwen3-8B 在固定 rubric 下盲标；只作标签审计，不能当人工标注引用。</p>
+  </div>
+  {% endif %}
   {% if local_models %}
   <div class="panel table-wrap" style="padding:0;margin-bottom:16px">
     <table class="table">
