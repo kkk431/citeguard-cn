@@ -149,6 +149,14 @@ PYTHONPATH=src python3 scripts/evaluate_support.py \
 > （自定义 prompt 自动独立缓存），并 `CITEGUARD_SUPPORT_AUDIT=0`。7B/8B/14B 用 v10 两段式 prompt 更高。
 > 离线可用：14B 已到「与托管差 0.24 分」的水平；但这是 60 条留出集，置信区间不窄，汇报时不要外推成普遍结论。
 
+## 标签质量审计（LLM 辅助，非人工金标准）
+
+ClaimSupport-CN 的标签由构造规则决定。用两个独立模型按固定 rubric 盲标 100 条：
+DeepSeek-Chat 与构造标签一致率 0.87（κ 0.813），Qwen3-8B 0.75（κ 0.638），
+两模型之间 0.82（κ 0.722）。分歧集中在 support↔partial，另有 5/15 条矛盾未被
+DeepSeek 识别。该结果只说明“标签不是任意标的”，**不能当作人工标注**。
+脚本 `scripts/llm_annotate_support.py`，证据 `data/claimsupport_cn/llm_annotation_*.json`。
+
 ## 评测证据
 
 - judge：`citeguard.support.judge_support`（两段式：判定 + 覆盖审计），`deepseek-chat`，temperature 0；100/100 判定成功，0 次 API 失败。

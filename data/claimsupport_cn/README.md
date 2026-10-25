@@ -133,3 +133,21 @@ PYTHONPATH=.pylibs:. python3 scripts/evaluate_support.py
 - 本数据卡与 ClaimSupport-CN 数据集以 **CC-BY-4.0** 发布。
 - 上游元数据来自 **OpenAlex（CC0 1.0）**；数据集只存 claim、短证据片段与来源 ID，不 re-host 全文或完整摘要。
 - 引用：`ClaimSupport-CN (v1), CiteGuard-CN project, 2026`。
+
+## 10. LLM 交叉标注审计（不是人工金标准）
+
+标签由构造规则决定。为检查标签是否只是“自己说自己对”，用两个独立模型在固定 rubric 下盲标
+全部 100 条（只看 claim + evidence，不看构造标签）：
+
+| 标注者 | 与构造标签一致率 | Cohen's κ | 说明 |
+|---|---:|---:|---|
+| DeepSeek-Chat（托管，temperature=0） | 0.87 | 0.813 | 100/100 有输出、0 解析失败 |
+| Qwen3-8B（本地 bf16，同一 rubric） | 0.75 | 0.638 | 同上 |
+| 两个模型之间 | 0.82 | 0.722 | 交叉一致性 |
+
+- 脚本：`scripts/llm_annotate_support.py --tag ... --model ... --base-url ...`；
+  证据：`llm_annotation_deepseek.json`、`llm_annotation_qwen3-8b.json`。
+- 混淆集中在 **support ↔ partial**：DeepSeek 把 7 条构造为 partial 的判成 support；
+  另有 5 条 contradict 未识别（4 条被判 support、1 条 partial）。
+- 只能表述为「LLM 辅助标注审计」或「模型间一致性」，**不是**人工标注、不能报 human κ。
+  人工抽检请填 `human_review_40.csv` 后用 `scripts/check_human_labels.py` 计算。
