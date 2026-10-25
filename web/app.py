@@ -90,7 +90,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.16", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.17", lifespan=lifespan)
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
 
@@ -890,6 +890,13 @@ def about_page(request: Request):
 
 @app.get("/figure", response_class=HTMLResponse)
 def figure_page(request: Request):
+    model = (config.VL_MODEL or "qwen3-vl-8b").strip()
+    label = model
+    for small, big in (("-8b", "-8B"), ("-7b", "-7B"), ("-3b", "-3B"), ("-2b", "-2B")):
+        label = label.replace(small, big)
+    label = (label.replace("qwen3-vl-", "Qwen3-VL-")
+                  .replace("qwen2.5-vl-", "Qwen2.5-VL-")
+                  .replace("-instruct", ""))
     return templates.TemplateResponse(
         request,
         "figure.html",
@@ -897,6 +904,7 @@ def figure_page(request: Request):
             "active": "figure",
             "vl_available": figure_check.available(),
             "max_mb": config.VL_MAX_FIGURE_MB,
+            "vl_model_label": label,
         },
     )
 
@@ -1196,4 +1204,4 @@ def benchmark_api():
 
 @app.get("/api/health")
 def health():
-    return {"ok": True, "version": "0.9.16", "supported": sorted(ALLOWED_SUFFIXES)}
+    return {"ok": True, "version": "0.9.17", "supported": sorted(ALLOWED_SUFFIXES)}

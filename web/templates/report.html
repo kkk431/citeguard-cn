@@ -1,88 +1,94 @@
 {% extends "base.html" %}
 {% block title %}报告 · 引证卫士 CiteGuard{% endblock %}
 {% block content %}
-<section class="wrap report-head">
-  <div>
-    <a class="back" href="/">← 返回工作台</a>
-    <h1 id="report-title">{{ job.filename or '粘贴文本' }}</h1>
-    <div class="meta" id="report-meta">任务 {{ job.id }} · {{ job.created_at }}</div>
-  </div>
-  <div class="report-actions">
-    {% if report %}
-    <button class="btn btn-ghost btn-sm" type="button" id="copy-suggestions">复制修改建议</button>
-    <button class="btn btn-ghost btn-sm" type="button" id="copy-refs">复制参考文献表</button>
-      <button class="btn btn-ghost btn-sm" type="button" id="manual-csv">导出待人工核对 CSV</button>
-    <a class="btn btn-ghost btn-sm" href="/api/report/{{ job.id }}/export?format=refs">导出参考文献表</a>
-    <button class="btn btn-ghost btn-sm" type="button" id="print-report">打印 / 存 PDF</button>
-    <a class="btn btn-ghost btn-sm" href="/api/report/{{ job.id }}/export?format=csv">导出 CSV</a>
-    <a class="btn btn-ghost btn-sm" href="/api/report/{{ job.id }}/export?format=html">导出 HTML</a>
-    <a class="btn btn-ghost btn-sm" href="/api/report/{{ job.id }}/export?format=md">导出 Markdown</a>
-    <a class="btn btn-ghost btn-sm" href="/api/report/{{ job.id }}/export?format=json">导出 JSON</a>
-    {% endif %}
-    <a class="btn btn-sm" href="/">再测一篇</a>
-  </div>
-</section>
+<div class="wrap report-shell" id="report-root" data-job-id="{{ job.id }}" data-ready="{{ '1' if report else '0' }}">
+  <aside class="report-rail">
+    <div class="rail-card">
+      <a class="back" href="/">← 返回工作台</a>
+      <h1 id="report-title">{{ job.filename or '粘贴文本' }}</h1>
+      <div class="meta" id="report-meta">任务 {{ job.id }} · {{ job.created_at }}</div>
 
-<div class="wrap" id="report-root" data-job-id="{{ job.id }}" data-ready="{{ '1' if report else '0' }}">
-  <div id="report-loading" class="panel {% if report %}hidden{% endif %}">
-    <div class="loading">
-      <div class="spinner"></div>
-      <div style="flex:1">
-        <div id="loading-stage">分析中…</div>
-        <div class="mono-sm" id="loading-progress">0%</div>
-        <div class="progress"><i id="loading-bar" style="width:0%"></i></div>
+      <div class="score-row">
+        <div>
+          <div class="mono-sm">新国标合规均分</div>
+          <div id="compliance" class="score">—</div>
+        </div>
+        <div class="risk-mini">
+          <div class="mono-sm">风险构成</div>
+          <div class="riskbar" id="riskbar"></div>
+          <div class="risklegend" id="risklegend"></div>
+        </div>
       </div>
+
+      <div class="stat-list" id="stats"></div>
+
+      {% if report %}
+      <details class="rail-fold">
+        <summary>导出与操作</summary>
+        <div class="fold-body">
+          <button class="btn btn-ghost btn-sm" type="button" id="copy-suggestions">复制修改建议</button>
+          <button class="btn btn-ghost btn-sm" type="button" id="copy-refs">复制参考文献表</button>
+          <button class="btn btn-ghost btn-sm" type="button" id="manual-csv">导出待人工核对 CSV</button>
+          <a class="btn btn-ghost btn-sm" href="/api/report/{{ job.id }}/export?format=refs">导出参考文献表</a>
+          <button class="btn btn-ghost btn-sm" type="button" id="print-report">打印 / 存 PDF</button>
+          <a class="btn btn-ghost btn-sm" href="/api/report/{{ job.id }}/export?format=csv">导出 CSV</a>
+          <a class="btn btn-ghost btn-sm" href="/api/report/{{ job.id }}/export?format=html">导出 HTML</a>
+          <a class="btn btn-ghost btn-sm" href="/api/report/{{ job.id }}/export?format=md">导出 Markdown</a>
+          <a class="btn btn-ghost btn-sm" href="/api/report/{{ job.id }}/export?format=json">导出 JSON</a>
+        </div>
+      </details>
+      {% endif %}
+      <a class="btn btn-primary btn-sm rail-again" href="/">再测一篇</a>
     </div>
-    <div class="mono-sm" style="margin-top:14px">正在解析引文、核验 OpenAlex / Crossref / arXiv，并检查 GB/T 7714-2025 字段。第一次分析可能需要几分钟。</div>
-  </div>
+  </aside>
 
-  <div id="report-content" class="{% if not report %}hidden{% endif %}">
-    <div class="panel hidden" id="input-meta" style="margin-bottom:14px"></div>
-    <div class="verdict panel hidden" id="verdict"></div>
-  <div class="panel hidden" id="review-summary" style="margin-bottom:14px"></div>
-
-    <div class="stats" id="stats"></div>
-
-    <div class="riskpanel">
-      <div>
-        <div class="mono-sm" style="margin-bottom:6px">风险构成</div>
-        <div class="riskbar" id="riskbar"></div>
-        <div class="risklegend" id="risklegend"></div>
+  <div class="report-main">
+    <div id="report-loading" class="panel {% if report %}hidden{% endif %}">
+      <div class="loading">
+        <div class="spinner"></div>
+        <div style="flex:1">
+          <div id="loading-stage">分析中…</div>
+          <div class="mono-sm" id="loading-progress">0%</div>
+          <div class="progress"><i id="loading-bar" style="width:0%"></i></div>
+        </div>
       </div>
-      <div style="text-align:right">
-        <div class="mono-sm">新国标合规均分</div>
-        <div class="serif" id="compliance" style="font-size:30px;line-height:1.2">—</div>
+      <div class="mono-sm" style="margin-top:14px">正在解析引文、核验 OpenAlex / Crossref / arXiv，并检查 GB/T 7714-2025 字段。第一次分析可能需要几分钟。</div>
+    </div>
+
+    <div id="report-content" class="{% if not report %}hidden{% endif %}">
+      <div class="inline-note hidden" id="input-meta"></div>
+      <div class="verdict panel hidden" id="verdict"></div>
+      <div class="panel hidden" id="review-summary"></div>
+
+      <div class="fold-grid">
+        <div class="panel hidden" id="support-summary"></div>
+        <div class="panel hidden" id="citation-consistency"></div>
+        <div class="panel hidden" id="library-summary"></div>
       </div>
+
+      <div class="report-toolbar">
+        <input class="search" id="search" type="text" placeholder="搜索题名 / 作者 / 来源（按 / 聚焦）" autocomplete="off">
+        <div class="chips" id="chips"></div>
+        <select class="select" id="sort" aria-label="排序">
+          <option value="index">按序号</option>
+          <option value="risk">按风险</option>
+          <option value="compliance">按合规分</option>
+        </select>
+        <select class="select" id="view" aria-label="视图">
+          <option value="cards">卡片</option>
+          <option value="table">表格</option>
+        </select>
+      </div>
+
+      <div class="ref-list" id="ref-list"></div>
+      <div id="ref-table-wrap" class="panel table-wrap hidden" style="padding:0">
+        <table class="table" id="ref-table">
+          <thead><tr><th>#</th><th>状态</th><th>支持度</th><th>题名</th><th>年</th><th>来源</th><th>合规</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div id="ref-empty" class="empty hidden">没有匹配的条目。</div>
     </div>
-
-    <div class="panel hidden" id="support-summary" style="margin-bottom:18px"></div>
-
-    <div class="panel hidden" id="citation-consistency" style="margin-bottom:18px"></div>
-
-    <div class="panel hidden" id="library-summary" style="margin-bottom:18px"></div>
-
-    <div class="toolbar">
-      <input class="search" id="search" type="text" placeholder="搜索题名 / 作者 / 来源（按 / 聚焦）" autocomplete="off">
-      <div class="chips" id="chips"></div>
-      <select class="select" id="sort" aria-label="排序">
-        <option value="index">按序号</option>
-        <option value="risk">按风险</option>
-        <option value="compliance">按合规分</option>
-      </select>
-      <select class="select" id="view" aria-label="视图">
-        <option value="cards">卡片</option>
-        <option value="table">表格</option>
-      </select>
-    </div>
-
-    <div class="ref-list" id="ref-list"></div>
-    <div id="ref-table-wrap" class="panel table-wrap hidden" style="padding:0">
-      <table class="table" id="ref-table">
-        <thead><tr><th>#</th><th>状态</th><th>支持度</th><th>题名</th><th>年</th><th>来源</th><th>合规</th></tr></thead>
-        <tbody></tbody>
-      </table>
-    </div>
-    <div id="ref-empty" class="empty hidden">没有匹配的条目。</div>
   </div>
 </div>
 

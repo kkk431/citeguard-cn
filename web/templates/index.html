@@ -1,105 +1,135 @@
 {% extends "base.html" %}
 {% block content %}
-<section class="wrap hero">
-  <div>
-    <div class="kicker">中文论文 · 引文体检</div>
-    <h1>给中文论文做一次<br>引文体检</h1>
-    <p class="lede">上传论文，逐条核对参考文献是否真实存在、是否真的支持正文那句话，并检查 GB/T 7714-2025 著录格式。每条结论都带证据链接。</p>
-    <p class="lede" style="color:var(--muted);font-size:13px">支持 PDF / Word（.docx）/ TXT / MD · 单文件 ≤30 MB · 文件仅用于本次分析，分析后删除 · 可本地部署</p>
-  </div>
-  <aside class="preview" aria-hidden="true">
-    <div class="preview-head"><b>报告摘要</b><span>示例</span></div>
-    <div class="preview-grid">
-      <div><b>12</b><span>参考文献</span></div>
-      <div><b style="color:var(--ok)">8</b><span>真实一致</span></div>
-      <div><b style="color:var(--warn)">2</b><span>元数据偏差</span></div>
-      <div><b style="color:var(--bad)">2</b><span>疑似虚构</span></div>
+<section class="hero">
+  <div class="hero-copy">
+    <div class="kicker"><span class="kick-dot"></span>CiteGuard · 中文论文引文体检</div>
+    <h1>让每一条引文<br><em>都有据可查。</em></h1>
+    <p class="lede">上传论文，逐条核对参考文献是否真实存在、是否真的支持正文那句话、是否符合 GB/T 7714-2025；每条结论都带可点开的证据。</p>
+    <div class="hero-chips">
+      <span>PDF / Word / TXT / MD</span>
+      <span>≤ 30 MB</span>
+      <span>可本地部署</span>
+      <span>分析后删除原文件</span>
     </div>
-    <div class="riskbar"><i style="width:66%;background:var(--ok)"></i><i style="width:17%;background:var(--warn)"></i><i style="width:17%;background:var(--bad)"></i></div>
-    <div class="risklegend"><span>真实一致 66%</span><span>偏差 17%</span><span>虚构/错配 17%</span></div>
+    <div class="hero-cta">
+      <a class="btn btn-primary btn-lg" href="#upload-card">开始体检 <span aria-hidden="true">↓</span></a>
+      <a class="btn btn-ghost btn-lg" href="/benchmark">先看评测数字</a>
+    </div>
+  </div>
+
+  <aside class="preview" aria-hidden="true">
+    <div class="preview-head"><b>报告速览</b><span>EXAMPLE</span></div>
+    <div class="preview-row"><span class="pv-label">参考文献</span><b>24</b></div>
+    <div class="preview-row"><span class="pv-label">真实一致</span><b class="t-ok">19</b></div>
+    <div class="preview-row"><span class="pv-label">元数据偏差</span><b class="t-warn">3</b></div>
+    <div class="preview-row"><span class="pv-label">疑似虚构 / 错配</span><b class="t-bad">2</b></div>
+    <div class="riskbar"><i style="width:79%;background:var(--ok)"></i><i style="width:12.5%;background:var(--warn)"></i><i style="width:8.5%;background:var(--bad)"></i></div>
+    <div class="risklegend"><span>一致 79%</span><span>偏差 12.5%</span><span>存疑 8.5%</span></div>
+    <div class="pv-note">每条结论都能点开 OpenAlex / Crossref / DOI 原始记录核对。</div>
   </aside>
 </section>
 
-{% if vl_available %}
-<section class="wrap" style="padding:4px 0 0">
-  <a class="lib-banner on" href="/figure" style="display:block;text-decoration:none">
-    新功能：图表结论核验 · 上传图表截图，让开源视觉模型核对「图中结论」是否真的成立 →
-  </a>
-</section>
-{% endif %}
-{% if compare_available %}
-<section class="wrap" style="padding:4px 0 0">
-  <a class="lib-banner on" href="/compare" style="display:block;text-decoration:none">
-    新功能：多篇文献对比 · 一次上传 2–6 篇，自动抽出研究问题/方法/数据/结论/局限/贡献，导出对比矩阵 →
-  </a>
-</section>
-{% endif %}
-<section class="wrap" style="padding:4px 0 0">
-  <a class="lib-banner on" href="/discover" style="display:block;text-decoration:none">
-    新功能：选题与文献发现 · 输入研究主题，从 OpenAlex 检索候选文献，按透明规则排序后一键加入题录库 →
-  </a>
+<section class="stats-strip" aria-label="产品数字">
+  <a href="/benchmark"><b>0.9684</b><span>CiteBench-CN macro-F1</span></a>
+  <a href="/benchmark"><b>0 / 409</b><span>真实已发表引文被误判为虚构</span></a>
+  <a href="/benchmark"><b>0.9597</b><span>引用支持度（托管判官）</span></a>
+  <a href="/benchmark"><b>73%</b><span>外部 ChartCheck 二分类（8B）</span></a>
 </section>
 
-<section class="wrap section">
-  <div class="panel">
-    {% if library_count %}
-    <div class="lib-banner on">已导入 <b>{{ library_count }}</b> 条本地题录：中文文献会优先用你自己的题录比对 · <a href="/library">管理 / 追加</a></div>
-    {% else %}
-    <div class="lib-banner">中文文献在 OpenAlex / Crossref 里覆盖很少 → <a href="/library">导入自己的题录库</a>，让中文文献也能被核验（数据只留本机）</div>
-    {% endif %}
+<section class="section" id="upload-card">
+  <div class="composer panel">
+    <div class="composer-head">
+      <div>
+        <h2>新的一次体检</h2>
+        <p>拖入论文，或粘贴正文与参考文献。多篇会依次排队。</p>
+      </div>
+      {% if library_count %}
+      <div class="lib-banner on">已导入 <b>{{ library_count }}</b> 条本地题录 · <a href="/library">管理</a></div>
+      {% else %}
+      <div class="lib-banner">中文文献覆盖少？<a href="/library">导入本地题录库 →</a></div>
+      {% endif %}
+    </div>
+
     <form id="upload-form" enctype="multipart/form-data">
       <label id="dropzone" class="dropzone" for="file-input">
         <input id="file-input" type="file" name="file" accept=".pdf,.docx,.txt,.md" multiple hidden>
+        <div class="dz-icon" aria-hidden="true">＋</div>
         <div class="dz-title">拖入论文，或点击选择文件</div>
-        <div class="dz-sub">PDF / Word（.docx）/ TXT / MD · 可一次选多篇批量体检 · 分析后删除原文件</div>
+        <div class="dz-sub">可一次选多篇批量体检 · 分析完成后自动删除原文件</div>
         <div class="dz-file" id="dz-file"></div>
       </label>
-      <div class="or"><span>或粘贴正文与参考文献</span></div>
-      <textarea id="paste-text" name="text" rows="5" placeholder="把论文正文和「参考文献」部分一起粘进来。"></textarea>
-      <div class="upload-options">
-        <label class="opt" for="support-max">
-          <span>引用支持度判定条数</span>
-          <select id="support-max" name="support_max">
-            <option value="10">10 条（快）</option>
-            <option value="30" selected>30 条（推荐）</option>
-            <option value="80">80 条（慢）</option>
-            <option value="0">不判定，只看真实性与格式</option>
-          </select>
-        </label>
-        <span class="opt-hint">支持度需要用大模型逐条比对「引用句 ↔ 被引论文摘要」；条数越多越慢，可先看真实性与格式。</span>
-      </div>
-      <div class="upload-actions">
-        <button type="submit" class="btn btn-primary" id="start-btn">开始体检</button>
-        <button type="button" class="btn btn-ghost" id="sample-btn">用示例论文试试</button>
-        <span class="mono-sm" id="upload-hint" style="margin-left:auto;align-self:center"></span>
+
+      <div class="composer-grid">
+        <div class="composer-side">
+          <div class="divider"><span>或粘贴文本</span></div>
+          <textarea id="paste-text" name="text" rows="6" placeholder="把论文正文和「参考文献」部分一起粘进来。"></textarea>
+          <label class="field" for="support-max">
+            <span>引用支持度判定条数</span>
+            <select id="support-max" name="support_max">
+              <option value="10">10 条（快）</option>
+              <option value="30" selected>30 条（推荐）</option>
+              <option value="80">80 条（慢）</option>
+              <option value="0">不判定，只看真实性与格式</option>
+            </select>
+            <small class="opt-hint">逐条比对「引用句 ↔ 被引论文摘要」；条数越多越慢。</small>
+          </label>
+        </div>
+        <div class="composer-run">
+          <div class="run-title">这次会检查</div>
+          <ul class="run-list">
+            <li><b>真实性</b><span>OpenAlex · Crossref · arXiv · 中国 DOI</span></li>
+            <li><b>引用支持度</b><span>主张句与被引摘要逐条判定</span></li>
+            <li><b>GB/T 7714-2025</b><span>类型、字段、标点逐项提示</span></li>
+          </ul>
+          <div class="upload-actions">
+            <button type="submit" class="btn btn-primary" id="start-btn">开始体检</button>
+            <button type="button" class="btn btn-ghost" id="sample-btn">用示例论文试试</button>
+          </div>
+          <span class="mono-sm" id="upload-hint"></span>
+        </div>
       </div>
       <div id="batch-results" class="batch-results hidden"></div>
     </form>
   </div>
 </section>
 
-<section class="wrap section">
+<section class="section">
   <div class="section-head">
-    <h2>最近任务</h2>
-    <span class="hint">仅保留最近 6 条</span>
+    <div><div class="kicker-sm">能力</div><h2>从引文真实性，到图表结论</h2></div>
+    <span class="hint">全部可本地部署 · 判官模型可替换</span>
+  </div>
+  <div class="cap-grid">
+    <a class="cap-card" href="/figure"><span class="cap-no">01</span><h3>图表结论核验</h3><p>上传图表截图或整页 PDF，核对「图中结论」是否真的由图支持；可一次多条主张。</p><span class="cap-go">打开 →</span></a>
+    <a class="cap-card" href="/compare"><span class="cap-no">02</span><h3>多篇文献对比</h3><p>2–6 篇论文，自动抽出研究问题、方法、数据、结论、局限与贡献，导出对比矩阵。</p><span class="cap-go">打开 →</span></a>
+    <a class="cap-card" href="/discover"><span class="cap-no">03</span><h3>选题与文献发现</h3><p>输入研究主题，从 OpenAlex 检索、双语扩展、按透明规则排序，一键加入题录库。</p><span class="cap-go">打开 →</span></a>
+    <a class="cap-card" href="/library"><span class="cap-no">04</span><h3>本地题录库</h3><p>导入中文文献元数据，让 OpenAlex 覆盖不到的文献也能被核验；数据只留本机。</p><span class="cap-go">打开 →</span></a>
+    <a class="cap-card" href="/benchmark"><span class="cap-no">05</span><h3>可复核的评测</h3><p>每个数字都对应数据卡、脚本和 JSON 证据；开源判官与托管 API 同口径对照。</p><span class="cap-go">打开 →</span></a>
+    <a class="cap-card" href="/history"><span class="cap-no">06</span><h3>任务历史</h3><p>最近的分析记录一览，可回到任意报告、看进度或清理旧任务。</p><span class="cap-go">打开 →</span></a>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <div><div class="kicker-sm">记录</div><h2>最近任务</h2></div>
+    <span class="hint">仅保留最近 6 条 · <a href="/history">全部历史</a></span>
   </div>
   {% if recent %}
-  <div class="panel table-wrap" style="padding:0">
+  <div class="panel table-wrap recent-wrap">
     <table class="table table-compact">
       <thead><tr><th>文件</th><th>时间</th><th>状态</th><th class="col-progress">进度</th><th></th></tr></thead>
       <tbody>
         {% for job in recent %}
         <tr>
-          <td style="max-width:360px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ job.filename or '粘贴文本' }}</td>
-          <td class="mono-sm">{{ (job.created_at or '')[:19] }}</td>
+          <td class="recent-name">{{ job.filename or '粘贴文本' }}</td>
+          <td class="mono-sm">{{ (job.created_at or '')[:19].replace('T', ' ') }}</td>
           <td>
             {% if job.status == 'done' %}<span class="pill ok"><i></i>完成</span>
             {% elif job.status == 'error' %}<span class="pill bad"><i></i>失败</span>
             {% elif job.status == 'running' %}<span class="pill warn"><i></i>分析中</span>
             {% else %}<span class="pill unknown"><i></i>排队</span>{% endif %}
           </td>
-          <td class="col-progress" style="min-width:120px"><div class="progress" style="margin:0"><i style="width:{{ job.progress or 0 }}%"></i></div></td>
-          <td style="text-align:right"><a class="btn btn-sm btn-ghost" href="/report/{{ job.id }}">查看</a></td>
+          <td class="col-progress" style="min-width:140px"><div class="progress" style="margin:0"><i style="width:{{ job.progress or 0 }}%"></i></div></td>
+          <td class="recent-go"><a class="btn btn-sm btn-ghost" href="/report/{{ job.id }}">查看</a></td>
         </tr>
         {% endfor %}
       </tbody>
@@ -110,24 +140,15 @@
   {% endif %}
 </section>
 
-<section class="wrap section">
-  <div class="section-head"><h2>怎么工作</h2><span class="hint">三步</span></div>
-  <div class="panel how-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:22px">
-    <div>
-      <div class="mono-sm" style="color:var(--accent)">01 / 解析</div>
-      <div class="serif" style="font-size:16px;margin:6px 0">拆出每一条引文</div>
-      <div style="font-size:12px;color:var(--ink-2)">正文夹注与文后参考文献表对齐，解析作者、题名、类型、来源、年卷期页、DOI。</div>
-    </div>
-    <div>
-      <div class="mono-sm" style="color:var(--accent)">02 / 核验</div>
-      <div class="serif" style="font-size:16px;margin:6px 0">多源比对</div>
-      <div style="font-size:12px;color:var(--ink-2)">OpenAlex → Crossref → arXiv 三级回退；中文文献可优先用你导入的本地题录库，还能识别中国 DOI 注册平台。</div>
-    </div>
-    <div>
-      <div class="mono-sm" style="color:var(--accent)">03 / 检查</div>
-      <div class="serif" style="font-size:16px;margin:6px 0">新国标字段</div>
-      <div style="font-size:12px;color:var(--ink-2)">按 GB/T 7714-2025 的类型与字段要求，给出缺什么、错在哪、怎么改。</div>
-    </div>
+<section class="section">
+  <div class="section-head">
+    <div><div class="kicker-sm">方法</div><h2>怎么工作</h2></div>
+    <span class="hint">三步 · 每一步都留下证据</span>
+  </div>
+  <div class="how-grid">
+    <div class="how-card"><span class="how-no">01</span><h3>解析</h3><p>正文夹注与文后参考文献表对齐，解析作者、题名、类型、来源、年卷期页与 DOI。</p></div>
+    <div class="how-card"><span class="how-no">02</span><h3>核验</h3><p>OpenAlex → Crossref → arXiv 三级回退；中文文献优先比对你的本地题录库。</p></div>
+    <div class="how-card"><span class="how-no">03</span><h3>判定</h3><p>规则引擎 + 开源判官双段式判定，给出结论、理由和可点开的原始记录。</p></div>
   </div>
 </section>
 {% endblock %}

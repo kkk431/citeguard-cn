@@ -4,38 +4,106 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}引证卫士 CiteGuard · 中文论文引文体检{% endblock %}</title>
-  <meta name="description" content="中文论文引文体检：真实性核验、引用支持度、GB/T 7714-2025 合规检查。">
+  <meta name="description" content="中文论文引文体检：真实性核验、引用支持度、GB/T 7714-2025 合规检查、图表结论核验。">
   <link rel="stylesheet" href="/static/css/app.css?v={{ request.app.version }}">
 </head>
 <body>
-  <header class="topbar">
-    <div class="wrap topbar-inner">
-      <a class="brand" href="/">
-        <span class="brand-mark">引</span>
-        <span class="brand-text">引证卫士<small>CiteGuard</small></span>
+  {% set nav = [
+    ('home', '/', '工作台', '上传论文，逐条核验'),
+    ('figure', '/figure', '图表核验', '图中结论是否成立'),
+    ('compare', '/compare', '文献对比', '多篇论文横向矩阵'),
+    ('discover', '/discover', '文献发现', '选题检索与排序'),
+    ('library', '/library', '题录库', '本地中文元数据'),
+    ('history', '/history', '历史', '最近的体检任务'),
+    ('benchmark', '/benchmark', '评测', '可复核的数字'),
+    ('about', '/about', '关于', '方法与边界')
+  ] %}
+  {% set current = namespace(title='工作台', sub='上传论文，逐条核验') %}
+  {% for key, href, label, sub in nav %}
+    {% if active == key %}{% set current.title = label %}{% set current.sub = sub %}{% endif %}
+  {% endfor %}
+  {% if active == 'report' %}
+    {% set current.title = '报告' %}
+    {% set current.sub = '逐条证据与修改建议' %}
+  {% endif %}
+
+  <a class="skip" href="#main">跳到正文</a>
+
+  <aside class="rail" id="rail">
+    <a class="rail-brand" href="/">
+      <span class="rail-mark">引</span>
+      <span class="rail-name">引证卫士<em>CiteGuard</em></span>
+    </a>
+
+    <nav class="rail-nav" aria-label="主导航">
+      <div class="rail-label">核验</div>
+      {% for key, href, label, sub in nav[:4] %}
+      <a href="{{ href }}" class="rail-link{% if active == key %} on{% endif %}">
+        <span class="rail-ico" aria-hidden="true">{{ {'home':'◇','figure':'▤','compare':'⇄','discover':'◎'}[key] }}</span>
+        <span class="rail-txt">{{ label }}<small>{{ sub }}</small></span>
       </a>
-      <nav class="nav">
-        <a href="/" class="{% if active == 'home' %}on{% endif %}">工作台</a>
-        <a href="/figure" class="{% if active == 'figure' %}on{% endif %}">图表核验</a>
-        <a href="/compare" class="{% if active == 'compare' %}on{% endif %}">文献对比</a>
-        <a href="/discover" class="{% if active == 'discover' %}on{% endif %}">文献发现</a>
-        <a href="/library" class="{% if active == 'library' %}on{% endif %}">题录库</a>
-        <a href="/benchmark" class="{% if active == 'benchmark' %}on{% endif %}">评测</a>
-    <a href="/history" class="{% if active == 'history' %}on{% endif %}">历史</a>
-        <a href="/about" class="{% if active == 'about' %}on{% endif %}">关于</a>
-        <a href="https://github.com/kkk431/citeguard-cn" target="_blank" rel="noopener">GitHub</a>
-      </nav>
-    </div>
-  </header>
+      {% endfor %}
+      <div class="rail-label">资产</div>
+      {% for key, href, label, sub in nav[4:6] %}
+      <a href="{{ href }}" class="rail-link{% if active == key %} on{% endif %}">
+        <span class="rail-ico" aria-hidden="true">{{ {'library':'▦','history':'◷'}[key] }}</span>
+        <span class="rail-txt">{{ label }}<small>{{ sub }}</small></span>
+      </a>
+      {% endfor %}
+      <div class="rail-label">洞察</div>
+      {% for key, href, label, sub in nav[6:] %}
+      <a href="{{ href }}" class="rail-link{% if active == key %} on{% endif %}">
+        <span class="rail-ico" aria-hidden="true">{{ {'benchmark':'◔','about':'ℹ'}[key] }}</span>
+        <span class="rail-txt">{{ label }}<small>{{ sub }}</small></span>
+      </a>
+      {% endfor %}
+    </nav>
 
-  <main>{% block content %}{% endblock %}</main>
-
-  <footer class="footer">
-    <div class="wrap">
-      <div>引证卫士 CiteGuard-CN · 核验依据 OpenAlex / Crossref / arXiv 公开数据</div>
-      <div>GB/T 7714-2025 规则检查为辅助提示，请以国家标准原文与人工复核为准 · 源文件分析后删除</div>
+    <div class="rail-foot">
+      <span class="dot"></span>
+      <span>v{{ request.app.version }} · 数据仅留本机</span>
     </div>
-  </footer>
+  </aside>
+  <div class="rail-backdrop" id="rail-backdrop" hidden></div>
+
+  <div class="shell">
+    <header class="shell-top">
+      <button class="icon-btn rail-toggle" id="rail-toggle" aria-label="打开导航" aria-expanded="false">☰</button>
+      <div class="crumbs">
+        <span class="crumb-home">引证卫士</span>
+        <span class="crumb-sep">/</span>
+        <span class="crumb-now">{{ current.title }}</span>
+        <span class="crumb-sub">{{ current.sub }}</span>
+      </div>
+      <div class="shell-actions">
+        <button class="palette-btn" id="palette-open" type="button">
+          <span>搜索或跳转</span><kbd>Ctrl K</kbd>
+        </button>
+        <a class="top-gh" href="https://github.com/kkk431/citeguard-cn" target="_blank" rel="noopener">GitHub ↗</a>
+        <a class="btn btn-primary btn-sm" href="/">新体检</a>
+      </div>
+    </header>
+
+    <main id="main">{% block content %}{% endblock %}</main>
+
+    <footer class="foot">
+      <div>引证卫士 CiteGuard-CN · 核验依据 OpenAlex / Crossref / arXiv / 本地题录库公开元数据</div>
+      <div>GB/T 7714-2025 规则检查为辅助提示，以国家标准原文与人工复核为准 · 原文件分析后删除</div>
+    </footer>
+  </div>
+
+  <div class="palette" id="palette" hidden>
+    <div class="palette-scrim" data-close></div>
+    <div class="palette-box" role="dialog" aria-modal="true" aria-label="命令面板">
+      <div class="palette-head">
+        <span class="palette-glyph">⌕</span>
+        <input id="palette-input" type="text" placeholder="跳到页面、开始一次体检…" autocomplete="off">
+        <kbd>Esc</kbd>
+      </div>
+      <div class="palette-list" id="palette-list"></div>
+      <div class="palette-foot">↑ ↓ 选择 · ↵ 打开 · Esc 关闭</div>
+    </div>
+  </div>
 
   <div id="toast" class="toast" aria-live="polite"></div>
   <script src="/static/js/app.js?v={{ request.app.version }}"></script>

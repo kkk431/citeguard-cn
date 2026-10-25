@@ -7,12 +7,12 @@
   <p class="lede" style="max-width:74ch">
     论文里「见图 3，A 方法的准确率最高」这类结论，靠的是读者自己看图。把图表截图和结论交给视觉模型，
     让它逐一核对坐标轴、图例、数值与趋势，给出「支持 / 矛盾 / 信息不足」三档判断；粘贴正文或图注后，还会一并判断正文是否支持同一条结论。
-    模型是自建的开源 Qwen2.5-VL-7B-Instruct（Apache-2.0），图片只在本次请求里发给你配置的服务，不落盘、不上传到第三方。
+    模型是自建的开源视觉模型（Qwen2.5-VL / Qwen3-VL 可切换，Apache-2.0），图片只在本次请求里发给你配置的服务，不落盘、不上传到第三方。
   </p>
   <div class="stats stats-4">
     <div class="stat"><b>三档</b><span>支持 / 矛盾 / 信息不足</span></div>
-    <div class="stat"><b>Qwen2.5-VL-7B</b><span>开源视觉模型</span></div>
-    <div class="stat"><b>单卡 4090</b><span>约 1.8–2.6 秒/条</span></div>
+    <div class="stat"><b>{{ vl_model_label }}</b><span>开源视觉模型</span></div>
+    <div class="stat"><b>单卡 4090</b><span>约 2–5 秒/条（随模型/分步推理）</span></div>
     <div class="stat"><b>{{ '已配置' if vl_available else '未配置' }}</b><span>核验服务状态</span></div>
   </div>
   {% if not vl_available %}
