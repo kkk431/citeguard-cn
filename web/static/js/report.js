@@ -277,6 +277,7 @@
   }
 
   function render(data) {
+  window.__reportData = data;
     renderInputMeta(data);
     renderVerdict(data);
     renderReviewSummary(data);
@@ -725,7 +726,9 @@
         const manualLinks = (v.status === "Unverified" && manualTitle)
           ? '<div class="ref-note">人工核对入口：<a style="color:var(--accent)" target="_blank" rel="noopener" href="https://kns.cnki.net/kns8s/defaultresult/index?kw=' +
               encodeURIComponent(manualTitle) + '">知网检索</a> · <a style="color:var(--accent)" target="_blank" rel="noopener" href="https://xueshu.baidu.com/s?wd=' +
-              encodeURIComponent(manualTitle) + '">百度学术</a>' +
+              encodeURIComponent(manualTitle) + '">百度学术</a> · <a style="color:var(--accent)" target="_blank" rel="noopener" href="https://s.wanfangdata.com.cn/paper?q=' +
+              encodeURIComponent(manualTitle) + '">万方</a> · <a style="color:var(--accent)" target="_blank" rel="noopener" href="https://ss.zhizhen.com/s?sw=' +
+              encodeURIComponent(manualTitle) + '">超星发现</a>' +
               (/[\u4e00-\u9fff]/.test(manualTitle)
                 ? "（中文文献不在 OpenAlex/Crossref 覆盖范围，开放索引查不到属正常，需人工核对）"
                 : "") +
@@ -811,3 +814,45 @@
       .join("");
   }
 })();
+
+/* Export the references that still need human checking (Unverified/Unknown). */
+function csvCell(value) {
+  const text = String(value == null ? "" : value).replace(/"/g, '""');
+  return '"' + text + '"';
+}
+
+function manualCsv() {
+  const data = window.__reportData || {};
+  const rows = [["序号", "状态", "题名", "作者", "年份", "期刊/来源", "引文原文", "人工检索"]];
+  (data.references || []).forEach(function (item) {
+    const v = item.verify || {};
+    if (v.status !== "Unverified" && v.status !== "Unknown") return;
+    const p = item.parsed || {};
+    const title = p.title || "";
+    const links = [
+      "https://kns.cnki.net/kns8s/defaultresult/index?kw=" + encodeURIComponent(title),
+      "https://s.wanfangdata.com.cn/paper?q=" + encodeURIComponent(title),
+      "https://ss.zhizhen.com/s?sw=" + encodeURIComponent(title),
+      "https://xueshu.baidu.com/s?wd=" + encodeURIComponent(title),
+    ].join(" ");
+    rows.push([
+      item.index || "", v.status || "", title, (p.authors || []).join("; "),
+      p.year || "", p.venue || "", item.raw || "", links,
+    ]);
+  });
+  const csv = "\ufeff" + rows.map(function (row) { return row.map(csvCell).join(","); }).join("\r\n");
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "manual-check.csv";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+const manualCsvBtn = document.getElementById("manual-csv");
+if (manualCsvBtn) {
+  manualCsvBtn.addEventListener("click", manualCsv);
+}

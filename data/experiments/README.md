@@ -58,6 +58,8 @@
 
 | `vl_synth_results.json` / `vl_real_results.json` | E10：图表结论核验（Qwen2.5-VL-7B）合成 40 条 / 真实 10 条 | `scripts/vl_figtest.py`（需 GPU 服务） | 准确率 **0.90 / 0.90**，误报矛盾 0 |
 | `figure_prompt_eval.json` | E10 续：图表 prompt/上下文消融（50 条；v1 / v2 / v2+上下文） | `scripts/eval_figure_prompt.py`（需 GPU 服务） | v2+上下文 **0.94**（仅图 0.90），误报矛盾 0 |
+| `figure_prompt_eval_real22.json` | 扩展真实图表压力集（11 图 / 22 条，含 6 张路径图；无上下文 v2） | `scripts/eval_figure_prompt.py --variants v2` | **0.818**（支持 1.00 / 矛盾 0.636），3 例把矛盾判成 insufficient/supported |
+| `discover_ndcg.json` | 选题发现排序：8 个中文主题、扩展开/关、关键词代理 nDCG@10 | `scripts/eval_discover_ndcg.py` | 开扩展 0.958 / 关扩展 0.976；每查询 2 级相关 8.0 / 7.0 |
 | `figure_prompt_eval_3b.json` | 同一 50 条的 **Qwen2.5-VL-3B** 跨模型对照（v2 / v2+上下文） | 同上，端点指向 3B 视觉服务 | 3B：0.64 / 0.86；矛盾类召回 0.32 / 0.72，会把矛盾判成支持——只适合支持类初筛，不作矛盾筛查 |
 
 | `compare_local_qwen3_14b.json` | 多篇文献对比（Qwen3-14B 本地端点）4 篇真实论文工程实测 | 本地脚本 | 4/4 成功，字段 3–6/6，43.9 s/4 篇（约 11 s/篇） |

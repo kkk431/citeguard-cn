@@ -174,7 +174,7 @@ OpenAI 兼容的 `/v1/chat/completions` 调用视觉模型；`scripts/local_vl_s
   因此 3B 只适合廉价的「支持类」初筛，**不用于矛盾筛查**；产品默认与推荐仍是 7B。
 - 同一张图可一次核验最多 5 条结论，服务端逐条判定；只写一条时走原单条接口形状。
 - 合成集由 `scripts/make_synth_figtest.py` 生成（柱状图/折线图各 10 张，每图 1 条支持 + 1 条矛盾），标签由构造决定；
-  真实图由 `scripts/extract_real_figures.py` 从本地 PDF 截取后人工挑图、人工写结论，规模小（5 图/10 条），只作方向性证据。
+  真实图由 `scripts/extract_real_figures.py` 从本地 PDF 截取后人工挑图、人工写结论：主表 5 图/10 条只作方向性证据；另有扩展压力集 11 图/22 条（含 6 张中介/调节路径图，仅无上下文 v2）判定 **0.818**、矛盾类 **0.636**，说明结构关系图的否定判断仍是弱项。
 - 证据：`data/experiments/figure_prompt_eval.json`（7B）与 `figure_prompt_eval_3b.json`（3B）；仓库不分发真实图表截图，
   评测脚本与合成集生成器公开。细节见 [docs/figure_check.md](docs/figure_check.md)。
 

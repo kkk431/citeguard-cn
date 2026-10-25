@@ -139,6 +139,7 @@ PYTHONPATH=src python3 scripts/evaluate_support.py \
   生产离线建议 14B 级起步：bf16 需 2 张 24GB 卡（约 29.2 GB 显存）；
 **4-bit NF4 量化后单卡 24GB 即可（约 11.7 GB 显存）**，dev 40 1.0000、test 60 0.9588（bf16 0.9574）、全 100 条 0.9754（bf16 0.9744），
 代价是单条约 13.4 秒（约为 bf16 的 1.7 倍）。8B 单卡即可但 test 只有 0.8515（4-bit 后进一步降到 0.8165，量化对 8B 的伤害明显大于 14B）。32B 未实测，不写数字。
+- 判定并发：默认 `CITEGUARD_SUPPORT_WORKERS=4`（1–8 夹取）；进度按完成条数递增，截断语义不变（先选前 N 条可判定引文，再并发判定）。缓存写入改为临时文件 + 原子替换，避免并发写坏缓存。
 - 覆盖审计 v2 对自托管端点自动启用（`CITEGUARD_SUPPORT_AUDIT_STYLE=auto`：按**实际生效的 endpoint**
   判断，`CITEGUARD_JUDGE_BASE_URL` 或 `DEEPSEEK_BASE_URL` 指向本地都算自托管 → v2，
   托管 API → v1 保持历史可比）；prompt 现在两端统一用 v10（`scripts/support_prompt_v10.txt`）。

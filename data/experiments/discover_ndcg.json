@@ -1,0 +1,817 @@
+{
+  "generated_at": "2026-10-25T14:27:42",
+  "method": "keyword-group proxy (2 = all groups, 1 = all-but-one group)",
+  "queries": 8,
+  "summary": {
+    "auto": {
+      "ndcg@10": 0.9576,
+      "relevant_2_per_query": 8.0
+    },
+    "off": {
+      "ndcg@10": 0.9758,
+      "relevant_2_per_query": 7.0
+    }
+  },
+  "rows": [
+    {
+      "query": "人工智能 教育",
+      "expand": "auto",
+      "n": 10,
+      "relevant_2": 10,
+      "relevant_1": 0,
+      "ndcg@10": 1.0,
+      "titles": [
+        {
+          "title": "Artificial intelligence and education",
+          "rel": 2
+        },
+        {
+          "title": "Artificial Intelligence and Its Scope in Different Areas with Special Reference to the Fie",
+          "rel": 2
+        },
+        {
+          "title": "Generative Artificial Intelligence in Agriculture, Education, and Business",
+          "rel": 2
+        },
+        {
+          "title": "Applications of Artificial Intelligence in Business, Education and Healthcare",
+          "rel": 2
+        },
+        {
+          "title": "人工智能赋能教育的研究进展、热点与趋势",
+          "rel": 2
+        },
+        {
+          "title": "Artificial Intelligence and its Implications for Education",
+          "rel": 2
+        },
+        {
+          "title": "Artificial Intelligence and Education",
+          "rel": 2
+        },
+        {
+          "title": "面向生命实践教育的人工智能教育课例研究",
+          "rel": 2
+        },
+        {
+          "title": "基于Arduino的青少年人工智能教育探索与实践",
+          "rel": 2
+        },
+        {
+          "title": "Artificial Intelligence, Culture and Language: On Education and Work",
+          "rel": 2
+        }
+      ]
+    },
+    {
+      "query": "人工智能 教育",
+      "expand": "off",
+      "n": 10,
+      "relevant_2": 10,
+      "relevant_1": 0,
+      "ndcg@10": 1.0,
+      "titles": [
+        {
+          "title": "人工智能赋能教育的研究进展、热点与趋势",
+          "rel": 2
+        },
+        {
+          "title": "面向生命实践教育的人工智能教育课例研究",
+          "rel": 2
+        },
+        {
+          "title": "基于Arduino的青少年人工智能教育探索与实践",
+          "rel": 2
+        },
+        {
+          "title": "人工智能教育融入中小学信息科技课堂的路径探索与效果评估",
+          "rel": 2
+        },
+        {
+          "title": "无人化智能制造环境下的人工智能教育改革研究",
+          "rel": 2
+        },
+        {
+          "title": "人工智能教育在小学编程课程中的应用与实践",
+          "rel": 2
+        },
+        {
+          "title": "职业院校人工智能教育的实践路径与对策研究",
+          "rel": 2
+        },
+        {
+          "title": "人工智能教育在跨学科实践中的创新融合",
+          "rel": 2
+        },
+        {
+          "title": "人工智能教育对大学生创业意愿的影响机制研究",
+          "rel": 2
+        },
+        {
+          "title": "开设人工智能教育，提升小学生科学素养",
+          "rel": 2
+        }
+      ]
+    },
+    {
+      "query": "社交媒体 青少年 心理健康",
+      "expand": "auto",
+      "n": 10,
+      "relevant_2": 8,
+      "relevant_1": 2,
+      "ndcg@10": 0.9906,
+      "titles": [
+        {
+          "title": "The Impact of Social Media on the Mental Health of Adolescents and Young Adults: A Systema",
+          "rel": 2
+        },
+        {
+          "title": "Is social media bad for mental health and wellbeing? Exploring the perspectives of adolesc",
+          "rel": 2
+        },
+        {
+          "title": "Smartphones, social media use and youth mental health",
+          "rel": 2
+        },
+        {
+          "title": "社交媒体使用对青少年心理健康的影响及引导措施研究",
+          "rel": 2
+        },
+        {
+          "title": "Potential of social media in promoting mental health in adolescents",
+          "rel": 2
+        },
+        {
+          "title": "Social media and adolescent mental health: the good, the bad and the ugly",
+          "rel": 2
+        },
+        {
+          "title": "Problematic Social Media Use in Adolescents and Young Adults: Systematic Review and Meta-a",
+          "rel": 1
+        },
+        {
+          "title": "The effects of social deprivation on adolescent development and mental health",
+          "rel": 1
+        },
+        {
+          "title": "社交媒体与青少年心理健康：双向效应及数字生态干预综述",
+          "rel": 2
+        },
+        {
+          "title": "How Adolescents Use Social Media to Cope with Feelings of Loneliness and Anxiety During CO",
+          "rel": 2
+        }
+      ]
+    },
+    {
+      "query": "社交媒体 青少年 心理健康",
+      "expand": "off",
+      "n": 10,
+      "relevant_2": 2,
+      "relevant_1": 6,
+      "ndcg@10": 0.9963,
+      "titles": [
+        {
+          "title": "社交媒体使用对青少年心理健康的影响及引导措施研究",
+          "rel": 2
+        },
+        {
+          "title": "社交媒体与青少年心理健康：双向效应及数字生态干预综述",
+          "rel": 2
+        },
+        {
+          "title": "心理+学科教学背景下青少年心理健康教育研究",
+          "rel": 1
+        },
+        {
+          "title": "青少年心理健康：现状、影响因素及优化策略",
+          "rel": 1
+        },
+        {
+          "title": "体育锻炼对青少年心理健康的影响与促进机制研究",
+          "rel": 1
+        },
+        {
+          "title": "社交媒体使用对大学生心理健康的影响及辅导干预策略调研报告",
+          "rel": 1
+        },
+        {
+          "title": "社交媒体使用与大学生宿舍居住空间对大学生心理健康影响的长期效应研究",
+          "rel": 1
+        },
+        {
+          "title": "青少年心理障碍的社会心理因素和健康教育措施",
+          "rel": 0
+        },
+        {
+          "title": "社交媒体使用与错失焦虑的关系：一项元分析",
+          "rel": 0
+        },
+        {
+          "title": "青少年手机依赖者的心理健康状况及与生活事件、学业倦怠的关系",
+          "rel": 1
+        }
+      ]
+    },
+    {
+      "query": "碳中和 政策",
+      "expand": "auto",
+      "n": 10,
+      "relevant_2": 9,
+      "relevant_1": 1,
+      "ndcg@10": 0.9982,
+      "titles": [
+        {
+          "title": "Policy and Management of Carbon Peaking and Carbon Neutrality: A Literature Review",
+          "rel": 2
+        },
+        {
+          "title": "Fossil fuels subsidy removal and the EU carbon neutrality policy",
+          "rel": 2
+        },
+        {
+          "title": "Carbon tax and energy innovation at crossroads of carbon neutrality: Designing a sustainab",
+          "rel": 2
+        },
+        {
+          "title": "Carbon capture and storage (CCS): development path based on carbon neutrality and economic",
+          "rel": 2
+        },
+        {
+          "title": "China’s Carbon Neutrality Policy: Objectives, Impacts and Paths",
+          "rel": 2
+        },
+        {
+          "title": "Policy uncertainty and carbon neutrality: Evidence from China",
+          "rel": 2
+        },
+        {
+          "title": "Blue carbon governance for carbon neutrality in China: Policy evaluation and perspectives",
+          "rel": 2
+        },
+        {
+          "title": "Towards carbon neutrality by implementing carbon emissions trading scheme: Policy evaluati",
+          "rel": 2
+        },
+        {
+          "title": "Challenges and opportunities for carbon neutrality in China",
+          "rel": 1
+        },
+        {
+          "title": "Fundamental Research and Policy on Carbon Neutrality",
+          "rel": 2
+        }
+      ]
+    },
+    {
+      "query": "碳中和 政策",
+      "expand": "off",
+      "n": 10,
+      "relevant_2": 7,
+      "relevant_1": 3,
+      "ndcg@10": 0.9741,
+      "titles": [
+        {
+          "title": "基于三维分析框架的中国碳中和政策体系研究",
+          "rel": 2
+        },
+        {
+          "title": "碳中和目标下农业绿色转型的政策支持体系研究",
+          "rel": 2
+        },
+        {
+          "title": "能源动力产业碳中和与碳达峰政策研究",
+          "rel": 2
+        },
+        {
+          "title": "日本碳中和战略与政策体系概述 Carbon Neutral Strategy and Policy Framework in Japan",
+          "rel": 2
+        },
+        {
+          "title": "试论陆地生态系统碳汇在“碳中和”目标中的作用",
+          "rel": 1
+        },
+        {
+          "title": "《碳中和材料与技术》课程思政建设与教学提升策略研究",
+          "rel": 1
+        },
+        {
+          "title": "共享社会经济路径下中国碳中和目标的经济效应研究",
+          "rel": 2
+        },
+        {
+          "title": "建筑设计中的碳中和原则与减排策略",
+          "rel": 1
+        },
+        {
+          "title": "碳中和碳达峰理念下的建筑一体化设计",
+          "rel": 2
+        },
+        {
+          "title": "碳达峰碳中和目标约束下的产业结构升级路径研究",
+          "rel": 2
+        }
+      ]
+    },
+    {
+      "query": "农村 电商",
+      "expand": "auto",
+      "n": 10,
+      "relevant_2": 10,
+      "relevant_1": 0,
+      "ndcg@10": 1.0,
+      "titles": [
+        {
+          "title": "E-commerce development in rural and remote areas of BRICS countries",
+          "rel": 2
+        },
+        {
+          "title": "农村电商直播赋能乡村振兴的机理与路径研究",
+          "rel": 2
+        },
+        {
+          "title": "数字经济驱动下的农村电商发展模式与路径优化研究",
+          "rel": 2
+        },
+        {
+          "title": "对重庆秀山农村电商助推乡村振兴的思考",
+          "rel": 2
+        },
+        {
+          "title": "农村电商专业服务乡村产业发展的路径研究",
+          "rel": 2
+        },
+        {
+          "title": "农村电商发展对耕地非粮化的影响研究",
+          "rel": 2
+        },
+        {
+          "title": "乡村振兴视域下中国农村电商状况调查研究",
+          "rel": 2
+        },
+        {
+          "title": "论农村电商发展问题及策略研究",
+          "rel": 2
+        },
+        {
+          "title": "乡村振兴视域下农村电商创业策略研究",
+          "rel": 2
+        },
+        {
+          "title": "探究乡村经济发展中农村电商平台的推动作用",
+          "rel": 2
+        }
+      ]
+    },
+    {
+      "query": "农村 电商",
+      "expand": "off",
+      "n": 10,
+      "relevant_2": 10,
+      "relevant_1": 0,
+      "ndcg@10": 1.0,
+      "titles": [
+        {
+          "title": "农村电商直播赋能乡村振兴的机理与路径研究",
+          "rel": 2
+        },
+        {
+          "title": "数字经济驱动下的农村电商发展模式与路径优化研究",
+          "rel": 2
+        },
+        {
+          "title": "对重庆秀山农村电商助推乡村振兴的思考",
+          "rel": 2
+        },
+        {
+          "title": "农村电商专业服务乡村产业发展的路径研究",
+          "rel": 2
+        },
+        {
+          "title": "农村电商发展对耕地非粮化的影响研究",
+          "rel": 2
+        },
+        {
+          "title": "乡村振兴视域下中国农村电商状况调查研究",
+          "rel": 2
+        },
+        {
+          "title": "论农村电商发展问题及策略研究",
+          "rel": 2
+        },
+        {
+          "title": "乡村振兴视域下农村电商创业策略研究",
+          "rel": 2
+        },
+        {
+          "title": "探究乡村经济发展中农村电商平台的推动作用",
+          "rel": 2
+        },
+        {
+          "title": "农村电商发展现状及政府扶持政策优化研究",
+          "rel": 2
+        }
+      ]
+    },
+    {
+      "query": "睡眠 认知",
+      "expand": "auto",
+      "n": 10,
+      "relevant_2": 1,
+      "relevant_1": 9,
+      "ndcg@10": 0.7962,
+      "titles": [
+        {
+          "title": "Connections between sleep and cognition in older adults",
+          "rel": 1
+        },
+        {
+          "title": "Sleep and Cognition in Older Adults",
+          "rel": 1
+        },
+        {
+          "title": "Effects of caffeine on sleep and cognition",
+          "rel": 1
+        },
+        {
+          "title": "Effects of tryptophan loading on human cognition, mood, and sleep",
+          "rel": 1
+        },
+        {
+          "title": "Circadian clocks: genes, sleep, and cognition",
+          "rel": 1
+        },
+        {
+          "title": "Effects of Light Treatment on Sleep, Cognition, Mood, and Behavior in Alzheimer’s Disease:",
+          "rel": 1
+        },
+        {
+          "title": "Sleep and cognition",
+          "rel": 2
+        },
+        {
+          "title": "Sleep and cognition.",
+          "rel": 1
+        },
+        {
+          "title": "Antagonism of serotonergic 5‐HT2A/2Creceptors: mutual improvement of sleep, cognition and ",
+          "rel": 1
+        },
+        {
+          "title": "HUMAN SLEEP AND COGNITION, PT II: CLINICAL AND APPLIED RESEARCH",
+          "rel": 1
+        }
+      ]
+    },
+    {
+      "query": "睡眠 认知",
+      "expand": "off",
+      "n": 10,
+      "relevant_2": 10,
+      "relevant_1": 0,
+      "ndcg@10": 1.0,
+      "titles": [
+        {
+          "title": "TIP技术中睡眠认知信息模块设计思路",
+          "rel": 2
+        },
+        {
+          "title": "普通内科住院患者睡眠认知情况的抽样调查分析",
+          "rel": 2
+        },
+        {
+          "title": "失眠认知行为治疗软件在睡眠障碍患者辅助治疗中的应用价值",
+          "rel": 2
+        },
+        {
+          "title": "基于多学科协作的ICU谵妄整合干预护理方案优化及对睡眠-认知网络指标的影响",
+          "rel": 2
+        },
+        {
+          "title": "硫必利联合奥氮平对难治性精神分裂患者睡眠及认知功能的影响",
+          "rel": 2
+        },
+        {
+          "title": "认知行为干预导向护理对青少年失眠的睡眠结构与复发风险的影响研究",
+          "rel": 2
+        },
+        {
+          "title": "认知行为护理干预对失眠伴焦虑抑郁患者睡眠质量的影响",
+          "rel": 2
+        },
+        {
+          "title": "针刺调控突触可塑性治疗睡眠剥夺后认知功能障碍的研究进展",
+          "rel": 2
+        },
+        {
+          "title": "睡眠风险灰犀牛视阈下大学生认知损伤机制",
+          "rel": 2
+        },
+        {
+          "title": "光生物调节改善睡眠剥夺小鼠认知障碍的机制研究（特邀）",
+          "rel": 2
+        }
+      ]
+    },
+    {
+      "query": "大语言模型 医疗",
+      "expand": "auto",
+      "n": 10,
+      "relevant_2": 9,
+      "relevant_1": 1,
+      "ndcg@10": 1.0,
+      "titles": [
+        {
+          "title": "Attention is not all you need: the complicated case of ethically using large language mode",
+          "rel": 2
+        },
+        {
+          "title": "A framework for human evaluation of large language models in healthcare derived from liter",
+          "rel": 2
+        },
+        {
+          "title": "Retrieval augmented generation for large language models in healthcare: A systematic revie",
+          "rel": 2
+        },
+        {
+          "title": "A Review of Large Language Models in Healthcare: Taxonomy, Threats, Vulnerabilities, and F",
+          "rel": 2
+        },
+        {
+          "title": "A Survey on Large Language Models for Critical Societal Domains: Finance, Healthcare, and ",
+          "rel": 2
+        },
+        {
+          "title": "Evaluating large language models for use in healthcare: A framework for translational valu",
+          "rel": 2
+        },
+        {
+          "title": "A Survey on Unifying Large Language Models and Knowledge Graphs for Biomedicine and Health",
+          "rel": 2
+        },
+        {
+          "title": "Explainability in the age of large language models for healthcare",
+          "rel": 2
+        },
+        {
+          "title": "Transforming Healthcare with Large Language Models and AI Agents",
+          "rel": 2
+        },
+        {
+          "title": "Generative AI and large language models in health care: pathways to implementation",
+          "rel": 1
+        }
+      ]
+    },
+    {
+      "query": "大语言模型 医疗",
+      "expand": "off",
+      "n": 10,
+      "relevant_2": 5,
+      "relevant_1": 5,
+      "ndcg@10": 0.9209,
+      "titles": [
+        {
+          "title": "5A MedAgent：面向患者教育的医疗大语言模型多智能体协作系统",
+          "rel": 2
+        },
+        {
+          "title": "基于数智药典大语言模型的多智能体应用教学改革研究",
+          "rel": 1
+        },
+        {
+          "title": "大语言模型和专病GPT赋能OSA咨询和管理的临床应用效果对比研究方案",
+          "rel": 2
+        },
+        {
+          "title": "技术与隐私：端侧大语言模型的伦理风险与治理路径",
+          "rel": 1
+        },
+        {
+          "title": "大语言模型在肩袖损伤管理中的研究现状：一项范围综述",
+          "rel": 2
+        },
+        {
+          "title": "大语言模型垂直化训练技术与应用",
+          "rel": 1
+        },
+        {
+          "title": "基于大语言模型的中文电子病历命名实体识别",
+          "rel": 2
+        },
+        {
+          "title": "AI大语言模型辅助医学影像信息系统数据清洗与整合技术研究",
+          "rel": 2
+        },
+        {
+          "title": "基于大语言模型和RAG的舆情知识交互及推荐研究",
+          "rel": 1
+        },
+        {
+          "title": "基于大语言模型的函数调用功能研究与性能对比",
+          "rel": 1
+        }
+      ]
+    },
+    {
+      "query": "城市 绿地 健康",
+      "expand": "auto",
+      "n": 10,
+      "relevant_2": 8,
+      "relevant_1": 2,
+      "ndcg@10": 0.9843,
+      "titles": [
+        {
+          "title": "Urban Green Space and Its Impact on Human Health",
+          "rel": 2
+        },
+        {
+          "title": "The Relationship between Social Cohesion and Urban Green Space: An Avenue for Health Promo",
+          "rel": 2
+        },
+        {
+          "title": "Green space, urbanity, and health: how strong is the relation?",
+          "rel": 2
+        },
+        {
+          "title": "Urban green space, public health, and environmental justice: The challenge of making citie",
+          "rel": 2
+        },
+        {
+          "title": "Advancing urban green and blue space contributions to public health",
+          "rel": 1
+        },
+        {
+          "title": "Association of Urban Green Space With Mental Health and General Health Among Adults in Aus",
+          "rel": 2
+        },
+        {
+          "title": "The Influence of Socio-economic and Socio-demographic Factors in the Association Between U",
+          "rel": 2
+        },
+        {
+          "title": "Role of physical activity in the relationship between urban green space and health",
+          "rel": 2
+        },
+        {
+          "title": "A Difference-in-Differences Analysis of Health, Safety, and Greening Vacant Urban Space",
+          "rel": 1
+        },
+        {
+          "title": "How perceived sensory dimensions of urban green spaces are associated with teenagers’ perc",
+          "rel": 2
+        }
+      ]
+    },
+    {
+      "query": "城市 绿地 健康",
+      "expand": "off",
+      "n": 10,
+      "relevant_2": 2,
+      "relevant_1": 8,
+      "ndcg@10": 0.9155,
+      "titles": [
+        {
+          "title": "基于ESs的城市绿地健康影响研究：服务功能、内涵及机制",
+          "rel": 2
+        },
+        {
+          "title": "城市绿地构建园艺疗法影响我国养老方式的探讨",
+          "rel": 1
+        },
+        {
+          "title": "城市公园绿化园林的景观元素及其对心理健康的作用——以蚌埠固镇县浍河滨水公园为例",
+          "rel": 1
+        },
+        {
+          "title": "城市园林绿地消减大气PM 2.5 浓度研究进展",
+          "rel": 1
+        },
+        {
+          "title": "多学科视角下的城市环境心理健康影响研究进展——基于CiteSpace的可视化分析",
+          "rel": 1
+        },
+        {
+          "title": "城市绿化下景观设计的重要性及设计策略",
+          "rel": 1
+        },
+        {
+          "title": "浅析城市道路绿地的养护管理",
+          "rel": 1
+        },
+        {
+          "title": "基于“绿地与城市空间耦合理论”的新城区园林绿地系统规划设计模型研究",
+          "rel": 1
+        },
+        {
+          "title": "城乡统筹，构建和谐生态廊道研究——以成都市绿色生态健康廊道为例",
+          "rel": 2
+        },
+        {
+          "title": "倡导绿色交通，促进城市健康发展——济南市自行车交通发展对策",
+          "rel": 1
+        }
+      ]
+    },
+    {
+      "query": "数字经济 就业",
+      "expand": "auto",
+      "n": 10,
+      "relevant_2": 9,
+      "relevant_1": 1,
+      "ndcg@10": 0.8911,
+      "titles": [
+        {
+          "title": "Race Against the Machine: How the Digital Revolution is Accelerating Innovation, Driving P",
+          "rel": 1
+        },
+        {
+          "title": "Employment in the digital economy: Role of artificial intelligence and technological innov",
+          "rel": 2
+        },
+        {
+          "title": "Labor and employment in the digital economy: The problems of the Russian labor market",
+          "rel": 2
+        },
+        {
+          "title": "The Impact of the Digital Economy on Employment and Workforce Structure in Indonesia",
+          "rel": 2
+        },
+        {
+          "title": "DIGITAL ECONOMY AND EMPLOYMENT",
+          "rel": 2
+        },
+        {
+          "title": "THE CORRELATION BETWEEN TRANSFORMATIONAL PROCESSES AND EMPLOYMENT IN THE DIGITAL ECONOMY",
+          "rel": 2
+        },
+        {
+          "title": "The Impact of the Digital Economy and Digital Financial Inclusion on Rural Employment Stru",
+          "rel": 2
+        },
+        {
+          "title": "The Impact of Digital Economy on Employment in Countries Along the Belt and Road",
+          "rel": 2
+        },
+        {
+          "title": "THE RELATIONSHIP BETWEEN THE DIGITAL ECONOMY AND EMPLOYMENT",
+          "rel": 2
+        },
+        {
+          "title": "World employment and social outlook: the role of digital labour platforms in transforming ",
+          "rel": 2
+        }
+      ]
+    },
+    {
+      "query": "数字经济 就业",
+      "expand": "off",
+      "n": 10,
+      "relevant_2": 10,
+      "relevant_1": 0,
+      "ndcg@10": 1.0,
+      "titles": [
+        {
+          "title": "数字经济对大学生就业质量的影响",
+          "rel": 2
+        },
+        {
+          "title": "数字经济下的非正规就业：机遇和挑战",
+          "rel": 2
+        },
+        {
+          "title": "数字经济背景下灵活就业者保障研究",
+          "rel": 2
+        },
+        {
+          "title": "数字经济时代新质生产力赋能大学生高质量就业的教育改革路径",
+          "rel": 2
+        },
+        {
+          "title": "数字经济对就业影响效应",
+          "rel": 2
+        },
+        {
+          "title": "数字经济时代大学生高质量就业路径研究",
+          "rel": 2
+        },
+        {
+          "title": "基于耦合协调度模型的数字经济与就业质量协调发展机制研究",
+          "rel": 2
+        },
+        {
+          "title": "数字经济驱动下大学生就业创业路径优化与提升策略",
+          "rel": 2
+        },
+        {
+          "title": "数字经济时代高校就业创业新趋势研究",
+          "rel": 2
+        },
+        {
+          "title": "数字经济赋能对我省就业质量的影响及提升策略",
+          "rel": 2
+        }
+      ]
+    }
+  ]
+}

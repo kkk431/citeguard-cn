@@ -698,3 +698,33 @@ v0.6.1 上线后继续压测文献发现，发现并修掉三个具体问题：
 - 验证与发布（v0.9.3）：全量 **401 passed**；`verify_artifacts.py` 本机 **118 项**、远端 `--api-base` **127 项**全过；
   commit `5d13866` 已推送；远端 `/api/health` → **0.9.3**；本地演示服务同 0.9.3。
 - 交付包：`dist/citeguard-cn-0.9.3.zip`（2107693 bytes，sha256 `dc8b2beb…`；重打包 hash 会变）。
+
+## 38. v0.9.4：可用性/安全/评测补齐（2026-10-25）
+
+用户要求把「后续仍可做」的六项一起推进。本轮改动：
+
+1. **支持度判定并发**：`config.SUPPORT_WORKERS`（默认 4，夹取 1–8）；`pipeline._judge_support`
+   先按原语义截断候选，再用线程池并发判定，结果保持引文顺序；进度按完成条数更新。
+   `support.py` 的两类缓存写入改为临时文件 + `os.replace` 原子替换。
+2. **公开演示防护**：可选 `CITEGUARD_ACCESS_TOKEN`（`?token=` 种 HttpOnly cookie，或
+   `X-Access-Token` / `Authorization: Bearer`）+ 每 IP 每分钟 `CITEGUARD_RATE_LIMIT_PER_MIN`
+   的 POST `/api/*` 限流（429 + `Retry-After`）；`/api/health` 与静态资源放行。
+3. **中文人工核对闭环**：报告页中文未命中新增「万方 / 超星发现」入口，并支持一键导出
+   `manual-check.csv`（仅 Unverified/Unknown，含题名/原文/检索链接）；CNKI RIS 导入沿用既有
+   `parse_ris` 与 Web 测试（RIS/EndNote/BibTeX/CSL 均覆盖）。
+4. **真实图表题集扩容**：真实图从 5 图/10 条扩到 11 图/22 条（新增 6 张中介/调节路径图、
+   闭环示意图、偏相关网络图；结论按图注与结构人工构造），只跑无上下文 v2：**0.818**
+   （支持 1.00 / 矛盾 0.636）——结构图的否定判断仍是弱项，继续靠 `insufficient` 提示人工复核。
+5. **支持度人工标注子集**：生成 40 条盲评表 `data/claimsupport_cn/human_review_40.csv`
+   （隐藏原标签与模型预测）+ `scripts/check_human_labels.py`；需要真人填写后才能报告一致性。
+6. **选题发现排序检查**：`scripts/eval_discover_ndcg.py` 用 8 个中文主题、关键词代理 nDCG@10
+   对比扩展开/关：**0.958 vs 0.976**（2 级相关条数 8.0 vs 7.0）——扩展提高召回但未证明精排提升。
+7. **多篇对比章节感知**：抽取输入按摘要/引言/方法/结果/讨论/结论切分并标注章节；标题不规范时
+   退化为原截断；结果页显示「章节：…」，未重标字段准确率。
+
+7. **评测页能力面板 + 运行状态**：`/benchmark` 现为七块评测（CiteBench / ClaimSupport /
+   开源判官 / 图表核验 / 多篇对比 / 选题发现 / OCR），并新增「运行状态」自检卡片：
+   判官类型与模型、覆盖审计风格、判定并发、访问控制开关、OCR、视觉模型、题录库规模、
+   磁盘剩余；密钥只显示「已配置/未开启」，模板测试断言页面不含 `sk-` 明文。
+
+验证：`pytest` 409 passed、`verify_artifacts` 118 项；版本 0.9.4。

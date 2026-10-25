@@ -1,0 +1,639 @@
+{
+  "generated_at": "2026-10-25T14:26:06",
+  "model": "qwen2.5-vl-7b",
+  "endpoint": "http://222.20.126.148:8099/v1",
+  "variants": [
+    "v2"
+  ],
+  "summary": {
+    "v2": {
+      "n": 62,
+      "accuracy": 0.871,
+      "supported_recall": 0.9032,
+      "contradiction_recall": 0.8387,
+      "mean_latency_ms": 2359.5
+    }
+  },
+  "rows": [
+    {
+      "family": "synth",
+      "id": "synth_01",
+      "gold": "supported",
+      "variant": "v2",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 2058,
+      "reason": "图表显示方法1的准确率为约95%，与结论一致。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_01",
+      "gold": "contradicted",
+      "variant": "v2",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 2080,
+      "reason": "图表显示方法1的准确率为约95%，而非66%"
+    },
+    {
+      "family": "synth",
+      "id": "synth_02",
+      "gold": "supported",
+      "variant": "v2",
+      "verdict": "insufficient",
+      "correct": false,
+      "latency_ms": 2444,
+      "reason": "图表数据截止到 2024 年，无法判断 2025 年的数据"
+    },
+    {
+      "family": "synth",
+      "id": "synth_02",
+      "gold": "contradicted",
+      "variant": "v2",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 2589,
+      "reason": "图中显示 2025 年的发文量最高，约为 132 篇。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_03",
+      "gold": "supported",
+      "variant": "v2",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 1975,
+      "reason": "图表显示方法2的准确率为98%，与结论一致。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_03",
+      "gold": "contradicted",
+      "variant": "v2",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 1982,
+      "reason": "方法2的准确率约为98%，而非59%"
+    },
+    {
+      "family": "synth",
+      "id": "synth_04",
+      "gold": "supported",
+      "variant": "v2",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 2147,
+      "reason": "图表显示2021年发文量最高，接近118篇。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_04",
+      "gold": "contradicted",
+      "variant": "v2",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 2532,
+      "reason": "图表显示 2021 年的发文量最高，约为 118 篇。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_05",
+      "gold": "supported",
+      "variant": "v2",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 2186,
+      "reason": "图表显示方法4的柱状图最高，接近70%，符合结论描述。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_05",
+      "gold": "contradicted",
+      "variant": "v2",
+      "verdict": "insufficient",
+      "correct": false,
+      "latency_ms": 2040,
+      "reason": "图表显示方法4的准确率为约70%，而非47%"
+    },
+    {
+      "family": "synth",
+      "id": "synth_06",
+      "gold": "supported",
+      "variant": "v2",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 2105,
+      "reason": "图表显示2021年发文量最高，约为95篇。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_06",
+      "gold": "contradicted",
+      "variant": "v2",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 2533,
+      "reason": "图表显示2021年发文量最高，约为95篇，而非2018年。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_07",
+      "gold": "supported",
+      "variant": "v2",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 1918,
+      "reason": "图表显示方法1的准确率为95%，接近94%"
+    },
+    {
+      "family": "synth",
+      "id": "synth_07",
+      "gold": "contradicted",
+      "variant": "v2",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 1969,
+      "reason": "方法1的准确率约为90%，而非56%"
+    },
+    {
+      "family": "synth",
+      "id": "synth_08",
+      "gold": "supported",
+      "variant": "v2",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 2095,
+      "reason": "图表显示2023年发文量最高，约为47篇。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_08",
+      "gold": "contradicted",
+      "variant": "v2",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 2486,
+      "reason": "图表显示 2023 年的发文量最高，约为 47 篇。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_09",
+      "gold": "supported",
+      "variant": "v2",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 1929,
+      "reason": "图表显示方法2的准确率为81%，接近83%"
+    },
+    {
+      "family": "synth",
+      "id": "synth_09",
+      "gold": "contradicted",
+      "variant": "v2",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 1966,
+      "reason": "方法2的准确率约为80%，而非50%"
+    },
+    {
+      "family": "synth",
+      "id": "synth_10",
+      "gold": "supported",
+      "variant": "v2",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 2089,
+      "reason": "图表显示2023年发文量最高，约为85篇。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_10",
+      "gold": "contradicted",
+      "variant": "v2",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 2582,
+      "reason": "图表显示 2023 年的发文量最高，约为 85 篇。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_11",
+      "gold": "supported",
+      "variant": "v2",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 1923,
+      "reason": "图表显示方法3的准确率为85%，接近86%"
+    },
+    {
+      "family": "synth",
+      "id": "synth_11",
+      "gold": "contradicted",
+      "variant": "v2",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 1968,
+      "reason": "方法3的准确率约为85%，而非60%"
+    },
+    {
+      "family": "synth",
+      "id": "synth_12",
+      "gold": "supported",
+      "variant": "v2",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 2093,
+      "reason": "图表显示2021年发文量最高，约为55篇。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_12",
+      "gold": "contradicted",
+      "variant": "v2",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 2514,
+      "reason": "图表显示 2023 年的发文量最高，约为 55 篇。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_13",
+      "gold": "supported",
+      "variant": "v2",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 1993,
+      "reason": "图表显示方法5的准确率为98%，与结论一致。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_13",
+      "gold": "contradicted",
+      "variant": "v2",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 1989,
+      "reason": "方法5的准确率约为98%，而非64%"
+    },
+    {
+      "family": "synth",
+      "id": "synth_14",
+      "gold": "supported",
+      "variant": "v2",
+      "verdict": "insufficient",
+      "correct": false,
+      "latency_ms": 2461,
+      "reason": "图表数据截止到 2024 年，无法判断 2025 年的数据"
+    },
+    {
+      "family": "synth",
+      "id": "synth_14",
+      "gold": "contradicted",
+      "variant": "v2",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 2788,
+      "reason": "图表显示 2022 年发文量约为 95 篇，而非 113 篇。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_15",
+      "gold": "supported",
+      "variant": "v2",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 1921,
+      "reason": "图表显示方法1的准确率为90%，接近91%"
+    },
+    {
+      "family": "synth",
+      "id": "synth_15",
+      "gold": "contradicted",
+      "variant": "v2",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 1967,
+      "reason": "方法1的准确率约为90%，而非55%"
+    },
+    {
+      "family": "synth",
+      "id": "synth_16",
+      "gold": "supported",
+      "variant": "v2",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 2107,
+      "reason": "图表显示2023年发文量最高，约为87篇。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_16",
+      "gold": "contradicted",
+      "variant": "v2",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 2437,
+      "reason": "图表显示 2023 年发文量最高，约为 86 篇。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_17",
+      "gold": "supported",
+      "variant": "v2",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 1925,
+      "reason": "图表显示方法5的柱状图最高，接近89%"
+    },
+    {
+      "family": "synth",
+      "id": "synth_17",
+      "gold": "contradicted",
+      "variant": "v2",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 1976,
+      "reason": "方法5的准确率约为85%，而非62%"
+    },
+    {
+      "family": "synth",
+      "id": "synth_18",
+      "gold": "supported",
+      "variant": "v2",
+      "verdict": "insufficient",
+      "correct": false,
+      "latency_ms": 2436,
+      "reason": "图表数据截止到 2024 年，无法判断 2025 年的数据"
+    },
+    {
+      "family": "synth",
+      "id": "synth_18",
+      "gold": "contradicted",
+      "variant": "v2",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 2532,
+      "reason": "图表显示 2024 年的发文量最高，约为 100 篇。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_19",
+      "gold": "supported",
+      "variant": "v2",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 1921,
+      "reason": "图表显示方法4的准确率为81%，接近83%"
+    },
+    {
+      "family": "synth",
+      "id": "synth_19",
+      "gold": "contradicted",
+      "variant": "v2",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 1966,
+      "reason": "方法4的准确率约为82%，而非58%"
+    },
+    {
+      "family": "synth",
+      "id": "synth_20",
+      "gold": "supported",
+      "variant": "v2",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 2193,
+      "reason": "图表显示2018年发文量为49篇，与结论一致。"
+    },
+    {
+      "family": "synth",
+      "id": "synth_20",
+      "gold": "contradicted",
+      "variant": "v2",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 2508,
+      "reason": "图表显示 2018 年的发文量最高，约为 49 篇。"
+    },
+    {
+      "family": "real",
+      "id": "real_01",
+      "gold": "supported",
+      "variant": "v2",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 2601,
+      "reason": "图表显示2025年发文量为195篇，与结论一致。"
+    },
+    {
+      "family": "real",
+      "id": "real_01",
+      "gold": "contradicted",
+      "variant": "v2",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 2891,
+      "reason": "图表显示 2025 年的发文量最高，为 195 篇。"
+    },
+    {
+      "family": "real",
+      "id": "real_02",
+      "gold": "supported",
+      "variant": "v2",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 3238,
+      "reason": "图表显示 Ours 在 Reuters 数据集上的 ACC 值在不同缺失率下均高于其他方法，且接近 0.60 至 0.63。"
+    },
+    {
+      "family": "real",
+      "id": "real_02",
+      "gold": "contradicted",
+      "variant": "v2",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 2796,
+      "reason": "图表显示在 Yale 数据集上，Ours 在缺失率 40% 时的 ACC 并不是最低的。"
+    },
+    {
+      "family": "real",
+      "id": "real_03",
+      "gold": "supported",
+      "variant": "v2",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 2683,
+      "reason": "图表显示 alpha=10^0 时 ACC 达到最高值约 0.95"
+    },
+    {
+      "family": "real",
+      "id": "real_03",
+      "gold": "contradicted",
+      "variant": "v2",
+      "verdict": "insufficient",
+      "correct": false,
+      "latency_ms": 2705,
+      "reason": "图表显示 ACC 随参数 α 的变化趋势并不明显，但无法确定是否为水平线"
+    },
+    {
+      "family": "real",
+      "id": "real_04",
+      "gold": "supported",
+      "variant": "v2",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 2844,
+      "reason": "图表显示累积生态风险高时，健康实体理论组的消极自我图式显著高于健康增量理论组。"
+    },
+    {
+      "family": "real",
+      "id": "real_04",
+      "gold": "contradicted",
+      "variant": "v2",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 2633,
+      "reason": "图表显示累积生态风险高时，健康增量理论组的消极自我图式较高"
+    },
+    {
+      "family": "real",
+      "id": "real_05",
+      "gold": "supported",
+      "variant": "v2",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 2486,
+      "reason": "图(b)显示BIC在多项式阶数约为7时达到最低点。"
+    },
+    {
+      "family": "real",
+      "id": "real_05",
+      "gold": "contradicted",
+      "variant": "v2",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 2556,
+      "reason": "图 (a) 显示建成区簇数量随缓冲宽度增加而下降。"
+    },
+    {
+      "family": "real",
+      "id": "real_07_v2",
+      "gold": "supported",
+      "variant": "v2",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 3534,
+      "reason": "图表显示自传体记忆功能部分中介作用显著（95% CI=[0.01,0.09]），占总效应比例为14.61%"
+    },
+    {
+      "family": "real",
+      "id": "real_07_v2",
+      "gold": "contradicted",
+      "variant": "v2",
+      "verdict": "supported",
+      "correct": false,
+      "latency_ms": 3549,
+      "reason": "图表显示自传体记忆功能对亲密关系满意度的间接效应显著（β=0.30），但不显著影响亲密关系满意度（β=-0.04）"
+    },
+    {
+      "family": "real",
+      "id": "real_08_v2",
+      "gold": "supported",
+      "variant": "v2",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 2678,
+      "reason": "图表显示自传体记忆功能对亲密关系满意度的预测作用随成长信念得分升高而下降"
+    },
+    {
+      "family": "real",
+      "id": "real_08_v2",
+      "gold": "contradicted",
+      "variant": "v2",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 2353,
+      "reason": "图表显示成长信念是调节变量，而非中介变量。"
+    },
+    {
+      "family": "real",
+      "id": "real_09_v2",
+      "gold": "supported",
+      "variant": "v2",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 2359,
+      "reason": "图表显示亲子互动质量与幼儿安全感分别中介父母低头行为对幼儿问题性媒体使用的影响"
+    },
+    {
+      "family": "real",
+      "id": "real_09_v2",
+      "gold": "contradicted",
+      "variant": "v2",
+      "verdict": "insufficient",
+      "correct": false,
+      "latency_ms": 1995,
+      "reason": "图表中没有显示幼儿安全感到问题性媒体使用的路径"
+    },
+    {
+      "family": "real",
+      "id": "real_10_v2",
+      "gold": "supported",
+      "variant": "v2",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 2526,
+      "reason": "图表显示累积生态风险与内隐健康理论的交互项显著，支持调节作用"
+    },
+    {
+      "family": "real",
+      "id": "real_10_v2",
+      "gold": "contradicted",
+      "variant": "v2",
+      "verdict": "insufficient",
+      "correct": false,
+      "latency_ms": 2426,
+      "reason": "图表中未显示内隐健康理论对消极自我图式的中介作用"
+    },
+    {
+      "family": "real",
+      "id": "real_11_v2",
+      "gold": "supported",
+      "variant": "v2",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 2344,
+      "reason": "图表显示了课程体系、知识结构与创新能力之间的闭环逻辑关系"
+    },
+    {
+      "family": "real",
+      "id": "real_11_v2",
+      "gold": "contradicted",
+      "variant": "v2",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 2557,
+      "reason": "图表显示三者之间是闭环关系，而非单向线性关系。"
+    },
+    {
+      "family": "real",
+      "id": "real_16_v2",
+      "gold": "supported",
+      "variant": "v2",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 2928,
+      "reason": "图表显示了三个维度（宜人性、神经质、外向性）的节点和连线，符合结论描述。"
+    },
+    {
+      "family": "real",
+      "id": "real_16_v2",
+      "gold": "contradicted",
+      "variant": "v2",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 2284,
+      "reason": "图表显示的是网络结构而非柱状图"
+    }
+  ]
+}

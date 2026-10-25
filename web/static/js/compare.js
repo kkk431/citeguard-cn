@@ -94,7 +94,9 @@
         statusRow.push("<td><span class=\"pill bad\">失败</span><div class=\"mono-sm cmp-note\">" + escapeHtml(paper.error) + "</div></td>");
       } else {
         const cached = paper.cached ? "缓存" : "新抽取";
-        statusRow.push("<td><span class=\"pill ok\">成功</span><div class=\"mono-sm cmp-note\">" + escapeHtml(cached) + "</div></td>");
+        const sections = (paper.sections || []).slice(0, 4).join("/");
+        const how = sections ? cached + " · 章节：" + sections : cached + " · 片段";
+        statusRow.push("<td><span class=\"pill ok\">成功</span><div class=\"mono-sm cmp-note\">" + escapeHtml(how) + "</div></td>");
       }
     });
     statusRow.push("</tr>");

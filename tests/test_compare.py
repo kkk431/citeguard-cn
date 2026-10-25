@@ -147,3 +147,45 @@ def test_cache_path_namespaced_by_model(monkeypatch, isolated_cache):
     b = compare._cache_path("同一个摘录")
     assert a != b
     assert a.parent == b.parent
+
+
+def _sectioned_paper() -> str:
+    body = "这是一段用于测试的正文内容，重复若干次以超过最小长度要求。" * 4
+    return (
+        "摘要：本文研究了一个问题，" + body + "\n"
+        "1 引言\n" + body + "\n"
+        "2 方法\n本文采用问卷调查方法，" + body + "\n"
+        "3 结果\n结果显示显著差异，" + body + "\n"
+        "4 讨论\n讨论部分解释了原因，" + body + "\n"
+        "5 结论\n结论指出实践意义，" + body
+    )
+
+
+def test_section_snippets_split_headings():
+    snippets = compare._section_snippets(_sectioned_paper())
+    labels = [label for label, _body in snippets]
+    assert "方法" in labels and "结果" in labels and "结论" in labels
+    body = next(body for label, body in snippets if label == "方法")
+    assert "问卷调查" in body
+
+
+def test_context_uses_section_labels_when_available():
+    body, sections = compare._context(_sectioned_paper())
+    assert "【方法】" in body and "【结果】" in body
+    assert "方法" in sections and "结论" in sections
+
+
+def test_extract_profile_passes_sections_to_judge(monkeypatch):
+    monkeypatch.setattr(compare, "judge_available", lambda: True)
+    monkeypatch.setattr(compare, "judge_endpoint", lambda: ("http://judge", "offline-test", ""))
+    captured = {}
+
+    def fake_judge(user, max_tokens=800):
+        captured["user"] = user
+        return {key: "内容" for key in compare.FIELD_KEYS}
+
+    monkeypatch.setattr(compare, "_judge_json", fake_judge)
+    profile = compare.extract_profile(_sectioned_paper(), use_cache=False)
+    assert "【方法】" in captured["user"]
+    assert "方法" in profile["sections"]
+    assert profile["fields"]["method"] == "内容"

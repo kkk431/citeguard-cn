@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 import json
+import threading
+import time
 
 import pytest
 
@@ -143,3 +145,74 @@ def test_report_includes_citation_consistency(monkeypatch, isolated_project):
     assert cc["numeric_style"] is True
     assert cc["uncited_numbers"] == [2]
     assert cc["missing_numbers"] == []
+
+
+def test_support_judges_concurrently_and_keeps_order(monkeypatch):
+    refs = _refs() + _refs()  # 4 refs
+    monkeypatch.setattr(
+        pipeline, "build_claims", lambda body, intext, refs: {r.index: "claim" for r in refs}
+    )
+    monkeypatch.setattr(pipeline, "judge_available", lambda: True)
+    monkeypatch.setattr(pipeline.config, "SUPPORT_WORKERS", 3)
+
+    lock = threading.Lock()
+    state = {"active": 0, "peak": 0}
+
+    def fake_judge(claim, abstract, title="", doi=""):
+        with lock:
+            state["active"] += 1
+            state["peak"] = max(state["peak"], state["active"])
+        time.sleep(0.15)
+        with lock:
+            state["active"] -= 1
+        return {"label": "support", "confidence": 0.9, "reason": "", "evidence": ""}
+
+    monkeypatch.setattr(pipeline, "judge_support", fake_judge)
+    results = [
+        VerifyResult(
+            status="Exact",
+            title_sim=0.99,
+            best=Candidate(source="crossref", title=r.title, abstract="摘要"),
+        )
+        for r in refs
+    ]
+
+    out, meta = pipeline._judge_support("正文", [], refs, results, cap=10, step=lambda *a: None)
+
+    assert state["peak"] >= 2  # the pool actually overlapped calls
+    assert meta["workers"] == 3
+    assert meta["judged"] == 4
+    assert [r["label"] for r in out] == ["support"] * 4
+    assert [r["claim"] for r in out] == ["claim"] * 4
+
+
+def test_support_cap_keeps_first_n_eligible(monkeypatch):
+    refs = _refs() + _refs()  # 4 refs
+    monkeypatch.setattr(
+        pipeline, "build_claims", lambda body, intext, refs: {r.index: "claim" for r in refs}
+    )
+    monkeypatch.setattr(pipeline, "judge_available", lambda: True)
+    monkeypatch.setattr(pipeline.config, "SUPPORT_WORKERS", 1)
+    calls = []
+
+    def fake_judge(claim, abstract, title="", doi=""):
+        calls.append(title)
+        return {"label": "partial", "confidence": 0.5, "reason": "", "evidence": ""}
+
+    monkeypatch.setattr(pipeline, "judge_support", fake_judge)
+    results = [
+        VerifyResult(
+            status="Exact",
+            title_sim=0.99,
+            best=Candidate(source="crossref", title=r.title, abstract="摘要"),
+        )
+        for r in refs
+    ]
+
+    out, meta = pipeline._judge_support("正文", [], refs, results, cap=2, step=lambda *a: None)
+
+    assert len(calls) == 2
+    assert meta["judged"] == 2
+    assert meta["candidates"] == 4
+    assert meta["skipped_by_cap"] == 2
+    assert [r["label"] for r in out] == ["partial", "partial", "not_checked", "not_checked"]

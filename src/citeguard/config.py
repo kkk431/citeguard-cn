@@ -29,6 +29,15 @@ DEEPSEEK_MODEL = os.environ.get("DEEPSEEK_MODEL", "deepseek-chat")
 
 HTTP_TIMEOUT = float(os.environ.get("CITEGUARD_HTTP_TIMEOUT", "20"))
 API_SLEEP = float(os.environ.get("CITEGUARD_API_SLEEP", "0.12"))
+# Optional access token for a public demo deployment. Empty means "open".
+# Accepted as X-Access-Token header, Authorization: Bearer <token>, or ?token=.
+ACCESS_TOKEN = os.environ.get("CITEGUARD_ACCESS_TOKEN", "").strip()
+# Per-IP sliding-window limit for API routes (0 disables). Default is generous
+# enough for a human demo but stops a loop from burning API credits/uploads.
+try:
+    RATE_LIMIT_PER_MIN = max(0, int(os.environ.get("CITEGUARD_RATE_LIMIT_PER_MIN", "120")))
+except ValueError:
+    RATE_LIMIT_PER_MIN = 120
 # Parallel metadata lookups; keep modest to respect OpenAlex/Crossref politeness.
 VERIFY_WORKERS = int(os.environ.get("CITEGUARD_VERIFY_WORKERS", "4"))
 
@@ -37,6 +46,12 @@ VERIFY_WORKERS = int(os.environ.get("CITEGUARD_VERIFY_WORKERS", "4"))
 # default cap on how many references get an LLM support verdict.
 SUPPORT_MAX_REFS = int(os.environ.get("CITEGUARD_SUPPORT_MAX_REFS", "30"))
 SUPPORT_MAX_REFS_LIMIT = 200
+# Concurrent judge calls (the judge is I/O bound). Kept small so a hosted API
+# or a single local model server is not overwhelmed; clamped to 1..8.
+try:
+    SUPPORT_WORKERS = max(1, min(8, int(os.environ.get("CITEGUARD_SUPPORT_WORKERS", "4"))))
+except ValueError:
+    SUPPORT_WORKERS = 4
 # Two-stage judge: a coverage audit re-checks every "support" verdict and
 # downgrades it to "partial" when the evidence misses part of the claim.
 # Measured on ClaimSupport-CN: macro-F1 0.9005 -> 0.9328 (product path;

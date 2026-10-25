@@ -1,4 +1,4 @@
-# CiteGuard-CN 部署手册（v0.9.3）
+# CiteGuard-CN 部署手册（v0.9.4）
 
 本文覆盖四种落地方式：本地开发、服务器 `.pylibs` 部署、SSH 隧道访问、Docker。
 所有方式都遵循同一条安全约束：**API Key 只从环境变量注入，绝不写进仓库或镜像**。
@@ -83,6 +83,24 @@ export CITEGUARD_SUPPORT_MAX_REFS=30    # 每个任务最多判定多少条（�
 
 也可以复制 `.env.example` 为 `.env` 后由进程管理器 / Docker Compose 注入，
 **不要**把 `.env` 提交到仓库，也不要 `COPY` 进 Docker 镜像。
+
+### 1.4.1 公开演示的访问防护（可选）
+
+demo 暴露到公网时建议至少加一道门，避免 API key 额度和上传目录被刷：
+
+```bash
+export CITEGUARD_ACCESS_TOKEN=<随机串>    # 空 = 不校验
+export CITEGUARD_RATE_LIMIT_PER_MIN=120   # 每 IP 每分钟 POST /api/* 次数，0 = 关闭
+export CITEGUARD_SUPPORT_WORKERS=4        # 支持度判定并发，1–8，默认 4
+```
+
+- 令牌：浏览器第一次用 `http://host/?token=<随机串>` 打开任意页面即可，服务端会种
+  HttpOnly cookie；脚本调用可发 `X-Access-Token` 或 `Authorization: Bearer <token>`。
+  未带或带错时页面与 API 返回 401。
+- 限流：按客户端 IP 的滑动窗口，只限制 `POST /api/*`（GET 页面与导出不受影响），
+  超限返回 429 + `Retry-After: 60`。`/api/health` 与静态资源始终放行。
+- 并发：`CITEGUARD_SUPPORT_WORKERS` 只影响每条引文的判定并发，不改变「最多判定 N 条」
+  的截断语义；进度条按完成条数递增。
 
 ### 1.5 可选：网页型引文链接检查
 
@@ -276,13 +294,13 @@ ssh -L 18000:127.0.0.1:8000 jxy-2
 
 ```bash
 cd citeguard
-docker build -f docker/Dockerfile -t citeguard-cn:0.9.3 .
+docker build -f docker/Dockerfile -t citeguard-cn:0.9.4 .
 
 docker run --rm -p 127.0.0.1:8000:8000 \
   -e DEEPSEEK_API_KEY="${DEEPSEEK_API_KEY:-}" \
   -v "$PWD/data/jobs:/app/data/jobs" \
   -v "$PWD/data/cache:/app/data/cache" \
-  citeguard-cn:0.9.3
+  citeguard-cn:0.9.4
 ```
 
 镜像内固定 `PYTHONPATH=/app/src`，启动命令：
@@ -318,9 +336,9 @@ docker compose -f docker/docker-compose.yml logs -f citeguard
 
 ```bash
 # 有网机器
-docker save citeguard-cn:0.9.3 | gzip > citeguard-cn-0.9.3.tar.gz
+docker save citeguard-cn:0.9.4 | gzip > citeguard-cn-0.9.4.tar.gz
 # 目标机器
-docker load < citeguard-cn-0.9.3.tar.gz
+docker load < citeguard-cn-0.9.4.tar.gz
 ```
 
 ---
@@ -349,7 +367,7 @@ docker load < citeguard-cn-0.9.3.tar.gz
 cd citeguard
 PYTHONPATH=src:.pylibs python3 -m pytest tests -q          # 应全绿（含离线端到端）
 PYTHONPATH=src python3 scripts/verify_artifacts.py         # 应输出 [OK] all checks passed
-PYTHONPATH=src python3 scripts/package_deliverable.py      # 生成 dist/citeguard-cn-0.9.3.zip
+PYTHONPATH=src python3 scripts/package_deliverable.py      # 生成 dist/citeguard-cn-0.9.4.zip
 curl -s http://127.0.0.1:8000/api/health                   # {"ok":true,...}
 ```
 
@@ -408,4 +426,4 @@ curl -s http://127.0.0.1:8000/api/health
 避免把用户上传内容和密钥带进镜像。
 
 **Q11. 如何确认某次部署的版本？**
-`curl -s http://127.0.0.1:8000/api/health`，`version` 字段即当前版本（本手册对应 `0.9.3`）。
+`curl -s http://127.0.0.1:8000/api/health`，`version` 字段即当前版本（本手册对应 `0.9.4`）。

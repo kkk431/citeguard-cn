@@ -7,6 +7,7 @@ place means the CLI and the web UI cannot drift apart.
 from __future__ import annotations
 
 import json
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from typing import Callable, Optional
 
@@ -128,11 +129,17 @@ def _judge_support(
     cap: int,
     step: Callable[[int, str], None],
 ) -> tuple[list[dict | None], dict]:
-    """Attach a support verdict (or a reason why there is none) to each ref."""
+    """Attach a support verdict (or a reason why there is none) to each ref.
+
+    Eligible claims are judged by a small thread pool (config.SUPPORT_WORKERS):
+    the judge is I/O bound, so this cuts wall-clock time on long lists without
+    changing which references are judged (the first ``cap`` eligible ones, in
+    list order) or the shape of the returned verdicts.
+    """
     has_judge = judge_available()
     claims = build_claims(body, intext, refs)
-    results: list[dict | None] = []
-    judged = 0
+    results: list[dict | None] = [None] * len(refs)
+    pending: list[tuple[int, str, str, str, str]] = []
     candidates = 0
     skipped_by_cap = 0
     skipped_no_abstract = 0
@@ -153,18 +160,15 @@ def _judge_support(
         )
         if not claim_text:
             skipped_no_claim += 1
-            res: dict | None = {
+            results[i] = {
                 "label": "not_checked",
                 "confidence": 0.0,
                 "reason": "正文未引用该文献，未做支持度判定",
                 "evidence": "",
             }
         elif not trusted:
-            # The abstract may belong to a different paper: at similarity 0.4
-            # a Crossref record is often unrelated. Judging on it would make
-            # "no evidence" look like a property of the cited paper.
             skipped_unreliable_match += 1
-            res = {
+            results[i] = {
                 "label": "not_checked",
                 "confidence": 0.0,
                 "reason": (
@@ -176,7 +180,7 @@ def _judge_support(
             }
         elif not abstract:
             skipped_no_abstract += 1
-            res = {
+            results[i] = {
                 "label": "not_checked",
                 "confidence": 0.0,
                 "reason": "未获取到被引论文摘要，无法判断",
@@ -185,9 +189,9 @@ def _judge_support(
             }
         else:
             candidates += 1
-            if judged >= cap:
+            if candidates > cap:
                 skipped_by_cap += 1
-                res = {
+                results[i] = {
                     "label": "not_checked",
                     "confidence": 0.0,
                     "reason": "未启用支持度判定（本次上限为 0）"
@@ -197,7 +201,7 @@ def _judge_support(
                     "claim": claim_text,
                 }
             elif not has_judge:
-                res = {
+                results[i] = {
                     "label": "not_checked",
                     "confidence": 0.0,
                     "reason": "未配置 LLM judge（DEEPSEEK_API_KEY 未设置）",
@@ -205,36 +209,72 @@ def _judge_support(
                     "claim": claim_text,
                 }
             else:
-                res = judge_support(claim_text, abstract, best_title, ref.doi)
+                pending.append((i, claim_text, abstract, best_title, ref.doi))
+
+    def _normalise(res: dict | None, claim_text: str) -> dict:
+        if res is None:
+            return {
+                "label": "not_checked",
+                "confidence": 0.0,
+                "reason": "LLM judge 调用失败，本条未判定",
+                "evidence": "",
+                "claim": claim_text,
+            }
+        res["claim"] = claim_text
+        return res
+
+    judged = 0
+    total = len(pending)
+    workers = max(1, min(int(getattr(config, "SUPPORT_WORKERS", 1) or 1), total or 1))
+    if total:
+        step(90, f"支持度判定 0/{total}")
+        if workers == 1:
+            for i, claim_text, abstract, best_title, doi in pending:
+                res = judge_support(claim_text, abstract, best_title, doi)
+                results[i] = _normalise(res, claim_text)
                 judged += 1
-                if res is None:
-                    res = {
-                        "label": "not_checked",
-                        "confidence": 0.0,
-                        "reason": "LLM judge 调用失败，本条未判定",
-                        "evidence": "",
-                        "claim": claim_text,
-                    }
-                else:
-                    res["claim"] = claim_text
-        results.append(res)
-        step(
-            90 + int(6 * (i + 1) / max(len(refs), 1)),
-            f"支持度判定 {min(judged, cap)}/{min(candidates, cap)}",
-        )
+                step(90 + int(6 * judged / total), f"支持度判定 {judged}/{total}")
+        else:
+            with ThreadPoolExecutor(max_workers=workers) as pool:
+                futures = {
+                    pool.submit(judge_support, claim_text, abstract, best_title, doi): (
+                        i,
+                        claim_text,
+                    )
+                    for i, claim_text, abstract, best_title, doi in pending
+                }
+                for fut in as_completed(futures):
+                    i, claim_text = futures[fut]
+                    try:
+                        res = fut.result()
+                    except Exception:
+                        res = None
+                    results[i] = _normalise(res, claim_text)
+                    judged += 1
+                    step(90 + int(6 * judged / total), f"支持度判定 {judged}/{total}")
+
+    if any(r is None for r in results):
+        for i, r in enumerate(results):
+            if r is None:
+                results[i] = {
+                    "label": "not_checked",
+                    "confidence": 0.0,
+                    "reason": "支持度判定未完成",
+                    "evidence": "",
+                }
 
     meta = {
         "judge_available": has_judge,
         "cap": cap,
         "candidates": candidates,
         "judged": judged,
+        "workers": workers,
         "skipped_by_cap": skipped_by_cap,
         "skipped_no_abstract": skipped_no_abstract,
         "skipped_no_claim": skipped_no_claim,
         "skipped_unreliable_match": skipped_unreliable_match,
     }
     return results, meta
-
 
 def run_job(
     job_id: str,

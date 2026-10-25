@@ -7,6 +7,23 @@
   <p style="color:var(--ink-2);max-width:70ch;margin:0">用真实中文参考文献 + 程序化受控扰动构造的 250 条评测集：100 条真实、75 条元数据扰动、75 条虚构/错配。标签由构造决定，结果可复现。</p>
 </section>
 
+{% if status %}
+<section class="wrap" style="padding:18px 0 0">
+  <div class="panel" style="margin-bottom:8px">
+    <div class="section-head" style="margin-bottom:12px"><h2>运行状态</h2><span class="hint">部署环境自检；密钥只显示是否配置，不输出内容</span></div>
+    <div class="metric-grid" style="grid-template-columns:repeat(auto-fit,minmax(210px,1fr))">
+      {% for item in status %}
+      <div class="metric" style="text-align:left;align-items:flex-start">
+        <span class="pill {{ item.state }}"><i></i>{{ item.label }}</span>
+        <b style="font-size:16px;display:block;margin:8px 0 4px">{{ item.value }}</b>
+        <span style="text-align:left">{{ item.hint }}</span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
 {% if benchmark %}
 <section class="wrap" style="padding:18px 0 0">
   <div class="metric-grid">

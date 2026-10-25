@@ -17,6 +17,7 @@ import hashlib
 import json
 import os
 import re
+import threading
 import time
 from pathlib import Path
 from typing import Optional
@@ -235,6 +236,24 @@ def _cache_path(claim: str, abstract: str):
     return d / f"{h}.json"
 
 
+def _write_json_atomic(path: Path, obj: dict, *, indent: int | None = None) -> None:
+    """Write a cache file atomically so concurrent judge workers never read a
+    half-written JSON file (the support judge is called from a thread pool)."""
+    tmp = path.with_name(f"{path.name}.{os.getpid()}.{threading.get_ident()}.tmp")
+    try:
+        tmp.write_text(
+            json.dumps(obj, ensure_ascii=False, indent=indent),
+            encoding="utf-8",
+        )
+        os.replace(tmp, path)
+    finally:
+        if tmp.exists():
+            try:
+                tmp.unlink()
+            except OSError:
+                pass
+
+
 def _audit_style() -> str:
     style = (getattr(config, "SUPPORT_AUDIT_STYLE", "auto") or "auto").strip().lower()
     if style == "auto":
@@ -320,7 +339,7 @@ def _audit_support(claim: str, abstract: str) -> Optional[dict]:
             covered = [str(x) for x in (audit.get("covered") or []) if x]
             audit["missing"] = [e for e in elements if e not in covered][:5]
     audit["style"] = style
-    cp.write_text(json.dumps(audit, ensure_ascii=False), encoding="utf-8")
+    _write_json_atomic(cp, audit)
     return audit
 
 
@@ -383,7 +402,7 @@ def judge_support(claim: str, abstract: str, title: str = "", doi: str = "") -> 
                     out["reason"] = (out["reason"] or "") + "；覆盖审计：证据未完整覆盖引用句" + (
                         "（缺：" + "；".join(missing[:3]) + "）" if missing else ""
                     )
-        cp.write_text(json.dumps(out, ensure_ascii=False, indent=2), encoding="utf-8")
+        _write_json_atomic(cp, out, indent=2)
         time.sleep(config.API_SLEEP)
         return out
     except Exception:

@@ -9,6 +9,7 @@ import json
 import re
 import sys
 import tempfile
+import threading
 import time
 from contextlib import asynccontextmanager
 from pathlib import Path
@@ -89,9 +90,73 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.3", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.4", lifespan=lifespan)
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
+
+
+# --- Optional access token + per-IP rate limit (public demo hardening) ---
+_rate_buckets: dict[str, list[float]] = {}
+_rate_lock = threading.Lock()
+
+
+def _client_ip(request: Request) -> str:
+    forwarded = request.headers.get("x-forwarded-for", "")
+    if forwarded:
+        return forwarded.split(",")[0].strip()
+    return request.client.host if request.client else "unknown"
+
+
+def _supplied_token(request: Request) -> str:
+    auth = request.headers.get("authorization", "")
+    bearer = auth[7:].strip() if auth.lower().startswith("bearer ") else ""
+    return (
+        request.headers.get("x-access-token", "").strip()
+        or bearer
+        or request.query_params.get("token", "").strip()
+        or request.cookies.get("cg_token", "").strip()
+    )
+
+
+def _rate_limited(request: Request) -> bool:
+    limit = config.RATE_LIMIT_PER_MIN
+    if limit <= 0 or request.method in {"GET", "HEAD", "OPTIONS"}:
+        return False
+    ip = _client_ip(request)
+    now = time.time()
+    with _rate_lock:
+        bucket = _rate_buckets.setdefault(ip, [])
+        cutoff = now - 60.0
+        while bucket and bucket[0] < cutoff:
+            bucket.pop(0)
+        if len(bucket) >= limit:
+            return True
+        bucket.append(now)
+    return False
+
+
+@app.middleware("http")
+async def _guard(request: Request, call_next):
+    path = request.url.path
+    if path.startswith("/static/") or path in {"/api/health", "/favicon.ico"}:
+        return await call_next(request)
+    expected = config.ACCESS_TOKEN
+    supplied = _supplied_token(request)
+    if expected and supplied != expected:
+        return JSONResponse(
+            {"error": "unauthorized", "message": "需要访问令牌（?token= 或 X-Access-Token）"},
+            status_code=401,
+        )
+    if path.startswith("/api/") and _rate_limited(request):
+        return JSONResponse(
+            {"error": "rate_limited", "message": "请求过于频繁，请稍后再试"},
+            status_code=429,
+            headers={"Retry-After": "60"},
+        )
+    response = await call_next(request)
+    if expected and request.query_params.get("token") == expected:
+        response.set_cookie("cg_token", expected, httponly=True, samesite="lax", max_age=86400)
+    return response
 
 
 def _report_path(job_id: str) -> Path:
@@ -595,7 +660,106 @@ def _benchmark_context() -> dict:
             "runs": figure_models[0]["runs"],
             "models": figure_models,
         }
-    return {"benchmark": benchmark, "support": support, "real": real, "local_models": local_models}
+    return {
+        "benchmark": benchmark,
+        "support": support,
+        "real": real,
+        "local_models": local_models,
+        "status": _system_status(),
+    }
+
+
+def _system_status() -> list[dict]:
+    """Runtime self-check for /benchmark. Never prints secrets."""
+    import shutil
+
+    from citeguard import ocr as ocr_module
+    from citeguard import support as support_module
+
+    items: list[dict] = []
+    base, model, key = support_module.judge_endpoint()
+    hosted = "deepseek" in (base or "").lower()
+    if support_module.judge_available():
+        items.append({
+            "label": "判定模型",
+            "value": ("托管 · " if hosted else "自托管 · ") + (model or "未命名"),
+            "state": "ok",
+            "hint": "支持度判定链路；密钥只检查是否配置",
+        })
+    else:
+        items.append({
+            "label": "判定模型",
+            "value": "未配置",
+            "state": "warn",
+            "hint": "设置 DEEPSEEK_API_KEY 或 CITEGUARD_JUDGE_BASE_URL 后启用支持度判定",
+        })
+    if config.SUPPORT_AUDIT:
+        try:
+            style = support_module._audit_style()
+        except Exception:
+            style = config.SUPPORT_AUDIT_STYLE
+        items.append({
+            "label": "覆盖审计",
+            "value": "开启 · " + style,
+            "state": "ok",
+            "hint": "自托管判官走 v2，托管 API 走 v1",
+        })
+    else:
+        items.append({"label": "覆盖审计", "value": "关闭", "state": "warn", "hint": "CITEGUARD_SUPPORT_AUDIT=0"})
+    items.append({
+        "label": "判定并发",
+        "value": "%d 路" % config.SUPPORT_WORKERS,
+        "state": "ok",
+        "hint": "CITEGUARD_SUPPORT_WORKERS（1–8）",
+    })
+    if config.ACCESS_TOKEN:
+        items.append({
+            "label": "访问控制",
+            "value": "已开启",
+            "state": "ok",
+            "hint": "限流 %d 次/分钟 · 每次 POST 请求" % config.RATE_LIMIT_PER_MIN,
+        })
+    else:
+        items.append({
+            "label": "访问控制",
+            "value": "未开启",
+            "state": "warn",
+            "hint": "公开演示建议设置 CITEGUARD_ACCESS_TOKEN",
+        })
+    items.append({
+        "label": "OCR",
+        "value": "可用" if ocr_module.ocr_available() else "未安装",
+        "state": "ok" if ocr_module.ocr_available() else "warn",
+        "hint": "扫描版 PDF 的可选依赖（rapidocr-onnxruntime）",
+    })
+    items.append({
+        "label": "图表核验",
+        "value": config.VL_MODEL if config.VL_ENDPOINT else "未配置",
+        "state": "ok" if config.VL_ENDPOINT else "warn",
+        "hint": "CITEGUARD_VL_ENDPOINT 指向自托管视觉模型",
+    })
+    try:
+        library = Library.load(config.LIBRARY_FILE)
+        with_abstract = sum(1 for e in library.entries if (getattr(e, "abstract", "") or "").strip())
+        items.append({
+            "label": "题录库",
+            "value": "%d 条 · %d 条带摘要" % (len(library.entries), with_abstract),
+            "state": "ok",
+            "hint": "本地题录库用于核验回退与摘要支持度判定",
+        })
+    except Exception:
+        items.append({"label": "题录库", "value": "不可用", "state": "warn", "hint": "读取失败"})
+    try:
+        free_gb = shutil.disk_usage(str(ROOT)).free / 1e9
+        items.append({
+            "label": "磁盘剩余",
+            "value": "%.1f GB" % free_gb,
+            "state": "ok" if free_gb > 5 else "bad",
+            "hint": "低于 5 GB 时上传与报告可能失败",
+        })
+    except Exception:
+        pass
+    return items
 
 
 @app.get("/benchmark", response_class=HTMLResponse)
@@ -919,4 +1083,4 @@ def benchmark_api():
 
 @app.get("/api/health")
 def health():
-    return {"ok": True, "version": "0.9.3", "supported": sorted(ALLOWED_SUFFIXES)}
+    return {"ok": True, "version": "0.9.4", "supported": sorted(ALLOWED_SUFFIXES)}

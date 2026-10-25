@@ -73,6 +73,15 @@ def test_benchmark_page_renders(plain_client):
     resp = plain_client.get("/benchmark")
     assert resp.status_code == 200
     assert "CiteBench" in resp.text
+    assert "运行状态" in resp.text
+
+
+def test_benchmark_status_never_leaks_secrets(plain_client, monkeypatch):
+    monkeypatch.setenv("DEEPSEEK_API_KEY", "sk-secret-should-not-leak")
+    resp = plain_client.get("/benchmark")
+    assert resp.status_code == 200
+    assert "运行状态" in resp.text
+    assert "sk-secret-should-not-leak" not in resp.text
 
 
 def test_analyze_requires_input(client):
@@ -391,3 +400,34 @@ def test_discover_export_csv(plain_client, monkeypatch):
     resp = plain_client.get("/api/discover/export?query=test")
     assert resp.status_code == 200
     assert resp.headers["content-type"].startswith("text/csv")
+
+
+def test_access_token_guard(plain_client, monkeypatch):
+    import web.app as webapp
+
+    monkeypatch.setattr(webapp.config, "ACCESS_TOKEN", "s3cret")
+    plain_client.cookies.clear()
+    assert plain_client.get("/api/library").status_code == 401
+    assert (
+        plain_client.get("/api/library", headers={"X-Access-Token": "s3cret"}).status_code == 200
+    )
+    # Opening a page with ?token= stores an HttpOnly cookie for later fetches.
+    plain_client.cookies.clear()
+    assert plain_client.get("/?token=s3cret").status_code == 200
+    assert plain_client.get("/api/library").status_code == 200
+    plain_client.cookies.clear()
+    assert plain_client.get("/api/library").status_code == 401
+
+
+def test_rate_limit_blocks_post_floods(plain_client, monkeypatch):
+    import web.app as webapp
+
+    monkeypatch.setattr(webapp.config, "ACCESS_TOKEN", "")
+    monkeypatch.setattr(webapp.config, "RATE_LIMIT_PER_MIN", 2)
+    webapp._rate_buckets.clear()
+    # Empty library -> handler answers 400, but every POST still consumes a slot.
+    for _ in range(2):
+        assert plain_client.post("/api/library/enrich").status_code == 400
+    resp = plain_client.post("/api/library/enrich")
+    assert resp.status_code == 429
+    assert resp.headers.get("Retry-After") == "60"

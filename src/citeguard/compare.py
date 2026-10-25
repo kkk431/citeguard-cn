@@ -24,10 +24,11 @@ import requests
 from . import config
 from .support import judge_available, judge_endpoint
 
-PROMPT_VERSION = 1
+PROMPT_VERSION = 2
 MIN_PAPERS = 2
 MAX_PAPERS = 6
 EXCERPT_CHARS = 3600
+SECTION_CHARS = 900
 FIELD_MAX_CHARS = 220
 MIN_FIELDS_FILLED = 2
 
@@ -48,7 +49,9 @@ PROMPT = """你是文献综述助手。只根据下面这段论文原文，抽�
 2. JSON 必须包含这些键：research_question（研究问题）、method（方法/设计）、
    data（数据/样本）、findings（主要结论）、limitations（局限）、contribution（贡献/创新点）；
 3. 只写原文明确说到的内容；原文没有提到就填空字符串 ""，禁止编造；
-4. 每个字段不超过 80 个汉字，用短语或一句话。"""
+4. 每个字段不超过 80 个汉字，用短语或一句话；
+5. 原文按【摘要】【引言】【方法】【结果】【讨论】【结论】分节给出时，
+   优先从「方法」「结果」「结论」抽取；摘要和讨论只作补充。"""
 
 
 class CompareError(Exception):
@@ -93,6 +96,43 @@ def _judge_json(user: str, max_tokens: int = 800) -> Optional[dict]:
     return parsed if isinstance(parsed, dict) else {}
 
 
+_SECTION_PATTERNS: tuple[tuple[str, str], ...] = (
+    ("摘要", r"摘\s*要|abstract"),
+    ("引言", r"引\s*言|前\s*言|introduction|背\s*景"),
+    ("方法", r"方\s*法|研究设计|数据与方法|materials?\s+and\s+methods|methods?|methodology"),
+    ("结果", r"结\s*果|results?|findings?"),
+    ("讨论", r"讨\s*论|discussion"),
+    ("结论", r"结\s*论|结\s*语|conclusions?"),
+)
+_HEADING_RE = re.compile(r"^\s*(?:[一二三四五六七八九十]+[、.．]\s*|\d+(?:\.\d+)*[、.．]?\s*)?")
+
+
+def _section_snippets(text: str) -> list[tuple[str, str]]:
+    """Split raw paper text on common section headings (best effort)."""
+    raw = (text or "").replace("\r", "\n")
+    lines = raw.split("\n")
+    marks: list[tuple[int, int, str]] = []
+    offset = 0
+    for line in lines:
+        clean = line.strip()
+        if 0 < len(clean) <= 24:
+            core = _HEADING_RE.sub("", clean).strip(" ：:.")
+            for label, pattern in _SECTION_PATTERNS:
+                if re.fullmatch(pattern, core, re.I):
+                    marks.append((offset, offset + len(line), label))
+                    break
+        offset += len(line) + 1
+    if len(marks) < 2:
+        return []
+    snippets: list[tuple[str, str]] = []
+    for idx, (_start, end, label) in enumerate(marks):
+        stop = marks[idx + 1][0] if idx + 1 < len(marks) else len(raw)
+        body = re.sub(r"\s+", " ", raw[end:stop]).strip()
+        if len(body) >= 80:
+            snippets.append((label, body[:SECTION_CHARS]))
+    return snippets
+
+
 def _excerpt(text: str) -> str:
     """First few thousand characters, with the reference list cut off."""
     flat = re.sub(r"\s+", " ", text or "").strip()
@@ -102,6 +142,15 @@ def _excerpt(text: str) -> str:
     if headings and headings[-1].start() > len(flat) * 0.30:
         flat = flat[: headings[-1].start()].strip()
     return flat[:EXCERPT_CHARS]
+
+
+def _context(text: str) -> tuple[str, list[str]]:
+    """Section-labelled context if headings exist, else a plain excerpt."""
+    snippets = _section_snippets(text)
+    if snippets:
+        body = "\n\n".join(f"【{label}】{body}" for label, body in snippets)
+        return body[: EXCERPT_CHARS + 2400], [label for label, _ in snippets]
+    return _excerpt(text), []
 
 
 def _clean(value) -> str:
@@ -123,7 +172,7 @@ def extract_profile(text: str, *, use_cache: bool = True) -> dict:
     """Extract the six-field profile for one paper; raises CompareError."""
     if not judge_available():
         raise CompareError("未配置判官接口（设置 CITEGUARD_JUDGE_BASE_URL / API_KEY）")
-    excerpt = _excerpt(text)
+    excerpt, sections = _context(text)
     if len(excerpt) < 200:
         raise CompareError("可用文字太少（不足 200 字），可能是扫描件或解析失败")
     cache = _cache_path(excerpt)
@@ -150,6 +199,7 @@ def extract_profile(text: str, *, use_cache: bool = True) -> dict:
         "fields": fields,
         "model": judge_endpoint()[1],
         "excerpt_chars": len(excerpt),
+        "sections": sections,
         "latency_ms": int((time.perf_counter() - started) * 1000),
         "cached": False,
     }
@@ -190,6 +240,7 @@ def compare_texts(
             entry["fields"] = profile["fields"]
             entry["cached"] = bool(profile.get("cached"))
             entry["excerpt_chars"] = profile.get("excerpt_chars", 0)
+            entry["sections"] = profile.get("sections", [])
             entry["latency_ms"] = profile.get("latency_ms", 0)
         except CompareError as exc:
             entry["error"] = str(exc)
