@@ -1,0 +1,54 @@
+[
+  {
+    "query": "人工智能 教育",
+    "elapsed_s": 3.2,
+    "result": {
+      "en": "artificial intelligence education",
+      "keywords": [
+        "artificial intelligence",
+        "education",
+        "AI in education"
+      ],
+      "model": "qwen3-8b-4bit"
+    }
+  },
+  {
+    "query": "电商 园林 文旅",
+    "elapsed_s": 3.1,
+    "result": {
+      "en": "e-commerce landscape cultural tourism",
+      "keywords": [
+        "e-commerce",
+        "landscape",
+        "cultural tourism"
+      ],
+      "model": "qwen3-8b-4bit"
+    }
+  },
+  {
+    "query": "青少年 风险 行为",
+    "elapsed_s": 3.1,
+    "result": {
+      "en": "adolescent risk behavior",
+      "keywords": [
+        "adolescent",
+        "risk behavior",
+        "青少年"
+      ],
+      "model": "qwen3-8b-4bit"
+    }
+  },
+  {
+    "query": "碳中和 政策 评估",
+    "elapsed_s": 2.8,
+    "result": {
+      "en": "carbon neutrality policy evaluation",
+      "keywords": [
+        "carbon neutrality",
+        "policy",
+        "evaluation"
+      ],
+      "model": "qwen3-8b-4bit"
+    }
+  }
+]

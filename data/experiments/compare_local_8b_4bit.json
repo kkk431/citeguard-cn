@@ -1,0 +1,97 @@
+{
+  "generated_at": "2026-10-25T12:09:22",
+  "model": "qwen3-8b-4bit",
+  "elapsed_s": 32.4,
+  "fields": [
+    {
+      "key": "research_question",
+      "label": "研究问题"
+    },
+    {
+      "key": "method",
+      "label": "方法 / 设计"
+    },
+    {
+      "key": "data",
+      "label": "数据 / 样本"
+    },
+    {
+      "key": "findings",
+      "label": "主要结论"
+    },
+    {
+      "key": "limitations",
+      "label": "局限"
+    },
+    {
+      "key": "contribution",
+      "label": "贡献 / 创新点"
+    }
+  ],
+  "papers": [
+    {
+      "name": "hanspub_152572",
+      "chars": 11248,
+      "fields": {
+        "research_question": "电商经济下园林元素促进文旅融合发展的营销策略",
+        "method": "系统梳理实践现状与困境，提出优化路径",
+        "data": "未提及具体数据或样本",
+        "findings": "提出营销策略优化路径以释放园林元素核心动能",
+        "limitations": "未提及具体局限",
+        "contribution": "提供实践指引与理论指导"
+      },
+      "error": "",
+      "cached": true,
+      "excerpt_chars": 3600,
+      "latency_ms": 10771
+    },
+    {
+      "name": "hanspub_152573",
+      "chars": 9979,
+      "fields": {
+        "research_question": "电商平台数据安全监管存在哪些困境与局限",
+        "method": "结合行业实际分析现状与问题",
+        "data": "电商平台数据安全现状与案例",
+        "findings": "监管规则落地弱化、企业安全意识薄弱、技术防护能力不足",
+        "limitations": "传统监管模式难以适配数据治理需求",
+        "contribution": "提出系统性治理方案与全链条防护体系"
+      },
+      "error": "",
+      "cached": false,
+      "excerpt_chars": 3600,
+      "latency_ms": 11709
+    },
+    {
+      "name": "hanspub_152574",
+      "chars": 10598,
+      "fields": {
+        "research_question": "内容电商场景中的传媒生产新特征与闭环机制",
+        "method": "媒介经营与管理理论结合电子商务实践",
+        "data": "未明确提及",
+        "findings": "内容生产与电商交易形成闭环机制",
+        "limitations": "未明确提及",
+        "contribution": "提出内容电商新生产要素与闭环机制"
+      },
+      "error": "",
+      "cached": false,
+      "excerpt_chars": 3600,
+      "latency_ms": 10018
+    },
+    {
+      "name": "hanspub_152575",
+      "chars": 16717,
+      "fields": {
+        "research_question": "人工智能在电子商务领域的研究图景与热点",
+        "method": "文献计量与可视化分析",
+        "data": "Web of Science核心合集2016-2025年593篇文献",
+        "findings": "揭示研究特征、合作及热点主题",
+        "limitations": "关键词共现分析可能混杂不同研究脉络",
+        "contribution": "构建知识图谱，识别研究盲点与前沿趋势"
+      },
+      "error": "",
+      "cached": false,
+      "excerpt_chars": 3600,
+      "latency_ms": 10610
+    }
+  ]
+}

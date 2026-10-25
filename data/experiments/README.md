@@ -60,6 +60,8 @@
 
 | `compare_local_qwen3_14b.json` | 多篇文献对比（Qwen3-14B 本地端点）4 篇真实论文工程实测 | 本地脚本 | 4/4 成功，字段 3–6/6，43.9 s/4 篇（约 11 s/篇） |
 | `discover_expand_local_qwen3_14b.json` | 文献发现查询扩展（Qwen3-14B 本地端点）4 个中文主题 | 本地脚本 | 4/4 输出有效英文查询与关键词 |
+| `compare_local_4bit14b.json` / `compare_local_8b_4bit.json` | 同一 4 篇 PDF 的多篇文献对比，分别用 14B / 8B 的 4-bit 单卡端点 | 本地脚本 | 4/4 成功、字段 6/6；59.8 s（14B 4-bit）/ 32.4 s（8B 4-bit） |
+| `discover_expand_local_4bit14b.json` / `discover_expand_local_8b_4bit.json` | 同一 4 个中文主题的查询扩展，14B / 8B 4-bit | 本地脚本 | 4/4 输出有效英文查询，5.1 s / 3.1 s 每条 |
 
 ## 5. 口径与注意事项
 
