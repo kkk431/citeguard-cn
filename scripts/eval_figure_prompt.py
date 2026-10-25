@@ -18,7 +18,9 @@ from pathlib import Path
 import requests
 
 ROOT = Path(__file__).resolve().parents[1]
-SYNTH = json.loads((ROOT / "out/figtest_synth/figtest_synth.json").read_text(encoding="utf-8"))
+SYNTH_JSON = Path(os.environ.get("FIGTEST_SYNTH_JSON", ROOT / "out/figtest_synth/figtest_synth.json"))
+SYNTH = json.loads(Path(SYNTH_JSON).read_text(encoding="utf-8"))
+SYNTH_FOLDER = os.environ.get("FIGTEST_SYNTH_FOLDER", "figtest_synth/images")
 REAL_JSON = Path(os.environ.get("FIGTEST_REAL_JSON", ROOT / "out/figtest_real/figtest_real.json"))
 REAL = json.loads(Path(REAL_JSON).read_text(encoding="utf-8"))
 REAL_FOLDER = os.environ.get("FIGTEST_REAL_FOLDER", "figtest_real/images")
@@ -120,7 +122,10 @@ def _allowed(verdict: str) -> str:
 
 def run(out_path: Path, variants: list[str]) -> dict:
     rows = []
+    families = [f for f in os.environ.get("FIGTEST_FAMILIES", "synth,real").split(",") if f]
     for family, data in (("synth", SYNTH["items"]), ("real", REAL["items"])):
+        if family not in families:
+            continue
         for item in data:
             for label_key, gold in (("claim_supported", "supported"), ("claim_contradicted", "contradicted")):
                 claim = item[label_key]
@@ -130,6 +135,7 @@ def run(out_path: Path, variants: list[str]) -> dict:
                     ("v2", V2, ""),
                     ("v2_context", V2, context),
             ("v3_context", V3, context),
+                    ("v3", V3, ""),
                 ):
                     if variant not in variants:
                         continue
@@ -137,7 +143,7 @@ def run(out_path: Path, variants: list[str]) -> dict:
                         claim=claim,
                         context_block=("正文/图注摘录（可能不完整）：\n" + context + "\n") if ctx else "",
                     )
-                    result = _ask(item["image"], prompt, "figtest_synth/images" if family == "synth" else REAL_FOLDER)
+                    result = _ask(item["image"], prompt, SYNTH_FOLDER if family == "synth" else REAL_FOLDER)
                     rows.append({
                         "family": family,
                         "id": item["id"],

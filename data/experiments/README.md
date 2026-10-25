@@ -61,6 +61,7 @@
 | `figure_prompt_eval_real22.json` | 扩展真实图表压力集（11 图 / 22 条，含 6 张路径图；无上下文 v2） | `scripts/eval_figure_prompt.py --variants v2` | **0.818**（支持 1.00 / 矛盾 0.636），3 例把矛盾判成 insufficient/supported |
 | `discover_ndcg.json` | 选题发现排序：8 个中文主题、扩展开/关、关键词代理 nDCG@10 | `scripts/eval_discover_ndcg.py` | 开扩展 0.958 / 关扩展 0.976；每查询 2 级相关 8.0 / 7.0 |
 | `figure_prompt_eval_3b.json` | 同一 50 条的 **Qwen2.5-VL-3B** 跨模型对照（v2 / v2+上下文） | 同上，端点指向 3B 视觉服务 | 3B：0.64 / 0.86；矛盾类召回 0.32 / 0.72，会把矛盾判成支持——只适合支持类初筛，不作矛盾筛查 |
+| `figure_prompt_eval_blind40.json` | 合成集**新种子盲测**（seed=20261025，20 图 / 40 条，未参与设计；v3 无上下文） | `FIGTEST_FAMILIES=synth FIGTEST_SYNTH_JSON=out/figtest_blind/figtest_synth.json FIGTEST_SYNTH_FOLDER=figtest_blind/images python scripts/eval_figure_prompt.py --variants v3 --out ...` | **0.875**（支持召回 0.80 / 矛盾召回 0.95），较 canonical 合成集无显著掉点——不是背图；仍非真实分布 |
 
 | `compare_local_qwen3_14b.json` | 多篇文献对比（Qwen3-14B 本地端点）4 篇真实论文工程实测 | 本地脚本 | 4/4 成功，字段 3–6/6，43.9 s/4 篇（约 11 s/篇） |
 | `discover_expand_local_qwen3_14b.json` | 文献发现查询扩展（Qwen3-14B 本地端点）4 个中文主题 | 本地脚本 | 4/4 输出有效英文查询与关键词 |

@@ -1,4 +1,4 @@
-# CiteGuard-CN 部署手册（v0.9.10）
+# CiteGuard-CN 部署手册（v0.9.11）
 
 本文覆盖四种落地方式：本地开发、服务器 `.pylibs` 部署、SSH 隧道访问、Docker。
 所有方式都遵循同一条安全约束：**API Key 只从环境变量注入，绝不写进仓库或镜像**。
@@ -259,7 +259,11 @@ PYTHONPATH=src:.pylibs python3 scripts/enrich_library_abstracts.py
 
 ---
 
-## 3. SSH 隧道访问
+## 3. 远程访问：SSH 隧道（演示默认方式）
+
+> 本机实测：远端 `http://222.20.96.215:8000/` 与 `/api/health` 从当前网络均**超时**（服务端监听
+> `0.0.0.0:8000` 正常，属校园网/防火墙限制）。**不要对外承诺公网地址**；答辩演示用本机 `127.0.0.1:8010`
+> 或 SSH 隧道。若评审需要远程访问，请提前向网络管理员申请端口，或让评审连校园 VPN 后访问内网地址。
 
 服务器上仅监听 `127.0.0.1:8000`（或防火墙只放行本机）时，用 SSH 本地端口转发：
 
@@ -294,13 +298,13 @@ ssh -L 18000:127.0.0.1:8000 jxy-2
 
 ```bash
 cd citeguard
-docker build -f docker/Dockerfile -t citeguard-cn:0.9.10 .
+docker build -f docker/Dockerfile -t citeguard-cn:0.9.11 .
 
 docker run --rm -p 127.0.0.1:8000:8000 \
   -e DEEPSEEK_API_KEY="${DEEPSEEK_API_KEY:-}" \
   -v "$PWD/data/jobs:/app/data/jobs" \
   -v "$PWD/data/cache:/app/data/cache" \
-  citeguard-cn:0.9.10
+  citeguard-cn:0.9.11
 ```
 
 镜像内固定 `PYTHONPATH=/app/src`，启动命令：
@@ -336,9 +340,9 @@ docker compose -f docker/docker-compose.yml logs -f citeguard
 
 ```bash
 # 有网机器
-docker save citeguard-cn:0.9.10 | gzip > citeguard-cn-0.9.10.tar.gz
+docker save citeguard-cn:0.9.11 | gzip > citeguard-cn-0.9.11.tar.gz
 # 目标机器
-docker load < citeguard-cn-0.9.10.tar.gz
+docker load < citeguard-cn-0.9.11.tar.gz
 ```
 
 ---
@@ -367,7 +371,7 @@ docker load < citeguard-cn-0.9.10.tar.gz
 cd citeguard
 PYTHONPATH=src:.pylibs python3 -m pytest tests -q          # 应全绿（含离线端到端）
 PYTHONPATH=src python3 scripts/verify_artifacts.py         # 应输出 [OK] all checks passed
-PYTHONPATH=src python3 scripts/package_deliverable.py      # 生成 dist/citeguard-cn-0.9.10.zip
+PYTHONPATH=src python3 scripts/package_deliverable.py      # 生成 dist/citeguard-cn-0.9.11.zip
 curl -s http://127.0.0.1:8000/api/health                   # {"ok":true,...}
 ```
 
@@ -426,4 +430,4 @@ curl -s http://127.0.0.1:8000/api/health
 避免把用户上传内容和密钥带进镜像。
 
 **Q11. 如何确认某次部署的版本？**
-`curl -s http://127.0.0.1:8000/api/health`，`version` 字段即当前版本（本手册对应 `0.9.10`）。
+`curl -s http://127.0.0.1:8000/api/health`，`version` 字段即当前版本（本手册对应 `0.9.11`）。

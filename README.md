@@ -218,7 +218,7 @@ citeguard/
 | 代码仓 | 本仓库（解析器 / 核验器 / GB-T 规则引擎 / Web 工作台 / 评测脚本 / 测试） | Apache-2.0 |
 | CiteBench-CN | 250 条中文引文真实性评测集 + 数据卡 + 评测结果 | CC-BY-4.0 |
 | ClaimSupport-CN | 100 条中文引用支持度评测集 + 数据卡 + judge 结果 | CC-BY-4.0 |
-| 上游贡献 | RefChecker PR #77：修复 BibTeX 裸值（`year = 2017`）被丢弃导致年份校验失效 | [PR](https://github.com/markrussinovich/refchecker/pull/77) |
+| 上游贡献 | **markrussinovich/refchecker**（MIT，Python 引文核验工具）PR #77：修复 BibTeX 裸值（`year = 2017`）被丢弃导致年份校验失效；**已提交，维护者 2026-10-24 关闭未合并**。注意：它与 E14 对照使用的 `amazon-science/RefChecker`（Apache-2.0，Java/LLM 两段式）是**两个同名项目**，不要混写 | [PR #77](https://github.com/markrussinovich/refchecker/pull/77) |
 
 复现（约 30 分钟，需联网取一次元数据，之后走本地缓存）：
 

@@ -199,7 +199,7 @@ OpenAI 兼容的 `/v1/chat/completions` 调用视觉模型；`scripts/local_vl_s
 
 | 项目 | 形式 | 内容 | 链接 |
 |---|---|---|---|
-| RefChecker（MIT） | Pull Request #77 | 修复 BibTeX 裸值（`year = 2017`）被丢弃导致年份校验失效的问题，含 10 条回归测试 | https://github.com/markrussinovich/refchecker/pull/77 |
+| markrussinovich/refchecker（MIT） | Pull Request #77（**closed，未合并**，2026-10-24） | 修复 BibTeX 裸值（`year = 2017`）被丢弃导致年份校验失效的问题，含 10 条回归测试；维护者关闭未给合并理由 | https://github.com/markrussinovich/refchecker/pull/77 |
 
 ## 8. 自研边界（不属于第三方资源）
 
@@ -208,5 +208,7 @@ OpenAI 兼容的 `/v1/chat/completions` 调用视觉模型；`scripts/local_vl_s
 ## 6. 外部对照工具（仅用于评测，不作为运行依赖）
 
 - **RefChecker**（`amazon-science/RefChecker`，Apache-2.0）：用于 E14 的外部同题对照。
+  它与 §7 的 `markrussinovich/refchecker`（MIT）是**同名但不同代码库**：前者是 ServiceNow 的
+  LLM 两段式工具，后者是独立的 Python 引文核验工具；上游 PR #77 提交在后者，不冒充前者的贡献。
   本地复现时只把它克隆到 `out/refchecker/`（gitignore），通过其官方 LLM 两段式流水线调用
   DeepSeek-Chat；不复制其代码进本仓库、不作为产品依赖。数值口径见 `docs/experiments.md` §14。

@@ -83,19 +83,24 @@ def _line_chart(rng: random.Random, idx: int) -> dict:
 
 
 def main() -> None:
+    global OUT
     ap = argparse.ArgumentParser()
     ap.add_argument("--n", type=int, default=20)
+    ap.add_argument("--seed", type=int, default=20261024)
+    ap.add_argument("--out", default=str(OUT))
     args = ap.parse_args()
-    (OUT / "images").mkdir(parents=True, exist_ok=True)
-    for old in (OUT / "images").glob("*.png"):
+    out = Path(args.out)
+    OUT = out
+    (out / "images").mkdir(parents=True, exist_ok=True)
+    for old in (out / "images").glob("*.png"):
         old.unlink()
-    rng = random.Random(20261024)
+    rng = random.Random(args.seed)
     items = []
     for i in range(1, args.n + 1):
         items.append(_bar_chart(rng, i) if i % 2 else _line_chart(rng, i))
-    meta = {"source": "synthetic matplotlib charts", "n": len(items), "items": items}
-    (OUT / "figtest_synth.json").write_text(json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"generated {len(items)} charts -> {OUT}")
+    meta = {"source": f"synthetic matplotlib charts seed={args.seed}", "n": len(items), "items": items}
+    (out / "figtest_synth.json").write_text(json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(f"generated {len(items)} charts -> {out}")
     for item in items[:3]:
         print(item["image"], "|", item["claim_supported"], "|", item["claim_contradicted"])
 
