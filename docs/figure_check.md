@@ -114,16 +114,17 @@ export CITEGUARD_VL_ENDPOINT=http://<gpu-host>:8099/v1
 
 - 数据：ChartCheck（Akhtar et al., Findings ACL 2024），仓库 MIT；图表来自 Wikimedia Commons，各自保留原许可，仓库不重分发图片。
 - 取样：val 953 条按标签分层抽 200 条（100 支持 / 100 不支持，seed=20261025），只把「图 + 图注 + claim」交给模型。
-- 主口径（一步 prompt v1，单卡 RTX 4090，bf16）：
+- 主口径（v1 一步 / v3 分步，单卡 RTX 4090，bf16）：
 
 | 模型 | 3 分类准确率 | 3 分类 macro-F1 | 二分类准确率* | 二分类 macro-F1 | insufficient | 平均延迟 |
 |---|---|---|---|---|---|---|
 | Qwen2.5-VL-7B | 0.475 | 0.576 | 0.670 | 0.644 | 36.0% | 2.80 s |
 | **Qwen3-VL-8B** | **0.645** | **0.714** | **0.730** | **0.727** | 19.5% | 4.15 s |
+| Qwen3-VL-8B（分步 v3） | **0.720** | **0.776** | **0.795** | **0.794** | 14.5% | 7.50 s |
 
 \* ChartCheck 的 FALSE 表示「图不支持该 claim」（可能只是图里没有），所以二分类把 contradicted + insufficient 都算 not_supported。
-- 复现：`python scripts/eval_chartcheck.py --sample 200 --prompt v1`（需配置 `CITEGUARD_VL_ENDPOINT` 与 `CITEGUARD_VL_MODEL`）。
-- 结论：公开英文分布上 8B 比 7B 二分类 +6.0pt，但仍明显低于自建中文图表集（8B 0.96）；
+- 复现：`python scripts/eval_chartcheck.py --sample 200 --prompt v1`（或 `--prompt v3` 走分步推理；需配置 `CITEGUARD_VL_ENDPOINT` 与 `CITEGUARD_VL_MODEL`）。
+- 结论：公开英文分布上 8B 比 7B 二分类 +6.0pt，分步推理再 +6.5pt（0.795）；但仍明显低于自建中文图表集（8B 0.96）；
   **自建集数字不能当通用准确率**，对外只作外部零样本压力测试；ChartCheck 论文 GPT-4V 约 73.8 是完整 test 集，与我们的 200 条子集不是同一口径，不能逐点比。
 
 ### 小样本补充观察（60 条，仅作参考，不并入主口径）

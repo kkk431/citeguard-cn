@@ -1,0 +1,1839 @@
+{
+  "experiment": "chartcheck_val_zero_shot",
+  "dataset": "ChartCheck (Akhtar et al. 2024), val split stratified sample",
+  "generated_at": "2026-10-26T12:24:36",
+  "model": "qwen3-vl-8b",
+  "endpoint": "http://222.20.126.148:8095/v1",
+  "sample": 200,
+  "seed": 20261025,
+  "accuracy": 0.72,
+  "macro_f1": 0.7763,
+  "binary_supported_macro_f1": 0.7938,
+  "binary_accuracy": 0.795,
+  "binary_confusion": {
+    "supported": {
+      "supported": 72,
+      "not_supported": 28
+    },
+    "contradicted": {
+      "supported": 13,
+      "not_supported": 87
+    }
+  },
+  "confusion": {
+    "supported": {
+      "supported": 72,
+      "contradicted": 14,
+      "insufficient": 14
+    },
+    "contradicted": {
+      "supported": 13,
+      "contradicted": 72,
+      "insufficient": 15
+    }
+  },
+  "failures": 0,
+  "latency_ms_mean": 7495.3,
+  "records": [
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Employment_by_sector_in_Greater_Lowell_in_2010.png",
+      "caption": "\nDistribution of the labor force by sector in 2010 in the Lowell-Billerica-Chelmsford, MA-NH NECTA division. See 'Data' section below for table of raw data and links to BLS source data.",
+      "claim": "The construction sector employs fewer workers than the agricultural sector in the Lowell-Billerica-Chelmsford area.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows 'Mining, Logging, and Construction' at 5%, while 'Agricultural' is not listed and implied to be 0%, meaning construction employs more workers than agricultural."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Wikipedia_top_25_week_June_3_June_9,_2018.png",
+      "caption": "Wikipedia top 25 articles for the week June 3 June 9, 2018",
+      "claim": "The Wikipedia article with the high pageviews for the week of June 3-9, 2018 was Anthony Bourdain.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart ranks Anthony Bourdain as #1 with the highest views (6,094,775), directly supporting the claim."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Gib_Challenge_Points_by_User_Dec_2nd.png",
+      "caption": "Gib Challenge Points by User Dec 2nd",
+      "claim": "All users have earned at least one Gibraltar Challenge point.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "insufficient",
+      "reason": "The chart shows point distribution among users but does not indicate whether every user has at least one point; some users may have zero points if their slice is not shown or is too small to be visibl"
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Signpost_poll_9_(internal_search).png",
+      "caption": "The results of a poll conducted between 6 May and 13 May 2012: Which of the following best describes your thoughts on Wikimedia's internal search engine?\nI find its search performance (how well it fin",
+      "claim": "The majority of respondents find Wikimedia's search engine to be a major drawback.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The claim states 'majority' find it a major drawback, but the chart shows only 19% for 'Needs better performance' and 12% for 'Needs overhaul' (total 31%), which is less than half, contradicting the c"
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Time-to-deletion.png",
+      "caption": "\nDistribution of files' time-to-deletion on Wikimedia Commons, by media type and reason for deletion.",
+      "claim": "Files categorized as no license are deleted more than files categorized as low quality.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "insufficient",
+      "reason": ""
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/PVC_workers.jpg",
+      "caption": "In people who work swing shifts and nights, studies have shown as high as 40% have PVC.",
+      "claim": "People who work swing shifts and nights have a lower prevalence of PVC compared to those who work regular daytime hours",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "insufficient",
+      "reason": "The chart only shows PVC prevalence for swing shift/night workers, with no data provided for daytime workers to compare against."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Graph_RE_Australia_2010.png",
+      "caption": "Electricity generation from renewable sources in Australia, in 2010.\nData: Clean Energy Council: Clean Energy Australia 2010, pg.6 (estimate for October 2009 - September 2010)",
+      "claim": "Hydro is the highest place in renewable sources of Electricity to Australia, in 2010.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart shows Hydro at 63.4%, which is higher than Wind (22.9%), Bio (11.5%), and Solar (2.1%), supporting the claim that Hydro was the highest contributor."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Ionization_energy_as_a_function_of_atomic_number.jpg",
+      "caption": "\nCreated with OpenOffice Calc 2.0.1 by Joseph Zullo and Thomas Levine",
+      "claim": "Ionization energy decreases as atomic number increases for Group 1A elements.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart shows a clear downward trend in ionization energy with increasing atomic number, matching the claim that ionization energy decreases for Group 1A elements."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Cine10.jpg",
+      "caption": "grafico 10",
+      "claim": "The chart shows a correlation between \"t\" in X axis  and \"s\" in Y axis.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart visually depicts a clear positive correlation between 't' (x-axis) and 's' (y-axis), as 's' increases with 't' along a rising curve."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Irthington_Occupational_graph_1881.png",
+      "caption": "Occupation data according to a vision of Britain",
+      "claim": "Farming occupations have the high number of workers.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart visually shows 'Farming' as the largest segment, supporting the claim that it has the highest number of workers."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/NewZealandElectionGraph2002v2.png",
+      "caption": "Pie graph of the New Zealand 2002 election results, made my  Brian New Zealand",
+      "claim": "Labour category is the large amount of the New Zealand 2002 election results.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart visually shows Labour as the largest segment, matching the claim that Labour received the largest share of the vote."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Mexico_survey_barrier_02.png",
+      "caption": "Graph for Mexico phone survey report on Meta",
+      "claim": "There is a positive correlation between trusting the content and likelihood to use Wikipedia.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart shows 'Trusted the content' (29%) as the top reason, indicating a strong association between trusting content and likelihood to use Wikipedia, supporting the claim of a positive correlation."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/PhotonsPopulationVsTime.png",
+      "caption": "Photons & Population Vs Time in laser",
+      "claim": "The photon count in the negative correlated with time.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The claim says photon count decreases with time, but the chart shows the photon count (blue line) increases to a peak before decreasing, so it does not consistently correlate negatively with time."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Happiness_pie_chart_with_percentages,_based_on_%2522How_of_Happiness%2522_book.png",
+      "caption": "This is a Pie chart of the determinants of happiness (with percentages) based on Sonja Lyubomirsky's book",
+      "claim": "Circumstances make up the majority of happiness.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The claim states 'Circumstances make up the majority of happiness,' but the chart shows Circumstances at only 10%, while Intentional Activity (40%) and Set Point (10%) together make up 50%, meaning Ci"
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Counterfeits_value_chart_2010.jpg",
+      "caption": "Chart of value of seized counterfeit goods in 2010",
+      "claim": "There were many counterfeit goods seized in 2010",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart shows total domestic seizure value broken down by category, with the largest slice (21%) for Cigarettes and others adding up to over 100% of the total value, indicating many counterfeit good"
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Foreign_direct_investments_in_Germany_2015.png",
+      "caption": "Foreign direct investments in Germany 2014",
+      "claim": "\nThe average score of students in Math is higher than Science.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "insufficient",
+      "reason": "The chart shows FDI by German states, not student test scores in Math or Science, so it cannot be used to compare student performance."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Plot.JPG",
+      "caption": "Neutron detection - 2: Tail energy against energy in the complete pulse plotted for all event energies. Dots represent number densities of events.",
+      "claim": "Both photons and neutrons use the same amount of energy.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows different energy relationships: photons have higher tail energy per unit total energy than neutrons, contradicting the claim of equal energy usage."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Male_occupation.png",
+      "caption": "Pie chart of male occupation in 1881",
+      "claim": "The pie chart of male occupations in 1881 shows a single dominant occupation",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "supported",
+      "reason": "The chart visually shows one large slice ('Professionals') dominating the pie, matching the claim of a single dominant occupation."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Babarhisto2.JPG",
+      "caption": "This file has no description, and may be lacking other information.\nPlease provide a meaningful description of this file.\n\n",
+      "claim": "The chart shows that the majority of data points fall outside of the less than 0.1 lifetime range.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The claim asserts most data points are outside <0.1, but the chart shows the highest frequency is at or near 0.0, indicating most data points are within the <0.1 range."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/IRWD_Operating_Budget_FY_11-12_graphic.jpg",
+      "caption": "Pie chart illustrating breakdown of Irvine Ranch Water District operating expenses for FY 2011-2012.",
+      "claim": "The percentage of sewer operating expense was over 50 percent.  ",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows Sewer at 36.0%, which is less than 50%, contradicting the claim that it was over 50%."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Fraction_of_vertebrates_within_the_animal_kingdom.jpg",
+      "caption": "By Ruth Lawson - Otago Polytechnic.",
+      "claim": "Invertebrates is lower than the vertebrates at the Ruth Lawson - Otago polytechnic.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart visually shows the 'INVERTEBRATES' slice (light grey) is much larger than the 'VERTEBRATES' slice (dark grey), supporting the claim that invertebrates are lower than vertebrates."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Languages.png",
+      "caption": "Pie chart of world languages by percentage of speakers",
+      "claim": "Mandarin Chinese is the spoken language in the world.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "contradicted",
+      "reason": "The claim asserts Mandarin Chinese is the world's spoken language, but the chart shows language families (e.g., Indo-European, Sino-Tibetan), not specific languages, and Mandarin is not labeled or sho"
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Michigan_DEQ_Budget_by_Expenditure_Category.jpg",
+      "caption": "This pie chart shows the Michigan DEQ's $502 million FY 2015 budget by spending category.",
+      "claim": "The largest part of the budget was spent on air quality.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows Municipal Assistance (38%) is largest, while Air Quality is only 5%."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Connecticut_Electricity_Generation_Sources_Pie_Chart.png",
+      "caption": "Pie chart showing sources of generation for Connecticut.",
+      "claim": " Nuclear energy is the second smallest source of energy generation in Connecticut.\n\n",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The claim says nuclear is second smallest, but the chart shows nuclear (45.5%) is the second largest, not smallest."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Mexico_survey_barrier_09.png",
+      "caption": "Graph for Mexico phone survey report on Meta",
+      "claim": "According to the Mexico phone survey, school ranks first in using Wikipedia.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart shows School at 50%, the highest percentage, supporting the claim that school ranks first in using Wikipedia."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Occupational_structure_of_Tibenham.png",
+      "caption": "1881 Census data",
+      "claim": "In 1881, the occupation with the highest number of males was agriculture.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart shows 'Agriculture' has the longest blue bar (male), confirming it is the occupation with the highest number of males in 1881."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/20200814A225642.png",
+      "caption": "Reservation quotas in india",
+      "claim": "India has reservation quotas for different castes and tribes.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart explicitly lists multiple caste/tribe-based reservation categories (ST, SC, OBC, EWC, etc.) with their respective percentages, directly supporting the claim that India has reservation quotas"
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Louisiana_Electricity_Generation_Sources_Pie_Chart.png",
+      "caption": "Pie chart showing how Louisiana generates electricity. Natural gas is the primary source.",
+      "claim": "Louisiana generates more electricity from coal than from nuclear energy.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows coal at 11.6% and nuclear at 16.9%, meaning nuclear generates more electricity than coal, contradicting the claim."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/TuleLakeHabitats.png",
+      "caption": "\nTule Lake National Wildlife Refuge habitats pie chart",
+      "claim": "There are five shares in different colors on this chart. ",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The claim states five shares, but the chart only shows four distinct habitat categories."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/A)_DFT_of_the_filter_and_(b)_the_reordered_filter_(both_in_absolute_scale)..jpg",
+      "caption": "a) DFT of the filter and (b) the reordered filter (both in absolute scale).",
+      "claim": "The DFT of the filter curve remains constant starting from zero to 250.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "Claim says DFT remains constant, but plot (a) shows a clear peak around 150, not constant; plot (b) shows oscillatory peaks, not constant."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Graph.png",
+      "caption": "\nA very simple line graph.",
+      "claim": "The values of the red line are constantly increasing. ",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The red line shows a consistent upward trend from x=1 to x=6, matching the claim of constantly increasing values."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Number_of_employees_in_the_companyv2.png",
+      "caption": "Number of employees in the company",
+      "claim": "There were no companies having total employee numbers between 101 and 200.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart explicitly shows 0 companies in the 101-200 range, matching the claim that no companies had employee numbers between 101 and 200."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Unstamp_special_fund_key_5.jpg",
+      "caption": "United Nations postage stamp",
+      "claim": "A bar graph shows distribution of United Nations postage stamps.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "insufficient",
+      "reason": "The image is a postage stamp with a symbolic bar chart, not a real bar graph showing distribution of UN stamps; no actual data or distribution is presented."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/US_female_arrests_by_age.png",
+      "caption": "Arrests in the United States of females in 2014 by age. Data from UCR",
+      "claim": "18 year old females had the highest number of arrests on the chart.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows arrests peak at ages 22 and 23, not 18, contradicting the claim that 18-year-olds had the highest number."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Chart.JPG",
+      "caption": "This file has no description, and may be lacking other information.\nPlease provide a meaningful description of this file.\n\n",
+      "claim": "Tibia is the largest one on the chart.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "supported",
+      "reason": "The chart explicitly labels Tibia with 42%, which is the highest percentage among all categories, supporting the claim that it is the largest."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Page_view_data_for_News_on_Wikipedia_Aug_3.png",
+      "caption": "Page view data for News on Wikipedia, week beginning August 3",
+      "claim": "July 29th was the date with the lowest number of page views for 2022 Winter Olympics. ",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart shows the red line for '2022 Winter Olympics' reaching its minimum value on Jul 29, matching the claim."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Net_crop_production_tropical_countries_1961-2013.png",
+      "caption": "Own work. Raw data from [1]",
+      "claim": "Nigeria has the lowest crop production after 2010.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows Nigeria's production is not the lowest after 2010; Indonesia's line is consistently lower than Nigeria's in that period."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Total_per_Cost_Center.JPG",
+      "caption": "CLX.OCS Billing Total Cost per Cost Center",
+      "claim": "Cost Center 005 has the lowest total cost.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows cost center 101 (€0.14) has the lowest cost, not cost center 005, which is not even present in the chart."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Male_workers_in_1881.jpg",
+      "caption": "Male employment type in Worth 1881",
+      "claim": "The textiles section is represented with orange color in the chart ",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The claim states 'Textiles' is orange, but the legend shows 'Textiles' is blue, directly contradicting the claim."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Great_Maplestead_2011_Occupations.jpg",
+      "caption": "A graph to show the occupations of the Great Maplestead population in 2011.",
+      "claim": "In 2011 Great Malplestead 's largest occupation was skilled trades",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart's highest data point is 'Skilled Trades' with ~30, exceeding all other occupations, matching the claim that it was the largest occupation."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/BiomassCharts.jpg",
+      "caption": "Pie charts showing relative biomass of biodiversity in a tropical rain forest as re-drawn in relative proportion through summarized perceptions measured in children's art work and through direct scien",
+      "claim": " Spiders have the largest biomass among all the species shown in the chart.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "insufficient",
+      "reason": ""
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Share_of_Private_Sector_in_GDP.JPG",
+      "caption": "Share of Private Sector in Lithuania's GDP",
+      "claim": "The private sector's share of Lithuania's GDP has increased above 80% at the year of 2008.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart shows the 2008 value is above 80%, matching the claim."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/International_Flight_Annual_Potential_Increase_of_Passenger_Kilometers.png",
+      "caption": "This graph shows the increase in potential passenger kilometers of intercontinental airplanes.",
+      "claim": "The potential passenger kilometers of intercontinental airplanes have increased over time.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart shows both 'Predicted' and 'Passenger km' lines increasing over time, visually supporting the claim that potential passenger kilometers have increased."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/SPR-adsorption-data.png",
+      "caption": "SPR data measured during layer-by-layer self-assembly of PDDACl and Na-montmorillonite clay on gold nanofilm (ca. 38 nm thick).\nMeasurement data from Tamas Haraszti (at that time Department of Colloid",
+      "claim": "Gold is the majority raise during the angle 42 to 44.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "insufficient",
+      "reason": "The chart lacks axes labels, title, and legend to identify what the curves represent or the angular range, making it impossible to verify if gold is the majority or if the angle 42 to 44 is relevant."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Big_Stone_Co_MN_Native_Vegetation_Pie_Chart_New_Wiki_Version.png",
+      "caption": "Pie chart shows native vegetation of Big Stone County Minnesota.",
+      "claim": "Oak Savanna has less value of native vegetation of Big Stone County Minnesota in the Pie chart.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart shows Oak Savanna at 6%, which is visibly smaller than all other categories, supporting the claim that it has less value."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Proportions_of_different_kinds_of_vertebrate.JPG",
+      "caption": "Pie chart showing proportions of different kinds of vertebrates by Ruth Lawson, Otago Polytechnic.",
+      "claim": "Fish make up the largest proportion of vertebrates in the chart.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart explicitly shows Fish at 55%, the highest percentage among all categories, supporting the claim that fish make up the largest proportion."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Unstamp_special_fund_key_5.jpg",
+      "caption": "United Nations postage stamp",
+      "claim": "The image is of postage stamp and the value on the stamp is 10 cents.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The claim states the stamp value is 10 cents, but the stamp clearly shows '5¢'."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Grant_Co_Pie_Chart_New_Wiki_Version.png",
+      "caption": "Pie chart shows native vegetation of Grant County Minnesota.",
+      "claim": "Wet prairie  contributes most in Native vegetation of Grant County Minnesota ",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart visually shows 'Wet Prairie' as the largest slice, indicating it contributes the most to native vegetation in Grant County Minnesota."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/20211228_Cumulative_greenhouse_gas_emissions_by_country_and_region_-_bar_chart.png",
+      "caption": "*Bar chart of cumulative greenhouse gas emissions by country and region\nData source: ● Cover article: Total cumulative greenhouse gas emissions. epthinktank.eu. European Parliamentary Research Service",
+      "claim": "China is projected to become the second highest cumulative greenhouse gas emitter from 2011-2030.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "insufficient",
+      "reason": ""
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/OpenClinica_YSlow_Statistics.png",
+      "caption": "OpenClinica YSlow Statistics",
+      "claim": "Java script file has value 115.8k",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart explicitly lists '13 JavaScript File' with weight '115.8K' under the 'Empty Cache' breakdown, matching the claim."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Random_Graph_showing_relation_between_Inflation_and_Raka_that_is_..jpg",
+      "caption": "Just a graph .",
+      "claim": "The data points on the chart are evenly distributed.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "contradicted",
+      "reason": "The chart shows a clear downward trend with a flat section, contradicting the claim of even distribution."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Who_edits_trending_articles_in_EN_wiki_January_2011_from_20%2525_sample.png",
+      "caption": "This chart shows how many of edits in trending articles in January 2011 are made by new editors or IP users, disregarding the edits made when the articles was semiprotected.",
+      "claim": "In 2011, Old registerd users were the main contributors in editing trending articles.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "insufficient",
+      "reason": ""
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/International_Mathematical_Olympiad_all-members-gold_bar_chart.png",
+      "caption": "Bar chart of IMO all-members-gold frequencies.",
+      "claim": "On mathematical olympiad US get more gold medals than China. ",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "Chart shows China with highest gold medal frequency (~10) vs U.S. (~3), contradicting claim that U.S. gets more than China."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Detriotecon.jpg",
+      "caption": "Distribution of the economy of Detroit, Michigan by number of jobs in each section.  Made from this data in MS Excel.",
+      "claim": "The \"Manufacturing\" sector has the smallest number of jobs in the Detroit economy.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows 'Manufacturing' has a larger slice than 'Other services', which is the smallest, contradicting the claim that 'Manufacturing' has the fewest jobs."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Cine18.jpg",
+      "caption": "grafico 18",
+      "claim": "A decrease when the time is increasing per grafico 18.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows 'a' increasing with 't', contradicting the claim of a decrease when time increases."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/UBS_DOCU_PAYOFF_CHART.jpg",
+      "caption": "Ubs Docu payoff chart",
+      "claim": "Standard DOCU is shown by red colour. ",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The claim states 'Standard DOCU is shown by red colour', but the chart's legend shows green for Standard DOCU variants, not red."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/CCC_Gender.jpg",
+      "caption": "\nhttp://www.cccco.edu/ChancellorsOffice/Divisions/TechResearchInfo/MIS/DataMartandReports/tabid/282/Default.aspx | Chancellor's Office | Data Mart",
+      "claim": "Male students made up the largest proportion of the California Community College System in 2010.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows female students (53.6%) outnumbered male students (45.2%) in 2010, contradicting the claim that males made up the largest proportion."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Benton_County_Pie_Chart_New_Wiki_Version.png",
+      "caption": "Pie chart shows native vegetation of Benton County Minnesota.",
+      "claim": "'Aspen-Hardwood forest' comprises the second major source of native vegetation of Benton County Minnesota.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows 'Mixed Hardwoods - Prairie' as the second largest vegetation type, not 'Aspen-Hardwood Forest'."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Browser_usage_on_wikimedia_pie_chart.png",
+      "caption": "took stats of wikimedia browser share and made a 3d pie chart using excel",
+      "claim": "Mobile users have the high share of Wikimedia browser usage.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "Claim asserts mobile users have highest share, but chart shows I.E. (desktop) at 38.2%, largest, while Android (mobile) is only 1.4%."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/National_results_South_Africa_1994-2014.png",
+      "caption": "Results of political parties that have come first, second or third in a South African election since 1994. Line graph form.",
+      "claim": "The ANC line as shown in the chart is green color.      .",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The claim states the ANC line is green, and the chart's legend confirms the ANC is represented by the green line."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/C5orf36_mRNA_expression_data.png",
+      "caption": "mRNA expression data from the Human Protein Atlas, calculated as transcripts per million (TPM).",
+      "claim": "TPM data for Fallopian tube is on second place in the given chart.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "contradicted",
+      "reason": "The claim asserts Fallopian tube is second, but the chart shows it has the highest TPM value, contradicting the claim."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Wikipedians_by_Geekness_-_Sectors_-_October_2018.png",
+      "caption": "Wikipedians by Geekness - Sectors - October 2018. Follow-up to the Wikipedians by Geekness - sectors- august06 chart.",
+      "claim": "Red colour is used to represent Extreme Geek in the given chart. ",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows 'Extreme Geek' is represented by blue (4%), not red, which contradicts the claim that red represents Extreme Geek."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Enwiki_ArbCom_2008_total_vote_breakdown.png",
+      "caption": "For use in The Signpost Election Report, 13 December 2010",
+      "claim": "The number of votes for the Liberal Democrats decreased in the 2010 UK general election.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "insufficient",
+      "reason": "The chart shows 2008 data, not 2010 election results, so it cannot confirm or contradict the claim about vote decrease in 2010."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/PxyPFCabn.jpg",
+      "caption": "Pxy Diagram at abnormal conditions",
+      "claim": "Lowest Py at abnormal conditions at 314.5 K",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "supported",
+      "reason": "The chart shows P-y at 314.5 K as the lowest pressure curve across the mole fraction range, supporting the claim of lowest Py at that temperature."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/01062008-Romanian-mayors-1st-round.png",
+      "caption": "The distribution of the mayor seats after the first round",
+      "claim": "PNL was the second most popular number of seats after the first round",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "PNL has 352 seats, which is the third most, not second, after PSD (654) and PD-L (465)."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Prikaz_10.10.jpg",
+      "caption": "Prikaz_10.10",
+      "claim": "Class A reaches the value above 0.990 during the voltage of -20v in this chart.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "contradicted",
+      "reason": "The claim states Class A exceeds 0.990 at -20V, but the chart shows Class A at exactly 0.990 at -20V, not above it."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Tcp.png",
+      "caption": "\nA diagram of the relationship between sequence numbers, initial sequence number, window location, window size, and rwnd in TCP.",
+      "claim": "There are three categories that falls under Receiver's window.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "insufficient",
+      "reason": "The chart shows multiple segments within the receiver's window area but does not clearly define or label 'three categories' that fall under it; the categories shown are not explicitly grouped as such."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Richie_Benaud_graph.png",
+      "caption": "Test batting chart of Richie Benaud. Red columns are the runs in the innings. Blue dots indicate not outs. Blue line is average in the last ten innings. Thanks to Raven4x4x for providing the template.",
+      "claim": "Richie Benaud's average in the last ten innings peaked between the years 1958 and 1959.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "insufficient",
+      "reason": "The chart shows the blue line (average) peaks around 1956-1957, not 1958-1959, and lacks year-specific average data to confirm the claim."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Prikaz_10.22.jpg",
+      "caption": "Prikaz_10.22",
+      "claim": "The THD+N (%) remains constant regardless of the power level in the Audio Precision APLASTSS.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows THD+N (%) increasing with frequency, not remaining constant, contradicting the claim."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Mayor_West_Australian_Commodities_in_2021.png",
+      "caption": "A pie chart of the mayor West Australian Commodities in 2021, based on the figures released in the annual Western Australian Mineral and Petroleum Statistic Digest.",
+      "claim": "The total commodities represented on the chart is 10.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "insufficient",
+      "reason": ""
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/HW5_average_area.jpg",
+      "caption": "line thing with average area vu qoc",
+      "claim": "The average area of vu qoc is decreasing over time.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows A(x) increasing, not decreasing, and the shaded area under the curve is constant, contradicting the claim of decreasing average area."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/VTE_WikiProject_Biography_Summary.png",
+      "caption": "Project summary for WikiProject Biography",
+      "claim": "Debito Arudou is the most active article as per given chart.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The claim states Debito Arudou is the most active, but the chart clearly shows Laurence Olivier with 369 edits, which is higher than Debito Arudou's 143 edits."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Log-log_plot_example.png",
+      "caption": "Example of a log–log plot with a line",
+      "claim": "The chart shows a logarithmic relationship between the x-axis and the y-axis.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart is a log–log plot with a straight line, which mathematically confirms a logarithmic relationship between x and y as per the displayed equation."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Edre_heitor_Contingencia-tasks.png",
+      "caption": "Contingency - tasks",
+      "claim": " The tasks with the lowe difficult have the high number of contingency plans.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The claim asserts low difficulty tasks have high contingency plans, but the chart shows 'Reducers' (red) have high contingency counts at low task values, while 'Mappers' (green) have low counts at low"
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Slugging1997-2004_2.jpg",
+      "caption": "Slugging Percentage from 1997-2004 for 6 players, normalized to each player's lowest SLG during that term.",
+      "claim": "The displacement of the Walker and Griffey  both were same.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "contradicted",
+      "reason": "The chart shows Walker and Griffey have different normalized slugging trajectories, with Walker consistently higher than Griffey after year 3, contradicting the claim of same displacement."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Impacts_of_Global_Warming.png",
+      "caption": "Graph summarizing some of the expected impacts of Global Warming according to IPCC. Temperature deviations from 1990 readings.",
+      "claim": "Global warming is expected to cause sea level rise and frequent heatwaves.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart shows 'Extreme Weather' increasing with temperature, implying frequent heatwaves, and 'Ecosystems' and 'Distribution' showing escalating risks, consistent with sea level rise impacts."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Cine10.jpg",
+      "caption": "grafico 10",
+      "claim": "The curve shows a positive correlation between the values.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The curve's upward trend and increasing slope confirm a positive correlation between S and t."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Figure_1.png",
+      "caption": "mathwork",
+      "claim": "The population consistently decreases until it reaches 0. ",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows population increasing and stabilizing, not decreasing to 0."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Health_indicators_Bar_chart.png",
+      "caption": "Bar chart comparing Namibia to the world in different indicators for health",
+      "claim": "Kenya and the world were farthest apart in health factor U5IM in 1965",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "insufficient",
+      "reason": ""
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Android_2.png",
+      "caption": "\nimage of versions of Android",
+      "claim": "Jelly bean has the lowest percentage rate out of the seven android versions.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "supported",
+      "reason": "Jelly Bean is shown with 7.6%, the smallest labeled percentage, and visually the smallest slice, supporting it has the lowest rate."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/BiomassCharts.jpg",
+      "caption": "Pie charts showing relative biomass of biodiversity in a tropical rain forest as re-drawn in relative proportion through summarized perceptions measured in children's art work and through direct scien",
+      "claim": "Insects extinct and almost lost from all three relative biomass of biodiversity in a tropical rain forest is insects",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The claim asserts insects are 'extinct and almost lost' from all three biomass categories, but the charts show insects as a small but present proportion in 'Biomass' and 'Species' charts, contradictin"
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/WWI_allied_casualties_2.png",
+      "caption": "This image was created by Booyabazooka, in Excel, using data from Wikipedia.",
+      "claim": "Russia makes up the largest section of the pie chart. ",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart visually shows Russia as the largest slice, matching the claim that it makes up the largest section."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Japan_elections_diagram_2009.png",
+      "caption": "Diagram showing mandates by party, japanese parliamentary elections 30-31 August 2009",
+      "claim": "According to the following pie chart DPJ party won the most mandates in the Japanese parliamentary elections of 2009.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart shows DPJ with 308 mandates, which is higher than any other party's total (LDP: 119), supporting the claim that DPJ won the most mandates."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Brightness_Contrast_Gamma.png",
+      "caption": "General overview of the influences of changes in \"brightness\", \"contrast\" and/or \"gamma (correction)\" - as they are possible in many current image processors - on the respective picture and its percep",
+      "claim": "Red line in the top position which is under the brightness in the first box from right.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "contradicted",
+      "reason": "The claim says the red line is 'under the brightness in the first box from right', but the chart shows the red line is at the top (maximum output) in that box, not under it."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/ORES-dewiki-damaging-true-precision-recall.png",
+      "caption": "Graph showing en:precision and recall of ORES's \"damaging\" model for German Wikipedia. Generated using the ORES UI.",
+      "claim": "the recall threshold is reduced at a consistant rate",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The claim states 'recall threshold is reduced at a consistent rate', which aligns with the chart showing recall (green line) decreasing steadily as the cutoff threshold increases."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Signpost_poll_12_(developer_divide).png",
+      "caption": "The results of a poll conducted between 27 May and 4 June 2012: What's your take on developer-user misunderstandings?\nI'm a user and I find developers generally responsive and understanding of my need",
+      "claim": "Users understand what I can (not) do is represented by blue colour. ",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "supported",
+      "reason": "The claim states 'Users understand what I can (not) do is represented by blue colour', which matches the legend and the right donut chart where blue corresponds to 'Users understand what I can(not) do"
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/US_female_arrests_for_family_offenses_by_age.png",
+      "caption": "Arrests in the United States of females for offenses against the family and children in 2014 by age. Data from UCR",
+      "claim": "The number of female arrests for offenses against the family and children decreases as age increases in the United States in 2014.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "contradicted",
+      "reason": "The chart shows arrests increasing with age up to 25-30, then decreasing, contradicting the claim of a consistent decrease with age."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Uk_tv_platform_households_q3_2008.png",
+      "caption": "Bar graph showing TV platforms received by UK households.Source: http://www.ofcom.org.uk/research/tv/reports/dtv/dtu_2008_03/q3_2008.png",
+      "claim": "Free Digital terrestrial is received by the most UK houselholds.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart shows 'Free dig terrestrial' has the highest number of households (over 8 million), directly supporting the claim it is received by the most UK households."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Uncompetitive_kinetics.PNG",
+      "caption": "Graph of uncompetitive inhibition kinetics",
+      "claim": "The relative rate of Uninhibited is consistently higher than Inhibited.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "supported",
+      "reason": "The blue 'Uninhibited' line is always above the red 'Inhibited' line across all [S] values, confirming the claim."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/DichotomeRaschExample01_Wikibooks.png",
+      "caption": "\nRasch-Modell (Example of the german Wikibook GNU R)",
+      "claim": "Person Parameters increase as person raw scores increase.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart visually demonstrates a positive correlation: as Person Raw Scores increase along the x-axis, Person Parameters (Theta) also increase along the y-axis, matching the claim."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Occupation_in_Norbury_according_to_the_2011_census.jpg",
+      "caption": "The pie chart shows the occupation count for both females and males in Norbury according to 2011 census data.",
+      "claim": "Professional Occupation and Elementary Occupation both are same level in the occupation count for both females and males in Norbury according to 2011 census data.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "insufficient",
+      "reason": "The chart shows overall occupation distribution without gender-specific data, so it cannot confirm or contradict whether Professional and Elementary Occupations have the same count for males and femal"
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Browser_Usage.png",
+      "caption": "Browser usage for the end of March 2012. Data from StatCounter.",
+      "claim": "Firefox was the least used browser in March 2012 at 24.98%.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The claim says Firefox was the least used at 24.98%, but the chart shows Opera at 1.78%, which is lower, making Firefox the second least used."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/BNC1LIST.png",
+      "caption": "This file has no description, and may be lacking other information.\nPlease provide a meaningful description of this file.\n\n",
+      "claim": "Headwords done is in the second position of the Progress for BNC1LIST",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "insufficient",
+      "reason": "The claim refers to 'second position' in 'Progress for BNC1LIST', but the chart is a pie chart showing proportions, not a ranked list or ordered positions. The legend order does not imply positional r"
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/US_female_arrests_for_larceny_by_age.png",
+      "caption": "Arrests in the United States of females for larceny in 2014 by age. Data from UCR",
+      "claim": "Women's larceny arrest percentage in the US was  higher when they were 25 years old than when they were 20 years old .",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows the arrest percentage for age 25 (approx. 0.61) is lower than for age 20 (approx. 0.78), contradicting the claim that it was higher at age 25."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Miles_of_telephone_wire_in_the_US.jpg",
+      "caption": "Miles of US telephone wire and predicted value from developed S-curve",
+      "claim": "There was a steady decrease in the number of miles of US telephone wire over time.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows a steady increase, not decrease, in miles of telephone wire over time, especially after 1940."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Most_Popular_Wikipedia_Articles_of_the_Week_(August_19_to_25,_2018).png",
+      "caption": "Most Popular Wikipedia Articles of the Week (August 19 to 25, 2018)",
+      "claim": "The article \"Nick Jonas\" was the most popular Wikipedia article the week of August 19 to 25, 2018.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart explicitly ranks 'Nick Jonas' as #1 with the highest view count (1,255,884), directly supporting the claim that it was the most popular article that week."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Proportion_of_religions_in_Lindsell.jpg",
+      "caption": "Source: Office for National Statistics",
+      "claim": "The chart shows the change in average temperature over time.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart displays religious proportions at a single point in time, not temperature changes over time."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Pie_Graph_2_by_commodity_group.png",
+      "caption": "Pie Graph 2 by commodity group",
+      "claim": "Mineral Products make up the smallest commodity group.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "Mineral Products (6%) are not the smallest; 'others' (5%) are smaller."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/VTE_WikiProject_Biography_Summary.png",
+      "caption": "Project summary for WikiProject Biography",
+      "claim": "The Laurence Olivier article has received 369 edits in the last year.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart explicitly labels 'Laurence Olivier' with '369 edits' in the 'Most active articles in the last 30 days' section, matching the claim."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Counterfeits_value_chart_2010.jpg",
+      "caption": "Chart of value of seized counterfeit goods in 2010",
+      "claim": "According to the chart, 21% of the counterfeit goods were cigarettes.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart explicitly labels the 'Cigarettes' slice as 21%, matching the claim exactly."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Grade_of_Service_Erlang_B.png",
+      "caption": "Graph of circuit efficiency for telecommunications, based on v:Teletraffic_engineering/Trunking",
+      "claim": "The graph shows that circuit efficiency increases as offered traffic increases.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "insufficient",
+      "reason": "The claim refers to 'offered traffic' but the chart's x-axis is 'Grade of Service', not traffic volume; no data on offered traffic is shown."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Most_Popular_Wikipedia_Articles_of_the_Week_(August_19_to_25,_2018).png",
+      "caption": "Most Popular Wikipedia Articles of the Week (August 19 to 25, 2018)",
+      "claim": "The article Nick Jonas was the most popular Wikipedia article the week of August 19 to 25, 2018.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart ranks Nick Jonas as #1 with the highest view count (1,255,884), directly supporting the claim that it was the most popular article that week."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/EIOLCA3.jpg",
+      "caption": "EIOLCA",
+      "claim": "The chart indicates that the environmental impact of all products is the same.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows vastly different energy impacts across sectors, contradicting the claim that all products have the same environmental impact."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/UK_online_video_views_april_2009.png",
+      "caption": "\nNumber of videos viewed online in the UK, April 2009, from top 10 site owners. Source is http://www.comscore.com/Press_Events/Press_Releases/2009/7/Number_of_U.K._Online_Videos_Viewed_Approaches_5_Bi",
+      "claim": "Megavideo has more online watched videos than BBC",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows BBC Sites with significantly more viewed videos than Megavideo.com, directly contradicting the claim that Megavideo has more."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Ionization_energy_as_a_function_of_atomic_number2.jpg",
+      "caption": "\nCreated with OpenOffice Calc 2.0.1 by Joseph Zullo and Thomas Levine",
+      "claim": "Ionization energy is consistently within 500-750 KJ/mol between an Atomic Number of 20 and 29.  ",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "contradicted",
+      "reason": "Claim states ionization energy is within 500-750 kJ/mol for atomic numbers 20-29, but chart shows values mostly above 750 kJ/mol (e.g., 800-900) in that range."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Shirakiyama_sta_graph.jpg",
+      "caption": "\n白木山駅乗客数グラフ",
+      "claim": "The graph has the lowest value in the year 1994.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The claim states 1994 has the lowest value, but the chart shows the lowest value occurs after 2000, near 2009."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Bar_chart_for_occupations.jpg",
+      "caption": "A chart showing the occupations of the population in High Laver through genders in the year 1881, as reported by the VisionofBritain website.[",
+      "claim": "The chart shows the population distribution of High Laver in the year 2021.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart explicitly references the 1881 census, not 2021, directly contradicting the claim about the year 2021."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Oregon_Electricity_Generation_Sources_Pie_Chart.png",
+      "caption": "Pie chart showing sources of generation for Oregon.",
+      "claim": "Hydro power is the largest source of electricity generation in Oregon.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart shows hydro at 56.7%, which is larger than any other source, matching the claim that hydro is the largest source."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/AtmosphereofVenus.png",
+      "caption": "\nPie chart of the atmosphere of Venus. Second pie chart is an expanded version of the trace elements that don't fit into the first one.",
+      "claim": "Carbon Dioxide makes up 96.5 percent of the atmosphere of Venus",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The main pie chart explicitly labels Carbon dioxide as 96.5%, matching the claim exactly."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Delaware_Electricity_Generation_Sources_Pie_Chart.png",
+      "caption": "Pie chart showing sources of generation for Delaware. Delaware  mostly generates electricity using natural gas.",
+      "claim": "Renewable sources are the primary source of electricity generation in Delaware.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows natural gas (89.2%) as the dominant source, not renewables, contradicting the claim that renewables are primary."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/PIA17762-MarsCuriosityRover-DAN-2M-Pulses-20140129.png",
+      "caption": "PIA17762: Russian Hydrogen-Checking Instrument on Curiosity Fires 2 Millionth Pulse \nhttp://photojournal.jpl.nasa.gov/catalog/PIA17762\nThe Russian-made instrument on NASA's Mars rover Curiosity for de",
+      "claim": "The Russian-made instrument on Curiosity, called DAN, has fired 2 millionth pulse of energetic neutrons into the ground.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart's y-axis reaches 2.0 million pulses, and the caption confirms this milestone occurred in late January 2014, matching the chart's endpoint."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/En-admin-vs-article-growth.png",
+      "caption": "This file has no description, and may be lacking other information.\nPlease provide a meaningful description of this file.\n\n",
+      "claim": "The number of articles increased between 2002 to 2006",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The 'Articles' line on the chart clearly shows a consistent increase from 2002 to 2006, matching the claim."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Chartsnyssa.PNG",
+      "caption": "chartsss",
+      "claim": "The top position of the job is Vise President  based on titles.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The 'Titles' pie chart visually shows 'Vice President' as the largest segment, supporting the claim that it is the top position based on titles."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Swift_County_Native_Vegetation_Pie_Chart.png",
+      "caption": "Pie chart shows native vegetation of Swift County Minnesota.",
+      "claim": "Blue color share is the biggest one on the chart.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The claim states blue is the biggest share, but the chart shows yellow (Prairie) is the largest segment, with blue being the smallest."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Pollsoct08apr10canada.jpg",
+      "caption": "Graph representing polling averages for all months between October 2008 to April 2010, in accordance with the 41st Canadian general election.",
+      "claim": "The Conservative Party had a steady lead throughout the entire election period.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows the Conservative lead fluctuated significantly, with multiple periods where other parties (e.g., Liberals) were ahead or close, contradicting 'steady lead'."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Naive_Roofline_model_example.png",
+      "caption": "Example of a naive Roofline plot where two kernels are reported. The first is underneath the peak bandwidth ceiling and is then memory-bound, while the second is underneath the peak performance celing",
+      "claim": "In this chart , The second kernel is memory-bound.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The claim states the second kernel is memory-bound, but the chart's caption explicitly says the second kernel is compute-bound, and the visual lacks any data to confirm or refute the claim."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Distribution_of_recurrent_spontaneous_abortion_according_to_causes.jpg",
+      "caption": "Distribution of recurrent spontaneous abortion according to causes",
+      "claim": "Thrombophilia is the most common cause of recurrent spontaneous abortion.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart shows Thrombophilia at 38%, the largest segment, supporting the claim it is the most common cause."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Designfortheenvironment_fig2.png",
+      "caption": "This figure depicts the important role in production process that the environment plays.",
+      "claim": " Production is complete independent of environmental factors.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart includes 'Environment' as a distinct and substantial segment, directly contradicting the claim that production is independent of environmental factors."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Aerodynamic_relations_for_delta_wings_2.png",
+      "caption": "Relation b/w M and βcot Λ for delta wings",
+      "claim": "The graph shows a positive correlation between M and cot for delta wings.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "supported",
+      "reason": "The chart shows multiple curves where M increases as β cot Λ increases, confirming a positive correlation between M and cot for delta wings."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Hawaii_Electricity_Generation_Sources_Pie_Chart.png",
+      "caption": "Pie chart showing how electricity is generated in Hawaii",
+      "claim": "Petroleum fuel gives very low percentage of electricity to the people.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows petroleum contributes 12.7%, which is not 'very low' compared to the 61.5% largest segment and other significant sources like coal (12.7%) and wind (10.8%)."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Wikipedia_top_25_week_June_3_June_9,_2018.png",
+      "caption": "Wikipedia top 25 articles for the week June 3 June 9, 2018",
+      "claim": "The Wikipedia article with the high pageviews for the week of June 3-9, 2018 was Anthony Bourdain.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart ranks Anthony Bourdain as #1 with the highest views (6,094,775), directly supporting the claim."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Palestinian_deaths._2nd_Intifada.gif",
+      "caption": "\nPalestinian deaths in the Second Intifada. The period covered is from September 29, 2000 through January 31, 2008. The statistics for the chart come from B'Tselem at  this page. The chart was created",
+      "claim": "The number of Israeli deaths in the Second Intifada was greater than the number of Palestinian deaths.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "insufficient",
+      "reason": "The chart only shows Palestinian deaths, not Israeli deaths, so it cannot be used to compare the two groups."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/2018_%2526_2017_Profile_of_US_Electric_Energy_Generation_from_Coal.jpg",
+      "caption": "2018 & 2017 Profile of US Electric Energy Generation from Coal",
+      "claim": "The biggest generation from coal on the chart was not on July 2017.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "supported",
+      "reason": "The chart shows July 2018 (black bar) as the highest generation, contradicting the claim that the biggest generation was not in July 2017."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Biacore_diagram.jpg",
+      "caption": "Output from Biacore, with four different concentrations of the same protein.",
+      "claim": "The same protein but having green concentration gives the lowest output.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "insufficient",
+      "reason": ""
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Markets_Shares_(Q3_2013)_-_The_Gambia.png",
+      "caption": "Markets Shares (Q3 2013) - The Gambia",
+      "claim": "Africell had the highest market share in Gambia in Q3 of 2013.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "contradicted",
+      "reason": "The chart shows Q1 2014 data, not Q3 2013, so it does not support the claim about Q3 2013 market share."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Kandiyohi_Co_Pie_Chart_New_Wiki_Version.png",
+      "caption": "Pie chart shows native vegetation of Kandiyohi County Minnesota.",
+      "claim": "The most native vegetation of Kandiyohi County Minnesota is wet prairie. ",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "contradicted",
+      "reason": "The chart shows 'Prairie' as the largest segment, not 'Wet Prairie', contradicting the claim that wet prairie is the most prevalent."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/2009TimothyK-8Diversity.png",
+      "caption": "This is a graph showing the racial diversity of TCS (K-8) in 2009.",
+      "claim": "The racial diversity of TCS (K-8) is 75% Caucasian, which is more than the other three races combined.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart shows Caucasian at 75%, while the other three races combined are 13% + 5% + 7% = 25%, which is less than 75%."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/2008_UK_Book_Sales_Value.png",
+      "caption": "Book Sales in the UK, 2008: Total Consumer Market, Value (£m) by Key Genre. Data made available by Nielsen.",
+      "claim": "Adult Fiction makes up 11% of sales in the UK in 2008",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows Adult Fiction at 26%, not 11%, which directly contradicts the claim."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/LC11_Container_with_Water_Bar_Graph.jpg",
+      "caption": "\nLC11 Container with Water Bar Graph",
+      "claim": "The LC11 container held the most water.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "insufficient",
+      "reason": "The chart does not label the x-axis categories (e.g., 'LC11', 'LC12', etc.), so it is impossible to confirm which bar corresponds to the LC11 container."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/US_female_arrests_for_drunkenness_by_age.png",
+      "caption": "Arrests in the United States of females for drunkenness in 2014 by age. Data from UCR",
+      "claim": "The data shows that drunkenness arrest is rampant among Female Americans at the Age of 21.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart shows the highest arrest rate for drunkenness among females is at age 21, supporting the claim that it is 'rampant' at that age."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Age_Distribution_of_the_Death_due_to_Road_Injury_in_Cameroon,2017.jpg",
+      "caption": "Percentage Distribution (by age) of Death due to Road Injury in Cameroon, 2017. Data from https://vizhub.healthdata.org/gbd-compare/",
+      "claim": "The highest number of death due to Road Injury in Cameroon, 2017 is in the range of age 15-50 years",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart shows 59% of deaths occurred in the 15-50 age group, which is the highest percentage among the three categories, matching the claim."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/UK_Debt_as_percentage_of_GDP.png",
+      "caption": "This bar chart show UK debt as a percentage of GDP (1993-2018). This chart uses data from the Office for National Statistics (ONS).",
+      "claim": "The UK debt as a percentage of GDP has been steadily increasing since 1993.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart shows a clear upward trend in UK debt as % of GDP from 1993 to 2018, supporting the claim of steady increase."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/RfC_on_terminating_DYK_altogether.gif",
+      "caption": "Survey at en.WP DYK talk on scrapping DYK",
+      "claim": "The majority of votes, voted to scrap DYK.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The claim states 'majority voted to scrap DYK', implying 'Support' is majority, but the chart shows 'Oppose' (red) as the majority, meaning most voted against scrapping DYK."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/UStaxprogressivity.png",
+      "caption": "I created this image using Excel & Photoshop based on data and an image (that looks similar) at http://www.fairtax.org/PDF/ResponseToFactCheck-UnspinningTheFairTax.png",
+      "claim": "Payroll tax is higher than estate and gift tax.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart shows Payroll Tax (22.4%) is lower than Estate and Gift Tax (69.3%), supporting the claim that payroll tax is higher."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Matter_Distribution.JPG",
+      "caption": "Pie chart of matter fractions in universe",
+      "claim": "Pie chart of matter fractions in universe is divided into four shares. ",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart visually displays four distinct segments with labeled percentages, matching the claim that it is divided into four shares."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Richie_Benaud_graph.png",
+      "caption": "Test batting chart of Richie Benaud. Red columns are the runs in the innings. Blue dots indicate not outs. Blue line is average in the last ten innings. Thanks to Raven4x4x for providing the template.",
+      "claim": "In the year 1952, Richi Benaud  got above  60  runs  in the innings of test batting.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows 1952's highest run total as ~40, which is below 60, contradicting the claim of above 60 runs in an innings."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Average_Length_of_Stay_2010_to_2011.JPG",
+      "caption": "From 2010 to 2011, the national average length of hospital stay of spondylolisthesis patients decreased about 6%. In 2010, the average length of stay was 3.6 days and in 2011, the average length of st",
+      "claim": "The average length of stay went down at hospitals from 2010 to 2011 for spondylolisthesis patients.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart shows a decrease from 3.6 days in 2010 to 3.4 days in 2011, matching the claim that the average length of stay went down."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/FOIR_information_quality_features.png",
+      "caption": "Visualization of findings from Student free online resource survey. Generated with Python and MatPlotLib.",
+      "claim": " The most used resource by students is online videos",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "insufficient",
+      "reason": "Chart lacks labels, axes, or legend to identify which bar represents 'online videos' or confirm it is the tallest."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Enwp-importance-views-2014-05.png",
+      "caption": "Density plot of average views per day for the month of May 2014 for a random sample of 175,000 articles from the English Wikipedia in each of five importance categories.",
+      "claim": "The top importance category received 25 views in February 2014.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "Chart shows May 2014 data, not February 2014, and does not show 25 views (log10 scale ≈ 1.4) for Top category."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Gitmo_fig4.png",
+      "caption": "GITMO-123 in 2009",
+      "claim": "The data series GITMO_1 is represented by the green line.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "supported",
+      "reason": "The legend in the top subplot explicitly labels the green line as 'GITMO_1', matching the claim."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/20220824_Share_of_electricity_generated_by_wind_power,_by_country_-_Ember_Review.png",
+      "caption": "Horizontal bar chart showing % share of electricity generated by wind power, by country - Ember Review data\nSource:\n\nGlobal Electricity Review 2022. Ember 27 (March 2022). Archived from the original o",
+      "claim": "Denmark creates a greater percentage of their electricity via wind power than Brazil.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "Denmark's bar (48%) is significantly longer than Brazil's (10%), directly supporting the claim that Denmark generates a greater percentage of electricity via wind power than Brazil."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Graph_of_largest_earthquakes_1906-2005.png",
+      "caption": "This pie chart shows how the total seismic moment  released by earthquakes over the period 1906-2005 was distributed, with the largest individual earthquakes (left side) and groups of earthquakes (rig",
+      "claim": "The Great Chilean Earthquake of 1960 released the largest amount of seismic moment in the given period.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart's largest slice is labeled 'Chile (1960) Mw=9.5', visually confirming it released the most seismic moment, matching the claim."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/NumberOfBooks_from_German_Wikibooks.PNG",
+      "caption": "\nNumber of Books from German Wikibooks.PNG",
+      "claim": "There were more than 525 German books on Wikibooks as of April 28th, 2007.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart shows the value at 28.04.07 is above 525, matching the claim."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Finningham_Occuppation_Males_1881.jpg",
+      "caption": "Occupation of Males in Finningham Civil Parish, Suffolk, as reported by 1881 Census.",
+      "claim": "In 1881, agriculture was the occupation for males in Finningham Civil Parish, Suffolk.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart shows agriculture at 73%, clearly the dominant occupation for males, supporting the claim that it was their primary occupation."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Tea_Production_2007.png",
+      "caption": "2007 Pie chart based on numbers from table in the Tea article in the English Wikipedia, which is in turn based on FAO database info.",
+      "claim": "India has the highest percentage at 24.4%.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "supported",
+      "reason": "The chart explicitly labels India's share as 24.4%, which matches the claim exactly."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Web-browser_usage_on_Wikimedia.png",
+      "caption": "SVG to replace File:Web browser usage on Wikimedia.png and File:Web-browser usage on Wikimedia.png. Data from September 2012",
+      "claim": "Opera browser users are more than Android browser users. ",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows Android at 4.59% and Opera at 4.53%, meaning Android users are slightly more than Opera users, contradicting the claim that Opera users are more."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/BestTestAverages.png",
+      "caption": "\nGraph of averages of batsmen with Test averages over 50.00 as of 10 August 2007, with x axis going from 50 to 100.",
+      "claim": "The chart displays the relationship between test averages and the number of batsmen with those averages over 50.00.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "contradicted",
+      "reason": "The chart shows individual batsmen, not a count per average range, contradicting the claim that it displays the relationship between test averages and the number of batsmen."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Coca_Cultivation.png",
+      "caption": "Graph of Coca Cultivation in Colombia",
+      "claim": "The majority of coca cultivation in Colombia occurs in urban areas.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "insufficient",
+      "reason": "Chart shows total hectares over time, not geographic distribution (urban vs. rural), so cannot verify if majority occurs in urban areas."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Mayor_West_Australian_Commodities_in_2021.png",
+      "caption": "A pie chart of the mayor West Australian Commodities in 2021, based on the figures released in the annual Western Australian Mineral and Petroleum Statistic Digest.",
+      "claim": "The pie chart shows the percentage of commodities produced in East Australia in 2021.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart explicitly shows 'West Australian' commodities, not 'East Australia', directly contradicting the claim's geographic scope."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Population_Density_1881-2011_of_Hunsonby.png",
+      "caption": "Population Density 1881-2011",
+      "claim": "The population density of India has steadily increased over time.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "contradicted",
+      "reason": "The claim states a 'steadily increased' trend, but the chart shows a decline after 1961, contradicting the 'steady' increase assertion."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Human_body_composition-_better_colours.JPG",
+      "caption": "Graph depicting the distribution of the components that make up the human body.",
+      "claim": "Fat is the main component of the human body.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows water (64%) is the largest component, not fat (10%), contradicting the claim that fat is the main component."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Program_evaluation_workshops_-_donated_resources_-_2013.png",
+      "caption": "The donated resources most often reported for Editing Workshops were Meeting Space and Materials or Equipment. Reported for 50 to 70 percent of workshop implementations, these donated resources may be",
+      "claim": "The most popular donated resources is meeting space. ",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart shows Meeting Space at 70%, the highest percentage, supporting the claim that it is the most popular donated resource."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Edre_heitor_Contingencia-tasks.png",
+      "caption": "Contingency - tasks",
+      "claim": "Mappers complete less tasks than reducers.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows Reducers (red line) starting at a much higher value and remaining high, while Mappers (green line) start low and increase slowly, indicating Mappers complete more tasks overall, contra"
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/USGS_Platter_Kill.png",
+      "caption": "Graph of United States Geological Survey discharge in cubic feet/sec recorded every 15 minutes on the Platter Kill near Burtonsville, NY, USA, during the week in August 2011 when Tropical Storm Irene ",
+      "claim": "THE WATER DISCHARGE ON THE PLATTER KILL WAS AT ITS LOWEST POINT DURING THE WEEK IN AUGUST 2011 WHEN TROPICAL STORM IRENE PASSED OVER",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows discharge peaked sharply during the storm (Aug 28), not at its lowest point, contradicting the claim that it was at its lowest during that week."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Electricity_generation_chart.jpg",
+      "caption": "Year Wise generation of Electricity is depicted in the form of a bar chart",
+      "claim": "2013-2014 electricity generation exceed 2014-1205 electricity generation.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "insufficient",
+      "reason": ""
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Ren2006.png",
+      "caption": "Renewable energy existing capacities, at end of 2006, from REN21[1]",
+      "claim": "FOSSIL FUELS MAKE UP THE MAJORITY OF GLOBAL ENERGY PRODUCTION 2006",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "insufficient",
+      "reason": "Chart shows only renewable energy, not total global energy production or fossil fuel share, so cannot verify claim about fossil fuels' majority share."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/US_male_arrests_for_drugs_by_age.png",
+      "caption": "Arrests in the United States of males for drugs in 2014 by age. Data from UCR",
+      "claim": "Age 22 has the highest percentage of male drug arrests.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows age 19 has the highest percentage, not age 22."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Materni_jezik_v_sloveniji.png",
+      "caption": "Slovenian population by mother tongue\nCensus 2002\n\nmade from http://www.stat.si/popis2002/en/rezultati/rezultati_red.asp?ter=SLO&st=55",
+      "claim": "The Slovenian population is the least speak in mother tongue.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows Slovenian is the dominant mother tongue, not the least spoken."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Projekt_wikifiering_2008.gif",
+      "caption": "Diagram over unwikified pages at svwp 2008",
+      "claim": "The number of unwikified pages has remained below 1400 at all times",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "insufficient",
+      "reason": ""
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/NewZealandElectionGraph2002.png",
+      "caption": "Pie graph of the New Zealand 2002 election results. Made by uploader for Wikipedia.",
+      "claim": "THE NATIONAL PARTY RECEIVED THE LEAST AMOUNT OF VOTES IN THE NEW ZEALAND 2002 ELECTION",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows National Party with the second-largest slice, not the smallest, contradicting the claim that it received the least votes."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Swift_County_Native_Vegetation_Pie_Chart.png",
+      "caption": "Pie chart shows native vegetation of Swift County Minnesota.",
+      "claim": "To show native vegetations there are only 5 options on the chart.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart's legend explicitly lists exactly 5 native vegetation categories, matching the claim."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/1881_Occupational_Structure_of_Fakenham_Magna.png",
+      "caption": "This is a clustered bar chart illustrating the occupational structure for males and females in Fakenham Magna, 1881.",
+      "claim": "The majority of occupations in Fakenham Magna in 1881 were held by males.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "Males dominate in key categories like agriculture (blue bar ~35) and are numerically higher overall across most occupations compared to females (green bars mostly under 10), supporting the claim that "
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/2011_Duma_votes.png",
+      "caption": "2011 Russian Duma Elections: distribution of percentages cast for the top 5 parties. Based on the data collected by golos.org, see http://stat.golos.org/",
+      "claim": "There are five russian parties mentioned on the chart. ",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart's legend explicitly lists five parties, matching the claim that five Russian parties are mentioned."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/IdempotentCosineAngle.jpg",
+      "caption": "A mathematical graph illustrating the angle at which Cos(t)=t. Created with Mathematica 7.0",
+      "claim": "The two lines on the graph are without an intersection.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The claim states the lines have no intersection, but the chart clearly shows at least one intersection point where the red line crosses the blue curve."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Poblacion_huetor2.gif",
+      "caption": "This file has no description, and may be lacking other information.\nPlease provide a meaningful description of this file.\n\n",
+      "claim": " The average temperature in June is higher than in December.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "insufficient",
+      "reason": "The chart displays population trends, not temperature data, so it cannot be used to compare June and December average temperatures."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Occupations_of_Ashleyhay_Residence_in_1881..jpg",
+      "caption": "Bar chart showing the occupations of Ashleyhay residence in 1881.",
+      "claim": "Fewest people had transport occupations in Ashleyhay residence in 1881 ",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The claim is that Transport had the fewest people; the chart shows the Transport bar is the shortest, indicating the lowest count (approx. 1), supporting the claim."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Airplanepassengers.jpg",
+      "caption": "number of passengers",
+      "claim": " The chart shows a steady increase in the number of passengers over time.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The actual 'Passengers' line (red squares) shows a consistent upward trend from 1973 to 2015, matching the claim of a steady increase."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Average_floor_area.PNG",
+      "caption": "\nAverage floor area of selected countries. US floor areas have decreased because of the credit crisis. NOTE: Graphic shows values of around 2008, based on accompanying text on Wikipedia article.",
+      "claim": "The average floor area in the US has been increasing steadily over the past decade.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows US floor area at 192 m² (around 2008), which is lower than Australia and New Zealand, contradicting the claim of steady increase over the past decade."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/PeriodicComponents4.png",
+      "caption": "Dependence of length",
+      "claim": "The length of the object has an impact on its dependence.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart shows a clear positive relationship: as length increases, the coefficient of correlation increases, supporting the claim that length impacts dependence."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Graph_male_female_OT.JPG",
+      "caption": "Pie chart representation of the amount of male occupational therapists to female occupational therapists.",
+      "claim": "The male occupational therapists were maximum than female occupational therapists.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows females vastly outnumber males, contradicting the claim that male occupational therapists were maximum."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Washington_state_Electricity_Source.png",
+      "caption": "Sources of electricity generation in Washington state, 2012 (US EIA)",
+      "claim": "Hydroelectric power is the largest source of electricity generation in Washington state.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart shows hydroelectricity at 76.6%, the largest share, directly supporting the claim that it is the largest source."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/CIPSM_Finanzen2009.jpg",
+      "caption": "Distribution of CIPSM financial endowments of fiscal year 2009.",
+      "claim": "5% of CIPSM financial endowments went to gender support in 2009.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart explicitly labels a 5% segment corresponding to 'Gender Support' in the legend, directly matching the claim."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Lock_and_dam_15.png",
+      "caption": "http://www.mvr.usace.army.mil/Portals/48/docs/CC/FactSheets/MISS/UMR%20Locks%20&%20Dams%20-%202016%20(MVD).png",
+      "claim": "Before 2001, annual tonnage was never below 25 million.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "insufficient",
+      "reason": ""
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/ConstantQSL2.jpg",
+      "caption": "CPAM constant concentration responses, Rb-88",
+      "claim": "This chart measures beats per minute of a musical score.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart measures count rate (cpm) from a radioactive decay experiment, not beats per minute of a musical score."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Lock_%2526_dam_6.png",
+      "caption": "http://www.mvr.usace.army.mil/Portals/48/docs/CC/FactSheets/MISS/UMR%20Locks%20&%20Dams%20-%202016%20(MVD).png",
+      "claim": "The chart shows the number of locks and dams on the Upper Mississippi River.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "contradicted",
+      "reason": "The chart shows tonnage, not the number of locks and dams."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/CCC_Gender.jpg",
+      "caption": "\nhttp://www.cccco.edu/ChancellorsOffice/Divisions/TechResearchInfo/MIS/DataMartandReports/tabid/282/Default.aspx | Chancellor's Office | Data Mart",
+      "claim": "Males have a lower number than females in California Community College System Gender Composition.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart shows 53.6% female vs. 45.2% male, confirming males have a lower number than females."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/FullFrontal-Americans_with_Female_Relatives.png",
+      "caption": "Graphic used by \"Full Frontal with Samantha Bee\" to illustrate how many Americans have female relatives.",
+      "claim": "The chart displays the number of female relatives that Americans have.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "supported",
+      "reason": "The chart states 100% of Americans have at least one female relative, which directly supports the claim that it displays the number of female relatives Americans have (at least one)."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/California_Electricity_Generation_Sources_Pie_Chart.png",
+      "caption": "Pie chart showing sources of electricity generated in California",
+      "claim": "The chart denotes the natural gas is the larger value electricity generation in California.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart shows natural gas at 43.8%, the largest share, matching the claim that it is the larger value electricity generation source."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Lock%2526dam_4.jpg",
+      "caption": "http://www.mvr.usace.army.mil/Portals/48/docs/CC/FactSheets/MISS/UMR%20Locks%20&%20Dams%20-%202016%20(MVD).png",
+      "claim": " The chart shows the value of Annual tonnage through lock with respect to years.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart's title, axes, and data bars directly represent annual tonnage through the lock by year, matching the claim."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Languages_in_Wikipedia.jpg",
+      "caption": "Information of http://meta.wikimedia.org/wiki/List_of_Wikipedias_by_language_macrofamily in graph",
+      "claim": "English represents the third largest part of the chart.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows 'Other Indo-European' at 56% (largest), 'English' at 22% (second largest), so English is not third largest."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Big_Stone_Co_MN_Native_Vegetation_Pie_Chart_New_Wiki_Version.png",
+      "caption": "Pie chart shows native vegetation of Big Stone County Minnesota.",
+      "claim": "GRASSLANDS ARE THE MOST COMMON TYPE OF VEGETATION IN BIG STONE COUNTY MINNESOTA",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "supported",
+      "reason": "The chart shows 'Prairie' as the largest segment, indicating it is the most common vegetation type, which matches the claim that grasslands are the most common."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Pie_chart_of_peasant_revolt_results.jpg",
+      "caption": "https://en.wikipedia.org/wiki/List_of_peasant_revolts",
+      "claim": "Peasants won the majority of the battles in the chart.\n",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows 'State wins: 93' versus 'Peasants wins: 16', meaning the state won the majority of battles, not the peasants."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Pgk-edits.png",
+      "caption": "Edit count analysis chart for User:Pgk",
+      "claim": "BBetween 9/28/2005 and 11/30/2005 every day was made edits for User:Pgk.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows multiple days with zero edits (black bars at zero height), contradicting the claim that every day had edits."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Percent_of_US_males_arrested_by_age.png",
+      "caption": "Arrests in the United States of males in 2014 by age. Data from UCR",
+      "claim": "United States Male Arrested by age of 21 at below 6 percent in 2014.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "Chart shows arrests at age 21 at ~11%, which is above 6%, contradicting the claim."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/California_Electricity_Generation_Sources_Pie_Chart.png",
+      "caption": "Pie chart showing sources of electricity generated in California",
+      "claim": "Natural gas is the primary source of electricity generation in California.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart shows natural gas at 43.8%, the largest single share, supporting the claim it is the primary source."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Approximate_Prevalence_Distribution_of_the_Subtypes_of_ADHD.PNG",
+      "caption": "Approximate Prevalence Distribution of the Subtypes of ADHD as cited by Cognitive-Behavioral Therapy for Adult ADHD. New York, NY: Routledge. 2008.",
+      "claim": "Combine Type had the highest percentage when compare to predominantly hype impulsive type and predominantly inactive type.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart visually shows Combined Type as the largest slice, clearly exceeding both other subtypes in prevalence, supporting the claim."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Age_Distribution_of_the_Death_due_to_Road_Injury_in_Cameroon,2017.jpg",
+      "caption": "Percentage Distribution (by age) of Death due to Road Injury in Cameroon, 2017. Data from https://vizhub.healthdata.org/gbd-compare/",
+      "claim": "Among the people who died due to road injury in Cameroon in 2017, the majority were people 15-50 years old.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart shows 59% of deaths were in the 15-50 age group, which is a majority (>50%)."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Graph_logarithm_b%253D2.png",
+      "caption": "graph of a logarithm",
+      "claim": "A logarithm has peaks and valleys. ",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The claim states a logarithm has peaks and valleys, but the chart shows a smooth, monotonic curve with no local maxima or minima, which contradicts the claim."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Auroville_population_by_seniority_(2014).png",
+      "caption": "Auroville population by seniority (2014)",
+      "claim": "This highest population in Auroville is humans under 5 years of age.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart's longest bar corresponds to the '<5' age group, indicating it has the highest population, matching the claim that humans under 5 years old are the largest demographic."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Autobiography-week27.png",
+      "caption": "\"Autobiography\" 27-week chart performance graph",
+      "claim": "Through 17 weeks, Canada outperformed the US.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "Claim states Canada outperformed US through 17 weeks; chart shows Canada's line (red) consistently higher than US's line (blue) in weeks 1-17, supporting the claim."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Human_tissue-specific_expression_of_KIAA0895.png",
+      "caption": "RNA-seq was performed on tissue samples from 95 human individuals. Samples were taken from 27 different tissues.",
+      "claim": "RNA-seq was performed on tissue samples from 95 non-human individuals across 27 different tissues.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "Claim states 'non-human individuals' but chart/caption specifies 'human individuals'."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Iowa_Electricity_Generation_Sources_Pie_Chart.png",
+      "caption": "Pie chart showing sources of electricity generated in Iowa",
+      "claim": "The majority of residents in city A have a high school education or less",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "insufficient",
+      "reason": "The chart shows electricity generation sources in Iowa, not education levels of residents in city A."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Occupational_structure_of_Shocklach_in_1831.jpg",
+      "caption": "The graph shows the occupational structure in the village Shocklach in 1831 made on Microsoft Excel",
+      "claim": " The occupational structure of Shocklach village in 1831 was based on manufacturing.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "insufficient",
+      "reason": "The chart shows occupational distribution but does not indicate whether manufacturing was the dominant or defining basis of the structure; it only categorizes roles without linking them to specific in"
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Percentage_of_renewable_electricity_consumption_by_energy_source.jpg",
+      "caption": "Percentage of renewable electricity consumption by energy source (2015)",
+      "claim": "Hydro, wind and solar energy combined account for less than half of renewable electricity consumption.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "contradicted",
+      "reason": "Hydro (19.2%) + Wind (10.7%) + Solar (8.9%) = 38.8%, which is less than half (50%), but Bio alone (61.3%) is already over half, making the claim false as written."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Percentage_of_foreigners_residing_in_South_Korea_by_their_countries_of_origin.png",
+      "caption": "Percentage of foreigners residing in South Korea by their countries of origin",
+      "claim": "More than 50% of foreigners residing in South Korea are from China.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart shows China accounts for 54% of foreigners in South Korea, which is more than 50%, directly supporting the claim."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/2016_Electric_Energy_Profile.jpg",
+      "caption": "Data from Electric Power Annual and Electric Power Monthly",
+      "claim": "Kilowatt usage in November exceeded kilowatt usage in January. ",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "supported",
+      "reason": "The bar for NOV is visibly taller than the bar for JAN, indicating higher kilowatt usage in November than in January."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Murder_per_capita_by_country.png",
+      "caption": "Murders (per capita) (1998 - 2000) by country \nSource : Murders (per capita) (1998 - 2000) by country sur nationmaster.com",
+      "claim": "Colombia has over 80 murders per capita. ",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows Colombia's murder rate at ~65 per capita, which is below the claimed 80."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Program_evaluation_workshops_-_recruitment_and_retention_-_2013.png",
+      "caption": "For all editing workshops reported, the total number of participants was 230, of which 87 (38%) created new user accounts). At 3-months, 5 new editors (6%) were still actively editing (i.e. 5+ edits p",
+      "claim": "At least half of the new users were still active at 6-months after the workshops.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The claim states 'at least half' of new users (87) were active at 6 months, but the chart shows only 2 active editors (2.3% of new accounts), which is far less than half."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Cement_Production_2010.png",
+      "caption": "Pie chart showing world cement production in 2010. Source: United States Geological Survey. USGS Mineral Program Cement Report. (Jan 2011).",
+      "claim": "The United States produced the second-large amount of cement in the world in 2010.",
+      "label": "FALSE",
+      "gold": "contradicted",
+      "pred": "contradicted",
+      "reason": "The chart shows the USA at 2%, far below China (54%) and India (7%), so it was not the second-largest producer."
+    },
+    {
+      "chart_img": "https://chartfc.s3.amazonaws.com/Banjar_Gender_Wikiproject.png",
+      "caption": "Data is from toolserver and was gather on 29 December 2011. It shows differences in accounts on wiki projects in the language referenced in the file name where users explicitly state their gender.  (T",
+      "claim": "The chart shows a gender gap in user accounts on language-specific wiki projects.",
+      "label": "TRUE",
+      "gold": "supported",
+      "pred": "supported",
+      "reason": "The chart visually demonstrates a large disparity in user accounts between male (≈57) and female (≈1) on the Banjar Wikipedia, supporting the claim of a gender gap."
+    }
+  ]
+}

@@ -183,12 +183,13 @@ OpenAI 兼容的 `/v1/chat/completions` 调用视觉模型；`scripts/local_vl_s
   |---|---|---|---|---|---|---|---|
   | Qwen2.5-VL-7B | 200 | 0.475 | 0.576 | 0.670 | 0.644 | 36.0% | 2.80 s |
   | **Qwen3-VL-8B** | 200 | **0.645** | **0.714** | **0.730** | **0.727** | 19.5% | 4.15 s |
+| Qwen3-VL-8B（分步推理 v3） | 200 | **0.720** | **0.776** | **0.795** | **0.794** | 14.5% | 7.50 s |
 
   \* ChartCheck 的 FALSE 表示「图不支持该 claim」（可能只是图里没有），所以二分类把 contradicted + insufficient 都算 not_supported。
   ChartCheck 论文里 GPT-4V 在完整 test 上约 73.8，和我们的 200 条子集不是同一口径，只能看作量级参考，不能逐点比。
-  60 条小样本上 8B + 分步推理（v3）二分类 0.767，但 200 条 v3 复跑因评测网络中断（大量 502）作废，**尚未并入主口径**；
-  正式材料只引用 200 条一步数字。ChartCheck 仓库为 MIT；图表来自 Wikimedia Commons，各自保留原许可，仓库不重分发图片。
-  证据：`data/experiments/chartcheck_val200_7b_v1.json`、`chartcheck_val200_8b_v1.json`（只存 URL、预测与理由）。
+  200 条分步推理（v3）复跑完成（0 失败）：二分类 **0.795 / 0.794**、三分类 0.720 / 0.776，insufficient 14.5%，平均 7.50 s；
+  一步与分步两个口径都报，正式材料以 200 条为准。ChartCheck 仓库为 MIT；图表来自 Wikimedia Commons，各自保留原许可，仓库不重分发图片。
+  证据：`data/experiments/chartcheck_val200_7b_v1.json`、`chartcheck_val200_8b_v1.json`、`chartcheck_val200_v3.json`（只存 URL、预测与理由）。
 - 证据：`data/experiments/figure_prompt_eval.json`（7B）与 `figure_prompt_eval_3b.json`（3B）；仓库不分发真实图表截图，
   评测脚本与合成集生成器公开。细节见 [docs/figure_check.md](docs/figure_check.md)。
 

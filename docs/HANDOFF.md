@@ -993,3 +993,14 @@ partial 多发、support 少发。
   `CITEGUARD_VL_MODEL` 显示实际模型名，避免代码换模型后文案仍写旧模型。
 - 验证：417 passed；本机 `verify_artifacts` 134 项；本地演示 v0.9.17。
 - 交付包 `dist/citeguard-cn-0.9.17.zip`。
+
+## §49 v0.9.18：ChartCheck 200 条分步推理复验
+
+- 网络恢复后补跑 ChartCheck 200 条（100 支持 / 100 不支持，seed=20261025）分步推理 v3：
+  二分类 acc **0.795** / macro-F1 **0.794**；三分类 acc 0.720 / macro-F1 0.776；
+  insufficient 14.5%；平均 7.50 s；0 失败（`data/experiments/chartcheck_val200_v3.json`）。
+- 对照：同 200 条一步 v1 为 8B 0.730/0.727、7B 0.670/0.644；分步推理的增益在大样本上成立。
+- 同步 README / THIRD_PARTY §4.3 / docs/figure_check.md / ppt_numbers 3k / benchmark 图表面板（一行 v3）；
+  技术报告图表章节与汇总表改用 200 条 v3 数字（仍注明与 ChartCheck 论文完整 test 不是同一子集）。
+- 复现：`python scripts/eval_chartcheck.py --sample 200 --prompt v3`（Qwen3-VL-8B，:8095）。
+
