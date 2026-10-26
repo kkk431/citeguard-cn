@@ -308,6 +308,13 @@
           <td class="mono-sm">中文期刊大多不在 OpenAlex/Crossref 的开放索引里：工具会提示并给出知网/百度学术检索入口，需人工核对，不判「疑似虚构」</td>
         </tr>
         {% endif %}
+        {% if real.wanfang %}
+        <tr>
+          <td>中文覆盖率试点（万方 API）</td>
+          <td class="mono-sm">已探测 {{ real.wanfang.probed }}/{{ real.wanfang.candidates }} 条 · 强匹配 <b>{{ real.wanfang.strong }}</b> 条 · 中文可确认率推算 {{ real.wanfang.base_definite }}/{{ real.wanfang.base_refs }} → <b>{{ '%.1f%%'|format(real.wanfang.projection * 100) }}</b></td>
+          <td class="mono-sm">题名相似度≥0.92 且年份一致才计入；模糊命中不计；平台限 100 次/日，剩余条目按配额续跑</td>
+        </tr>
+        {% endif %}
         {% endif %}
         {% if real.verify.url_checks %}
         <tr>

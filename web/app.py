@@ -90,7 +90,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.18", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.19", lifespan=lifespan)
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
 
@@ -662,6 +662,26 @@ def _benchmark_context() -> dict:
             "baseline_n": base.get("n"),
             "baseline_exact_rate": base.get("exact_rate"),
         }
+    wanfang_state = _load_json(exp / "wanfang_batch.json")
+    if wanfang_state and wanfang_state.get("processed"):
+        vals = list(wanfang_state["processed"].values())
+        ok = [v for v in vals if "error" not in v]
+        strong = [v for v in ok if (v.get("title_sim") or 0) >= 0.92 and v.get("year_match")]
+        cjk = (real.get("verify") or {}).get("by_language", {}).get("cjk") or {}
+        base_definite = cjk.get("definite") or 0
+        base_refs = cjk.get("refs") or 0
+        projection = (base_definite + len(strong)) / base_refs if base_refs else None
+        real["wanfang"] = {
+            "probed": len(ok),
+            "candidates": wanfang_state.get("candidates_total") or len(vals),
+            "strong": len(strong),
+            "mid": sum(1 for v in ok if 0.8 <= (v.get("title_sim") or 0) < 0.92),
+            "errors": len(vals) - len(ok),
+            "base_definite": base_definite,
+            "base_refs": base_refs,
+            "projection": projection,
+        }
+
     local_models = []
     for name in (
         "support_local_qwen25_3b_gpu.json",
@@ -1205,4 +1225,4 @@ def benchmark_api():
 
 @app.get("/api/health")
 def health():
-    return {"ok": True, "version": "0.9.18", "supported": sorted(ALLOWED_SUFFIXES)}
+    return {"ok": True, "version": "0.9.19", "supported": sorted(ALLOWED_SUFFIXES)}

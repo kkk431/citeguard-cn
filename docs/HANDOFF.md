@@ -1004,3 +1004,15 @@ partial 多发、support 少发。
   技术报告图表章节与汇总表改用 200 条 v3 数字（仍注明与 ChartCheck 论文完整 test 不是同一子集）。
 - 复现：`python scripts/eval_chartcheck.py --sample 200 --prompt v3`（Qwen3-VL-8B，:8095）。
 
+
+
+## §49 v0.9.19：万方批量补录试点进评测页
+
+- 新增 `scripts/eval_wanfang_batch.py`（断点续跑、0.8s 节流、429 自动退避）；
+  状态 `data/experiments/wanfang_batch.json`，key 只放 `.env.wanfang`（gitignore）。
+- 首日结果：成功探测 94/184 条真实中文「未验证」引文；强匹配（题名≥0.92+年份一致）54 条
+  （52 条刊名、54 条作者姓氏也在原文）；模糊 7 条不计；限流 6 条、剩余 84 条待续跑。
+  中文可确认率推算 26/210（12.4%）→ (26+54)/210 ≈ 38.1%。
+- `/benchmark` 真实语料表新增「中文覆盖率试点（万方 API）」行；`/api/benchmark` 同步。
+- 证据：`data/experiments/wanfang_batch.json`；说明：`docs/chinese_sources.md`。
+- 本轮无算法/产品默认改动；Wanfang 仍是可选 fallback（不配 key 不影响使用）。

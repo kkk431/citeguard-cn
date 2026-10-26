@@ -202,6 +202,7 @@ def main() -> int:
             print(f"{calls} calls, {len(processed)}/{len(candidates)} processed", flush=True)
 
     state["updated_at"] = time.strftime("%Y-%m-%dT%H:%M:%S")
+    state["candidates_total"] = len(candidates)
     STATE_JSON.write_text(json.dumps(state, ensure_ascii=False, indent=1), encoding="utf-8")
 
     done = [v for v in processed.values() if "error" not in v]
