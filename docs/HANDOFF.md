@@ -1016,3 +1016,7 @@ partial 多发、support 少发。
 - `/benchmark` 真实语料表新增「中文覆盖率试点（万方 API）」行；`/api/benchmark` 同步。
 - 证据：`data/experiments/wanfang_batch.json`；说明：`docs/chinese_sources.md`。
 - 本轮无算法/产品默认改动；Wanfang 仍是可选 fallback（不配 key 不影响使用）。
+
+- 发布验证（v0.9.19）：`pytest tests -q` **417 passed**；`verify_artifacts` 本机 **137** /
+  远端 `--api-base` **146** 全过；远端 health 0.9.19；GitHub `49842da`；
+  交付包 `dist/citeguard-cn-0.9.19.zip`（4,503,426 bytes，sha256 `372946e4…`）。
