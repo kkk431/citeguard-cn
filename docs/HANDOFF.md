@@ -1020,3 +1020,19 @@ partial 多发、support 少发。
 - 发布验证（v0.9.19）：`pytest tests -q` **417 passed**；`verify_artifacts` 本机 **137** /
   远端 `--api-base` **146** 全过；远端 health 0.9.19；GitHub `49842da`；
   交付包 `dist/citeguard-cn-0.9.19.zip`（4,503,426 bytes，sha256 `372946e4…`）。
+
+## 49. 真论文加固：标题/期刊粘连、乱码、arXiv venue（v0.9.20，2026-10-27）
+
+用用户桌面的 Attention 论文（1706.03762，40 条英文参考文献）做真机回归，修掉 5 类解析缺陷：
+
+1. **空格丢失**：部分 PDF 文字层把词间空格编进位置信息，PyMuPDF 提取成
+   `Longshort-termmemory`；增加 PyMuPDF 回退与长 ASCII 串拆词（`_pdf_pymupdf` / `_long_ascii_runs`）。
+2. **标题吞期刊**：无 `[J]` 标记的英文条目 `Title. Journal, 9(8):1735–1780, 1997` 现在会切分标题与期刊
+   （`_TITLE_JOURNAL_TAIL_RE` / `_split_title_journal_tail`），并回填卷期页年。
+3. **arXiv/CoRR 尾巴进标题**：`arXiv preprint arXiv:xxx`、`. In Proc...`、`? In ...` 均从标题剥离进 venue。
+4. **作者切分**：首字母缩写的 `Surname, I.` 合并、Latin-1/Extended-A 姓名（Jürgen、Łukasz）、
+   连字符换行（`Salakhutdi- nov`）修复；作者串上限 180 字符，避免整段标题被当作者。
+5. **乱码**：PDF 文字层的 UTF-8→CP1252 误解码（`Ã¼`/`â€“`）做多轮往返修复（先于 NFKC）。
+
+实测（Attention 40 条，`support_max=0`）：**0 Major**，Exact 4 / Minor 35 / Unverified 1；
+剩余 1 条是原文标题本身被截断（缺副标题），属源文本问题，不强行匹配。测试 421 passed。

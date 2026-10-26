@@ -58,9 +58,14 @@ REPORT_NO_RE = re.compile(r"([A-Z]{1,6}\s*[-/]?\s*\d{2,}[-—]\d{2,})")
 
 
 def normalize_text(text: str) -> str:
-    text = unicodedata.normalize("NFKC", text or "")
+    # Repair before NFKC: NFKC turns "Ã¼" (U+00C3 U+00BC) into "Ã1⁄4", after
+    # which the CP1252 round trip can no longer recognise the sequence.
+    text = _fix_mojibake(text or "")
+    text = unicodedata.normalize("NFKC", text)
     text = text.replace("\u00a0", " ").replace("\u3000", " ")
     text = re.sub(r"[ \t]+", " ", text)
+    # Join words hyphenated across a line break: "im- age" / "Convolu- tional".
+    text = re.sub(r"(?<=[A-Za-z])-\s+(?=[a-z])", "", text)
     return text.strip()
 
 
@@ -354,7 +359,7 @@ def split_entries(refs_text: str) -> list[str]:
 
 
 def _looks_like_authors(seg: str) -> bool:
-    if not seg or len(seg) > 80:
+    if not seg or len(seg) > 180:
         return False
     if any(k in seg for k in ("等", "et al", "等人")):
         return True
@@ -365,7 +370,7 @@ def _looks_like_authors(seg: str) -> bool:
     if re.fullmatch(r"[\u4e00-\u9fff·・∙•\s]{2,20}", seg.strip()):
         return True
     # Single English author / a short author string without a period.
-    if re.fullmatch(r"[A-Za-z][A-Za-z .'\-]{1,79}", seg.strip()) and len(seg.split()) <= 6:
+    if re.fullmatch(r"[A-Za-z\u00c0-\u00d6\u00d8-\u00f6\u00f8-\u00ff\u0100-\u017f][A-Za-z\u00c0-\u00d6\u00d8-\u00f6\u00f8-\u00ff\u0100-\u017f .'\-]{1,79}", seg.strip()) and len(seg.split()) <= 6:
         return True
     return False
 
@@ -499,13 +504,23 @@ def _looks_like_initial_split(a: str, t: str) -> bool:
     if _is_complete_author_list(a):
         return False
     toks = a.split()
-    if len(toks) > 3:
+    if not toks:
+        return False
+    # Only an initial at the end of ``a`` can be a mis-split: "Noah A. | Smith"
+    # is a name continuation, while "Francois Chollet. | Xception" is a real
+    # author/title boundary.
+    if not re.fullmatch(r"[A-Z]", toks[-1]):
+        return False
+    if len(toks) > 20:
         return False
     first = ""
     parts = t.split()
     if parts:
         first = re.sub(r"[,，.．;；:：]", "", parts[0])
-    return bool(re.fullmatch(r"[A-Z][a-z]+", first))
+    if not re.fullmatch(r"[A-Z][a-z]+", first):
+        return False
+    # "A. Smith. Title" — the next period closes the surname, not the title.
+    return True
 
 
 def _split_authors_title(left: str, ocr_hint: bool = False) -> tuple[list[str], str]:
@@ -660,6 +675,34 @@ def _split_webpage(text: str) -> tuple[list[str], str]:
     return authors, title
 
 
+_TITLE_JOURNAL_TAIL_RE = re.compile(
+    r"^(?P<title>.{8,}?)\.\s+(?P<venue>[A-Z][^.,]{2,80}?),\s*"
+    r"(?P<vol>\d{1,4})\s*(?:\((?P<issue>[^)]{1,12})\))?\s*"
+    r"[:\uff1a]\s*(?P<pages>[0-9A-Za-z\u2013\u2014\-]{1,20})\s*,\s*"
+    r"(?P<year>(?:19|20)\d{2})\s*\.?$"
+)
+
+
+def _split_title_journal_tail(title: str) -> Optional[dict[str, str]]:
+    """Split "Title. Journal, 9(8):1735-1780, 1997" (no type marker).
+
+    English reference lists in CS papers often omit the type code and put the
+    journal right after the title.  The generic splitter keeps the journal as
+    part of the title, which then fails title matching against OpenAlex.
+    """
+    m = _TITLE_JOURNAL_TAIL_RE.match((title or "").strip())
+    if not m:
+        return None
+    return {
+        "title": m.group("title").strip(),
+        "venue": m.group("venue").strip(),
+        "volume": m.group("vol") or "",
+        "issue": m.group("issue") or "",
+        "pages": m.group("pages").replace("\u2013", "-").replace("\u2014", "-"),
+        "year": m.group("year"),
+    }
+
+
 def parse_reference(raw: str, index: Optional[int] = None) -> Reference:
     text = normalize_text(raw)
     m = INDEX_RE.match(text)
@@ -736,6 +779,23 @@ def parse_reference(raw: str, index: Optional[int] = None) -> Reference:
             left, ocr_hint=bool(ref.extra.get("type_marker_lost"))
         )
     ref.title = _clean_title_ids(ref.title, ref.url, ref.doi)
+    if not ref.venue:
+        tail = _split_title_journal_tail(ref.title)
+        if tail:
+            ref.title = tail["title"]
+            ref.venue = tail["venue"]
+            ref.volume = ref.volume or tail["volume"]
+            ref.issue = ref.issue or tail["issue"]
+            ref.pages = ref.pages or tail["pages"]
+            if not ref.year:
+                ref.year = int(tail["year"])
+            ref.extra["journal_tail_split"] = True
+    clean_title, preprint_venue = _preprint_tail(ref.title)
+    if preprint_venue:
+        ref.title = clean_title
+        if not ref.venue:
+            ref.venue = preprint_venue
+        ref.extra["preprint_venue"] = preprint_venue
 
     # DOIs/URLs carry 4-digit runs and "/" that look like years, volume or pages
     # ("10.1007/978-1-4614-2062-0" has neither a 2062 year nor a page "29").
@@ -778,7 +838,8 @@ def parse_reference(raw: str, index: Optional[int] = None) -> Reference:
 
     # Unknown type (e.g. the [J] marker was lost in OCR) still needs a source;
     # books/theses keep the venue empty because their source is the publisher.
-    ref.venue = _first_segment(right) if ref.doc_type in {"J", "C", "N"} or not ref.doc_type else ""
+    if not ref.venue and (tm or ref.extra.get("type_inferred")):
+        ref.venue = _first_segment(right) if ref.doc_type in {"J", "C", "N"} or not ref.doc_type else ""
 
     if ref.doc_type == "M":
         _parse_book_fields(ref, right_fields)
@@ -854,6 +915,58 @@ APA_HEAD_RE = re.compile(
     r"^(?P<authors>.+?)[（(](?P<year>(?:19|20)\d{2})[a-z]?[)）]\s*[.．]?\s*(?P<rest>.+)$"
 )
 BOOK_HINT_RE = re.compile(r"(出版社|出版公司|Press|Publish|Springer|Elsevier|Wiley|Book)", re.I)
+
+
+_PREPRINT_VENUE_RE = re.compile(
+    r"[.?!]\s+(CoRR|arXiv\s*preprint|arXiv|abs/|In\s+(?:Proc|Proceedings|Conference|Workshop|International|Annual|IEEE|ACM|Advances|[A-Z]))(.*)$",
+    re.IGNORECASE,
+)
+
+# PDF text layers occasionally come back as UTF-8 bytes decoded as Latin-1
+# ("JÃ¼rgen", "Åukasz", "â€™"). Repair the common sequences before parsing.
+_MOJIBAKE_HINT_RE = re.compile(r"[\u00c3\u00c2\u00e2\u00c5]")
+
+
+def _fix_mojibake(text: str) -> str:
+    """Repair UTF-8 text that a PDF layer decoded as CP1252/Latin-1.
+
+    Some producer -> extractor chains double-encode the bytes, so the repair
+    is applied repeatedly until the text stops changing (max 3 rounds).
+    """
+    if not text or not _MOJIBAKE_HINT_RE.search(text):
+        return text
+    fixed = text
+    for _ in range(3):
+        if not _MOJIBAKE_HINT_RE.search(fixed):
+            break
+        repaired = fixed
+        for encoding in ("cp1252", "latin-1"):
+            try:
+                repaired = fixed.encode(encoding).decode("utf-8")
+                break
+            except (UnicodeEncodeError, UnicodeDecodeError):
+                continue
+        repaired = re.sub(r"\u00c5\s*(?=[A-Za-z])", "\u0141", repaired)
+        if repaired == fixed:
+            break
+        fixed = repaired
+    return fixed
+
+
+def _preprint_tail(title: str) -> tuple[str, str]:
+    """Split ``Title. CoRR, abs/1499.0473, 2014`` into (title, venue tail).
+
+    arXiv/CoRR entries have no ``[J]`` marker, so without this the venue text
+    stays glued to the title and title matching degrades badly.
+    """
+    m = _PREPRINT_VENUE_RE.search(title or "")
+    if not m:
+        return title, ""
+    head = title[: m.start()].strip()
+    if len(head) < 8:
+        return title, ""
+    tail = title[m.start() + 1 :].strip()
+    return head, tail
 
 
 def _parse_apa(ref: "Reference", text: str) -> bool:

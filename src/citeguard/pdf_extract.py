@@ -200,6 +200,13 @@ def extract_text_with_meta(path: str | Path) -> tuple[str, dict]:
     text = _pdf_pdfplumber(path)
     if not text.strip():
         text = _pdf_pypdf(path)
+    # Some PDFs (notably arXiv/LaTeX exports) encode words with no inter-word
+    # spaces, so pdfplumber returns "Neuralmachinetranslation...". PyMuPDF
+    # reconstructs the spaces; switch only when it demonstrably helps.
+    alt = _pdf_pymupdf(path)
+    if alt.strip() and _long_ascii_runs(text) > _long_ascii_runs(alt) * 2 + 3:
+        text = alt
+        meta["warnings"].append("PDF 文字层缺少词间空格，已用备用解析器恢复")
     if text.strip() and _looks_garbled(text):
         # CID/embedded fonts without a ToUnicode map produce strings such as
         # "(cid:131)(cid:243)" — parsing those would create garbage references,
@@ -388,6 +395,24 @@ def _page_text(page) -> str:
         right_text = page.crop((mid, 0, page.width, page.height)).extract_text() or ""
         return left_text + "\n" + right_text
     return page.extract_text() or ""
+
+
+def _long_ascii_runs(text: str) -> int:
+    """Count suspiciously long ASCII runs (a signal that spaces were lost)."""
+    return len(re.findall(r"[A-Za-z]{25,}", text or ""))
+
+
+def _pdf_pymupdf(path: Path) -> str:
+    """Alternative text layer reader (handles tight LaTeX spacing better)."""
+    try:
+        import pymupdf
+    except Exception:
+        return ""
+    try:
+        with pymupdf.open(str(path)) as doc:
+            return "\n".join(page.get_text() or "" for page in doc)
+    except Exception:
+        return ""
 
 
 def _pdf_pypdf(path: Path) -> str:

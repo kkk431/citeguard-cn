@@ -350,3 +350,44 @@ def test_date_only_wrapped_fragment_is_not_a_reference():
     assert len(refs) == 2
     assert [r.index for r in refs] == [1, 2]
     assert refs[1].title == "苏州园林景区经营管理模式优化研究"
+
+def test_arxiv_venue_is_split_from_title():
+    ref = parse_reference(
+        "[2] Dzmitry Bahdanau, Kyunghyun Cho, and Yoshua Bengio. "
+        "Neural machine translation by jointly learning to align and translate. "
+        "CoRR, abs/1409.0473, 2014."
+    )
+    assert ref.title == "Neural machine translation by jointly learning to align and translate"
+    assert ref.venue.startswith("CoRR")
+    assert ref.year == 2014
+
+def test_title_journal_tail_is_split_without_type_marker():
+    ref = parse_reference(
+        "[13] Sepp Hochreiter and Jürgen Schmidhuber. Long short-term memory. "
+        "Neural computation, 9(8):1735–1780, 1997."
+    )
+    assert ref.title == "Long short-term memory"
+    assert ref.venue == "Neural computation"
+    assert (ref.volume, ref.issue, ref.pages) == ("9", "8", "1735-1780")
+    assert ref.year == 1997
+    assert ref.authors == ["Sepp Hochreiter", "Jürgen Schmidhuber"]
+
+
+def test_title_journal_tail_keeps_penn_treebank_title():
+    ref = parse_reference(
+        "[25] Mitchell P Marcus, Mary Ann Marcinkiewicz, and Beatrice Santorini. "
+        "Building a large annotated corpus of english: The penn treebank. "
+        "Computational linguistics, 19(2):313–330, 1993."
+    )
+    assert ref.title == "Building a large annotated corpus of english: The penn treebank"
+    assert ref.venue == "Computational linguistics"
+    assert (ref.volume, ref.issue, ref.pages, ref.year) == ("19", "2", "313-330", 1993)
+
+
+def test_preprint_venue_tail_survives_question_mark():
+    ref = parse_reference(
+        "[16] Łukasz Kaiser and Samy Bengio. Can active memory replace attention? "
+        "In Advances in Neural Information Processing Systems, 2016."
+    )
+    assert ref.title == "Can active memory replace attention"
+    assert "Advances" in ref.venue
