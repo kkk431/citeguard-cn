@@ -311,8 +311,8 @@
         {% if real.wanfang %}
         <tr>
           <td>中文覆盖率试点（万方 API）</td>
-          <td class="mono-sm">已探测 {{ real.wanfang.probed }}/{{ real.wanfang.candidates }} 条 · 强匹配 <b>{{ real.wanfang.strong }}</b> 条 · 中文可确认率推算 {{ real.wanfang.base_definite }}/{{ real.wanfang.base_refs }} → <b>{{ '%.1f%%'|format(real.wanfang.projection * 100) }}</b></td>
-          <td class="mono-sm">题名相似度≥0.92 且年份一致才计入；模糊命中不计；平台限 100 次/日，剩余条目按配额续跑</td>
+          <td class="mono-sm">已探测 {{ real.wanfang.probed }}/{{ real.wanfang.candidates }} 条 · 强匹配 <b>{{ real.wanfang.strong }}</b> 条 · 中文可确认率 {{ real.wanfang.base_definite }}/{{ real.wanfang.base_refs }} → <b>{{ '%.1f%%'|format(real.wanfang.projection * 100) }}</b>{% if real.wanfang.overall_projection %} · 整批 {{ real.wanfang.overall_definite }}/{{ real.wanfang.overall_refs }} → <b>{{ '%.1f%%'|format(real.wanfang.overall_projection * 100) }}</b>{% endif %}</td>
+          <td class="mono-sm">题名相似度≥0.92 且年份一致才计入；模糊命中不计；试点已跑完（含次日配额），属「有付费/机构 API 时可达」的推算，不进入默认免费口径</td>
         </tr>
         {% endif %}
         {% endif %}
