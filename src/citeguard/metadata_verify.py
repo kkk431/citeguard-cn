@@ -67,6 +67,10 @@ class VerifyResult:
     mismatches: list[str] = field(default_factory=list)
     notes: list[str] = field(default_factory=list)
     sources: list[str] = field(default_factory=list)
+    # How many independent indexes returned a record that agrees on title and
+    # year. 0/1 means "one source said so" (treat as a lead, not a consensus);
+    # 2+ is cross-source agreement and is surfaced in the report.
+    source_agreement: int = 0
     retracted: bool = False
 
     def to_dict(self) -> dict:
@@ -75,6 +79,19 @@ class VerifyResult:
 
 
 _CJK_RE = re.compile(r"[\u4e00-\u9fff]")
+
+
+def _agreement_sources(ref: Reference, candidates: list[Candidate]) -> list[str]:
+    """Sources whose record agrees with the reference on title *and* year.
+
+    Agreement is deliberately strict: a title hit from a different year is a
+    different lead (e.g. a preprint vs. the journal version), not a vote.
+    """
+    agree: set[str] = set()
+    for c in candidates:
+        if title_sim(ref.title, c.title) >= 0.90 and _year_match(ref.year, c.year):
+            agree.add((c.source or "unknown").split(":")[0])
+    return sorted(agree)
 
 
 def _apply_retraction(result: "VerifyResult") -> "VerifyResult":
@@ -1563,6 +1580,9 @@ def _verify_reference(
             notes.append("DOI resolved; metadata mismatch: " + ",".join(mism))
         else:
             notes.append("DOI resolved; checked fields match")
+        agree = _agreement_sources(ref, doi_cands)
+        if len(agree) >= 2:
+            notes.append("多源一致（" + "、".join(agree) + " 的记录在题名与年份上相符）")
         return VerifyResult(
             status=status,
             best=best,
@@ -1573,6 +1593,7 @@ def _verify_reference(
             mismatches=mism,
             notes=notes,
             sources=doi_sources,
+            source_agreement=len(agree),
         )
 
     # 2) No DOI: title search.
@@ -1627,6 +1648,10 @@ def _verify_reference(
                 "报告已附知网/百度学术检索链接，请人工核对"
             )
 
+    agree = _agreement_sources(ref, candidates)
+    if len(agree) >= 2 and status in {"Exact", "Minor"}:
+        notes.append("多源一致（" + "、".join(agree) + " 的记录在题名与年份上相符）")
+
     return VerifyResult(
         status=status,
         best=best,
@@ -1637,6 +1662,7 @@ def _verify_reference(
         mismatches=mism,
         notes=notes,
         sources=sources,
+        source_agreement=len(agree),
     )
 
 

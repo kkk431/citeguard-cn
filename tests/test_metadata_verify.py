@@ -688,3 +688,18 @@ def test_offline_mode_skips_network(monkeypatch):
     assert "离线模式" in " ".join(result.notes)
     assert not called
 
+
+def test_agreement_sources_requires_title_and_year():
+    ref = _ref_without_doi(title="Attention is all you need", year=2017)
+    cands = [
+        Candidate(source="openalex", title="Attention is all you need", year=2017),
+        Candidate(source="crossref", title="Attention is all you need", year=2017),
+        Candidate(source="arxiv", title="Attention is all you need", year=2016),
+    ]
+    assert mv._agreement_sources(ref, cands) == ["crossref", "openalex"]
+
+
+def test_agreement_sources_is_empty_for_a_single_weak_lead():
+    ref = _ref_without_doi(title="Attention is all you need", year=2017)
+    cands = [Candidate(source="openalex", title="A different paper", year=2017)]
+    assert mv._agreement_sources(ref, cands) == []
