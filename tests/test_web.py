@@ -208,6 +208,15 @@ def test_e2e_upload_sample_paper(client, monkeypatch, isolated_project, sample_r
     assert enw.status_code == 200
     assert "%0 " in enw.text
 
+    import io
+    import zipfile
+
+    bundle = client.get(f"/api/report/{job_id}/bundle")
+    assert bundle.status_code == 200
+    with zipfile.ZipFile(io.BytesIO(bundle.content)) as zf:
+        names = set(zf.namelist())
+    assert {"report.json", "report.html", "report.ris", "report.enw", "manifest.json"} <= names
+
     assert client.get(f"/api/report/{job_id}/export?format=pdf").status_code == 400
 
 

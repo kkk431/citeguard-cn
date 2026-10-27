@@ -92,7 +92,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.27", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.28", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
@@ -539,6 +539,39 @@ def export_report(job_id: str, format: str = "html"):
         raise HTTPException(status_code=404, detail="export not ready")
     media = {"html": "text/html; charset=utf-8", "md": "text/markdown; charset=utf-8", "json": "application/json"}
     return FileResponse(p, media_type=media[format], filename=f"citeguard-{job_id}.{format}")
+
+
+@app.get("/api/report/{job_id}/bundle")
+def report_bundle(job_id: str):
+    """Evidence bundle: every rendered report file plus a manifest, one zip."""
+    report = _load_report(job_id)
+    if report is None:
+        raise HTTPException(status_code=404, detail="report not ready")
+    import io
+    import zipfile
+
+    job_dir = config.DATA_DIR / "jobs" / job_id
+    files = sorted(p for p in job_dir.glob("report.*") if p.is_file())
+    if not files:
+        raise HTTPException(status_code=404, detail="export not ready")
+    manifest = {
+        "job_id": job_id,
+        "version": app.version,
+        "generated_at": report.get("generated_at") or "",
+        "files": [p.name for p in files],
+    }
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as zf:
+        for path in files:
+            zf.write(path, arcname=path.name)
+        zf.writestr("manifest.json", json.dumps(manifest, ensure_ascii=False, indent=2))
+    return Response(
+        content=buf.getvalue(),
+        media_type="application/zip",
+        headers={
+            "Content-Disposition": f'attachment; filename="citeguard-{job_id}-evidence.zip"'
+        },
+    )
 
 
 def _report_to_csv(report: dict) -> str:
@@ -1384,7 +1417,7 @@ def benchmark_api():
 def health():
     return {
         "ok": True,
-        "version": "0.9.27",
+        "version": "0.9.28",
         "offline": config.OFFLINE,
         "supported": sorted(ALLOWED_SUFFIXES),
     }
