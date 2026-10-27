@@ -631,15 +631,26 @@ def save_report(report: dict, out_dir: str | Path, stem: str = "report") -> dict
     md_path = out_dir / f"{stem}.md"
     html_path = out_dir / f"{stem}.html"
     refs_path = out_dir / f"{stem}.refs.txt"
+    ris_path = out_dir / f"{stem}.ris"
+    enw_path = out_dir / f"{stem}.enw"
     json_path.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
     md_path.write_text(render_markdown(report), encoding="utf-8")
     html_path.write_text(render_html(report), encoding="utf-8")
     refs_path.write_text(render_reference_list(report), encoding="utf-8")
+    # RIS / EndNote bundles so the report can be dropped straight into
+    # EndNote, NoteExpress or Zotero (common in Chinese university workflows).
+    from citeguard.exporters import refs_from_parsed, refs_to_enw, refs_to_ris
+
+    parsed_refs = refs_from_parsed(report.get("references") or [])
+    ris_path.write_text(refs_to_ris(parsed_refs), encoding="utf-8")
+    enw_path.write_text(refs_to_enw(parsed_refs), encoding="utf-8")
     return {
         "json": str(json_path),
         "md": str(md_path),
         "html": str(html_path),
         "refs": str(refs_path),
+        "ris": str(ris_path),
+        "enw": str(enw_path),
     }
 
 

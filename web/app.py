@@ -92,7 +92,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.25", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.26", lifespan=lifespan)
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
 
@@ -286,6 +286,55 @@ def library_add(body: dict = Body(...)):
     return {"added": 1, "count": len(library), "title": entry.title}
 
 
+@app.post("/api/library/bulk")
+def library_bulk(body: dict = Body(...)):
+    """Append many manually-confirmed records at once (one per line).
+
+    The single-record endpoint is for the report's "加入题录库" button; this
+    one is for the common Chinese-paper workflow where a user already has a
+    plain reference list and wants to seed the library in one paste.
+    """
+    from citeguard.reference_parser import parse_reference
+
+    text = str(body.get("text") or "")
+    library = Library.load(config.LIBRARY_FILE)
+    before = len(library)
+    entries: list[LibraryEntry] = []
+    skipped: list[str] = []
+    for line in re.split(r"\r?\n", text):
+        line = line.strip()
+        if len(line) < 8:
+            continue
+        ref = parse_reference(line)
+        title = (ref.title or "").strip()
+        if not title and ref.doi:
+            title = ref.doi
+        if not title:
+            skipped.append(line[:80])
+            continue
+        entries.append(
+            LibraryEntry(
+                title=title,
+                authors=[a for a in (ref.authors or []) if a.strip()],
+                venue=(ref.venue or "").strip(),
+                year=ref.year,
+                doi=(ref.doi or "").strip(),
+                url=(ref.url or "").strip(),
+                source="manual-bulk",
+            )
+        )
+    if entries:
+        library.add(entries)
+        library.save(config.LIBRARY_FILE)
+    return {
+        "parsed": len(entries) + len(skipped),
+        "added": len(library) - before,
+        "skipped": len(skipped),
+        "samples": skipped[:5],
+        "count": len(library),
+    }
+
+
 @app.post("/api/library/clear")
 def library_clear():
     Library().save(config.LIBRARY_FILE)
@@ -464,8 +513,26 @@ def export_report(job_id: str, format: str = "html"):
                 "Content-Disposition": f'attachment; filename="citeguard-{job_id}-references.txt"'
             },
         )
+    if format in {"ris", "enw"}:
+        report = _load_report(job_id)
+        if report is None:
+            raise HTTPException(status_code=404, detail="report not ready")
+        from citeguard.exporters import refs_from_parsed, refs_to_enw, refs_to_ris
+
+        refs = refs_from_parsed(report.get("references") or [])
+        if not refs:
+            raise HTTPException(status_code=404, detail="reference list not available")
+        if format == "ris":
+            text, media, ext = refs_to_ris(refs), "application/x-research-info-systems", "ris"
+        else:
+            text, media, ext = refs_to_enw(refs), "application/x-endnote-refer", "enw"
+        return Response(
+            content=text.encode("utf-8"),
+            media_type=media,
+            headers={"Content-Disposition": f'attachment; filename="citeguard-{job_id}.{ext}"'},
+        )
     if format not in {"html", "md", "json"}:
-        raise HTTPException(status_code=400, detail="format must be html/md/json/csv/refs")
+        raise HTTPException(status_code=400, detail="format must be html/md/json/csv/refs/ris/enw")
     p = config.DATA_DIR / "jobs" / job_id / f"report.{format}"
     if not p.exists():
         raise HTTPException(status_code=404, detail="export not ready")
@@ -1309,4 +1376,4 @@ def benchmark_api():
 
 @app.get("/api/health")
 def health():
-    return {"ok": True, "version": "0.9.25", "supported": sorted(ALLOWED_SUFFIXES)}
+    return {"ok": True, "version": "0.9.26", "supported": sorted(ALLOWED_SUFFIXES)}

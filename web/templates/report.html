@@ -30,6 +30,8 @@
           <button class="btn btn-ghost btn-sm" type="button" id="copy-refs">复制参考文献表</button>
           <button class="btn btn-ghost btn-sm" type="button" id="manual-csv">导出待人工核对 CSV</button>
           <a class="btn btn-ghost btn-sm" href="/api/report/{{ job.id }}/export?format=refs">导出参考文献表</a>
+          <a class="btn btn-ghost btn-sm" href="/api/report/{{ job.id }}/export?format=ris">导出 RIS（NoteExpress/Zotero）</a>
+          <a class="btn btn-ghost btn-sm" href="/api/report/{{ job.id }}/export?format=enw">导出 EndNote</a>
           <button class="btn btn-ghost btn-sm" type="button" id="print-report">打印 / 存 PDF</button>
           <a class="btn btn-ghost btn-sm" href="/api/report/{{ job.id }}/export?format=csv">导出 CSV</a>
           <a class="btn btn-ghost btn-sm" href="/api/report/{{ job.id }}/export?format=html">导出 HTML</a>

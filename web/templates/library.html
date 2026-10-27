@@ -50,6 +50,18 @@
 </section>
 
 <section class="wrap section">
+  <div class="section-head"><h2>批量补录</h2><span class="hint">一行一条，自由格式或 GB/T 均可</span></div>
+  <div class="panel">
+    <p class="hint" style="margin:0 0 8px">适合已经整理好参考文献表、但导出文件格式对不上的情况：每行粘一条，解析不出的行会单独列出来。</p>
+    <textarea id="library-bulk-text" rows="6" style="width:100%" placeholder="[1] 张三, 李四. 中文引文核验方法[J]. 情报学报, 2024, 12(3): 10-20."></textarea>
+    <div class="upload-actions" style="margin-top:10px">
+      <button type="button" class="btn btn-primary" id="library-bulk-btn">解析并补录</button>
+      <span class="mono-sm" id="library-bulk-hint" style="align-self:center"></span>
+    </div>
+  </div>
+</section>
+
+<section class="wrap section">
   <div class="section-head"><h2>库内题录</h2><span class="hint" id="library-count-hint">最多展示 20 条</span></div>
   <div class="lib-toolbar">
     <input id="library-search" class="lib-search" type="search" placeholder="搜索题名 / 作者 / 来源 / DOI" autocomplete="off">

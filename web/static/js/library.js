@@ -39,6 +39,17 @@
     return data;
   }
 
+  async function postJSONBody(url, body) {
+    const resp = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify(body),
+    });
+    const data = await resp.json().catch(function () { return {}; });
+    if (!resp.ok) throw new Error(data.detail || "HTTP " + resp.status);
+    return data;
+  }
+
   async function loadEntries() {
     try {
       const data = await window.CiteGuard.getJSON("/api/library?limit=2000");
@@ -240,6 +251,39 @@
       window.CiteGuard.toast("清空失败：" + err.message);
     }
   });
+
+  const bulkBtn = document.getElementById("library-bulk-btn");
+  const bulkText = document.getElementById("library-bulk-text");
+  const bulkHint = document.getElementById("library-bulk-hint");
+  if (bulkBtn && bulkText) {
+    bulkBtn.addEventListener("click", async function () {
+      const text = bulkText.value.trim();
+      if (!text) {
+        window.CiteGuard.toast("先粘一条参考文献");
+        return;
+      }
+      bulkBtn.disabled = true;
+      if (bulkHint) bulkHint.textContent = "解析中…";
+      try {
+        const data = await postJSONBody("/api/library/bulk", { text: text });
+        let msg = "解析 " + data.parsed + " 条，新增 " + data.added + " 条";
+        if (data.skipped) msg += "，跳过 " + data.skipped + " 条";
+        window.CiteGuard.toast(msg);
+        if (bulkHint) {
+          bulkHint.textContent = data.skipped
+            ? "未识别：" + (data.samples || []).join("；")
+            : "已写入本地题录库";
+        }
+        if (data.added) bulkText.value = "";
+        await loadEntries();
+      } catch (err) {
+        window.CiteGuard.toast("补录失败：" + err.message);
+        if (bulkHint) bulkHint.textContent = "";
+      } finally {
+        bulkBtn.disabled = false;
+      }
+    });
+  }
 
   if (search) search.addEventListener("input", render);
   if (enrichBtn) enrichBtn.addEventListener("click", enrichAbstracts);

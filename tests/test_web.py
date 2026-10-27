@@ -198,6 +198,15 @@ def test_e2e_upload_sample_paper(client, monkeypatch, isolated_project, sample_r
     assert "text/plain" in refs.headers["content-type"]
     assert refs.text.startswith("[1] ")
 
+    ris = client.get(f"/api/report/{job_id}/export?format=ris")
+    assert ris.status_code == 200
+    assert "x-research-info-systems" in ris.headers["content-type"]
+    assert "TY  - " in ris.text and "ER  - " in ris.text
+
+    enw = client.get(f"/api/report/{job_id}/export?format=enw")
+    assert enw.status_code == 200
+    assert "%0 " in enw.text
+
     assert client.get(f"/api/report/{job_id}/export?format=pdf").status_code == 400
 
 
@@ -462,3 +471,22 @@ def test_library_add_accepts_manual_entry(client):
     listing = client.get("/api/library").json()
     assert listing["count"] == 1
     assert listing["entries"][0]["title"] == payload["title"]
+
+
+def test_library_bulk_accepts_multiple_lines(client):
+    text = "\n".join(
+        [
+            "[1] 张三. 中文引文核验方法[J]. 情报学报, 2024, 12(3): 10-20.",
+            "[2] 李四. 另一篇中文论文[J]. 图书馆论坛, 2023, 43(2): 1-9.",
+            "...",
+        ]
+    )
+    resp = client.post("/api/library/bulk", json={"text": text})
+    assert resp.status_code == 200, resp.text
+    body = resp.json()
+    assert body["added"] == 2
+    assert body["count"] == 2
+    listing = client.get("/api/library").json()
+    assert listing["count"] == 2
+    titles = " ".join(e["title"] for e in listing["entries"])
+    assert "中文引文核验方法" in titles and "另一篇中文论文" in titles
