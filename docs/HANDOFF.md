@@ -1220,3 +1220,4 @@ partial 多发、support 少发。
 - 重新生成：`report/citeguard_technical_report.docx`（651,649 bytes）→ `dist/CiteGuard-CN_技术报告_v0.9.48.pdf`（9 页，576,150 bytes，正文含「471」且无「464」）；`report/CiteGuard-CN_答辩PPT_18页.pptx`（18 页）→ `dist/CiteGuard-CN_答辩PPT_v0.9.48.pdf`（1,122,890 bytes）。
 - `docs/ppt_numbers.md` 的测试数字同步为 471。
 - 版本仍为 0.9.48；产品代码未改，只同步交付材料。
+- 材料同步后重打包：8858538 bytes，sha256 `8b888b1dac6eb3a895963338f9d45f452f99ae1ccb7b4c8f05e2058755d248ac`（0.9.48 最终包）。
