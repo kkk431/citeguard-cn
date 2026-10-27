@@ -12,7 +12,7 @@ excluded
 
 Usage
     python scripts/package_deliverable.py
-    python scripts/package_deliverable.py --name citeguard-cn-0.9.31.zip
+    python scripts/package_deliverable.py --name citeguard-cn-0.9.32.zip
     python scripts/package_deliverable.py --root . --out dist --quiet
 
 The script prints the file manifest, the total uncompressed size and the final
@@ -30,7 +30,7 @@ from typing import Iterable, Optional
 from zipfile import ZIP_DEFLATED, ZipFile
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_NAME = "citeguard-cn-0.9.31.zip"
+DEFAULT_NAME = "citeguard-cn-0.9.32.zip"
 
 # Directories pruned wherever they appear in the tree.
 EXCLUDE_DIR_NAMES = {

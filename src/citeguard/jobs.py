@@ -100,6 +100,32 @@ class JobManager:
         except Exception:
             pass
 
+    def mark_stale_as_interrupted(self) -> int:
+        """Turn jobs left "running" by a previous process into retryable records.
+
+        Persisted jobs survive a restart, but the threads that ran them do not.
+        Without this, the history page keeps showing 30% forever.
+        """
+        changed = 0
+        for p in JOBS_DIR.glob("*.json"):
+            try:
+                job = json.loads(p.read_text(encoding="utf-8"))
+            except Exception:
+                continue
+            if job.get("status") not in {"queued", "running"}:
+                continue
+            job.update(
+                status="interrupted",
+                stage="已中断（服务重启）",
+                error="服务重启时任务还没跑完；如果原文本保留，可在历史页点“重新运行”",
+                updated_at=datetime.now().isoformat(timespec="seconds"),
+            )
+            with self._lock:
+                self._jobs[job["id"]] = job
+            self._persist(job)
+            changed += 1
+        return changed
+
     def recent(self, limit: int = 6) -> list[dict]:
         jobs: list[dict] = []
         try:

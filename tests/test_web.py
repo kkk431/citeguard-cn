@@ -536,3 +536,42 @@ def test_compare_reports_positional_deltas():
 def test_compare_api_requires_two_reports(plain_client):
     r = plain_client.get("/api/compare?a=nope&b=missing")
     assert r.status_code == 404
+
+def test_rerun_submits_retained_text(plain_client, monkeypatch):
+    import web.app as webapp
+
+    job = webapp.manager.create(filename="old.pdf")
+    d = webapp.config.DATA_DIR / "jobs" / job["id"]
+    d.mkdir(parents=True, exist_ok=True)
+    (d / "input.txt").write_text("保留的正文与参考文献", encoding="utf-8")
+    (d / "options.json").write_text('{"support_max": 7}', encoding="utf-8")
+
+    captured = {}
+    monkeypatch.setattr(webapp.manager, "submit", lambda jid, fn, *a, **k: captured.update(jid=jid, args=a, kwargs=k))
+    r = plain_client.post(f"/api/jobs/{job['id']}/rerun")
+    assert r.status_code == 202
+    body = r.json()
+    assert body["rerun_of"] == job["id"]
+    assert captured["jid"] == body["job_id"]
+    assert captured["kwargs"]["text"] == "保留的正文与参考文献"
+    assert captured["kwargs"]["support_max"] == 7
+
+
+def test_rerun_without_retained_text_returns_409(plain_client):
+    import web.app as webapp
+
+    job = webapp.manager.create(filename="gone.pdf")
+    r = plain_client.post(f"/api/jobs/{job['id']}/rerun")
+    assert r.status_code == 409
+
+
+def test_stale_running_job_becomes_interrupted(plain_client):
+    import web.app as webapp
+
+    job = webapp.manager.create(filename="crashed.pdf")
+    webapp.manager.update(job["id"], status="running", progress=30)
+    changed = webapp.manager.mark_stale_as_interrupted()
+    assert changed >= 1
+    again = webapp.manager.get(job["id"])
+    assert again["status"] == "interrupted"
+    assert "重启" in again["error"]

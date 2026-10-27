@@ -87,12 +87,13 @@ def _compare_dir() -> Path:
 async def lifespan(_app: FastAPI):
     # Startup hygiene: old job records/reports and stale uploads.
     manager.cleanup()
+    manager.mark_stale_as_interrupted()
     _cleanup_uploads()
     _cleanup_compare()
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.31", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.32", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
@@ -523,6 +524,42 @@ def job_status(job_id: str):
     return job
 
 
+@app.post("/api/jobs/{job_id}/rerun")
+def rerun_job(job_id: str):
+    """Re-run an interrupted/failed job from its retained extracted text."""
+    job = manager.get(job_id)
+    if not job:
+        raise HTTPException(status_code=404, detail="job not found")
+    out_dir = config.DATA_DIR / "jobs" / job_id
+    src = out_dir / "input.txt"
+    if not src.exists():
+        raise HTTPException(
+            status_code=409,
+            detail="这次任务的原文已清理（成功任务不保留），请重新上传文件",
+        )
+    try:
+        text = src.read_text(encoding="utf-8")
+    except Exception:
+        raise HTTPException(status_code=409, detail="保留的原文读取失败，请重新上传")
+    if not text.strip():
+        raise HTTPException(status_code=409, detail="保留的原文为空，请重新上传")
+    opts: dict = {}
+    try:
+        opts = json.loads((out_dir / "options.json").read_text(encoding="utf-8"))
+    except Exception:
+        pass
+    new_job = manager.create(filename=job.get("filename") or "重新运行")
+    manager.submit(
+        new_job["id"],
+        run_job,
+        text=text,
+        support_max=opts.get("support_max"),
+    )
+    return JSONResponse(
+        {"job_id": new_job["id"], "rerun_of": job_id}, status_code=202
+    )
+
+
 @app.get("/api/report/{job_id}")
 def report_json(job_id: str):
     report = _load_report(job_id)
@@ -704,6 +741,7 @@ def history_page(request: Request):
     jobs = manager.recent(60)
     for job in jobs:
         job["has_report"] = _report_path(job["id"]).exists()
+        job["retryable"] = (config.DATA_DIR / "jobs" / job["id"] / "input.txt").exists()
     return templates.TemplateResponse(
         request, "history.html", {"jobs": jobs, "active": "history"}
     )
@@ -1471,7 +1509,7 @@ def benchmark_api():
 def health():
     return {
         "ok": True,
-        "version": "0.9.31",
+        "version": "0.9.32",
         "offline": config.OFFLINE,
         "supported": sorted(ALLOWED_SUFFIXES),
     }

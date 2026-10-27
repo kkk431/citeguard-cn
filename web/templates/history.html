@@ -35,12 +35,14 @@
         <td>
           {% if job.status == 'done' %}<span class="pill ok">完成</span>
           {% elif job.status == 'error' %}<span class="pill bad">失败</span>
+          {% elif job.status == 'interrupted' %}<span class="pill warn">已中断</span>
           {% elif job.status == 'running' %}<span class="pill warn">运行中</span>
           {% else %}<span class="pill">{{ job.status }}</span>{% endif %}
         </td>
         <td>{{ job.progress }}%</td>
         <td>
           {% if job.has_report %}<a href="/report/{{ job.id }}">查看报告</a>{% else %}<span class="muted">—</span>{% endif %}
+          {% if job.retryable and job.status != 'done' %}<button class="ghost retry" type="button" data-job="{{ job.id }}">重新运行</button>{% endif %}
         </td>
       </tr>
     {% endfor %}
@@ -120,6 +122,17 @@
     boxes().forEach(function (b) { b.checked = false; });
     panel.hidden = true;
     refresh();
+  });
+
+  document.querySelectorAll('button.retry').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      btn.disabled = true;
+      btn.textContent = '正在重新提交…';
+      fetch('/api/jobs/' + encodeURIComponent(btn.dataset.job) + '/rerun', { method: 'POST' })
+        .then(function (r) { return r.json().then(function (j) { if (!r.ok) { throw new Error(j.detail || '重新运行失败'); } return j; }); })
+        .then(function (j) { window.location.href = '/report/' + j.job_id; })
+        .catch(function (err) { btn.disabled = false; btn.textContent = '重新运行'; alert(err.message); });
+    });
   });
 })();
 </script>

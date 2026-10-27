@@ -327,10 +327,24 @@ def run_job(
 
         library = Library.load(config.LIBRARY_FILE)
 
+    source_name = Path(file_path).name if file_path else "粘贴文本"
+    out_dir = config.DATA_DIR / "jobs" / job_id
+    out_dir.mkdir(parents=True, exist_ok=True)
+    # Keep the extracted text only until the job succeeds: it makes a crashed or
+    # interrupted run retryable without asking the user to upload again, and is
+    # deleted together with options.json as soon as a report exists.
+    try:
+        (out_dir / "input.txt").write_text(text or "", encoding="utf-8")
+        (out_dir / "options.json").write_text(
+            json.dumps({"support_max": support_max, "source_name": source_name}, ensure_ascii=False),
+            encoding="utf-8",
+        )
+    except Exception:
+        pass
+
     def progress(pct: int, stage: str) -> None:
         manager.update(job_id, progress=pct, stage=stage)
 
-    source_name = Path(file_path).name if file_path else "粘贴文本"
     report = analyze_text(
         text or "",
         source_name,
@@ -341,17 +355,22 @@ def run_job(
     )
     report["job_id"] = job_id
 
-    out_dir = config.DATA_DIR / "jobs" / job_id
     save_report(report, out_dir, stem="report")
     (out_dir / "report.json").write_text(
         json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8"
     )
     manager.update(job_id, progress=98, stage="生成报告")
 
-    # Privacy: do not keep the uploaded paper after extraction.
+    # Privacy: do not keep the uploaded paper after extraction, and drop the
+    # retry copy as soon as a complete report exists.
     if file_path:
         try:
             Path(file_path).unlink(missing_ok=True)
+        except Exception:
+            pass
+    for name in ("input.txt", "options.json"):
+        try:
+            (out_dir / name).unlink(missing_ok=True)
         except Exception:
             pass
     return report
