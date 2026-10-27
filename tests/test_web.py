@@ -208,6 +208,18 @@ def test_e2e_upload_sample_paper(client, monkeypatch, isolated_project, sample_r
     assert enw.status_code == 200
     assert "%0 " in enw.text
 
+    bib = client.get(f"/api/report/{job_id}/export?format=bibtex")
+    assert bib.status_code == 200
+    assert "x-bibtex" in bib.headers["content-type"]
+    assert bib.text.lstrip().startswith("@")
+
+    csl = client.get(f"/api/report/{job_id}/export?format=csl")
+    assert csl.status_code == 200
+    assert "citationstyles.csl+json" in csl.headers["content-type"]
+    import json as _json
+
+    assert isinstance(_json.loads(csl.text), list)
+
     import io
     import zipfile
 

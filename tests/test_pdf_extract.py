@@ -396,3 +396,16 @@ def test_split_references_trims_trailing_appendix():
     _body, refs = px.split_references(text)
     assert refs.startswith("[1]")
     assert "Related Work" not in refs
+
+
+def test_render_page_png_releases_file_handle(tmp_path):
+    """Windows keeps a PDF locked while pdfium handles are open; rendering one
+    page must release the file so the caller can delete its temp upload."""
+    pytest.importorskip("pypdfium2")
+    from citeguard.pdf_extract import render_page_png
+
+    pdf = _blank_pdf(tmp_path, pages=2)
+    data = render_page_png(pdf, 1)
+    assert data.startswith(b"\x89PNG")
+    pdf.unlink()  # PermissionError before the fix
+

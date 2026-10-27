@@ -192,6 +192,9 @@ def render_page_png(path: str | Path, page_number: int, *, dpi: int = 150) -> by
             "自动渲染 PDF 页面需要可选依赖 pypdfium2（pip install pypdfium2），"
             "未安装时请改为手动上传图表截图"
         ) from exc
+    doc = None
+    page = None
+    bitmap = None
     try:
         doc = pdfium.PdfDocument(str(p))
         total = len(doc)
@@ -209,6 +212,16 @@ def render_page_png(path: str | Path, page_number: int, *, dpi: int = 150) -> by
         raise
     except Exception as exc:
         raise RuntimeError(f"渲染 PDF 第 {page_number} 页失败：{exc}") from exc
+    finally:
+        # Windows keeps the file locked until every pdfium handle is closed;
+        # without this the caller cannot delete its temporary upload.
+        for obj in (bitmap, page, doc):
+            close = getattr(obj, "close", None)
+            if callable(close):
+                try:
+                    close()
+                except Exception:
+                    pass
 
 
 def extract_text_with_meta(path: str | Path) -> tuple[str, dict]:

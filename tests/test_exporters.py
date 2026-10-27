@@ -79,3 +79,37 @@ def test_refs_from_parsed_roundtrip():
     assert rebuilt[0].authors == ref.authors
     assert rebuilt[0].doc_type == "J"
     assert refs_from_parsed([{"raw": "no parsed"}]) == []
+
+
+def test_bibtex_article_fields():
+    from citeguard.exporters import ref_to_bibtex
+
+    text = ref_to_bibtex(_journal(), 0)
+    assert text.startswith("@article{")
+    assert "title = {" in text and "author = {" in text
+    assert "journal = {" in text and "year = {2024}" in text
+    assert "doi = {10.1/x}" in text
+    assert text.rstrip().endswith("}")
+
+
+def test_bibtex_escapes_special_characters():
+    from citeguard.exporters import ref_to_bibtex
+
+    ref = _journal()
+    ref.title = "A & B: 50%_off"
+    text = ref_to_bibtex(ref, 1)
+    assert r"A \& B" in text and r"50\%\_off" in text
+
+
+def test_csl_json_shape():
+    import json
+
+    from citeguard.exporters import refs_to_csl
+
+    data = json.loads(refs_to_csl([_journal()]))
+    assert isinstance(data, list) and len(data) == 1
+    assert data[0]["type"] == "article-journal"
+    assert data[0]["title"] == "中文引文核验方法"
+    assert data[0]["author"][0]["literal"] == "张三"
+    assert data[0]["issued"] == {"date-parts": [[2024]]}
+    assert data[0]["DOI"] == "10.1/x"

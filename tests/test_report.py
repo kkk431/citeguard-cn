@@ -174,12 +174,14 @@ def test_save_report_writes_all_formats(tmp_path):
     assert refs_path.exists()
     assert (tmp_path / "out" / "report.ris").exists()
     assert (tmp_path / "out" / "report.enw").exists()
+    assert (tmp_path / "out" / "report.bib").exists()
+    assert (tmp_path / "out" / "report.csl.json").exists()
     refs_text = refs_path.read_text(encoding="utf-8")
     assert refs_text.startswith("[1] 张三. 题名[J].")
     assert json.loads((tmp_path / "out" / "report.json").read_text(encoding="utf-8"))["stats"]["total"] == 1
     assert "# 引证卫士" in (tmp_path / "out" / "report.md").read_text(encoding="utf-8")
     assert "<!doctype html>" in (tmp_path / "out" / "report.html").read_text(encoding="utf-8")
-    assert set(paths) == {"json", "md", "html", "refs", "ris", "enw"}
+    assert set(paths) == {"json", "md", "html", "refs", "ris", "enw", "bib", "csl"}
 
 
 def test_report_contains_formatted_reference_list():

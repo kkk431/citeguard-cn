@@ -11,6 +11,7 @@ every manager accepts; we never guess ``JOUR`` for, say, a thesis.
 
 from __future__ import annotations
 
+import json
 import re
 from collections.abc import Iterable
 
@@ -159,6 +160,160 @@ def refs_to_enw(refs: Iterable[Reference]) -> str:
     # EndNote on Windows expects a UTF-8 BOM for non-ASCII author names.
     chunks = [ref_to_enw(ref) for ref in refs]
     return "\ufeff" + "\n\n".join(chunks) + ("\n" if chunks else "")
+
+
+# ---- BibTeX / CSL-JSON -----------------------------------------------------
+# Zotero, JabRef and LaTeX users need these two formats; both are generated
+# from the same :class:`Reference` model as RIS so the four exports never drift.
+
+_BIBTEX_TYPES = {
+    "J": "article",
+    "M": "book",
+    "D": "phdthesis",
+    "C": "inproceedings",
+    "G": "book",
+    "N": "article",
+    "R": "techreport",
+    "S": "misc",
+    "P": "misc",
+    "DB": "misc",
+    "EB": "misc",
+    "A": "incollection",
+    "Z": "misc",
+}
+
+_CSL_TYPES = {
+    "J": "article-journal",
+    "M": "book",
+    "D": "thesis",
+    "C": "paper-conference",
+    "G": "book",
+    "N": "article-newspaper",
+    "R": "report",
+    "S": "standard",
+    "P": "patent",
+    "DB": "dataset",
+    "EB": "webpage",
+    "A": "chapter",
+    "Z": "article",
+}
+
+_BIBTEX_ESCAPE = re.compile(r"([&%$#_{}])")
+
+
+def _bib_escape(value: str) -> str:
+    return _BIBTEX_ESCAPE.sub(r"\\\1", _clean(value))
+
+
+def _bib_key(ref: Reference, index: int) -> str:
+    authors = _ris_authors(ref)
+    surname = ""
+    if authors:
+        surname = re.split(r"[,\s]", authors[0])[0]
+        surname = re.sub(r"[^A-Za-z0-9]", "", surname).lower() or "ref"
+    else:
+        surname = "ref"
+    return f"{surname}{ref.year or 'nd'}_{index + 1}"
+
+
+def ref_to_bibtex(ref: Reference, index: int = 0) -> str:
+    code = _type_code(ref)
+    entry_type = _BIBTEX_TYPES.get(code, "misc")
+    fields: list[tuple[str, str]] = []
+    title = _clean(ref.title) or _clean(ref.raw)[:300]
+    if title:
+        fields.append(("title", _bib_escape(title)))
+    authors = _ris_authors(ref)
+    if authors:
+        fields.append(("author", " and ".join(_bib_escape(a) for a in authors)))
+    if ref.venue:
+        key = "booktitle" if entry_type in {"inproceedings", "incollection"} else "journal"
+        fields.append((key, _bib_escape(ref.venue)))
+    if ref.year:
+        fields.append(("year", str(ref.year)))
+    if ref.volume:
+        fields.append(("volume", _bib_escape(ref.volume)))
+    if ref.issue:
+        fields.append(("number", _bib_escape(ref.issue)))
+    if ref.pages:
+        fields.append(("pages", _bib_escape(ref.pages).replace("-", "--")))
+    if ref.publisher:
+        fields.append(("publisher", _bib_escape(ref.publisher)))
+    if ref.place:
+        fields.append(("address", _bib_escape(ref.place)))
+    if ref.institution:
+        fields.append(("institution", _bib_escape(ref.institution)))
+    if ref.doi:
+        fields.append(("doi", _bib_escape(ref.doi)))
+    if ref.url:
+        fields.append(("url", _bib_escape(ref.url)))
+    if ref.standard_no:
+        fields.append(("number", _bib_escape(ref.standard_no)))
+    if ref.patent_no:
+        fields.append(("number", _bib_escape(ref.patent_no)))
+    body = ",\n".join(f"  {k} = {{{v}}}" for k, v in fields)
+    return f"@{entry_type}{{{_bib_key(ref, index)},\n{body}\n}}\n"
+
+
+def refs_to_bibtex(refs: Iterable[Reference]) -> str:
+    return "\n".join(ref_to_bibtex(ref, i) for i, ref in enumerate(refs))
+
+
+def _csl_author(name: str) -> dict:
+    name = _clean(name)
+    if not name:
+        return {"literal": ""}
+    if "," in name:
+        family, _, given = name.partition(",")
+        return {"family": family.strip(), "given": given.strip()}
+    if re.fullmatch(r"[\u4e00-\u9fff·.\s]+", name):
+        return {"literal": name}
+    parts = name.split()
+    if len(parts) == 1:
+        return {"family": parts[0]}
+    return {"family": parts[-1], "given": " ".join(parts[:-1])}
+
+
+def ref_to_csl(ref: Reference, index: int = 0) -> dict:
+    code = _type_code(ref)
+    data: dict = {
+        "id": _bib_key(ref, index),
+        "type": _CSL_TYPES.get(code, "article"),
+        "title": _clean(ref.title) or _clean(ref.raw)[:300],
+    }
+    authors = [_csl_author(a) for a in _ris_authors(ref)]
+    if authors:
+        data["author"] = authors
+    if ref.venue:
+        data["container-title"] = _clean(ref.venue)
+    if ref.year:
+        data["issued"] = {"date-parts": [[ref.year]]}
+    if ref.volume:
+        data["volume"] = _clean(ref.volume)
+    if ref.issue:
+        data["issue"] = _clean(ref.issue)
+    sp, ep = _pages(ref)
+    if sp:
+        data["page"] = f"{sp}-{ep}" if ep else sp
+    if ref.publisher:
+        data["publisher"] = _clean(ref.publisher)
+    if ref.place:
+        data["publisher-place"] = _clean(ref.place)
+    if ref.institution:
+        data["publisher"] = _clean(ref.institution)
+    if ref.doi:
+        data["DOI"] = _clean(ref.doi)
+    if ref.url:
+        data["URL"] = _clean(ref.url)
+    if ref.standard_no:
+        data["number"] = _clean(ref.standard_no)
+    if ref.patent_no:
+        data["number"] = _clean(ref.patent_no)
+    return data
+
+
+def refs_to_csl(refs: Iterable[Reference]) -> str:
+    return json.dumps([ref_to_csl(ref, i) for i, ref in enumerate(refs)], ensure_ascii=False, indent=2)
 
 
 def refs_from_parsed(items: Iterable[dict]) -> list[Reference]:

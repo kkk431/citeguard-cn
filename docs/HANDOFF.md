@@ -1091,3 +1091,14 @@ partial 多发、support 少发。
 - 技术报告同步 v0.9.36：4.1 补「每条结论可点证据抽屉」、4.2 补「N 个来源一致」展示、测试数改 445；重新导出 `dist/CiteGuard-CN_技术报告_v0.9.36_2026-10-27.docx/.pdf`（PDF 10 页、583,622 bytes）。
 - 测试 445 passed，`verify_artifacts` 137/137；`dist/citeguard-cn-0.9.36.zip` 365 文件、8.4 MB、sha256 `1878ff640475…`；扫描 `.env`/内网地址 0 命中。
 - 部署：本地 `127.0.0.1:8010`、远端 `/data/xyjiang/aic_mental/citeguard` 均 0.9.36；GitHub push 仍因 443 不可达，提交仅本地（`f6b9e41`）。
+
+## 45. 0.9.37：Windows 图表定位 500 修复 + BibTeX/CSL-JSON 导出（2026-10-27）
+- 修复真实 bug：Windows 下 PDF 自动定位后删除临时文件报 `PermissionError: [WinError 32]`，接口 500。
+  原因是 `pdf_extract.render_page_png` 打开 pdfium 文档/页面后未关闭，文件句柄仍被占用。
+  现在在 `finally` 中依次关闭 bitmap/page/doc；路由清理临时文件失败也不再返回 500。
+- 新增 `exporters.ref_to_bibtex/refs_to_bibtex/ref_to_csl/refs_to_csl`：BibTeX 转义 `& % $ # _ { }`、键名「姓氏+年份」；
+  CSL-JSON 输出 Zotero 可直接导入的字段（author/issued/container-title/DOI 等）。
+- 报告页新增「导出 BibTeX（LaTeX）」「导出 CSL-JSON（Zotero）」；`save_report` 同时写 `report.bib`、`report.csl.json`。
+- 本地把 `/figure` 接到 lmh 的 Qwen3-VL-8B（`:8095`）：PDF 自动定位一页 + 2 条结论耗时 7.8 s，
+  第 1 条 supported、第 2 条 contradicted（与图中 2023/2025 数据一致），`context_source=pdf_pages:3`。
+- 测试 449 passed；`verify_artifacts` 137/137。版本 0.9.37；远端与本地随后升级。

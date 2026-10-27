@@ -93,7 +93,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.36", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.37", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
@@ -619,26 +619,38 @@ def export_report(job_id: str, format: str = "html"):
                 "Content-Disposition": f'attachment; filename="citeguard-{job_id}-references.txt"'
             },
         )
-    if format in {"ris", "enw"}:
+    if format in {"ris", "enw", "bibtex", "csl"}:
         report = _load_report(job_id)
         if report is None:
             raise HTTPException(status_code=404, detail="report not ready")
-        from citeguard.exporters import refs_from_parsed, refs_to_enw, refs_to_ris
+        from citeguard.exporters import (
+            refs_from_parsed,
+            refs_to_bibtex,
+            refs_to_csl,
+            refs_to_enw,
+            refs_to_ris,
+        )
 
         refs = refs_from_parsed(report.get("references") or [])
         if not refs:
             raise HTTPException(status_code=404, detail="reference list not available")
         if format == "ris":
             text, media, ext = refs_to_ris(refs), "application/x-research-info-systems", "ris"
-        else:
+        elif format == "enw":
             text, media, ext = refs_to_enw(refs), "application/x-endnote-refer", "enw"
+        elif format == "bibtex":
+            text, media, ext = refs_to_bibtex(refs), "application/x-bibtex", "bib"
+        else:
+            text, media, ext = refs_to_csl(refs), "application/vnd.citationstyles.csl+json", "csl.json"
         return Response(
             content=text.encode("utf-8"),
             media_type=media,
             headers={"Content-Disposition": f'attachment; filename="citeguard-{job_id}.{ext}"'},
         )
     if format not in {"html", "md", "json"}:
-        raise HTTPException(status_code=400, detail="format must be html/md/json/csv/refs/ris/enw")
+        raise HTTPException(
+            status_code=400, detail="format must be html/md/json/csv/refs/ris/enw/bibtex/csl"
+        )
     p = config.DATA_DIR / "jobs" / job_id / f"report.{format}"
     if not p.exists():
         raise HTTPException(status_code=404, detail="export not ready")
@@ -1287,7 +1299,12 @@ def figure_check_api(
             )
         finally:
             if tmp is not None:
-                tmp.unlink(missing_ok=True)
+                try:
+                    tmp.unlink(missing_ok=True)
+                except OSError:
+                    # A renderer may still hold the handle for a moment on
+                    # Windows; cleanup must never turn a valid result into 500.
+                    pass
 
     if rendered:
         items: list[dict] = []
@@ -1533,7 +1550,7 @@ def benchmark_api():
 def health():
     return {
         "ok": True,
-        "version": "0.9.36",
+        "version": "0.9.37",
         "offline": config.OFFLINE,
         "supported": sorted(ALLOWED_SUFFIXES),
     }
