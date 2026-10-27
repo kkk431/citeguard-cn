@@ -1232,3 +1232,11 @@ partial 多发、support 少发。
   - 暖缓存：**2.4 s**，状态与之前完全一致（Exact 17 / Minor 30 / Unverified 5 / Unknown 2，errors 2）。
 - 全套 **471 passed**（49.8 s，重试减少后测试也变快）；`verify_artifacts` 137/137；版本 0.9.49。
 - dist/citeguard-cn-0.9.49.zip：8858638 bytes，sha256 `1681973f9134440b464938dbed95180cc569723292c6c518d86c6a69be830fa3`。
+
+## 60. 0.9.50 报告可解释性：数据源状态进报告页（2026-10-28）
+
+- `metadata_verify.source_health()` 返回 `{degraded: {源: 冷却秒}, errors: N}`；`pipeline` 改为**按本次任务增量**统计错误（全局计数会带上次任务），写入 `report.run_config.source_health`。
+- `web/templates/report.html` 新增 `#source-health` 面板；`web/static/js/report.js` 渲染：列出冷却中的源与剩余秒、失败次数、因此标为 Unknown 的条数，并明确「不是论文本身的问题，可稍后重试或手动核对」。
+- 实测（本地 0.9.50，任务 c5650365777f）：`run_config.source_health = {"degraded":{"openalex":3598},"errors":2}`，页面横幅实际显示「OpenAlex 冷却 3598 秒，2 次请求失败；因此有 1 条结果标为「无法核验」」；截图 `out/shots/source_health_banner.png`。
+- 测试：离线演示包断言 `run_config.source_health` 结构；全套 **471 passed**；`verify_artifacts` 137/137；版本 0.9.50。
+- dist/citeguard-cn-0.9.50.zip：8859227 bytes，sha256 `1e3778e115d6f0b2c8e41b64036c1e1a8e1da52a22e306a31b5115bb644a2887`。

@@ -306,10 +306,33 @@
       rows;
   }
 
+  function renderSourceHealth(data) {
+    const el = document.getElementById("source-health");
+    if (!el) return;
+    const health = (data.run_config && data.run_config.source_health) || {};
+    const degraded = health.degraded || {};
+    const names = { openalex: "OpenAlex", crossref: "Crossref", arxiv: "arXiv", semantic_scholar: "Semantic Scholar" };
+    const parts = Object.keys(degraded)
+      .filter(function (k) { return degraded[k] > 0; })
+      .map(function (k) { return (names[k] || k) + " 冷却 " + degraded[k] + " 秒"; });
+    const errors = health.errors || 0;
+    if (!parts.length && errors <= 0) return;
+    const unknown = (data.stats && data.stats.Unknown) || 0;
+    el.className = "panel warn-panel";
+    el.innerHTML =
+      '<div class="mono-sm">数据源状态</div>' +
+      '<div style="margin-top:4px;font-size:13px;line-height:1.7">' +
+      "本次核验期间" + (parts.length ? " " + parts.join("、") : "数据源出现失败") +
+      (errors > 0 ? "，" + errors + " 次请求失败" : "") +
+      "；因此有 <b>" + unknown + "</b> 条结果标为「无法核验」。" +
+      "这不是论文本身的问题——来源限流时我们如实标 Unknown，可稍后重试或手动核对。</div>";
+  }
+
   function render(data) {
   window.__reportData = data;
     renderInputMeta(data);
     renderVerdict(data);
+    renderSourceHealth(data);
     renderReviewSummary(data);
     renderFigureChecks(data);
     renderCitationConsistency(data);

@@ -16,7 +16,7 @@ from typing import Callable, Optional
 from . import config
 from .gbt7714 import check_reference_list, citation_consistency
 from .jobs import manager
-from .metadata_verify import source_health, VerifyResult, local_library_verdict, verify_many
+from .metadata_verify import source_error_count, source_health, VerifyResult, local_library_verdict, verify_many
 from .pdf_extract import extract_text_with_meta, split_references
 from .reference_parser import parse_intext_citations, parse_reference_list
 from .report import build_report, save_report
@@ -28,6 +28,14 @@ Progress = Optional[Callable[[int, str], None]]
 def _normalized_cap(support_max: int | None) -> int:
     cap = config.SUPPORT_MAX_REFS if support_max is None else support_max
     return max(0, min(int(cap), config.SUPPORT_MAX_REFS_LIMIT))
+
+
+def _health_since(errors_at_start: int) -> dict:
+    """Source health for THIS run: the global counter also carries failures from
+    earlier jobs in the same server process, so report the delta."""
+    health = source_health()
+    health["errors"] = max(0, int(health.get("errors", 0)) - errors_at_start)
+    return health
 
 
 def analyze_text(
@@ -45,6 +53,8 @@ def analyze_text(
     pdf_path: str | None = None,
 ) -> dict:
     """Run the whole analysis on already-extracted text and return the report."""
+    errors_at_start = source_error_count()
+
     def step(pct: int, stage: str) -> None:
         if progress:
             progress(pct, stage)
@@ -136,7 +146,7 @@ def analyze_text(
         "wanfang": bool(getattr(config, "WANFANG_APP_KEY", "")),
         "sources": ["local-library", "openalex", "crossref", "arxiv"]
         + (["semantic-scholar"] if getattr(config, "SEMANTIC_SCHOLAR", False) else []),
-        "source_health": source_health(),
+        "source_health": _health_since(errors_at_start),
     }
     if figure_checks and pdf_path and not config.OFFLINE:
         step(93, "抽检正文图表结论")

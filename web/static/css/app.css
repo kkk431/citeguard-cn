@@ -48,6 +48,7 @@ button{font-family:inherit}
 
 /* panels & forms */
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+.warn-panel{border-left:3px solid var(--warn);background:var(--warn-soft)}
 .section{padding:34px 0}
 .section-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:16px}
 .section-head h2{font-family:var(--serif);font-size:20px;font-weight:600;margin:0}

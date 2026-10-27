@@ -268,6 +268,7 @@ def test_offline_demo_pack(monkeypatch):
     statuses = [r["verify"]["status"] for r in report["references"]]
     assert len(statuses) == 11
     assert statuses.count("Exact") == 10
+    assert set(report["run_config"]["source_health"]) == {"degraded", "errors"}
     assert statuses[-1] == "Unknown"
     assert statuses.count("Exact") == 10
 
