@@ -1,0 +1,164 @@
+{
+ "summary": {
+  "pdfs": 22,
+  "refs": 498,
+  "blank_title": 3,
+  "authorish": 103
+ },
+ "papers": [
+  {
+   "pdf": "W2098348787.pdf",
+   "refs": 51,
+   "blank_title": 0,
+   "authorish": 17,
+   "method": "pdf-text"
+  },
+  {
+   "pdf": "W2996762219.pdf",
+   "refs": 69,
+   "blank_title": 0,
+   "authorish": 25,
+   "method": "pdf-text"
+  },
+  {
+   "pdf": "hanspub_152572.pdf",
+   "refs": 24,
+   "blank_title": 0,
+   "authorish": 0,
+   "method": "pdf-text"
+  },
+  {
+   "pdf": "hanspub_152573.pdf",
+   "refs": 14,
+   "blank_title": 0,
+   "authorish": 0,
+   "method": "pdf-text"
+  },
+  {
+   "pdf": "hanspub_152574.pdf",
+   "refs": 11,
+   "blank_title": 0,
+   "authorish": 0,
+   "method": "pdf-text"
+  },
+  {
+   "pdf": "hanspub_152575.pdf",
+   "refs": 15,
+   "blank_title": 0,
+   "authorish": 9,
+   "method": "pdf-text"
+  },
+  {
+   "pdf": "hanspub_152576.pdf",
+   "refs": 13,
+   "blank_title": 0,
+   "authorish": 0,
+   "method": "pdf-text"
+  },
+  {
+   "pdf": "hanspub_152577.pdf",
+   "refs": 27,
+   "blank_title": 0,
+   "authorish": 6,
+   "method": "pdf-text"
+  },
+  {
+   "pdf": "hanspub_152592.pdf",
+   "refs": 34,
+   "blank_title": 0,
+   "authorish": 14,
+   "method": "pdf-text"
+  },
+  {
+   "pdf": "hanspub_152593.pdf",
+   "refs": 9,
+   "blank_title": 3,
+   "authorish": 0,
+   "method": "pdf-text"
+  },
+  {
+   "pdf": "hanspub_152594.pdf",
+   "refs": 37,
+   "blank_title": 0,
+   "authorish": 12,
+   "method": "pdf-text"
+  },
+  {
+   "pdf": "hanspub_152595.pdf",
+   "refs": 9,
+   "blank_title": 0,
+   "authorish": 4,
+   "method": "pdf-text"
+  },
+  {
+   "pdf": "hanspub_152678.pdf",
+   "refs": 39,
+   "blank_title": 0,
+   "authorish": 3,
+   "method": "pdf-text"
+  },
+  {
+   "pdf": "hanspub_152679.pdf",
+   "refs": 12,
+   "blank_title": 0,
+   "authorish": 1,
+   "method": "pdf-text"
+  },
+  {
+   "pdf": "hanspub_152680.pdf",
+   "refs": 20,
+   "blank_title": 0,
+   "authorish": 3,
+   "method": "ocr"
+  },
+  {
+   "pdf": "hanspub_152699.pdf",
+   "refs": 22,
+   "blank_title": 0,
+   "authorish": 0,
+   "method": "pdf-text"
+  },
+  {
+   "pdf": "hanspub_152700.pdf",
+   "refs": 29,
+   "blank_title": 0,
+   "authorish": 6,
+   "method": "pdf-text"
+  },
+  {
+   "pdf": "hanspub_152701.pdf",
+   "refs": 12,
+   "blank_title": 0,
+   "authorish": 1,
+   "method": "pdf-text"
+  },
+  {
+   "pdf": "hanspub_152702.pdf",
+   "refs": 14,
+   "blank_title": 0,
+   "authorish": 1,
+   "method": "pdf-text"
+  },
+  {
+   "pdf": "hanspub_152703.pdf",
+   "refs": 18,
+   "blank_title": 0,
+   "authorish": 1,
+   "method": "pdf-text"
+  },
+  {
+   "pdf": "hanspub_152704.pdf",
+   "refs": 10,
+   "blank_title": 0,
+   "authorish": 0,
+   "method": "pdf-text"
+  },
+  {
+   "pdf": "hanspub_152705.pdf",
+   "refs": 9,
+   "blank_title": 0,
+   "authorish": 0,
+   "method": "pdf-text"
+  }
+ ]
+}
