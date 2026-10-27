@@ -1213,3 +1213,10 @@ partial 多发、support 少发。
   - 冷缓存（临时缓存目录）：169.2 s，Exact 14 / Minor 20 / Unverified 3 / **Unknown 17**，`source_errors=40`——冷启动仍受真实 API 限流影响，状态如实标 Unknown；这组不能拿来宣称“提速 8 倍”。
 - 新增 1 条熔断测试，全套 **471 passed**；版本 0.9.48。
 - dist/citeguard-cn-0.9.48.zip：8858729 bytes，sha256 `3638713083a3c2c11b9ff5cb946848c9c2f13255b02afc5769f83e4c6ddc227d`。
+
+## 58. 0.9.48 材料同步：报告 9 页 / PPT 18 页与 471 测试一致（2026-10-28）
+
+- `report/build_report.py`：测试数字 464 → 471（四处）；`report/build_deck.py`：统计页 464 → 471、代码页「+ 471 个测试」、评分页「471 测试」；删除过时的「+2 skipped」。
+- 重新生成：`report/citeguard_technical_report.docx`（651,649 bytes）→ `dist/CiteGuard-CN_技术报告_v0.9.48.pdf`（9 页，576,150 bytes，正文含「471」且无「464」）；`report/CiteGuard-CN_答辩PPT_18页.pptx`（18 页）→ `dist/CiteGuard-CN_答辩PPT_v0.9.48.pdf`（1,122,890 bytes）。
+- `docs/ppt_numbers.md` 的测试数字同步为 471。
+- 版本仍为 0.9.48；产品代码未改，只同步交付材料。
