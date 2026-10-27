@@ -513,6 +513,21 @@ def test_library_bulk_accepts_multiple_lines(client):
     titles = " ".join(e["title"] for e in listing["entries"])
     assert "中文引文核验方法" in titles and "另一篇中文论文" in titles
 
+def test_library_demo_loads_bundled_offline_library(client):
+    """One click must seed the 10-reference offline demo pack (conference fallback)."""
+    resp = client.post("/api/library/demo")
+    assert resp.status_code == 200, resp.text
+    body = resp.json()
+    assert body["imported"] == 10
+    assert body["added"] == 10
+    listing = client.get("/api/library").json()
+    assert listing["count"] == 10
+
+    again = client.post("/api/library/demo")
+    assert again.status_code == 200
+    assert again.json()["added"] == 0  # idempotent
+
+
 def test_compare_reports_positional_deltas():
     import web.app as webapp
 

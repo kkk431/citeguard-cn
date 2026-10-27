@@ -8,6 +8,7 @@
   const nameEl = document.getElementById("library-file-name");
   const hint = document.getElementById("library-hint");
   const importBtn = document.getElementById("library-import-btn");
+  const demoBtn = document.getElementById("library-demo-btn");
   const clearBtn = document.getElementById("library-clear-btn");
   const search = document.getElementById("library-search");
   const tableBody = document.getElementById("library-body");
@@ -239,6 +240,27 @@
     window.CiteGuard.toast(msg);
     await loadEntries();
   });
+
+  if (demoBtn) {
+    demoBtn.addEventListener("click", async function () {
+      demoBtn.disabled = true;
+      try {
+        const data = await postJSON("/api/library/demo");
+        const added = data.added || 0;
+        const total = data.count || 0;
+        window.CiteGuard.toast(
+          added
+            ? "已载入演示题录 " + added + " 条（库内共 " + total + " 条）"
+            : "演示题录已在库中（库内共 " + total + " 条）"
+        );
+        await loadEntries();
+      } catch (err) {
+        window.CiteGuard.toast(err.message || "载入演示题录失败");
+      } finally {
+        demoBtn.disabled = false;
+      }
+    });
+  }
 
   clearBtn.addEventListener("click", async function () {
     if (!window.confirm("确定清空本地题录库？该操作不可撤销。")) return;

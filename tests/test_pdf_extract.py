@@ -381,6 +381,43 @@ def test_find_figure_page_matches_claim_number(tmp_path, monkeypatch):
     assert find_figure_page(pdf, "9") is None
 
 
+def test_figure_page_choice_prefers_claim_matching_caption(tmp_path, monkeypatch):
+    import sys
+    import types
+
+    from citeguard import pdf_extract as px
+
+    class _Page:
+        def __init__(self, text):
+            self.text = text
+
+    class _Doc:
+        def __init__(self, pages):
+            self.pages = pages
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *exc):
+            return False
+
+    fake_module = types.ModuleType("pdfplumber")
+    fake_module.open = lambda path: _Doc(
+        [
+            _Page("图1 准确率对比\n正文"),
+            _Page("图1 消融实验的准确率与召回率\n正文"),
+        ]
+    )
+    monkeypatch.setitem(sys.modules, "pdfplumber", fake_module)
+    monkeypatch.setattr(px, "_page_text", lambda page: page.text)
+    pdf = tmp_path / "fake.pdf"
+    pdf.write_bytes(b"%PDF-1.4")
+
+    assert find_figure_page(pdf, "1")[0] == 1  # no claim: first hit, unchanged
+    found = find_figure_page(pdf, "1", claim="消融实验的准确率和召回率更高")
+    assert found is not None and found[0] == 2
+
+
 def test_find_figure_page_scanned_pdf_returns_none(tmp_path):
     pdf = _blank_pdf(tmp_path, pages=2)
     assert find_figure_page(pdf, "1") is None

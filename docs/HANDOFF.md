@@ -1141,3 +1141,11 @@ partial 多发、support 少发。
 - 严格性：要求题名 ≥0.95、首选作者可对上、年份精确相等；该逻辑只补证据，不放松题名阈值。
 - 测试：`test_version_source_keeps_cited_year_when_another_source_agrees`、`test_version_source_requires_matching_first_author`；全套 458 passed、`verify_artifacts` 137/137。
 - 版本 0.9.41。
+
+## 50. 0.9.42：断网演示一键载入 + 多候选页投票（2026-10-28）
+
+- 演示题录：新增 `POST /api/library/demo`，从 `samples/offline_demo/library.ris` 导入 10 条真实开放文献；题录页加「载入演示题录」按钮，重复点击幂等（`added=0`）。会议现场断网也能走完「本地库匹配 → 字段核对」路径。测试 `test_library_demo_loads_bundled_offline_library`。
+- 多候选页：`pdf_extract.find_figure_pages()` 收集同一图/表号命中的全部页，`_caption_similarity()` 用中英文 token 覆盖率打分；`find_figure_page(..., claim=...)` 在命中多页时选与结论文字最接近的一页（同分取靠前页），图表路由与正文抽检都传入 claim。无 claim 时保持「第一处命中」旧行为。
+- 表格图注：`find_figure_page(kind="table")` 与 `caption_kind_from_claim()` 已支持「表 N / Table N」，本轮确认无需改代码。
+- 测试：`test_figure_page_choice_prefers_claim_matching_caption`；全套 **460 passed**，`verify_artifacts` 137/137。
+- 版本 0.9.42；`dist/citeguard-cn-0.9.42.zip`。

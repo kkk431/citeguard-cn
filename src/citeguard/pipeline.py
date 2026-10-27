@@ -197,7 +197,7 @@ def _check_body_figures(body: str, pdf_path: str, step: Callable[[int, str], Non
     results: list[dict] = []
     for (kind, number), claims in _body_figure_claims(body):
         step(94, f"图表结论抽检：{'表' if kind == 'table' else '图'} {number}")
-        found = find_figure_page(pdf_path, number, kind=kind)
+        found = find_figure_page(pdf_path, number, kind=kind, claim=claim)
         if not found:
             results.append(
                 {"number": number, "page": None, "claims": claims, "error": "未在 PDF 前 40 页找到对应图注"}

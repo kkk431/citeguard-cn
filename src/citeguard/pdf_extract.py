@@ -146,26 +146,30 @@ def _is_toc_caption(line: str) -> bool:
     return bool(_TOC_CAPTION_RE.search(line)) or "\t" in line
 
 
-def find_figure_page(
+def find_figure_pages(
     path: str | Path, number: str = "", *, kind: str = "", max_pages: int = 40
-) -> tuple[int, str] | None:
-    """Locate a figure caption (``图 N`` / ``Figure N``) in a PDF text layer.
+) -> list[tuple[int, str]]:
+    """Locate every page carrying a matching figure/table caption.
 
-    Returns ``(page_no, caption_line)`` for the first matching page, or ``None``
-    when no caption is found. Scanned PDFs have no text layer, so this is a
-    best-effort helper: callers must keep a manual-page fallback.
+    Some PDFs repeat a caption number in an appendix or reuse it for a table;
+    collecting all matches lets the caller pick the page that best matches the
+    claim instead of silently taking the first hit.
     """
     p = Path(path)
     if p.suffix.lower() != ".pdf":
-        return None
+        return []
     target = re.sub(r"[^0-9a-z.]", "", (number or "").lower())
     try:
         import pdfplumber
     except Exception:  # pragma: no cover - dependency guard
-        return None
+        return []
+    found_pages: list[tuple[int, str]] = []
+    seen: set[int] = set()
     try:
         with pdfplumber.open(str(p)) as pdf:
             for index, page in enumerate(pdf.pages[:max_pages], start=1):
+                if index in seen:
+                    continue
                 text = _page_text(page) or ""
                 if not text.strip() or _looks_garbled(text):
                     continue
@@ -183,10 +187,49 @@ def find_figure_page(
                     found = re.sub(r"[^0-9a-z.]", "", match.group("num").lower())
                     if target and found != target:
                         continue
-                    return index, line.strip()[:200]
+                    found_pages.append((index, line.strip()[:200]))
+                    seen.add(index)
+                    break
     except Exception:
+        return []
+    return found_pages
+
+
+def _caption_similarity(claim: str, caption: str) -> float:
+    """Token-coverage between a claim and a caption (works for zh + en)."""
+    tokens = re.compile(r"[a-z0-9]{2,}|[\u4e00-\u9fff]")
+
+    def bag(text: str) -> set[str]:
+        return set(tokens.findall((text or "").lower()))
+
+    want, have = bag(claim), bag(caption)
+    if not want or not have:
+        return 0.0
+    return len(want & have) / len(want)
+
+
+def find_figure_page(
+    path: str | Path,
+    number: str = "",
+    *,
+    kind: str = "",
+    max_pages: int = 40,
+    claim: str = "",
+) -> tuple[int, str] | None:
+    """Locate a figure caption (``图 N`` / ``Figure N``) in a PDF text layer.
+
+    Returns ``(page_no, caption_line)`` for the first matching page, or ``None``
+    when no caption is found. When ``claim`` is supplied and the same number
+    appears on several pages, the caption whose wording overlaps the claim most
+    wins (same-page-order tie-break). Scanned PDFs have no text layer, so this is
+    a best-effort helper: callers must keep a manual-page fallback.
+    """
+    matches = find_figure_pages(path, number, kind=kind, max_pages=max_pages)
+    if not matches:
         return None
-    return None
+    if claim and len(matches) > 1:
+        return max(matches, key=lambda item: (_caption_similarity(claim, item[1]), -item[0]))
+    return matches[0]
 
 
 def render_page_png(path: str | Path, page_number: int, *, dpi: int = 150) -> bytes:

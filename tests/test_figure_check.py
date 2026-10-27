@@ -252,7 +252,7 @@ def test_figure_api_auto_locates_figure_page(monkeypatch):
     from web import app as webapp
 
     monkeypatch.setattr(figure_check, "available", lambda: True)
-    monkeypatch.setattr(webapp, "find_figure_page", lambda path, number, kind="": (3, "图1 方法1 的准确率（%）"))
+    monkeypatch.setattr(webapp, "find_figure_page", lambda path, number, kind="", **kwargs: (3, "图1 方法1 的准确率（%）"))
     monkeypatch.setattr(webapp, "extract_page_text", lambda path, page: "第 3 页正文：方法1 的准确率约 95%。")
     captured = {}
 
@@ -280,7 +280,7 @@ def test_figure_api_reports_missing_figure_caption(monkeypatch):
     from web import app as webapp
 
     monkeypatch.setattr(figure_check, "available", lambda: True)
-    monkeypatch.setattr(webapp, "find_figure_page", lambda path, number, kind="": None)
+    monkeypatch.setattr(webapp, "find_figure_page", lambda path, number, kind="", **kwargs: None)
     client = TestClient(webapp.app)
     resp = client.post(
         "/api/figure-check",
@@ -353,7 +353,7 @@ def test_figure_api_renders_located_page_without_screenshot(monkeypatch):
     from web import app as webapp
 
     monkeypatch.setattr(figure_check, "available", lambda: True)
-    monkeypatch.setattr(webapp, "find_figure_page", lambda path, number, kind="": (2, "图 1 方法对比"))
+    monkeypatch.setattr(webapp, "find_figure_page", lambda path, number, kind="", **kwargs: (2, "图 1 方法对比"))
     monkeypatch.setattr(webapp, "extract_page_text", lambda path, page: "第 2 页正文：方法1 的准确率约 95%。")
     monkeypatch.setattr(webapp, "render_page_png", lambda path, page: b"\x89PNG fake")
     captured = {}

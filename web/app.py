@@ -93,7 +93,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.41", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.42", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
@@ -315,6 +315,33 @@ def library_import(file: UploadFile = File(...)):
         "with_abstract": sum(1 for e in library.entries if (e.abstract or "").strip()),
         "imported_no_abstract": imported_no_abstract,
         "format_guess": entries[0].source if entries else "",
+    }
+
+
+@app.post("/api/library/demo")
+def library_demo():
+    """Load the bundled offline demo library in one click.
+
+    The demo pack contains 10 real, openly available references; a conference
+    laptop with no network can still walk the whole "library match + field
+    check" path after one click.
+    """
+    path = config.PROJECT_ROOT / "samples" / "offline_demo" / "library.ris"
+    if not path.exists():
+        raise HTTPException(status_code=404, detail="演示题录包不存在，请检查 samples/offline_demo/")
+    entries = parse_library_text(path.read_text(encoding="utf-8-sig"), "library.ris")
+    if not entries:
+        raise HTTPException(status_code=400, detail="演示题录包解析失败")
+    library = Library.load(config.LIBRARY_FILE)
+    before = len(library)
+    library.add(entries)
+    library.save(config.LIBRARY_FILE)
+    return {
+        "imported": len(entries),
+        "added": len(library) - before,
+        "before": before,
+        "count": len(library),
+        "with_abstract": sum(1 for e in library.entries if (e.abstract or "").strip()),
     }
 
 
@@ -1244,7 +1271,7 @@ def figure_check_api(
                 for c in targets:
                     number = figure_number_from_claim(c)
                     kind = caption_kind_from_claim(c)
-                    found = find_figure_page(tmp, number, kind=kind)
+                    found = find_figure_page(tmp, number, kind=kind, claim=c)
                     if not found:
                         label = ("表" if kind == "table" else "图") + (f" {number} 的图注" if number else "注")
                         return JSONResponse(
@@ -1274,7 +1301,7 @@ def figure_check_api(
                 if not page_no:
                     number = figure_number_from_claim(claim_for_number)
                     kind = caption_kind_from_claim(claim_for_number)
-                    found = find_figure_page(tmp, number, kind=kind)
+                    found = find_figure_page(tmp, number, kind=kind, claim=claim_for_number)
                     if not found:
                         label = ("图" if kind == "figure" else "表" if kind == "table" else "图/表") + (
                             f" {number} 的图注" if number else "注"
