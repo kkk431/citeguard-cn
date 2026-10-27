@@ -799,18 +799,17 @@
         "count": 69,
         "coverage": {
           "title": 1.0,
-          "authors": 0.986,
+          "authors": 1.0,
           "year": 1.0,
           "doc_type": 1.0,
-          "venue": 0.841,
+          "venue": 0.826,
           "doi": 0.493,
           "pages": 0.667,
           "web_refs": 3,
           "web_no_author": 0
         },
         "problems": {
-          "title_long": 1,
-          "authors_empty": 1
+          "venue_missing": 1
         },
         "clean_ratio": 0.986,
         "split_found_heading": true,
@@ -828,13 +827,7 @@
     {
       "source": "D:\\ai+ky\\citeguard\\data\\real_corpus\\W2996762219.pdf",
       "kind": "pdf",
-      "problem": "title_long",
-      "raw": "False alarm? A comprehensive reanalysis of “Evidence that psychopathology symptom networks have limited replicability” by Forbes, Wright, Markon, and Krueger (2017). Journal of Abnormal Psychology, 126(7), 989–999. https://doi.org/10.1037/a"
-    },
-    {
-      "source": "D:\\ai+ky\\citeguard\\data\\real_corpus\\W2996762219.pdf",
-      "kind": "pdf",
-      "problem": "authors_empty",
+      "problem": "venue_missing",
       "raw": "False alarm? A comprehensive reanalysis of “Evidence that psychopathology symptom networks have limited replicability” by Forbes, Wright, Markon, and Krueger (2017). Journal of Abnormal Psychology, 126(7), 989–999. https://doi.org/10.1037/a"
     }
   ]

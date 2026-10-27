@@ -276,7 +276,12 @@ def _looks_garbled(text: str) -> bool:
     cid = len(_CID_TOKEN_RE.findall(text))
     if cid >= 20:
         return True
-    return cid >= 3 and cid / max(len(text), 1) > 0.01
+    if cid >= 3 and cid / max(len(text), 1) > 0.01:
+        return True
+    # Some embedded CJK fonts decode into raw C0 control bytes instead of (cid:...).
+    # A handful of controls is suspicious; a few percent is unambiguous corruption.
+    ctrl = sum(1 for ch in text if ord(ch) < 32 and ch not in "\n\r\t\f")
+    return ctrl >= 30 and ctrl / max(len(text), 1) > 0.005
 
 
 def _read_text_file(path: Path) -> str:

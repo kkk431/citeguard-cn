@@ -138,6 +138,9 @@ def test_looks_garbled_detects_cid_fonts():
     assert _looks_garbled("(cid:131)(cid:243)" * 20)
     assert not _looks_garbled("正常的中文文本，参考文献[J]。")
     assert not _looks_garbled("")
+    # Some embedded CJK fonts decode into raw C0 control bytes, not (cid:...) tokens.
+    assert _looks_garbled("ADMM" + "\x15\x1b\x11\x12" * 40 + "text")
+    assert not _looks_garbled("normal line one\nline two\twith tab")
 
 
 def test_garbled_pdf_falls_back_to_ocr(monkeypatch, tmp_path):
