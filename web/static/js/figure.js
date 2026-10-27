@@ -25,29 +25,40 @@
     if (hint) hint.textContent = text || "";
   }
 
-  function setFile(file) {
-    if (!file) return;
-    if (!/^image\/(png|jpeg|webp)$/.test(file.type)) {
-      setHint("只支持 PNG / JPEG / WebP");
-      window.showToast && window.showToast("只支持 PNG / JPEG / WebP");
+  function setFiles(files) {
+    const list = Array.prototype.slice.call(files || []).filter(Boolean);
+    if (!list.length) return;
+    if (list.length > 5) {
+      setHint("一次最多上传 5 张图");
+      window.showToast && window.showToast("一次最多上传 5 张图");
       return;
     }
-    if (file.size > 8 * 1024 * 1024) {
-      setHint("图片超过 8 MB");
-      window.showToast && window.showToast("图片超过 8 MB");
-      return;
+    for (let i = 0; i < list.length; i++) {
+      const file = list[i];
+      if (!/^image\/(png|jpeg|webp)$/.test(file.type)) {
+        setHint("只支持 PNG / JPEG / WebP");
+        window.showToast && window.showToast("只支持 PNG / JPEG / WebP");
+        return;
+      }
+      if (file.size > 8 * 1024 * 1024) {
+        setHint("单张图片超过 8 MB");
+        window.showToast && window.showToast("单张图片超过 8 MB");
+        return;
+      }
     }
     const dt = new DataTransfer();
-    dt.items.add(file);
+    list.forEach(function (file) { dt.items.add(file); });
     fileInput.files = dt.files;
-    fileName.textContent = file.name + " · " + (file.size / 1024).toFixed(0) + " KB";
-    preview.src = URL.createObjectURL(file);
+    fileName.textContent = list.length === 1
+      ? list[0].name + " · " + (list[0].size / 1024).toFixed(0) + " KB"
+      : list.length + " 张图：" + list.map(function (f) { return f.name; }).join("、");
+    preview.src = URL.createObjectURL(list[0]);
     previewWrap.hidden = false;
-    setHint("");
+    setHint(list.length > 1 ? "将逐张核验，结果按图片分组显示" : "");
   }
 
   fileInput.addEventListener("change", function () {
-    setFile(fileInput.files && fileInput.files[0]);
+    setFiles(fileInput.files);
   });
   if (paperInput) {
     paperInput.addEventListener("change", function () {
@@ -70,7 +81,7 @@
     });
   });
   dropzone.addEventListener("drop", function (e) {
-    if (e.dataTransfer && e.dataTransfer.files.length) setFile(e.dataTransfer.files[0]);
+    if (e.dataTransfer && e.dataTransfer.files.length) setFiles(e.dataTransfer.files);
   });
 
   document.querySelectorAll(".fig-example-use").forEach(function (button) {
@@ -84,7 +95,7 @@
       try {
         const resp = await fetch(imgUrl);
         const blob = await resp.blob();
-        setFile(new File([blob], "example.png", { type: blob.type || "image/png" }));
+        setFiles([new File([blob], "example.png", { type: blob.type || "image/png" })]);
       } catch (err) {
         setHint("示例图片载入失败");
       }
@@ -165,43 +176,73 @@
 
   form.addEventListener("submit", async function (e) {
     e.preventDefault();
-    const file = fileInput.files && fileInput.files[0];
+    const files = fileInput.files ? Array.prototype.slice.call(fileInput.files) : [];
     const rawClaim = (claimInput.value || "").trim();
     const claimLines = rawClaim.split(/\r?\n/).map(function (line) { return line.trim(); }).filter(Boolean);
     const paper = paperInput && paperInput.files && paperInput.files[0];
-    if (!file && !paper) { setHint("请上传图表截图，或上传论文 PDF 自动定位并渲染图/表页"); return; }
+    if (!files.length && !paper) { setHint("请上传图表截图，或上传论文 PDF 自动定位并渲染图/表页"); return; }
     if (!claimLines.length) { setHint("请写一条结论"); return; }
     if (claimLines.length > 5) { setHint("一次最多核验 5 条结论"); return; }
     if (claimLines.some(function (line) { return line.length < 5; })) {
       setHint("每条结论至少写 5 个字");
       return;
     }
-    const fd = new FormData();
-    if (file) fd.append("image", file);
-    fd.append("claim", claimLines[0]);
-    if (claimLines.length > 1) fd.append("claims", rawClaim);
     const context = contextInput ? (contextInput.value || "").trim() : "";
-    if (context) fd.append("context", context);
-    if (paper) {
-      fd.append("paper", paper);
-      const pageValue = pageInput && pageInput.value.trim();
-      if (pageValue) fd.append("page", pageValue);
+    const pageValue = pageInput && pageInput.value.trim();
+
+    function buildForm(file) {
+      const fd = new FormData();
+      if (file) fd.append("image", file);
+      fd.append("claim", claimLines[0]);
+      if (claimLines.length > 1) fd.append("claims", rawClaim);
+      if (context) fd.append("context", context);
+      if (paper) {
+        fd.append("paper", paper);
+        if (pageValue) fd.append("page", pageValue);
+      }
+      return fd;
     }
+
+    async function post(file) {
+      const resp = await fetch("/api/figure-check", { method: "POST", body: buildForm(file) });
+      const data = await resp.json().catch(function () { return {}; });
+      return { resp: resp, data: data };
+    }
+
     btn.disabled = true;
-    setHint(paper ? (file ? "正在读取 PDF 正文并核验…" : "正在定位图/表页并渲染，随后核验…") : "核验中…首次请求需要加载模型，可能等十几秒");
+    setHint(paper ? (files.length ? "正在读取 PDF 正文并核验…" : "正在定位图/表页并渲染，随后核验…")
+      : "核验中…首次请求需要加载模型，可能等十几秒");
     result.classList.add("hidden");
     try {
-      const resp = await fetch("/api/figure-check", { method: "POST", body: fd });
-      const data = await resp.json().catch(function () { return {}; });
-      if (!resp.ok || !data.ok) {
+      if (files.length > 1) {
+        const blocks = [];
+        for (let i = 0; i < files.length; i++) {
+          setHint("正在核验第 " + (i + 1) + " / " + files.length + " 张…");
+          const out = await post(files[i]);
+          const head = '<div class="fig-batch-item"><div class="mono-sm" style="margin:10px 0 4px">' +
+            escapeHtml(files[i].name) + "</div>";
+          if (!out.resp.ok || !out.data.ok) {
+            blocks.push(head + '<div class="fig-error">核验失败：' +
+              escapeHtml(out.data.error || ("HTTP " + out.resp.status)) + "</div></div>");
+            continue;
+          }
+          blocks.push(head + (out.data.items ? itemsHtml(out.data) : verdictHtml(out.data)) + "</div>");
+        }
+        setHint("");
+        result.innerHTML = blocks.join("");
+        result.classList.remove("hidden");
+        return;
+      }
+      const out = await post(files[0]);
+      if (!out.resp.ok || !out.data.ok) {
         setHint("");
         result.innerHTML =
-          "<div class=\"fig-error\">核验失败：" + escapeHtml(data.error || ("HTTP " + resp.status)) + "</div>";
+          "<div class=\"fig-error\">核验失败：" + escapeHtml(out.data.error || ("HTTP " + out.resp.status)) + "</div>";
         result.classList.remove("hidden");
         return;
       }
       setHint("");
-      result.innerHTML = data.items ? itemsHtml(data) : verdictHtml(data);
+      result.innerHTML = out.data.items ? itemsHtml(out.data) : verdictHtml(out.data);
       result.classList.remove("hidden");
     } catch (err) {
       setHint("");

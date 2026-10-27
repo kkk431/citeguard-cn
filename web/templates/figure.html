@@ -26,13 +26,13 @@
 </section>
 
 <section class="wrap section">
-  <div class="section-head"><h2>上传图表 + 结论</h2><span class="hint">PNG / JPEG / WebP，≤ {{ max_mb }} MB</span></div>
+  <div class="section-head"><h2>上传图表 + 结论</h2><span class="hint">PNG / JPEG / WebP，单张 ≤ {{ max_mb }} MB，最多 5 张</span></div>
   <div class="panel">
     <form id="figure-form" enctype="multipart/form-data">
       <label class="dropzone" for="figure-file" id="figure-dropzone">
-        <input id="figure-file" type="file" name="image" accept="image/png,image/jpeg,image/webp" hidden>
-        <div class="dz-title">选择图表截图，或拖进来（也可以跳过截图：只传 PDF + 结论，系统自动定位并渲染图/表页）</div>
-        <div class="dz-sub">单张图表效果最好；多面板大图请先在截图里保留完整坐标轴与图例</div>
+        <input id="figure-file" type="file" name="image" accept="image/png,image/jpeg,image/webp" multiple hidden>
+        <div class="dz-title">选择图表截图（可多选，最多 5 张），或拖进来（也可以跳过截图：只传 PDF + 结论，系统自动定位并渲染图/表页）</div>
+        <div class="dz-sub">同一组结论会逐张核验，结果按图片分组显示；多面板大图请先在截图里保留完整坐标轴与图例</div>
         <div class="dz-file" id="figure-file-name"></div>
       </label>
       <div id="figure-preview-wrap" class="fig-preview-wrap" hidden>

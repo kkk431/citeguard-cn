@@ -1071,3 +1071,13 @@ partial 多发、support 少发。
 原因是 arXiv 参考文献普遍缺 DOI、会议缩写不规范，免费源覆盖有限；它表示“未找到”，不是“虚假”。
 
 版本 0.9.24。
+
+## 43. 0.9.32–0.9.34：断点续跑、覆盖率仪表盘、材料终检（2026-10-27）
+
+- v0.9.32：服务重启后未完成任务标为 `interrupted`；失败/中断任务保留抽取文本与前端选项，历史页「重新运行」按钮走 `POST /api/jobs/{id}/rerun`；成功任务仍即时删除 `input.txt`。
+- v0.9.33：`/library` 增加「覆盖构成」面板（DOI 比例、摘要比例、年份范围、期刊/会议数、收录最多来源）。
+- v0.9.34：打包器 `scripts/package_deliverable.py` 增加匿名化——排除 `docs/HANDOFF.md`，把内网 IP 与本机路径替换为 `127.0.0.1`/`<project>`/`<user>`；`eval_chartcheck.py`、`eval_figure_prompt.py` 默认端点改 `127.0.0.1:8099`；答辩 PPT 第 8 页去掉内网地址。
+- 新增材料：`docs/anonymity_check.md`（匿名终检 + 复跑脚本）、`docs/resource_list.md`（附件资源清单）、`docs/demo_script.md`（5 分钟现场脚本 + 断网兜底）、`docs/ppt_numbers.md` 末尾「创新性三条」。
+- 重新生成：`dist/CiteGuard-CN_答辩PPT_18页.pptx/.pdf`（18 页，无内网地址）、`dist/CiteGuard-CN_技术报告_v0.9.34_2026-10-27.docx/.pdf`（9 页）。
+- 测试 445 passed，`verify_artifacts` 137/137；zip 364 文件、8.4 MB、sha256 `a66c1b4a5944…`，扫描内网 IP/密钥 0 命中。
+- 部署：本地 `127.0.0.1:8010`、远端 `/data/xyjiang/aic_mental/citeguard` 均 0.9.34；GitHub push 仍因 443 不可达，提交仅本地（`2836a41` 等）。
