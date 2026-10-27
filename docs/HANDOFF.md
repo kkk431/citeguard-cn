@@ -1181,3 +1181,12 @@ partial 多发、support 少发。
 - 测试：+2（合并、年份拆分），全套 **466 passed**；BERT 参考列表 raw 重放：54 块 → 51 条，年份型假题名 0（原 2）。
 - 版本 0.9.45。
 - `dist/citeguard-cn-0.9.45.zip`：8,857,181 bytes，sha256 `c0e874657cf6a8f4e5a422c796025047026a459396042e998c10561f8c1e696e`。
+
+## 55. 0.9.46 解析：把「下一文献的作者行」从上一块尾部移走（2026-10-28）
+
+- 真实 PDF 中常见：上一文献末尾粘着下一文献的作者行（`... Linguistics. Alex Warstadt, ... Bowman. 2018.`），下一块只剩题名，导致题名被年份/作者污染。
+- `src/citeguard/reference_parser.py` 新增 `_split_author_year_tail`：块尾若是「完整姓名列表 + 年份」，就移到下一条开头；首字母缩写（`Z.`）开头、或断点落在 `X.` 这类首字母后时不切。
+- 配合 `_split_at_unparenthesised_year` 与 `_merge_titleless_blocks`，BERT（arXiv 1810.04805v2）端到端：54 条，Unverified **7 → 5**，Unknown 2（源限流，如实报）；Exact 17 / Minor 30。对比无修复版：Unverified 7。
+- 注意：仍有 2 条摘要式题名残留（`Zhang...`、空题名），属于 PDF 版面把两条文献粘成一条，后续继续处理；不宣称“已解决”。
+- 测试：+2，全套 **468 passed**（下一轮同步报告/PPT 数字）。
+- 版本 0.9.46。

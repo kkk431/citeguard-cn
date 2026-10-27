@@ -475,3 +475,22 @@ def test_merge_author_year_only_block_into_following_title():
     assert len(merged) == 1
     assert merged[0].startswith("Z. Chen")
     assert merged[0].endswith("Quora question pairs.")
+def test_split_author_year_tail_moves_to_next_entry():
+    from citeguard.reference_parser import _split_author_year_tail
+
+    prefix, tail = _split_author_year_tail(
+        "Long Papers). Association for Computational Linguistics. "
+        "Alex Warstadt, Amanpreet Singh, and Samuel R Bowman. 2018."
+    )
+    assert prefix.endswith("Computational Linguistics.")
+    assert tail.startswith("Alex Warstadt")
+    assert tail.endswith("2018.")
+
+
+def test_split_author_year_tail_ignores_initial_prefix():
+    from citeguard.reference_parser import _split_author_year_tail
+
+    block = "Z. Chen, H. Zhang, X. Zhang, and L. Zhao. 2018."
+    prefix, tail = _split_author_year_tail(block)
+    assert tail == ""
+    assert prefix == block

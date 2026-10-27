@@ -367,8 +367,46 @@ def _is_title_continuation(block: str) -> bool:
     return bool(re.match(r"^[\"'“‘A-Z]", block))
 
 
+def _split_author_year_tail(block: str) -> tuple[str, str]:
+    """Detach a trailing ``Authors. 2018.`` fragment from an entry.
+
+    PDF extraction often appends the next entry's author line to the previous
+    entry ("... Association for Computational Linguistics. Alex Warstadt,
+    Amanpreet Singh, and Samuel R Bowman. 2018.").  Moving that fragment to the
+    next entry lets the author-year splitter parse both correctly.
+    """
+    block = block.strip()
+    m = re.search(r"\.\s*(?:19|20)\d{2}[a-z]?\.\s*$", block)
+    if not m:
+        return block, ""
+    year_start = m.start()
+    split_at = None
+    for x in re.finditer(r"\.\s+", block[:year_start]):
+        pos = x.end()
+        tail = block[pos:].strip()
+        if not tail or len(tail) > 140:
+            continue
+        authors = re.sub(r"\.\s*(?:19|20)\d{2}[a-z]?\.?\s*$", "", tail).strip(" .")
+        if (
+            _looks_like_author_list(authors)
+            and re.match(r"[A-Z][a-z]{1,}", authors)
+            and not re.search(r"(?:^|\s)[A-Z]\.$", block[:pos].rstrip())
+        ):
+            split_at = pos
+    if split_at is None:
+        return block, ""
+    return block[:split_at].strip(), block[split_at:].strip()
+
+
 def _merge_titleless_blocks(entries: list[str]) -> list[str]:
     """Merge an authors+year-only block into a following title-only block."""
+    entries = list(entries)
+    # First move author-year tails to the entry whose title they belong to.
+    for i in range(len(entries) - 1):
+        prefix, tail = _split_author_year_tail(entries[i])
+        if tail:
+            entries[i] = prefix
+            entries[i + 1] = re.sub(r"\s*\n\s*", " ", tail + " " + entries[i + 1])
     merged: list[str] = []
     i = 0
     while i < len(entries):
