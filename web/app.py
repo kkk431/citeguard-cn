@@ -1231,4 +1231,4 @@ def benchmark_api():
 
 @app.get("/api/health")
 def health():
-    return {"ok": True, "version": "0.9.22", "supported": sorted(ALLOWED_SUFFIXES)}
+    return {"ok": True, "version": "0.9.23", "supported": sorted(ALLOWED_SUFFIXES)}
