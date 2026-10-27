@@ -1164,4 +1164,4 @@ partial 多发、support 少发。
 - 改为：仅当 pdfplumber 结果为空、或出现 ≥25 字符的连续 ASCII 串时才调用 PyMuPDF；替换条件改为「长串数降到 2 倍以下」或「备用解析器 0 个长串、原文至少 1 个」，避免单个超长粘连串漏判。
 - 实测（3 篇中文 PDF）：原本每篇多跑的 PyMuPDF 耗时 **0.312 / 0.043 / 0.050 s**；解析条数不变（24 / 15 / 9 条）。长英文论文收益更大，属于小优化，不夸大成“大幅提速”。
 - 测试：`test_pdf_text_spacing_skips_second_extractor`、`test_pdf_text_spacing_uses_second_extractor_when_words_merge`；全套 **464 passed**、`verify_artifacts` 137/137。
-- 版本 0.9.44。
+- 版本 0.9.44；`dist/citeguard-cn-0.9.44.zip`（8,856,169 bytes，sha256 `284d48538e84b3470b10e10ba816b045c22327055279e6628455d834d68daf6e`）。
