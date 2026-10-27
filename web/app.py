@@ -93,7 +93,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.37", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.38", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
@@ -514,6 +514,7 @@ def analyze(
     file: UploadFile | None = File(default=None),
     text: str | None = Form(default=None),
     support_max: int | None = Form(default=None),
+    figures: bool = Form(default=False),
 ):
     if file is None and not text:
         raise HTTPException(status_code=400, detail="请上传文件或粘贴文本")
@@ -534,9 +535,9 @@ def analyze(
             dst.unlink(missing_ok=True)
             manager.discard(job["id"])
             raise
-        manager.submit(job["id"], run_job, file_path=str(dst), support_max=support_max)
+        manager.submit(job["id"], run_job, file_path=str(dst), support_max=support_max, figures=figures)
     else:
-        manager.submit(job["id"], run_job, text=text, support_max=support_max)
+        manager.submit(job["id"], run_job, text=text, support_max=support_max, figures=figures)
     return JSONResponse({"job_id": job["id"]}, status_code=202)
 
 
@@ -578,6 +579,7 @@ def rerun_job(job_id: str):
         run_job,
         text=text,
         support_max=opts.get("support_max"),
+        figures=bool(opts.get("figures")),
     )
     return JSONResponse(
         {"job_id": new_job["id"], "rerun_of": job_id}, status_code=202
@@ -1550,7 +1552,7 @@ def benchmark_api():
 def health():
     return {
         "ok": True,
-        "version": "0.9.37",
+        "version": app.version,
         "offline": config.OFFLINE,
         "supported": sorted(ALLOWED_SUFFIXES),
     }

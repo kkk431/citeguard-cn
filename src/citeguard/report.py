@@ -365,6 +365,21 @@ def render_markdown(report: dict) -> str:
         for item in formatted:
             if item.get("entry"):
                 lines.append(f"[{item.get('index', '')}] {item['entry']}")
+    figure_checks = report.get("figure_checks") or []
+    if figure_checks:
+        lines += ["", "## 正文图表结论抽检（可选）", ""]
+        for block in figure_checks:
+            head = f"- 图/表 {block.get('number', '')}（第 {block.get('page', '?')} 页）"
+            if block.get("caption"):
+                head += f"：{block.get('caption')}"
+            lines.append(head)
+            for item in block.get("items") or []:
+                verdict = item.get("verdict") or ("未完成" if not item.get("ok") else "")
+                lines.append(
+                    f"  - {item.get('claim', '')} → {verdict}；{item.get('reason', '')[:160]}"
+                )
+            if block.get("error"):
+                lines.append(f"  - 未能核验：{block['error']}")
     lines += ["", f"> {report['disclaimer']}"]
     return "\n".join(lines)
 
@@ -554,6 +569,38 @@ def render_html(report: dict) -> str:
                 "</div>"
             )
 
+    figures_html = ""
+    figure_checks = report.get("figure_checks") or []
+    if figure_checks:
+        rows = []
+        for block in figure_checks:
+            number = block.get("number") or ""
+            page = block.get("page") or "—"
+            for item in block.get("items") or []:
+                verdict = item.get("verdict") or ("未完成" if not item.get("ok") else "")
+                reason = item.get("reason") or item.get("error") or ""
+                rows.append(
+                    f"<tr><td>{html.escape(str(number))}</td><td>{html.escape(str(page))}</td>"
+                    f"<td>{html.escape(item.get('claim', ''))}</td>"
+                    f"<td>{html.escape(str(verdict))}</td><td>{html.escape(reason[:160])}</td></tr>"
+                )
+            if block.get("error"):
+                rows.append(
+                    f"<tr><td>{html.escape(str(number))}</td><td>{html.escape(str(page))}</td>"
+                    f"<td colspan=3>{html.escape(block['error'])}</td></tr>"
+                )
+        figures_html = (
+            '<div class="card" style="margin-top:22px">'
+            '<div class="title" style="font-size:15px">正文图表结论抽检（可选）</div>'
+            '<div class="meta">系统自动从正文抽取提到「图 N / 表 N」的句子，定位并渲染对应页后由视觉模型判断；'
+            '只检查图表与句子的表述是否一致，不判断数据是否真实。</div>'
+            '<table style="width:100%;border-collapse:collapse;font-size:12px">'
+            '<tr><th align="left">图/表</th><th align="left">页</th><th align="left">结论</th>'
+            '<th align="left">判定</th><th align="left">理由</th></tr>'
+            + "".join(rows)
+            + "</table></div>"
+        )
+
     input_meta = report.get("input_meta") or {}
     input_summary = _input_meta_summary(input_meta)
     input_suffix = f" · 文字来源 {html.escape(input_summary)}" if input_summary else ""
@@ -647,6 +694,7 @@ def render_html(report: dict) -> str:
   {consistency_html}
   {''.join(cards)}
   {formatted_html}
+  {figures_html}
   <footer>{html.escape(report['disclaimer'])}</footer>
 </div>
 </body>

@@ -76,6 +76,11 @@
     return el ? el.value : "30";
   }
 
+  function figureCheckValue() {
+    const el = document.getElementById("figure-check");
+    return el && el.checked ? "1" : "0";
+  }
+
   function escapeHtml(value) {
     return String(value == null ? "" : value)
       .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
@@ -245,6 +250,7 @@
     const fd = new FormData();
     fd.append("file", file);
     fd.append("support_max", supportMaxValue());
+    fd.append("figures", figureCheckValue());
     const data = await window.CiteGuard.postForm("/api/analyze", fd);
     return data.job_id;
   }
@@ -345,6 +351,7 @@
         fd.append("text", paste.value);
       }
       fd.append("support_max", supportMaxValue());
+      fd.append("figures", figureCheckValue());
       const data = await window.CiteGuard.postForm("/api/analyze", fd);
       window.location.href = "/report/" + data.job_id;
     } catch (err) {

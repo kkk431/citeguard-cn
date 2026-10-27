@@ -1102,3 +1102,12 @@ partial 多发、support 少发。
 - 本地把 `/figure` 接到 lmh 的 Qwen3-VL-8B（`:8095`）：PDF 自动定位一页 + 2 条结论耗时 7.8 s，
   第 1 条 supported、第 2 条 contradicted（与图中 2023/2025 数据一致），`context_source=pdf_pages:3`。
 - 测试 449 passed；`verify_artifacts` 137/137。版本 0.9.37；远端与本地随后升级。
+
+## 46. 0.9.38：正文图表抽检并入主分析（2026-10-28）
+
+- 主流程新增可选「同时抽检正文图表结论」（`/api/analyze` 表单字段 `figures=1`；分析页复选框）。开启后从正文自动抓取前 3 个「图 N / 表 N」引用（每个最多 2 句），按编号定位 PDF 页、渲染、调视觉模型逐条判定，结果写入 `report["figure_checks"]`。
+- 实现：`src/citeguard/pipeline.py` 新增 `_body_figure_claims`（分组+上限，避免一份图多的论文悄悄跑十几分钟）与 `_check_body_figures`；`analyze_text`/`run_job` 透传 `figure_checks`/`pdf_path`，`jobs` 的续跑选项保存 `figures`；报告 Markdown/HTML/页面均渲染该节。
+- 实测（lmh Qwen3-VL-8B，`/api/analyze` 真实任务）：hanspub_152575.pdf 解析 3.7 s，命中图 1/2/3，总耗时 21.2 s；6 条结论中 4 条 supported、2 条 insufficient（信息不足是诚实的“图注被当结论”边界），定位页 3/4/5 全部正确。
+- 修复：`/api/health` 的版本号此前硬编码 0.9.37，改为 `app.version`；测试 451 passed，`verify_artifacts` 待跑。
+- 网络：lmh（222.20.126.148）与远端 222.20.96.215 在 00:05 后均不可达（VPN/校园网切换），视觉服务与远端部署暂不可用；本地引文核验不受影响，图表抽检会返回可读错误而不是假结果。
+- 版本 0.9.38；zip / 远端部署在网络恢复后补。

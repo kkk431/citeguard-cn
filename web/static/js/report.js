@@ -276,11 +276,41 @@
       '<div class="mono-sm" style="color:var(--muted);margin-top:6px">' + esc(r.note || "") + "</div>";
   }
 
+  function renderFigureChecks(data) {
+    const el = document.getElementById("figure-checks");
+    if (!el) return;
+    const blocks = data.figure_checks || [];
+    if (!blocks.length) return;
+    const rows = blocks.map(function (b) {
+      const items = (b.items || []).map(function (it) {
+        const verdict = it.verdict || (it.ok ? "supported" : "error");
+        const cls = verdict === "supported" ? "ok" : verdict === "contradicted" ? "bad" : "warn";
+        return '<li><span class="chip ' + cls + '">' + esc(verdict) + "</span> " +
+          esc(it.claim || "") +
+          (it.reason ? '<span class="mono-sm" style="color:var(--muted)"> · ' + esc(it.reason) + "</span>" : "") +
+          (it.error ? '<span class="mono-sm" style="color:var(--muted)"> · ' + esc(it.error) + "</span>" : "") +
+          "</li>";
+      }).join("");
+      return '<div style="margin-top:8px"><b>图/表 ' + esc(b.number || "") + "</b> · 第 " +
+        esc(b.page == null ? "?" : b.page) + " 页" +
+        (b.caption ? ' <span class="mono-sm" style="color:var(--muted)">' + esc(b.caption) + "</span>" : "") +
+        (b.error ? '<div class="mono-sm" style="color:var(--warn)">' + esc(b.error) + "</div>" : "") +
+        '<ul class="verdict-list" style="margin:4px 0 0;padding-left:18px">' + items + "</ul></div>";
+    }).join("");
+    el.classList.remove("hidden");
+    el.innerHTML =
+      '<div class="mono-sm">正文图表结论抽检（可选 · 视觉模型）</div>' +
+      '<div class="mono-sm" style="color:var(--muted);margin:4px 0 2px">' +
+      "每条结论对照自动定位的图页判断“支持 / 不支持 / 信息不足”；不替代人工读图，也不判断数据是否造假。</div>" +
+      rows;
+  }
+
   function render(data) {
   window.__reportData = data;
     renderInputMeta(data);
     renderVerdict(data);
     renderReviewSummary(data);
+    renderFigureChecks(data);
     renderCitationConsistency(data);
     const s = data.stats || {};
     const total = s.total || 1;

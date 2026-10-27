@@ -7,6 +7,7 @@ place means the CLI and the web UI cannot drift apart.
 from __future__ import annotations
 
 import json
+import re
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from typing import Callable, Optional
@@ -39,6 +40,8 @@ def analyze_text(
     library=None,
     max_refs: int = 0,
     input_meta: dict | None = None,
+    figure_checks: bool = False,
+    pdf_path: str | None = None,
 ) -> dict:
     """Run the whole analysis on already-extracted text and return the report."""
     def step(pct: int, stage: str) -> None:
@@ -131,7 +134,83 @@ def analyze_text(
         "sources": ["local-library", "openalex", "crossref", "arxiv"]
         + (["semantic-scholar"] if getattr(config, "SEMANTIC_SCHOLAR", False) else []),
     }
+    if figure_checks and pdf_path and not config.OFFLINE:
+        step(93, "抽检正文图表结论")
+        try:
+            report["figure_checks"] = _check_body_figures(body, pdf_path, step)
+        except Exception as exc:  # never fail a good report because of the optional check
+            report["figure_checks"] = [{"number": "", "error": str(exc)[:200]}]
     return report
+
+
+_SENTENCE_SPLIT = re.compile(r"(?<=[。！？!?])\s*|\n+")
+
+
+def _body_figure_claims(body: str, *, max_figures: int = 3, per_figure: int = 2):
+    """Group body sentences that reference ``图 N`` / ``表 N`` by figure number.
+
+    Only the first few distinct figures are kept: the visual judge costs seconds
+    per call, and a paper that mentions forty figures should not silently turn a
+    routine check into a ten-minute job.
+    """
+    from .pdf_extract import figure_number_from_claim
+
+    groups: dict[str, list[str]] = {}
+    for sentence in _SENTENCE_SPLIT.split(body or ""):
+        claim = sentence.strip()
+        if not 5 <= len(claim) <= 500:
+            continue
+        number = figure_number_from_claim(claim)
+        if not number:
+            continue
+        if number not in groups:
+            if len(groups) >= max_figures:
+                continue
+            groups[number] = []
+        claims = groups[number]
+        if len(claims) < per_figure and claim not in claims:
+            claims.append(claim)
+    return [(number, claims) for number, claims in groups.items() if claims]
+
+
+def _check_body_figures(body: str, pdf_path: str, step: Callable[[int, str], None]) -> list[dict]:
+    from .figure_check import check_claims
+    from .pdf_extract import extract_page_text, find_figure_page, render_page_png
+
+    results: list[dict] = []
+    for number, claims in _body_figure_claims(body):
+        step(94, f"图表结论抽检：图/表 {number}")
+        found = find_figure_page(pdf_path, number)
+        if not found:
+            results.append(
+                {"number": number, "page": None, "claims": claims, "error": "未在 PDF 前 40 页找到对应图注"}
+            )
+            continue
+        page, caption = found
+        try:
+            png = render_page_png(pdf_path, page)
+        except Exception as exc:
+            results.append(
+                {"number": number, "page": page, "claims": claims, "error": f"渲染页面失败：{exc}"}
+            )
+            continue
+        try:
+            context = extract_page_text(pdf_path, page)
+        except Exception:
+            context = ""
+        batch = check_claims(png, "image/png", claims, context=(caption + "\n" + context).strip())
+        results.append(
+            {
+                "number": number,
+                "page": page,
+                "caption": caption,
+                "claims": claims,
+                "items": batch.get("items") or [],
+                "ok": bool(batch.get("ok")),
+                "error": batch.get("error", ""),
+            }
+        )
+    return results
 
 
 def _judge_support(
@@ -307,6 +386,7 @@ def run_job(
     text: str | None = None,
     support_max: int | None = None,
     library=None,
+    figures: bool = False,
 ) -> dict:
     """Run the analysis for a web job and write report.json/html/md to disk."""
     if file_path:
@@ -336,7 +416,10 @@ def run_job(
     try:
         (out_dir / "input.txt").write_text(text or "", encoding="utf-8")
         (out_dir / "options.json").write_text(
-            json.dumps({"support_max": support_max, "source_name": source_name}, ensure_ascii=False),
+            json.dumps(
+                {"support_max": support_max, "source_name": source_name, "figures": bool(figures)},
+                ensure_ascii=False,
+            ),
             encoding="utf-8",
         )
     except Exception:
@@ -352,6 +435,8 @@ def run_job(
         progress=progress,
         library=library,
         input_meta=input_meta,
+        figure_checks=figures,
+        pdf_path=file_path,
     )
     report["job_id"] = job_id
 

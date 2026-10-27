@@ -73,6 +73,11 @@
             </select>
             <small class="opt-hint">逐条比对「引用句 ↔ 被引论文摘要」；条数越多越慢。</small>
           </label>
+          <label class="field" style="flex-direction:row;align-items:center;gap:8px">
+            <input type="checkbox" id="figure-check" name="figures" value="1" style="width:auto">
+            <span>同时抽检正文图表结论</span>
+          </label>
+          <small class="opt-hint">自动定位「图 N / 表 N」所在页并让视觉模型核对；仅 PDF，约多花 10–20 秒。</small>
         </div>
         <div class="composer-run">
           <div class="run-title">这次会检查</div>

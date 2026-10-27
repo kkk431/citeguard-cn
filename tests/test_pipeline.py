@@ -216,3 +216,39 @@ def test_support_cap_keeps_first_n_eligible(monkeypatch):
     assert meta["candidates"] == 4
     assert meta["skipped_by_cap"] == 2
     assert [r["label"] for r in out] == ["partial", "partial", "not_checked", "not_checked"]
+
+
+def test_body_figure_claims_groups_and_caps():
+    body = (
+        "如图 1 所示，方法 A 的准确率高于方法 B。图 1 还显示 2025 年达到峰值。"
+        "表 2 给出了各组的样本量。图 3 是整体流程图。图 4 是另一张图。"
+    )
+    groups = pipeline._body_figure_claims(body)
+    assert [number for number, _ in groups] == ["1", "2", "3"]
+    assert len(groups[0][1]) == 2
+    assert groups[0][1][0].startswith("如图 1")
+
+
+def test_figure_checks_are_opt_in(monkeypatch):
+    text = (
+        "正文提到如图 1 所示，方法有效。\n\n参考文献\n"
+        "[1] 张三. 题名[J]. 期刊, 2020, 1(2): 3-4.\n"
+    )
+    monkeypatch.setattr(pipeline, "verify_many", lambda refs, **kw: [
+        VerifyResult(status="Unknown") for _ in refs
+    ])
+    plain = pipeline.analyze_text(text, online=True)
+    assert "figure_checks" not in plain
+
+    called = {}
+
+    def fake_check(body, pdf_path, step):
+        called["pdf"] = pdf_path
+        return [{"number": "1", "page": 2, "items": [{"claim": "方法有效", "verdict": "supported"}]}]
+
+    monkeypatch.setattr(pipeline, "_check_body_figures", fake_check)
+    report = pipeline.analyze_text(
+        text, online=True, figure_checks=True, pdf_path="paper.pdf"
+    )
+    assert called["pdf"] == "paper.pdf"
+    assert report["figure_checks"][0]["number"] == "1"
