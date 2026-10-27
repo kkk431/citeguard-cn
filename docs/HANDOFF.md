@@ -1172,3 +1172,4 @@ partial 多发、support 少发。
 - 交付：`dist/CiteGuard-CN_技术报告_v0.9.44_2026-10-28.docx`（651,649 bytes）、同名 `.pdf`（576,152 bytes）。
 - 校验：PDF 文本中 “464”×3，无 “458/421”；`verify_artifacts` 137/137。
 - 仍待同步：`report/build_deck.py` 内 “417 测试” 等旧数字（下一轮重建 PPT）。
+- PPT 同步：`report/build_deck.py` 与 `report/deck_assets.py` 的 “417 测试” 改为 **464**；重建 18 页 PPT（1,478,599 bytes）并导出 PDF（18 页，文本中 464×3、无 417）。交付：`dist/CiteGuard-CN_答辩PPT_18页_v0.9.44_2026-10-28.pptx/.pdf`。
