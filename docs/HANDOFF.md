@@ -1180,3 +1180,4 @@ partial 多发、support 少发。
 - 新增 `_split_at_unparenthesised_year`：`Authors. 2018. Title` 形式直接拆作者/年份/题名，处理 `Z. Chen, H. Zhang...` 这类“首字母+姓”作者。
 - 测试：+2（合并、年份拆分），全套 **466 passed**；BERT 参考列表 raw 重放：54 块 → 51 条，年份型假题名 0（原 2）。
 - 版本 0.9.45。
+- `dist/citeguard-cn-0.9.45.zip`：8,857,181 bytes，sha256 `c0e874657cf6a8f4e5a422c796025047026a459396042e998c10561f8c1e696e`。
