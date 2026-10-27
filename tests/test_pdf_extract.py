@@ -315,6 +315,36 @@ def _blank_pdf(tmp_path, pages=1):
     return path
 
 
+def test_pdf_text_spacing_skips_second_extractor(tmp_path, monkeypatch):
+    from citeguard import pdf_extract as px
+
+    pdf = tmp_path / "paper.pdf"
+    pdf.write_bytes(b"%PDF-1.4")
+    monkeypatch.setattr(px, "_pdf_page_count", lambda path: 1)
+    monkeypatch.setattr(px, "_pdf_pdfplumber", lambda path: "Pre-trained models improve accuracy. " * 20)
+
+    def _boom(path):
+        raise AssertionError("PyMuPDF should not run when pdfplumber output is well spaced")
+
+    monkeypatch.setattr(px, "_pdf_pymupdf", _boom)
+    text, meta = px.extract_text_with_meta(pdf)
+    assert "Pre-trained models" in text
+    assert not any("备用解析器" in w for w in meta["warnings"])
+
+
+def test_pdf_text_spacing_uses_second_extractor_when_words_merge(tmp_path, monkeypatch):
+    from citeguard import pdf_extract as px
+
+    pdf = tmp_path / "paper.pdf"
+    pdf.write_bytes(b"%PDF-1.4")
+    monkeypatch.setattr(px, "_pdf_page_count", lambda path: 1)
+    monkeypatch.setattr(px, "_pdf_pdfplumber", lambda path: "Neuralmachinetranslationisveryuseful" * 8)
+    monkeypatch.setattr(px, "_pdf_pymupdf", lambda path: "Neural machine translation is very useful. " * 8)
+    text, meta = px.extract_text_with_meta(pdf)
+    assert "Neural machine translation" in text
+    assert any("备用解析器" in w for w in meta["warnings"])
+
+
 def test_extract_page_text_rejects_non_pdf(tmp_path):
     p = tmp_path / "x.txt"
     p.write_text("hi", encoding="utf-8")

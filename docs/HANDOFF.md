@@ -1157,3 +1157,11 @@ partial 多发、support 少发。
 - 实测（只重解析，不发网络请求）：BERT 54 条补 0、Mamba 94 条补 0、FlashAttention 118 条补 4，共 **+4/266**。
 - 测试：`test_arxiv_identifier_fills_missing_year`、`test_arxiv_year_ignores_invalid_month_and_old_ids`；全套 **462 passed**、`verify_artifacts` 137/137。
 - 版本 0.9.43；`dist/citeguard-cn-0.9.43.zip`（8,855,809 bytes，sha256 `8d8fe57e122de4f3dcd65a765a9393b79e89a2a1c8e4fcf240783b7f4a6a91d5`）。
+
+## 52. 0.9.44：解析提速——跳过多余的第二个提取器（2026-10-28）
+
+- 问题：`extract_text_with_meta` 对每个 PDF 都跑 pdfplumber + PyMuPDF 两遍，只为处理 LaTeX 缺空格；文字层正常时第二遍是纯开销。
+- 改为：仅当 pdfplumber 结果为空、或出现 ≥25 字符的连续 ASCII 串时才调用 PyMuPDF；替换条件改为「长串数降到 2 倍以下」或「备用解析器 0 个长串、原文至少 1 个」，避免单个超长粘连串漏判。
+- 实测（3 篇中文 PDF）：原本每篇多跑的 PyMuPDF 耗时 **0.312 / 0.043 / 0.050 s**；解析条数不变（24 / 15 / 9 条）。长英文论文收益更大，属于小优化，不夸大成“大幅提速”。
+- 测试：`test_pdf_text_spacing_skips_second_extractor`、`test_pdf_text_spacing_uses_second_extractor_when_words_merge`；全套 **464 passed**、`verify_artifacts` 137/137。
+- 版本 0.9.44。

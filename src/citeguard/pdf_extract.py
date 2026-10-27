@@ -324,11 +324,16 @@ def extract_text_with_meta(path: str | Path) -> tuple[str, dict]:
         text = _pdf_pypdf(path)
     # Some PDFs (notably arXiv/LaTeX exports) encode words with no inter-word
     # spaces, so pdfplumber returns "Neuralmachinetranslation...". PyMuPDF
-    # reconstructs the spaces; switch only when it demonstrably helps.
-    alt = _pdf_pymupdf(path)
-    if alt.strip() and _long_ascii_runs(text) > _long_ascii_runs(alt) * 2 + 3:
-        text = alt
-        meta["warnings"].append("PDF 文字层缺少词间空格，已用备用解析器恢复")
+    # reconstructs the spaces; switch only when it demonstrably helps. Running
+    # the second extractor is not free on long papers, so skip it when the
+    # first pass already looks spaced-out (few long ASCII runs).
+    alt = None
+    if not text.strip() or _long_ascii_runs(text) > 0:
+        alt = _pdf_pymupdf(path)
+        text_runs, alt_runs = _long_ascii_runs(text), _long_ascii_runs(alt)
+        if alt.strip() and (text_runs > alt_runs * 2 + 3 or (alt_runs == 0 and text_runs >= 1)):
+            text = alt
+            meta["warnings"].append("PDF 文字层缺少词间空格，已用备用解析器恢复")
     if text.strip() and _looks_garbled(text):
         # CID/embedded fonts without a ToUnicode map produce strings such as
         # "(cid:131)(cid:243)" — parsing those would create garbage references,
