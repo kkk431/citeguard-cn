@@ -1156,4 +1156,4 @@ partial 多发、support 少发。
 - `reference_parser._year_from_arxiv` + `_fill_arxiv_year`：从 arXiv ID 的 YYMM 推出年份（91 以上记 19xx，否则 20xx；仅接受 1991–2099，月 01–12；旧式 `hep-th/9901001` 也支持）。在引号题名、APA、通用三条返回路径都补，仅当原条目没有年份时生效，`extra["year_from_arxiv"]=True` 留痕。
 - 实测（只重解析，不发网络请求）：BERT 54 条补 0、Mamba 94 条补 0、FlashAttention 118 条补 4，共 **+4/266**。
 - 测试：`test_arxiv_identifier_fills_missing_year`、`test_arxiv_year_ignores_invalid_month_and_old_ids`；全套 **462 passed**、`verify_artifacts` 137/137。
-- 版本 0.9.43。
+- 版本 0.9.43；`dist/citeguard-cn-0.9.43.zip`（8,855,809 bytes，sha256 `8d8fe57e122de4f3dcd65a765a9393b79e89a2a1c8e4fcf240783b7f4a6a91d5`）。
