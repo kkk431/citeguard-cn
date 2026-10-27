@@ -1061,16 +1061,18 @@ partial 多发、support 少发。
 
 复测（真实上传链路，support_max=0）：
 
-| 论文 | 解析条数 | Exact | Minor | Unverified | Major |
-|---|---|---|---|---|---|
-| BERT (1810.04805) | 54 | 11 | 18 | 25 | 0 |
-| Mamba (2312.00752) | 116 | 18 | 21 | 77 | 0 |
-| FlashAttention (2205.14135) | 94 | 14 | 13 | 67 | 0 |
+| 论文 | 解析条数 | Exact | Minor | Unverified | Unknown（源失败） | Major |
+|---|---|---|---|---|---|---|
+| BERT (1810.04805) | 54 | 18 | 30 | 6 | 0 | 0 |
+| Mamba (2312.00752) | 94 | 17 | 33 | 5 | 39 | 0 |
+| FlashAttention (2205.14135) | 117 | 27 | 68 | 5 | 17 | 0 |
 
-单元测试 425 通过、`verify_artifacts` 137 项全过。Unverified 比例仍高（46%/66%/71%），
-原因是 arXiv 参考文献普遍缺 DOI、会议缩写不规范，免费源覆盖有限；它表示“未找到”，不是“虚假”。
+> 2026-10-28 更正：上表旧值（11/18/25、18/21/77、14/13/67）测于数据源间歇性失败期间——失败被静默当成“未收录”。现在 `metadata_verify` 会记录源失败次数：题名弱匹配且期间有源失败时返回 **Unknown（未完成核验）**，不再冒充 Unverified；`_request` 重试 3→5 次、指数退避并遵守 `Retry-After`，降低限流影响。BERT 那次源稳定，可作干净样本（48/54 有明确结论）。Mamba/Flash 的 Unknown 是复测时被 OpenAlex/Crossref 限流所致，不是文献问题。
+> 另修：`url: https://doi.org/…` 这类纯链接碎片此前正则漏掉 `url:` 前缀，被当成条目解析后解析出一条假 Major；`reference_parser._URL_ONLY_RE` 已覆盖，三篇共少 1 条假条目。
 
-版本 0.9.24。
+单元测试 456 通过、`verify_artifacts` 137 项全过。Unverified/Unknown 比例仍高，原因是 arXiv 参考文献普遍缺 DOI、会议缩写不规范、免费源覆盖有限；它表示“未找到/没核完”，不是“虚假”。
+
+版本 0.9.40。
 
 ## 43. 0.9.32–0.9.34：断点续跑、覆盖率仪表盘、材料终检（2026-10-27）
 
@@ -1120,3 +1122,14 @@ partial 多发、support 少发。
 - 测试 454 passed；`verify_artifacts` 137/137；版本 0.9.39。
 - 技术报告同步 454 测试：`dist/CiteGuard-CN_技术报告_v0.9.39_2026-10-28.docx`（651,590 bytes）与同名 PDF（10 页、583,624 bytes）。
 - 新增 `/api/analyze` 进度 ETA（「多源核验 5/20 · 已用 12s · 剩约 36s」）；图表页定位跳过目录里的点线图注（`_is_toc_caption`），图/表按 `(kind, number)` 分组避免图 1 与表 1 混淆。
+
+## 48. 0.9.40：源失败不再冒充“未收录”（2026-10-28）
+
+- 起因：复核三篇 arXiv 论文时发现大量**题录完整**的条目被判 Unverified（Layer Normalization、Longformer、Rethinking Attention with Performers…）。这些论文在 OpenAlex/Crossref 都能搜到；真实原因是并发核验时 OpenAlex/Crossref 间歇性 429/超时，失败被静默当作“未收录”。
+- `src/citeguard/metadata_verify.py`：
+  - `_request`：重试 3→5 次，指数退避（1.5×2^attempt，封顶 15s），支持 `Retry-After`（封顶 20s）；`API_SLEEP` 仍生效。
+  - 题名弱匹配分支：若本次核验期间 `source_error_count()` 增加，返回 **Unknown** 并注明「数据源请求失败（限流/网络），本条未完成核验」，而不是 Unverified；无源失败时保持原 Unverified 语义。
+  - 新增测试 `test_weak_match_with_failed_source_is_unknown`；`test_reference_parser.py` 新增 `url:` 前缀纯链接条目测试。
+- `src/citeguard/reference_parser.py`：`_URL_ONLY_RE` 支持 `url: https://…` 前缀，避免 PDF 链接行被当成条目、再因 DOI 解析到另一篇论文而误判 Major。
+- 复测：BERT 54 条 → 18 Exact / 30 Minor / 6 Unverified / 0 Major（源稳定的一次）；Mamba/Flash 复测时被限流，如实标记 Unknown（表见 §46 更正段）。诚实口径：旧 Unverified 数字偏高，不应再引用。
+- 版本 0.9.40；本地 8010 已升级（停旧进程后重启）。该版依赖网络状态，不改变离线模式行为。

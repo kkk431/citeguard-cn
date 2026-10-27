@@ -408,11 +408,13 @@ def source_error_count() -> int:
         return _source_errors
 
 
-def _request(url: str, params: Optional[dict] = None, tries: int = 3):
+def _request(url: str, params: Optional[dict] = None, tries: int = 5):
     """GET with retries on rate limits / transient server errors.
 
     Returns the final ``requests.Response`` or raises the last transport error.
-    ``tries`` total attempts with linear backoff (0.8s, 1.6s, ...).
+    Retries use exponential backoff and honor ``Retry-After`` when the server
+    sends it; the metadata APIs rate-limit aggressively when several references
+    are verified in parallel, so a 3-try/1.6s ceiling was too short to recover.
     """
     last_error: Optional[Exception] = None
     response = None
@@ -426,10 +428,15 @@ def _request(url: str, params: Optional[dict] = None, tries: int = 3):
             )
         except Exception as exc:  # noqa: BLE001 - retry transport errors
             last_error = exc
-            time.sleep(0.8 * (attempt + 1))
+            time.sleep(min(15.0, 1.5 * (2**attempt)))
             continue
         if response.status_code in {429, 500, 502, 503, 504} and attempt + 1 < tries:
-            time.sleep(0.8 * (attempt + 1))
+            retry_after = response.headers.get("Retry-After") if response is not None else None
+            try:
+                delay = min(20.0, max(1.5, float(retry_after)))
+            except (TypeError, ValueError):
+                delay = min(15.0, 1.5 * (2**attempt))
+            time.sleep(delay)
             continue
         return response
     if last_error is not None:
@@ -1636,12 +1643,21 @@ def _verify_reference(
         # A weak best match is *not* evidence of a fabricated citation: most
         # Chinese journal articles are simply not indexed. Report "unverified"
         # so the user checks by hand instead of seeing a false accusation.
-        status = "Unverified"
+        # But if a source failed while we were looking, "not indexed" is not a
+        # conclusion we can honestly draw - say "Unknown" and ask for a retry.
         mism = []
-        notes.append(
-            f"no close title match in OpenAlex/Crossref/arXiv (best {ts:.2f}); "
-            "the article may be unindexed or the reference may be wrong — check manually"
-        )
+        if source_error_count() > errors_before:
+            status = "Unknown"
+            notes.append(
+                f"数据源请求失败（限流/网络），本条未完成核验（最相似记录仅 {ts:.2f}）；"
+                "请稍后重试或人工核对"
+            )
+        else:
+            status = "Unverified"
+            notes.append(
+                f"no close title match in OpenAlex/Crossref/arXiv (best {ts:.2f}); "
+                "the article may be unindexed or the reference may be wrong — check manually"
+            )
         if _CJK_RE.search(ref.title or ""):
             notes.append(
                 "中文文献：OpenAlex/Crossref 对中文期刊收录有限，工具无法自动核验；"

@@ -123,6 +123,17 @@ def test_parse_reference_without_type_code_defaults_to_journal():
     assert ref.url == "https://example.org/x"
 
 
+def test_bare_url_labeled_lines_are_not_references():
+    """A PDF link line sometimes keeps its "url:" label - still not a citation."""
+    refs = parse_reference_list(
+        "[36] url: https://doi.org/10.5281/zenodo.5371628.\n"
+        "[37] 张三. 题名[J]. 期刊, 2020, 1(1): 1-9.\n"
+    )
+
+    assert len(refs) == 1
+    assert refs[0].title == "题名"
+
+
 def test_bare_url_lines_are_not_references():
     refs = parse_reference_list(
         "[1] https://doi.org/10.1177/00336882231162868\n"

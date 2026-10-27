@@ -216,6 +216,7 @@ _ENTRY_LETTER_RE = re.compile(r"[A-Za-z\u4e00-\u9fff]")
 # PDF page furniture also glues a page number to the link ("550. https://…").
 _URL_ONLY_RE = re.compile(
     r"^(?:(?:\[\s*\d{1,3}\s*\]|\d{1,7}[.、)])\s*)*"
+    r"(?:url\s*[:：]?\s*)?"
     r"(?:https?://|www\.|doi\s*[:：]?\s*|10\.\d{4,9}/)\S+$",
     re.I,
 )

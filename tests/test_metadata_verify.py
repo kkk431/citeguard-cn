@@ -165,6 +165,25 @@ def test_rate_limited_sources_report_unknown_not_unverified(monkeypatch, isolate
     assert "数据源" in " ".join(result.notes)
 
 
+def test_weak_match_with_failed_source_is_unknown(monkeypatch, isolated_cache):
+    """A weak best match plus a failed source is "could not check", not "not found"."""
+    ref = _ref_without_doi(title="累积生态风险对大学生健康危险行为的影响")
+    unrelated = {"id": "W1", "title": "Urban ecology of coastal cities", "publication_year": 2019}
+    monkeypatch.setattr(mv.time, "sleep", lambda *_: None)
+
+    def handler(url, params):
+        if "openalex" in url:
+            return FakeResponse(200, {"results": [unrelated]})
+        return FakeResponse(429, {"error": "rate limited"})
+
+    install_fake_get(monkeypatch, mv, handler)
+
+    result = mv.verify_reference(ref)
+
+    assert result.status == "Unknown"
+    assert "未完成核验" in " ".join(result.notes)
+
+
 def test_verify_weak_title_match_is_unverified(monkeypatch, isolated_cache):
     """Candidates exist but none is close: unverified, not major."""
     ref = _ref_without_doi(title="累积生态风险对大学生健康危险行为的影响")
