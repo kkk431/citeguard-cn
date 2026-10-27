@@ -1191,3 +1191,12 @@ partial 多发、support 少发。
 - 测试：+2，全套 **468 passed**（下一轮同步报告/PPT 数字）。
 - 版本 0.9.46。
 - dist/citeguard-cn-0.9.46.zip：8,857,781 bytes，sha256 `589ab319f69829531d6cdce3ad55f5b90511bf7206bd889f533d1a0a3be70f6b`。
+
+## 56. 0.9.47 解析收尾：作者列表当题名时清空（2026-10-28）
+
+- `src/citeguard/reference_parser.py` 新增 `_blank_author_list_title`：题名如果是纯作者列表（如 `Zhang, X. Zhang, and L. Zhao. 2018`），清空题名并标 `extra["title_missing"]`，宁可报 Unverified，也不拿人名去匹配。
+- `_is_title_continuation` 不再一见年份就拒绝：现在只拒绝「以年份开头」「含 `(2018).` 这类作者-年标记」「含 [J] 类型码」「URL/DOI 开头」；`In Proceedings of the 2018 Conference ...` 可正常作为题名续行。
+- 真实 BERT 论文实测：54 条，空题名 2 条（均为 PDF 把两条文献粘成一条所致），不再出现「题名 = 作者列表」；Exact 17 / Minor 30 不变，Unverified 5 / Unknown 2（OpenAlex 当日预算耗尽，如实报）。
+- 新增 2 条测试，全套 **470 passed**；版本 0.9.47。
+- 环境记录：OpenAlex 对本机返回 429 `Insufficient budget`、`Retry-After` ≈ 5.2 小时；此时 Crossref/arXiv 仍可用，全部源失败才标 Unknown。
+- dist/citeguard-cn-0.9.47.zip：8,858,078 bytes，sha256 `1cc71b8dd138a46fe55b7ae921cbac4104b328e3cdb232c104296c8b90984871`。

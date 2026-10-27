@@ -358,7 +358,10 @@ def _is_title_continuation(block: str) -> bool:
     block = block.strip()
     if not block or len(block) > 160:
         return False
-    if re.search(r"\b(?:19|20)\d{2}\b", block):
+    if re.match(r"^(?:19|20)\d{2}\b", block):
+        return False
+    # "(2018)." marks a new author-year reference, not a continuation title.
+    if re.search(r"\(\s*(?:19|20)\d{2}\s*\)\s*\.", block):
         return False
     if re.search(r"\[[A-Z]{1,2}(?:/OL)?\]", block):
         return False
@@ -1303,6 +1306,18 @@ def _is_date_only_ref(ref: Reference) -> bool:
     return bool(_DATE_ONLY_RE.fullmatch(ref.title or ""))
 
 
+def _blank_author_list_title(ref: Reference) -> None:
+    """A title that is just the author list + year means the real title line was
+    lost; keep the entry but leave the title empty so it is reported Unverified
+    instead of being matched against names."""
+    title = (ref.title or "").strip()
+    # Require at least two "X." initials: title-case titles ("... and Human
+    # ...") also look name-like, but they do not carry initials.
+    if title and len(re.findall(r"\b[A-Z]\.", title)) >= 2 and _looks_like_author_list(title):
+        ref.title = ""
+        ref.extra["title_missing"] = True
+
+
 def _blank_year_only_title(ref: Reference) -> None:
     """A title like "2018" means the real title was on the next (lost) line;
     keep the entry but leave the title empty so it is reported Unverified
@@ -1332,6 +1347,7 @@ def parse_reference_list(refs_text: str) -> list[Reference]:
     for entry in split_entries(refs_text):
         ref = parse_reference(entry, len(refs) + 1)
         _blank_year_only_title(ref)
+        _blank_author_list_title(ref)
         if _is_date_only_ref(ref) or _is_url_fragment(ref):
             continue
         refs.append(ref)

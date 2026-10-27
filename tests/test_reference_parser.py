@@ -494,3 +494,20 @@ def test_split_author_year_tail_ignores_initial_prefix():
     prefix, tail = _split_author_year_tail(block)
     assert tail == ""
     assert prefix == block
+def test_author_list_only_title_is_blanked():
+    from citeguard.reference_parser import parse_reference_list
+
+    refs = parse_reference_list("[1] Z. Chen, H. Zhang, X. Zhang, and L. Zhao. 2018.")
+    assert len(refs) == 1
+    assert refs[0].title == ""
+    assert refs[0].extra.get("title_missing") is True
+
+
+def test_title_continuation_may_contain_venue_year():
+    from citeguard.reference_parser import _is_title_continuation
+
+    assert _is_title_continuation(
+        "Semi-supervised sequence modeling with cross-view training. In Proceedings "
+        "of the 2018 Conference on Empirical Methods in Natural Language Processing."
+    )
+    assert not _is_title_continuation("Kevin Clark and Christopher D Manning (2018). A title.")
