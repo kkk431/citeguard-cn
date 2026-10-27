@@ -381,3 +381,15 @@ def test_find_figure_page_matches_claim_number(tmp_path, monkeypatch):
 def test_find_figure_page_scanned_pdf_returns_none(tmp_path):
     pdf = _blank_pdf(tmp_path, pages=2)
     assert find_figure_page(pdf, "1") is None
+
+
+def test_split_references_trims_trailing_appendix():
+    from citeguard import pdf_extract as px
+
+    body = "Body paragraph.\nReferences\n" + "\n".join(
+        f"[{i}] Author {i}. {2000 + i}. A title. In Proc., pages 1-9." for i in range(1, 26)
+    )
+    text = body + "\nA\nRelated Work\nThis appendix prose should not be parsed as a reference."
+    _body, refs = px.split_references(text)
+    assert refs.startswith("[1]")
+    assert "Related Work" not in refs

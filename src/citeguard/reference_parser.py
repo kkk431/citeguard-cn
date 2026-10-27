@@ -150,6 +150,31 @@ def _strip_leading_ids(text: str) -> str:
     return cleaned.strip()
 
 
+# ACL/EMNLP style: "Jacob Devlin, Ming-Wei Chang, and Kristina Toutanova. 2019."
+# The year is not parenthesised, so the APA splitter cannot see these entries.
+_ACL_ENTRY_START_RE = re.compile(
+    r"(?m)(?:^|\n)([A-Z\u4e00-\u9fff][^\n]*(?:\n[^\n]*)?)\.\s*((?:19|20)\d{2})[a-z]?\."
+)
+
+
+def _split_acl_entries(text: str) -> list[str]:
+    """Split ACL-style author-year lists (``Authors. 2019. Title.``)."""
+    marks = list(_ACL_ENTRY_START_RE.finditer(text))
+    if len(marks) < 5:
+        return []
+    entries: list[str] = []
+    for k, m in enumerate(marks):
+        end = marks[k + 1].start() if k + 1 < len(marks) else len(text)
+        block = _strip_leading_ids(text[m.start() : end].strip())
+        # The reference section can be followed by appendices; cut at the first
+        # appendix heading so the last entry does not swallow pages of prose.
+        block = re.split(r"\n\s*(?:Appendix|附录)\b", block, maxsplit=1)[0]
+        block = re.sub(r"\s*\n\s*", " ", block).strip()
+        if _looks_like_entry(block) and re.search(r"(?:19|20)\d{2}", block):
+            entries.append(block)
+    return entries
+
+
 def _split_apa_entries(text: str) -> list[str]:
     """Split an APA-style list where entries start with ``作者(年份).``."""
     marks = list(_APA_YEAR_MARK_RE.finditer(text))
@@ -322,6 +347,12 @@ def split_entries(refs_text: str) -> list[str]:
     # Computed before choosing a split because some PDFs have a couple of
     # numbered lines (page furniture) while the real list is author-date.
     apa = [e for e in _split_apa_entries(text) if _looks_like_entry(e)]
+    acl = [e for e in _split_acl_entries(text) if _looks_like_entry(e)]
+
+    # ACL/EMNLP author-year lists have no parentheses and no bracketed numbers;
+    # if they yield clearly more entries than the numbered split, trust them.
+    if len(acl) >= 5 and len(acl) > len(starts):
+        return acl
 
     if len(starts) >= 2 and len(apa) <= len(starts):
         entries: list[str] = []

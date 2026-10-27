@@ -496,6 +496,31 @@ _REF_HEADING_PREFIXES = sorted(_REF_HEADINGS, key=len, reverse=True)
 _HEADING_TAIL_CHARS = set("：:（(),，.．;；/ \t")
 
 
+_APPENDIX_LETTER_RE = re.compile(r"^(?:[A-H]|[IVX]{1,3})\.?$")
+
+
+def _trim_reference_appendix(rest: list[str]) -> list[str]:
+    """Cut the appendix that follows the reference list.
+
+    Some PDFs put appendices after the bibliography; the appendix's own
+    section headings (``A`` + ``Related Work``) and prose then look like
+    reference entries and corrupt the split.
+    """
+    if len(rest) < 10:
+        return rest
+    floor = max(5, len(rest) // 5)
+    for i in range(floor, len(rest)):
+        s = rest[i].strip()
+        if s.lower() in {"appendix", "附录", "supplementary material"}:
+            return rest[:i]
+        if _APPENDIX_LETTER_RE.match(s):
+            for nxt in rest[i + 1 : i + 3]:
+                t = nxt.strip()
+                if t and (t[0].isupper() or "\u4e00" <= t[0] <= "\u9fff"):
+                    return rest[:i]
+    return rest
+
+
 def split_references(text: str) -> tuple[str, str]:
     """Split a paper into (body, references_text).
 
@@ -504,10 +529,11 @@ def split_references(text: str) -> tuple[str, str]:
     ``## 参考文献``, ``7 参考文献``, ``参考文献（References）`` or
     ``参考文献：[1] 张三...``.
 
-    When the heading appears several times (table of contents, cross references),
-    the last occurrence followed by a substantial block wins, because the
-    reference list lives at the end of the document. If no heading is found,
-    returns ``(text, "")`` so the caller can treat the whole input as a list.
+    When the heading appears several times (table of contents, cross references,
+    a body sentence starting with "References"), the candidate followed by the
+    most reference-like block wins: numbered/bracketed entries plus year density.
+    If no heading is found, returns ``(text, "")`` so the caller can treat the
+    whole input as a list.
     """
     lines = text.splitlines()
     hits: list[tuple[int, list[str]]] = []
@@ -529,6 +555,30 @@ def split_references(text: str) -> tuple[str, str]:
                 break
     if not hits:
         return text, ""
+
+    def score(rest: list[str]) -> tuple[int, int]:
+        """Reference density in the first 24k chars + total entry-like markers."""
+        head = "\n".join(rest)[:24000]
+        numbered = sum(
+            1
+            for ln in rest[:400]
+            if re.match(r"^\s*(?:\[\d{1,3}\]|\d{1,3}[.、)])\s+\S", ln)
+        )
+        years_head = len(re.findall(r"\b(?:19|20)\d{2}\b", head))
+        density = (3 * numbered + min(years_head, 80)) * 10000 // max(len(head), 1)
+        total = numbered + min(len(re.findall(r"\b(?:19|20)\d{2}\b", "\n".join(rest))), 80)
+        return density, total
+
     substantial = [h for h in hits if len("\n".join(h[1]).strip()) >= 200]
-    index, rest = substantial[-1] if substantial else hits[-1]
+    candidates = substantial or hits
+    best = max(score(h[1]) for h in candidates)
+    if best[1] >= 5:
+        chosen = max(
+            (h for h in candidates if score(h[1]) == best),
+            key=lambda h: h[0],
+        )
+    else:
+        chosen = candidates[-1]
+    index, rest = chosen
+    rest = _trim_reference_appendix(rest)
     return "\n".join(lines[:index]), "\n".join(rest)

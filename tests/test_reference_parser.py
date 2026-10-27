@@ -391,3 +391,15 @@ def test_preprint_venue_tail_survives_question_mark():
     )
     assert ref.title == "Can active memory replace attention"
     assert "Advances" in ref.venue
+
+
+def test_split_entries_acl_author_year_list():
+    """ACL/EMNLP style: Authors. 2019. Title. (no parentheses, no [n])."""
+    text = "\n".join(
+        f"Author{i}, A., and Coauthor{i}, B. {2000 + i}. Title number {i}. In Proceedings, pages 1-2."
+        for i in range(6)
+    )
+    entries = split_entries(text)
+    assert len(entries) == 6
+    assert entries[0].startswith("Author0")
+    assert entries[-1].startswith("Author5")
