@@ -12,7 +12,7 @@ excluded
 
 Usage
     python scripts/package_deliverable.py
-    python scripts/package_deliverable.py --name citeguard-cn-0.9.33.zip
+    python scripts/package_deliverable.py --name citeguard-cn-0.9.34.zip
     python scripts/package_deliverable.py --root . --out dist --quiet
 
 The script prints the file manifest, the total uncompressed size and the final
@@ -30,7 +30,7 @@ from typing import Iterable, Optional
 from zipfile import ZIP_DEFLATED, ZipFile
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_NAME = "citeguard-cn-0.9.33.zip"
+DEFAULT_NAME = "citeguard-cn-0.9.34.zip"
 
 # Directories pruned wherever they appear in the tree.
 EXCLUDE_DIR_NAMES = {
@@ -67,6 +67,7 @@ EXCLUDE_DIR_PATHS = {
 # File-name globs never shipped.
 EXCLUDE_FILE_GLOBS = (
     ".env",
+    "HANDOFF.md",
     "*.pyc",
     "*.pyo",
     "*.log",
@@ -118,6 +119,53 @@ def collect_files(root: Path) -> list[tuple[Path, str]]:
     return files
 
 
+TEXT_SUFFIXES = {
+    ".md",
+    ".txt",
+    ".py",
+    ".html",
+    ".js",
+    ".css",
+    ".json",
+    ".yml",
+    ".yaml",
+    ".toml",
+    ".cfg",
+    ".ini",
+    ".sh",
+    ".ps1",
+    ".bib",
+    ".ris",
+    ".enw",
+    ".csv",
+}
+
+# Hosts and local paths from the development environment are stripped from
+# the shipped copy: the archive is handed to judges and reviewers, and the
+# work is judged anonymously. The public repository keeps its own history.
+SENSITIVE_REPLACEMENTS = (
+    ("222.20.126.148", "127.0.0.1"),
+    ("222.20.96.215", "127.0.0.1"),
+    ("D:\\ai+ky\\citeguard", "<project>"),
+    ("D:\\ai+ky", "<workspace>"),
+    ("C:\\Users\\hejiaxuan", "<user>"),
+)
+
+
+def _sanitized_bytes(abs_path: Path) -> bytes:
+    """Return file bytes, with developer hosts/paths replaced in text files."""
+    raw = abs_path.read_bytes()
+    if abs_path.suffix.lower() not in TEXT_SUFFIXES:
+        return raw
+    try:
+        text = raw.decode("utf-8")
+    except UnicodeDecodeError:
+        return raw
+    for old, new in SENSITIVE_REPLACEMENTS:
+        text = text.replace(old, new)
+    return text.encode("utf-8")
+
+
 def _human_size(num_bytes: int) -> str:
     value = float(num_bytes)
     for unit in ("B", "KB", "MB", "GB"):
@@ -149,8 +197,9 @@ def build_zip(
     prefix = root.name or "citeguard"
     with ZipFile(zip_path, "w", compression=ZIP_DEFLATED, compresslevel=9) as zf:
         for abs_path, rel in files:
-            zf.write(abs_path, arcname=f"{prefix}/{rel}")
-            uncompressed += abs_path.stat().st_size
+            data = _sanitized_bytes(abs_path)
+            zf.writestr(f"{prefix}/{rel}", data)
+            uncompressed += len(data)
 
     zip_size = zip_path.stat().st_size
     digest = hashlib.sha256(zip_path.read_bytes()).hexdigest()

@@ -27,7 +27,7 @@ ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = ROOT / "out" / "chartcheck"
 IMAGE_DIR = DATA_DIR / "images"
 
-VL_ENDPOINT = os.environ.get("CITEGUARD_VL_ENDPOINT", "http://222.20.126.148:8099/v1")
+VL_ENDPOINT = os.environ.get("CITEGUARD_VL_ENDPOINT", "http://127.0.0.1:8099/v1")
 VL_MODEL = os.environ.get("CITEGUARD_VL_MODEL", "qwen2.5-vl-7b")
 PROMPT_VERSION = os.environ.get("CHARTCHECK_PROMPT", "v1")
 

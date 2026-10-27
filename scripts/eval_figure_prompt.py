@@ -24,7 +24,7 @@ SYNTH_FOLDER = os.environ.get("FIGTEST_SYNTH_FOLDER", "figtest_synth/images")
 REAL_JSON = Path(os.environ.get("FIGTEST_REAL_JSON", ROOT / "out/figtest_real/figtest_real.json"))
 REAL = json.loads(Path(REAL_JSON).read_text(encoding="utf-8"))
 REAL_FOLDER = os.environ.get("FIGTEST_REAL_FOLDER", "figtest_real/images")
-ENDPOINT = os.environ.get("CITEGUARD_VL_ENDPOINT", "http://222.20.126.148:8099/v1")
+ENDPOINT = os.environ.get("CITEGUARD_VL_ENDPOINT", "http://127.0.0.1:8099/v1")
 MODEL = os.environ.get("CITEGUARD_VL_MODEL", "qwen2.5-vl-7b")
 
 V1 = (
