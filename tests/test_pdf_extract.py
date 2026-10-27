@@ -409,3 +409,11 @@ def test_render_page_png_releases_file_handle(tmp_path):
     assert data.startswith(b"\x89PNG")
     pdf.unlink()  # PermissionError before the fix
 
+
+def test_toc_captions_are_skipped():
+    from citeguard.pdf_extract import _is_toc_caption
+
+    assert _is_toc_caption("图 1 研究框架 ……………………………… 5")
+    assert _is_toc_caption("图 2 系统架构 ........ 12")
+    assert not _is_toc_caption("图 1 研究框架")
+    assert not _is_toc_caption("Figure 1. Overview of the method")

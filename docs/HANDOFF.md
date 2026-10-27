@@ -1108,13 +1108,15 @@ partial 多发、support 少发。
 - 主流程新增可选「同时抽检正文图表结论」（`/api/analyze` 表单字段 `figures=1`；分析页复选框）。开启后从正文自动抓取前 3 个「图 N / 表 N」引用（每个最多 2 句），按编号定位 PDF 页、渲染、调视觉模型逐条判定，结果写入 `report["figure_checks"]`。
 - 实现：`src/citeguard/pipeline.py` 新增 `_body_figure_claims`（分组+上限，避免一份图多的论文悄悄跑十几分钟）与 `_check_body_figures`；`analyze_text`/`run_job` 透传 `figure_checks`/`pdf_path`，`jobs` 的续跑选项保存 `figures`；报告 Markdown/HTML/页面均渲染该节。
 - 实测（lmh Qwen3-VL-8B，`/api/analyze` 真实任务）：hanspub_152575.pdf 解析 3.7 s，命中图 1/2/3，总耗时 21.2 s；6 条结论中 4 条 supported、2 条 insufficient（信息不足是诚实的“图注被当结论”边界），定位页 3/4/5 全部正确。
-- 修复：`/api/health` 的版本号此前硬编码 0.9.37，改为 `app.version`；测试 451 passed，`verify_artifacts` 待跑。
+- 修复：`/api/health` 的版本号此前硬编码 0.9.37，改为 `app.version`；测试 454 passed，`verify_artifacts` 137/137。
 - 网络：lmh（222.20.126.148）与远端 222.20.96.215 在 00:05 后均不可达（VPN/校园网切换），视觉服务与远端部署暂不可用；本地引文核验不受影响，图表抽检会返回可读错误而不是假结果。
-- 版本 0.9.38；zip / 远端部署在网络恢复后补。
+- 版本 0.9.39（含离线演示包、ETA 进度、TOC 图注过滤、多图/表分组）；`dist/citeguard-cn-0.9.39.zip` 8.4 MB、sha256 `524f0b64172c…`；本地 8010 已升级；远端 222.20.96.215 与 lmh 仍不可达，部署与视觉服务待网络恢复。
 
 ## 47. 0.9.39：离线演示包（2026-10-28）
 
 - 新增 `samples/offline_demo/`：`paper.txt`（演示短文 + 11 条题录，前 10 条为真实公开文献元数据，第 11 条故意虚构）、`library.ris`（前 10 条）、`README.md`（三步用法与预期结果）。
 - 目标：答辩现场断网也能完整走「题录库 + 字段核验 + 引注一致性 + GB/T 规则」；预期 10 条精确匹配、1 条未核实（离线状态下显示 Unknown 并注明原因，不冒充假文献）。
 - 生成脚本 `scripts/build_offline_demo.py`（去重、去掉重复编号、写 RIS）；测试 `tests/test_pipeline.py::test_offline_demo_pack` 断言 10 Exact + 1 Unknown。
-- 测试 452 passed；版本 0.9.39。
+- 测试 454 passed；`verify_artifacts` 137/137；版本 0.9.39。
+- 技术报告同步 454 测试：`dist/CiteGuard-CN_技术报告_v0.9.39_2026-10-28.docx`（651,590 bytes）与同名 PDF（10 页、583,624 bytes）。
+- 新增 `/api/analyze` 进度 ETA（「多源核验 5/20 · 已用 12s · 剩约 36s」）；图表页定位跳过目录里的点线图注（`_is_toc_caption`），图/表按 `(kind, number)` 分组避免图 1 与表 1 混淆。

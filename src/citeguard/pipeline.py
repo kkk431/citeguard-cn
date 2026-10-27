@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import json
 import re
+import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from typing import Callable, Optional
@@ -68,8 +69,10 @@ def analyze_text(
     intext = parse_intext_citations(body)
 
     if online:
+        verify_started = time.monotonic()
+
         def verify_progress(i: int, n: int) -> None:
-            step(15 + int(70 * i / max(n, 1)), f"多源核验 {i}/{n}")
+            step(15 + int(70 * i / max(n, 1)), _stage_with_eta("多源核验", i, n, verify_started))
 
         verify_results = verify_many(
             refs, progress_cb=verify_progress, use_arxiv=use_arxiv, library=library
@@ -146,6 +149,19 @@ def analyze_text(
 _SENTENCE_SPLIT = re.compile(r"(?<=[。！？!?])\s*|\n+")
 
 
+def _fmt_duration(seconds: float) -> str:
+    seconds = max(0, int(seconds))
+    if seconds < 60:
+        return f"{seconds}s"
+    return f"{seconds // 60}m{seconds % 60:02d}s"
+
+
+def _stage_with_eta(label: str, done: int, total: int, started: float) -> str:
+    elapsed = time.monotonic() - started
+    eta = elapsed / done * (total - done) if done else 0
+    return f"{label} {done}/{total} · 已用 {_fmt_duration(elapsed)} · 剩约 {_fmt_duration(eta)}"
+
+
 def _body_figure_claims(body: str, *, max_figures: int = 3, per_figure: int = 2):
     """Group body sentences that reference ``图 N`` / ``表 N`` by figure number.
 
@@ -153,9 +169,9 @@ def _body_figure_claims(body: str, *, max_figures: int = 3, per_figure: int = 2)
     per call, and a paper that mentions forty figures should not silently turn a
     routine check into a ten-minute job.
     """
-    from .pdf_extract import figure_number_from_claim
+    from .pdf_extract import caption_kind_from_claim, figure_number_from_claim
 
-    groups: dict[str, list[str]] = {}
+    groups: dict[tuple[str, str], list[str]] = {}
     for sentence in _SENTENCE_SPLIT.split(body or ""):
         claim = sentence.strip()
         if not 5 <= len(claim) <= 500:
@@ -163,14 +179,15 @@ def _body_figure_claims(body: str, *, max_figures: int = 3, per_figure: int = 2)
         number = figure_number_from_claim(claim)
         if not number:
             continue
-        if number not in groups:
+        key = (caption_kind_from_claim(claim) or "figure", number)
+        if key not in groups:
             if len(groups) >= max_figures:
                 continue
-            groups[number] = []
-        claims = groups[number]
+            groups[key] = []
+        claims = groups[key]
         if len(claims) < per_figure and claim not in claims:
             claims.append(claim)
-    return [(number, claims) for number, claims in groups.items() if claims]
+    return [(key, claims) for key, claims in groups.items() if claims]
 
 
 def _check_body_figures(body: str, pdf_path: str, step: Callable[[int, str], None]) -> list[dict]:
@@ -178,9 +195,9 @@ def _check_body_figures(body: str, pdf_path: str, step: Callable[[int, str], Non
     from .pdf_extract import extract_page_text, find_figure_page, render_page_png
 
     results: list[dict] = []
-    for number, claims in _body_figure_claims(body):
-        step(94, f"图表结论抽检：图/表 {number}")
-        found = find_figure_page(pdf_path, number)
+    for (kind, number), claims in _body_figure_claims(body):
+        step(94, f"图表结论抽检：{'表' if kind == 'table' else '图'} {number}")
+        found = find_figure_page(pdf_path, number, kind=kind)
         if not found:
             results.append(
                 {"number": number, "page": None, "claims": claims, "error": "未在 PDF 前 40 页找到对应图注"}
@@ -201,8 +218,9 @@ def _check_body_figures(body: str, pdf_path: str, step: Callable[[int, str], Non
         batch = check_claims(png, "image/png", claims, context=(caption + "\n" + context).strip())
         results.append(
             {
+                "kind": kind,
                 "number": number,
-                "page": page,
+                "page": page, 
                 "caption": caption,
                 "claims": claims,
                 "items": batch.get("items") or [],
@@ -330,13 +348,14 @@ def _judge_support(
     total = len(pending)
     workers = max(1, min(int(getattr(config, "SUPPORT_WORKERS", 1) or 1), total or 1))
     if total:
+        support_started = time.monotonic()
         step(90, f"支持度判定 0/{total}")
         if workers == 1:
             for i, claim_text, abstract, best_title, doi in pending:
                 res = judge_support(claim_text, abstract, best_title, doi)
                 results[i] = _normalise(res, claim_text)
                 judged += 1
-                step(90 + int(6 * judged / total), f"支持度判定 {judged}/{total}")
+                step(90 + int(6 * judged / total), _stage_with_eta("支持度判定", judged, total, support_started))
         else:
             with ThreadPoolExecutor(max_workers=workers) as pool:
                 futures = {
@@ -354,7 +373,7 @@ def _judge_support(
                         res = None
                     results[i] = _normalise(res, claim_text)
                     judged += 1
-                    step(90 + int(6 * judged / total), f"支持度判定 {judged}/{total}")
+                    step(90 + int(6 * judged / total), _stage_with_eta("支持度判定", judged, total, support_started))
 
     if any(r is None for r in results):
         for i, r in enumerate(results):

@@ -226,7 +226,7 @@ def test_body_figure_claims_groups_and_caps():
         "表 2 给出了各组的样本量。图 3 是整体流程图。图 4 是另一张图。"
     )
     groups = pipeline._body_figure_claims(body)
-    assert [number for number, _ in groups] == ["1", "2", "3"]
+    assert [key for key, _ in groups] == [("figure", "1"), ("table", "2"), ("figure", "3")]
     assert len(groups[0][1]) == 2
     assert groups[0][1][0].startswith("如图 1")
 
@@ -270,3 +270,10 @@ def test_offline_demo_pack(monkeypatch):
     assert statuses.count("Exact") == 10
     assert statuses[-1] == "Unknown"
     assert statuses.count("Exact") == 10
+
+
+def test_stage_eta_text():
+    assert pipeline._fmt_duration(65) == "1m05s"
+    assert pipeline._fmt_duration(5.9) == "5s"
+    text = pipeline._stage_with_eta("多源核验", 5, 20, 0.0)
+    assert "5/20" in text and "剩约" in text

@@ -291,7 +291,8 @@
           (it.error ? '<span class="mono-sm" style="color:var(--muted)"> · ' + esc(it.error) + "</span>" : "") +
           "</li>";
       }).join("");
-      return '<div style="margin-top:8px"><b>图/表 ' + esc(b.number || "") + "</b> · 第 " +
+      const kindLabel = b.kind === "table" ? "表" : "图";
+      return '<div style="margin-top:8px"><b>' + kindLabel + " " + esc(b.number || "") + "</b> · 第 " +
         esc(b.page == null ? "?" : b.page) + " 页" +
         (b.caption ? ' <span class="mono-sm" style="color:var(--muted)">' + esc(b.caption) + "</span>" : "") +
         (b.error ? '<div class="mono-sm" style="color:var(--warn)">' + esc(b.error) + "</div>" : "") +

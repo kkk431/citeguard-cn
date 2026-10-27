@@ -137,6 +137,15 @@ def caption_kind_from_claim(claim: str) -> str:
     return "figure" if kind else ""
 
 
+_TOC_CAPTION_RE = re.compile(r"(?:[.．…·]{4,}|\s{6,})\s*\d+\s*$")
+
+
+def _is_toc_caption(line: str) -> bool:
+    """True for a table-of-contents line such as ``图 1 总体框架…… 5``."""
+    line = line.strip()
+    return bool(_TOC_CAPTION_RE.search(line)) or "\t" in line
+
+
 def find_figure_page(
     path: str | Path, number: str = "", *, kind: str = "", max_pages: int = 40
 ) -> tuple[int, str] | None:
@@ -163,6 +172,8 @@ def find_figure_page(
                 for line in text.splitlines():
                     match = _FIG_CAPTION_RE.match(line.strip())
                     if not match:
+                        continue
+                    if _is_toc_caption(line):
                         continue
                     caption_kind = match.group("kind").lower().strip(". ")
                     if kind == "table" and caption_kind not in _TABLE_KINDS:
