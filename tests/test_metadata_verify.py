@@ -153,6 +153,39 @@ def test_verify_no_doi_not_found_is_unverified_not_fabricated(monkeypatch, isola
     assert "no usable candidate" in " ".join(result.notes)
 
 
+def test_version_source_keeps_cited_year_when_another_source_agrees():
+    """Citing the 2018 arXiv version of a 2019 conference paper is not a wrong year."""
+    ref = _ref_without_doi(title="Attention Is All You Need", year=2017, authors=["Ashish Vaswani"])
+    chosen = mv.Candidate(
+        source="openalex",
+        title="Attention Is All You Need",
+        year=2019,
+        authors=["Vaswani, Ashish"],
+    )
+    earlier = mv.Candidate(
+        source="arxiv",
+        title="Attention Is All You Need",
+        year=2017,
+        authors=["Vaswani, Ashish"],
+    )
+    unrelated = mv.Candidate(
+        source="crossref",
+        title="Attention Is All You Need",
+        year=2022,
+        authors=["Someone Else"],
+    )
+
+    assert mv._version_sources(ref, [chosen, earlier, unrelated], chosen) == ["arxiv"]
+
+
+def test_version_source_requires_matching_first_author():
+    ref = _ref_without_doi(title="Attention Is All You Need", year=2017, authors=["Ashish Vaswani"])
+    chosen = mv.Candidate(source="openalex", title=ref.title, year=2019, authors=["Vaswani, Ashish"])
+    different = mv.Candidate(source="arxiv", title=ref.title, year=2017, authors=["John Smith"])
+
+    assert mv._version_sources(ref, [chosen, different], chosen) == []
+
+
 def test_rate_limited_sources_report_unknown_not_unverified(monkeypatch, isolated_cache):
     """429 from every source means "could not check", not "not found"."""
     ref = _ref_without_doi()

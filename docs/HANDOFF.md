@@ -1133,3 +1133,11 @@ partial 多发、support 少发。
 - `src/citeguard/reference_parser.py`：`_URL_ONLY_RE` 支持 `url: https://…` 前缀，避免 PDF 链接行被当成条目、再因 DOI 解析到另一篇论文而误判 Major。
 - 复测：BERT 54 条 → 18 Exact / 30 Minor / 6 Unverified / 0 Major（源稳定的一次）；Mamba/Flash 复测时被限流，如实标记 Unknown（表见 §46 更正段）。诚实口径：旧 Unverified 数字偏高，不应再引用。
 - 版本 0.9.40；本地 8010 已升级（停旧进程后重启）。该版依赖网络状态，不改变离线模式行为。
+
+## 49. 0.9.41：版本差异投票（2026-10-28）
+
+- 问题：引文写的是 arXiv 版年份（如 2018），命中的是会议版记录（2019），此前一律记 `year` 不匹配 → Minor。这不是引用错误，而是同一工作的版本差异。
+- `metadata_verify._version_sources`：在候选记录里找「同题名（≥0.95）且年份等于引文年份」的另一个来源；找到就从 `mismatches` 去掉 `year`，并在笔记里写明「预印本/会议版本差异，某来源的同题名记录与引文年份一致」，其余字段都符时状态为 Exact。作者不可靠时不取作者证据。
+- 严格性：要求题名 ≥0.95、首选作者可对上、年份精确相等；该逻辑只补证据，不放松题名阈值。
+- 测试：`test_version_source_keeps_cited_year_when_another_source_agrees`、`test_version_source_requires_matching_first_author`；全套 458 passed、`verify_artifacts` 137/137。
+- 版本 0.9.41。

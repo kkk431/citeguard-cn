@@ -81,6 +81,30 @@ class VerifyResult:
 _CJK_RE = re.compile(r"[\u4e00-\u9fff]")
 
 
+def _version_sources(ref: Reference, candidates: list[Candidate], chosen: Candidate) -> list[str]:
+    """Other sources that list the cited year for the same title (version evidence).
+
+    A 2018 arXiv citation matched to the 2019 conference record is not a wrong
+    year: it names a legitimate earlier version. When an independent source has
+    the same title *and the year the citation gives*, that is real evidence for
+    the version rather than a mismatch. Strict on purpose: same title (>=0.95)
+    and a compatible first author.
+    """
+    if ref.year is None:
+        return []
+    found: set[str] = set()
+    for cand in candidates:
+        if cand is chosen or cand.year != ref.year:
+            continue
+        if title_sim(ref.title, cand.title) < 0.95:
+            continue
+        if not _authors_unreliable(ref.authors) and cand.authors:
+            if not _first_author_match(ref.authors, cand.authors):
+                continue
+        found.add((cand.source or "unknown").split(":")[0])
+    return sorted(found)
+
+
 def _agreement_sources(ref: Reference, candidates: list[Candidate]) -> list[str]:
     """Sources whose record agrees with the reference on title *and* year.
 
@@ -1626,6 +1650,14 @@ def _verify_reference(
 
     if ts >= 0.90:
         mism = _field_mismatches(ref, best)
+        if "year" in mism and ts >= 0.95:
+            versions = _version_sources(ref, candidates, best)
+            if versions:
+                mism.remove("year")
+                notes.append(
+                    f"年份差异（引文 {ref.year} / 匹配记录 {best.year}）属预印本/会议版本差异："
+                    f"{'、'.join(versions)} 的同题名记录与引文年份一致"
+                )
         status = "Minor" if mism else "Exact"
         notes.append("title matched" + (f"; mismatch: {','.join(mism)}" if mism else "; fields matched"))
         if "authors" in mism and ts >= 0.98 and am == 0.0:
