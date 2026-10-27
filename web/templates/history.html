@@ -9,13 +9,27 @@
   </div>
 </section>
 
+<div class="panel" id="compare-panel" hidden>
+  <div class="panel-head">
+    <h2>两份报告对比</h2>
+    <button class="ghost" type="button" id="compare-clear">清除对比</button>
+  </div>
+  <div id="compare-body"></div>
+</div>
+
 <div class="panel">
   {% if jobs %}
+  <p class="muted">勾选两份已完成的任务，可以看修改前后「结论变化」与合规分变化（按参考文献顺序对齐）。</p>
+  <div class="toolbar">
+    <button class="ghost" type="button" id="compare-run" disabled>对比所选两份</button>
+    <span class="muted" id="compare-hint">已选 0 / 2</span>
+  </div>
   <table class="table">
-    <thead><tr><th>创建时间</th><th>文件</th><th>状态</th><th>进度</th><th>操作</th></tr></thead>
+    <thead><tr><th></th><th>创建时间</th><th>文件</th><th>状态</th><th>进度</th><th>操作</th></tr></thead>
     <tbody>
     {% for job in jobs %}
       <tr>
+        <td>{% if job.has_report %}<input type="checkbox" class="cmp" value="{{ job.id }}" aria-label="选择 {{ job.filename or job.id }}">{% endif %}</td>
         <td class="mono">{{ job.created_at }}</td>
         <td>{{ job.filename or '—' }}</td>
         <td>
@@ -36,4 +50,77 @@
   <p class="muted">还没有任务记录。回到<a href="/">工作台</a>上传一份文献试试。</p>
   {% endif %}
 </div>
+
+<script>
+(function () {
+  var boxes = function () { return Array.prototype.slice.call(document.querySelectorAll('input.cmp')); };
+  var run = document.getElementById('compare-run');
+  var hint = document.getElementById('compare-hint');
+  var panel = document.getElementById('compare-panel');
+  var body = document.getElementById('compare-body');
+  var clear = document.getElementById('compare-clear');
+
+  function selected() { return boxes().filter(function (b) { return b.checked; }); }
+  function refresh() {
+    var n = selected().length;
+    hint.textContent = '已选 ' + n + ' / 2';
+    run.disabled = n !== 2;
+  }
+  boxes().forEach(function (b) {
+    b.addEventListener('change', function () {
+      var on = selected();
+      if (on.length > 2) { on[on.length - 1].checked = false; }
+      refresh();
+    });
+  });
+  refresh();
+
+  function fmt(v) { return (v === null || v === undefined) ? '—' : v; }
+  function statRow(label, key, stats) {
+    var s = stats[key] || {};
+    var d = s.delta || 0;
+    var cls = key === 'Major' ? (d > 0 ? 'bad' : d < 0 ? 'ok' : '') : (d > 0 ? 'ok' : d < 0 ? 'warn' : '');
+    var sign = d > 0 ? '+' + d : String(d);
+    return '<tr><td>' + label + '</td><td>' + fmt(s.a) + '</td><td>' + fmt(s.b) + '</td><td class="' + cls + '">' + (d === 0 ? '持平' : sign) + '</td></tr>';
+  }
+
+  run.addEventListener('click', function () {
+    var on = selected();
+    if (on.length !== 2) { return; }
+    fetch('/api/compare?a=' + encodeURIComponent(on[0].value) + '&b=' + encodeURIComponent(on[1].value))
+      .then(function (r) { return r.json().then(function (j) { if (!r.ok) { throw new Error(j.detail || '对比失败'); } return j; }); })
+      .then(function (j) {
+        var html = '<p class="muted">A：' + (j.a.file || '') + '（' + (j.a.generated_at || '') + '）<br>B：' + (j.b.file || '') + '（' + (j.b.generated_at || '') + '）</p>';
+        html += '<table class="table"><thead><tr><th>指标</th><th>A</th><th>B</th><th>变化</th></tr></thead><tbody>';
+        html += statRow('参考文献数', 'total', j.stats);
+        html += statRow('真实一致 Exact', 'Exact', j.stats);
+        html += statRow('元数据偏差 Minor', 'Minor', j.stats);
+        html += statRow('疑似虚构/错配 Major', 'Major', j.stats);
+        html += statRow('无法核验 Unverified', 'Unverified', j.stats);
+        html += statRow('新国标合规均分', 'avg_compliance', j.stats);
+        html += statRow('风险指数', 'risk_index', j.stats);
+        html += '</tbody></table>';
+        if (j.changed) {
+          html += '<p><b>' + j.changed + '</b> 条引文的核验结论发生变化（按顺序对齐，不保证是同一篇文献）：</p><table class="table"><thead><tr><th>#</th><th>题名</th><th>A</th><th>B</th></tr></thead><tbody>';
+          j.changes.forEach(function (c) {
+            html += '<tr><td>' + c.index + '</td><td>' + (c.title || '—') + '</td><td>' + (c.from || '—') + '</td><td>' + (c.to || '—') + '</td></tr>';
+          });
+          html += '</tbody></table>';
+        } else {
+          html += '<p class="muted">两份报告的核验结论完全一致。</p>';
+        }
+        body.innerHTML = html;
+        panel.hidden = false;
+        panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      })
+      .catch(function (err) { body.innerHTML = '<p class="error">' + err.message + '</p>'; panel.hidden = false; });
+  });
+
+  clear.addEventListener('click', function () {
+    boxes().forEach(function (b) { b.checked = false; });
+    panel.hidden = true;
+    refresh();
+  });
+})();
+</script>
 {% endblock %}

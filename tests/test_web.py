@@ -500,3 +500,39 @@ def test_library_bulk_accepts_multiple_lines(client):
     assert listing["count"] == 2
     titles = " ".join(e["title"] for e in listing["entries"])
     assert "中文引文核验方法" in titles and "另一篇中文论文" in titles
+
+def test_compare_reports_positional_deltas():
+    import web.app as webapp
+
+    a = {
+        "input": "old.pdf",
+        "generated_at": "2026-10-27 10:00",
+        "stats": {"total": 2, "Exact": 1, "Minor": 0, "Major": 1, "Unverified": 0,
+                  "avg_compliance": 80, "risk_index": 30},
+        "references": [
+            {"parsed": {"title": "A"}, "verify": {"status": "Exact"}},
+            {"parsed": {"title": "B"}, "verify": {"status": "Major"}},
+        ],
+    }
+    b = {
+        "input": "new.pdf",
+        "generated_at": "2026-10-27 11:00",
+        "stats": {"total": 2, "Exact": 2, "Minor": 0, "Major": 0, "Unverified": 0,
+                  "avg_compliance": 95, "risk_index": 10},
+        "references": [
+            {"parsed": {"title": "A"}, "verify": {"status": "Exact"}},
+            {"parsed": {"title": "B"}, "verify": {"status": "Exact"}},
+        ],
+    }
+    out = webapp._compare_reports(a, b)
+    assert out["stats"]["Major"]["delta"] == -1
+    assert out["stats"]["avg_compliance"]["delta"] == 15
+    assert out["changed"] == 1
+    assert out["changes"][0]["from"] == "Major"
+    assert out["changes"][0]["to"] == "Exact"
+    assert out["positional"] is True
+
+
+def test_compare_api_requires_two_reports(plain_client):
+    r = plain_client.get("/api/compare?a=nope&b=missing")
+    assert r.status_code == 404

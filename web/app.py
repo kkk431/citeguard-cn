@@ -92,7 +92,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.29", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.30", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
@@ -174,6 +174,50 @@ def _load_report(job_id: str) -> dict | None:
         return json.loads(p.read_text(encoding="utf-8"))
     except Exception:
         return None
+
+
+def _compare_reports(a: dict, b: dict) -> dict:
+    """Compare two saved reports: headline deltas plus per-reference status changes.
+
+    Reports are only comparable positionally when both came from the same
+    manuscript.  We still show the positional diff because that is exactly the
+    "I fixed four citations, did the rest regress?" question the history page is
+    for, and label it as positional so nobody mistakes it for a title match.
+    """
+    sa = a.get("stats") or {}
+    sb = b.get("stats") or {}
+    keys = ["total", "Exact", "Minor", "Major", "Unverified", "avg_compliance", "risk_index"]
+    stats = {}
+    for k in keys:
+        va = sa.get(k)
+        vb = sb.get(k)
+        if isinstance(va, (int, float)) or isinstance(vb, (int, float)):
+            stats[k] = {"a": va, "b": vb, "delta": (vb or 0) - (va or 0)}
+    ra = a.get("references") or []
+    rb = b.get("references") or []
+    changes = []
+    for i in range(min(len(ra), len(rb))):
+        va = (ra[i].get("verify") or {}).get("status")
+        vb = (rb[i].get("verify") or {}).get("status")
+        if va != vb:
+            parsed = rb[i].get("parsed") or ra[i].get("parsed") or {}
+            changes.append(
+                {
+                    "index": i + 1,
+                    "title": (parsed.get("title") or parsed.get("raw") or "")[:120],
+                    "from": va,
+                    "to": vb,
+                }
+            )
+    return {
+        "a": {"file": a.get("input"), "generated_at": a.get("generated_at")},
+        "b": {"file": b.get("input"), "generated_at": b.get("generated_at")},
+        "stats": stats,
+        "positional": True,
+        "changed": len(changes),
+        "changes": changes[:100],
+        "total_delta": len(rb) - len(ra),
+    }
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -663,6 +707,16 @@ def history_page(request: Request):
     return templates.TemplateResponse(
         request, "history.html", {"jobs": jobs, "active": "history"}
     )
+
+
+@app.get("/api/compare")
+def api_compare(a: str, b: str):
+    """Compare two completed reports by their positional reference order."""
+    ra = _load_report(a)
+    rb = _load_report(b)
+    if ra is None or rb is None:
+        raise HTTPException(status_code=404, detail="对比的两份报告必须都存在（先完成任务）")
+    return _compare_reports(ra, rb)
 
 
 @app.get("/report/{job_id}", response_class=HTMLResponse)
@@ -1417,7 +1471,7 @@ def benchmark_api():
 def health():
     return {
         "ok": True,
-        "version": "0.9.29",
+        "version": "0.9.30",
         "offline": config.OFFLINE,
         "supported": sorted(ALLOWED_SUFFIXES),
     }
