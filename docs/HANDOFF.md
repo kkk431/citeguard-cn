@@ -1149,3 +1149,11 @@ partial 多发、support 少发。
 - 表格图注：`find_figure_page(kind="table")` 与 `caption_kind_from_claim()` 已支持「表 N / Table N」，本轮确认无需改代码。
 - 测试：`test_figure_page_choice_prefers_claim_matching_caption`；全套 **460 passed**，`verify_artifacts` 137/137。
 - 版本 0.9.42；`dist/citeguard-cn-0.9.42.zip`（8,855,086 bytes，sha256 `ab48bc14f827080f6ccd1bd1318622d4d69c34dc42878cc12897e719d913e3ff`）。
+
+## 51. 0.9.43：arXiv 编号补年份（2026-10-28）
+
+- 问题：英文预印本条目常省略年份（`arXiv preprint arXiv:1607.06450`），题名能解析但 `year=None`；核验时年份缺失会拉低 Exact、产生本可避免的 Minor。
+- `reference_parser._year_from_arxiv` + `_fill_arxiv_year`：从 arXiv ID 的 YYMM 推出年份（91 以上记 19xx，否则 20xx；仅接受 1991–2099，月 01–12；旧式 `hep-th/9901001` 也支持）。在引号题名、APA、通用三条返回路径都补，仅当原条目没有年份时生效，`extra["year_from_arxiv"]=True` 留痕。
+- 实测（只重解析，不发网络请求）：BERT 54 条补 0、Mamba 94 条补 0、FlashAttention 118 条补 4，共 **+4/266**。
+- 测试：`test_arxiv_identifier_fills_missing_year`、`test_arxiv_year_ignores_invalid_month_and_old_ids`；全套 **462 passed**、`verify_artifacts` 137/137。
+- 版本 0.9.43。

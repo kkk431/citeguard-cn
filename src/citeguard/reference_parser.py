@@ -746,6 +746,42 @@ def _split_title_journal_tail(title: str) -> Optional[dict[str, str]]:
     }
 
 
+_ARXIV_NEW_RE = re.compile(r"arxiv[^0-9]{0,25}(?P<yy>\d{2})(?P<mm>\d{2})\.\d{4,5}", re.I)
+_ARXIV_OLD_RE = re.compile(r"arxiv[^0-9]{0,25}[a-z\-]+/(?P<oyy>\d{2})\d{4}", re.I)
+
+
+def _year_from_arxiv(text: str) -> int | None:
+    """Infer the submission year from an arXiv identifier (YYMM.NNNNN).
+
+    English CS references often omit the year for preprints
+    (``arXiv preprint arXiv:1607.06450``); the identifier itself starts with
+    YYMM, so the year is deterministic rather than guessed. Returns 1991–2099
+    only, which keeps OCR noise (e.g. ``arXiv:1234.5678``) out.
+    """
+    match = _ARXIV_NEW_RE.search(text or "")
+    if match:
+        month = int(match.group("mm"))
+        if not 1 <= month <= 12:
+            return None
+        year = int(match.group("yy"))
+    else:
+        old = _ARXIV_OLD_RE.search(text or "")
+        if not old:
+            return None
+        year = int(old.group("oyy"))
+    full = 1900 + year if year >= 91 else 2000 + year
+    return full if 1991 <= full <= 2099 else None
+
+
+def _fill_arxiv_year(ref: Reference, text: str) -> None:
+    if ref.year:
+        return
+    arxiv_year = _year_from_arxiv(text)
+    if arxiv_year:
+        ref.year = arxiv_year
+        ref.extra["year_from_arxiv"] = True
+
+
 def parse_reference(raw: str, index: Optional[int] = None) -> Reference:
     text = normalize_text(raw)
     m = INDEX_RE.match(text)
@@ -839,10 +875,12 @@ def parse_reference(raw: str, index: Optional[int] = None) -> Reference:
             else:
                 ref.doc_type = "J"
             ref.title = _clean_title_ids(ref.title, ref.url, ref.doi)
+            _fill_arxiv_year(ref, text)
             return ref
 
     if not tm and _parse_apa(ref, text):
         ref.title = _clean_title_ids(ref.title, ref.url, ref.doi)
+        _fill_arxiv_year(ref, text)
         return ref
 
     if not ref.title:
@@ -938,6 +976,7 @@ def parse_reference(raw: str, index: Optional[int] = None) -> Reference:
             ref.version = ref.extra.get("version", "")
     elif ref.doc_type == "CM":
         ref.scale = ref.extra.get("scale", "")
+    _fill_arxiv_year(ref, text)
     if not ref.title and ref.venue:
         ref.title = ""
     return ref

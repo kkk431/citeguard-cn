@@ -123,6 +123,23 @@ def test_parse_reference_without_type_code_defaults_to_journal():
     assert ref.url == "https://example.org/x"
 
 
+def test_arxiv_identifier_fills_missing_year():
+    """Preprints often omit the year; arXiv:YYMM.NNNNN is deterministic."""
+    ref = parse_reference(
+        "[4] Jimmy Lei Ba, Jamie Ryan Kiros, and Geoffrey E Hinton. “Layer Normalization”. "
+        "In: arXiv preprint arXiv:1607.06450"
+    )
+    assert ref.title == "Layer Normalization"
+    assert ref.year == 2016
+    assert ref.extra.get("year_from_arxiv") is True
+
+
+def test_arxiv_year_ignores_invalid_month_and_old_ids():
+    assert parse_reference("X. A paper. arXiv:1613.12345").year is None
+    ref = parse_reference("X. A paper. arXiv:hep-th/9901001")
+    assert ref.year == 1999
+
+
 def test_bare_url_labeled_lines_are_not_references():
     """A PDF link line sometimes keeps its "url:" label - still not a citation."""
     refs = parse_reference_list(
