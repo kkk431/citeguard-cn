@@ -279,6 +279,20 @@ def render_markdown(report: dict) -> str:
         f"- 核验结果：真实一致 **{s['Exact']}**｜元数据偏差 **{s['Minor']}**｜疑似虚构/错配 **{s['Major']}**｜无法核验 **{s['Unknown']}**",
         f"- 新国标合规均分：**{s['avg_compliance']}/100**｜风险指数：**{s['risk_index']}**",
         f"- 结论：{_markdown_verdict(s)}",
+    ]
+    cfg = report.get("run_config") or {}
+    if cfg:
+        lines.append(
+            "- 运行配置：引擎 {engine}｜离线 {off}｜在线核验 {online}｜支持度审计 {audit}（prompt {prompt}）｜万方 {wanfang}".format(
+                engine=cfg.get("engine", "citeguard"),
+                off="是" if cfg.get("offline") else "否",
+                online="开" if cfg.get("online_verify") else "关",
+                audit="开" if cfg.get("support_audit") else "关",
+                prompt=cfg.get("support_prompt", "?"),
+                wanfang="开" if cfg.get("wanfang") else "关",
+            )
+        )
+    lines += [
         "",
     ]
     review = report.get("review_summary") or {}
@@ -552,6 +566,20 @@ def render_html(report: dict) -> str:
             "请对照原文复核后再采用。</li></ul></div>"
         )
 
+    cfg = report.get("run_config") or {}
+    run_config_html = ""
+    if cfg:
+        run_config_html = (
+            '<p class="sub">运行配置：离线 {off} · 在线核验 {online} · 支持度审计 {audit}'
+            "（prompt {prompt}） · 万方 {wanfang}</p>"
+        ).format(
+            off="是" if cfg.get("offline") else "否",
+            online="开" if cfg.get("online_verify") else "关",
+            audit="开" if cfg.get("support_audit") else "关",
+            prompt=html.escape(str(cfg.get("support_prompt", "?"))),
+            wanfang="开" if cfg.get("wanfang") else "关",
+        )
+
     return f"""<!doctype html>
 <html lang="zh-CN">
 <head>
@@ -604,6 +632,7 @@ def render_html(report: dict) -> str:
       <div class="sub">生成时间 {html.escape(report['generated_at'])} · 输入 {html.escape(report['input'])}{input_suffix}</div>
     </div>
   </header>
+  {run_config_html}
   {ocr_note}
   <div class="stats">
     <div class="stat"><b>{s['total']}</b><span>参考文献</span></div>

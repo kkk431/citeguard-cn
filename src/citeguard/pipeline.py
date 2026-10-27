@@ -18,7 +18,7 @@ from .metadata_verify import VerifyResult, local_library_verdict, verify_many
 from .pdf_extract import extract_text_with_meta, split_references
 from .reference_parser import parse_intext_citations, parse_reference_list
 from .report import build_report, save_report
-from .support import build_claims, judge_available, judge_support
+from .support import PROMPT_VERSION, build_claims, judge_available, judge_support
 
 Progress = Optional[Callable[[int, str], None]]
 
@@ -117,6 +117,19 @@ def analyze_text(
         "ocr": False,
         "chars": len(text or ""),
         "warnings": [],
+    }
+    # Record what produced this report. Without it, two runs that differ only
+    # because a judge prompt or a source changed look identical on paper.
+    report["run_config"] = {
+        "engine": "citeguard",
+        "offline": bool(config.OFFLINE),
+        "online_verify": bool(online),
+        "support_prompt": PROMPT_VERSION,
+        "support_audit": bool(config.SUPPORT_AUDIT),
+        "support_judge_available": bool(judge_available()),
+        "wanfang": bool(getattr(config, "WANFANG_APP_KEY", "")),
+        "sources": ["local-library", "openalex", "crossref", "arxiv"]
+        + (["semantic-scholar"] if getattr(config, "SEMANTIC_SCHOLAR", False) else []),
     }
     return report
 
