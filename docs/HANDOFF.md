@@ -1045,3 +1045,29 @@ partial 多发、support 少发。
 - 同步：README（中文节、能力表、局限）、`docs/chinese_sources.md`、`docs/real_data_eval.md`（§3/§3.1 口径 + 指向 §5）、`docs/ppt_numbers.md`（新增覆盖行 + 「不能这么说」第 2 条）、`data/experiments/README.md`、技术报告 5.3 节重建 PDF。
 - 版本 0.9.22：`/benchmark` 的中文覆盖率行已改为「已跑完 184/184、强匹配 111、中文 26/210→137/210（65.2%）、整批 212/409→323/409（79.0%）」，并注明这是有机构 API 时的推算、不进入默认免费口径。测试 421 passed；`verify_artifacts` 本机 137 项。
 
+## 51. v0.9.24：用真实 arXiv 论文压测参考文献解析
+
+用三篇 arXiv 原版 PDF 走真实上传链路（关闭支持度，纯核验）连续暴露并修复了这些问题：
+
+- **参考文献章节定位**：原逻辑“最后一个足够长的 References 标题”在多栏/附录论文上会选错
+  （FlashAttention 只解析出 8 条）。改为对候选块做条目密度评分（编号条目数 + 年份条目数），
+  再选最优；同时裁掉 References 后附的 Appendix/补充材料（BERT 124→54 条即此故）。
+- **ACL 风格**：`Authors. 2019. Title.` 的无括号年份会被当成标题的一部分；解析前统一改写成
+  `Authors (2019). Title`；引号包裹的标题（`“Prefix Sums...”`）优先于 APA 解析。
+- **URL 碎片**：`url: https://doi.org/...` 被切成独立条目后，DOI 能解析到另一篇真实论文，
+  造成一次 **Major 误报**。现在这类纯 URL/DOI 碎片直接跳过，不再参与核验。
+- **纯年份标题**：PDF 换行丢失标题时，标题只剩 `2018`；现在置空并记 `title_missing`，
+  结果为 Unverified，而不是拿年份去比对。
+
+复测（真实上传链路，support_max=0）：
+
+| 论文 | 解析条数 | Exact | Minor | Unverified | Major |
+|---|---|---|---|---|---|
+| BERT (1810.04805) | 54 | 11 | 18 | 25 | 0 |
+| Mamba (2312.00752) | 116 | 18 | 21 | 77 | 0 |
+| FlashAttention (2205.14135) | 94 | 14 | 13 | 67 | 0 |
+
+单元测试 425 通过、`verify_artifacts` 137 项全过。Unverified 比例仍高（46%/66%/71%），
+原因是 arXiv 参考文献普遍缺 DOI、会议缩写不规范，免费源覆盖有限；它表示“未找到”，不是“虚假”。
+
+版本 0.9.24。

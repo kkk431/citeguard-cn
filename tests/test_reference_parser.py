@@ -403,3 +403,26 @@ def test_split_entries_acl_author_year_list():
     assert len(entries) == 6
     assert entries[0].startswith("Author0")
     assert entries[-1].startswith("Author5")
+
+
+def test_url_fragment_lines_are_not_entries():
+    from citeguard.reference_parser import parse_reference_list
+
+    refs = parse_reference_list(
+        "[1] A. Author. 2020. A real paper. In: Proc.\n"
+        "url: https://doi.org/10.5281/zenodo.5371628."
+    )
+    assert len(refs) == 1
+    assert "zenodo" not in (refs[0].title or "").lower()
+
+
+def test_year_only_title_is_blanked_not_used():
+    from citeguard.reference_parser import parse_reference_list
+
+    refs = parse_reference_list(
+        "[1] Kevin Clark, Minh-Thang Luong. 2018.\n"
+        "[2] A. Author. 2019. A real title. In: Proc."
+    )
+    assert len(refs) == 2
+    assert refs[0].title == ""
+    assert refs[0].extra.get("title_missing") is True

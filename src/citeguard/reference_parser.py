@@ -170,6 +170,14 @@ def _split_acl_entries(text: str) -> list[str]:
         # appendix heading so the last entry does not swallow pages of prose.
         block = re.split(r"\n\s*(?:Appendix|附录)\b", block, maxsplit=1)[0]
         block = re.sub(r"\s*\n\s*", " ", block).strip()
+        # Rewrite "Authors. 2019. Title" → "Authors (2019). Title" so the
+        # regular parser records the year instead of gluing it onto the title.
+        block = re.sub(
+            r"^(.*?)\.\s*((?:19|20)\d{2})[a-z]?\.\s+",
+            lambda mm: f"{mm.group(1)} ({mm.group(2)}). ",
+            block,
+            count=1,
+        )
         if _looks_like_entry(block) and re.search(r"(?:19|20)\d{2}", block):
             entries.append(block)
     return entries
@@ -337,9 +345,12 @@ def split_entries(refs_text: str) -> list[str]:
         stripped = line.strip()
         if not INDEX_RE.match(stripped):
             continue
-        # "2025. https://..." is a wrapped continuation line, not entry number 2025.
+        # "2025. https://..." is a wrapped continuation line, not entry number 2025;
+        # likewise a page/URL fragment such as "1144.html." is not entry 1144.
         m = re.match(r"^(\d{1,5})[.、)]", stripped)
-        if m and len(m.group(1)) == 4 and re.match(r"(?:19|20)\d{2}$", m.group(1)):
+        if m and len(m.group(1)) == 4 and (
+            re.match(r"(?:19|20)\d{2}$", m.group(1)) or int(m.group(1)) > 2100
+        ):
             continue
         starts.append(i)
 
@@ -801,6 +812,34 @@ def parse_reference(raw: str, index: Optional[int] = None) -> Reference:
                 if title:
                     ref.authors, ref.title = authors, title
 
+    # ACL/NeurIPS style without type codes: Authors. “Quoted Title”. In: Venue.
+    # Run before the APA parser: a year in braces like "In: (1990)." must not be
+    # mistaken for an APA "(year)" marker on a title-less entry.
+    if not tm:
+        qm = re.search(r"[“\"](?P<title>[^”\"]{4,300})[”\"]", text)
+        if qm:
+            authors_text = text[: qm.start()].rstrip(" .;,")
+            rest = text[qm.end() :].lstrip(" .;,:：")
+            year_m = re.search(r"\b((?:19|20)\d{2})\b", rest) or re.search(
+                r"\b((?:19|20)\d{2})\b", text
+            )
+            names = [
+                n.strip(" .")
+                for n in re.split(r",\s*|\s+and\s+", authors_text)
+                if n.strip(" .")
+            ]
+            ref.authors = names[:12]
+            ref.title = qm.group("title").strip()
+            ref.venue = re.sub(r"^[Ii]n\s*[:：]?\s*", "", rest).strip()
+            if year_m:
+                ref.year = int(year_m.group(1))
+            if "in:" in rest.lower() or "proceedings" in rest.lower():
+                ref.doc_type = "C"
+            else:
+                ref.doc_type = "J"
+            ref.title = _clean_title_ids(ref.title, ref.url, ref.doi)
+            return ref
+
     if not tm and _parse_apa(ref, text):
         ref.title = _clean_title_ids(ref.title, ref.url, ref.doi)
         return ref
@@ -1080,11 +1119,36 @@ def _is_date_only_ref(ref: Reference) -> bool:
     return bool(_DATE_ONLY_RE.fullmatch(ref.title or ""))
 
 
+def _blank_year_only_title(ref: Reference) -> None:
+    """A title like "2018" means the real title was on the next (lost) line;
+    keep the entry but leave the title empty so it is reported Unverified
+    instead of being compared against the year string."""
+    if re.fullmatch(r"(?:19|20)\d{2}[a-z]?", (ref.title or "").strip()):
+        ref.title = ""
+        ref.extra["title_missing"] = True
+
+
+_URL_FRAGMENT_RE = re.compile(
+    r"^(?:url|URL|doi|DOI|link|链接)\s*[:：]\s*(?:https?://|10\.\d{4,9}/)\S+$"
+)
+
+
+def _is_url_fragment(ref: Reference) -> bool:
+    """A bare ``url: https://...`` line is a wrapped reference-list fragment,
+    not a work of its own (parsing it produces a bogus title like "url")."""
+    text = (ref.raw or "").strip()
+    if _URL_FRAGMENT_RE.match(text):
+        return True
+    title = (ref.title or "").strip().lower()
+    return title in {"url", "html", "doi"} and not (ref.authors or []) and not ref.year
+
+
 def parse_reference_list(refs_text: str) -> list[Reference]:
     refs: list[Reference] = []
     for entry in split_entries(refs_text):
         ref = parse_reference(entry, len(refs) + 1)
-        if _is_date_only_ref(ref):
+        _blank_year_only_title(ref)
+        if _is_date_only_ref(ref) or _is_url_fragment(ref):
             continue
         refs.append(ref)
     return refs
