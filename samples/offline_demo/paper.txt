@@ -1,0 +1,18 @@
+中文引文核验离线演示（正文为演示而写，题录均取自公开论文）
+
+人工智能在电商领域的应用越来越广[1]。已有研究从用户行为角度分析了推荐系统的作用[2]，也有工作关注平台治理与隐私保护[3]。在方法层面，图神经网络被用于建模用户—商品关系[4]，而大语言模型为评论理解提供了新工具[5]。不过，现有综述对中文场景的覆盖仍然有限[6]。本文进一步比较了不同方法的适用边界[7]，并讨论了数据质量对结论的影响[8]。最后，我们给出一个可复现的实验流程[9]，以及一个面向中文语料的扩展方向[10]。
+
+另有一条演示用虚构条目[11]，故意不在本地题录库中，用来展示「未核实」而不是被误判为「严重不符」。
+
+参考文献
+[1] Dat Van, N. (2025) Bibliometric Examination of Artificial Intelligence within the Framework of E-Commerce Technology from 1996 to 2024. Journal of Logistics, Informatics and Service Science, 12, 138-150. https://www.aasmr.org/liss/Vol.12/No.2/Vol.12.No.2.09.pdf
+[2] Adam, M., Wessel, M. and Benlian, A. (2020) AI-Based Chatbots in Customer Service and Their Effects on User Compliance. Electronic Markets, 31, 427-445. https://doi.org/10.1007/s12525-020-00414-7
+[3] He, X. and Liu, Y. (2024) Knowledge Evolutionary Process of Artificial Intelligence in E-Commerce: Main Path Analysis and Science Mapping Analysis. Expert Systems with Applications, 238, Article ID: 121801. https://doi.org/10.1016/j.eswa.2023.121801
+[4] Wang, S. and Zhang, H. (2025) Generative Artificial Intelligence and Internationalization Green Innovation: Roles of Supply Chain Innovations and AI Regulation for SMEs. Technology in Society, 82, Article ID: 102898. https://doi.org/10.1016/j.techsoc.2025.102898
+[5] Cabrera-Sánchez, J., Ramos-de-Luna, I., Carvajal-Trujillo, E. and Villarejo-Ramos, Á.F. (2020) Online Recommendation Systems: Factors Influencing Use in E-Commerce. Sustainability, 12, Article No. 8888. https://doi.org/10.3390/su12218888
+[6] Tang, Y.M., Chau, K.Y., Lau, Y. and Zheng, Z. (2023) Data-Intensive Inventory Forecasting with Artificial Intelligence Models for Cross-Border E-Commerce Service Automation. Applied Sciences, 13, Article No. 3051. https://doi.org/10.3390/app13053051
+[7] Mah, P.M., Skalna, I. and Pelech-Pilichowski, T. (2025) AI-Driven Anomaly Detection in E-Commerce Services: A Deep Learning and NLP Approach to the Isolation Forest Algorithm Trees. Journal of Theoretical and Applied Electronic Commerce Research, 20, Article No. 214. https://doi.org/10.3390/jtaer20030214
+[8] Pizzi, G., Vannucci, V., Mazzoli, V. and Donvito, R. (2023) I, Chatbot! The Impact of Anthropomorphism and Gaze Direction on Willingness to Disclose Personal Information and Behavioral Intentions. Psychology & Marketing, 40, 1372-1387. https://doi.org/10.1002/mar.21813
+[9] Asante, I.O., Jiang, Y., Hossin, A.M., et al. (2023) Optimization of Consumer Engagement with Artificial Intelligence Elements on Electronic Commerce Platforms. Journal of Electronic Commerce Research, 24, 7-28.
+[10] Trivedi, S.K., Patra, P., Srivastava, P.R., Zhang, J.Z. and Zheng, L.J. (2022) What Prompts Consumers to Purchase Online? A Machine Learning Approach. Electronic Commerce Research, 24, 2953-2989. https://doi.org/10.1007/s10660-022-09624-x
+[11] 张某某. 虚构的演示条目：仅用于展示未核实状态[J]. 演示学报, 2024, 1(1): 1-2.

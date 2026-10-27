@@ -1,6 +1,8 @@
 """Tests for the shared analysis pipeline (metadata verification mocked)."""
 from __future__ import annotations
 
+from pathlib import Path
+
 import json
 import threading
 import time
@@ -252,3 +254,19 @@ def test_figure_checks_are_opt_in(monkeypatch):
     )
     assert called["pdf"] == "paper.pdf"
     assert report["figure_checks"][0]["number"] == "1"
+
+
+def test_offline_demo_pack(monkeypatch):
+    from citeguard import config, pipeline
+    from citeguard.local_library import Library, parse_library_text
+
+    root = Path(__file__).resolve().parents[1] / "samples" / "offline_demo"
+    text = (root / "paper.txt").read_text(encoding="utf-8")
+    lib = Library(parse_library_text((root / "library.ris").read_text(encoding="utf-8"), "library.ris"))
+    monkeypatch.setattr(config, "OFFLINE", True)
+    report = pipeline.analyze_text(text, "paper.txt", online=False, library=lib)
+    statuses = [r["verify"]["status"] for r in report["references"]]
+    assert len(statuses) == 11
+    assert statuses.count("Exact") == 10
+    assert statuses[-1] == "Unknown"
+    assert statuses.count("Exact") == 10

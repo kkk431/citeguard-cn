@@ -1111,3 +1111,10 @@ partial 多发、support 少发。
 - 修复：`/api/health` 的版本号此前硬编码 0.9.37，改为 `app.version`；测试 451 passed，`verify_artifacts` 待跑。
 - 网络：lmh（222.20.126.148）与远端 222.20.96.215 在 00:05 后均不可达（VPN/校园网切换），视觉服务与远端部署暂不可用；本地引文核验不受影响，图表抽检会返回可读错误而不是假结果。
 - 版本 0.9.38；zip / 远端部署在网络恢复后补。
+
+## 47. 0.9.39：离线演示包（2026-10-28）
+
+- 新增 `samples/offline_demo/`：`paper.txt`（演示短文 + 11 条题录，前 10 条为真实公开文献元数据，第 11 条故意虚构）、`library.ris`（前 10 条）、`README.md`（三步用法与预期结果）。
+- 目标：答辩现场断网也能完整走「题录库 + 字段核验 + 引注一致性 + GB/T 规则」；预期 10 条精确匹配、1 条未核实（离线状态下显示 Unknown 并注明原因，不冒充假文献）。
+- 生成脚本 `scripts/build_offline_demo.py`（去重、去掉重复编号、写 RIS）；测试 `tests/test_pipeline.py::test_offline_demo_pack` 断言 10 Exact + 1 Unknown。
+- 测试 452 passed；版本 0.9.39。
