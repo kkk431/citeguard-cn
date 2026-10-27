@@ -1173,3 +1173,10 @@ partial 多发、support 少发。
 - 校验：PDF 文本中 “464”×3，无 “458/421”；`verify_artifacts` 137/137。
 - 仍待同步：`report/build_deck.py` 内 “417 测试” 等旧数字（下一轮重建 PPT）。
 - PPT 同步：`report/build_deck.py` 与 `report/deck_assets.py` 的 “417 测试” 改为 **464**；重建 18 页 PPT（1,478,599 bytes）并导出 PDF（18 页，文本中 464×3、无 417）。交付：`dist/CiteGuard-CN_答辩PPT_18页_v0.9.44_2026-10-28.pptx/.pdf`。
+## 54. 0.9.45 解析：作者-年份断行合并（2026-10-28）
+
+- 真实论文里 PDF 悬挂缩进会把「作者. 2018.」单独断成一行、题名在下一行；旧 parser 把 `2018` 当题名（Unverified 假阳性）。
+- `src/citeguard/reference_parser.py`：新增 `_is_author_year_only` / `_is_title_continuation` / `_merge_titleless_blocks`（只在下一块是「无年份、无类型码的题名行」时合并），并把所有 `split_entries` 返回路径接入合并。
+- 新增 `_split_at_unparenthesised_year`：`Authors. 2018. Title` 形式直接拆作者/年份/题名，处理 `Z. Chen, H. Zhang...` 这类“首字母+姓”作者。
+- 测试：+2（合并、年份拆分），全套 **466 passed**；BERT 参考列表 raw 重放：54 块 → 51 条，年份型假题名 0（原 2）。
+- 版本 0.9.45。

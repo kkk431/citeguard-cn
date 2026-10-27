@@ -330,6 +330,62 @@ def _looks_like_leading_entry(block: str) -> bool:
     return _looks_like_entry(text)
 
 
+def _is_author_year_only(block: str) -> bool:
+    """True for a block that only contains authors + a year, no title.
+
+    PDFs with hanging indents sometimes wrap a reference so that the author
+    list and year land on their own line, with the title starting the next
+    line.  Splitting there produces an entry whose "title" is just a year.
+    """
+    block = block.strip()
+    if not block or len(block) > 140:
+        return False
+    if not re.search(r"\(?(?:19|20)\d{2}[a-z]?\)?\.?\s*$", block):
+        return False
+    authors = re.sub(r"\(?(?:19|20)\d{2}[a-z]?\)?\.?\s*$", "", block).strip()
+    if not authors or "[" in authors or "]" in authors:
+        return False
+    # Names are capitalised (possibly with particles such as "van"/"de"), while
+    # a real title would contain at least one lowercase word of 4+ letters.
+    for word in re.findall(r"[A-Za-z][A-Za-z'\-]{3,}", authors):
+        if word.islower() and word.lower() not in {"and", "von", "van", "der", "den", "del", "della", "de", "di", "da", "le", "la", "du"}:
+            return False
+    return True
+
+
+def _is_title_continuation(block: str) -> bool:
+    """True when a block looks like the title that continues a wrapped entry."""
+    block = block.strip()
+    if not block or len(block) > 160:
+        return False
+    if re.search(r"\b(?:19|20)\d{2}\b", block):
+        return False
+    if re.search(r"\[[A-Z]{1,2}(?:/OL)?\]", block):
+        return False
+    if re.match(r"^(?:https?://|doi:|10\.\d{4,9}/)", block, re.I):
+        return False
+    return bool(re.match(r"^[\"'“‘A-Z]", block))
+
+
+def _merge_titleless_blocks(entries: list[str]) -> list[str]:
+    """Merge an authors+year-only block into a following title-only block."""
+    merged: list[str] = []
+    i = 0
+    while i < len(entries):
+        current = entries[i]
+        if (
+            i + 1 < len(entries)
+            and _is_author_year_only(current)
+            and _is_title_continuation(entries[i + 1])
+        ):
+            merged.append(re.sub(r"\s*\n\s*", " ", current + " " + entries[i + 1]))
+            i += 2
+            continue
+        merged.append(current)
+        i += 1
+    return merged
+
+
 def split_entries(refs_text: str) -> list[str]:
     """Split a reference section into entries.
 
@@ -364,7 +420,7 @@ def split_entries(refs_text: str) -> list[str]:
     # ACL/EMNLP author-year lists have no parentheses and no bracketed numbers;
     # if they yield clearly more entries than the numbered split, trust them.
     if len(acl) >= 5 and len(acl) > len(starts):
-        return acl
+        return _merge_titleless_blocks(acl)
 
     if len(starts) >= 2 and len(apa) <= len(starts):
         entries: list[str] = []
@@ -377,7 +433,7 @@ def split_entries(refs_text: str) -> list[str]:
             block = _strip_leading_ids("\n".join(lines[start:end]).strip())
             if _looks_like_entry(block):
                 entries.append(re.sub(r"\s*\n\s*", " ", block))
-        return entries
+        return _merge_titleless_blocks(entries)
     # One-paragraph lists: split wherever a bracketed index is followed by text.
     marks = list(re.finditer(r"\[(\d{1,3})\]\s*(?=\S)", text))
     if len(marks) >= 2 and len(apa) < len(marks):
@@ -388,17 +444,17 @@ def split_entries(refs_text: str) -> list[str]:
             if _looks_like_entry(block):
                 entries.append(re.sub(r"\s*\n\s*", " ", block))
         if entries:
-            return entries
+            return _merge_titleless_blocks(entries)
     if len(apa) >= 3:
-        return apa
+        return _merge_titleless_blocks(apa)
     blocks = [
         _strip_leading_ids(b.strip())
         for b in re.split(r"\n\s*\n", text)
         if _looks_like_entry(_strip_leading_ids(b.strip()))
     ]
     if len(blocks) > 1:
-        return [re.sub(r"\s*\n\s*", " ", b) for b in blocks]
-    return [_strip_leading_ids(ln.strip()) for ln in lines if _looks_like_entry(ln)]
+        return _merge_titleless_blocks([re.sub(r"\s*\n\s*", " ", b) for b in blocks])
+    return _merge_titleless_blocks([_strip_leading_ids(ln.strip()) for ln in lines if _looks_like_entry(ln)])
 
 
 def _looks_like_authors(seg: str) -> bool:
@@ -782,6 +838,44 @@ def _fill_arxiv_year(ref: Reference, text: str) -> None:
         ref.extra["year_from_arxiv"] = True
 
 
+_UNPAREN_YEAR_SPLIT_RE = re.compile(
+    r"^(?P<authors>.{4,200}?)[.\s]+(?P<year>(?:19|20)\d{2})[a-z]?\.\s+(?P<title>\S.*)$"
+)
+
+
+def _looks_like_author_list(segment: str) -> bool:
+    """Name list such as ``Z. Chen, H. Zhang, and L. Zhao`` (no title words)."""
+    if not segment:
+        return False
+    if "," not in segment and " and " not in segment:
+        return False
+    for word in re.findall(r"[A-Za-z]{4,}", segment):
+        if word.islower():
+            return False
+    return True
+
+
+def _split_at_unparenthesised_year(text: str) -> Optional[tuple[list[str], int, str]]:
+    """Split ``Authors. 2018. Title`` where the year is not in parentheses."""
+    m = _UNPAREN_YEAR_SPLIT_RE.match(text)
+    if not m:
+        return None
+    authors_part = m.group("authors").strip(" .,;:，；：")
+    title = m.group("title").strip()
+    if len(title.split()) < 3 and not title.startswith(("“", '"')):
+        return None
+    if not _looks_like_author_list(authors_part):
+        return None
+    names = [
+        n.strip(" .,;:")
+        for n in re.split(r",\s*|\s+and\s+", authors_part)
+        if n.strip(" .,;:")
+    ]
+    if not names:
+        return None
+    return names[:12], int(m.group("year")), title
+
+
 def parse_reference(raw: str, index: Optional[int] = None) -> Reference:
     text = normalize_text(raw)
     m = INDEX_RE.match(text)
@@ -874,6 +968,18 @@ def parse_reference(raw: str, index: Optional[int] = None) -> Reference:
                 ref.doc_type = "C"
             else:
                 ref.doc_type = "J"
+            ref.title = _clean_title_ids(ref.title, ref.url, ref.doi)
+            _fill_arxiv_year(ref, text)
+            return ref
+
+    if not tm:
+        ysplit = _split_at_unparenthesised_year(text)
+        if ysplit:
+            ref.authors, ref.year, ref.title = ysplit
+            if ref.doc_type in {"", "J"} and re.search(
+                r"\b(?:In|Proceedings|Conference|Workshop|Symposium)\b", ref.title
+            ):
+                ref.doc_type = "C"
             ref.title = _clean_title_ids(ref.title, ref.url, ref.doi)
             _fill_arxiv_year(ref, text)
             return ref

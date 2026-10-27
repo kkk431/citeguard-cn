@@ -454,3 +454,24 @@ def test_year_only_title_is_blanked_not_used():
     assert len(refs) == 2
     assert refs[0].title == ""
     assert refs[0].extra.get("title_missing") is True
+
+def test_split_at_unparenthesised_year_for_initial_authors():
+    from citeguard.reference_parser import parse_reference
+
+    ref = parse_reference(
+        "Z. Chen, H. Zhang, X. Zhang, and L. Zhao. 2018. Quora question pairs."
+    )
+    assert ref.title == "Quora question pairs"
+    assert ref.year == 2018
+    assert ref.authors[0] == "Z. Chen"
+
+
+def test_merge_author_year_only_block_into_following_title():
+    from citeguard.reference_parser import _merge_titleless_blocks
+
+    merged = _merge_titleless_blocks(
+        ["Z. Chen, H. Zhang, X. Zhang, and L. Zhao. 2018.", "Quora question pairs."]
+    )
+    assert len(merged) == 1
+    assert merged[0].startswith("Z. Chen")
+    assert merged[0].endswith("Quora question pairs.")
