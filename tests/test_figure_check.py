@@ -252,7 +252,7 @@ def test_figure_api_auto_locates_figure_page(monkeypatch):
     from web import app as webapp
 
     monkeypatch.setattr(figure_check, "available", lambda: True)
-    monkeypatch.setattr(webapp, "find_figure_page", lambda path, number: (3, "图1 方法1 的准确率（%）"))
+    monkeypatch.setattr(webapp, "find_figure_page", lambda path, number, kind="": (3, "图1 方法1 的准确率（%）"))
     monkeypatch.setattr(webapp, "extract_page_text", lambda path, page: "第 3 页正文：方法1 的准确率约 95%。")
     captured = {}
 
@@ -280,7 +280,7 @@ def test_figure_api_reports_missing_figure_caption(monkeypatch):
     from web import app as webapp
 
     monkeypatch.setattr(figure_check, "available", lambda: True)
-    monkeypatch.setattr(webapp, "find_figure_page", lambda path, number: None)
+    monkeypatch.setattr(webapp, "find_figure_page", lambda path, number, kind="": None)
     client = TestClient(webapp.app)
     resp = client.post(
         "/api/figure-check",
@@ -347,3 +347,32 @@ def test_figure_api_multi_claim_returns_items(monkeypatch):
     payload = resp.json()
     assert len(payload["items"]) == 2
     assert payload["items"][1]["claim"] == "第二条结论也成立"
+
+def test_figure_api_renders_located_page_without_screenshot(monkeypatch):
+    from fastapi.testclient import TestClient
+    from web import app as webapp
+
+    monkeypatch.setattr(figure_check, "available", lambda: True)
+    monkeypatch.setattr(webapp, "find_figure_page", lambda path, number, kind="": (2, "图 1 方法对比"))
+    monkeypatch.setattr(webapp, "extract_page_text", lambda path, page: "第 2 页正文：方法1 的准确率约 95%。")
+    monkeypatch.setattr(webapp, "render_page_png", lambda path, page: b"\x89PNG fake")
+    captured = {}
+
+    def fake_claims(payload, content_type, claims, context=""):
+        captured.update(payload=payload, content_type=content_type, claims=claims, context=context)
+        return {"ok": True, "items": [{"claim": claims[0], "verdict": "supported", "reason": "一致"}], "model": "m"}
+
+    monkeypatch.setattr(figure_check, "check_claims", fake_claims)
+    client = TestClient(webapp.app)
+    resp = client.post(
+        "/api/figure-check",
+        files={"paper": ("paper.pdf", b"%PDF-1.4 fake", "application/pdf")},
+        data={"claim": "如图 1 所示，方法1 的准确率最高。"},
+    )
+    assert resp.status_code == 200, resp.text
+    data = resp.json()
+    assert data["page_rendered"] is True
+    assert data["page_no"] == 2
+    assert data["items"][0]["page"] == 2
+    assert captured["payload"] == b"\x89PNG fake"
+    assert "第 2 页正文" in captured["context"]

@@ -36,8 +36,10 @@ from citeguard.pdf_extract import (  # noqa: E402
     SUPPORTED_SUFFIXES,
     extract_page_text,
     extract_text,
+    caption_kind_from_claim,
     figure_number_from_claim,
     find_figure_page,
+    render_page_png,
 )
 from citeguard.pipeline import run_job  # noqa: E402
 from citeguard.report import render_reference_list  # noqa: E402
@@ -90,7 +92,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.24", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.25", lifespan=lifespan)
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
 
@@ -938,7 +940,7 @@ def figure_page(request: Request):
 
 @app.post("/api/figure-check")
 def figure_check_api(
-    image: UploadFile = File(...),
+    image: UploadFile | None = File(None),
     claim: str = Form(""),
     claims: str = Form(""),
     context: str = Form(""),
@@ -952,23 +954,32 @@ def figure_check_api(
         )
     claim_list = figure_check.split_claims(claims) if claims.strip() else []
     claim_for_number = claim_list[0] if claim_list else claim
-    payload = image.file.read(config.VL_MAX_FIGURE_MB * 1024 * 1024 + 1)
+    if image is None and paper is None:
+        return JSONResponse(
+            {
+                "ok": False,
+                "code": "no_input",
+                "error": "请上传图表截图，或上传论文 PDF 让系统自动定位并渲染图/表所在页",
+            },
+            status_code=400,
+        )
+    payload = b""
+    if image is not None:
+        payload = image.file.read(config.VL_MAX_FIGURE_MB * 1024 * 1024 + 1)
+        if len(payload) > config.VL_MAX_FIGURE_MB * 1024 * 1024:
+            return JSONResponse(
+                {"ok": False, "code": "image_too_large", "error": f"图片超过 {config.VL_MAX_FIGURE_MB} MB"},
+                status_code=400,
+            )
     page_no = 0
     auto_caption = ""
+    rendered: list[tuple[int, bytes, str, list[str]]] = []
     if paper is not None and paper.filename:
         if Path(paper.filename).suffix.lower() != ".pdf":
             return JSONResponse(
                 {"ok": False, "code": "paper_not_pdf", "error": "按页取正文只支持 PDF 论文"},
                 status_code=400,
             )
-        if page.strip():
-            try:
-                page_no = int(page.strip())
-            except ValueError:
-                return JSONResponse(
-                    {"ok": False, "code": "bad_page", "error": "页码要填整数（从 1 开始）"},
-                    status_code=400,
-                )
         raw = paper.file.read(config.MAX_UPLOAD_MB * 1024 * 1024 + 1)
         if len(raw) > config.MAX_UPLOAD_MB * 1024 * 1024:
             return JSONResponse(
@@ -980,35 +991,102 @@ def figure_check_api(
             with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as fh:
                 fh.write(raw)
                 tmp = Path(fh.name)
-            if not page_no:
-                number = figure_number_from_claim(claim_for_number)
-                found = find_figure_page(tmp, number)
-                if not found:
-                    label = f"图 {number} 的图注" if number else "图注"
+            if page.strip():
+                try:
+                    page_no = int(page.strip())
+                except ValueError:
                     return JSONResponse(
-                        {
-                            "ok": False,
-                            "code": "page_not_found",
-                            "error": f"未在前 40 页找到{label}，请手动填写页码或粘贴该页正文",
-                        },
+                        {"ok": False, "code": "bad_page", "error": "页码要填整数（从 1 开始）"},
                         status_code=400,
                     )
-                page_no, auto_caption = found
-            page_text = extract_page_text(tmp, page_no)
+            if image is None:
+                # No screenshot: locate the figure/table caption per claim, render
+                # each distinct page, and judge the claims on that rendered page.
+                targets = claim_list or [claim]
+                groups: dict[int, list[str]] = {}
+                captions: dict[int, str] = {}
+                for c in targets:
+                    number = figure_number_from_claim(c)
+                    kind = caption_kind_from_claim(c)
+                    found = find_figure_page(tmp, number, kind=kind)
+                    if not found:
+                        label = ("表" if kind == "table" else "图") + (f" {number} 的图注" if number else "注")
+                        return JSONResponse(
+                            {
+                                "ok": False,
+                                "code": "page_not_found",
+                                "error": f"未在前 40 页找到{label}，请手动填写页码或上传图表截图",
+                            },
+                            status_code=400,
+                        )
+                    groups.setdefault(found[0], []).append(c)
+                    captions.setdefault(found[0], found[1])
+                if len(groups) > 3:
+                    return JSONResponse(
+                        {"ok": False, "code": "too_many_pages", "error": "结论涉及超过 3 个图/表页，请拆分后分别核验"},
+                        status_code=400,
+                    )
+                for pg, cs in groups.items():
+                    try:
+                        ctx = extract_page_text(tmp, pg)
+                    except (ValueError, RuntimeError):
+                        ctx = ""
+                    rendered.append((pg, render_page_png(tmp, pg), ctx, cs))
+                    if not auto_caption:
+                        auto_caption = captions.get(pg, "")
+            else:
+                if not page_no:
+                    number = figure_number_from_claim(claim_for_number)
+                    kind = caption_kind_from_claim(claim_for_number)
+                    found = find_figure_page(tmp, number, kind=kind)
+                    if not found:
+                        label = ("图" if kind == "figure" else "表" if kind == "table" else "图/表") + (
+                            f" {number} 的图注" if number else "注"
+                        )
+                        return JSONResponse(
+                            {
+                                "ok": False,
+                                "code": "page_not_found",
+                                "error": f"未在前 40 页找到{label}，请手动填写页码或粘贴该页正文",
+                            },
+                            status_code=400,
+                        )
+                    page_no, auto_caption = found
+                page_text = extract_page_text(tmp, page_no)
+                body = (f"图注：{auto_caption}\n\n" if auto_caption else "") + page_text
+                context = (body + "\n\n" + context).strip() if context.strip() else body
         except ValueError as exc:
             return JSONResponse(
                 {"ok": False, "code": "page_text_unavailable", "error": str(exc)}, status_code=400
             )
         except RuntimeError as exc:
             return JSONResponse(
-                {"ok": False, "code": "page_text_failed", "error": str(exc)}, status_code=400
+                {"ok": False, "code": "page_render_failed", "error": str(exc)}, status_code=400
             )
         finally:
             if tmp is not None:
                 tmp.unlink(missing_ok=True)
-        prefix = f"图注：{auto_caption}\n\n" if auto_caption else ""
-        body = prefix + page_text
-        context = (body + "\n\n" + context).strip() if context.strip() else body
+
+    if rendered:
+        items: list[dict] = []
+        first = True
+        pages_used: list[int] = []
+        for pg, png, ctx, cs in rendered:
+            result = figure_check.check_claims(png, "image/png", cs, ctx)
+            pages_used.append(pg)
+            if not result.get("ok"):
+                return JSONResponse(result, status_code=400)
+            for item in result.get("items") or []:
+                item["page"] = pg
+                items.append(item)
+            if first:
+                first = False
+                out = result
+        out["items"] = items
+        out["context_source"] = "pdf_pages:" + ",".join(str(p) for p in pages_used)
+        out["page_no"] = pages_used[0]
+        out["page_rendered"] = True
+        return JSONResponse(out)
     if claim_list:
         result = figure_check.check_claims(payload, image.content_type or "", claim_list, context)
         if page_no and result.get("ok"):
@@ -1231,4 +1309,4 @@ def benchmark_api():
 
 @app.get("/api/health")
 def health():
-    return {"ok": True, "version": "0.9.24", "supported": sorted(ALLOWED_SUFFIXES)}
+    return {"ok": True, "version": "0.9.25", "supported": sorted(ALLOWED_SUFFIXES)}

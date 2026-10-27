@@ -103,25 +103,42 @@ def extract_page_text(path: str | Path, page_number: int, *, max_chars: int = 60
 
 
 _FIG_REF_RE = re.compile(
-    r"(?:图|figure|fig\.?)\s*([0-9]{1,3}(?:\.[0-9]+)?[a-zA-Z]?)", re.IGNORECASE
-)
-_FIG_CAPTION_RE = re.compile(
-    r"^\s*(?:图|figure|fig\.?)\s*([0-9]{1,3}(?:\.[0-9]+)?[a-zA-Z]?)(?=[\s、.．:：]|$)",
+    r"(?P<kind>图|表|figure|fig\.?|table|tab\.?)\s*(?P<num>[0-9]{1,3}(?:\.[0-9]+)?[a-zA-Z]?)",
     re.IGNORECASE,
 )
+_FIG_CAPTION_RE = re.compile(
+    r"^\s*(?P<kind>图|表|figure|fig\.?|table|tab\.?)\s*"
+    r"(?P<num>[0-9]{1,3}(?:\.[0-9]+)?[a-zA-Z]?)(?=[\s、.．:：]|$)",
+    re.IGNORECASE,
+)
+_TABLE_KINDS = {"表", "table", "tab.", "tab"}
+
+
+def _claim_ref(claim: str) -> tuple[str, str]:
+    match = _FIG_REF_RE.search(claim or "")
+    if not match:
+        return "", ""
+    return match.group("num").lower(), match.group("kind").lower().strip(". ")
 
 
 def figure_number_from_claim(claim: str) -> str:
-    """Return the figure number referenced by a claim ('' when there is none).
+    """Return the figure/table number referenced by a claim ('' when none).
 
-    Examples: ``如图 3 所示`` → ``3``; ``Figure 4a`` → ``4a``.
+    Examples: ``如图 3 所示`` → ``3``; ``Figure 4a`` → ``4a``; ``见表 2`` → ``2``.
     """
-    match = _FIG_REF_RE.search(claim or "")
-    return match.group(1).lower() if match else ""
+    return _claim_ref(claim)[0]
+
+
+def caption_kind_from_claim(claim: str) -> str:
+    """Return ``"table"`` / ``"figure"`` / ``""`` for the claim's reference."""
+    kind = _claim_ref(claim)[1]
+    if kind in _TABLE_KINDS:
+        return "table"
+    return "figure" if kind else ""
 
 
 def find_figure_page(
-    path: str | Path, number: str = "", *, max_pages: int = 40
+    path: str | Path, number: str = "", *, kind: str = "", max_pages: int = 40
 ) -> tuple[int, str] | None:
     """Locate a figure caption (``图 N`` / ``Figure N``) in a PDF text layer.
 
@@ -147,13 +164,51 @@ def find_figure_page(
                     match = _FIG_CAPTION_RE.match(line.strip())
                     if not match:
                         continue
-                    found = re.sub(r"[^0-9a-z.]", "", match.group(1).lower())
+                    caption_kind = match.group("kind").lower().strip(". ")
+                    if kind == "table" and caption_kind not in _TABLE_KINDS:
+                        continue
+                    if kind == "figure" and caption_kind in _TABLE_KINDS:
+                        continue
+                    found = re.sub(r"[^0-9a-z.]", "", match.group("num").lower())
                     if target and found != target:
                         continue
                     return index, line.strip()[:200]
     except Exception:
         return None
     return None
+
+
+def render_page_png(path: str | Path, page_number: int, *, dpi: int = 150) -> bytes:
+    """Render one PDF page to PNG bytes (for vision judgments without a screenshot)."""
+    p = Path(path)
+    if p.suffix.lower() != ".pdf":
+        raise ValueError("渲染页面只支持 PDF 论文（.pdf）")
+    if page_number < 1:
+        raise ValueError("页码从 1 开始")
+    try:
+        import pypdfium2 as pdfium
+    except Exception as exc:  # pragma: no cover - optional dependency
+        raise RuntimeError(
+            "自动渲染 PDF 页面需要可选依赖 pypdfium2（pip install pypdfium2），"
+            "未安装时请改为手动上传图表截图"
+        ) from exc
+    try:
+        doc = pdfium.PdfDocument(str(p))
+        total = len(doc)
+        if page_number > total:
+            raise ValueError(f"页码超出范围：PDF 共 {total} 页")
+        page = doc[page_number - 1]
+        bitmap = page.render(scale=dpi / 72.0)
+        image = bitmap.to_pil().convert("RGB")
+        import io
+
+        buf = io.BytesIO()
+        image.save(buf, format="PNG")
+        return buf.getvalue()
+    except ValueError:
+        raise
+    except Exception as exc:
+        raise RuntimeError(f"渲染 PDF 第 {page_number} 页失败：{exc}") from exc
 
 
 def extract_text_with_meta(path: str | Path) -> tuple[str, dict]:

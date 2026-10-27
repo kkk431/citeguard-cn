@@ -7,6 +7,7 @@ from citeguard.pdf_extract import (
     extract_page_text,
     extract_text,
     extract_text_with_meta,
+    caption_kind_from_claim,
     figure_number_from_claim,
     find_figure_page,
     normalize_text,
@@ -339,7 +340,9 @@ def test_extract_page_text_rejects_page_out_of_range(tmp_path):
 def test_figure_number_from_claim():
     assert figure_number_from_claim("如图 3 所示，方法1 最好") == "3"
     assert figure_number_from_claim("Figure 4a shows the trend") == "4a"
-    assert figure_number_from_claim("表 2 给出了样本量") == ""
+    assert figure_number_from_claim("表 2 给出了样本量") == "2"
+    assert caption_kind_from_claim("表 2 给出了样本量") == "table"
+    assert caption_kind_from_claim("如图 3 所示") == "figure"
     assert figure_number_from_claim("") == ""
 
 

@@ -103,10 +103,12 @@
         source = "正文取自 PDF 第 " + escapeHtml(raw.replace("pdf_page:", "")) + " 页";
       }
     }
+    const pageInfo = data.page_rendered && data.page_no
+      ? "第 " + escapeHtml(data.page_no) + " 页（PDF 自动渲染）" : "";
     const meta = [
       data.model ? "模型 " + escapeHtml(data.model) : "",
       data.latency_ms != null ? (data.latency_ms / 1000).toFixed(1) + " 秒" : "",
-      source,
+      pageInfo || source,
     ].filter(Boolean).join(" · ");
     return (
       "<div class=\"fig-verdict\">" +
@@ -128,17 +130,20 @@
     const rows = (data.items || []).map(function (item) {
       const info = LABELS[item.verdict] || { text: "未判定", cls: "unknown" };
       const reason = item.ok && item.reason ? escapeHtml(item.reason) : escapeHtml(item.error || "未判定");
+      const pageTag = item.page ? "<span class=\"mono-sm\" style=\"color:var(--muted)\">第 " + escapeHtml(item.page) + " 页 · </span>" : "";
       return (
         "<tr>" +
-        "<td class=\"fig-claim-cell\">" + escapeHtml(item.claim) + "</td>" +
+        "<td class=\"fig-claim-cell\">" + pageTag + escapeHtml(item.claim) + "</td>" +
         "<td><span class=\"pill " + info.cls + "\"><i></i>" + info.text + "</span></td>" +
         "<td class=\"fig-reason-cell\">" + reason + "</td>" +
         "</tr>"
       );
     }).join("");
+    const pages = data.page_rendered && data.context_source && String(data.context_source).indexOf("pdf_pages:") === 0
+      ? "第 " + escapeHtml(String(data.context_source).slice(10)) + " 页（PDF 自动渲染）" : source;
     const meta = [
       data.model ? "模型 " + escapeHtml(data.model) : "",
-      source,
+      pages,
       "自动判断，请人工复核",
     ].filter(Boolean).join(" · ");
     return (
@@ -163,7 +168,8 @@
     const file = fileInput.files && fileInput.files[0];
     const rawClaim = (claimInput.value || "").trim();
     const claimLines = rawClaim.split(/\r?\n/).map(function (line) { return line.trim(); }).filter(Boolean);
-    if (!file) { setHint("请先选择图表截图"); return; }
+    const paper = paperInput && paperInput.files && paperInput.files[0];
+    if (!file && !paper) { setHint("请上传图表截图，或上传论文 PDF 自动定位并渲染图/表页"); return; }
     if (!claimLines.length) { setHint("请写一条结论"); return; }
     if (claimLines.length > 5) { setHint("一次最多核验 5 条结论"); return; }
     if (claimLines.some(function (line) { return line.length < 5; })) {
@@ -171,19 +177,18 @@
       return;
     }
     const fd = new FormData();
-    fd.append("image", file);
+    if (file) fd.append("image", file);
     fd.append("claim", claimLines[0]);
     if (claimLines.length > 1) fd.append("claims", rawClaim);
     const context = contextInput ? (contextInput.value || "").trim() : "";
     if (context) fd.append("context", context);
-    const paper = paperInput && paperInput.files && paperInput.files[0];
     if (paper) {
       fd.append("paper", paper);
       const pageValue = pageInput && pageInput.value.trim();
       if (pageValue) fd.append("page", pageValue);
     }
     btn.disabled = true;
-    setHint(paper ? "正在读取 PDF 正文并核验…" : "核验中…首次请求需要加载模型，可能等十几秒");
+    setHint(paper ? (file ? "正在读取 PDF 正文并核验…" : "正在定位图/表页并渲染，随后核验…") : "核验中…首次请求需要加载模型，可能等十几秒");
     result.classList.add("hidden");
     try {
       const resp = await fetch("/api/figure-check", { method: "POST", body: fd });

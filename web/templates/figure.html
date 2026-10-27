@@ -31,7 +31,7 @@
     <form id="figure-form" enctype="multipart/form-data">
       <label class="dropzone" for="figure-file" id="figure-dropzone">
         <input id="figure-file" type="file" name="image" accept="image/png,image/jpeg,image/webp" hidden>
-        <div class="dz-title">选择图表截图，或拖进来</div>
+        <div class="dz-title">选择图表截图，或拖进来（也可以跳过截图：只传 PDF + 结论，系统自动定位并渲染图/表页）</div>
         <div class="dz-sub">单张图表效果最好；多面板大图请先在截图里保留完整坐标轴与图例</div>
         <div class="dz-file" id="figure-file-name"></div>
       </label>
@@ -42,7 +42,7 @@
       <textarea id="figure-claim" class="textarea" rows="3" placeholder="例如：图中 2025 年的发文量最高，为 195 篇。&#10;多条结论请每行写一条，会逐条给出判断。" style="width:100%;font-size:14px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--surface)"></textarea>
       <label class="field-label" for="figure-context" style="margin-top:14px">论文正文 / 图注摘录（可选，最多 4000 字）</label>
       <textarea id="figure-context" class="textarea" rows="4" placeholder="粘贴图表所在段落或图注，用来判断「正文是否也支持这条结论」；不填则只核对图表本身。" style="width:100%;font-size:14px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--surface)"></textarea>
-      <label class="field-label" for="figure-paper" style="margin-top:14px">或上传论文 PDF（可选，自动取指定页正文）</label>
+      <label class="field-label" for="figure-paper" style="margin-top:14px">上传论文 PDF（可选；不传截图时自动定位并渲染页面）</label>
       <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
         <input id="figure-paper" type="file" accept="application/pdf" style="flex:1;min-width:220px;font-size:13px;color:var(--ink-2)">
         <label class="mono-sm" for="figure-page" style="white-space:nowrap">第
@@ -50,7 +50,7 @@
         </label>
       </div>
       <p class="mono-sm" style="margin:8px 0 0;color:var(--ink-3)">页码留空时，按声明里的「图 N」自动找图注页；找不到或扫描页无文字层时，请手动填页码或粘贴正文。</p>
-      <div class="mono-sm" style="color:var(--muted);margin-top:6px">PDF 只在服务进程里临时按页取文字，不保存；扫描页取不到文字时会提示你手动粘贴。</div>
+      <div class="mono-sm" style="color:var(--muted);margin-top:6px">PDF 只在服务进程里临时读取，不保存；不传截图时会自动定位图注/表注页并渲染该页。</div>
       <div class="upload-actions">
         <button type="submit" class="btn btn-primary" id="figure-check-btn" {% if not vl_available %}disabled{% endif %}>核验这条结论</button>
         <span class="mono-sm" id="figure-hint" style="margin-left:auto;align-self:center"></span>
