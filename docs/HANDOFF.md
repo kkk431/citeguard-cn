@@ -1165,3 +1165,10 @@ partial 多发、support 少发。
 - 实测（3 篇中文 PDF）：原本每篇多跑的 PyMuPDF 耗时 **0.312 / 0.043 / 0.050 s**；解析条数不变（24 / 15 / 9 条）。长英文论文收益更大，属于小优化，不夸大成“大幅提速”。
 - 测试：`test_pdf_text_spacing_skips_second_extractor`、`test_pdf_text_spacing_uses_second_extractor_when_words_merge`；全套 **464 passed**、`verify_artifacts` 137/137。
 - 版本 0.9.44；`dist/citeguard-cn-0.9.44.zip`（8,856,169 bytes，sha256 `284d48538e84b3470b10e10ba816b045c22327055279e6628455d834d68daf6e`）。
+
+## 53. 0.9.44 技术报告同步（2026-10-28）
+
+- 报告源 `report/build_report.py` 的测试数字统一为 **464 项**（原 458/421 混用）；重新生成 docx → Word 导出 PDF，**9 页**（≤15 页限制）。
+- 交付：`dist/CiteGuard-CN_技术报告_v0.9.44_2026-10-28.docx`（651,649 bytes）、同名 `.pdf`（576,152 bytes）。
+- 校验：PDF 文本中 “464”×3，无 “458/421”；`verify_artifacts` 137/137。
+- 仍待同步：`report/build_deck.py` 内 “417 测试” 等旧数字（下一轮重建 PPT）。
