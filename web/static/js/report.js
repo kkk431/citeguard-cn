@@ -514,6 +514,15 @@
     }
 
     document.addEventListener("click", function (ev) {
+      const evBtn = ev.target && ev.target.closest ? ev.target.closest(".ref-evidence") : null;
+      if (evBtn) {
+        openEvidence(Number(evBtn.dataset.pos || 0));
+        return;
+      }
+      if (ev.target && ev.target.closest && ev.target.closest("[data-close]")) {
+        closeEvidence();
+        return;
+      }
       const btn = ev.target && ev.target.closest ? ev.target.closest(".ref-to-library") : null;
       if (!btn) return;
       const payload = {
@@ -660,9 +669,67 @@
     else renderTable(items);
   }
 
+  function openEvidence(pos) {
+    const items = window.__reportItems || [];
+    const item = items[pos];
+    if (!item) return;
+    const v = item.verify || {};
+    const p = item.parsed || {};
+    const rows = [
+      ["序号", item.index],
+      ["核验状态", v.status],
+      ["题名", p.title],
+      ["作者", (p.authors || []).join("; ")],
+      ["年份", p.year],
+      ["来源", p.venue],
+      ["DOI", p.doi],
+      ["数据源", (v.sources || []).join(", ")],
+      ["来源一致数", v.source_agreement],
+      ["标题相似度", v.title_sim],
+      ["作者匹配", v.author_match],
+      ["比对题名", (v.best || {}).title],
+      ["比对来源", [(v.best || {}).source, (v.best || {}).doi, (v.best || {}).venue].filter(Boolean).join(" · ")],
+      ["备注", (v.notes || []).join("；")],
+      ["字段差异", (v.mismatches || []).join("；")],
+    ];
+    const visible = rows
+      .filter(function (r) { return r[1] !== undefined && r[1] !== null && r[1] !== ""; })
+      .map(function (r) {
+        return '<div class="drawer-row"><span class="drawer-key">' + esc(r[0]) + "</span><span>" + esc(String(r[1])) + "</span></div>";
+      })
+      .join("");
+    const body = document.getElementById("drawer-body");
+    const title = document.getElementById("drawer-title");
+    if (title) title.textContent = "[" + (item.index || "") + "] 条目证据";
+    if (body) {
+      body.innerHTML =
+        visible +
+        (item.suggested_entry ? "<h4>建议条目</h4><pre>" + esc(item.suggested_entry) + "</pre>" : "") +
+        (item.support ? "<h4>支持度判定</h4><pre>" + esc(JSON.stringify(item.support, null, 2)) + "</pre>" : "") +
+        "<h4>原始条目</h4><pre>" + esc(item.raw || "") + "</pre>" +
+        "<h4>完整 JSON</h4><pre>" + esc(JSON.stringify(item, null, 2)) + "</pre>";
+    }
+    const drawer = document.getElementById("evidence-drawer");
+    if (drawer) {
+      drawer.hidden = false;
+      document.body.classList.add("drawer-open");
+    }
+  }
+
+  function closeEvidence() {
+    const drawer = document.getElementById("evidence-drawer");
+    if (drawer) drawer.hidden = true;
+    document.body.classList.remove("drawer-open");
+  }
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") closeEvidence();
+  });
+
   function renderCards(items) {
+    window.__reportItems = items;
     document.getElementById("ref-list").innerHTML = items
-      .map(function (item) {
+      .map(function (item, pos) {
         const p = item.parsed || {};
         const v = item.verify || {};
         const c = item.compliance || {};
@@ -713,6 +780,10 @@
           }
         }
         const urlPills = [];
+        if (v.source_agreement >= 2) {
+          urlPills.push('<span class="pill ok" title="OpenAlex / Crossref / arXiv / DataCite 等独立索引对题名与年份的结论一致"><i></i>' +
+            v.source_agreement + ' 个来源一致</span>');
+        }
         if (sources.indexOf("url:live") !== -1 && v.status === "Exact") {
           urlPills.push('<span class="pill ok"><i></i>网页链接已核</span>');
         }
@@ -796,6 +867,7 @@
               retractPill +
               provPills.join("") +
               urlPills.join("") +
+              '<button class="btn btn-sm btn-ghost ref-evidence" type="button" data-pos="' + pos + '" title="查看该条目的全部证据字段">证据</button>' +
               '<span class="ref-title">' + esc(p.title || short(item.raw, 80)) + "</span>" +
               '<span class="mono-sm">合规 ' + (c.score == null ? "—" : c.score) + "/100</span>" +
             "</div>" +
@@ -811,6 +883,12 @@
         );
       })
       .join("");
+
+    document.querySelectorAll(".ref-evidence").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        openEvidence(Number(btn.dataset.pos || 0));
+      });
+    });
 
     document.querySelectorAll(".ref-copy").forEach(function (btn) {
       btn.addEventListener("click", function () {

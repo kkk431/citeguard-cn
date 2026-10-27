@@ -95,6 +95,17 @@
   </div>
 </div>
 
+<div id="evidence-drawer" class="drawer" hidden>
+  <div class="drawer-backdrop" data-close="1"></div>
+  <aside class="drawer-panel" role="dialog" aria-modal="true" aria-label="条目证据">
+    <div class="drawer-head">
+      <strong id="drawer-title">条目证据</strong>
+      <button type="button" class="drawer-close" data-close="1" aria-label="关闭">×</button>
+    </div>
+    <div class="drawer-body" id="drawer-body"></div>
+  </aside>
+</div>
+
 <script id="report-data" type="application/json">{{ report|tojson if report else 'null' }}</script>
 {% endblock %}
 {% block scripts %}<script src="/static/js/report.js?v={{ request.app.version }}"></script>{% endblock %}

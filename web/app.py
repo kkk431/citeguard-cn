@@ -93,7 +93,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.35", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.36", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
@@ -1533,7 +1533,7 @@ def benchmark_api():
 def health():
     return {
         "ok": True,
-        "version": "0.9.35",
+        "version": "0.9.36",
         "offline": config.OFFLINE,
         "supported": sorted(ALLOWED_SUFFIXES),
     }
