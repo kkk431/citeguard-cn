@@ -16,7 +16,7 @@ from typing import Callable, Optional
 from . import config
 from .gbt7714 import check_reference_list, citation_consistency
 from .jobs import manager
-from .metadata_verify import VerifyResult, local_library_verdict, verify_many
+from .metadata_verify import source_health, VerifyResult, local_library_verdict, verify_many
 from .pdf_extract import extract_text_with_meta, split_references
 from .reference_parser import parse_intext_citations, parse_reference_list
 from .report import build_report, save_report
@@ -136,6 +136,7 @@ def analyze_text(
         "wanfang": bool(getattr(config, "WANFANG_APP_KEY", "")),
         "sources": ["local-library", "openalex", "crossref", "arxiv"]
         + (["semantic-scholar"] if getattr(config, "SEMANTIC_SCHOLAR", False) else []),
+        "source_health": source_health(),
     }
     if figure_checks and pdf_path and not config.OFFLINE:
         step(93, "抽检正文图表结论")

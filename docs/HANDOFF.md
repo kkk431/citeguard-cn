@@ -1221,3 +1221,14 @@ partial 多发、support 少发。
 - `docs/ppt_numbers.md` 的测试数字同步为 471。
 - 版本仍为 0.9.48；产品代码未改，只同步交付材料。
 - 材料同步后重打包：8858538 bytes，sha256 `8b888b1dac6eb3a895963338f9d45f452f99ae1ccb7b4c8f05e2058755d248ac`（0.9.48 最终包）。
+
+## 59. 0.9.49 核验：重试预算收紧 + 源健康进报告（2026-10-28）
+
+- `metadata_verify._request`：默认重试 5 次 → **3 次**；退避上限 20 s → **8 s**；`Retry-After ≥ 60 s` 仍然立即熔断返回。
+- 新增 `source_health()`：返回 `{"degraded": {源: 冷却剩余秒}, "errors": 失败计数}`；`pipeline` 写入 `report.run_config.source_health`，报告可解释“为什么这次 Unknown 多”。
+- 熔断测试扩展：断言冷却中的源出现在 `source_health().degraded` 且错误计数 ≥1。
+- 实测（BERT 1810.04805v2，54 条，`support_max=0`）：
+  - 冷缓存（临时目录）：**169.2 s → 39.4 s**，但本次 `source_errors=52`、**Unknown 22**（Crossref/arXiv 也在限流）；两次网络状态不同，不宣称严格等价比。
+  - 暖缓存：**2.4 s**，状态与之前完全一致（Exact 17 / Minor 30 / Unverified 5 / Unknown 2，errors 2）。
+- 全套 **471 passed**（49.8 s，重试减少后测试也变快）；`verify_artifacts` 137/137；版本 0.9.49。
+- dist/citeguard-cn-0.9.49.zip：8858638 bytes，sha256 `1681973f9134440b464938dbed95180cc569723292c6c518d86c6a69be830fa3`。

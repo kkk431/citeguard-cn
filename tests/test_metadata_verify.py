@@ -780,4 +780,7 @@ def test_source_circuit_breaker_skips_repeated_failures(monkeypatch):
     assert first >= 1
     assert mv.search_openalex("Another Title") == []
     assert len(calls) == first
+    health = mv.source_health()
+    assert health["degraded"].get("openalex", 0) > 0
+    assert health["errors"] >= 1
     mv.reset_source_health()

@@ -467,6 +467,19 @@ def _mark_source_down(source: str, retry_after: Optional[str] = None) -> None:
         _source_down_until[source] = time.time() + min(3600.0, delay)
 
 
+def source_health() -> dict:
+    """Snapshot for reports: which sources are cooling down and how many
+    requests failed during this run."""
+    now = time.time()
+    with _source_lock:
+        degraded = {
+            name: int(round(until - now))
+            for name, until in _source_down_until.items()
+            if until > now
+        }
+    return {"degraded": degraded, "errors": source_error_count()}
+
+
 def reset_source_health() -> None:
     with _source_lock:
         _source_down_until.clear()
@@ -474,7 +487,7 @@ def reset_source_health() -> None:
         _source_errors = 0
 
 
-def _request(url: str, params: Optional[dict] = None, tries: int = 5):
+def _request(url: str, params: Optional[dict] = None, tries: int = 3):
     """GET with retries on rate limits / transient server errors.
 
     Returns the final ``requests.Response`` or raises the last transport error.
@@ -494,7 +507,7 @@ def _request(url: str, params: Optional[dict] = None, tries: int = 5):
             )
         except Exception as exc:  # noqa: BLE001 - retry transport errors
             last_error = exc
-            time.sleep(min(15.0, 1.5 * (2**attempt)))
+            time.sleep(min(8.0, 1.5 * (2**attempt)))
             continue
         if response.status_code in {429, 500, 502, 503, 504}:
             retry_after = response.headers.get("Retry-After") if response is not None else None
@@ -509,7 +522,7 @@ def _request(url: str, params: Optional[dict] = None, tries: int = 5):
                 _mark_source_down(_source_for_url(url), retry_after)
                 return response
             if attempt + 1 < tries:
-                delay = min(20.0, max(1.5, advertised or 1.5 * (2**attempt)))
+                delay = min(8.0, max(1.5, advertised or 1.5 * (2**attempt)))
                 time.sleep(delay)
                 continue
             _mark_source_down(_source_for_url(url), retry_after)
