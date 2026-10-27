@@ -130,6 +130,10 @@ PYTHONPATH=src:.pylibs python3 scripts/evaluate_citebench.py --limit 0
 
 判定只在**题录匹配可靠时**才进行：状态为 `Exact/Minor`，或标题相似度 ≥ 0.90（`CITEGUARD_SUPPORT_MIN_TITLE_SIM` 可调）。原因是摘要必须属于被引论文本身——相似度 0.4 的 Crossref 记录往往是另一篇论文，拿它判「无证据」会把匹配失败误报成引用问题。这类条目会显示「题录匹配度不足」，修复题录或导入带摘要的本地库后重跑即可。
 
+## 断网 / 离线模式
+
+设置 `CITEGUARD_OFFLINE=1` 后服务不发起任何外网请求：解析、GB/T 规则检查、正文引注一致性、本地题录库核验照常工作；在线真实性核验统一显示「未核实」并注明原因，支持度、图表、对比、发现会返回明确的离线提示。页面顶部会出现一条离线提示，避免把「没联网」误读成「引文有问题」。适合答辩现场断网、内网部署或数据不外出的场景。
+
 ```bash
 export DEEPSEEK_API_KEY=...   # 只在本地/服务器环境中设置，不要提交
 PYTHONPATH=src python3 -m uvicorn web.app:app --port 8000

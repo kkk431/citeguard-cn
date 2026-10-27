@@ -1397,6 +1397,17 @@ def _verify_reference(
     if local is not None:
         return local
 
+    # 0a) Offline switch (CITEGUARD_OFFLINE=1): never touch the network. The
+    # local library above is the only metadata source, so the report says
+    # "Unknown" instead of "Major" -- absence of network is not evidence.
+    if config.OFFLINE:
+        return VerifyResult(
+            status="Unknown",
+            doi_status="none",
+            notes=["离线模式：已跳过在线核验（本地解析、GB/T 规则、本地题录库仍可用）"],
+            sources=["offline"],
+        )
+
     # 0b) A "title" that is actually a URL/DOI means the PDF/OCR text was split
     # badly (some PDFs print references as bare links). Treat it as a parse
     # artifact instead of accusing the paper of a fabricated citation.

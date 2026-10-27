@@ -57,6 +57,11 @@ except ValueError:
 # Measured on ClaimSupport-CN: macro-F1 0.9005 -> 0.9328 (product path;
 # 0.9439 in the standalone experiment harness). Costs one extra LLM call for
 # the ~40% of items classified as support.
+# Air-gapped / demo fallback: skip every outbound request (online verification,
+# support judge, figures, compare, discovery). Local parsing, the GB/T rule
+# engine and the user's local reference library keep working.
+OFFLINE = os.environ.get("CITEGUARD_OFFLINE", "").strip().lower() in {"1", "true", "yes", "on"}
+
 SUPPORT_AUDIT = os.environ.get("CITEGUARD_SUPPORT_AUDIT", "1").strip().lower() not in {
     "0",
     "false",

@@ -8,6 +8,11 @@
   <link rel="stylesheet" href="/static/css/app.css?v={{ request.app.version }}">
 </head>
 <body>
+  {% if request.app.state.offline %}
+  <div role="status" style="background:#7c2d12;color:#fff7ed;font-size:13px;padding:8px 16px;text-align:center">
+    离线模式（CITEGUARD_OFFLINE=1）：只做本地解析、GB/T 规则检查和本地题录库核验；在线核验、支持度、图表、对比、发现已停用。
+  </div>
+  {% endif %}
   {% set nav = [
     ('home', '/', '工作台', '上传论文，逐条核验'),
     ('figure', '/figure', '图表核验', '图中结论是否成立'),

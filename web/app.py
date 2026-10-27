@@ -92,7 +92,8 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.26", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.27", lifespan=lifespan)
+app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
 
@@ -1014,6 +1015,11 @@ def figure_check_api(
     paper: UploadFile | None = File(None),
     page: str = Form(""),
 ):
+    if config.OFFLINE:
+        return JSONResponse(
+            {"ok": False, "code": "offline", "error": "离线模式：图表核验需要调用视觉模型，已跳过"},
+            status_code=503,
+        )
     if not figure_check.available():
         return JSONResponse(
             {"ok": False, "code": "not_configured", "error": "未配置图表核验服务（设置 CITEGUARD_VL_ENDPOINT）"},
@@ -1376,4 +1382,9 @@ def benchmark_api():
 
 @app.get("/api/health")
 def health():
-    return {"ok": True, "version": "0.9.26", "supported": sorted(ALLOWED_SUFFIXES)}
+    return {
+        "ok": True,
+        "version": "0.9.27",
+        "offline": config.OFFLINE,
+        "supported": sorted(ALLOWED_SUFFIXES),
+    }

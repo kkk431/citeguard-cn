@@ -137,6 +137,17 @@ def _judge_support(
     list order) or the shape of the returned verdicts.
     """
     has_judge = judge_available()
+    if config.OFFLINE:
+        return [None] * len(refs), {
+            "judge_available": False,
+            "cap": 0,
+            "candidates": 0,
+            "judged": 0,
+            "skipped_by_cap": 0,
+            "skipped_no_abstract": 0,
+            "skipped_unreliable_match": 0,
+            "offline": True,
+        }
     claims = build_claims(body, intext, refs)
     results: list[dict | None] = [None] * len(refs)
     pending: list[tuple[int, str, str, str, str]] = []

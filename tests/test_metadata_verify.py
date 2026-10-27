@@ -672,3 +672,19 @@ def test_semantic_scholar_off_by_default(monkeypatch):
     monkeypatch.setattr(mv, "_request", lambda *a, **k: called.append(1))
     assert mv.search_semantic_scholar("Attention is all you need") == []
     assert not called
+
+
+def test_offline_mode_skips_network(monkeypatch):
+    """CITEGUARD_OFFLINE must never turn missing network into a fake accusation."""
+    from citeguard import config
+
+    monkeypatch.setattr(config, "OFFLINE", True)
+    called = []
+    monkeypatch.setattr(mv, "_request", lambda *a, **k: called.append(1))
+    ref = parse_reference("[1] 张三. 中文引文核验[J]. 情报学报, 2024, 12(3): 10-20.")
+    result = mv.verify_reference(ref)
+    assert result.status == "Unknown"
+    assert result.sources == ["offline"]
+    assert "离线模式" in " ".join(result.notes)
+    assert not called
+

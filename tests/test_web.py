@@ -45,6 +45,7 @@ def test_health_endpoint(client):
     payload = resp.json()
     assert payload["ok"] is True
     assert payload["version"]
+    assert payload["offline"] is False
     assert {".pdf", ".docx", ".txt", ".md"} <= set(payload["supported"])
 
 
