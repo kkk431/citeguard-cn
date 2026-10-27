@@ -643,3 +643,32 @@ def test_title_candidates_uses_wanfang_for_chinese(monkeypatch):
     candidates = mv._title_candidates(ref, sources=sources)
     assert any(c.source == "wanfang" for c in candidates)
     assert "wanfang" in sources
+
+
+def test_arxiv_id_extraction():
+    from types import SimpleNamespace
+    from citeguard.metadata_verify import _arxiv_id_of
+    def rid(**kw):
+        base = dict(doi="", url="", raw="", title="")
+        base.update(kw)
+        return SimpleNamespace(**base)
+    assert _arxiv_id_of(rid(raw="[1] A. Author. arXiv:2205.14135 [cs.LG].")) == "2205.14135"
+    assert _arxiv_id_of(rid(url="https://arxiv.org/abs/1810.04805v2")) == "1810.04805"
+    assert _arxiv_id_of(rid(doi="10.48550/arXiv.2307.08691")) == "2307.08691"
+    assert _arxiv_id_of(rid(title="no id here")) == ""
+
+
+def test_canonical_venue_spacing():
+    from citeguard.metadata_verify import _venue_match
+    assert _venue_match("ACL", "Proceedings of the 57th Annual Meeting of the Association for Computational Linguistics")
+    assert _venue_match("NeurIPS", "Advances in Neural Information Processing Systems 34")
+    assert not _venue_match("ACL", "Nature")
+
+
+def test_semantic_scholar_off_by_default(monkeypatch):
+    from citeguard import metadata_verify as mv
+    monkeypatch.delenv("CITEGUARD_S2", raising=False)
+    called = []
+    monkeypatch.setattr(mv, "_request", lambda *a, **k: called.append(1))
+    assert mv.search_semantic_scholar("Attention is all you need") == []
+    assert not called

@@ -13,6 +13,7 @@ import html as html_lib
 import ipaddress
 import json
 import logging
+import os
 import re
 import socket
 import threading
@@ -199,9 +200,60 @@ def _reconstruct_abstract(inverted: Optional[dict], limit: int = 1800) -> str:
     return _clean_abstract(" ".join(w for _, w in pairs), limit)
 
 
+_VENUE_ALIASES = {
+    # CS conferences: a reference usually prints the acronym, the index prints
+    # the proceedings title; both must compare equal, not "Minor".
+    "neurips": "neural information processing systems",
+    "nips": "neural information processing systems",
+    "icml": "international conference on machine learning",
+    "iclr": "international conference on learning representations",
+    "acl": "association for computational linguistics",
+    "emnlp": "empirical methods in natural language processing",
+    "naacl": "north american chapter of the association for computational linguistics",
+    "eacl": "european chapter of the association for computational linguistics",
+    "coling": "international conference on computational linguistics",
+    "cvpr": "computer vision and pattern recognition",
+    "iccv": "international conference on computer vision",
+    "eccv": "european conference on computer vision",
+    "aaai": "aaai conference on artificial intelligence",
+    "ijcai": "international joint conference on artificial intelligence",
+    "kdd": "knowledge discovery and data mining",
+    "sigir": "research and development in information retrieval",
+    "www": "world wide web",
+    "mm": "acm multimedia",
+    "osdi": "operating systems design and implementation",
+    "sosp": "symposium on operating systems principles",
+    "nsdi": "networked systems design and implementation",
+    "sigcomm": "special interest group on data communication",
+    "pldi": "programming language design and implementation",
+    "popl": "principles of programming languages",
+    "icse": "international conference on software engineering",
+    "fse": "foundations of software engineering",
+    "ase": "automated software engineering",
+    "issta": "software testing and analysis",
+    "icra": "international conference on robotics and automation",
+    "iros": "intelligent robots and systems",
+    "miccai": "medical image computing and computer assisted intervention",
+    "tpami": "pattern analysis and machine intelligence",
+    "jmlr": "journal of machine learning research",
+    "tacl": "transactions of the association for computational linguistics",
+    "tmlr": "transactions on machine learning research",
+}
+
+
+def _canonical_venue(value: str) -> str:
+    s = _norm_field(value)
+    if not s:
+        return ""
+    for short, full in _VENUE_ALIASES.items():
+        s = re.sub(rf"\b{re.escape(short)}\b", full, s)
+    # _norm_field removes spaces; keep both sides compact so containment works.
+    return s.replace(" ", "")
+
+
 def _venue_match(ref_venue: str, cand_venue: str) -> bool:
     """True if venues match, or if either side is unknown (do not penalise)."""
-    a, b = _norm_field(ref_venue), _norm_field(cand_venue)
+    a, b = _canonical_venue(ref_venue), _canonical_venue(cand_venue)
     if not a or not b:
         return True
     return a in b or b in a or fuzz.ratio(a, b) / 100 >= 0.72
@@ -741,6 +793,135 @@ def search_arxiv(title: str, limit: int = 3) -> list[Candidate]:
     return out
 
 
+_ARXIV_ID_RE = re.compile(
+    r"(?:arxiv(?:\.org/(?:abs|pdf)/)?[:\s/]*|10\.48550/arxiv\.)(?P<id>\d{4}\.\d{4,5})(?:v\d+)?",
+    re.I,
+)
+
+
+def _arxiv_id_of(ref: "Reference") -> str:
+    """Pull an arXiv identifier out of DOI/URL/raw text, if present."""
+    hay = " ".join(
+        part
+        for part in (ref.doi or "", ref.url or "", ref.raw or "", ref.title or "")
+        if part
+    )
+    m = _ARXIV_ID_RE.search(hay)
+    return m.group("id") if m else ""
+
+
+def _arxiv_by_id(arxiv_id: str) -> list[Candidate]:
+    """Resolve a reference through its arXiv id (a second anchor besides DOI)."""
+    if not arxiv_id:
+        return []
+    text = _cached_text(
+        "http://export.arxiv.org/api/query", {"id_list": arxiv_id, "max_results": 1}
+    )
+    if not text:
+        return []
+    try:
+        root = ET.fromstring(text)
+    except Exception:
+        return []
+    out: list[Candidate] = []
+    for e in root.findall("a:entry", _ATOM):
+        title_el = e.find("a:title", _ATOM)
+        id_el = e.find("a:id", _ATOM)
+        published = e.find("a:published", _ATOM)
+        doi_el = e.find("a:doi", _ATOM)
+        journal_el = e.find("a:journal_ref", _ATOM)
+        authors = [
+            (a.find("a:name", _ATOM).text or "")
+            for a in e.findall("a:author", _ATOM)
+            if a.find("a:name", _ATOM) is not None
+        ]
+        year = None
+        if published is not None and published.text:
+            try:
+                year = int(published.text[:4])
+            except ValueError:
+                year = None
+        out.append(
+            Candidate(
+                source="arxiv:id",
+                title=(title_el.text or "").strip() if title_el is not None else "",
+                doi=(doi_el.text or "").strip() if doi_el is not None else "",
+                year=year,
+                authors=[a for a in authors if a],
+                venue=(journal_el.text or "").strip() if journal_el is not None else "",
+                url=(id_el.text or "").strip() if id_el is not None else "",
+            )
+        )
+    return out
+
+
+_S2_LOCK = threading.Lock()
+_S2_LAST_CALL = [0.0]
+_S2_DOWN_UNTIL = [0.0]
+_S2_FIELDS = "title,year,venue,authors,externalIds,abstract"
+
+
+def search_semantic_scholar(title: str, limit: int = 3) -> list[Candidate]:
+    """Semantic Scholar as a CS-heavy fallback when OpenAlex/Crossref miss.
+
+    Unauthenticated access is shared and rate-limited; a single 429 puts the
+    source to sleep for two minutes so one batch does not stall.
+    """
+    if os.environ.get("CITEGUARD_S2", "0").lower() in {"0", "false", "off", "no", ""}:
+        return []
+    if not title or len(norm_title(title)) < 3 or _CJK_RE.search(title):
+        return []
+    if time.time() < _S2_DOWN_UNTIL[0]:
+        return []
+    params = {"query": title, "limit": limit, "fields": _S2_FIELDS}
+    with _S2_LOCK:
+        wait = 1.1 - (time.time() - _S2_LAST_CALL[0])
+        if wait > 0:
+            time.sleep(wait)
+        _S2_LAST_CALL[0] = time.time()
+    try:
+        resp = _request(
+            "https://api.semanticscholar.org/graph/v1/paper/search", params, tries=2
+        )
+    except Exception:
+        _S2_DOWN_UNTIL[0] = time.time() + 60
+        return []
+    if resp.status_code == 429:
+        _S2_DOWN_UNTIL[0] = time.time() + 120
+        _note_source_failure()
+        return []
+    if resp.status_code != 200:
+        return []
+    try:
+        data = resp.json()
+    except Exception:
+        return []
+    out: list[Candidate] = []
+    for item in data.get("data") or []:
+        if not isinstance(item, dict) or not item.get("title"):
+            continue
+        ext = item.get("externalIds") or {}
+        authors = [
+            a.get("name") or ""
+            for a in item.get("authors") or []
+            if isinstance(a, dict) and a.get("name")
+        ]
+        paper_id = item.get("paperId") or ""
+        out.append(
+            Candidate(
+                source="semanticscholar",
+                title=str(item.get("title") or "").strip(),
+                doi=str(ext.get("DOI") or "").strip(),
+                year=item.get("year") if isinstance(item.get("year"), int) else None,
+                authors=authors,
+                venue=str(item.get("venue") or "").strip(),
+                abstract=_clean_abstract(str(item.get("abstract") or "")),
+                url=f"https://www.semanticscholar.org/paper/{paper_id}" if paper_id else "",
+            )
+        )
+    return out
+
+
 def lookup_doi(doi: str) -> list[Candidate]:
     doi = (doi or "").strip()
     if not doi:
@@ -1038,6 +1219,13 @@ def _title_candidates(
     candidates: list[Candidate] = []
     if not ref.title or len(norm_title(ref.title)) < 3:
         return candidates
+    ax_id = _arxiv_id_of(ref)
+    if ax_id:
+        ax = _arxiv_by_id(ax_id)
+        if ax:
+            candidates.extend(ax)
+            if sources is not None:
+                sources.append("arxiv:id")
     oa = search_openalex(ref.title)
     if oa:
         candidates.extend(oa)
@@ -1054,6 +1242,19 @@ def _title_candidates(
             candidates.extend(ax)
             if sources is not None:
                 sources.append("arxiv")
+    # Semantic Scholar: CS proceedings metadata is far better than Crossref
+    # for acronym-only references. Only spend a rate-limited call when the
+    # free sources produced nothing close.
+    if not _CJK_RE.search(ref.title or ""):
+        best_so_far = max(
+            (title_sim(ref.title, c.title) for c in candidates if c.title), default=0.0
+        )
+        if best_so_far < 0.92:
+            s2 = search_semantic_scholar(ref.title)
+            if s2:
+                candidates.extend(s2)
+                if sources is not None:
+                    sources.append("semanticscholar")
     # 中文题录兜底：OpenAlex/Crossref 对中文期刊覆盖很低，配置万方 App Key 后补一层。
     # 免费额度每天 100 次，失败（未订阅/限流/额度用尽）只记日志，不把条目误标成 Unknown。
     if _CJK_RE.search(ref.title or ""):

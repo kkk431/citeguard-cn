@@ -10,12 +10,16 @@
 |---|---|---|
 | OpenAlex（Priem, Piwowar & Orr, arXiv:2205.01833） | 开放书目索引（CC0） | 主检索源：标题/DOI 检索、作者/年份/卷期页码比对 |
 | Crossref REST API（Hendricks et al., *Quantitative Science Studies*, 2020） | 开放元数据 | 补充检索与 DOI 元数据 |
+| arXiv API（Atom） | 开放预印本元数据 | 条目里带 `arXiv:2205.14135` / `arxiv.org/abs/...` / `10.48550/arXiv.*` 时，用 arXiv ID 做**第二锚点**直接取题录，不再只靠标题模糊检索 |
+| Semantic Scholar Graph API | 开放学术图谱 | **可选**补充源（`CITEGUARD_S2=1` 才启用）；免 key 限流很严，默认关闭，429 后自动休眠 2 分钟 |
 | DataCite / DOI Handbook（ISO 26324） | DOI 注册与解析规范 | DOI 解析到落地页；中国 DOI 平台同样按 handle 解析 |
 | GB/T 7714—2015 / 2025 | 国家标准（非论文） | 参考文献表格式与顺序编码制规则 |
 
 我们的改动（工程实现，非论文贡献）：`Exact / Minor / Major / Unverified / Unknown` 五态设计；
 作者姓氏与顺序比对；URL 型条目的链接活性检查（含 SSRF 防护、缓存、403/401 视为"受限"而非"造假"）；
-中文题录缺口显式标注（free 源覆盖不到时给「未验证 + 人工复核入口」，而不是猜）。
+会议/期刊缩写归一（`ACL` / `NeurIPS` / `CVPR` 等映射到全称后再比对，避免"同一会议两种写法被误判"）；
+arXiv ID 第二锚点；中文题录缺口显式标注（free 源覆盖不到时给「未验证 + 人工复核入口」，而不是猜）。
+DBLP 的公开 API 现在对脚本返回 Cloudflare 挑战页（HTTP 202），所以没有接入；不绕过反爬。
 
 ## 2. 引文支持度（claim–evidence）
 
