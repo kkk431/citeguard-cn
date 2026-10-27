@@ -93,7 +93,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.32", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.33", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
@@ -237,10 +237,33 @@ def library_page(request: Request):
     library = Library.load(config.LIBRARY_FILE)
     sources: dict[str, int] = {}
     with_abstract = 0
+    with_doi = 0
+    with_url = 0
+    years: list[int] = []
+    venues: dict[str, int] = {}
     for entry in library.entries:
         sources[entry.source] = sources.get(entry.source, 0) + 1
         if (entry.abstract or "").strip():
             with_abstract += 1
+        if (entry.doi or "").strip():
+            with_doi += 1
+        if (entry.url or "").strip():
+            with_url += 1
+        if entry.year:
+            years.append(entry.year)
+        if (entry.venue or "").strip():
+            venues[entry.venue] = venues.get(entry.venue, 0) + 1
+    total = max(len(library), 1)
+    coverage = {
+        "doi": with_doi,
+        "url": with_url,
+        "doi_pct": round(100 * with_doi / total, 1),
+        "abstract_pct": round(100 * with_abstract / total, 1),
+        "year_range": f"{min(years)}–{max(years)}" if years else "—",
+        "years": len(years),
+        "top_venues": sorted(venues.items(), key=lambda kv: -kv[1])[:6],
+        "venues": len(venues),
+    }
     return templates.TemplateResponse(
         request,
         "library.html",
@@ -249,6 +272,7 @@ def library_page(request: Request):
             "count": len(library),
             "with_abstract": with_abstract,
             "sources": sorted(sources.items()),
+            "coverage": coverage,
             "sample": [entry.to_dict() for entry in library.entries[:20]],
             "path": str(config.LIBRARY_FILE),
         },
@@ -1509,7 +1533,7 @@ def benchmark_api():
 def health():
     return {
         "ok": True,
-        "version": "0.9.32",
+        "version": "0.9.33",
         "offline": config.OFFLINE,
         "supported": sorted(ALLOWED_SUFFIXES),
     }

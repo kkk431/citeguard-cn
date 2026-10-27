@@ -15,6 +15,21 @@
     <div class="stat"><b>{{ sources|length }}</b><span>来源格式</span></div>
     <div class="stat"><b>{{ '已启用' if count else '未启用' }}</b><span>状态</span></div>
   </div>
+  {% if count %}
+  <div class="panel" style="margin-top:16px">
+    <div class="section-head"><h2>覆盖构成</h2><span class="hint">这批题录里有多少字段可直接参与比对</span></div>
+    <div class="stats stats-4">
+      <div class="stat"><b>{{ coverage.doi_pct }}%</b><span>带 DOI（{{ coverage.doi }}/{{ count }}）</span></div>
+      <div class="stat"><b>{{ coverage.abstract_pct }}%</b><span>带摘要（{{ with_abstract }}/{{ count }}）</span></div>
+      <div class="stat"><b>{{ coverage.year_range }}</b><span>年份范围（{{ coverage.years }} 条有年份）</span></div>
+      <div class="stat"><b>{{ coverage.venues }}</b><span>不同期刊/会议</span></div>
+    </div>
+    {% if coverage.top_venues %}
+    <p class="hint" style="margin-top:10px">收录最多的来源：{% for name, n in coverage.top_venues %}{{ name }}（{{ n }}）{% if not loop.last %}、{% endif %}{% endfor %}</p>
+    {% endif %}
+    <p class="hint">参考：在 412 条真实中文引文上，本地库把可确证率从 49% 提到 99.3%（见<a href="/benchmark">评测页</a>）。这是评测集数字，不等于你当前这份库的覆盖率。</p>
+  </div>
+  {% endif %}
   {% if count and with_abstract < count %}
   <div class="lib-banner" style="margin-top:14px">
     有 <b>{{ count - with_abstract }}</b> 条题录没有摘要。元数据核验不受影响；但要判断「正文是否真的支持这条引文」，
