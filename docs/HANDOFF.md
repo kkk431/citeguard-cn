@@ -1148,4 +1148,4 @@ partial 多发、support 少发。
 - 多候选页：`pdf_extract.find_figure_pages()` 收集同一图/表号命中的全部页，`_caption_similarity()` 用中英文 token 覆盖率打分；`find_figure_page(..., claim=...)` 在命中多页时选与结论文字最接近的一页（同分取靠前页），图表路由与正文抽检都传入 claim。无 claim 时保持「第一处命中」旧行为。
 - 表格图注：`find_figure_page(kind="table")` 与 `caption_kind_from_claim()` 已支持「表 N / Table N」，本轮确认无需改代码。
 - 测试：`test_figure_page_choice_prefers_claim_matching_caption`；全套 **460 passed**，`verify_artifacts` 137/137。
-- 版本 0.9.42；`dist/citeguard-cn-0.9.42.zip`。
+- 版本 0.9.42；`dist/citeguard-cn-0.9.42.zip`（8,855,086 bytes，sha256 `ab48bc14f827080f6ccd1bd1318622d4d69c34dc42878cc12897e719d913e3ff`）。
