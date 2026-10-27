@@ -1240,3 +1240,10 @@ partial 多发、support 少发。
 - 实测（本地 0.9.50，任务 c5650365777f）：`run_config.source_health = {"degraded":{"openalex":3598},"errors":2}`，页面横幅实际显示「OpenAlex 冷却 3598 秒，2 次请求失败；因此有 1 条结果标为「无法核验」」；截图 `out/shots/source_health_banner.png`。
 - 测试：离线演示包断言 `run_config.source_health` 结构；全套 **471 passed**；`verify_artifacts` 137/137；版本 0.9.50。
 - dist/citeguard-cn-0.9.50.zip：8859227 bytes，sha256 `1e3778e115d6f0b2c8e41b64036c1e1a8e1da52a22e306a31b5115bb644a2887`。
+
+## 61. 0.9.50 P0/P1 状态矩阵与端到端冒烟（2026-10-28）
+
+- 新增 `docs/p0p1_status.md`：逐项写「做了什么 / 证据 / 还差什么」，明确 ①④⑦ 完成，②完成（无预热脚本），③⑤⑥ 部分完成，⑧ 阻塞。
+- 端到端冒烟（本地 0.9.50，任务 a4cb0da823b0）：离线演示 11 条 → Exact 10 / Unknown 1；RIS 6,314 B、EndNote 3,244 B、BibTeX 4,047 B、CSL 7,336 B 全部 200；证据包 25,516 B，ZIP 内 9 文件；题录库演示幂等（imported 10 / count 20）；未配置视觉时 `/api/figure-check` 503 `not_configured`。
+- `docs/ppt_numbers.md` 增「数据源限流口径」：能说“如实标 Unknown + 指出限流源”，不能说“核验了所有引文”。
+- 产品代码未改，版本仍 0.9.50。
