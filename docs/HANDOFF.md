@@ -1200,3 +1200,16 @@ partial 多发、support 少发。
 - 新增 2 条测试，全套 **470 passed**；版本 0.9.47。
 - 环境记录：OpenAlex 对本机返回 429 `Insufficient budget`、`Retry-After` ≈ 5.2 小时；此时 Crossref/arXiv 仍可用，全部源失败才标 Unknown。
 - dist/citeguard-cn-0.9.47.zip：8,858,078 bytes，sha256 `1cc71b8dd138a46fe55b7ae921cbac4104b328e3cdb232c104296c8b90984871`。
+
+## 57. 0.9.48 核验提速：数据源熔断 + 长 Retry-After 快速失败（2026-10-28）
+
+- 问题：OpenAlex 当日返回 429 `Insufficient budget`（`Retry-After` ≈ 5.2 小时），旧逻辑对**每条**文献都重试 5 次、每次最多睡 20 s；BERT（54 条）暖缓存复测 102.0 s，124 条的论文更早一次跑了 274 s，时间几乎全花在等待限流。
+- `src/citeguard/metadata_verify.py`：
+  - 新增按来源的熔断：`_source_for_url` / `_source_available` / `_mark_source_down` / `reset_source_health`；某源最终失败后冷却 300 s（按 `Retry-After` 延长，最多 1 h），冷却期内直接返回空，不再发请求。
+  - `_request` 收到 `Retry-After >= 60` 时立即熔断并返回，不再睡眠重试（“5 小时后再来”不值得等）。
+  - `_cached_json` / `_cached_text` 命中冷却即跳过；失败计数仍用于把结果标为 Unknown。
+- 实测（同一份 BERT 1810.04805v2，`support_max=0`）：
+  - 暖缓存：**102.0 s → 20.5 s**，状态分布完全一致（Exact 17 / Minor 30 / Unverified 5 / Unknown 2）。
+  - 冷缓存（临时缓存目录）：169.2 s，Exact 14 / Minor 20 / Unverified 3 / **Unknown 17**，`source_errors=40`——冷启动仍受真实 API 限流影响，状态如实标 Unknown；这组不能拿来宣称“提速 8 倍”。
+- 新增 1 条熔断测试，全套 **471 passed**；版本 0.9.48。
+- dist/citeguard-cn-0.9.48.zip：8858729 bytes，sha256 `3638713083a3c2c11b9ff5cb946848c9c2f13255b02afc5769f83e4c6ddc227d`。

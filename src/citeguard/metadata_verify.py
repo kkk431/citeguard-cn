@@ -432,6 +432,48 @@ def source_error_count() -> int:
         return _source_errors
 
 
+# A source that just told us 429 / 5xx should not be retried for every one of
+# the N references: long papers would spend minutes in backoff. Cool it down
+# and let the remaining sources answer; if all are down the report says Unknown.
+_SOURCE_COOLDOWN = 300.0
+_source_down_until: dict[str, float] = {}
+_source_lock = threading.Lock()
+
+
+def _source_for_url(url: str) -> str:
+    if "api.openalex.org" in url:
+        return "openalex"
+    if "api.crossref.org" in url:
+        return "crossref"
+    if "export.arxiv.org" in url:
+        return "arxiv"
+    if "api.semanticscholar.org" in url:
+        return "semantic_scholar"
+    return "other"
+
+
+def _source_available(source: str) -> bool:
+    with _source_lock:
+        return _source_down_until.get(source, 0.0) <= time.time()
+
+
+def _mark_source_down(source: str, retry_after: Optional[str] = None) -> None:
+    delay = _SOURCE_COOLDOWN
+    try:
+        delay = max(delay, float(retry_after))  # type: ignore[arg-type]
+    except (TypeError, ValueError):
+        pass
+    with _source_lock:
+        _source_down_until[source] = time.time() + min(3600.0, delay)
+
+
+def reset_source_health() -> None:
+    with _source_lock:
+        _source_down_until.clear()
+        global _source_errors
+        _source_errors = 0
+
+
 def _request(url: str, params: Optional[dict] = None, tries: int = 5):
     """GET with retries on rate limits / transient server errors.
 
@@ -454,14 +496,23 @@ def _request(url: str, params: Optional[dict] = None, tries: int = 5):
             last_error = exc
             time.sleep(min(15.0, 1.5 * (2**attempt)))
             continue
-        if response.status_code in {429, 500, 502, 503, 504} and attempt + 1 < tries:
+        if response.status_code in {429, 500, 502, 503, 504}:
             retry_after = response.headers.get("Retry-After") if response is not None else None
             try:
-                delay = min(20.0, max(1.5, float(retry_after)))
+                advertised = float(retry_after)  # type: ignore[arg-type]
             except (TypeError, ValueError):
-                delay = min(15.0, 1.5 * (2**attempt))
-            time.sleep(delay)
-            continue
+                advertised = 0.0
+            # A "retry in 5 hours" budget response is not worth sleeping on:
+            # cool the source down and move on, otherwise every reference pays
+            # the full backoff (a 124-reference paper spent minutes here).
+            if advertised >= 60.0:
+                _mark_source_down(_source_for_url(url), retry_after)
+                return response
+            if attempt + 1 < tries:
+                delay = min(20.0, max(1.5, advertised or 1.5 * (2**attempt)))
+                time.sleep(delay)
+                continue
+            _mark_source_down(_source_for_url(url), retry_after)
         return response
     if last_error is not None:
         raise last_error
@@ -476,6 +527,10 @@ def _cached_json(url: str, params: Optional[dict] = None) -> Optional[Any]:
             return json.loads(cp.read_text(encoding="utf-8"))
         except Exception:
             pass
+    source = _source_for_url(url)
+    if not _source_available(source):
+        _note_source_failure()
+        return None
     try:
         resp = _request(url, params)
         if resp.status_code != 200:
@@ -499,6 +554,10 @@ def _cached_text(url: str, params: Optional[dict] = None) -> Optional[str]:
             return cp.read_text(encoding="utf-8")
         except Exception:
             pass
+    source = _source_for_url(url)
+    if not _source_available(source):
+        _note_source_failure()
+        return None
     try:
         resp = _request(url, params)
         if resp.status_code != 200:

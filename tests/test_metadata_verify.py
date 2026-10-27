@@ -755,3 +755,29 @@ def test_agreement_sources_is_empty_for_a_single_weak_lead():
     ref = _ref_without_doi(title="Attention is all you need", year=2017)
     cands = [Candidate(source="openalex", title="A different paper", year=2017)]
     assert mv._agreement_sources(ref, cands) == []
+
+def test_source_circuit_breaker_skips_repeated_failures(monkeypatch):
+    from citeguard import metadata_verify as mv
+
+    mv.reset_source_health()
+    calls = []
+
+    class _Resp:
+        status_code = 429
+        headers = {"Retry-After": "600"}
+
+        def json(self):
+            return {}
+
+    def fake_get(url, **kwargs):
+        calls.append(url)
+        return _Resp()
+
+    monkeypatch.setattr(mv.requests, "get", fake_get)
+    monkeypatch.setattr(mv.time, "sleep", lambda _s: None)
+    assert mv.search_openalex("Some Title") == []
+    first = len(calls)
+    assert first >= 1
+    assert mv.search_openalex("Another Title") == []
+    assert len(calls) == first
+    mv.reset_source_health()
