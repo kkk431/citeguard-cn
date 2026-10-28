@@ -1314,3 +1314,13 @@ partial 多发、support 少发。
 - 列表项模板精简为单行（序号+标题+元信息+合规分+状态+「证据」按钮），行高 56–67px；`PAGE_SIZE=7`，右下角页码 + 共 N 条。
 - 实测（1600×849）：`documentElement.scrollHeight == innerHeight`（整页不滚），总览两卡并排，左栏含「本地题录库 20 条 · 命中 11 条 · 管理题录库」；截图 `out/shots/ui_report_1003.png`。
 - 测试 **473 passed**；`verify_artifacts` 137/137；版本 0.9.72；本地 8010 与 0.9.72 对齐。
+
+## 70. 0.9.75 发布 + 18 页答辩 PPT 合成（2026-10-28）
+
+- 0.9.75：报告页固定视口、总览/审稿条目双标签、详情抽屉、右下翻页、导出收进下拉、题录库统计移到左栏底部；同时修 hero 浅色渐变被 `background` 简写重置的问题。
+- 提交 `5f26bfd` 并推送 GitHub；远端 `/data/xyjiang/aic_mental/citeguard` 已部署 0.9.75（SSH 10013，localhost:8000 `/api/health` 200）；zip `dist/citeguard-cn-0.9.75.zip`（18.8 MB，sha256 `f36cad98904c…`）。
+- 技术报告重新生成：10 页、473 项测试、137 项自检；交付副本 `dist/CiteGuard-CN_技术报告_v0.9.75_2026-10-28.docx/.pdf`（PDF 577,948 B）。
+- 答辩 PPT：18 页 HTML 逐页渲染后合成，`report/build_deck_pptx.py` 一条命令重出；`dist/CiteGuard-CN_答辩PPT_v0.9.75_2026-10-28.pptx`（20.4 MB，18 页，含每页备注标题）与同名 PDF（6.5 MB，18 页）。
+- 仓库仍为私有（用户要求提交前不公开，防止被抄）；提交前需转 Public，否则第 16 页“完全开源”承诺不成立。
+- 备注：外部 `http://222.20.96.215:10013` 的 HTTP 网关仍 502（SSH 正常、服务端 8000 正常），远程演示走 SSH 隧道。
+
