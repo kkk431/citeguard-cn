@@ -1286,3 +1286,5 @@ partial 多发、support 少发。
 - 修复：rail 收起时文字占宽把图标挤出屏幕、浅色主题数字/图标白字不可见、`.reveal` 初始 opacity 0 导致未滚动内容空白、移动端 hero 第二列最小宽 380px 造成横向溢出、旧版标题下划线残留。
 - 测试 **473 passed**；截图 `out/shots/ui_home_v2.png`、`ui_light_v4.png`、`ui_mobile500_v2.png`、`ui_cmdk.png`。
 - 版本 0.9.54；仅前端/模板改动，核验与评测逻辑未变。
+- 收尾：浅色主题标题加深、深色标题提亮、移动端 hero 单列 + 顶栏精简、.reveal 不再初始透明；本地 8010 与远端 8000 均为 0.9.54（/api/health 返回 ersion: 0.9.54）。
+- 交付包：`dist/citeguard-cn-0.9.54.zip` 9,373,479 bytes，sha256 `785859b0238996047c2295785f7d88d9d094909523e0f939b1005ab8b881eb05`。
