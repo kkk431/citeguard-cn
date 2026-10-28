@@ -259,9 +259,13 @@
     }
     el.classList.remove("hidden");
     el.innerHTML =
-      '<div class="mono-sm" style="margin-bottom:6px">正文引注一致性 · 数字引注 ' +
-      (cc.citations || 0) + " 处 / 覆盖 " + (cc.distinct_numbers || 0) +
-      ' 个编号</div><ul class="verdict-list" style="margin:0;padding-left:18px;font-size:13px;line-height:1.8">' +
+      '<div class="mono-sm" style="margin-bottom:8px">正文引注一致性</div>' +
+      '<div class="cc-stats">' +
+      '<span><b>' + (cc.citations || 0) + '</b><em>正文引注</em></span>' +
+      '<span><b>' + (cc.distinct_numbers || 0) + '</b><em>覆盖编号</em></span>' +
+      '<span><b>' + (cc.missing_numbers || []).length + '</b><em>缺号</em></span>' +
+      '<span><b>' + (cc.uncited_numbers || []).length + '</b><em>未被引用</em></span>' +
+      '</div><ul class="verdict-list" style="margin:0;padding-left:18px;font-size:14px;line-height:1.8">' +
       items.join("") + "</ul>";
   }
 
@@ -427,17 +431,22 @@
         if (!supportMeta.judge_available) {
           notes.push("未配置 LLM judge，全部为「未检测」");
         }
+        const judged = supportMeta.judged || 0;
+        const emptyText = judged ? "" :
+          '<div class="support-empty"><b>' + (s.total || 0) + '</b> 条参考文献本轮均未检测</div>' +
+          '<div class="support-sub">' +
+          (supportMeta.cap != null ? "支持度上限为 " + supportMeta.cap + "，调大上限后重跑即可。" : "") +
+          (supportMeta.skipped_no_abstract ? "其中 " + supportMeta.skipped_no_abstract + " 条命中记录缺摘要。" : "") +
+          "</div>";
         supportEl.innerHTML =
           '<div class="mono-sm" style="margin-bottom:8px">引用支持度 · LLM judge（仅供参考）</div>' +
-          '<div class="risklegend">' +
-          SUPPORT_ORDER.map(function (k) {
-            const label = k === "not_checked" ? "未检测" : (SUPPORT[k] ? SUPPORT[k].label : k);
-            return "<span><em>" + label + "</em><b>" + (supportStats[k] || 0) + "</b></span>";
-          }).join("") +
-          "</div>" +
-          (notes.length
-            ? '<div class="mono-sm" style="margin-top:8px;color:var(--muted)">' + notes.join(" · ") + "</div>"
-            : "");
+          (judged
+            ? '<div class="risklegend">' + SUPPORT_ORDER.map(function (k) {
+                const label = k === "not_checked" ? "未检测" : (SUPPORT[k] ? SUPPORT[k].label : k);
+                return "<span><em>" + label + "</em><b>" + (supportStats[k] || 0) + "</b></span>";
+              }).join("") + '</div>' +
+              (notes.length ? '<div class="mono-sm" style="margin-top:8px;color:var(--muted)">' + notes.join(" · ") + "</div>" : "")
+            : emptyText);
       } else {
         supportEl.classList.add("hidden");
       }

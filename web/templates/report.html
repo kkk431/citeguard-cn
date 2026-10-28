@@ -43,7 +43,6 @@
 
     <div id="report-content" class="{% if not report %}hidden{% endif %}">
       <div class="report-actions">
-        <div class="mono-sm" id="report-subtitle">逐条证据与修改建议</div>
         {% if report %}
         <details class="export-menu">
           <summary class="btn btn-ghost btn-sm">导出与操作 ▾</summary>
@@ -66,12 +65,12 @@
         </details>
         {% endif %}
       </div>
-      <div class="inline-note hidden" id="input-meta"></div>
       <div class="panel summary-tabs" id="summary-tabs">
         <div class="tabbar" role="tablist" aria-label="结论视图">
           <button class="tab on" type="button" role="tab" aria-selected="true" data-summary-tab="verdict">总览</button>
           <button class="tab" type="button" role="tab" aria-selected="false" data-summary-tab="refs">审稿条目</button>
         </div>
+        <div class="inline-note hidden" id="input-meta"></div>
         <div class="tab-pane" id="pane-overview">
           <div class="verdict" id="verdict"></div>
           <div id="review-summary"></div>
@@ -138,3 +137,4 @@
 <script id="report-data" type="application/json">{{ report|tojson if report else 'null' }}</script>
 {% endblock %}
 {% block scripts %}<script src="/static/js/report.js?v={{ request.app.version }}"></script>{% endblock %}
+
