@@ -12,7 +12,7 @@
 | ⑤ 解析版面增强降低真实论文 Unverified | **部分完成** | 0.9.45/0.9.46/0.9.47：作者-年合并、无括号年份切分、尾部作者行移动、作者列表题名清空；真实 BERT：Unverified 7 → 5（另 2 条 Unknown 为源限流），不再出现「题名 = 作者列表」；22 篇真实语料全量解析：**498 条，题名为空 3 条（0.6%，集中在 1 篇双栏论文的两条粘连文献）**（`data/experiments/parse_corpus_titles.json`） | 残留 3 条空题名（PDF 把两条文献粘成一条），未做强制切分以免误伤；英文语料仍以作者-年格式为主，与中文著录格式的覆盖不同 |
 | ⑥ 图表多候选页投票、表格提示、扩真实图表集 | **部分完成** | `find_figure_pages` 收集全部候选页；`find_figure_page(claim=...)` 按图注-结论词重合度选页、页码作平手裁决；表格提示走 `kind="table"`（`图注/表注` 分流）；0.9.51 过滤图注自身被当成结论（`_CAPTION_LINE_RE`）；真实图集 13 图/26 条，8B 分步 v3 0.885 | 「扩真实图表集」需要网络 + 视觉服务重新标注，今天做不了；13 图仍是小样本 |
 | ⑦ 多源投票参与状态判定 | **已完成** | 0.9.41 `_version_sources`：同题名 ≥0.95 且年份一致的另一来源命中时，从 mismatches 移除 year 并注记「预印本/会议版本差异」；单测覆盖；真实 BERT 的 Minor 主要来自会议/预印本版本差异 | 投票只解决“年份版本差异”，不改变作者/题名不一致的判定 |
-| ⑧ 中文支持度样本扩充 | **未完成（阻塞）** | 现有 ClaimSupport-CN 100 条、托管 0.9597；中文支持度靠 DeepSeek 托管接口 | 需要可用网络与托管配额；本地没有可用的中文 judge 模型；不用伪造/机器翻译凑数 |
+| ⑧ 中文支持度样本扩充 | **已完成（构造扩展集）** | 0.9.52 新增 ClaimSupport-CN-Ext 60 条，source work 与原 100 条完全不重叠（24 support / 15 partial / 12 contradict / 9 no_evidence；`scripts/build_claimsupport_ext.py`，sha256 `8015a2e8…`）；v10 产品 judge：macro-F1 **0.9866**、acc **0.9833**，仅 1 条 support→partial | 这是程序化构造集、不是人工标注；原 100 条 **0.9597** 仍是主口径，不能把 0.9866 说成“真实场景 98.7%” | `data/claimsupport_cn/claimsupport_cn_ext.jsonl`；`data/experiments/ext60.json` |
 
 ## 本次端到端冒烟（2026-10-28，本地 0.9.50）
 

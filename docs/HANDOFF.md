@@ -1255,3 +1255,12 @@ partial 多发、support 少发。
 - **质量问题**：正文抽取里带着图注行（`Figure 1. ...`），被当成作者结论送去核验，浪费一次视觉调用且输出 `insufficient`。加 `_CAPTION_LINE_RE`：只跳过 `Figure 1.` / `图 1：` 这类图注前缀，不误伤“图 1 显示……”；测试覆盖。
 - **8B 端到端**：本地 0.9.51 + lmh Qwen3-VL-8B（:8095），`hanspub_152575.pdf` + `figures=1`：14.4 s 完成；3 组（图1 p3 / 图2 p4 / 图3 p5），每组 1 条真实结论，全部 supported；核验 15 条 Exact 12 / Minor 3 / Major 0。
 - 全部测试 **472 passed**。
+
+## 63. 0.9.52 中文支持度扩展集（2026-10-28）
+
+- 新增 `scripts/build_claimsupport_ext.py`：从 OpenAlex 的 443 个 source units 中排除原 100 条用过的 120 个 work，取剩余 415 个；沿用 `build_claimsupport.build_items` 的构造规则生成 **60 条**（24 support / 15 partial / 12 contradict / 9 no_evidence），source work 与原集**完全不重叠**，seed 20261028。
+- 数据：`data/claimsupport_cn/claimsupport_cn_ext.jsonl`（sha256 `8015a2e864d74ab31981a19fe4a444b6bc215c4cba5a624ff91939084319e1f8`）、`claimsupport_cn_ext.meta.json`；source 缓存扩充到 413 个 work。
+- 评测（v10 产品 judge，temperature 0，`--audit`）：n=60、macro-F1 **0.9866**、acc **0.9833**；混淆 `[[23,1,0,0],[0,15,0,0],[0,0,12,0],[0,0,0,9]]`，仅 1 条 support→partial。结果 `data/experiments/ext60.{json,csv}`。
+- 口径：这是程序化构造扩展集，不是人工标注；原 100 条 **0.9597** 仍是主口径。扩展集只用于说明“规则与判官在同分布新文献上仍稳定”，不能说成真实场景 98.7%。
+- 真实图表小样本复测：Qwen3-VL-8B、v3、10 条真实 claims → 10/10（`data/experiments/figure_real26_8b_v3.json`，样本小，仅作趋势参考）；图表真实集 13 图/26 条仍是 8B v3 **0.885** 的主口径。
+- 全套 **472 passed**；版本 0.9.52。

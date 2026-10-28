@@ -1,0 +1,119 @@
+{
+  "generated_at": "2026-10-28T13:13:47",
+  "model": "qwen3-vl-8b",
+  "endpoint": "http://222.20.126.148:8095/v1",
+  "variants": [
+    "v3"
+  ],
+  "summary": {
+    "v3": {
+      "n": 10,
+      "accuracy": 1.0,
+      "supported_recall": 1.0,
+      "contradiction_recall": 1.0,
+      "mean_latency_ms": 2254.6
+    }
+  },
+  "rows": [
+    {
+      "family": "real",
+      "id": "real_01",
+      "gold": "supported",
+      "variant": "v3",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 2437,
+      "reason": "图表中2025年数据点标注为195，且为最高点。"
+    },
+    {
+      "family": "real",
+      "id": "real_01",
+      "gold": "contradicted",
+      "variant": "v3",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 2818,
+      "reason": "图中2025年发文量为195篇，2023年为66篇"
+    },
+    {
+      "family": "real",
+      "id": "real_02",
+      "gold": "supported",
+      "variant": "v3",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 2276,
+      "reason": "图表显示Ours在Reuters上ACC最高，范围0.60-0.63"
+    },
+    {
+      "family": "real",
+      "id": "real_02",
+      "gold": "contradicted",
+      "variant": "v3",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 2244,
+      "reason": "Yale图中Ours在40%缺失率时ACC最高，非最低"
+    },
+    {
+      "family": "real",
+      "id": "real_03",
+      "gold": "supported",
+      "variant": "v3",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 2666,
+      "reason": "图中 alpha=10^0 时 ACC 达峰值约 0.95，与结论一致"
+    },
+    {
+      "family": "real",
+      "id": "real_03",
+      "gold": "contradicted",
+      "variant": "v3",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 1924,
+      "reason": "图中ACC随alpha变化明显，非水平线"
+    },
+    {
+      "family": "real",
+      "id": "real_04",
+      "gold": "supported",
+      "variant": "v3",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 1814,
+      "reason": "图表显示高风险时，健康实体理论组值更高"
+    },
+    {
+      "family": "real",
+      "id": "real_04",
+      "gold": "contradicted",
+      "variant": "v3",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 2162,
+      "reason": "图中健康增量理论组随风险升高，消极自我图式上升"
+    },
+    {
+      "family": "real",
+      "id": "real_05",
+      "gold": "supported",
+      "variant": "v3",
+      "verdict": "supported",
+      "correct": true,
+      "latency_ms": 2236,
+      "reason": "图(b)中BIC在多项式阶数约7处达到最低点。"
+    },
+    {
+      "family": "real",
+      "id": "real_05",
+      "gold": "contradicted",
+      "variant": "v3",
+      "verdict": "contradicted",
+      "correct": true,
+      "latency_ms": 1969,
+      "reason": "图(a)显示簇数量随缓冲宽度增加而下降"
+    }
+  ]
+}

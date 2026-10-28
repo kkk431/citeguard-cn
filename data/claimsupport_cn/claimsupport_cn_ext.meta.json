@@ -1,0 +1,26 @@
+{
+  "dataset": "ClaimSupport-CN-Ext",
+  "version": 1,
+  "built_at": "2026-10-28T05:11:42+00:00",
+  "seed": 20261028,
+  "n": 60,
+  "counts": {
+    "support": 24,
+    "partial": 15,
+    "contradict": 12,
+    "no_evidence": 9
+  },
+  "disjoint_from": {
+    "dataset": "ClaimSupport-CN",
+    "note": "source works (OpenAlex IDs) are disjoint from the original 100 items"
+  },
+  "sha256": "8015a2e864d74ab31981a19fe4a444b6bc215c4cba5a624ff91939084319e1f8",
+  "source_cache": "data/claimsupport_cn/claimsupport_cn.sources.json",
+  "labels": {
+    "support": "claim = a core abstract sentence; evidence contains it",
+    "partial": "evidence is only the first assertion clause",
+    "contradict": "one assertion flipped to its antonym",
+    "no_evidence": "evidence is an unrelated paper with low title/fragment similarity"
+  },
+  "note": "constructed probes; labels are a property of the construction, not model output"
+}
