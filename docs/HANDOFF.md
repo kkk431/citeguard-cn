@@ -1280,3 +1280,9 @@ partial 多发、support 少发。
 - 交付副本：`dist/CiteGuard-CN_技术报告_v0.9.53.{docx,pdf}`、`dist/CiteGuard-CN_答辩PPT_v0.9.53.{pptx,pdf}`。
 - `docs/ppt_numbers.md`：测试数 471 → 473（两处）。
 - `verify_artifacts` 137/137；产品代码与版本未变（仍 0.9.53）。
+## 66. 0.9.54 前端重构：深色工作台 + 命令面板（2026-10-28）
+- 新增交互层 `web/static/css/refresh.css`（深墨绿/薄荷绿主题、rail 左右收起、hero、数字条、上传区、子页覆盖）与 `web/static/js/refresh.js`（命令面板 Ctrl/⌘ K、主题切换并持久化、滚动入场、数字滚动、按钮聚光、移动端抽屉）。
+- 重写 `web/templates/base.html`：内联 SVG sprite（家/图/对比/发现/库/历史/评测/关于）、rail 折叠按钮、主题按钮、命令面板结构；`web/templates/index.html`：大标题 hero、真实报告预览卡、四项数字、上传/粘贴表单接入新样式。
+- 修复：rail 收起时文字占宽把图标挤出屏幕、浅色主题数字/图标白字不可见、`.reveal` 初始 opacity 0 导致未滚动内容空白、移动端 hero 第二列最小宽 380px 造成横向溢出、旧版标题下划线残留。
+- 测试 **473 passed**；截图 `out/shots/ui_home_v2.png`、`ui_light_v4.png`、`ui_mobile500_v2.png`、`ui_cmdk.png`。
+- 版本 0.9.54；仅前端/模板改动，核验与评测逻辑未变。

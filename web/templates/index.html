@@ -2,38 +2,54 @@
 {% block content %}
 <section class="hero">
   <div class="hero-copy">
-    <div class="kicker"><span class="kick-dot"></span>CiteGuard · 中文论文引文体检</div>
-    <h1>让每一条引文<br><em>都有据可查。</em></h1>
-    <p class="lede">上传论文，逐条核对参考文献是否真实存在、是否真的支持正文那句话、是否符合 GB/T 7714-2025；每条结论都带可点开的证据。</p>
+    <div class="kicker"><span class="kick-dot"></span>CiteGuard · 引文取证工作台</div>
+    <h1>让每一条引文，<br><em>都经得起追问。</em></h1>
+    <p class="lede">上传论文，逐条核对参考文献是否真实存在、是否真的支持正文那句话、是否符合 GB/T 7714-2025。不是给一个笼统的分数，而是每一条都给证据、给理由、给修改建议。</p>
     <div class="hero-chips">
       <span>PDF / Word / TXT / MD</span>
       <span>≤ 30 MB</span>
-      <span>可本地部署</span>
+      <span>开源可自部署</span>
       <span>分析后删除原文件</span>
     </div>
     <div class="hero-cta">
       <a class="btn btn-primary btn-lg" href="#upload-card">开始体检 <span aria-hidden="true">↓</span></a>
-      <a class="btn btn-ghost btn-lg" href="/benchmark">先看评测数字</a>
+      <a class="btn btn-ghost btn-lg" href="/benchmark">先看真实评测</a>
     </div>
   </div>
 
   <aside class="preview" aria-hidden="true">
-    <div class="preview-head"><b>报告速览</b><span>EXAMPLE</span></div>
+    <div class="scanline"></div>
+    <div class="preview-head"><b>引文健康度 · 示例报告</b><span>PREVIEW</span></div>
+    <div class="pv-score">
+      <div class="pv-ring">
+        <svg viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(120,225,200,.12)" stroke-width="9"/>
+          <circle cx="60" cy="60" r="52" fill="none" stroke="url(#pvgrad)" stroke-width="9"
+                  stroke-linecap="round" stroke-dasharray="326" stroke-dashoffset="68"/>
+          <defs><linearGradient id="pvgrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#5ff3c8"/><stop offset="1" stop-color="#39b9ff"/>
+          </linearGradient></defs>
+        </svg>
+        <div class="pv-num"><b>79<span>%</span></b><small>健康引文</small></div>
+      </div>
+      <div class="pv-score-copy"><b>可以交稿的水平</b><span>24 条参考文献里，19 条真实且元数据一致；3 条存在年份/作者偏差；2 条需要人工确认。</span></div>
+    </div>
     <div class="preview-row"><span class="pv-label">参考文献</span><b>24</b></div>
     <div class="preview-row"><span class="pv-label">真实一致</span><b class="t-ok">19</b></div>
     <div class="preview-row"><span class="pv-label">元数据偏差</span><b class="t-warn">3</b></div>
     <div class="preview-row"><span class="pv-label">疑似虚构 / 错配</span><b class="t-bad">2</b></div>
-    <div class="riskbar"><i style="width:79%;background:var(--ok)"></i><i style="width:12.5%;background:var(--warn)"></i><i style="width:8.5%;background:var(--bad)"></i></div>
+    <div class="riskbar"><i style="width:79%"></i><i style="width:12.5%"></i><i style="width:8.5%"></i></div>
     <div class="risklegend"><span>一致 79%</span><span>偏差 12.5%</span><span>存疑 8.5%</span></div>
     <div class="pv-note">每条结论都能点开 OpenAlex / Crossref / DOI 原始记录核对。</div>
   </aside>
 </section>
 
+
 <section class="stats-strip" aria-label="产品数字">
-  <a href="/benchmark"><b>0.9684</b><span>CiteBench-CN macro-F1</span></a>
+  <a href="/benchmark"><b data-count="0.9684" data-text="0.9684">0.9684</b><span>CiteBench-CN macro-F1</span></a>
   <a href="/benchmark"><b>0 / 409</b><span>真实已发表引文被误判为虚构</span></a>
-  <a href="/benchmark"><b>0.9597</b><span>引用支持度（托管判官）</span></a>
-  <a href="/benchmark"><b>73%</b><span>外部 ChartCheck 二分类（8B）</span></a>
+  <a href="/benchmark"><b data-count="0.9597" data-text="0.9597">0.9597</b><span>引用支持度（托管判官 v10）</span></a>
+  <a href="/benchmark"><b data-count="73" data-text="73%" data-suffix="%">73%</b><span>外部 ChartCheck 二分类（Qwen3-VL-8B）</span></a>
 </section>
 
 <section class="section" id="upload-card">
