@@ -1271,3 +1271,12 @@ partial 多发、support 少发。
 - `src/citeguard/pipeline.py` `run_job`：回调把任务进度从 4% 推到 10%，阶段文案为「抽取文字 i/n 页」；结束后写「抽取完成：N 页 / M 字」再进入切分与核验。长 PDF 不再长时间停在「读取文件」。
 - 测试：`tests/test_pdf_extract.py::test_extract_pdf_reports_page_progress` 用 2 页临时 PDF 断言 `[(1,2),(2,2)]`；真实 10 页 PDF 实测 10 次回调。全套 **473 passed**。
 - 版本 0.9.53。
+
+## 65. 0.9.53 材料数字对齐（2026-10-28）
+
+- `report/build_report.py`：测试数 471 → **473**（三处）；4.3 补 ClaimSupport-CN-Ext 60 条（source work 与原集不重叠）；表 1 支持度行补「扩展集 60 条 0.9866（构造，非人工标注）」。
+- 重新生成：`report/citeguard_technical_report.docx` 651,698 bytes → PDF **10 页**、577,948 bytes，正文含「473」与「0.9866」、不含「471」。
+- `report/build_deck.py`：统计页/代码页/评分页 471 → 473；「9 页报告」→「10 页报告」；重新生成 18 页 PPT，PDF 1,122,890 bytes，含「473」。
+- 交付副本：`dist/CiteGuard-CN_技术报告_v0.9.53.{docx,pdf}`、`dist/CiteGuard-CN_答辩PPT_v0.9.53.{pptx,pdf}`。
+- `docs/ppt_numbers.md`：测试数 471 → 473（两处）。
+- `verify_artifacts` 137/137；产品代码与版本未变（仍 0.9.53）。

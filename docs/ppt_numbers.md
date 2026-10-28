@@ -40,7 +40,7 @@
 | 6d | 正文引注一致性检查 | **15 / 15** 规则用例通过 | 按 GB/T 顺序编码制构造的自检用例（非标注集） | `data/experiments/citation_consistency.json` |
 | 7 | 中文题名检索召回 | **92%** | OpenAlex 已收录的中文论文 25 篇 | `data/experiments/search_recall.json` |
 | 8 | 中国 DOI 平台元数据接入 | CNKI DOI 从「未找到」→ **真实一致**；真实语料可补 1/409 | 真实语料 + 在线接口 | `docs/real_data_eval.md` §5 |
-| 9 | 工程与交付 | **471** 测试通过；7 个网页页面 + 报告页；批量/汇总/CSV | 离线测试，无网络依赖 | `pytest tests -q` |
+| 9 | 工程与交付 | **473** 测试通过；7 个网页页面 + 报告页；批量/汇总/CSV | 离线测试，无网络依赖 | `pytest tests -q` |
 
 > 引用时建议写法：**「真实已发表文献 0/409 误判为虚构」**、**「支持度 macro-F1 0.9597（构造集）」**、**「格式漂移检出 29/30」**。
 > 这三条分别对应：敢不敢信结论、能不能判断引用是否被支持、格式规则有没有真本事。
@@ -70,7 +70,7 @@
 ## 复现命令（评委问「这些数字怎么来的」）
 
 ```bash
-PYTHONPATH=src python -m pytest tests -q                    # 471 passed
+PYTHONPATH=src python -m pytest tests -q                    # 473 passed
 PYTHONPATH=src python scripts/evaluate_citebench.py         # 真实性基准（离线缓存）
 DEEPSEEK_API_KEY=... PYTHONPATH=src python scripts/evaluate_support.py   # 支持度（两段式）
 DEEPSEEK_API_KEY=... PYTHONPATH=src python scripts/eval_compare_real.py  # 多篇对比实测
