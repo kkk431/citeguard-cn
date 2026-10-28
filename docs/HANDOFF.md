@@ -1264,3 +1264,10 @@ partial 多发、support 少发。
 - 口径：这是程序化构造扩展集，不是人工标注；原 100 条 **0.9597** 仍是主口径。扩展集只用于说明“规则与判官在同分布新文献上仍稳定”，不能说成真实场景 98.7%。
 - 真实图表小样本复测：Qwen3-VL-8B、v3、10 条真实 claims → 10/10（`data/experiments/figure_real26_8b_v3.json`，样本小，仅作趋势参考）；图表真实集 13 图/26 条仍是 8B v3 **0.885** 的主口径。
 - 全套 **472 passed**；版本 0.9.52。
+
+## 64. 0.9.53 抽取阶段分页进度（2026-10-28）
+
+- `src/citeguard/pdf_extract.py`：`extract_text_with_meta(path, on_page=None)`；`_pdf_pdfplumber(..., on_page=...)` 每页回调 `(done, total)`，pdfplumber 路径生效，pypdf/pymupdf/OCR 回退路径不受影响。
+- `src/citeguard/pipeline.py` `run_job`：回调把任务进度从 4% 推到 10%，阶段文案为「抽取文字 i/n 页」；结束后写「抽取完成：N 页 / M 字」再进入切分与核验。长 PDF 不再长时间停在「读取文件」。
+- 测试：`tests/test_pdf_extract.py::test_extract_pdf_reports_page_progress` 用 2 页临时 PDF 断言 `[(1,2),(2,2)]`；真实 10 页 PDF 实测 10 次回调。全套 **473 passed**。
+- 版本 0.9.53。

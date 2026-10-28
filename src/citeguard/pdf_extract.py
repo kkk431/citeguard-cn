@@ -278,8 +278,12 @@ def render_page_png(path: str | Path, page_number: int, *, dpi: int = 150) -> by
                     pass
 
 
-def extract_text_with_meta(path: str | Path) -> tuple[str, dict]:
+def extract_text_with_meta(path: str | Path, on_page=None) -> tuple[str, dict]:
     """Extract text and describe how it was obtained.
+
+    ``on_page(done, total)`` is called while a PDF text layer is read, so the
+    web job can show page-level progress on long documents instead of a blank
+    “读取文件” stage.
 
     The returned metadata drives the report banner: users must be able to see
     whether the text came from a PDF text layer or from OCR, because OCR output
@@ -319,7 +323,7 @@ def extract_text_with_meta(path: str | Path) -> tuple[str, dict]:
     meta["method"] = "pdf-text"
     meta["pages"] = _pdf_page_count(path)
     garbled = False
-    text = _pdf_pdfplumber(path)
+    text = _pdf_pdfplumber(path, on_page=on_page) if on_page is not None else _pdf_pdfplumber(path)
     if not text.strip():
         text = _pdf_pypdf(path)
     # Some PDFs (notably arXiv/LaTeX exports) encode words with no inter-word
@@ -491,14 +495,20 @@ def strip_repeated_lines(text: str, min_repeats: int = 3, max_len: int = 60) -> 
     return "\n".join(kept)
 
 
-def _pdf_pdfplumber(path: Path) -> str:
+def _pdf_pdfplumber(path: Path, on_page=None) -> str:
     try:
         import pdfplumber
 
         pages: list[str] = []
         with pdfplumber.open(str(path)) as pdf:
-            for page in pdf.pages:
+            total = len(pdf.pages)
+            for i, page in enumerate(pdf.pages, 1):
                 pages.append(_page_text(page))
+                if on_page is not None:
+                    try:
+                        on_page(i, total)
+                    except Exception:
+                        pass
         return "\n".join(pages)
     except Exception:
         return ""

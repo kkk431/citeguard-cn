@@ -484,3 +484,22 @@ def test_toc_captions_are_skipped():
     assert _is_toc_caption("图 2 系统架构 ........ 12")
     assert not _is_toc_caption("图 1 研究框架")
     assert not _is_toc_caption("Figure 1. Overview of the method")
+
+
+def test_extract_pdf_reports_page_progress(tmp_path):
+    import pytest
+
+    pymupdf = pytest.importorskip("pymupdf")
+    path = tmp_path / "two_pages.pdf"
+    doc = pymupdf.open()
+    for page_no in (1, 2):
+        page = doc.new_page()
+        page.insert_text((72, 72), f"page {page_no} references and body text")
+    doc.save(str(path))
+    doc.close()
+
+    seen: list[tuple[int, int]] = []
+    text, meta = extract_text_with_meta(path, on_page=lambda done, total: seen.append((done, total)))
+    assert seen == [(1, 2), (2, 2)]
+    assert meta["pages"] == 2
+    assert "page 1" in text and "page 2" in text

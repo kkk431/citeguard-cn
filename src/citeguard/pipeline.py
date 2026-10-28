@@ -432,7 +432,17 @@ def run_job(
     """Run the analysis for a web job and write report.json/html/md to disk."""
     if file_path:
         manager.update(job_id, progress=4, stage="读取文件")
-        text, input_meta = extract_text_with_meta(file_path)
+
+        def _page(done: int, total: int) -> None:
+            pct = 4 + int(6 * done / max(total, 1))
+            manager.update(job_id, progress=pct, stage=f"抽取文字 {done}/{total} 页")
+
+        text, input_meta = extract_text_with_meta(file_path, on_page=_page)
+        manager.update(
+            job_id,
+            progress=10,
+            stage=f"抽取完成：{input_meta.get('pages', 0)} 页 / {input_meta.get('chars', 0)} 字",
+        )
     else:
         input_meta = {
             "method": "text",
