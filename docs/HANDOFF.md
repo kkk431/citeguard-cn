@@ -1297,3 +1297,13 @@ partial 多发、support 少发。
 - 截图：`out/shots/ui_pages_montage.png`、`ui_library_light.png`、`ui_report_light2.png`、`ui_bench_light.png`。
 - 版本 0.9.55；`dist/citeguard-cn-0.9.55.zip` 9,373,711 bytes，sha256 `662b24e42223bd98211a91faf9022470224000fc2b62dc6ce2ae8bef0675db48`。
 - 已知边界：深/浅色均手测；移动端只抽首页与 500px；图表/对比页上传区留白偏大，属视觉留白非缺陷。
+
+## 68. 报告页重排：标签页 + 详情抽屉 + 固定视口 + 翻页列表（2026-10-28，0.9.65）
+- 用户反馈：报告页右侧条目全部展开、整页要一直往下滑，"从用户角度这很离谱"；要求概览/审稿做成标签页，底部右下角用页码翻页，每页固定数量。
+- `web/templates/report.html`：`#verdict` / `#review-summary` 改为 `.summary-tabs` 内两个 `tab-pane`；工具栏与列表放进固定高度 `.report-main`；新增 `#ref-pager`、`#ref-drawer` + `#ref-drawer-backdrop`（点击条目弹出详情，Esc/点遮罩关闭）。
+- `web/static/js/report.js`：`selectSummaryTab(name)` 切换标签（修复 `summaryTab` 在 `render()` 调用后才初始化、导致 verdict 永远 hidden 的 TDZ 类 bug）；`openRefDrawer/closeRefDrawer` 把 `.ref-body` 搬进抽屉；列表 `PAGE_SIZE = 7` + `renderPager()`（‹ 1 2 3 ›、共 N 条、上一页/下一页），筛选/搜索/排序自动回到第 1 页。
+- `web/static/css/refresh.css`：`.report-shell` 固定 `calc(100vh - 96px)` 三栏网格（rail / main / 详情抽屉），`body:has(.report-shell)` 锁页面滚动；`.report-main` 成为唯一滚动容器；条目行压缩为单行题名 + 元信息 + 状态标签（56–67px），删掉原展开体；`.ref-pager` 固定在右下角。
+- 实测（1600×849 视口）：`documentElement.scrollHeight == innerHeight`（整页不滚），列表每页 7 条、3 页，翻页/搜索/抽屉/标签均可点；浅色与深色均检查。
+- 测试 **473 passed**；版本 0.9.65；`/api/health` = 0.9.65。
+- 截图：`out/shots/ui_report_pager.png`、`ui_report_dark.jpg`（本地 Downloads 备份）。
+

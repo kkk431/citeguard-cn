@@ -28,7 +28,9 @@
     not_checked: { label: "未检测", cls: "unknown" },
   };
   const SUPPORT_ORDER = ["support", "partial", "contradict", "no_evidence", "not_checked"];
-  const state = { filter: "all", q: "", sort: "index", view: "cards", needs: false, fmt: false, sup: "" };
+  const state = { filter: "all", q: "", sort: "index", view: "cards", needs: false, fmt: false, sup: "", page: 1 };
+  const PAGE_SIZE = 7;
+  var summaryTab = "verdict";
 
   if (!report) {
     pollJob();
@@ -103,6 +105,19 @@
           warnings.map(function (w) { return "<li>" + esc(w) + "</li>"; }).join("") +
           "</ul>"
         : "");
+  }
+
+  function selectSummaryTab(name) {
+    summaryTab = name;
+    const verdict = document.getElementById("verdict");
+    const review = document.getElementById("review-summary");
+    document.querySelectorAll("[data-summary-tab]").forEach(function (btn) {
+      const on = btn.getAttribute("data-summary-tab") === name;
+      btn.classList.toggle("on", on);
+      btn.setAttribute("aria-selected", on ? "true" : "false");
+    });
+    if (verdict) verdict.classList.toggle("hidden", name !== "verdict");
+    if (review) review.classList.toggle("hidden", name !== "review" || review.dataset.ready !== "1");
   }
 
   function renderVerdict(data) {
@@ -261,9 +276,10 @@
         (x.index == null ? "" : "<b>[" + x.index + "]</b> ") +
         "<b>" + esc(x.kind || "") + "</b>：" + esc(x.text || "") + "</li>";
     }).join("");
-    el.classList.remove("hidden");
+    el.dataset.ready = "1";
+    if (summaryTab === "review") el.classList.remove("hidden");
     el.innerHTML =
-      '<div class="mono-sm">审稿视角 · 自动汇总（仅供参考）</div>' +
+      '<div class="mono-sm">自动汇总（仅供参考）</div>' +
       '<div style="font-size:15px;font-weight:600;margin:6px 0 4px;color:' + color + '">' +
       esc(r.decision) + "</div>" +
       '<div class="mono-sm" style="color:var(--muted);margin-bottom:6px">' +
@@ -334,6 +350,14 @@
     renderVerdict(data);
     renderSourceHealth(data);
     renderReviewSummary(data);
+    selectSummaryTab(summaryTab);
+    document.querySelectorAll("[data-summary-tab]").forEach(function (btn) {
+      if (btn.__tabBound) return;
+      btn.__tabBound = true;
+      btn.addEventListener("click", function () {
+        selectSummaryTab(btn.getAttribute("data-summary-tab"));
+      });
+    });
     renderFigureChecks(data);
     renderCitationConsistency(data);
     const s = data.stats || {};
@@ -697,30 +721,76 @@
     return hay.indexOf(state.q) !== -1;
   }
 
+  function renderPager(pages, total, page) {
+    const el = document.getElementById("ref-pager");
+    if (!el) return;
+    el.hidden = state.view !== "cards" || total === 0;
+    if (el.hidden) return;
+    let html = '<span class="pager-total">共 ' + total + ' 条</span>';
+    html += '<button class="pager-btn" type="button" data-page="prev"' + (page <= 1 ? " disabled" : "") + ' aria-label="上一页">‹</button>';
+    const win = 2;
+    const a = Math.max(1, page - win);
+    const b = Math.min(pages, page + win);
+    if (a > 1) {
+      html += '<button class="pager-btn" type="button" data-page="1">1</button>';
+      if (a > 2) html += '<span class="pager-gap">…</span>';
+    }
+    for (let i = a; i <= b; i++) {
+      html += '<button class="pager-btn' + (i === page ? " on" : "") + '" type="button" data-page="' + i + '">' + i + '</button>';
+    }
+    if (b < pages) {
+      if (b < pages - 1) html += '<span class="pager-gap">…</span>';
+      html += '<button class="pager-btn" type="button" data-page="' + pages + '">' + pages + '</button>';
+    }
+    html += '<button class="pager-btn" type="button" data-page="next"' + (page >= pages ? " disabled" : "") + ' aria-label="下一页">›</button>';
+    el.innerHTML = html;
+    el.querySelectorAll("button[data-page]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        const v = btn.getAttribute("data-page");
+        if (v === "prev") state.page = Math.max(1, page - 1);
+        else if (v === "next") state.page = Math.min(pages, page + 1);
+        else state.page = Number(v) || 1;
+        const list = document.querySelector(".ref-workbench");
+        if (list) list.scrollTop = 0;
+        apply(window.__reportData || {});
+      });
+    });
+  }
+
   function apply(data) {
     const items = (data.references || []).filter(function (it) {
       return matches(it, data);
     });
     if (state.sort === "risk") {
-      items.sort(function (a, b) {
-        return riskScore(b) - riskScore(a);
-      });
+      items.sort(function (a, b) { return riskScore(b) - riskScore(a); });
     } else if (state.sort === "compliance") {
-      items.sort(function (a, b) {
-        return ((a.compliance && a.compliance.score) || 0) - ((b.compliance && b.compliance.score) || 0);
-      });
+      items.sort(function (a, b) { return ((a.compliance && a.compliance.score) || 0) - ((b.compliance && b.compliance.score) || 0); });
     } else {
-      items.sort(function (a, b) {
-        return (a.index || 0) - (b.index || 0);
-      });
+      items.sort(function (a, b) { return (a.index || 0) - (b.index || 0); });
     }
+    const sig = [state.filter, state.q, state.sort, state.needs, state.fmt, state.sup].join("|");
+    if (sig !== state._sig) { state._sig = sig; state.page = 1; }
+    const total = items.length;
+    const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+    state.page = Math.min(Math.max(1, state.page || 1), pages);
+    const start = (state.page - 1) * PAGE_SIZE;
+    const pageItems = items.slice(start, start + PAGE_SIZE);
 
-    document.getElementById("ref-empty").classList.toggle("hidden", items.length > 0);
-    document.getElementById("ref-list").classList.toggle("hidden", state.view !== "cards" || items.length === 0);
-    document.getElementById("ref-table-wrap").classList.toggle("hidden", state.view !== "table" || items.length === 0);
+    document.getElementById("ref-empty").classList.toggle("hidden", total > 0);
+    document.getElementById("ref-workbench").classList.toggle("hidden", state.view !== "cards" || total === 0);
+    const detailEl = document.getElementById("ref-detail");
+    if (detailEl && total === 0) {
+      detailEl.innerHTML = '<div class="ref-detail-empty"><b>没有符合条件的条目</b><span>换个筛选条件，或清空搜索框再试。</span></div>';
+    }
+    document.getElementById("ref-table-wrap").classList.toggle("hidden", state.view !== "table" || total === 0);
+    renderPager(pages, total, state.page);
 
-    if (state.view === "cards") renderCards(items);
-    else renderTable(items);
+    if (state.view === "cards") {
+      renderCards(pageItems, items);
+    } else {
+      restoreBody();
+      renderTable(items);
+    }
   }
 
   function openEvidence(pos) {
@@ -777,13 +847,73 @@
   }
 
   document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") closeEvidence();
+    if (e.key === "Escape") { closeEvidence(); closeRefDrawer(); }
   });
 
-  function renderCards(items) {
-    window.__reportItems = items;
-    document.getElementById("ref-list").innerHTML = items
-      .map(function (item, pos) {
+  const refBackdrop = document.getElementById("ref-drawer-backdrop");
+  if (refBackdrop) refBackdrop.addEventListener("click", closeRefDrawer);
+  const refCloseBtn = document.getElementById("ref-drawer-close");
+  if (refCloseBtn) refCloseBtn.addEventListener("click", closeRefDrawer);
+
+  let drawerBody = null;
+  let drawerCard = null;
+
+  function closeRefDrawer() {
+    const drawer = document.getElementById("ref-drawer");
+    const backdrop = document.getElementById("ref-drawer-backdrop");
+    if (!drawer || drawer.hidden) return;
+    if (drawerBody && drawerCard) drawerCard.appendChild(drawerBody);
+    drawer.classList.remove("open");
+    drawer.hidden = true;
+    if (backdrop) backdrop.hidden = true;
+    drawerBody = null;
+    drawerCard = null;
+    document.querySelectorAll("#ref-list .ref.open").forEach(function (el) {
+      el.classList.remove("open");
+    });
+  }
+
+  function openRefDrawer(pos) {
+    const items = window.__reportItems || [];
+    const item = items[pos];
+    const card = document.querySelector('#ref-list .ref[data-pos="' + pos + '"]');
+    const drawer = document.getElementById("ref-drawer");
+    const body = document.getElementById("ref-drawer-body");
+    const backdrop = document.getElementById("ref-drawer-backdrop");
+    if (!item || !card || !drawer || !body) return;
+    closeRefDrawer();
+    const p = item.parsed || {};
+    const v = item.verify || {};
+    const st = STATUS[v.status] || STATUS.Unknown;
+    body.innerHTML =
+      '<div class="ref-detail-head"><span class="ref-idx">[' + (item.index || "") + "]</span>" +
+      '<span class="pill ' + st.cls + '"><i></i>' + st.label + "</span>" +
+      '<button class="btn btn-sm btn-ghost" type="button" data-detail-evidence="' + pos + '">证据抽屉</button>' +
+      "</div>" +
+      '<h3 class="ref-drawer-title">' + esc(p.title || short(item.raw, 160)) + "</h3>" +
+      '<div class="ref-drawer-sub">' + esc((p.authors || []).join(", ") || "（未解析作者）") + " · " + esc(p.year || "") +
+      (p.venue ? " · " + esc(p.venue) : "") + "</div>";
+    const node = card.querySelector(".ref-body");
+    if (node) {
+      body.appendChild(node);
+      drawerBody = node;
+      drawerCard = card;
+    }
+    card.classList.add("open");
+    drawer.hidden = false;
+    if (backdrop) backdrop.hidden = false;
+    requestAnimationFrame(function () { drawer.classList.add("open"); });
+    const evBtn = body.querySelector("[data-detail-evidence]");
+    if (evBtn) evBtn.addEventListener("click", function () { openEvidence(pos); });
+    body.scrollTop = 0;
+  }
+
+  function renderCards(pageItems, allItems) {
+    const store = allItems || pageItems;
+    window.__reportItems = store;
+    document.getElementById("ref-list").innerHTML = pageItems
+      .map(function (item) {
+        const pos = store.indexOf(item);
         const p = item.parsed || {};
         const v = item.verify || {};
         const c = item.compliance || {};
@@ -902,6 +1032,9 @@
                   ? "网页链接可访问，但页面标题与引文题名不一致，请核对是否同一页面。"
                   : "网页链接可访问，但返回内容不是可读网页（PDF/附件），请人工打开核对。")
           : "";
+        const issueList = c.issues || [];
+        const errCount = issueList.filter(function (i) { return i.level === "error"; }).length;
+        const flagText = errCount ? errCount + " 处格式错误" : (issueList.length ? issueList.length + " 条建议" : "格式通过");
         const noteBlock = webNote
           ? '<div class="ref-note">' + esc(webNote) + "</div>"
           : (v.status === "Unverified" || v.status === "Unknown")
@@ -912,31 +1045,60 @@
               "</div>"
             : "";
         return (
-          '<article class="ref ' + st.cls + '">' +
-            '<div class="ref-head">' +
+          '<article class="ref ' + st.cls + '" data-pos="' + pos + '" tabindex="0" role="button" aria-selected="false">' +
+            '<div class="ref-row">' +
               '<span class="ref-idx">[' + (item.index || "") + "]</span>" +
-              '<span class="pill ' + st.cls + '"><i></i>' + st.label + "</span>" +
-              supPill +
-              localPill +
-              retractPill +
-              provPills.join("") +
-              urlPills.join("") +
-              '<button class="btn btn-sm btn-ghost ref-evidence" type="button" data-pos="' + pos + '" title="查看该条目的全部证据字段">证据</button>' +
-              '<span class="ref-title">' + esc(p.title || short(item.raw, 80)) + "</span>" +
-              '<span class="mono-sm">合规 ' + (c.score == null ? "—" : c.score) + "/100</span>" +
+              '<div class="ref-main">' +
+                '<div class="ref-title">' + esc(p.title || short(item.raw, 120)) + "</div>" +
+                '<div class="ref-sub">' + esc((p.authors || []).join(", ") || "（未解析作者）") + " · " + esc(p.year || "") + (p.venue ? " · " + esc(p.venue) : "") + "</div>" +
+                '<div class="ref-tags">' +
+                  '<span class="pill ' + st.cls + '"><i></i>' + st.label + "</span>" +
+                  supPill + localPill + retractPill + provPills.join("") + urlPills.join("") +
+                "</div>" +
+              "</div>" +
+              '<div class="ref-side">' +
+                '<span class="ref-score">' + (c.score == null ? "—" : c.score) + "<i>/100</i></span>" +
+                '<span class="ref-flag' + (errCount ? " bad" : "") + '">' + flagText + "</span>" +
+                '<span class="ref-arrow" aria-hidden="true">›</span>' +
+                '<button class="btn btn-sm btn-ghost ref-evidence" type="button" data-pos="' + pos + '" title="查看该条目的全部证据字段">证据</button>' +
+              "</div>" +
             "</div>" +
-            '<div class="ref-meta">' + esc((p.authors || []).join(", ") || "（未解析作者）") + " · " + esc(p.year || "") + " · " + esc(p.venue || "") + "</div>" +
-            '<div class="ref-raw">' + esc(item.raw) + "</div>" +
-            '<div class="ref-evidence">' + evidence.map(function (x) { return "<span>" + x + "</span>"; }).join("") + "</div>" +
-            supBlock +
-            noteBlock +
-            manualLinks +
-            (issues ? '<ul class="issues">' + issues + "</ul>" : '<div class="clean">本规则集未发现字段/标点问题（不覆盖页码连接号、卷期互换等排版与语义错误）</div>') +
-            suggestBlock +
+            '<div class="ref-body">' +
+              '<div class="ref-raw">' + esc(item.raw) + "</div>" +
+              '<div class="ref-evidence">' + evidence.map(function (x) { return "<span>" + x + "</span>"; }).join("") + "</div>" +
+              supBlock +
+              noteBlock +
+              manualLinks +
+              (issues ? '<ul class="issues">' + issues + "</ul>" : '<div class="clean">本规则集未发现字段/标点问题（不覆盖页码连接号、卷期互换等排版与语义错误）</div>') +
+              suggestBlock +
+            "</div>" +
           "</article>"
         );
       })
       .join("");
+
+    document.querySelectorAll(".ref-toggle").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        const art = btn.closest(".ref");
+        const open = art.classList.toggle("open");
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+        const label = btn.querySelector("span");
+        if (label) label.textContent = open ? "收起" : "详情";
+      });
+    });
+
+    document.querySelectorAll("#ref-list .ref").forEach(function (art) {
+      art.addEventListener("click", function (ev) {
+        if (ev.target.closest("button, a")) return;
+        openRefDrawer(Number(art.getAttribute("data-pos") || 0));
+      });
+      art.addEventListener("keydown", function (ev) {
+        if (ev.key === "Enter" || ev.key === " ") {
+          ev.preventDefault();
+          openRefDrawer(Number(art.getAttribute("data-pos") || 0));
+        }
+      });
+    });
 
     document.querySelectorAll(".ref-evidence").forEach(function (btn) {
       btn.addEventListener("click", function () {

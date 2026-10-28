@@ -22,6 +22,17 @@
 
       <div class="stat-list" id="stats"></div>
 
+      <details class="rail-fold" id="rail-secondary">
+        <summary>更多概览</summary>
+        <div class="fold-body">
+          <div class="panel compact hidden" id="source-health"></div>
+          <div class="panel compact hidden" id="figure-checks"></div>
+          <div class="panel compact hidden" id="support-summary"></div>
+          <div class="panel compact hidden" id="citation-consistency"></div>
+          <div class="panel compact hidden" id="library-summary"></div>
+        </div>
+      </details>
+
       {% if report %}
       <details class="rail-fold">
         <summary>导出与操作</summary>
@@ -62,17 +73,14 @@
 
     <div id="report-content" class="{% if not report %}hidden{% endif %}">
       <div class="inline-note hidden" id="input-meta"></div>
-      <div class="verdict panel hidden" id="verdict"></div>
-    <div class="panel hidden" id="source-health"></div>
-      <div class="panel hidden" id="review-summary"></div>
-      <div class="panel hidden" id="figure-checks"></div>
-
-      <div class="fold-grid">
-        <div class="panel hidden" id="support-summary"></div>
-        <div class="panel hidden" id="citation-consistency"></div>
-        <div class="panel hidden" id="library-summary"></div>
+      <div class="panel summary-tabs" id="summary-tabs">
+        <div class="tabbar" role="tablist" aria-label="结论视图">
+          <button class="tab on" type="button" role="tab" aria-selected="true" data-summary-tab="verdict">体检结论</button>
+          <button class="tab" type="button" role="tab" aria-selected="false" data-summary-tab="review">审稿视角</button>
+        </div>
+        <div class="verdict tab-pane" id="verdict"></div>
+        <div class="tab-pane hidden" id="review-summary"></div>
       </div>
-
       <div class="report-toolbar">
         <input class="search" id="search" type="text" placeholder="搜索题名 / 作者 / 来源（按 / 聚焦）" autocomplete="off">
         <div class="chips" id="chips"></div>
@@ -87,7 +95,9 @@
         </select>
       </div>
 
-      <div class="ref-list" id="ref-list"></div>
+      <div class="ref-workbench" id="ref-workbench">
+        <div class="ref-list" id="ref-list"></div>
+      </div>
       <div id="ref-table-wrap" class="panel table-wrap hidden" style="padding:0">
         <table class="table" id="ref-table">
           <thead><tr><th>#</th><th>状态</th><th>支持度</th><th>题名</th><th>年</th><th>来源</th><th>合规</th></tr></thead>
@@ -95,9 +105,19 @@
         </table>
       </div>
       <div id="ref-empty" class="empty hidden">没有匹配的条目。</div>
+      <div class="ref-pager" id="ref-pager" hidden></div>
     </div>
   </div>
 </div>
+
+<div class="ref-drawer-backdrop" id="ref-drawer-backdrop" hidden></div>
+<aside class="ref-drawer" id="ref-drawer" aria-label="条目详情" hidden>
+  <div class="ref-drawer-head">
+    <span class="mono-sm">条目详情</span>
+    <button class="icon-btn" id="ref-drawer-close" type="button" aria-label="关闭">×</button>
+  </div>
+  <div class="ref-drawer-body" id="ref-drawer-body"></div>
+</aside>
 
 <div id="evidence-drawer" class="drawer" hidden>
   <div class="drawer-backdrop" data-close="1"></div>
