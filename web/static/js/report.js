@@ -29,7 +29,7 @@
   };
   const SUPPORT_ORDER = ["support", "partial", "contradict", "no_evidence", "not_checked"];
   const state = { filter: "all", q: "", sort: "index", view: "cards", needs: false, fmt: false, sup: "", page: 1 };
-  const PAGE_SIZE = 7;
+  const PAGE_SIZE = 4;
   var summaryTab = "verdict";
 
   if (!report) {
@@ -109,15 +109,15 @@
 
   function selectSummaryTab(name) {
     summaryTab = name;
-    const verdict = document.getElementById("verdict");
-    const review = document.getElementById("review-summary");
+    const overview = document.getElementById("pane-overview");
+    const refs = document.getElementById("refs-pane");
     document.querySelectorAll("[data-summary-tab]").forEach(function (btn) {
       const on = btn.getAttribute("data-summary-tab") === name;
       btn.classList.toggle("on", on);
       btn.setAttribute("aria-selected", on ? "true" : "false");
     });
-    if (verdict) verdict.classList.toggle("hidden", name !== "verdict");
-    if (review) review.classList.toggle("hidden", name !== "review" || review.dataset.ready !== "1");
+    if (overview) overview.classList.toggle("hidden", name !== "verdict");
+    if (refs) refs.classList.toggle("hidden", name !== "refs");
   }
 
   function renderVerdict(data) {
@@ -277,8 +277,7 @@
         "<b>" + esc(x.kind || "") + "</b>：" + esc(x.text || "") + "</li>";
     }).join("");
     el.dataset.ready = "1";
-    if (summaryTab === "review") el.classList.remove("hidden");
-    el.innerHTML =
+        el.innerHTML =
       '<div class="mono-sm">自动汇总（仅供参考）</div>' +
       '<div style="font-size:15px;font-weight:600;margin:6px 0 4px;color:' + color + '">' +
       esc(r.decision) + "</div>" +

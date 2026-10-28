@@ -1307,3 +1307,10 @@ partial 多发、support 少发。
 - 测试 **473 passed**；版本 0.9.65；`/api/health` = 0.9.65。
 - 截图：`out/shots/ui_report_pager.png`、`ui_report_dark.jpg`（本地 Downloads 备份）。
 
+## 69. 0.9.72 报告页收口：概览进标签、导出收菜单、题录库移到左栏、hero 渐变修复（2026-10-28）
+- 用户反馈：左栏「更多概览」空卡片堆叠、「导出与操作」按钮排成一列；要求概览放进「总览」标签；题录库信息移到左栏底部让排版均衡；首页 hero 大标题被一条渐变矩形盖住。
+- `web/templates/report.html`：总览 tab 内收 `#source-health` / `#figure-checks` / `#support-summary` / `#citation-consistency` 四块（overview-grid 两列）；审稿条目 tab 只留搜索/筛选/列表/翻页；导出收进 `<details class="export-menu">`（13 项，含 RIS/ENW/BibTeX/CSL/证据包）；`#library-summary` 移入左栏 `.rail-library`（在「再测一篇」上方）。
+- `web/static/css/refresh.css`：新增 `.report-actions`、`.export-menu*`、`.overview-grid`、`.rail-library`；修浅色主题 `.hero-copy h1 em`——`background` 简写把 `background-clip:text` 重置为 border-box，导致渐变变成实心矩形，改为 `background-image` + 显式 `-webkit-background-clip:text;background-clip:text`。
+- 列表项模板精简为单行（序号+标题+元信息+合规分+状态+「证据」按钮），行高 56–67px；`PAGE_SIZE=7`，右下角页码 + 共 N 条。
+- 实测（1600×849）：`documentElement.scrollHeight == innerHeight`（整页不滚），总览两卡并排，左栏含「本地题录库 20 条 · 命中 11 条 · 管理题录库」；截图 `out/shots/ui_report_1003.png`。
+- 测试 **473 passed**；`verify_artifacts` 137/137；版本 0.9.72；本地 8010 与 0.9.72 对齐。
