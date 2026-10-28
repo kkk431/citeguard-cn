@@ -222,13 +222,47 @@ def test_support_cap_keeps_first_n_eligible(monkeypatch):
 
 def test_body_figure_claims_groups_and_caps():
     body = (
-        "如图 1 所示，方法 A 的准确率高于方法 B。图 1 还显示 2025 年达到峰值。"
-        "表 2 给出了各组的样本量。图 3 是整体流程图。图 4 是另一张图。"
+        "如图 1 所示，方法 A 的准确率高于方法 B。图 1 还显示 2025 年达到峰值。\n"
+        "Figure 1. Statistics of annual output.\n表 2 给出了各组的样本量。图 3 是整体流程图。图 4 是另一张图。"
     )
     groups = pipeline._body_figure_claims(body)
     assert [key for key, _ in groups] == [("figure", "1"), ("table", "2"), ("figure", "3")]
     assert len(groups[0][1]) == 2
     assert groups[0][1][0].startswith("如图 1")
+    assert all(not claim.startswith("Figure 1.") for _, claims in groups for claim in claims)
+
+
+def test_check_body_figures_passes_first_claim(monkeypatch):
+    """Regression: the page finder used an undefined ``claim`` and every figure
+    silently became ``name 'claim' is not defined`` in full-paper reports."""
+    import citeguard.figure_check as figure_check
+    import citeguard.pdf_extract as pdf_extract
+
+    seen = {}
+
+    def fake_find(path, number, *, kind="", claim=""):
+        seen["claim"] = claim
+        return (3, "图1 方法对比")
+
+    monkeypatch.setattr(pdf_extract, "find_figure_page", fake_find)
+    monkeypatch.setattr(pdf_extract, "render_page_png", lambda *a, **k: b"png")
+    monkeypatch.setattr(pdf_extract, "extract_page_text", lambda *a, **k: "正文")
+    monkeypatch.setattr(
+        figure_check,
+        "check_claims",
+        lambda png, mime, claims, context="": {
+            "ok": True,
+            "items": [{"claim": claims[0], "verdict": "supported"}],
+        },
+    )
+    steps = []
+    out = pipeline._check_body_figures(
+        "如图 1 所示，方法 A 的准确率为 95%。", "paper.pdf", lambda pct, msg: steps.append(pct)
+    )
+    assert seen["claim"].startswith("如图 1")
+    assert out[0]["page"] == 3
+    assert out[0]["items"][0]["verdict"] == "supported"
+    assert steps == [94]
 
 
 def test_figure_checks_are_opt_in(monkeypatch):

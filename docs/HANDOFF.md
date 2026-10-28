@@ -1247,3 +1247,11 @@ partial 多发、support 少发。
 - 端到端冒烟（本地 0.9.50，任务 a4cb0da823b0）：离线演示 11 条 → Exact 10 / Unknown 1；RIS 6,314 B、EndNote 3,244 B、BibTeX 4,047 B、CSL 7,336 B 全部 200；证据包 25,516 B，ZIP 内 9 文件；题录库演示幂等（imported 10 / count 20）；未配置视觉时 `/api/figure-check` 503 `not_configured`。
 - `docs/ppt_numbers.md` 增「数据源限流口径」：能说“如实标 Unknown + 指出限流源”，不能说“核验了所有引文”。
 - 产品代码未改，版本仍 0.9.50。
+
+## 62. 0.9.51 图表抽检修复与 8B 复测（2026-10-28）
+
+- 网络恢复：远端 10013、lmh 22/8095、OpenAlex/Crossref/arXiv/GitHub 全部 200；远端已部署 0.9.50。
+- **真 bug**：`pipeline._check_body_figures` 里 `find_figure_page(..., claim=claim)` 引用了未定义变量，全文分析时每个图都变成 `name 'claim' is not defined`。改为 `claim=claims[0]`，新增回归测试 `test_check_body_figures_passes_first_claim`。
+- **质量问题**：正文抽取里带着图注行（`Figure 1. ...`），被当成作者结论送去核验，浪费一次视觉调用且输出 `insufficient`。加 `_CAPTION_LINE_RE`：只跳过 `Figure 1.` / `图 1：` 这类图注前缀，不误伤“图 1 显示……”；测试覆盖。
+- **8B 端到端**：本地 0.9.51 + lmh Qwen3-VL-8B（:8095），`hanspub_152575.pdf` + `figures=1`：14.4 s 完成；3 组（图1 p3 / 图2 p4 / 图3 p5），每组 1 条真实结论，全部 supported；核验 15 条 Exact 12 / Minor 3 / Major 0。
+- 全部测试 **472 passed**。

@@ -158,6 +158,12 @@ def analyze_text(
 
 
 _SENTENCE_SPLIT = re.compile(r"(?<=[。！？!?])\s*|\n+")
+# Caption lines such as "Figure 1. ..." / "图 1：..." are part of the extracted
+# body but are not author claims. A sentence merely *starting* with "图 1 显示…"
+# is a real claim, so only caption-shaped prefixes are skipped.
+_CAPTION_LINE_RE = re.compile(
+    r"^(?:(?:figure|fig\.|table)\s*\d+\s*[.:：]|(?:图|表)\s*\d+\s*[：:.])", re.IGNORECASE
+)
 
 
 def _fmt_duration(seconds: float) -> str:
@@ -187,6 +193,11 @@ def _body_figure_claims(body: str, *, max_figures: int = 3, per_figure: int = 2)
         claim = sentence.strip()
         if not 5 <= len(claim) <= 500:
             continue
+        # The extracted "body" still contains figure captions themselves
+        # ("Figure 1. ..." / "图 1 ..."). Those are not author claims: asking
+        # the model whether a caption matches its own figure just burns time.
+        if _CAPTION_LINE_RE.match(claim):
+            continue
         number = figure_number_from_claim(claim)
         if not number:
             continue
@@ -208,7 +219,7 @@ def _check_body_figures(body: str, pdf_path: str, step: Callable[[int, str], Non
     results: list[dict] = []
     for (kind, number), claims in _body_figure_claims(body):
         step(94, f"图表结论抽检：{'表' if kind == 'table' else '图'} {number}")
-        found = find_figure_page(pdf_path, number, kind=kind, claim=claim)
+        found = find_figure_page(pdf_path, number, kind=kind, claim=claims[0])
         if not found:
             results.append(
                 {"number": number, "page": None, "claims": claims, "error": "未在 PDF 前 40 页找到对应图注"}
