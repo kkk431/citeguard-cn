@@ -450,3 +450,17 @@ body.theme-light .run-list li,body.theme-light .lib-banner{background:rgba(14,15
 }
 
 html,body{max-width:100%;overflow-x:hidden}
+
+/* 报告页：支持度汇总做成计数卡 */
+#support-summary .risklegend{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin:0}
+#support-summary .risklegend span{display:flex;flex-direction:column;gap:4px;border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:rgba(120,225,200,.04)}
+#support-summary .risklegend em{font-style:normal;font-size:11.5px;color:var(--muted)}
+#support-summary .risklegend b{font-size:22px;letter-spacing:-.02em;color:var(--ink)}
+#support-summary .risklegend span:nth-child(1) b{color:var(--ok)}
+#support-summary .risklegend span:nth-child(2) b{color:var(--gold)}
+#support-summary .risklegend span:nth-child(3) b{color:var(--bad)}
+@media(max-width:760px){#support-summary .risklegend{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* 评测页：运行状态 4×2 */
+.bench-status{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media(max-width:980px){.bench-status{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:620px){.bench-status{grid-template-columns:1fr}}

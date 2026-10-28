@@ -1288,3 +1288,12 @@ partial 多发、support 少发。
 - 版本 0.9.54；仅前端/模板改动，核验与评测逻辑未变。
 - 收尾：浅色主题标题加深、深色标题提亮、移动端 hero 单列 + 顶栏精简、.reveal 不再初始透明；本地 8010 与远端 8000 均为 0.9.54（/api/health 返回 ersion: 0.9.54）。
 - 交付包：`dist/citeguard-cn-0.9.54.zip` 9,373,479 bytes，sha256 `785859b0238996047c2295785f7d88d9d094909523e0f939b1005ab8b881eb05`。
+
+## 67. 0.9.55 前端验收：子页对齐、支持度计数卡、评测网格（2026-10-28）
+- 逐页验收（1500x866，深/浅两套）：首页、报告、评测、题录库、图表、对比、发现、关于；移动端 390x844 已核。
+- 报告页：`#support-summary` 支持度汇总改为 5 张计数卡（支持/部分支持/不支持/未检测/未判定），标签在上、数字 22px；`report.js` 标记改为 `<span><em>label</em><b>N</b></span>`。
+- 评测页：运行状态 8 张卡改为 4x2 网格（<=980px 两列、<=620px 单列），消除 5+3 空位。
+- 测试：473 passed；`verify_artifacts` 137/137。
+- 截图：`out/shots/ui_pages_montage.png`、`ui_library_light.png`、`ui_report_light2.png`、`ui_bench_light.png`。
+- 版本 0.9.55；`dist/citeguard-cn-0.9.55.zip` 9,373,711 bytes，sha256 `662b24e42223bd98211a91faf9022470224000fc2b62dc6ce2ae8bef0675db48`。
+- 已知边界：深/浅色均手测；移动端只抽首页与 500px；图表/对比页上传区留白偏大，属视觉留白非缺陷。

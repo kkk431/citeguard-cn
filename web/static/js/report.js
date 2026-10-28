@@ -409,7 +409,7 @@
           '<div class="risklegend">' +
           SUPPORT_ORDER.map(function (k) {
             const label = k === "not_checked" ? "未检测" : (SUPPORT[k] ? SUPPORT[k].label : k);
-            return "<span>" + label + " " + (supportStats[k] || 0) + "</span>";
+            return "<span><em>" + label + "</em><b>" + (supportStats[k] || 0) + "</b></span>";
           }).join("") +
           "</div>" +
           (notes.length
