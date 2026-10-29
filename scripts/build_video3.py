@@ -34,24 +34,26 @@ SEGMENTS: list[tuple[str, float, str]] = [
     ("submitted", 0.3, "上传 PDF；解析、比对、判支持度、查国标，每一步都看得见。"),
     ("report_ready", 0.5, "十五条引用，零条严重不符，格式均分八十七点七。"),
     ("report_ready", 7.0, "每条都有题录、来源、国标三层证据，点开能看原文和候选来源。"),
-    ("report_done", 0.3, "右侧抽屉列出原文、来源、规范条目，还能跳知网、万方人工复核。"),
-    ("figure_single", 0.5, "图表核验：两句话逐句对照真实图表。"),
-    ("figure_multi", 0.5, "多张图一次提交，各自判断，互不干扰。"),
-    ("figure_pdf", 0.5, "直接传 PDF，自动定位图表页再渲染。"),
-    ("library", 0.3, "题录库二十二篇、四百一十二条；支持 RIS 导入、批量补录、整表导出。"),
-    ("discover", 0.3, "没有就查开放学术图谱：中文主题扩展英文词，去重排序。"),
-    ("compare_start", -6.5, "多篇论文一次拖进来，批量跑完，汇总状态和耗时。"),
-    ("compare_start", 0.5, "多篇论文对比：六维字段、两篇论文，真实调用判官。"),
-    ("compare_start", 28.0, "没有播放加速，进度条在走，等待就是真实推理时间。"),
-    ("compare_start", 55.0, "对比只做结构化抽取，不给论文打分。"),
-    ("compare_done", 0.5, "六维对比：问题、方法、数据、发现、局限、可复现性。"),
-    ("history", 0.5, "历史任务还能挑两份报告做差异对比。"),
-    ("benchmark", 0.3, "底账：引文验证 0.9684，支持度 0.9597，真实 409 条零误判。"),
-    ("about", 0.3, "自研的是流水线、规则和接线；模型与数据全部开源。"),
-    ("theme", 0.3, "深浅主题，现场投影也能看清。"),
-    ("ocr", 0.3, "扫描版 PDF 没有文字层，自动 OCR，照样能核。"),
-    ("github", 0.3, "代码、评测集、文档已公开，许可证和清单齐全。"),
-    ("license", 0.3, "Apache 2.0，可审计、可复现。"),
+    ("report_ready", 13.0, "右侧抽屉列出原文、来源、规范条目，还能跳知网、万方人工复核。"),
+    # marks are taken at the END of each recording segment, so a segment's
+    # narration must anchor on the PREVIOUS mark (= when that page appeared).
+    ("report_done", 0.4, "图表核验：两句话逐句对照真实图表。"),
+    ("figure_single", 0.4, "多张图一次提交，各自判断，互不干扰。"),
+    ("figure_multi", 0.4, "直接传 PDF，自动定位图表页再渲染。"),
+    ("figure_pdf", 0.4, "题录库二十二篇、四百一十二条；支持 RIS 导入、批量补录、整表导出。"),
+    ("library", 0.4, "没有就查开放学术图谱：中文主题扩展英文词，去重排序。"),
+    ("discover", 0.4, "多篇论文一次拖进来，批量跑完，汇总状态和耗时。"),
+    ("batch", 0.5, "多篇论文对比：六维字段、两篇论文，真实调用判官。"),
+    ("batch", 12.0, "没有播放加速，进度条在走，等待就是真实推理时间。"),
+    ("batch", 45.0, "对比只做结构化抽取，不给论文打分。"),
+    ("compare_done", -3.5, "六维对比：问题、方法、数据、发现、局限、可复现性。"),
+    ("compare_done", 0.4, "历史任务还能挑两份报告做差异对比。"),
+    ("history", 0.4, "底账：引文验证 0.9684，支持度 0.9597，真实 409 条零误判。"),
+    ("benchmark", 0.4, "自研的是流水线、规则和接线；模型与数据全部开源。"),
+    ("about", 0.4, "深浅主题，现场投影也能看清。"),
+    ("theme", 0.4, "扫描版 PDF 没有文字层，自动 OCR，照样能核。"),
+    ("ocr", 0.4, "代码、评测集、文档已公开，许可证和清单齐全。"),
+    ("github", 0.4, "Apache 2.0，可审计、可复现。"),
 ]
 CLOSING = ("让每一条引用，都经得起追问。", 292.3)
 SEGMENTS.append(("__close__", 0.0, CLOSING[0]))
@@ -134,6 +136,21 @@ def main() -> None:
         m["tempo"] = round(min(1.45, m["dur"] / gap) if m["dur"] > gap else 1.0, 3)
         if m["anchor"] == "compare_start" and m["dur"] / gap > 1.45:
             print("WARN tight cue", m["text"])
+    # sync audit: every cue must start inside the scene it describes, i.e. no
+    # later than the next mark after its anchor.
+    names = [n for n in marks if n not in ("record_end",)]
+    for m in metas:
+        anchor = m["anchor"]
+        if anchor not in F:
+            continue
+        later = [F[n] for n in names if F[n] > F[anchor] + 0.01]
+        scene_end = min(later) if later else TOTAL
+        if m["start"] > scene_end + 0.01:
+            print(f"WARN cue after scene: {m['start']:.1f} > {scene_end:.1f} {m['text'][:20]}")
+        if m["i"] == 0:
+            pass
+    for m in metas:
+        print(f"cue {m['start']:7.2f} scene<={min([F[n] for n in names if F[n] > F[m['anchor']] + 0.01] or [TOTAL]):7.2f}  {m['text'][:30]}")
     (OUT / "narration3.json").write_text(json.dumps(metas, ensure_ascii=False, indent=1), encoding="utf-8")
 
     inputs, filters = [], []
