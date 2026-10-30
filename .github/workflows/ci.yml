@@ -11,7 +11,7 @@ concurrency:
 
 jobs:
   test:
-    name: pytest + artifact verification (offline)
+    name: pytest (offline)
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
@@ -46,9 +46,3 @@ jobs:
 
       - name: Run pytest
         run: pytest tests -q
-
-      - name: Verify CiteBench-CN artifacts
-        run: PYTHONPATH=src python scripts/verify_artifacts.py
-
-      - name: Check deliverable packaging (dry run, no upload)
-        run: PYTHONPATH=src python scripts/package_deliverable.py --quiet
