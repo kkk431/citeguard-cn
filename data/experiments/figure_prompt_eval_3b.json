@@ -1,7 +1,7 @@
 {
   "generated_at": "2026-10-25T13:10:57",
   "model": "qwen2.5-vl-3b",
-  "endpoint": "http://222.20.126.148:8095/v1",
+  "endpoint": "http://127.0.0.1:8095/v1",
   "variants": [
     "v2",
     "v2_context"

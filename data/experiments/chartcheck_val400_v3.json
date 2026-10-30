@@ -3,7 +3,7 @@
   "dataset": "ChartCheck (Akhtar et al. 2024), val split stratified sample",
   "generated_at": "2026-10-27T20:45:45",
   "model": "qwen3-vl-8b",
-  "endpoint": "http://222.20.126.148:8095/v1",
+  "endpoint": "http://127.0.0.1:8095/v1",
   "sample": 400,
   "seed": 20261025,
   "accuracy": 0.695,

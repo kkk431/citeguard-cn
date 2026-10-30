@@ -144,8 +144,8 @@ TEXT_SUFFIXES = {
 # the shipped copy: the archive is handed to judges and reviewers, and the
 # work is judged anonymously. The public repository keeps its own history.
 SENSITIVE_REPLACEMENTS = (
-    ("222.20.126.148", "127.0.0.1"),
-    ("222.20.96.215", "127.0.0.1"),
+    ("127.0.0.1", "127.0.0.1"),
+    ("127.0.0.1", "127.0.0.1"),
     ("D:\\ai+ky\\citeguard", "<project>"),
     ("D:\\ai+ky", "<workspace>"),
     ("C:\\Users\\hejiaxuan", "<user>"),

@@ -1,7 +1,7 @@
 {
   "tag": "qwen3-8b",
   "model": "models/Qwen3-8B",
-  "base_url": "http://222.20.126.148:8098/v1",
+  "base_url": "http://127.0.0.1:8098/v1",
   "n": 100,
   "errors": {},
   "agreement_with_constructed_labels": 0.75,
