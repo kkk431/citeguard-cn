@@ -171,7 +171,7 @@ _YEAR_END_BOUNDARY_RE = re.compile(
 
 _YEAR_END_BOUNDARY_RE_LENIENT = re.compile(
     r"(?<!\d)((?:19|20)\d{2}[a-z]?\.)\s+"
-    r"(?=(?:[A-Z]\.\s+)?[A-Z][A-Za-z\u00c0-\u00d6\u00d8-\u00f6\u00f8-\u00ff\u0100-\u017f'\u2019 -]{1,40}"
+    r"(?=(?:[A-Z]\.\s+){0,3}[A-Z][A-Za-z\u00c0-\u00d6\u00d8-\u00f6\u00f8-\u00ff\u0100-\u017f'\u2019 -]{1,40}"
     r"(?:,| and |\s+[A-Z]\.))"
 )
 
@@ -753,6 +753,11 @@ def _split_long_authors(left: str) -> tuple[str, str]:
             # "Dong H. Anh, Pallab ..." is still a name run, not a title.
             if re.match(r"^[A-Z][^,]{0,40},\s+[A-Z]", right):
                 continue
+            if re.match(
+                r"^(?:de|van|von|der|den|la|le|del|di|da|dos|das)\s+[A-Z][A-Za-z'\u2019-]+",
+                right,
+            ):
+                continue
             return left[: m.start()].strip(), right
     return "", ""
 
@@ -792,7 +797,13 @@ def _split_authors_title(left: str, ocr_hint: bool = False) -> tuple[list[str], 
             continue
         # "... Y. Bengio, P. | Simard, and P. Frasconi. Title" — a period that is
         # really an author initial, not the author/title boundary.
-        if re.search(r"\b[A-Z]\.?$", a) and re.match(r"^[A-Z][A-Za-z'\u2019-]+(?:,|\s+and\s)", t):
+        if re.search(r"\b[A-Z]\.?$", a) and (
+            re.match(r"^[A-Z][A-Za-z'\u2019-]+(?:,|\s+and\s)", t)
+            or re.match(
+                r"^(?:de|van|von|der|den|la|le|del|di|da|dos|das)\s+[A-Z][A-Za-z'\u2019-]+",
+                t,
+            )
+        ):
             continue
         if _is_author_continuation(t):
             continue
