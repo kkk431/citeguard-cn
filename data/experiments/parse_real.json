@@ -2,9 +2,9 @@
   "summary": {
     "papers": 22,
     "published_refs": 409,
-    "pdf_refs": 498,
+    "pdf_refs": 529,
     "published_clean_ratio": 1.0,
-    "pdf_clean_ratio": 0.98,
+    "pdf_clean_ratio": 1.0,
     "pdf_heading_found": 22
   },
   "papers": [
@@ -104,25 +104,20 @@
         "clean_ratio": 1.0
       },
       "pdf_path": {
-        "count": 9,
+        "count": 40,
         "coverage": {
-          "title": 0.667,
-          "authors": 0.889,
-          "year": 0.889,
+          "title": 1.0,
+          "authors": 1.0,
+          "year": 1.0,
           "doc_type": 1.0,
-          "venue": 0.444,
-          "doi": 1.0,
-          "pages": 0.222,
+          "venue": 0.925,
+          "doi": 0.45,
+          "pages": 0.775,
           "web_refs": 0,
           "web_no_author": 0
         },
-        "problems": {
-          "title_empty": 3,
-          "venue_missing": 4,
-          "year_missing": 1,
-          "authors_empty": 1
-        },
-        "clean_ratio": 0.556,
+        "problems": {},
+        "clean_ratio": 1.0,
         "split_found_heading": true,
         "entries_by_marks": 0
       }
@@ -818,60 +813,5 @@
       }
     }
   ],
-  "examples": [
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152593",
-      "kind": "pdf",
-      "problem": "title_empty",
-      "raw": "Longitudinal Study of Parental Media Efficacy, Media Monitoring, and Child Problematic Media Use across Early Childhood in the United States. Journal of Children and Media, 17, 318-335. https://doi.org/10.1080/17482798.2023.2200958 Coyne, S"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152593",
-      "kind": "pdf",
-      "problem": "venue_missing",
-      "raw": "Longitudinal Study of Parental Media Efficacy, Media Monitoring, and Child Problematic Media Use across Early Childhood in the United States. Journal of Children and Media, 17, 318-335. https://doi.org/10.1080/17482798.2023.2200958 Coyne, S"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152593",
-      "kind": "pdf",
-      "problem": "title_empty",
-      "raw": "Specific Aspects of Relationships with Parents and Personal Development. Journal of Adolescence, 21, 305-322. https://doi.org/10.1006/jado.1998.0155 Kay, M. A., & Saglam, M. (2025). As Predictives of Digital Game Addiction in Early Childhoo"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152593",
-      "kind": "pdf",
-      "problem": "venue_missing",
-      "raw": "Specific Aspects of Relationships with Parents and Personal Development. Journal of Adolescence, 21, 305-322. https://doi.org/10.1006/jado.1998.0155 Kay, M. A., & Saglam, M. (2025). As Predictives of Digital Game Addiction in Early Childhoo"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152593",
-      "kind": "pdf",
-      "problem": "year_missing",
-      "raw": "Relations and Social Competence. Annales Médico-Psychologiques, 183, 429-438. https://doi.org/10.1016/j.amp.2024.11.003"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152593",
-      "kind": "pdf",
-      "problem": "venue_missing",
-      "raw": "Relations and Social Competence. Annales Médico-Psychologiques, 183, 429-438. https://doi.org/10.1016/j.amp.2024.11.003"
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152593",
-      "kind": "pdf",
-      "problem": "title_empty",
-      "raw": "Childhood: The Role of Parent-Child Relationships and Parental Wellbeing in Families in New Zealand and the United States. Journal of Children and Media, 17, 443-466. https://doi.org/10.1080/17482798.2023.2230321 Zhang, J., Liu, M., Zhang, "
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152593",
-      "kind": "pdf",
-      "problem": "authors_empty",
-      "raw": "Childhood: The Role of Parent-Child Relationships and Parental Wellbeing in Families in New Zealand and the United States. Journal of Children and Media, 17, 443-466. https://doi.org/10.1080/17482798.2023.2230321 Zhang, J., Liu, M., Zhang, "
-    },
-    {
-      "source": "https://www.hanspub.org/journal/paperinformation?paperid=152593",
-      "kind": "pdf",
-      "problem": "venue_missing",
-      "raw": "Childhood: The Role of Parent-Child Relationships and Parental Wellbeing in Families in New Zealand and the United States. Journal of Children and Media, 17, 443-466. https://doi.org/10.1080/17482798.2023.2230321 Zhang, J., Liu, M., Zhang, "
-    }
-  ]
+  "examples": []
 }

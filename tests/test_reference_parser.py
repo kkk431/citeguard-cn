@@ -529,3 +529,19 @@ def test_year_end_entries_are_split():
     assert refs[0].year == 2018
     assert refs[4].year == 2023
     assert refs[2].title.lower().startswith("falcon")
+
+def test_mixed_apa_list_prefers_stronger_split():
+    from citeguard.reference_parser import split_entries
+    text = (
+        "张一, 李二, 王三(2018). 亲子互动常用观察法评估量表研究进展. 中国儿童保健杂志, 26(6),\n"
+        "1-8.\n"
+        "李四, 赵五(2020). 父母低头行为量表初步修订. 心理科学, 43(1), 215-223.\n"
+        "Bandura, A. (1977). Self-efficacy: Toward a unifying theory. Psychological Review,\n"
+        "84, 191-215. https://doi.org/10.1037/0033-295X.84.2.191\n"
+        "Coyne, S. M., Padilla-Walker, L. M. (2014). Media time = family time. Journal of\n"
+        "Adolescent Research, 29, 663-688.\n"
+        "周六(2022). 幼儿安全感量表编制. 硕士学位论文, 南昌: 江西师范大学.\n"
+    )
+    entries = split_entries(text)
+    assert len(entries) == 5, entries
+    assert any("Self-efficacy" in e for e in entries)

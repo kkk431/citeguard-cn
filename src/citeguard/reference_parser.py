@@ -495,7 +495,7 @@ def split_entries(refs_text: str) -> list[str]:
     if len(year_end) >= 5 and len(year_end) > max(len(acl), len(starts), len(apa)):
         return _merge_titleless_blocks(year_end)
 
-    if len(acl) >= 5 and len(acl) > len(starts):
+    if len(acl) >= 5 and len(acl) > max(len(starts), len(apa)):
         return _merge_titleless_blocks(acl)
 
     if len(starts) >= 2 and len(apa) <= len(starts):
