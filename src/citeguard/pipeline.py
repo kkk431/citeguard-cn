@@ -420,6 +420,26 @@ def _judge_support(
     }
     return results, meta
 
+
+def _extract_cached(file_path: str, on_page=None) -> tuple[str, dict]:
+    """Extract text, reusing a content-hash cache for repeat runs."""
+    from . import text_cache
+
+    if text_cache.cache_enabled():
+        hit = text_cache.load_text(file_path)
+        if hit:
+            text, meta = hit
+            return text, {**meta, "cache": "hit"}
+    text, meta = extract_text_with_meta(file_path, on_page=on_page)
+    meta = {**meta, "cache": "miss"}
+    if text_cache.cache_enabled():
+        try:
+            text_cache.save_text(file_path, text, {k: v for k, v in meta.items() if k != "cache"})
+        except Exception:
+            pass
+    return text, meta
+
+
 def run_job(
     job_id: str,
     *,
@@ -437,7 +457,7 @@ def run_job(
             pct = 4 + int(6 * done / max(total, 1))
             manager.update(job_id, progress=pct, stage=f"抽取文字 {done}/{total} 页")
 
-        text, input_meta = extract_text_with_meta(file_path, on_page=_page)
+        text, input_meta = _extract_cached(file_path, on_page=_page)
         manager.update(
             job_id,
             progress=10,
