@@ -511,3 +511,21 @@ def test_title_continuation_may_contain_venue_year():
         "of the 2018 Conference on Empirical Methods in Natural Language Processing."
     )
     assert not _is_title_continuation("Kevin Clark and Christopher D Manning (2018). A title.")
+
+def test_year_end_entries_are_split():
+    """ACM-style lists put the year at the end, with no brackets or blank lines."""
+    text = (
+        "Daron Acemoglu and Pascual Restrepo. Artificial intelligence, automation, and work. "
+        "In The economics of artificial intelligence, pages 197-236. University of Chicago Press, 2018.\n"
+        "Joshua Ainslie, James Lee-Thorp, and Michiel de Jong. Gqa: Training generalized "
+        "multi-query transformer models, 2023.\n"
+        "Ebtesam Almazrouei, Hamza Alobeidli, and Abdulaziz Alshamsi. Falcon-40B: an open "
+        "large language model, 2023.\n"
+        "Rohan Anil, Andrew M. Dai, and Orhan Firat. Palm 2 technical report, 2023.\n"
+        "Hugo Touvron, Louis Martin, and Kevin Stone. Llama 2: open foundation models, 2023.\n"
+    )
+    refs = parse_reference_list(text)
+    assert len(refs) == 5
+    assert refs[0].year == 2018
+    assert refs[4].year == 2023
+    assert refs[2].title.lower().startswith("falcon")

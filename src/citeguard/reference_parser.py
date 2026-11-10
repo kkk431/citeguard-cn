@@ -157,6 +157,37 @@ _ACL_ENTRY_START_RE = re.compile(
 )
 
 
+# ACM/NeurIPS style with the year at the *end* of each entry:
+# ``Daron Acemoglu and Pascual Restrepo. Artificial intelligence... 2018.``
+# There is neither a leading number nor a parenthesised year, and PDF text often
+# has no blank line between entries, so none of the splitters above can see the
+# boundary.  A year followed by a new author list is the only reliable signal.
+_YEAR_END_BOUNDARY_RE = re.compile(
+    r"(?<!\d)((?:19|20)\d{2}[a-z]?\.)\s+"
+    r"(?=[A-Z][A-Za-z\u00c0-\u00d6\u00d8-\u00f6\u00f8-\u00ff\u0100-\u017f'\u2019 -]{1,40}"
+    r"(?:,| and |\s+[A-Z]\.))"
+)
+
+
+def _split_year_end_entries(text: str) -> list[str]:
+    """Split author-title-venue-year lists whose year ends every entry."""
+    marks = list(_YEAR_END_BOUNDARY_RE.finditer(text))
+    if len(marks) < 5:
+        return []
+    entries: list[str] = []
+    start = 0
+    for mark in marks:
+        block = text[start : mark.end()].strip()
+        start = mark.end()
+        block = re.sub(r"\s*\n\s*", " ", block)
+        if _looks_like_entry(block) and re.search(r"(?:19|20)\d{2}", block):
+            entries.append(block)
+    tail = re.sub(r"\s*\n\s*", " ", text[start:].strip())
+    if _looks_like_entry(tail) and re.search(r"(?:19|20)\d{2}", tail):
+        entries.append(tail)
+    return entries
+
+
 def _split_acl_entries(text: str) -> list[str]:
     """Split ACL-style author-year lists (``Authors. 2019. Title.``)."""
     marks = list(_ACL_ENTRY_START_RE.finditer(text))
@@ -457,9 +488,13 @@ def split_entries(refs_text: str) -> list[str]:
     # numbered lines (page furniture) while the real list is author-date.
     apa = [e for e in _split_apa_entries(text) if _looks_like_entry(e)]
     acl = [e for e in _split_acl_entries(text) if _looks_like_entry(e)]
+    year_end = [e for e in _split_year_end_entries(text) if _looks_like_entry(e)]
 
     # ACL/EMNLP author-year lists have no parentheses and no bracketed numbers;
     # if they yield clearly more entries than the numbered split, trust them.
+    if len(year_end) >= 5 and len(year_end) > max(len(acl), len(starts), len(apa)):
+        return _merge_titleless_blocks(year_end)
+
     if len(acl) >= 5 and len(acl) > len(starts):
         return _merge_titleless_blocks(acl)
 
