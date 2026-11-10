@@ -1,0 +1,38 @@
+import fitz
+
+
+def _make_pdf(path):
+    doc = fitz.open()
+    page = doc.new_page(width=612, height=792)
+    page.insert_text((72, 620), "References", fontsize=12)
+    page.insert_text((72, 650), "A. Author. A study of things. Journal of Tests, 2020.", fontsize=9)
+    page.insert_text((82, 662), "Continued line of the same entry.", fontsize=9)
+    page.insert_text((72, 690), "B. Writer. Another study of more things. 2021.", fontsize=9)
+    page.insert_text((82, 702), "With a second continued line.", fontsize=9)
+    doc.save(str(path))
+    doc.close()
+
+
+def test_extract_hanging_indent_entries(tmp_path):
+    from citeguard.refs_layout import extract_reference_entries
+
+    pdf = tmp_path / "refs.pdf"
+    _make_pdf(pdf)
+    entries = extract_reference_entries(pdf)
+    assert len(entries) == 2, entries
+    assert "A study of things" in entries[0]
+    assert "Continued line" in entries[0]
+    assert "Another study" in entries[1]
+
+
+def test_extract_returns_empty_without_reference_heading(tmp_path):
+    from citeguard.refs_layout import extract_reference_entries
+
+    doc = fitz.open()
+    page = doc.new_page()
+    page.insert_text((72, 720), "Introduction", fontsize=12)
+    page.insert_text((72, 700), "This paper studies something.", fontsize=9)
+    pdf = tmp_path / "plain.pdf"
+    doc.save(str(pdf))
+    doc.close()
+    assert extract_reference_entries(pdf) == []

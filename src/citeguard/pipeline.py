@@ -70,6 +70,21 @@ def analyze_text(
         body = ""
 
     refs = parse_reference_list(refs_text)
+    if len(refs) < 5 and pdf_path:
+        # Hanging-indent / two-column lists often collapse into one paragraph
+        # after text extraction. Recover the entry boundaries from line boxes.
+        try:
+            from .refs_layout import extract_reference_entries
+
+            layout_entries = extract_reference_entries(pdf_path)
+        except Exception:
+            layout_entries = []
+        if len(layout_entries) >= 5:
+            layout_refs = []
+            for entry in layout_entries:
+                layout_refs.extend(parse_reference_list(entry))
+            if len(layout_refs) > len(refs):
+                refs = layout_refs
     if not refs:
         raise ValueError("没有解析到参考文献，请检查格式或改用 --refs 方式")
     if max_refs and max_refs > 0:
