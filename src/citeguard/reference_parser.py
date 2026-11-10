@@ -48,7 +48,7 @@ PP_PAGES_RE = re.compile(r"\bpp?\.?\s*(\d+)\s*[-–—~～]\s*(\d+)", re.I)
 PAGE_RE = re.compile(r":\s*(\d+)")
 EDITION_RE = re.compile(r"第\s*([0-9一二三四五六七八九十]+)\s*版")
 IN_PREFIX_RE = re.compile(r"^(?:in|In|IN)\s*[:：]\s*")
-INDEX_RE = re.compile(r"^\s*(?:\[(\d+)\]|(\d+)[\.、)]|[（(](\d+)[)）])\s*")
+INDEX_RE = re.compile(r"^\s*(?:\[(\d+)\]|(\d+)[\.、)]|[（(](\d+)[)）]|\[([A-Za-z][A-Za-z+'’\-]*\d{2}[a-z]?)\])\s*")
 ACCESS_DATE_RE = re.compile(r"[\[(]\s*((?:19|20)\d{2}-\d{2}-\d{2})\s*[\])]")
 # 电子资源写法 "(更新日期)[引用日期]": the bracketed date is the access date.
 ACCESS_DATE_BRACKET_RE = re.compile(r"[(（]?\s*\[((?:19|20)\d{2}-\d{2}-\d{2})\s*\]")
@@ -957,7 +957,7 @@ def parse_reference(raw: str, index: Optional[int] = None) -> Reference:
     m = INDEX_RE.match(text)
     if m:
         if index is None:
-            for g in m.groups():
+            for g in m.groups()[:3]:
                 if g:
                     index = int(g)
                     break

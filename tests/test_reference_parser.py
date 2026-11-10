@@ -545,3 +545,17 @@ def test_mixed_apa_list_prefers_stronger_split():
     entries = split_entries(text)
     assert len(entries) == 5, entries
     assert any("Self-efficacy" in e for e in entries)
+
+def test_alphabetic_citation_keys_are_split():
+    from citeguard.reference_parser import parse_reference_list, split_entries
+    text = (
+        "[ADG+16] Marcin Andrychowicz, Misha Denil, and Nando De Freitas. Learning to\n"
+        "learn by gradient descent. In NeurIPS, 2016.\n"
+        "[Car97] Rich Caruana. Multitask learning. Machine Learning, 28(1), 1997.\n"
+        "[BHT+20] Yonatan Bisk, Ari Holtzman, et al. Experience grounds language. 2020.\n"
+    )
+    entries = split_entries(text)
+    assert len(entries) == 3, entries
+    refs = parse_reference_list(text)
+    assert [r.year for r in refs] == [2016, 1997, 2020]
+    assert "Multitask learning" in refs[1].title
