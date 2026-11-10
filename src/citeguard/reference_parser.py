@@ -169,9 +169,18 @@ _YEAR_END_BOUNDARY_RE = re.compile(
 )
 
 
-def _split_year_end_entries(text: str) -> list[str]:
+_YEAR_END_BOUNDARY_RE_LENIENT = re.compile(
+    r"(?<!\d)((?:19|20)\d{2}[a-z]?\.)\s+"
+    r"(?=(?:[A-Z]\.\s+)?[A-Z][A-Za-z\u00c0-\u00d6\u00d8-\u00f6\u00f8-\u00ff\u0100-\u017f'\u2019 -]{1,40}"
+    r"(?:,| and |\s+[A-Z]\.))"
+)
+
+
+def _split_year_end_entries(
+    text: str, pattern: re.Pattern[str] = _YEAR_END_BOUNDARY_RE
+) -> list[str]:
     """Split author-title-venue-year lists whose year ends every entry."""
-    marks = list(_YEAR_END_BOUNDARY_RE.finditer(text))
+    marks = list(pattern.finditer(text))
     if len(marks) < 5:
         return []
     entries: list[str] = []
@@ -489,6 +498,31 @@ def split_entries(refs_text: str) -> list[str]:
     apa = [e for e in _split_apa_entries(text) if _looks_like_entry(e)]
     acl = [e for e in _split_acl_entries(text) if _looks_like_entry(e)]
     year_end = [e for e in _split_year_end_entries(text) if _looks_like_entry(e)]
+    # A short year-ending list with no other plausible split is often the
+    # "initial-led author" style (``E. Almazrouei, ... 2023.``); retry with a
+    # lenient boundary only in that narrow case, so long lists keep winning.
+    if len(year_end) < 15 and len(starts) < 5 and len(apa) < 5 and len(acl) < 5:
+        candidates = [
+            [
+                e
+                for e in _split_year_end_entries(text, _YEAR_END_BOUNDARY_RE_LENIENT)
+                if _looks_like_entry(e)
+            ]
+        ]
+        stripped = re.sub(
+            r"((?:19|20)\d{2}[a-z]?\.)\s+URL\s+\S+?\.\s+", r"\1 ", text
+        )
+        if stripped != text:
+            candidates.append(
+                [
+                    e
+                    for e in _split_year_end_entries(stripped, _YEAR_END_BOUNDARY_RE_LENIENT)
+                    if _looks_like_entry(e)
+                ]
+            )
+        alternate = max(candidates, key=len)
+        if len(alternate) >= 2 * max(len(year_end), 1):
+            year_end = alternate
 
     # ACL/EMNLP author-year lists have no parentheses and no bracketed numbers;
     # if they yield clearly more entries than the numbered split, trust them.
