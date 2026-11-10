@@ -669,3 +669,10 @@ NOT_ENOUGH_INFO P 0.742 / R 0.924 / F1 0.823。差距主要来自矛盾类召回
 
 **证据**：`data/experiments/scifact_refchecker_deepseek.json`、`scripts/eval_scifact_refchecker.py`；
 复现命令见 `data/experiments/README.md`。
+
+## 解析回归复跑（2026-11-10）
+
+- 对 22 篇真实论文重新跑 `scripts/eval_parse_real.py`：22 篇全部找到参考文献标题，
+  PDF 解析 **498 条**（提交记录中的 529 条是更早版本），clean 比例 **0.98**。
+- 差异来自后续解析器改动，正在回溯；在定位前，材料中的“529 条 / 0.998”按旧版本口径处理，
+  不再作为当前版本的承诺。
