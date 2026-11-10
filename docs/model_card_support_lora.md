@@ -43,6 +43,11 @@
 
 唯一错误：2 条 partial 被判成 support。
 
+**产品提示词路径（同一 adapter）**：把 v10 产品 prompt 原样发给
+`scripts/adapter_judge_server.py`，由它抽出【引用句】/【证据片段】再包成 SFT prompt，
+test 60 仍是 **0.9721 / 0.9667**（`data/experiments/support_adapter_product_path.json`）。
+说明它能在产品调用方式下稳定工作；但这一轮只测了支持度判定，没有跑检索、真伪与审计两段。
+
 ## 4. 诚实边界（必须一起引用）
 
 1. **同分布**：test 与训练用的扩展集来自同一套构造模板，0.9721 衡量的是「学会这套映射」，不是开放世界泛化。
@@ -52,7 +57,18 @@
 5. **只做支持度**：不查引用是否存在（那是 metadata 链路），不做 GB/T 格式（规则引擎）。
 6. **未接入产品**：adapter 还没进在线服务；接入需要 vLLM/PEFT 加载并重跑端到端。
 
-## 5. 复现
+## 5. 本地判定服务（可选）
+
+```bash
+CUDA_VISIBLE_DEVICES=3 python scripts/adapter_judge_server.py \
+  --model models/Qwen3-1.7B --adapter out/support_lora/adapter --port 8101
+# 产品侧：CITEGUARD_JUDGE_BASE_URL=http://127.0.0.1:8101/v1
+#         CITEGUARD_JUDGE_MODEL=qwen3-1.7b-support-lora
+#         CITEGUARD_SUPPORT_AUDIT=0   （本服务只做支持度判定）
+python scripts/eval_support_adapter.py --endpoint http://127.0.0.1:8101/v1
+```
+
+## 6. 复现
 
 ```bash
 # 1) 生成 SFT 划分（train 80 / dev 20 / test 60）
@@ -68,7 +84,7 @@ python scripts/train_support_lora.py \
 产物：`out/support_lora/adapter/`、`metrics.json`、`eval_predictions.jsonl`。
 证据汇总：`data/experiments/support_lora_qwen3_1.7b.json`。
 
-## 6. 许可证
+## 7. 许可证
 
 - 基座 Qwen3-1.7B：Apache-2.0。
 - 本 LoRA adapter：Apache-2.0（随仓库）。
