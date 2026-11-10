@@ -191,7 +191,7 @@ Content-Type: application/json
 配套的接入面（都在仓库里，可按需选用）：
 
 - **Python 客户端**：`citeguard.client.CiteGuardClient`，零依赖，支持 `health()` / `check_support()` / `check_support_batch()`；命令行 `python -m citeguard.client --claim "…" --evidence "…"`。
-- **任务进度 SSE**：`GET /api/jobs/{id}/events` 推送 `{status, progress, stage}`，`done/error` 时自动结束；页面仍用轮询，脚本可改用事件流。
+- **任务进度 SSE**：`GET /api/jobs/{id}/events` 推送 `{status, progress, stage}`，`done/error` 时自动结束；页面优先用 SSE，连不上时自动回退轮询，脚本可直接消费事件流。
 - **Word 任务窗格（预览版）**：`word-addin/manifest.xml` + `/word/taskpane`，选中句子后核验；**未在真实 Word 客户端验证**，README 已写明边界。
 - **Docker**：`docker/Dockerfile` 构建后容器 health 通过；不把模型/密钥打进镜像。
 
