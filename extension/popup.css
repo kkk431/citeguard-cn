@@ -1,0 +1,53 @@
+:root {
+  --bg: #050d18;
+  --panel: #0b1826;
+  --line: rgba(111, 231, 255, .3);
+  --mint: #7ff0cf;
+  --amber: #ffb43a;
+  --cyan: #6fe7ff;
+  --text: #eaf7ff;
+  --dim: #8ba9bd;
+}
+* { box-sizing: border-box; }
+body {
+  width: 380px; margin: 0; background: var(--bg); color: var(--text);
+  font-family: "Microsoft YaHei", "Noto Sans SC", system-ui, sans-serif;
+}
+header { display: flex; gap: 12px; align-items: center; padding: 16px 18px 12px; border-bottom: 1px solid var(--line); }
+.logo {
+  width: 38px; height: 44px; border-radius: 6px 6px 14px 14px;
+  background: linear-gradient(180deg, var(--mint), #21b48f); color: #052018;
+  font-weight: 800; display: grid; place-items: center; font-size: 16px;
+}
+h1 { margin: 0; font-size: 17px; letter-spacing: .02em; }
+h1 span { color: var(--mint); font-size: 11px; letter-spacing: .12em; margin-left: 4px; }
+header p { margin: 3px 0 0; color: var(--dim); font-size: 12px; }
+main { padding: 14px 18px 8px; display: grid; gap: 12px; }
+.field { display: grid; gap: 6px; font-size: 12px; color: var(--dim); }
+.field b { color: var(--mint); font-weight: 600; }
+textarea, input {
+  width: 100%; background: var(--panel); color: var(--text);
+  border: 1px solid rgba(111, 231, 255, .24); border-radius: 10px;
+  padding: 10px 12px; font: inherit; font-size: 13px; line-height: 1.55; resize: vertical;
+}
+textarea:focus, input:focus { outline: none; border-color: var(--mint); box-shadow: 0 0 0 3px rgba(127, 240, 207, .12); }
+details { font-size: 12px; color: var(--dim); }
+summary { cursor: pointer; }
+details input { margin-top: 8px; }
+button {
+  border: 0; border-radius: 10px; padding: 12px; cursor: pointer;
+  font: inherit; font-size: 15px; font-weight: 700; color: #04231a;
+  background: linear-gradient(135deg, var(--mint), #56dcc0);
+}
+button:disabled { opacity: .55; cursor: wait; }
+#result { border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; background: var(--panel); display: grid; gap: 8px; }
+.verdict { display: flex; align-items: baseline; gap: 10px; }
+#label { font-size: 22px; font-weight: 800; color: var(--mint); }
+#label.partial { color: var(--amber); }
+#label.contradict, #label.no_evidence { color: #ff8a7a; }
+#confidence { color: var(--dim); font-style: normal; font-size: 12px; }
+#reason { margin: 0; font-size: 13px; line-height: 1.6; }
+blockquote { margin: 0; padding: 8px 10px; border-left: 3px solid var(--cyan); background: rgba(111, 231, 255, .06); color: #cfe9f7; font-size: 12px; }
+#audit { margin: 0; color: var(--dim); font-size: 12px; }
+#error { color: #ff9c8c; font-size: 12px; }
+footer { padding: 10px 18px 14px; color: #5f7d90; font-size: 11px; border-top: 1px solid rgba(111, 231, 255, .12); }

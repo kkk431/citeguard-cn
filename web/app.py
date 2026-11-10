@@ -43,6 +43,7 @@ from citeguard.pdf_extract import (  # noqa: E402
 )
 from citeguard.pipeline import run_job  # noqa: E402
 from citeguard.report import render_reference_list  # noqa: E402
+from citeguard import support  # noqa: E402
 
 UPLOAD_DIR = config.DATA_DIR / "uploads"
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
@@ -93,7 +94,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.75", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.76", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
@@ -1572,6 +1573,44 @@ def benchmark_api():
         "support_benchmark": ctx["support"],
         "real_data": ctx["real"],
         "local_models": ctx["local_models"],
+    }
+
+
+@app.post("/api/support/check")
+async def support_check(request: Request):
+    """Lightweight per-claim support check for the browser extension / SDK.
+
+    The demo UI's full pipeline verifies references first and enriches evidence;
+    this endpoint is for "I have a claim and an abstract, is it supported?".
+    """
+    if config.OFFLINE:
+        return JSONResponse({"ok": False, "code": "offline", "error": "离线模式不调用判定模型"}, status_code=503)
+    try:
+        payload = await request.json()
+    except Exception:
+        raise HTTPException(status_code=400, detail="请求体必须是 JSON")
+    claim = str(payload.get("claim") or "").strip()
+    evidence = str(payload.get("evidence") or "").strip()
+    if not claim or not evidence:
+        raise HTTPException(status_code=400, detail="需要 claim 和 evidence 两个字段")
+    if len(claim) > 500:
+        raise HTTPException(status_code=400, detail="claim 最长 500 字")
+    if len(evidence) > 8000:
+        evidence = evidence[:8000]
+    result = support.judge_support(claim, evidence)
+    if result is None:
+        return JSONResponse(
+            {"ok": False, "code": "judge_unavailable", "error": "判定模型不可用，请检查 CITEGUARD_JUDGE_BASE_URL / API key"},
+            status_code=503,
+        )
+    return {
+        "ok": True,
+        "label": result.get("label"),
+        "confidence": result.get("confidence"),
+        "reason": result.get("reason", ""),
+        "evidence": result.get("evidence", ""),
+        "audit": result.get("audit"),
+        "prompt_version": support.PROMPT_VERSION,
     }
 
 

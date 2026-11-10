@@ -602,3 +602,50 @@ def test_stale_running_job_becomes_interrupted(plain_client):
     again = webapp.manager.get(job["id"])
     assert again["status"] == "interrupted"
     assert "重启" in again["error"]
+
+def test_support_check_endpoint_returns_verdict(plain_client, monkeypatch):
+    import web.app as webapp
+
+    monkeypatch.setattr(
+        webapp.support,
+        "judge_support",
+        lambda claim, evidence: {
+            "label": "partial",
+            "confidence": 0.7,
+            "reason": "只覆盖一个分句",
+            "evidence": "原文一句",
+            "audit": {"fully_covered": False},
+        },
+    )
+    r = plain_client.post("/api/support/check", json={"claim": "A 通过 B 影响 C", "evidence": "A 影响 B"})
+    assert r.status_code == 200
+    body = r.json()
+    assert body["ok"] is True
+    assert body["label"] == "partial"
+    assert body["audit"]["fully_covered"] is False
+    assert body["prompt_version"]
+
+
+def test_support_check_validates_fields(plain_client):
+    r = plain_client.post("/api/support/check", json={"claim": "只有主张"})
+    assert r.status_code == 400
+    r = plain_client.post("/api/support/check", json={"claim": "", "evidence": "x"})
+    assert r.status_code == 400
+
+
+def test_support_check_reports_unavailable(plain_client, monkeypatch):
+    import web.app as webapp
+
+    monkeypatch.setattr(webapp.support, "judge_support", lambda claim, evidence: None)
+    r = plain_client.post("/api/support/check", json={"claim": "c", "evidence": "e"})
+    assert r.status_code == 503
+    assert r.json()["code"] == "judge_unavailable"
+
+
+def test_support_check_refuses_offline(plain_client, monkeypatch):
+    import web.app as webapp
+
+    monkeypatch.setattr(webapp.config, "OFFLINE", True)
+    r = plain_client.post("/api/support/check", json={"claim": "c", "evidence": "e"})
+    assert r.status_code == 503
+    assert r.json()["code"] == "offline"

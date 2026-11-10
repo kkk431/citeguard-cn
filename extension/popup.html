@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>引证卫士 CiteGuard</title>
+<link rel="stylesheet" href="popup.css">
+</head>
+<body>
+<header>
+  <div class="logo">盾</div>
+  <div>
+    <h1>引证卫士 <span>CITEGUARD</span></h1>
+    <p>选中一句话，问它有没有证据支持。</p>
+  </div>
+</header>
+<main>
+  <label class="field">
+    <span>引用句 <b id="claim-count">0</b>/500</span>
+    <textarea id="claim" rows="3" maxlength="500" placeholder="例如：该方法在三个数据集上平均提升 2.3%。"></textarea>
+  </label>
+  <label class="field">
+    <span>证据片段（摘要/正文原文）</span>
+    <textarea id="evidence" rows="5" maxlength="8000" placeholder="把被引论文里相关的一段贴这里。"></textarea>
+  </label>
+  <details>
+    <summary>服务地址</summary>
+    <input id="endpoint" type="url" placeholder="http://127.0.0.1:8010">
+  </details>
+  <button id="check">核验支持度</button>
+  <section id="result" hidden>
+    <div class="verdict"><span id="label"></span><em id="confidence"></em></div>
+    <p id="reason"></p>
+    <blockquote id="quote" hidden></blockquote>
+    <p id="audit" hidden></p>
+  </section>
+  <p id="error" hidden></p>
+</main>
+<footer>本地运行 · 不保存你的文本 · 判定结果可复核</footer>
+<script src="popup.js"></script>
+</body>
+</html>

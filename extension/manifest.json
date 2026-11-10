@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "引证卫士 CiteGuard 划词核验",
+  "version": "0.1.0",
+  "description": "选中一句话，问它有没有证据支持。",
+  "permissions": ["storage", "contextMenus", "activeTab"],
+  "host_permissions": ["http://127.0.0.1/*", "http://localhost/*"],
+  "background": {"service_worker": "background.js"},
+  "action": {"default_popup": "popup.html", "default_title": "引证卫士 CiteGuard"}
+}
