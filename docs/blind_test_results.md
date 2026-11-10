@@ -96,3 +96,10 @@
 - 修复（盲测后）：`_long_author_list()` 不再受 180 字符限制——≥10 个人名时按 `et al.` 切，否则找右侧含小写词的句点，并跳过“姓氏, 下一个姓名”形态。
 - 同批复跑（明确是 dev，不是盲测）：Qwen2.5 题名合理率 **63.6% → 92.4%**，前几条恢复为 `Phi-3 technical report`、`Nemotron-4 340B technical report`、`The Falcon series…`；ViT/Mistral 不变；22 篇语料仍 529/1.0。
 - 仍不宣称这次盲测通过：第四次盲测要另选 3 篇全新 PDF。
+
+## 12. 第 12 轮：题名作者前缀修复（2026-11-11，未新开盲测）
+
+- 现象：Gemma 等条目的题名仍以作者尾巴开头，例如 `... I. Sutskever, and W. Zaremba. Evaluating ...`、`E. Terry. Rank analysis ...`。
+- 修复：`parse_reference_list` 末尾增加 `_strip_author_prefix`，只在题名含 `, and ` 作者尾、或形如 `[Initial] Surname.` 且剩余至少 3–4 个词时剥离；正常题名不动。
+- 回归：22 篇真实语料仍 **529 条 / clean 1.0**；全套 **496 passed**。
+- 复测（同一批 blind4 PDF，仅改题名清洗，**不是新盲测**）：Gemma 42 条，严格健康率 88.1% → **95.2%**；ResNet 50 条 82% → **98%**。PaLM 仍受条目切分拖累，因此**不宣布第四次盲测通过**；第五次盲测必须另选 3 篇全新 PDF。

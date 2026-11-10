@@ -1455,15 +1455,41 @@ def _is_url_fragment(ref: Reference) -> bool:
     return title in {"url", "html", "doi"} and not (ref.authors or []) and not ref.year
 
 
+def _strip_author_prefix(ref: Reference) -> None:
+    """Repair titles that still begin with the tail of a long author list."""
+    title = (ref.title or "").strip()
+    if not title:
+        return
+    if ", and " in title[:200]:
+        pos = title.find(", and ")
+        m = re.search(r"\.\s+", title[pos:])
+        if m:
+            rest = title[pos + m.end():].strip()
+            if len(rest.split()) >= 3 and rest[0].isupper():
+                ref.title = rest
+                return
+    # "Penedo. The falcon series ..." / "Mané. Concrete problems ..." — the
+    # boundary sits after a lone surname with its initial already consumed.
+    m2 = re.match(
+        r"^(?:[A-Z]\.\s*)?([A-Z][A-Za-z\u00c0-\u024f'\u2019-]{1,20})\.\s+([A-Z].+)$",
+        title,
+    )
+    if m2 and len(m2.group(2).split()) >= 4 and not title.startswith(("Figure", "Table")):
+        ref.title = m2.group(2)
+
+
 def parse_reference_list(refs_text: str) -> list[Reference]:
     refs: list[Reference] = []
     for entry in split_entries(refs_text):
         ref = parse_reference(entry, len(refs) + 1)
+        _strip_author_prefix(ref)
         _blank_year_only_title(ref)
         _blank_author_list_title(ref)
         if _is_date_only_ref(ref) or _is_url_fragment(ref):
             continue
         refs.append(ref)
+    for ref in refs:
+        _strip_author_prefix(ref)
     return refs
 
 

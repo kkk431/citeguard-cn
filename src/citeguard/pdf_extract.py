@@ -648,7 +648,23 @@ def _trim_reference_appendix(rest: list[str]) -> list[str]:
     floor = max(5, len(rest) // 5)
     for i in range(floor, len(rest)):
         s = rest[i].strip()
-        if s.lower() in {"appendix", "附录", "supplementary material"}:
+        back_matter = s.lower().rstrip(":.").strip()
+        if back_matter in {
+            "appendix",
+            "supplementary material",
+            "supplementary materials",
+            "appendix a",
+            "contributions",
+            "contributions and acknowledgments",
+            "contributions and acknowledgements",
+            "author contributions",
+            "acknowledgments",
+            "acknowledgements",
+            "ethics statement",
+            "impact statement",
+            "broader impact",
+            "reproducibility statement",
+        } or back_matter in {"附录", "补充材料"}:
             return rest[:i]
         heading_like = _APPENDIX_LETTER_RE.match(s) or (
             re.match(r"^[A-H]\.\s+[A-Z][A-Za-z].{2,60}$", s)
