@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>引证卫士 · Word 任务窗格</title>
+<script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+<style>
+  :root { --bg:#07131f; --card:#0d2030; --line:#1d3c4d; --mint:#7ff0cf; --amber:#ffb84d; --text:#e8f4f1; --muted:#8fa8b8; }
+  * { box-sizing:border-box; }
+  body { margin:0; padding:14px; background:var(--bg); color:var(--text);
+         font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif; }
+  h1 { font-size:17px; margin:0 0 4px; letter-spacing:.5px; }
+  .sub { font-size:12px; color:var(--muted); margin-bottom:12px; line-height:1.5; }
+  label { display:block; font-size:12px; color:var(--muted); margin:10px 0 5px; }
+  textarea { width:100%; min-height:74px; resize:vertical; padding:8px 9px; font-size:13px;
+             color:var(--text); background:var(--card); border:1px solid var(--line); border-radius:8px; }
+  textarea:focus { outline:none; border-color:var(--mint); }
+  button { width:100%; margin-top:12px; padding:10px; font-size:14px; font-weight:700; cursor:pointer;
+           color:#04120f; background:linear-gradient(135deg,var(--mint),#55d6ff); border:0; border-radius:9px; }
+  button:disabled { opacity:.55; cursor:wait; }
+  .result { margin-top:14px; padding:12px; border:1px solid var(--line); border-radius:10px; background:var(--card); }
+  .badge { display:inline-block; padding:3px 10px; border-radius:999px; font-size:13px; font-weight:800; }
+  .support { background:rgba(127,240,207,.16); color:var(--mint); border:1px solid rgba(127,240,207,.5); }
+  .partial { background:rgba(255,184,77,.16); color:var(--amber); border:1px solid rgba(255,184,77,.5); }
+  .contradict { background:rgba(255,107,87,.16); color:#ff8b7b; border:1px solid rgba(255,107,87,.5); }
+  .no_evidence { background:rgba(143,168,184,.14); color:var(--muted); border:1px solid var(--line); }
+  .reason { font-size:13px; line-height:1.6; margin-top:9px; color:#cfe3dd; }
+  .meta { font-size:11px; color:var(--muted); margin-top:8px; }
+  .err { color:#ff8b7b; font-size:12px; margin-top:9px; }
+</style>
+</head>
+<body>
+  <h1>引证卫士 · 证据核验</h1>
+  <div class="sub">在 Word 里选中一句话，它会被自动填入；再粘贴摘要或证据片段。只发送你填的这两段文字。</div>
+
+  <label for="claim">引用句（claim）</label>
+  <textarea id="claim" maxlength="500" placeholder="例如：该方法在三个数据集上平均提升 2.3%。"></textarea>
+
+  <label for="evidence">证据片段（evidence）</label>
+  <textarea id="evidence" maxlength="8000" placeholder="粘贴摘要、结果段落或结论段……"></textarea>
+
+  <button id="check" type="button">核验这句话</button>
+
+  <div id="result" class="result" hidden>
+    <span id="badge" class="badge">—</span>
+    <div id="reason" class="reason"></div>
+    <div id="meta" class="meta"></div>
+  </div>
+  <div id="err" class="err" hidden></div>
+
+  <script src="/static/js/word_taskpane.js"></script>
+</body>
+</html>

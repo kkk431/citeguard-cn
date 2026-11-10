@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:type="TaskPaneApp">
+  <Id>cd8210d4-1e00-4de0-8736-561959ff4e8b</Id>
+  <Version>1.0.0.0</Version>
+  <ProviderName>CiteGuard-CN</ProviderName>
+  <DefaultLocale>zh-CN</DefaultLocale>
+  <DisplayName DefaultValue="引证卫士 CiteGuard-CN"/>
+  <Description DefaultValue="选中一句引用，检查它是否被给出的证据支持。"/>
+  <IconUrl DefaultValue="https://localhost:8010/static/img/word_icon_32.png"/>
+  <HighResolutionIconUrl DefaultValue="https://localhost:8010/static/img/word_icon_80.png"/>
+  <SupportUrl DefaultValue="https://github.com/kkk431/citeguard-cn"/>
+  <AppDomains>
+    <AppDomain>https://localhost:8010</AppDomain>
+  </AppDomains>
+  <Hosts>
+    <Host Name="Document"/>
+  </Hosts>
+  <DefaultSettings>
+    <SourceLocation DefaultValue="https://localhost:8010/word/taskpane"/>
+  </DefaultSettings>
+  <Permissions>ReadDocument</Permissions>
+</OfficeApp>
