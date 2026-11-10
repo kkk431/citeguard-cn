@@ -1,4 +1,6 @@
-import fitz
+import pytest
+
+fitz = pytest.importorskip("pymupdf")
 
 
 def _make_pdf(path):
