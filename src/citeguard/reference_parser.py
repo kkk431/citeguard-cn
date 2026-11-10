@@ -164,18 +164,13 @@ _ACL_ENTRY_START_RE = re.compile(
 # boundary.  A year followed by a new author list is the only reliable signal.
 _YEAR_END_BOUNDARY_RE = re.compile(
     r"(?<!\d)((?:19|20)\d{2}[a-z]?\.)\s+"
-    r"(?=(?:[A-Z]\.\s+)?[A-Z][A-Za-z\u00c0-\u00d6\u00d8-\u00f6\u00f8-\u00ff\u0100-\u017f'\u2019 -]{1,40}"
+    r"(?=[A-Z][A-Za-z\u00c0-\u00d6\u00d8-\u00f6\u00f8-\u00ff\u0100-\u017f'\u2019 -]{1,40}"
     r"(?:,| and |\s+[A-Z]\.))"
 )
 
 
 def _split_year_end_entries(text: str) -> list[str]:
     """Split author-title-venue-year lists whose year ends every entry."""
-    # Some entries put "URL https://..." after the year; move the boundary
-    # past the URL so the next author line still starts an entry.
-    text = re.sub(
-        r"((?:19|20)\d{2}[a-z]?\.)\s+URL\s+\S+?\.\s+", r"\1 ", text
-    )
     marks = list(_YEAR_END_BOUNDARY_RE.finditer(text))
     if len(marks) < 5:
         return []
