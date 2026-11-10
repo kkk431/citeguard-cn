@@ -1,0 +1,29 @@
+{
+  "name": "ClaimSupport-CN",
+  "version": "2026-11-11",
+  "items": 300,
+  "labels": {
+    "support": 120,
+    "partial": 80,
+    "contradict": 51,
+    "no_evidence": 49
+  },
+  "batches": {
+    "v1": 100,
+    "ext": 60,
+    "v2": 140
+  },
+  "construction_families": {
+    "contradict": 51,
+    "partial": 80,
+    "no_evidence": 49,
+    "support": 120
+  },
+  "claim_year_range": [
+    1978,
+    2026
+  ],
+  "unique_source_works": 349,
+  "sha256": "a180261d21f63ec79c05d3996c8ec1653d57c1a33e6aad0f79f43edf7d2979ba",
+  "labels_are": "rule-constructed, not human annotations"
+}
