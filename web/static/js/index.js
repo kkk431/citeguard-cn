@@ -259,15 +259,44 @@
     return new Promise(function (resolve) { setTimeout(resolve, ms); });
   }
 
-  async function pollJob(jobId, onUpdate) {
+  function followWithEvents(jobId, onUpdate) {
+    return new Promise((resolve, reject) => {
+      let last = null;
+      const es = new EventSource("/api/jobs/" + encodeURIComponent(jobId) + "/events");
+      es.onmessage = (ev) => {
+        let job;
+        try { job = JSON.parse(ev.data); } catch (e) { return; }
+        last = job;
+        if (onUpdate) onUpdate(job);
+        if (job.status === "done" || job.status === "error" || job.status === "cancelled") {
+          es.close();
+          resolve(job);
+        }
+      };
+      es.onerror = () => {
+        es.close();
+        if (last && (last.status === "error" || last.status === "done")) { resolve(last); return; }
+        pollJobFallback(jobId, onUpdate).then(resolve, reject);
+      };
+    });
+  }
+
+  async function pollJobFallback(jobId, onUpdate) {
     for (;;) {
       const resp = await fetch("/api/jobs/" + encodeURIComponent(jobId));
-      if (!resp.ok) throw new Error("任务状态读取失败");
+      if (!resp.ok) throw new Error("job status unavailable");
       const job = await resp.json();
       if (onUpdate) onUpdate(job);
-      if (job.status === "done" || job.status === "error") return job;
+      if (job.status === "done" || job.status === "error" || job.status === "cancelled") return job;
       await sleep(1200);
     }
+  }
+
+  async function pollJob(jobId, onUpdate) {
+    if (typeof EventSource === "function") {
+      return followWithEvents(jobId, onUpdate);
+    }
+    return pollJobFallback(jobId, onUpdate);
   }
 
   async function fetchReport(jobId) {
