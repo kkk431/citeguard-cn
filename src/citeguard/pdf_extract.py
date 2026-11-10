@@ -650,7 +650,12 @@ def _trim_reference_appendix(rest: list[str]) -> list[str]:
         s = rest[i].strip()
         if s.lower() in {"appendix", "附录", "supplementary material"}:
             return rest[:i]
-        if _APPENDIX_LETTER_RE.match(s):
+        heading_like = _APPENDIX_LETTER_RE.match(s) or (
+            re.match(r"^[A-H]\.\s+[A-Z][A-Za-z].{2,60}$", s)
+            and not re.search(r"[,\uff0c]|\b(?:19|20)\d{2}\b", s)
+            and len(s) <= 72
+        )
+        if heading_like:
             for nxt in rest[i + 1 : i + 3]:
                 t = nxt.strip()
                 if t and (t[0].isupper() or "\u4e00" <= t[0] <= "\u9fff"):
