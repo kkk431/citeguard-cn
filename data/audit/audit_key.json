@@ -1,0 +1,306 @@
+{
+ "seed": 20261111,
+ "n": 60,
+ "labels": {
+  "HS001": {
+   "label": "support",
+   "set": "claimsupport_cn_ext",
+   "source_url": ""
+  },
+  "HS002": {
+   "label": "support",
+   "set": "claimsupport_cn",
+   "source_url": ""
+  },
+  "HS003": {
+   "label": "support",
+   "set": "claimsupport_cn_ext",
+   "source_url": ""
+  },
+  "HS004": {
+   "label": "no_evidence",
+   "set": "claimsupport_cn",
+   "source_url": ""
+  },
+  "HS005": {
+   "label": "support",
+   "set": "claimsupport_cn",
+   "source_url": ""
+  },
+  "HS006": {
+   "label": "support",
+   "set": "claimsupport_cn_ext",
+   "source_url": ""
+  },
+  "HS007": {
+   "label": "contradict",
+   "set": "claimsupport_cn_ext",
+   "source_url": ""
+  },
+  "HS008": {
+   "label": "no_evidence",
+   "set": "claimsupport_cn",
+   "source_url": ""
+  },
+  "HS009": {
+   "label": "support",
+   "set": "claimsupport_cn",
+   "source_url": ""
+  },
+  "HS010": {
+   "label": "support",
+   "set": "claimsupport_cn",
+   "source_url": ""
+  },
+  "HS011": {
+   "label": "no_evidence",
+   "set": "claimsupport_cn",
+   "source_url": ""
+  },
+  "HS012": {
+   "label": "partial",
+   "set": "claimsupport_cn_ext",
+   "source_url": ""
+  },
+  "HS013": {
+   "label": "partial",
+   "set": "claimsupport_cn",
+   "source_url": ""
+  },
+  "HS014": {
+   "label": "partial",
+   "set": "claimsupport_cn",
+   "source_url": ""
+  },
+  "HS015": {
+   "label": "partial",
+   "set": "claimsupport_cn",
+   "source_url": ""
+  },
+  "HS016": {
+   "label": "no_evidence",
+   "set": "claimsupport_cn",
+   "source_url": ""
+  },
+  "HS017": {
+   "label": "support",
+   "set": "claimsupport_cn",
+   "source_url": ""
+  },
+  "HS018": {
+   "label": "support",
+   "set": "claimsupport_cn",
+   "source_url": ""
+  },
+  "HS019": {
+   "label": "support",
+   "set": "claimsupport_cn_ext",
+   "source_url": ""
+  },
+  "HS020": {
+   "label": "partial",
+   "set": "claimsupport_cn",
+   "source_url": ""
+  },
+  "HS021": {
+   "label": "support",
+   "set": "claimsupport_cn_ext",
+   "source_url": ""
+  },
+  "HS022": {
+   "label": "no_evidence",
+   "set": "claimsupport_cn_ext",
+   "source_url": ""
+  },
+  "HS023": {
+   "label": "contradict",
+   "set": "claimsupport_cn",
+   "source_url": ""
+  },
+  "HS024": {
+   "label": "partial",
+   "set": "claimsupport_cn_ext",
+   "source_url": ""
+  },
+  "HS025": {
+   "label": "no_evidence",
+   "set": "claimsupport_cn",
+   "source_url": ""
+  },
+  "HS026": {
+   "label": "support",
+   "set": "claimsupport_cn",
+   "source_url": ""
+  },
+  "HS027": {
+   "label": "partial",
+   "set": "claimsupport_cn",
+   "source_url": ""
+  },
+  "HS028": {
+   "label": "partial",
+   "set": "claimsupport_cn",
+   "source_url": ""
+  },
+  "HS029": {
+   "label": "support",
+   "set": "claimsupport_cn",
+   "source_url": ""
+  },
+  "HS030": {
+   "label": "contradict",
+   "set": "claimsupport_cn_ext",
+   "source_url": ""
+  },
+  "HS031": {
+   "label": "no_evidence",
+   "set": "claimsupport_cn_ext",
+   "source_url": ""
+  },
+  "HS032": {
+   "label": "support",
+   "set": "claimsupport_cn",
+   "source_url": ""
+  },
+  "HS033": {
+   "label": "contradict",
+   "set": "claimsupport_cn",
+   "source_url": ""
+  },
+  "HS034": {
+   "label": "support",
+   "set": "claimsupport_cn",
+   "source_url": ""
+  },
+  "HS035": {
+   "label": "contradict",
+   "set": "claimsupport_cn_ext",
+   "source_url": ""
+  },
+  "HS036": {
+   "label": "partial",
+   "set": "claimsupport_cn",
+   "source_url": ""
+  },
+  "HS037": {
+   "label": "no_evidence",
+   "set": "claimsupport_cn_ext",
+   "source_url": ""
+  },
+  "HS038": {
+   "label": "support",
+   "set": "claimsupport_cn",
+   "source_url": ""
+  },
+  "HS039": {
+   "label": "support",
+   "set": "claimsupport_cn",
+   "source_url": ""
+  },
+  "HS040": {
+   "label": "no_evidence",
+   "set": "claimsupport_cn",
+   "source_url": ""
+  },
+  "HS041": {
+   "label": "contradict",
+   "set": "claimsupport_cn",
+   "source_url": ""
+  },
+  "HS042": {
+   "label": "support",
+   "set": "claimsupport_cn_ext",
+   "source_url": ""
+  },
+  "HS043": {
+   "label": "no_evidence",
+   "set": "claimsupport_cn",
+   "source_url": ""
+  },
+  "HS044": {
+   "label": "contradict",
+   "set": "claimsupport_cn_ext",
+   "source_url": ""
+  },
+  "HS045": {
+   "label": "partial",
+   "set": "claimsupport_cn_ext",
+   "source_url": ""
+  },
+  "HS046": {
+   "label": "partial",
+   "set": "claimsupport_cn",
+   "source_url": ""
+  },
+  "HS047": {
+   "label": "support",
+   "set": "claimsupport_cn_ext",
+   "source_url": ""
+  },
+  "HS048": {
+   "label": "support",
+   "set": "claimsupport_cn_ext",
+   "source_url": ""
+  },
+  "HS049": {
+   "label": "support",
+   "set": "claimsupport_cn",
+   "source_url": ""
+  },
+  "HS050": {
+   "label": "contradict",
+   "set": "claimsupport_cn",
+   "source_url": ""
+  },
+  "HS051": {
+   "label": "support",
+   "set": "claimsupport_cn",
+   "source_url": ""
+  },
+  "HS052": {
+   "label": "partial",
+   "set": "claimsupport_cn",
+   "source_url": ""
+  },
+  "HS053": {
+   "label": "support",
+   "set": "claimsupport_cn",
+   "source_url": ""
+  },
+  "HS054": {
+   "label": "partial",
+   "set": "claimsupport_cn_ext",
+   "source_url": ""
+  },
+  "HS055": {
+   "label": "no_evidence",
+   "set": "claimsupport_cn",
+   "source_url": ""
+  },
+  "HS056": {
+   "label": "partial",
+   "set": "claimsupport_cn_ext",
+   "source_url": ""
+  },
+  "HS057": {
+   "label": "contradict",
+   "set": "claimsupport_cn_ext",
+   "source_url": ""
+  },
+  "HS058": {
+   "label": "contradict",
+   "set": "claimsupport_cn",
+   "source_url": ""
+  },
+  "HS059": {
+   "label": "partial",
+   "set": "claimsupport_cn",
+   "source_url": ""
+  },
+  "HS060": {
+   "label": "support",
+   "set": "claimsupport_cn",
+   "source_url": ""
+  }
+ }
+}
