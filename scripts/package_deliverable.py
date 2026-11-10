@@ -69,6 +69,7 @@ EXCLUDE_FILE_GLOBS = (
     ".env",
     ".env.*",
     "HANDOFF.md",
+    "ppt_numbers.md",
     "*.pyc",
     "*.pyo",
     "*.log",

@@ -411,7 +411,7 @@ python scripts/e7_usability.py --manual-finalize data/experiments/e7_manual_verd
 | **合计（本工作）** | **≤90（不含 E7 服务端）** | ~100 | ~190 | 单实验均 ≤150 / 整体 ≤300 |
 
 - **OpenAlex 当日额度在 E7 期间已耗尽**（429，`$0 remaining`），E7 的服务端核验主要走 Crossref；因此 E7 的 `paper_c` 题名回退命中偏低，属于外部源降级，不应解读为算法退化。
-- 所有脚本都**不打印、不写入 API key**；结果 JSON 中不含 key（已用 `sk-df1fa…` 前缀检索确认无匹配）。
+- 所有脚本都**不打印、不写入 API key**；结果 JSON 中不含 key（已用 `sk-…` 前缀检索确认无匹配）。
 
 ---
 
