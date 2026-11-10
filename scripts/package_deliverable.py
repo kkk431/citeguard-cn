@@ -67,6 +67,7 @@ EXCLUDE_DIR_PATHS = {
 # File-name globs never shipped.
 EXCLUDE_FILE_GLOBS = (
     ".env",
+    ".env.*",
     "HANDOFF.md",
     "*.pyc",
     "*.pyo",
@@ -100,6 +101,8 @@ def should_exclude(rel_path: str) -> bool:
     if parts[0] == "data" and any("cache" in part.lower() for part in parts[1:-1]):
         return True
     name = parts[-1]
+    if name == ".env.example":
+        return False
     if any(fnmatch.fnmatch(name, pattern) for pattern in EXCLUDE_FILE_GLOBS):
         return True
     return False

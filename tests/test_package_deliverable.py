@@ -50,6 +50,8 @@ def _make_tree(root: Path) -> None:
     [
         (".env", True),
         (".env.example", False),
+        (".env.wanfang", True),
+        (".env.local", True),
         ("data/jobs/abc.json", True),
         ("data/cache/abc.json", True),
         ("data/uploads/paper.pdf", True),
