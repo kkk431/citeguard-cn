@@ -184,7 +184,9 @@ Content-Type: application/json
 {"claim": "该方法在三个数据集上平均提升 2.3%。", "evidence": "……实验段原文……"}
 ```
 
-返回 `label / confidence / reason / evidence / audit / prompt_version`，
+返回 `label / confidence / reason / evidence / audit / numeric / prompt_version`；
+`numeric` 是规则层的数字一致性提示（结论里的数字在证据中找不到同值、或升降方向相反），
+只提示不判真伪。
 判定走的是产品同一条支持度链路；离线时返回 503 `offline`，模型不可用时返回
 503 `judge_unavailable`，不会伪造结果。
 
