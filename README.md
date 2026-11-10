@@ -186,7 +186,7 @@ Content-Type: application/json
 
 返回 `label / confidence / reason / evidence / audit / numeric / prompt_version`；
 `numeric` 是规则层的数字一致性提示（结论里的数字在证据中找不到同值、或升降方向相反），
-只提示不判真伪。
+只提示不判真伪。 批量版 `POST /api/support/batch`（一页最多 50 条，4 路并发）返回同样的字段，便于脚本/插件一次核验多条。
 判定走的是产品同一条支持度链路；离线时返回 503 `offline`，模型不可用时返回
 503 `judge_unavailable`，不会伪造结果。
 

@@ -6,6 +6,7 @@ Run (from the citeguard/ directory):
 from __future__ import annotations
 
 import json
+from concurrent.futures import ThreadPoolExecutor
 import re
 import sys
 import tempfile
@@ -94,7 +95,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.77", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.78", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
@@ -1574,6 +1575,56 @@ def benchmark_api():
         "real_data": ctx["real"],
         "local_models": ctx["local_models"],
     }
+
+
+@app.post("/api/support/batch")
+async def support_batch(request: Request):
+    """Batch version of /api/support/check for SDKs and scripts (max 50 items)."""
+    if config.OFFLINE:
+        return JSONResponse({"ok": False, "code": "offline", "error": "离线模式不调用判定模型"}, status_code=503)
+    try:
+        payload = await request.json()
+    except Exception:
+        raise HTTPException(status_code=400, detail="请求体必须是 JSON")
+    items = payload.get("items")
+    if not isinstance(items, list) or not items:
+        raise HTTPException(status_code=400, detail="items 必须是非空数组")
+    if len(items) > 50:
+        raise HTTPException(status_code=400, detail="一次最多 50 条")
+    clean = []
+    for i, it in enumerate(items):
+        if not isinstance(it, dict):
+            raise HTTPException(status_code=400, detail=f"第 {i+1} 条格式错误")
+        claim = str(it.get("claim") or "").strip()
+        evidence = str(it.get("evidence") or "").strip()
+        if not claim or not evidence:
+            raise HTTPException(status_code=400, detail=f"第 {i+1} 条缺少 claim/evidence")
+        if len(claim) > 500:
+            raise HTTPException(status_code=400, detail=f"第 {i+1} 条 claim 超过 500 字")
+        clean.append((claim, evidence[:8000]))
+
+    from citeguard.numeric_check import check as numeric_check
+
+    def one(pair):
+        claim, evidence = pair
+        result = support.judge_support(claim, evidence)
+        if result is None:
+            return {"ok": False, "code": "judge_unavailable"}
+        return {
+            "ok": True,
+            "label": result.get("label"),
+            "confidence": result.get("confidence"),
+            "reason": result.get("reason"),
+            "evidence": result.get("evidence"),
+            "audit": result.get("audit"),
+            "numeric": numeric_check(claim, evidence).as_dict(),
+        }
+
+    with ThreadPoolExecutor(max_workers=min(4, len(clean))) as pool:
+        results = list(pool.map(one, clean))
+    if any(not r.get("ok") for r in results):
+        return JSONResponse({"ok": False, "code": "judge_unavailable", "items": results}, status_code=503)
+    return {"ok": True, "count": len(results), "items": results}
 
 
 @app.post("/api/support/check")

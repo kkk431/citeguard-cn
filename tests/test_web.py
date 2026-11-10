@@ -649,3 +649,11 @@ def test_support_check_refuses_offline(plain_client, monkeypatch):
     r = plain_client.post("/api/support/check", json={"claim": "c", "evidence": "e"})
     assert r.status_code == 503
     assert r.json()["code"] == "offline"
+
+def test_support_batch_validation(client):
+    r = client.post("/api/support/batch", json={"items": []})
+    assert r.status_code == 400
+    r = client.post("/api/support/batch", json={"items": [{"claim": "x"}]})
+    assert r.status_code == 400
+    r = client.post("/api/support/batch", json={"items": [{"claim": "x", "evidence": "y"}] * 51})
+    assert r.status_code == 400
