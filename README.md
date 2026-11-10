@@ -173,6 +173,25 @@ export CITEGUARD_JUDGE_MODEL=qwen2.5:7b-instruct
 >
 > **产品路径直调核对**：不经评测脚本，直接用 `citeguard.support.judge_support`（自动选 v10 + 审计 v2）跑同一 100 条：14B **0.9744**、8B **0.8664**，与离线脚本逐条一致。这一步也修掉两个只在自托管端点暴露的产品 bug：审计风格原先只认 `CITEGUARD_JUDGE_BASE_URL`，若用 `DEEPSEEK_BASE_URL` 指向本地会错用 v1（产品路径一度只有 0.6864）；判定缓存键原先不含审计风格，切换 v1/v2 会复用旧最终标签。修复后按「模型 + prompt 版本 + 审计风格」分键；证据 `data/experiments/support_local_qwen3_{14b,8b}_product_all.json`。
 
+## 单条核验 API 与浏览器扩展
+
+给「手上已经有一句话和一段证据」的场景，加了一个不经过 PDF 的入口：
+
+```http
+POST /api/support/check
+Content-Type: application/json
+
+{"claim": "该方法在三个数据集上平均提升 2.3%。", "evidence": "……实验段原文……"}
+```
+
+返回 `label / confidence / reason / evidence / audit / prompt_version`，
+判定走的是产品同一条支持度链路；离线时返回 503 `offline`，模型不可用时返回
+503 `judge_unavailable`，不会伪造结果。
+
+`extension/` 是一个 Chrome/Edge 的 MV3 扩展：选中文字 → 右键“用引证卫士核验选中文字”
+→ 弹窗里贴证据 → 直接看四档判定。安装方法见 `extension/README.md`。
+它只做支持度判断，不查引用是否存在，也不做 GB/T 格式。
+
 ## 目录
 
 ```
