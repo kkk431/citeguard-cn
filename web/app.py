@@ -5,6 +5,7 @@ Run (from the citeguard/ directory):
 """
 from __future__ import annotations
 
+import asyncio
 import json
 from concurrent.futures import ThreadPoolExecutor
 import re
@@ -21,7 +22,7 @@ ROOT = BASE.parent                               # citeguard
 sys.path.insert(0, str(ROOT / "src"))
 
 from fastapi import Body, FastAPI, File, Form, HTTPException, Request, Response, UploadFile  # noqa: E402
-from fastapi.responses import FileResponse, HTMLResponse, JSONResponse  # noqa: E402
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, StreamingResponse  # noqa: E402
 from fastapi.staticfiles import StaticFiles  # noqa: E402
 from fastapi.templating import Jinja2Templates  # noqa: E402
 from pydantic import BaseModel  # noqa: E402
@@ -95,7 +96,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.80", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.81", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
@@ -576,6 +577,37 @@ def job_status(job_id: str):
     if not job:
         raise HTTPException(status_code=404, detail="job not found")
     return job
+
+
+@app.get("/api/jobs/{job_id}/events")
+async def job_events(job_id: str, request: Request):
+    """Server-Sent Events stream of a job's progress (one JSON object per event)."""
+    if manager.get(job_id) is None:
+        raise HTTPException(status_code=404, detail="任务不存在")
+    async def event_gen():
+        last = None
+        while True:
+            if await request.is_disconnected():
+                break
+            job = manager.get(job_id) or {}
+            data = {
+                "id": job_id,
+                "status": str(job.get("status") or ""),
+                "progress": int(job.get("progress") or 0),
+                "stage": str(job.get("stage") or ""),
+                "error": str(job.get("error") or ""),
+            }
+            if data != last:
+                yield "data: " + json.dumps(data, ensure_ascii=False) + "\n\n"
+                last = data
+            if data["status"] in {"done", "error", "cancelled"}:
+                break
+            await asyncio.sleep(0.5)
+    return StreamingResponse(
+        event_gen(),
+        media_type="text/event-stream",
+        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no", "Connection": "keep-alive"},
+    )
 
 
 @app.post("/api/jobs/{job_id}/rerun")

@@ -11,6 +11,7 @@
 | POST | `/api/support/batch` | 批量版本，最多 50 条，4 路并发 |
 | POST | `/api/figure-check` | 图表核验（图片 + 每行一条 claim，最多 5 条） |
 | GET | `/word/taskpane` | Word 任务窗格页面（预览版） |
+| GET | `/api/jobs/{id}/events` | 任务进度的 SSE 流（`text/event-stream`，每 0.5 s 推送一条 JSON，`status` 为 done/error 时结束） |
 
 `X-API-Key` / Bearer 认证只在设置了访问令牌时要求，默认本机不鉴权。
 
@@ -34,3 +35,13 @@ batch = c.check_support_batch([
 命令行：`python -m citeguard.client --claim "…" --evidence "…"`，不带 `--claim` 时打印 health。
 
 错误统一抛 `CiteGuardError`，带 `status` 与 `code`（如 `offline`）。
+
+
+## 进度流示例
+
+```bash
+curl -N http://127.0.0.1:8010/api/jobs/<job_id>/events
+# data: {"id":"…","status":"running","progress":42,"stage":"核验第 7/15 条","error":""}
+```
+
+前端目前仍用轮询（2 s 一次）；SSE 端点是给脚本/第三方集成用的，不改变原有轮询行为。

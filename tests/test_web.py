@@ -657,3 +657,20 @@ def test_support_batch_validation(client):
     assert r.status_code == 400
     r = client.post("/api/support/batch", json={"items": [{"claim": "x", "evidence": "y"}] * 51})
     assert r.status_code == 400
+def test_job_events_unknown_job(client):
+    r = client.get("/api/jobs/not-a-job/events")
+    assert r.status_code == 404
+
+
+def test_job_events_stream_ends_on_done(client):
+    from web import app as webapp
+    job = webapp.manager.create("demo.pdf")
+    webapp.manager.update(job["id"], status="done", progress=100, stage="完成")
+    with client.stream("GET", f"/api/jobs/{job['id']}/events") as r:
+        assert r.status_code == 200
+        assert r.headers["content-type"].startswith("text/event-stream")
+        body = "".join(r.iter_text())
+    assert '"status": "done"' in body
+    assert '"progress": 100' in body
+    lines = [ln for ln in body.splitlines() if ln.startswith("data: ")]
+    assert lines and lines[0].startswith("data: {")
