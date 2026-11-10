@@ -698,11 +698,40 @@ def _looks_like_initial_split(a: str, t: str) -> bool:
     return True
 
 
+def _long_author_list(seg: str) -> bool:
+    """Long author runs (100+ names) that the 180-char heuristic would ignore."""
+    if len(seg) < 200:
+        return False
+    parts = [p.strip() for p in re.split(r",\s*", seg) if p.strip()]
+    if len(parts) < 10:
+        return False
+    person = sum(1 for p in parts if 1 <= len(p.split()) <= 4 and p[:1].isupper())
+    return person >= max(8, int(len(parts) * 0.75))
+
+
+def _split_long_authors(left: str) -> tuple[str, str]:
+    m = re.search(r"\bet\s+al\.?\s+", left, re.I)
+    if m:
+        return left[: m.end()].strip(" ."), left[m.end() :].strip()
+    for m in re.finditer(r"\.\s+", left):
+        right = left[m.end() :]
+        if len(right) >= 20 and re.search(r"[a-z]{3}", right[:60]):
+            # "Dong H. Anh, Pallab ..." is still a name run, not a title.
+            if re.match(r"^[A-Z][^,]{0,40},\s+[A-Z]", right):
+                continue
+            return left[: m.start()].strip(), right
+    return "", ""
+
+
 def _split_authors_title(left: str, ocr_hint: bool = False) -> tuple[list[str], str]:
     """Split the pre-[type] text into authors and title."""
     left = left.strip()
     if not left:
         return [], ""
+    if _long_author_list(left):
+        a, t = _split_long_authors(left)
+        if a and t:
+            return _split_authors(a), _clean(t)
     if ocr_hint and "。" in left:
         # OCR sometimes turns the author/title period into a Chinese full stop
         # ("钱皓宇。短视频营销…"). Only do this for entries whose type marker was

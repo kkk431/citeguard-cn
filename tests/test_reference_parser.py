@@ -559,3 +559,12 @@ def test_alphabetic_citation_keys_are_split():
     refs = parse_reference_list(text)
     assert [r.year for r in refs] == [2016, 1997, 2020]
     assert "Multitask learning" in refs[1].title
+
+def test_long_author_list_title_split():
+    from citeguard.reference_parser import parse_reference_list
+
+    names = ", ".join(f"Given{i} Family{i}" for i in range(1, 13))
+    entry = names + ". A very long author list technical report. CoRR, 2024."
+    ref = parse_reference_list(entry)[0]
+    assert ref.title.startswith("A very long author list")
+    assert ref.year == 2024
