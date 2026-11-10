@@ -95,7 +95,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.79", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.80", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
