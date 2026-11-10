@@ -756,6 +756,10 @@ def _split_authors_title(left: str, ocr_hint: bool = False) -> tuple[list[str], 
         t = left[m.end() :].strip()
         if not t:
             continue
+        # "... Y. Bengio, P. | Simard, and P. Frasconi. Title" — a period that is
+        # really an author initial, not the author/title boundary.
+        if re.search(r"\b[A-Z]\.?$", a) and re.match(r"^[A-Z][A-Za-z'\u2019-]+(?:,|\s+and\s)", t):
+            continue
         if _is_author_continuation(t):
             continue
         if _looks_like_initial_split(a, t):
