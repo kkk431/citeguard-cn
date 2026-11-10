@@ -1,0 +1,23 @@
+{
+  "resnet": {
+    "arxiv": "1512.03385",
+    "title": "Deep Residual Learning for Image Recognition",
+    "refs": 62,
+    "title_ok_ratio": 0.871,
+    "year_ratio": 0.839
+  },
+  "palm": {
+    "arxiv": "2204.02311",
+    "title": "PaLM: Scaling Language Modeling with Pathways",
+    "refs": 53,
+    "title_ok_ratio": 0.868,
+    "year_ratio": 1.0
+  },
+  "gemma": {
+    "arxiv": "2403.08295",
+    "title": "Gemma: Open Models Based on Gemini Research",
+    "refs": 13,
+    "title_ok_ratio": 0.615,
+    "year_ratio": 0.923
+  }
+}

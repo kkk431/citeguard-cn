@@ -1,0 +1,28 @@
+{
+  "registered_at": "2026-11-10T23:04:23+0800",
+  "code_version": "229f589",
+  "scope": "reference parsing only; no verification / no support judgement",
+  "papers": [
+    {
+      "key": "resnet",
+      "arxiv": "1512.03385",
+      "title": "Deep Residual Learning for Image Recognition"
+    },
+    {
+      "key": "palm",
+      "arxiv": "2204.02311",
+      "title": "PaLM: Scaling Language Modeling with Pathways"
+    },
+    {
+      "key": "gemma",
+      "arxiv": "2403.08295",
+      "title": "Gemma: Open Models Based on Gemini Research"
+    }
+  ],
+  "metrics": [
+    "refs",
+    "title_ok_ratio",
+    "year_ratio"
+  ],
+  "notes": "PDFs downloaded before parsing. No parameter changes after seeing results; failures are reported."
+}

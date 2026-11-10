@@ -139,3 +139,21 @@ def recover_title(entry: str) -> str:
         if len(part.split()) >= 3 and not _URL_TITLE_RE.match(part):
             cands.append(part)
     return (max(cands, key=len) if cands else "")[:220]
+
+def title_health(refs) -> float:
+    """Fraction of parsed titles that look like real titles (not URLs / name runs)."""
+    if not refs:
+        return 0.0
+    good = 0
+    for ref in refs:
+        title = (getattr(ref, "title", "") or "").strip()
+        if not (10 <= len(title) <= 220):
+            continue
+        if title.lower().startswith(("url", "http", "doi", "www.")):
+            continue
+        if len(title.split(",")) >= 6:
+            continue
+        if not any(ch.islower() for ch in title):
+            continue
+        good += 1
+    return good / len(refs)

@@ -70,11 +70,11 @@ def analyze_text(
         body = ""
 
     refs = parse_reference_list(refs_text)
-    if len(refs) < 5 and pdf_path:
-        # Hanging-indent / two-column lists often collapse into one paragraph
-        # after text extraction. Recover the entry boundaries from line boxes.
+    if pdf_path and len(refs) < 200:
+        # Hanging-indent / two-column lists often collapse after text extraction.
+        # Build a layout candidate and keep it only when its titles are healthier.
         try:
-            from .refs_layout import extract_reference_entries
+            from .refs_layout import extract_reference_entries, title_health
 
             layout_entries = extract_reference_entries(pdf_path)
         except Exception:
@@ -90,7 +90,8 @@ def analyze_text(
                     if better:
                         parsed[0].title = better
                 layout_refs.extend(parsed)
-            if len(layout_refs) > len(refs):
+            if (len(layout_refs) >= len(refs) and
+                    title_health(layout_refs) >= title_health(refs) + 0.02):
                 refs = layout_refs
     if not refs:
         raise ValueError("没有解析到参考文献，请检查格式或改用 --refs 方式")

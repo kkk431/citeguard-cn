@@ -45,3 +45,14 @@ def test_recover_title_from_org_url_entry():
         "URL https://github.com/meta-llama/llama3/blob/main/MODEL_CARD.md."
     )
     assert recover_title(entry) == "Llama 3 model card"
+
+def test_title_health_flags_urls_and_name_runs():
+    from types import SimpleNamespace
+    from citeguard.refs_layout import title_health
+
+    refs = [
+        SimpleNamespace(title="Learning long-term dependencies with gradient descent"),
+        SimpleNamespace(title="URL ob/main/MODEL_CARD.md"),
+        SimpleNamespace(title="A, B, C, D, E, F, G, H"),
+    ]
+    assert title_health(refs) == 1 / 3
