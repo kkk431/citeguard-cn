@@ -784,3 +784,22 @@ def test_source_circuit_breaker_skips_repeated_failures(monkeypatch):
     assert health["degraded"].get("openalex", 0) > 0
     assert health["errors"] >= 1
     mv.reset_source_health()
+
+
+
+def test_caption_title_is_never_judged_major():
+    ref = Reference(raw="Figure 3: layer normalization", title="Figure 3: Illustration of layer normalization.")
+    assert mv._unreliable_title(ref) == "题名是图表标题"
+    result = mv._verify_reference(ref, use_arxiv=False)
+    assert result.status == "Unverified"
+    assert result.sources == ["guard"]
+
+
+def test_url_or_doi_title_is_guarded():
+    url_ref = Reference(raw="https://example.org/paper", title="https://example.org/paper")
+    doi_ref = Reference(raw="10.1234/abc", title="10.1234/abc.123")
+    short_ref = Reference(raw="x", title="Short")
+    assert mv._unreliable_title(url_ref) == "题名是链接"
+    assert mv._unreliable_title(doi_ref) == "题名是 DOI"
+    assert mv._unreliable_title(short_ref) is None
+    assert mv._unreliable_title(REF) is None

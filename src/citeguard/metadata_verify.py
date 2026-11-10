@@ -1494,6 +1494,28 @@ def local_library_verdict(
     return None
 
 
+_CAPTION_TITLE_RE = re.compile(r"^(?:figure|fig\.?|table|图|表)\s*\d", re.I)
+
+
+def _unreliable_title(ref: Reference) -> str | None:
+    """Return a reason when a parsed title cannot support a Major verdict.
+
+    A caption (``Figure 3: ...``), a URL or a DOI is a *parsing* artefact, not
+    evidence that the reference is fabricated.  Accusing the paper in that case
+    would be a false positive, so we stay neutral (Unverified) instead.
+    """
+    title = (ref.title or "").strip()
+    if not title:
+        return None
+    if _CAPTION_TITLE_RE.match(title):
+        return "题名是图表标题"
+    if re.match(r"^https?://", title):
+        return "题名是链接"
+    if "doi.org/10." in title or re.fullmatch(r"10\.\d{4,9}/\S+", title):
+        return "题名是 DOI"
+    return None
+
+
 def _verify_reference(
     ref: Reference,
     use_arxiv: bool = True,
@@ -1510,6 +1532,15 @@ def _verify_reference(
     """
     notes: list[str] = []
     sources: list[str] = []
+
+    unreliable = _unreliable_title(ref)
+    if unreliable:
+        return VerifyResult(
+            status="Unverified",
+            title_sim=0.0,
+            notes=[f"{unreliable}，可能是 PDF 解析残留；不做存在性判断（避免误报）"],
+            sources=["guard"],
+        )
 
     # 0) User-supplied local library first: it is the user's own licensed
     # metadata, so it can verify Chinese references that open indexes miss.

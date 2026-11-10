@@ -1,0 +1,111 @@
+{
+  "dataset": "ClaimSupport-CN",
+  "split": "test",
+  "n": 2,
+  "tag": "deepseek-chat-support_prompt_v10-test",
+  "generated_at": "2026-11-10T13:09:15+00:00",
+  "judge": {
+    "base": "https://api.deepseek.com",
+    "model": "deepseek-chat"
+  },
+  "prompt": {
+    "tag": "support_prompt_v10",
+    "sha256": "fe9d721cfc211fb1811df4c6c0e977d59b77dfe8c63a6295c1bc9a5e00185b6c",
+    "votes": 1,
+    "temperature": 0.0,
+    "audit": true,
+    "audit_style": "v1"
+  },
+  "metrics": {
+    "macro_f1": 0.0,
+    "accuracy": 0.0,
+    "per_class": {
+      "support": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 0,
+        "predicted": 0
+      },
+      "partial": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 2,
+        "predicted": 0
+      },
+      "contradict": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 0,
+        "predicted": 0
+      },
+      "no_evidence": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 0,
+        "predicted": 2
+      }
+    },
+    "confusion": [
+      [
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        2
+      ],
+      [
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0
+      ]
+    ]
+  },
+  "latency": {
+    "total_s": 2.0,
+    "mean_ms": 999.5,
+    "p50_ms": 1030.9
+  },
+  "errors": 2,
+  "predictions": [
+    {
+      "id": "cs-0001",
+      "label": "partial",
+      "pred": "no_evidence",
+      "votes": [
+        "no_evidence"
+      ],
+      "audit_fully_covered": null,
+      "raw": "",
+      "error": "RuntimeError: HTTP 401: Authentication Fails (governor)",
+      "elapsed_ms": 1030.9
+    },
+    {
+      "id": "cs-0004",
+      "label": "partial",
+      "pred": "no_evidence",
+      "votes": [
+        "no_evidence"
+      ],
+      "audit_fully_covered": null,
+      "raw": "",
+      "error": "RuntimeError: HTTP 401: Authentication Fails (governor)",
+      "elapsed_ms": 968.0
+    }
+  ]
+}

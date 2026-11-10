@@ -1,0 +1,26 @@
+{
+ "note": "wall clock on this machine; metadata cache warm from prior eval runs; support judge disabled",
+ "rows": [
+  {
+   "file": "1810.04805v2.pdf",
+   "refs": 54,
+   "parse_s": 7.46,
+   "verify_s": 0.55,
+   "total_s": 8.01
+  },
+  {
+   "file": "hanspub_152575.pdf",
+   "refs": 15,
+   "parse_s": 1.18,
+   "verify_s": 0.17,
+   "total_s": 1.35
+  },
+  {
+   "file": "hanspub_152595.pdf",
+   "refs": 9,
+   "parse_s": 1.04,
+   "verify_s": 0.11,
+   "total_s": 1.16
+  }
+ ]
+}
