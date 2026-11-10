@@ -80,9 +80,16 @@ def analyze_text(
         except Exception:
             layout_entries = []
         if len(layout_entries) >= 5:
+            from .refs_layout import _URL_TITLE_RE, recover_title
+
             layout_refs = []
             for entry in layout_entries:
-                layout_refs.extend(parse_reference_list(entry))
+                parsed = parse_reference_list(entry)
+                if len(parsed) == 1 and _URL_TITLE_RE.match(parsed[0].title or ""):
+                    better = recover_title(entry)
+                    if better:
+                        parsed[0].title = better
+                layout_refs.extend(parsed)
             if len(layout_refs) > len(refs):
                 refs = layout_refs
     if not refs:

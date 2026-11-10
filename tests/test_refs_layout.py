@@ -36,3 +36,12 @@ def test_extract_returns_empty_without_reference_heading(tmp_path):
     doc.save(str(pdf))
     doc.close()
     assert extract_reference_entries(pdf) == []
+
+def test_recover_title_from_org_url_entry():
+    from citeguard.refs_layout import recover_title
+
+    entry = (
+        "AI@Meta. Llama 3 model card, 2024a. "
+        "URL https://github.com/meta-llama/llama3/blob/main/MODEL_CARD.md."
+    )
+    assert recover_title(entry) == "Llama 3 model card"

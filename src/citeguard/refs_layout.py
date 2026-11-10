@@ -120,3 +120,22 @@ def _looks_like_entry(text):
     if re.match(r"^\s*(?:table|figure|we |in this|the model)", text, re.I):
         return False
     return True
+
+_URL_TITLE_RE = re.compile(r"^\s*(?:url|https?://|www\.|doi)", re.I)
+
+
+def recover_title(entry: str) -> str:
+    """Best-effort title for organisation-style entries such as
+    ``AI@Meta. Llama 3 model card, 2024a. URL https://...``."""
+    text = re.sub(r"\bURL\b\s+\S+", "", entry, flags=re.I)
+    text = re.sub(r"https?://\S+", "", text)
+    text = re.sub(r"\s+", " ", text).strip(" .")
+    parts = [p.strip(" .") for p in text.split(". ") if p.strip()]
+    if len(parts) < 2:
+        return ""
+    cands = []
+    for part in parts[1:]:
+        part = re.sub(r",?\s*(?:19|20)\d{2}[a-z]?\.?$", "", part).strip(" .")
+        if len(part.split()) >= 3 and not _URL_TITLE_RE.match(part):
+            cands.append(part)
+    return (max(cands, key=len) if cands else "")[:220]
