@@ -66,6 +66,11 @@ class JobManager:
             job = self._jobs.get(job_id)
             if not job:
                 return
+            if "progress" in fields:
+                try:
+                    fields["progress"] = max(int(fields["progress"]), int(job.get("progress") or 0))
+                except (TypeError, ValueError):
+                    pass
             job.update(fields)
             job["updated_at"] = datetime.now().isoformat(timespec="seconds")
             snapshot = dict(job)
