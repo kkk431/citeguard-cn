@@ -1,0 +1,57 @@
+{
+ "experiment": "frozen-blind-test-2026-11-10",
+ "prereg": "docs/blind_test_prereg.md",
+ "code_version": "0.9.78",
+ "commit_before_run": "c4d1cc4",
+ "settings": {
+  "support_max": 0,
+  "figures": 0,
+  "library": "empty",
+  "judge": "not used"
+ },
+ "papers": [
+  {
+   "file": "graphrag.pdf",
+   "sha256": "730f1a9f38d16689900969a3eeeb1b31e45eda1dcc1f37a043afa90aff76c867",
+   "status": "done",
+   "seconds": 205.3,
+   "references": 79,
+   "exact": 20,
+   "minor": 49,
+   "major": 0,
+   "unverified": 8,
+   "unknown": 2
+  },
+  {
+   "file": "llama2.pdf",
+   "sha256": "1df284ce95f783002074bfe8f21d47c646b396ceb1736ea3ec0ea212fc070d91",
+   "status": "done",
+   "seconds": 49.4,
+   "references": 9,
+   "exact": 2,
+   "minor": 3,
+   "major": 2,
+   "unverified": 0,
+   "unknown": 2
+  },
+  {
+   "file": "deepseekv3.pdf",
+   "sha256": "812a3fd645c80725354de9d831a6785503007a60681461407f64e97305fa9330",
+   "status": "done",
+   "seconds": 24.4,
+   "references": 2,
+   "exact": 0,
+   "minor": 0,
+   "major": 2,
+   "unverified": 0,
+   "unknown": 0
+  }
+ ],
+ "hypotheses": {
+  "H1_at_least_20_refs": false,
+  "H2_zero_major": false,
+  "H3_under_8min": true
+ },
+ "known_issue": "ACM/two-column PDFs wrap references without blank lines and put the year at the END; current splitter under/over-segments, producing garbled Major verdicts.",
+ "note": "Raw reports in out/blind_test/report_*.json (not committed). Honest outcome of the pre-registered run; no tuning or rerun."
+}
