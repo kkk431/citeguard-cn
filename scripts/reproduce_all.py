@@ -11,6 +11,7 @@ network; the exact commands are printed at the end so a reviewer can rerun them.
 Usage:
     python scripts/reproduce_all.py            # offline replay (~1 min)
     python scripts/reproduce_all.py --no-tests # skip pytest
+    python scripts/reproduce_all.py --live support citebench --limit 5
 """
 from __future__ import annotations
 
@@ -101,18 +102,59 @@ def load_path(path: Path) -> dict:
         return {}
 
 
-LIVE_COMMANDS = """
+LIVE_COMMANDS = """\
 Live re-runs (network + API key required, long):
-  CITEGUARD_JUDGE_ENDPOINT=... python scripts/eval_citebench.py
-  CITEGUARD_JUDGE_ENDPOINT=... python scripts/eval_support.py --split test
-  CITEGUARD_JUDGE_ENDPOINT=... python scripts/eval_support_scifact.py
-  CITEGUARD_VL_ENDPOINT=...    python scripts/eval_chartcheck.py --json out/chartcheck/val400.json
+  python scripts/evaluate_citebench.py --out out/reproduce/citebench.json
+  python scripts/eval_support_prompt.py --split test --prompt-file scripts/support_prompt_v10.txt
+  python scripts/eval_support_scifact.py --limit 300
+  CITEGUARD_VL_ENDPOINT=... python scripts/eval_chartcheck.py --sample 400 --prompt v3 --out out/reproduce/chartcheck.json
 """
+
+
+def run_live(parts: list[str], limit: int) -> bool:
+    import os
+
+    root = ROOT
+    out = root / "out" / "reproduce"
+    out.mkdir(parents=True, exist_ok=True)
+    env = dict(os.environ)
+    env.setdefault("PYTHONPATH", "src")
+    py = sys.executable
+    ok = True
+    for part in parts:
+        if part == "citebench":
+            cmd = [py, "scripts/evaluate_citebench.py", "--out", str(out / "citebench.json")]
+            if limit:
+                cmd += ["--limit", str(limit)]
+        elif part == "support":
+            cmd = [py, "scripts/eval_support_prompt.py", "--split", "test",
+                   "--prompt-file", "scripts/support_prompt_v10.txt"]
+            if limit:
+                cmd += ["--limit", str(limit)]
+        elif part == "scifact":
+            cmd = [py, "scripts/eval_support_scifact.py", "--limit", str(limit or 300)]
+        elif part == "chartcheck":
+            if not env.get("CITEGUARD_VL_ENDPOINT"):
+                print("[skip] chartcheck: CITEGUARD_VL_ENDPOINT is not set")
+                continue
+            cmd = [py, "scripts/eval_chartcheck.py", "--prompt", "v3",
+                   "--sample", str(limit or 400), "--out", str(out / "chartcheck.json")]
+        else:
+            print(f"[skip] unknown live target: {part}")
+            continue
+        print("$ " + " ".join(cmd))
+        if subprocess.call(cmd, cwd=root, env=env) != 0:
+            ok = False
+    return ok
 
 
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--no-tests", action="store_true")
+    ap.add_argument("--live", nargs="*", default=None,
+                    choices=["citebench", "support", "scifact", "chartcheck"],
+                    help="also re-run live evaluations (needs network + API key)")
+    ap.add_argument("--limit", type=int, default=0, help="limit live eval samples (0 = all)")
     args = ap.parse_args()
 
     failed = False
@@ -120,6 +162,11 @@ def main() -> int:
         failed = run([sys.executable, "-m", "pytest", "tests", "-q"]) != 0
     # The artifact checker is best-effort: it prints claims that no longer match docs.
     run([sys.executable, "scripts/verify_artifacts.py"])
+
+    if args.live is not None:
+        if not args.live:
+            args.live = ["support", "citebench"]
+        failed = (not run_live(args.live, args.limit)) or failed
 
     rows = headline()
     width = max(len(name) for name, _, _ in rows) + 2

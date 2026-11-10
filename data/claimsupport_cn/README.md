@@ -168,3 +168,14 @@ PYTHONPATH=.pylibs:. python3 scripts/evaluate_support.py
 - 只能表述为「LLM 辅助标注审计 / 模型共识复核」，**不是**人工标注、不能报 human κ。
   三模型盲标的口径（prompt 隔离、留出集、逐条分歧）见 [docs/annotation_evidence.md](../../docs/annotation_evidence.md)。
   人工抽检仍可填 `human_review_40.csv`（或带下拉框的 `.xlsx`）后用 `scripts/check_human_labels.py` 计算。
+
+## 11. 300 条扩展集（V2 140）与人工抽检边界
+
+- **规模**：原集 100 + Ext 60 + V2 140 = **300 条**，三批的 source work 互不重叠。
+- **标签来源**：三批都是**构造标签**（support/partial/contradict/no_evidence 由构造规则决定），不是人工逐条标注。
+- **V2 评测**：同一产品 judge（prompt v10）在 140 条上 macro-F1 **0.977**、acc **0.979**
+  （`data/experiments/claimsupport_v2_results.json`），只能说明模型在**同构造分布**上的稳定性。
+- **人工抽检**：`human_review_40.csv`（40 条抽检表）与 `docs/annotation_protocol.md` 的 60 条盲标表用于真实人审，
+  **目前没有完成的外部人工标注**；任何地方都不得把构造标签或 LLM 交叉标注写成“人工金标准”。
+- **可比性**：300 条扩展集的 0.977 与原始 100 条的 0.9597 **不能当成同一分布的前后提升**；
+  前者是构造扩展集，后者是主口径。引用时必须带 n 与标签来源。
