@@ -7,6 +7,7 @@
 | `data/citebench_cn/` | CiteBench-CN：250 条中文引文真实性评测集（真假、状态、字段） | CC-BY-4.0 |
 | `data/claimsupport_cn/` | ClaimSupport-CN：100 条人工构造“结论—原文”评测集（support / partial / contradict / no_evidence） | CC-BY-4.0 |
 | `data/claimsupport_cn/claimsupport_cn_ext.jsonl` | 60 条扩展集，source work 与原 100 条不重叠，用于泛化检查 | CC-BY-4.0 |
+| `data/claimsupport_cn/claimsupport_cn_v2.jsonl` | 140 条再扩展（56/40/24/20），与 100+60 的来源论文均不重叠；构造标签，非人工标注 | CC-BY-4.0 |
 | `data/experiments/` | 支持度、引文核验、SciFact 零样本、格式回归、万方查询等逐条结果（JSON/CSV） | 同代码仓库 |
 | `samples/offline_demo/` | 10 条真实开放文献题录，用于断网演示 | 题录元数据 |
 

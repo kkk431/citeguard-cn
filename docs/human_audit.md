@@ -5,7 +5,7 @@
 
 ## 1. 抽哪些
 
-从 ClaimSupport-CN 100 条 + 扩展 60 条里按标签分层抽样 60 条（默认 seed 20261111）：
+从 ClaimSupport-CN 100 条 + 扩展 60 条 + V2 140 条（共 300 条构造集）里按标签分层抽样 60 条（默认 seed 20261111）：
 
 | 标签 | 抽中 |
 |---|---|
@@ -46,6 +46,7 @@ python scripts/build_audit_sheet.py --n 60 --seed 20261111
 
 - 与答案键比：accuracy、macro-F1、每类 precision/recall；
 - 标注者之间：Cohen's κ（两人）或 Fleiss' κ（三人），以及原始一致率；
+- 样本标签分布约为 support 24 / partial 16 / contradict 10 / no_evidence 10；
 - 报 95% Wilson 置信区间——60 条的区间很宽，结论必须写区间，不写单点；
 - 仲裁后的标签作为 `ClaimSupport-CN-human-60` 发布，和构造标签分开放。
 

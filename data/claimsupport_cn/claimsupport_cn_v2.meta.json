@@ -1,0 +1,19 @@
+{
+  "dataset": "ClaimSupport-CN-V2",
+  "version": 1,
+  "built_at": "2026-11-10T12:41:58+00:00",
+  "seed": 20261110,
+  "n": 140,
+  "counts": {
+    "support": 56,
+    "partial": 40,
+    "contradict": 24,
+    "no_evidence": 20
+  },
+  "disjoint_from": [
+    "ClaimSupport-CN",
+    "ClaimSupport-CN-Ext"
+  ],
+  "sha256": "0b0394bf810f62802f35bde9da52dda5ab87881400bf5197475a069c712b6688",
+  "labels": "constructed probes; not human annotation"
+}

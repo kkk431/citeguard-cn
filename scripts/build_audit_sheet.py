@@ -17,6 +17,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 BASE = ROOT / "data" / "claimsupport_cn" / "claimsupport_cn.jsonl"
 EXT = ROOT / "data" / "claimsupport_cn" / "claimsupport_cn_ext.jsonl"
+V2 = ROOT / "data" / "claimsupport_cn" / "claimsupport_cn_v2.jsonl"
 OUT_DIR = ROOT / "data" / "audit"
 
 LABELS = ["support", "partial", "contradict", "no_evidence"]
@@ -60,7 +61,7 @@ def main() -> None:
     args = ap.parse_args()
 
     rows = []
-    for path in (BASE, EXT):
+    for path in (BASE, EXT, V2):
         if path.exists():
             for row in load(path):
                 row.setdefault("_set", path.stem)

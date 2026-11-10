@@ -1,0 +1,757 @@
+{
+ "n": 140,
+ "prompt_version": "10-fe9d721c",
+ "elapsed_s": 55.7,
+ "macro_f1": 0.977,
+ "accuracy": 0.9786,
+ "confusion": [
+  [
+   55,
+   1,
+   0,
+   0
+  ],
+  [
+   0,
+   40,
+   0,
+   0
+  ],
+  [
+   0,
+   1,
+   23,
+   0
+  ],
+  [
+   0,
+   1,
+   0,
+   19
+  ]
+ ],
+ "per_class": {
+  "support": {
+   "precision": 1.0,
+   "recall": 0.9821,
+   "f1": 0.991
+  },
+  "partial": {
+   "precision": 0.9302,
+   "recall": 1.0,
+   "f1": 0.9639
+  },
+  "contradict": {
+   "precision": 1.0,
+   "recall": 0.9583,
+   "f1": 0.9787
+  },
+  "no_evidence": {
+   "precision": 1.0,
+   "recall": 0.95,
+   "f1": 0.9744
+  }
+ },
+ "items": [
+  {
+   "id": "c2-0001",
+   "label": "contradict",
+   "pred": "contradict"
+  },
+  {
+   "id": "c2-0002",
+   "label": "partial",
+   "pred": "partial"
+  },
+  {
+   "id": "c2-0003",
+   "label": "no_evidence",
+   "pred": "no_evidence"
+  },
+  {
+   "id": "c2-0004",
+   "label": "partial",
+   "pred": "partial"
+  },
+  {
+   "id": "c2-0005",
+   "label": "partial",
+   "pred": "partial"
+  },
+  {
+   "id": "c2-0006",
+   "label": "partial",
+   "pred": "partial"
+  },
+  {
+   "id": "c2-0007",
+   "label": "no_evidence",
+   "pred": "no_evidence"
+  },
+  {
+   "id": "c2-0008",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0009",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0010",
+   "label": "no_evidence",
+   "pred": "no_evidence"
+  },
+  {
+   "id": "c2-0011",
+   "label": "no_evidence",
+   "pred": "no_evidence"
+  },
+  {
+   "id": "c2-0012",
+   "label": "partial",
+   "pred": "partial"
+  },
+  {
+   "id": "c2-0013",
+   "label": "partial",
+   "pred": "partial"
+  },
+  {
+   "id": "c2-0014",
+   "label": "partial",
+   "pred": "partial"
+  },
+  {
+   "id": "c2-0015",
+   "label": "partial",
+   "pred": "partial"
+  },
+  {
+   "id": "c2-0016",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0017",
+   "label": "no_evidence",
+   "pred": "no_evidence"
+  },
+  {
+   "id": "c2-0018",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0019",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0020",
+   "label": "contradict",
+   "pred": "contradict"
+  },
+  {
+   "id": "c2-0021",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0022",
+   "label": "contradict",
+   "pred": "contradict"
+  },
+  {
+   "id": "c2-0023",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0024",
+   "label": "partial",
+   "pred": "partial"
+  },
+  {
+   "id": "c2-0025",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0026",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0027",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0028",
+   "label": "partial",
+   "pred": "partial"
+  },
+  {
+   "id": "c2-0029",
+   "label": "partial",
+   "pred": "partial"
+  },
+  {
+   "id": "c2-0030",
+   "label": "support",
+   "pred": "partial"
+  },
+  {
+   "id": "c2-0031",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0032",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0033",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0034",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0035",
+   "label": "contradict",
+   "pred": "contradict"
+  },
+  {
+   "id": "c2-0036",
+   "label": "no_evidence",
+   "pred": "no_evidence"
+  },
+  {
+   "id": "c2-0037",
+   "label": "no_evidence",
+   "pred": "no_evidence"
+  },
+  {
+   "id": "c2-0038",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0039",
+   "label": "no_evidence",
+   "pred": "no_evidence"
+  },
+  {
+   "id": "c2-0040",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0041",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0042",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0043",
+   "label": "no_evidence",
+   "pred": "no_evidence"
+  },
+  {
+   "id": "c2-0044",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0045",
+   "label": "partial",
+   "pred": "partial"
+  },
+  {
+   "id": "c2-0046",
+   "label": "no_evidence",
+   "pred": "no_evidence"
+  },
+  {
+   "id": "c2-0047",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0048",
+   "label": "contradict",
+   "pred": "partial"
+  },
+  {
+   "id": "c2-0049",
+   "label": "partial",
+   "pred": "partial"
+  },
+  {
+   "id": "c2-0050",
+   "label": "partial",
+   "pred": "partial"
+  },
+  {
+   "id": "c2-0051",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0052",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0053",
+   "label": "contradict",
+   "pred": "contradict"
+  },
+  {
+   "id": "c2-0054",
+   "label": "partial",
+   "pred": "partial"
+  },
+  {
+   "id": "c2-0055",
+   "label": "partial",
+   "pred": "partial"
+  },
+  {
+   "id": "c2-0056",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0057",
+   "label": "partial",
+   "pred": "partial"
+  },
+  {
+   "id": "c2-0058",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0059",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0060",
+   "label": "partial",
+   "pred": "partial"
+  },
+  {
+   "id": "c2-0061",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0062",
+   "label": "contradict",
+   "pred": "contradict"
+  },
+  {
+   "id": "c2-0063",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0064",
+   "label": "partial",
+   "pred": "partial"
+  },
+  {
+   "id": "c2-0065",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0066",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0067",
+   "label": "contradict",
+   "pred": "contradict"
+  },
+  {
+   "id": "c2-0068",
+   "label": "contradict",
+   "pred": "contradict"
+  },
+  {
+   "id": "c2-0069",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0070",
+   "label": "no_evidence",
+   "pred": "no_evidence"
+  },
+  {
+   "id": "c2-0071",
+   "label": "partial",
+   "pred": "partial"
+  },
+  {
+   "id": "c2-0072",
+   "label": "contradict",
+   "pred": "contradict"
+  },
+  {
+   "id": "c2-0073",
+   "label": "contradict",
+   "pred": "contradict"
+  },
+  {
+   "id": "c2-0074",
+   "label": "contradict",
+   "pred": "contradict"
+  },
+  {
+   "id": "c2-0075",
+   "label": "no_evidence",
+   "pred": "no_evidence"
+  },
+  {
+   "id": "c2-0076",
+   "label": "partial",
+   "pred": "partial"
+  },
+  {
+   "id": "c2-0077",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0078",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0079",
+   "label": "contradict",
+   "pred": "contradict"
+  },
+  {
+   "id": "c2-0080",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0081",
+   "label": "partial",
+   "pred": "partial"
+  },
+  {
+   "id": "c2-0082",
+   "label": "contradict",
+   "pred": "contradict"
+  },
+  {
+   "id": "c2-0083",
+   "label": "contradict",
+   "pred": "contradict"
+  },
+  {
+   "id": "c2-0084",
+   "label": "partial",
+   "pred": "partial"
+  },
+  {
+   "id": "c2-0085",
+   "label": "contradict",
+   "pred": "contradict"
+  },
+  {
+   "id": "c2-0086",
+   "label": "contradict",
+   "pred": "contradict"
+  },
+  {
+   "id": "c2-0087",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0088",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0089",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0090",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0091",
+   "label": "no_evidence",
+   "pred": "no_evidence"
+  },
+  {
+   "id": "c2-0092",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0093",
+   "label": "no_evidence",
+   "pred": "no_evidence"
+  },
+  {
+   "id": "c2-0094",
+   "label": "no_evidence",
+   "pred": "no_evidence"
+  },
+  {
+   "id": "c2-0095",
+   "label": "partial",
+   "pred": "partial"
+  },
+  {
+   "id": "c2-0096",
+   "label": "contradict",
+   "pred": "contradict"
+  },
+  {
+   "id": "c2-0097",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0098",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0099",
+   "label": "partial",
+   "pred": "partial"
+  },
+  {
+   "id": "c2-0100",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0101",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0102",
+   "label": "partial",
+   "pred": "partial"
+  },
+  {
+   "id": "c2-0103",
+   "label": "no_evidence",
+   "pred": "partial"
+  },
+  {
+   "id": "c2-0104",
+   "label": "contradict",
+   "pred": "contradict"
+  },
+  {
+   "id": "c2-0105",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0106",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0107",
+   "label": "partial",
+   "pred": "partial"
+  },
+  {
+   "id": "c2-0108",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0109",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0110",
+   "label": "partial",
+   "pred": "partial"
+  },
+  {
+   "id": "c2-0111",
+   "label": "partial",
+   "pred": "partial"
+  },
+  {
+   "id": "c2-0112",
+   "label": "contradict",
+   "pred": "contradict"
+  },
+  {
+   "id": "c2-0113",
+   "label": "contradict",
+   "pred": "contradict"
+  },
+  {
+   "id": "c2-0114",
+   "label": "contradict",
+   "pred": "contradict"
+  },
+  {
+   "id": "c2-0115",
+   "label": "contradict",
+   "pred": "contradict"
+  },
+  {
+   "id": "c2-0116",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0117",
+   "label": "contradict",
+   "pred": "contradict"
+  },
+  {
+   "id": "c2-0118",
+   "label": "partial",
+   "pred": "partial"
+  },
+  {
+   "id": "c2-0119",
+   "label": "partial",
+   "pred": "partial"
+  },
+  {
+   "id": "c2-0120",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0121",
+   "label": "no_evidence",
+   "pred": "no_evidence"
+  },
+  {
+   "id": "c2-0122",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0123",
+   "label": "partial",
+   "pred": "partial"
+  },
+  {
+   "id": "c2-0124",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0125",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0126",
+   "label": "no_evidence",
+   "pred": "no_evidence"
+  },
+  {
+   "id": "c2-0127",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0128",
+   "label": "partial",
+   "pred": "partial"
+  },
+  {
+   "id": "c2-0129",
+   "label": "partial",
+   "pred": "partial"
+  },
+  {
+   "id": "c2-0130",
+   "label": "no_evidence",
+   "pred": "no_evidence"
+  },
+  {
+   "id": "c2-0131",
+   "label": "partial",
+   "pred": "partial"
+  },
+  {
+   "id": "c2-0132",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0133",
+   "label": "partial",
+   "pred": "partial"
+  },
+  {
+   "id": "c2-0134",
+   "label": "no_evidence",
+   "pred": "no_evidence"
+  },
+  {
+   "id": "c2-0135",
+   "label": "partial",
+   "pred": "partial"
+  },
+  {
+   "id": "c2-0136",
+   "label": "partial",
+   "pred": "partial"
+  },
+  {
+   "id": "c2-0137",
+   "label": "partial",
+   "pred": "partial"
+  },
+  {
+   "id": "c2-0138",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0139",
+   "label": "support",
+   "pred": "support"
+  },
+  {
+   "id": "c2-0140",
+   "label": "partial",
+   "pred": "partial"
+  }
+ ]
+}
