@@ -1,0 +1,28 @@
+{
+  "registered_at": "2026-11-10T22:57:23+0800",
+  "scope": "reference parsing only; no verification / no support judgement",
+  "papers": [
+    {
+      "key": "vit",
+      "arxiv": "2010.11929",
+      "title": "An Image is Worth 16x16 Words (ViT)"
+    },
+    {
+      "key": "mistral",
+      "arxiv": "2310.06825",
+      "title": "Mistral 7B"
+    },
+    {
+      "key": "qwen25",
+      "arxiv": "2412.15115",
+      "title": "Qwen2.5 Technical Report"
+    }
+  ],
+  "metrics": [
+    "refs",
+    "title_ok_ratio",
+    "year_ratio",
+    "layout_fallback_used"
+  ],
+  "notes": "PDFs downloaded to out/blind_test3 before any parsing; results recorded regardless of outcome."
+}

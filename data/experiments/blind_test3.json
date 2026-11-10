@@ -1,0 +1,29 @@
+{
+  "vit": {
+    "arxiv": "2010.11929",
+    "title": "An Image is Worth 16x16 Words (ViT)",
+    "refs": 51,
+    "title_ok_ratio": 0.98,
+    "year_ratio": 1.0,
+    "layout_fallback_used": true,
+    "text_split_had_refs": 154
+  },
+  "mistral": {
+    "arxiv": "2310.06825",
+    "title": "Mistral 7B",
+    "refs": 29,
+    "title_ok_ratio": 0.966,
+    "year_ratio": 0.759,
+    "layout_fallback_used": true,
+    "text_split_had_refs": 85
+  },
+  "qwen25": {
+    "arxiv": "2412.15115",
+    "title": "Qwen2.5 Technical Report",
+    "refs": 66,
+    "title_ok_ratio": 0.636,
+    "year_ratio": 1.0,
+    "layout_fallback_used": true,
+    "text_split_had_refs": 354
+  }
+}
