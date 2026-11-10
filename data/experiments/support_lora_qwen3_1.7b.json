@@ -1,0 +1,207 @@
+{
+ "model": "Qwen/Qwen3-1.7B (base) + LoRA adapter",
+ "adapter": "dist/models/support_lora_qwen3_1.7b/adapter_model.safetensors (82 MB together with tokenizer files)",
+ "task": "4-way claim support classification (support / partial / contradict / no_evidence)",
+ "data": {
+  "benchmark": "ClaimSupport-CN (100 construction items) + ClaimSupport-CN-Ext (60 disjoint construction items)",
+  "train": 80,
+  "dev": 20,
+  "test": 60,
+  "split_note": "official 100-set has no train split (dev 40 + test 60); 20 of dev were borrowed for training, the rest kept as dev; test is the official held-out 60 and was never trained on. train/test id overlap = 0.",
+  "label_provenance": "construction labels, not human annotations"
+ },
+ "training": {
+  "lora_r": 16,
+  "lora_alpha": 32,
+  "lora_dropout": 0.05,
+  "targets": [
+   "q_proj",
+   "k_proj",
+   "v_proj",
+   "o_proj",
+   "gate_proj",
+   "up_proj",
+   "down_proj"
+  ],
+  "epochs": 3,
+  "lr": 0.0002,
+  "batch_size": 1,
+  "grad_accum": 8,
+  "train_seconds": 109.25,
+  "train_loss": 0.1446,
+  "gpu": "NVIDIA RTX 4090 (24 GB)",
+  "precision": "bf16"
+ },
+ "base": {
+  "macro_f1": 0.4935,
+  "accuracy": 0.4833,
+  "confusion": [
+   [
+    7,
+    10,
+    0,
+    7
+   ],
+   [
+    7,
+    7,
+    0,
+    1
+   ],
+   [
+    0,
+    5,
+    3,
+    1
+   ],
+   [
+    0,
+    0,
+    0,
+    12
+   ]
+  ],
+  "per_class": {
+   "support": {
+    "precision": 0.5,
+    "recall": 0.2917,
+    "f1": 0.3684
+   },
+   "partial": {
+    "precision": 0.3182,
+    "recall": 0.4667,
+    "f1": 0.3784
+   },
+   "contradict": {
+    "precision": 1.0,
+    "recall": 0.3333,
+    "f1": 0.5
+   },
+   "no_evidence": {
+    "precision": 0.5714,
+    "recall": 1.0,
+    "f1": 0.7273
+   }
+  },
+  "n": 60
+ },
+ "dev": {
+  "macro_f1": 0.9365,
+  "accuracy": 0.95,
+  "confusion": [
+   [
+    8,
+    0,
+    0,
+    0
+   ],
+   [
+    0,
+    4,
+    0,
+    1
+   ],
+   [
+    0,
+    0,
+    4,
+    0
+   ],
+   [
+    0,
+    0,
+    0,
+    3
+   ]
+  ],
+  "per_class": {
+   "support": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+   },
+   "partial": {
+    "precision": 1.0,
+    "recall": 0.8,
+    "f1": 0.8889
+   },
+   "contradict": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+   },
+   "no_evidence": {
+    "precision": 0.75,
+    "recall": 1.0,
+    "f1": 0.8571
+   }
+  },
+  "n": 20
+ },
+ "test": {
+  "macro_f1": 0.9721,
+  "accuracy": 0.9667,
+  "confusion": [
+   [
+    24,
+    0,
+    0,
+    0
+   ],
+   [
+    2,
+    13,
+    0,
+    0
+   ],
+   [
+    0,
+    0,
+    9,
+    0
+   ],
+   [
+    0,
+    0,
+    0,
+    12
+   ]
+  ],
+  "per_class": {
+   "support": {
+    "precision": 0.9231,
+    "recall": 1.0,
+    "f1": 0.96
+   },
+   "partial": {
+    "precision": 1.0,
+    "recall": 0.8667,
+    "f1": 0.9286
+   },
+   "contradict": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+   },
+   "no_evidence": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+   }
+  },
+  "n": 60
+ },
+ "honest_notes": [
+  "Test items come from the same construction pipeline as the extension used for training, so this measures format/mapping learning, not open-world generalisation.",
+  "All labels are construction-based; there are no human-annotated test labels for this split.",
+  "Single run, fixed seed, no prompt/seed sweep; the eval prompt is a compact SFT prompt, not the product's PROMPT_VERSION v10 judge prompt.",
+  "The adapter only classifies claim-support; it does not verify whether a citation exists and does not perform GB/T formatting.",
+  "Baseline is the same base model with the same prompt, zero-shot, no fine-tuning."
+ ],
+ "files": {
+  "trainer": "scripts/train_support_lora.py",
+  "sft_builder": "scripts/build_support_sft.py",
+  "sft_splits": "data/sft/support_{train,dev,test}.jsonl",
+  "predictions": "dist/models/support_lora_qwen3_1.7b/eval_predictions.jsonl"
+ }
+}

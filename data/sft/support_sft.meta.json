@@ -1,0 +1,19 @@
+{
+ "dataset": "ClaimSupport-CN SFT splits",
+ "source": [
+  "data\\claimsupport_cn\\claimsupport_cn.jsonl",
+  "data\\claimsupport_cn\\claimsupport_cn_ext.jsonl"
+ ],
+ "counts": {
+  "train": 80,
+  "dev": 20,
+  "test": 60
+ },
+ "labels": [
+  "contradict",
+  "no_evidence",
+  "partial",
+  "support"
+ ],
+ "note": "Labels are construction-based, not human-annotated; test split is the official 60 held-out items of the 100 set."
+}
