@@ -96,7 +96,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.86", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.87", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
@@ -1708,9 +1708,15 @@ async def support_check(request: Request):
             {"ok": False, "code": "judge_unavailable", "error": "判定模型不可用，请检查 CITEGUARD_JUDGE_BASE_URL / API key"},
             status_code=503,
         )
+    low = support.is_low_confidence(result)
     return {
         "ok": True,
         "label": result.get("label"),
+        "low_confidence": low,
+        "review_hint": (
+            f"置信度 {float(result.get('confidence')):.2f} 低于阈值 {config.SUPPORT_ABSTAIN:.2f}，建议人工复核"
+            if low else ""
+        ),
         "confidence": result.get("confidence"),
         "reason": result.get("reason", ""),
         "evidence": result.get("evidence", ""),

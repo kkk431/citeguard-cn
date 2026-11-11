@@ -506,3 +506,19 @@ def summarize_support(results: list[Optional[dict]]) -> dict:
             label = r.get("label", "no_evidence")
             counts[label] = counts.get(label, 0) + 1
     return counts
+
+def is_low_confidence(result: dict | None, threshold: float | None = None) -> bool:
+    """低置信标注：只回答“是否低于阈值”，不改标签、不自动弃权。"""
+    if not result:
+        return False
+    label = result.get("label")
+    if label in (None, "", "not_checked", "no_evidence"):
+        return False
+    conf = result.get("confidence")
+    if not isinstance(conf, (int, float)):
+        return False
+    t = config.SUPPORT_ABSTAIN if threshold is None else threshold
+    try:
+        return float(conf) < float(t)
+    except (TypeError, ValueError):
+        return False

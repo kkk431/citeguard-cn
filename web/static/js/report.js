@@ -448,6 +448,11 @@
             " 条（判断引用是否被支持需要摘要；导出题录时勾选摘要再导入即可）"
           );
         }
+        if (supportMeta.low_confidence) {
+          notes.push("低置信 " + supportMeta.low_confidence + " 条（阈值 " +
+            (supportMeta.abstain_threshold != null ? supportMeta.abstain_threshold.toFixed(2) : "0.90") +
+            "，建议人工复核）");
+        }
         if (supportMeta.skipped_unreliable_match) {
           notes.push(
             "题录匹配度不足 " + supportMeta.skipped_unreliable_match +
@@ -878,7 +883,10 @@
     if (!sup) return "";
     const labelMap = { support: "支持", partial: "部分支持", contradict: "矛盾", no_evidence: "无证据", not_checked: "未判定" };
     const sub = sup.sub_claims || null;
-    let html = "<h4>支持度判定</h4><div class=\"drawer-support\">" +
+    const low = sup.low_confidence
+      ? '<div class="lowconf">低置信 · 建议人工复核<span>' + esc(sup.review_hint || "") + "</span></div>"
+      : "";
+    let html = "<h4>支持度判定</h4>" + low + "<div class=\"drawer-support\">" +
       "<b>" + esc(labelMap[sup.label] || sup.label || "未判定") + "</b>" +
       (typeof sup.confidence === "number" ? "<span class=\"mono-sm\"> · 置信度 " + sup.confidence.toFixed(2) + "</span>" : "") +
       (sup.reason ? "<div class=\"mono-sm\" style=\"margin-top:4px\">" + esc(sup.reason) + "</div>" : "") +

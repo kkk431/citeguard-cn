@@ -62,6 +62,9 @@ except ValueError:
 # engine and the user's local reference library keep working.
 OFFLINE = os.environ.get("CITEGUARD_OFFLINE", "").strip().lower() in {"1", "true", "yes", "on"}
 
+# 置信度低于该阈值时标“低置信、建议人工复核”（只标注，不自动改标签）。
+# 依据 docs/calibration.md：0.9 时覆盖 96.67% / 准确 98.97%，适合当“高置信”线。
+SUPPORT_ABSTAIN = float(os.environ.get("CITEGUARD_SUPPORT_ABSTAIN", "0.9"))
 SUPPORT_AUDIT = os.environ.get("CITEGUARD_SUPPORT_AUDIT", "1").strip().lower() not in {
     "0",
     "false",

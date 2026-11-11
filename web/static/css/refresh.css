@@ -709,3 +709,5 @@ body.theme-light .chart-bar{background:rgba(15,40,35,.10)}
 .subclaims{margin:6px 0 0;padding-left:18px;line-height:1.6}
 .subclaims li{margin:4px 0;font-size:13px}
 .subclaims .chip{display:inline-block;margin-right:6px;padding:1px 7px;border-radius:999px;background:rgba(127,240,207,.12);color:var(--accent);font-size:11px}
+.lowconf{display:flex;flex-direction:column;gap:2px;margin:8px 0 4px;padding:8px 10px;border-radius:8px;border:1px solid rgba(255,184,77,.35);background:rgba(255,184,77,.08);color:var(--warn);font-size:13px;font-weight:600}
+.lowconf span{font-weight:400;color:var(--muted);font-size:12px}

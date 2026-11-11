@@ -20,7 +20,14 @@ from .metadata_verify import source_error_count, source_health, VerifyResult, lo
 from .pdf_extract import extract_text_with_meta, split_references
 from .reference_parser import parse_intext_citations, parse_reference_list
 from .report import build_report, save_report
-from .support import PROMPT_VERSION, apply_grounding, build_claims, judge_available, judge_support
+from .support import (
+    PROMPT_VERSION,
+    apply_grounding,
+    build_claims,
+    is_low_confidence,
+    judge_available,
+    judge_support,
+)
 
 Progress = Optional[Callable[[int, str], None]]
 
@@ -457,8 +464,19 @@ def _judge_support(
                     "evidence": "",
                 }
 
+    low_confidence = 0
+    for r in results:
+        if is_low_confidence(r):
+            conf = r.get("confidence")
+            r["low_confidence"] = True
+            r["review_hint"] = (
+                f"置信度 {float(conf):.2f} 低于阈值 {config.SUPPORT_ABSTAIN:.2f}，建议人工复核"
+            )
+            low_confidence += 1
     meta = {
         "judge_available": has_judge,
+        "low_confidence": low_confidence,
+        "abstain_threshold": config.SUPPORT_ABSTAIN,
         "cap": cap,
         "candidates": candidates,
         "judged": judged,
