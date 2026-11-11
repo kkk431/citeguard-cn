@@ -62,3 +62,4 @@
 | E31 | OCR 后端对照 | 单页 200dpi+轻噪声；RapidOCR 10.3s / CER 0.1825，PaddleOCR 109.3s / CER 0.1530；GROBID 拉取失败（read-only fs）与公共端点不可达，未评测 | `data/experiments/ocr_backends_eval.json`；`PYTHONPATH=src python scripts/eval_ocr_backends.py` | 单页单篇、数字 PDF 渲染；PaddleOCR 仅评测不入依赖 |
 
 - E32 发布清单：v1.0.0 tag、CHANGELOG、mkdocs 严格构建通过（`site/index.html`）、数据集发布包 sha256 见 MANIFEST。
+- E33 v1.0 发布物料：`dist/CiteGuard-CN_LoRA-Qwen3-1.7B_v1.0.zip`（含 MANIFEST sha256）、`docker/docker-compose.yml`、文档站构建 `site/`。

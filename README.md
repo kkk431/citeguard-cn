@@ -1,5 +1,7 @@
 # 引证卫士 CiteGuard-CN
 
+> **v1.0.0** · 2026-11-11 · Apache-2.0
+
 > 给中文论文做一次「引文体检」：**引文是否真实存在、引用是否支持正文那句话、格式是否符合 GB/T 7714-2025**。每条结论都带证据链接。
 
 CiteGuard-CN 是一个开源的中文引文核验工作台，面向毕业论文、课程论文与期刊投稿场景。它把「中文引文解析 → 多源元数据核验 → 引用支持度判定 → 新国标规则检查」串成一条可复现的流水线，并附带一个 250 条的中文评测基准 **CiteBench-CN**。
@@ -369,6 +371,15 @@ PYTHONPATH=src python3 scripts/enrich_library_abstracts.py
 - 选题与文献发现只消费 OpenAlex 公开元数据（CC0），不抓取、不转存全文；中文主题的召回取决于 OpenAlex 覆盖，查询扩展依赖已配置的判定模型（不可用时退化为原查询）；排序是启发式规则而非学习排序，结果需要人工判断；「加入题录库」只存题录，不代表已核验。
 - 「刷新/加载更多」最多 5 页（选 50 条时 4 页），每页最多 50 条；`matched` 是上游计数，不是可翻页条数。观察到的中文结果占比（自动扩展 3/20、纯中文查询 8/20）只是当次结果，不代表长期质量，也不报告排序指标。
 - GB/T 7714-2025 规则引擎基于公开规则事实编码，未复制标准原文；请以国家标准原文与人工复核为准。
+
+## 复现与发布
+
+- 版本：**v1.0.0**；变更见 `CHANGELOG.md`，发布说明见 `docs/release_notes_v1.0.md`
+- 单元测试：`PYTHONPATH=src python -m pytest tests -q`（588 项）
+- 主评测复现：`PYTHONPATH=src python scripts/reproduce_all.py`；每个对外数字的 JSON/命令/样本量见 `docs/evidence_index.md`
+- 文档站：`pip install -r requirements-docs.txt && mkdocs serve`
+- 数据集包：`dist/CiteGuard-CN_ClaimSupport-CN-300_v1.0.zip`（CC-BY-4.0，构造标签）
+- Docker：`docker compose -f docker/docker-compose.yml up --build`
 
 ## 参考与致谢
 
