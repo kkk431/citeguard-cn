@@ -9,6 +9,10 @@
 - 中文写法：文献[12]、文献 3-5
 - 作者-年：(Smith et al., 2020)、(Smith & Jones, 2019)
 - 中文作者-年：张三（2020）、张三等（2020）
+- 脚注/尾注标记：[^12]、^[12]（带圈数字/上标需字体信息，纯文本不猜）
+
+边界：PDF 文本层把上标压平后，`[12]` 与普通方括号无法区分；这里只做
+规则可判的标记，不声称覆盖所有上标引用。
 """
 from __future__ import annotations
 
@@ -36,6 +40,8 @@ _CN_AUTHOR_YEAR = re.compile(
 _CN_AUTHOR_YEAR_BARE = re.compile(
     r"([\u4e00-\u9fff]{2,4})(?:等)?[（(]((?:19|20)\d{2})[）)]"
 )
+# 脚注/尾注引用：[^12]（Markdown 脚注语义）与 ^[12]（Pandoc 语义）
+_FOOTNOTE = re.compile(r"\[\^(\d{1,3})\](?!:)|\^\[(\d{1,3})\]")
 
 
 @dataclass(frozen=True)
@@ -43,7 +49,7 @@ class Citation:
     """正文中的一处引用。"""
 
     key: str                 # 原始标记，如 "[3-5]"
-    style: str               # numeric | chinese | author_year | cn_author_year
+    style: str               # numeric | chinese | author_year | cn_author_year | footnote
     ref_numbers: list[int]   # 展开后的参考文献编号；作者-年为 []
     sentence: str            # 所在句子（截断到 _MAX_SENTENCE）
     start: int               # 匹配起点（原文本偏移）
@@ -102,9 +108,13 @@ def _collect(text: str, pattern: re.Pattern[str], style: str,
     out: list[Citation] = []
     for m in pattern.finditer(text):
         groups = m.groups()
-        spec = groups[drop]
+        spec = next((g for g in groups if g is not None), "") if style == "footnote" else groups[drop]
         key = m.group(0)
-        if style in ("numeric", "chinese"):
+        if style == "footnote":
+            nums = [int(spec)] if spec and spec.isdigit() else []
+            if not nums:
+                continue
+        elif style in ("numeric", "chinese"):
             nums = _expand_numbers(spec)
             if not nums:
                 continue
@@ -138,6 +148,13 @@ def extract_citations(text: str) -> list[Citation]:
     for c in _collect(text, _NUM, "numeric"):
         if not any(s <= c.start and c.end <= e for s, e in spans):
             items.append(c)
+    notes = _collect(text, _FOOTNOTE, "footnote")
+    items.extend(notes)
+    note_spans = [(c.start, c.end) for c in notes]
+    # 去掉脚注标记里的方括号被数字模式重复命中的部分
+    items = [c for c in items if not (
+        c.style == "numeric" and any(s <= c.start and c.end <= e for s, e in note_spans)
+    )]
 
     seen: set[tuple[int, str]] = set()
     unique: list[Citation] = []
@@ -157,7 +174,7 @@ def summarize(citations: list[Citation]) -> dict:
         "total": len(citations),
         "by_style": {
             style: sum(1 for c in citations if c.style == style)
-            for style in ("numeric", "chinese", "author_year", "cn_author_year")
+            for style in ("numeric", "chinese", "author_year", "cn_author_year", "footnote")
         },
         "ref_numbers": refs,
         "ref_numbers_count": len(refs),

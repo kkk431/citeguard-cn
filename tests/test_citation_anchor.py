@@ -102,3 +102,24 @@ def test_pipeline_report_payload():
     assert payload["items"][0]["ref_numbers"] == [3]
     assert payload["items"][1]["ref_numbers"] == [4, 5]
     assert payload["truncated"] is False
+
+
+
+def test_footnote_markers():
+    items = extract_citations("见[^12]和^[7]，另见[3-5]。")
+    notes = [c for c in items if c.style == "footnote"]
+    assert [c.ref_numbers for c in notes] == [[12], [7]]
+    numeric = [c for c in items if c.style == "numeric"]
+    assert [c.ref_numbers for c in numeric] == [[3, 4, 5]]
+
+
+def test_footnote_definition_not_treated_as_citation():
+    items = extract_citations("[^12]: 这是一条脚注定义。")
+    assert items == []
+
+
+def test_summary_includes_footnote_style():
+    items = extract_citations("见[^3]。")
+    summary = summarize(items)
+    assert summary["by_style"]["footnote"] == 1
+    assert summary["ref_numbers"] == [3]
