@@ -10,6 +10,7 @@
 | CiteBench-CN macro-F1 **0.9684** / acc 0.968 | `data/citebench_cn/results.json` | `PYTHONPATH=src python scripts/eval_citebench.py` | 250 条，字段级构造基准 |
 | ClaimSupport-CN（原 100 条）**0.9597** / 0.95 | `data/claimsupport_cn/results.json` | `PYTHONPATH=src python scripts/eval_support_local.py` | 100 条，构造标签 |
 | ClaimSupport-CN 300 条 **0.9841** / 0.9833 | `data/experiments/release300.json` | 见 `docs/experiments.md` | 300 条合并集，审计 v3；与 100/60/140 分批评测不可混用 |
+| 置信度校准 300 条 ECE **0.0400**；弃权 0.9 覆盖 96.67%、准确 98.97% | `data/experiments/support_calibration.json`、`docs/calibration.md` | `PYTHONPATH=src python scripts/eval_support_calibration.py` | 构造标签；judge 自报置信度 |
 | 真实文献 **409 条，Major 0** | `data/experiments/verify_real.json` | `PYTHONPATH=src python scripts/eval_verify_real.py` | 22 篇已发表论文的 409 条参考文献 |
 | 本地库 definite **409/412（99.27%）** | `data/experiments/library_real.json` | `PYTHONPATH=src python scripts/eval_library_real.py` | 建库后 412 条；10 条字段偏差 |
 | 解析 **529 条 / clean 1.0** | `data/experiments/parse_real.json` | `PYTHONPATH=src python scripts/eval_parse_real.py` | 22 篇，标题行/题名覆盖率 |

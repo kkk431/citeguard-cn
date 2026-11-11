@@ -1,0 +1,143 @@
+{
+  "claimsupport_100": {
+    "n": 100,
+    "accuracy": 0.95,
+    "avg_confidence": 0.9515,
+    "ece": 0.0265,
+    "buckets": [
+      {
+        "range": "[0.80,0.90)",
+        "n": 4,
+        "avg_confidence": 0.85,
+        "accuracy": 0.5,
+        "gap": -0.35
+      },
+      {
+        "range": "[0.90,1.00)",
+        "n": 96,
+        "avg_confidence": 0.9557,
+        "accuracy": 0.9688,
+        "gap": 0.013
+      }
+    ],
+    "abstain": [
+      {
+        "threshold": 0.5,
+        "coverage": 1.0,
+        "accuracy": 0.95,
+        "kept": 100,
+        "total": 100
+      },
+      {
+        "threshold": 0.6,
+        "coverage": 1.0,
+        "accuracy": 0.95,
+        "kept": 100,
+        "total": 100
+      },
+      {
+        "threshold": 0.7,
+        "coverage": 1.0,
+        "accuracy": 0.95,
+        "kept": 100,
+        "total": 100
+      },
+      {
+        "threshold": 0.8,
+        "coverage": 1.0,
+        "accuracy": 0.95,
+        "kept": 100,
+        "total": 100
+      },
+      {
+        "threshold": 0.9,
+        "coverage": 0.96,
+        "accuracy": 0.9688,
+        "kept": 96,
+        "total": 100
+      },
+      {
+        "threshold": 0.95,
+        "coverage": 0.76,
+        "accuracy": 0.9737,
+        "kept": 76,
+        "total": 100
+      }
+    ],
+    "source": "data\\claimsupport_cn\\results.json"
+  },
+  "claimsupport_300": {
+    "n": 300,
+    "accuracy": 0.9833,
+    "avg_confidence": 0.9477,
+    "ece": 0.04,
+    "buckets": [
+      {
+        "range": "[0.70,0.80)",
+        "n": 1,
+        "avg_confidence": 0.7,
+        "accuracy": 1.0,
+        "gap": 0.3
+      },
+      {
+        "range": "[0.80,0.90)",
+        "n": 9,
+        "avg_confidence": 0.85,
+        "accuracy": 0.7778,
+        "gap": -0.0722
+      },
+      {
+        "range": "[0.90,1.00)",
+        "n": 290,
+        "avg_confidence": 0.9516,
+        "accuracy": 0.9897,
+        "gap": 0.0381
+      }
+    ],
+    "abstain": [
+      {
+        "threshold": 0.5,
+        "coverage": 1.0,
+        "accuracy": 0.9833,
+        "kept": 300,
+        "total": 300
+      },
+      {
+        "threshold": 0.6,
+        "coverage": 1.0,
+        "accuracy": 0.9833,
+        "kept": 300,
+        "total": 300
+      },
+      {
+        "threshold": 0.7,
+        "coverage": 1.0,
+        "accuracy": 0.9833,
+        "kept": 300,
+        "total": 300
+      },
+      {
+        "threshold": 0.8,
+        "coverage": 0.9967,
+        "accuracy": 0.9833,
+        "kept": 299,
+        "total": 300
+      },
+      {
+        "threshold": 0.9,
+        "coverage": 0.9667,
+        "accuracy": 0.9897,
+        "kept": 290,
+        "total": 300
+      },
+      {
+        "threshold": 0.95,
+        "coverage": 0.7467,
+        "accuracy": 0.9955,
+        "kept": 224,
+        "total": 300
+      }
+    ],
+    "source": "data\\experiments\\release300.json"
+  }
+}
