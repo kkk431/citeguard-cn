@@ -1,0 +1,43 @@
+# v1.0.12 项目状态总表（第 40 轮收口）
+
+基线口径：**1.0.12** · 611 tests · 137/137 checks · 22 篇真实语料 529 条 / clean 1.0 · CI run 288 success。
+
+## Phase 完成度
+
+| Phase | 状态 | 已完成（有证据） | 未完成 / 边界 |
+|---|---|---|---|
+| 0 冻结与合规 | **完成** | PyMuPDF 移出核心、pypdfium2 替换版面回退（73/92/27 条一致，E30）；SPDX 清单；证据台账；AGPL 测试；Docker 0.9.85 health | — |
+| 1 可信内核 | **基本完成** | 引注抽取（数字/作者年/中文/脚注）+ 页码（17/18）；接地校验；多结论拆解；校准 ECE 0.04；反馈队列；报告三张真图 | 上标/图表标题内部引用未做；50 条人工准确率需真人 |
+| 2 修复闭环 | **完成（Word 除外）** | diff；批注 PDF（条目 7 + 引注 17）；批量页；报告 ZIP；图注建议；题录库补库 | Word 任务窗格需人工插入验证 |
+| 3 深度与规模 | **大部分完成** | 模型注册表/设置页；历史 SQLite；1000 条压测；第六次盲测 3/3 过 95%；中文繁简归一 0→100%；OCR 对照 | GROBID（Docker 阻塞）；BGE-M3 真端点未部署；题录库仍 JSON |
+| 4 发布 | **部分完成** | v1.0.0 tag；CHANGELOG 到 1.0.12；mkdocs 文档站；数据集/adapter 包已备；README 同步 | HF/Zenodo 上传缺 token；Docker 1.0 镜像被 containerd 元数据损坏阻塞 |
+| 前端贯穿 | **完成** | 键盘/对比度/aria-live/SSE/复制；50 项巡检全过（E48）；20 组配色 AA（E35） | 移动端不做（用户明确） |
+
+## 对外阻塞（需要外部条件，不是代码问题）
+
+1. **HuggingFace token**（write）→ 上传 ClaimSupport-CN-300 与 LoRA adapter，补 model card/dataset card。
+2. **Zenodo token**（可选）→ DOI。
+3. **Docker 数据目录重建**（需用户授权）→ 构建 1.0.12 镜像并发布。
+4. **BGE-M3 端点**（GPU 服务）→ 真实向量召回对照数字。
+5. **GROBID**（随 Docker）→ 与 RapidOCR/解析对照。
+6. **Word 真机**（人工插入任务窗格）→ 截图 + 端到端记录。
+7. **50 条人工准确率**（需 1–2 位真人）→ 报告里写“人工抽检”。
+
+## 解锁后的下一步（按顺序）
+
+1. Docker 数据目录重建 → `docker build -f docker/Dockerfile -t citeguard-cn:1.0.12 .` → health/截图/E49。
+2. HF 上传数据集与 adapter → 在 README 与 evidence_index 补链接。
+3. 部署 BGE-M3（lmh 4×4090）→ 跑 `scripts/eval_embeddings_recall.py` 对照。
+4. Word：打开 Word → 插入 → 我的加载项 → 引证卫士 → 截图。
+5. 真人抽检 50 条 → 更新 `docs/human_audit.md` 与报告 4.3。
+
+## 对外数字（全部可追溯）
+
+- CiteBench-CN macro-F1 0.9684 / acc 0.968（250 条构造）。
+- ClaimSupport-CN 100 条 0.9597；300 条统一复跑 0.9841（构造标签、非人审）。
+- 真实 22 篇 / 409 条引用：Major 0；本地库 412 条 definite 99.27%。
+- 支持度 LoRA（Qwen3-1.7B）test 0.9721；14B bf16 0.9744；4bit 0.9754；8B 0.8664。
+- 引注：21/22 篇有引注、543 处、参考文献被引 60.1%、自洽 89.5%。
+- 证据台账：63 个路径 0 缺失、25 张截图登记。
+
+证据入口：`docs/evidence_index.md`、`docs/evidence_audit.md`、`CHANGELOG.md`。

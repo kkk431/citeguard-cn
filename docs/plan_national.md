@@ -38,21 +38,21 @@
 - [x] 批注 PDF：问题标到原文页边，可下载/预览（`/api/report/{id}/annotated`，纯 pypdf，页边贴注）
 - [x] 批量核验页：粘贴 ≤50 条 → 表格 → CSV（`/batch`：粘贴 ≤50 条 → 表格 → CSV）
 - [x] 报告批处理（多任务 ZIP，含合并 `all.ris`/`all.enw`；`/api/reports/zip`）
-- [ ] 图表核验独立节 + 图注修改建议
+- [x] 图表核验独立节 + 图注修改建议：规则版在图注与支持度不一致时给修改方向（E25，`tests/test_figure_advice.py`）；仅 supported 不给建议
 - [x] 题录库“缺什么补什么”：候选一键入库、去重、覆盖率仪表盘
 - [x] 条目 ↔ 正文双向定位（1.0.11）：报告 JSON 写 `cited_in`，抽屉显示引用句与页码；15/15 条命中，E45
 - [~] 端到端：上传 → 报告 → 修正 → 复检 → 导出 → Word：自动化冒烟 14/14（含批注/导出/证据包/diff，E46）；Word 客户端仍需人工插入任务窗格
-- [ ] 截图：`phase2-*.png`
+- [x] 截图：`phase-09-diff-ui-0.9.89.png`、`phase-11-annotated-pdf-0.9.91.png`、`phase-12-batch-reports-0.9.91.png`
 
 ## Phase 3 · 深度与规模
 
-- [~] 开源模型一等模式：14B / 4bit / LoRA 在 UI 可选并显示来源（注册表 + 设置页 + 报告 run_config.judge 已做；切换前测连通，服务不在线时拒绝切换）
+- [x] 开源模型一等模式：14B / 4bit / LoRA 在设置页可选、显示来源/许可、切换前测连通；服务离线时 409 拒绝（0.9.95，E27）。边界：验证时本地模型服务未开，只验了注册/切换/拒绝链路
 - [~] 历史与题录库迁 SQLite（任务历史已索引 + 自动同步 + JSON 导出；题录库仍 JSON，待与召回一起迁）
 - [x] 1000 条长文档压测：冷/热、并发、内存（离线解析/格式/报告链，`scripts/stress_1000.py`，JSON+表；不含联网核验）
 - [x] 第六次预注册盲测（3 篇新 PDF，先协议后跑）
 - [~] PaddleOCR 与 GROBID 对照：PaddleOCR 已评测（CER 0.1530 vs RapidOCR 0.1825，但慢 10.6×，不接入）；GROBID 因 Docker 存储只读/公共端点不可达**未完成**（E31）
 - [x] 中文召回增强 v1：繁简归一（可选 OpenCC；206 条真实题名 0%→100%）；BGE-M3 保留为可选路线，未接入
-- [ ] 截图：`phase3-*.png`
+- [x] 截图：`phase-16-model-registry-0.9.95.png`、`phase-24-keyboard-nav-1.0.0.png`、`phase-25-light-contrast-1.0.1.png`、`phase-33-annotated-citations-1.0.9.png`、`phase-38-a11y-pages-1.0.12.png`
 
 ## Phase 4 · 发布
 
@@ -60,17 +60,17 @@
 - [x] 文档站（mkdocs 配置 + 本地构建通过）
 - [~] HuggingFace 数据集 + adapter；Zenodo DOI（可选）——数据集包与 adapter 包均已备好（`dist/CiteGuard-CN_ClaimSupport-CN-300_v1.0.zip`、`dist/CiteGuard-CN_LoRA-Qwen3-1.7B_v1.0.zip`，含 MANIFEST），上传缺 token
 - [~] Docker 镜像发布说明——镜像 0.9.85 曾验证；1.0.0 构建被本机 containerd 元数据损坏阻塞（磁盘写满后 `blob ... input/output error`），需重建 Docker 数据目录
-- [ ] README / 架构 / 评测 / 许可证 / 复现命令同步
+- [x] README / 架构 / 评测 / 许可证 / 复现命令同步（README 已更新到 1.0.12 / 611 tests；`reproduce.sh`、`docs/` 同步）
 - [x] 截图：`phase4-v1.0-docs-site-1.0.0.png`（文档站首页，E33）
 
 ## 前端贯穿（桌面 Web）
 
-- [ ] 默认值聪明 / 渐进披露 / 结果先行 / 原地恢复
-- [ ] 复制优先（引用句、证据原句、规范条目、理由）
-- [ ] 键盘优先：`/`、`j/k`、`Enter`、`Esc`、`Ctrl+K`
-- [ ] SSE 阶段等待 + 失败人话
-- [ ] 浅色/深色对比、焦点环、aria-live、图表表格视图
-- [ ] 移动端：**暂不做**（产品定位为桌面 Web）
+- [x] 默认值聪明 / 渐进披露 / 结果先行 / 原地恢复：上传默认、抽屉原地展开、报告分标签；E36/E48 覆盖
+- [x] 复制优先：报告条目/证据/规范条目均有复制按钮（`report.js`；1.0.x）
+- [x] 键盘优先：`/`、`j/k`、`Enter`、`Esc`、`Ctrl+K`（E36/E48，50 项巡检全过）
+- [x] SSE 阶段等待 + 失败人话：0.9.81 `/api/jobs/{id}/events`，前端 SSE 优先/轮询回退
+- [x] 浅色/深色对比、焦点环、aria-live、图表表格视图：E35（20 组配色）、E48（50 项巡检）、图表 `<details>` 表格
+- [x] 移动端：**暂不做**（产品定位为桌面 Web，用户明确）
 
 ## DoD
 
