@@ -54,3 +54,5 @@
 | E26 | 第六次预注册盲测（Llama3 187/99.47%、Phi-3 71/97.18%、Qwen2 79/100%） | data/experiments/blind_test6.json + docs/blind_test_results.md §15 | 41a18d7 | 2026-11-11 |
 | E27 | 判定模型设置页（hosted / 14B bf16 / 4bit / LoRA，切换前实测连通性） | docs/evidence/shots/phase-16-model-registry-0.9.95.png | 0.9.95 | 2026-11-11 |
 | E28 | 1000 条引用离线压测：解析 0.118 s / 冷 0.718 s / 热 0.159 s / 双并发 0.329 s / 峰值 5.2 MB | data/experiments/stress_1000.json；命令见 docs/performance.md | 0.9.96 | 2026-11-11 |
+
+| E29 | 中文标题繁简归一 | 206 条真实中文题名；繁体标题检出率 0.0% → 1.0%，平均相似度 0.6191 → 1.0 | `data/experiments/title_norm_cn.json`；`PYTHONPATH=src python scripts/eval_title_norm.py` | optional OpenCC；只改进匹配层，不改变题录来源 |

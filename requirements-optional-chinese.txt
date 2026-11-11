@@ -1,0 +1,2 @@
+# Optional: Traditional -> Simplified title matching (Apache-2.0)
+opencc-python-reimplemented>=1.1

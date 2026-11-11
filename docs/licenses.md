@@ -81,3 +81,6 @@ python -m pytest tests/test_licenses.py -q
 # 全量测试
 PYTHONPATH=src python -m pytest tests -q
 ```
+
+## Optional Chinese title matching
+- `opencc-python-reimplemented` (Apache-2.0) — optional Traditional → Simplified normalization for CJK titles; enabled automatically when installed; not part of the core Docker image.

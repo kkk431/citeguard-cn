@@ -803,3 +803,11 @@ def test_url_or_doi_title_is_guarded():
     assert mv._unreliable_title(doi_ref) == "题名是 DOI"
     assert mv._unreliable_title(short_ref) is None
     assert mv._unreliable_title(REF) is None
+
+
+def test_title_sim_traditional_chinese_matches_simplified():
+    import pytest
+
+    pytest.importorskip("opencc")
+    assert mv.title_sim("機器學習與深度學習", "机器学习与深度学习") == 1.0
+    assert mv.norm_title("機器學習") == mv.norm_title("机器学习")
