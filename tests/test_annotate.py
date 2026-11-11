@@ -1,0 +1,67 @@
+import json
+
+from pypdf import PdfReader
+from reportlab.pdfgen import canvas
+
+from citeguard.annotate import annotate_pdf, locate_page
+
+
+def _pdf(tmp_path, pages):
+    path = tmp_path / "in.pdf"
+    c = canvas.Canvas(str(path))
+    for lines in pages:
+        y = 800
+        for line in lines:
+            c.drawString(40, y, line)
+            y -= 18
+        c.showPage()
+    c.save()
+    return path
+
+
+def test_locate_page_title_and_index():
+    pages = ["x", "References\n[1] Deep Learning. Nature 2015.", "more"]
+    assert locate_page(pages, {"parsed": {"title": "Deep Learning"}}) == 1
+    assert locate_page(pages, {"index": 1}) == 1
+    assert locate_page(pages, {"parsed": {"title": "Nothing Here"}}) is None
+
+
+def test_annotate_pins_note(tmp_path):
+    src = _pdf(tmp_path, [["References", "page two"], ["[1] Deep Learning. Nature 2015."]])
+    report = {"references": [{
+        "index": 1,
+        "parsed": {"title": "Deep Learning"},
+        "verify": {"status": "Unverified"},
+        "compliance": {"issues": [{"level": "warning", "field": "volume", "message": "建议补充卷"}]},
+    }]}
+    out = tmp_path / "out.pdf"
+    stats = annotate_pdf(src, report, out)
+    assert stats["annotated"] == 1 and stats["unmapped"] == 0
+    reader = PdfReader(str(out))
+    assert len(reader.pages) == 2
+    annots = reader.pages[1].get("/Annots") or []
+    assert len(annots) == 1
+
+
+def test_annotate_counts_unmapped(tmp_path):
+    src = _pdf(tmp_path, [["[1] Something Else"]])
+    report = {"references": [{"index": 9, "parsed": {"title": "Missing Title"},
+                              "verify": {"status": "Unverified"}, "compliance": {"issues": []}}]}
+    stats = annotate_pdf(src, report, tmp_path / "out.pdf")
+    assert stats["annotated"] == 0 and stats["unmapped"] == 1
+
+
+def test_annotated_endpoint_serves_cached_copy(isolated_project):
+    from fastapi.testclient import TestClient
+
+    import web.app as webapp
+
+    d = isolated_project / "jobs" / "annotjob"
+    d.mkdir(parents=True, exist_ok=True)
+    (d / "report.json").write_text("{}", encoding="utf-8")
+    (d / "report.annotated.pdf").write_bytes(b"%PDF-1.4\n%%EOF")
+    client = TestClient(webapp.app)
+    r = client.get("/api/report/annotjob/annotated")
+    assert r.status_code == 200
+    assert r.headers["x-annotated"] == "0"
+    assert client.get("/api/report/missing/annotated").status_code == 404

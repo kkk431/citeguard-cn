@@ -579,6 +579,17 @@ def run_job(
     )
     report["job_id"] = job_id
 
+    # Build the annotated PDF while the uploaded file is still on disk: the
+    # copy is deleted right after this function returns (privacy).
+    if file_path and Path(file_path).suffix.lower() == ".pdf":
+        try:
+            from .annotate import annotate_pdf
+
+            stats = annotate_pdf(file_path, report, out_dir / "report.annotated.pdf")
+            report["annotated"] = {k: stats[k] for k in ("annotated", "unmapped", "pages")}
+        except Exception:
+            pass
+
     save_report(report, out_dir, stem="report")
     (out_dir / "report.json").write_text(
         json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8"

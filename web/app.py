@@ -96,7 +96,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.90", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.91", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
@@ -735,6 +735,34 @@ def export_report(job_id: str, format: str = "html"):
         raise HTTPException(status_code=404, detail="export not ready")
     media = {"html": "text/html; charset=utf-8", "md": "text/markdown; charset=utf-8", "json": "application/json"}
     return FileResponse(p, media_type=media[format], filename=f"citeguard-{job_id}.{format}")
+
+
+@app.get("/api/report/{job_id}/annotated")
+def api_report_annotated(job_id: str):
+    """Copy of the uploaded PDF with problem references pinned to page margins."""
+    from citeguard.annotate import annotate_pdf
+
+    report = _load_report(job_id)
+    if report is None:
+        raise HTTPException(status_code=404, detail="报告不存在或任务未完成")
+    out = _report_path(job_id).parent / "report.annotated.pdf"
+    if not out.exists():
+        candidates = sorted(UPLOAD_DIR.glob(f"{job_id}*.pdf"))
+        if not candidates:
+            raise HTTPException(status_code=404, detail="这份报告的原始 PDF 已清理；重新上传同一篇即可生成批注版")
+        stats = annotate_pdf(candidates[0], report, out)
+    else:
+        stats = report.get("annotated") or {"annotated": 0, "unmapped": 0}
+    return FileResponse(
+        out,
+        media_type="application/pdf",
+        filename=f"citeguard-{job_id}-annotated.pdf",
+        headers={
+            "X-Annotated": str(stats["annotated"]),
+            "X-Unmapped": str(stats["unmapped"]),
+            "Cache-Control": "no-store",
+        },
+    )
 
 
 @app.get("/api/report/{job_id}/bundle")
