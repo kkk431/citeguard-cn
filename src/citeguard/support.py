@@ -230,7 +230,7 @@ def _cache_path(claim: str, abstract: str):
     # audit style must be part of the key; otherwise switching v1<->v2 keeps
     # serving verdicts produced by the old audit prompt.
     audit_tag = _audit_style() if config.SUPPORT_AUDIT else "off"
-    h = hashlib.md5((model + "||" + audit_tag + "||" + claim + "||" + abstract).encode("utf-8")).hexdigest()
+    h = hashlib.md5((model + "||" + audit_tag + "||" + _EVIDENCE_MODE + "||" + claim + "||" + abstract).encode("utf-8")).hexdigest()
     d = config.CACHE_DIR / "support" / f"v{PROMPT_VERSION}"
     d.mkdir(parents=True, exist_ok=True)
     return d / f"{h}.json"
@@ -343,6 +343,52 @@ def _audit_support(claim: str, abstract: str) -> Optional[dict]:
     return audit
 
 
+_EVIDENCE_MODE = "window2"
+
+
+def _select_evidence_window(claim: str, text: str, limit: int = 1800) -> str:
+    """Pick the most claim-relevant span of a long evidence text.
+
+    The judge only looks at 1800 characters; for a full paper section the head
+    of the text is often the wrong window (related work, boilerplate). Score
+    sentences by character-bigram / word overlap with the claim and keep the
+    best contiguous span that fits the budget.
+    """
+    text = (text or "").strip()
+    if len(text) <= limit:
+        return text
+    import re as _re
+
+    parts = [p.strip() for p in _re.split(r"(?<=[。！？!?；;])\s*|(?<=[.])\s+(?=[A-Z0-9])", text) if p.strip()]
+    if len(parts) <= 1:
+        return text[:limit]
+    claim_low = claim.lower()
+    claim_grams = {claim_low[i:i + 2] for i in range(len(claim_low) - 1) if not claim_low[i:i + 2].isspace()}
+    claim_words = {w for w in _re.findall(r"[a-z0-9]{3,}", claim_low)}
+    scores = []
+    for part in parts:
+        low = part.lower()
+        grams = {low[i:i + 2] for i in range(len(low) - 1)}
+        overlap = len(grams & claim_grams)
+        words = set(_re.findall(r"[a-z0-9]{3,}", low))
+        score = overlap + 2 * len(words & claim_words)
+        scores.append(score)
+    best = (0.0, 0, 1)
+    for start in range(len(parts)):
+        total_len = 0
+        score = 0.0
+        for end in range(start, len(parts)):
+            total_len += len(parts[end]) + 1
+            if total_len > limit:
+                break
+            score += scores[end]
+            if score > best[0]:
+                best = (score, start, end + 1)
+    _, start, end = best
+    window = " ".join(parts[start:end])
+    return window[:limit]
+
+
 def judge_support(claim: str, abstract: str, title: str = "", doi: str = "") -> Optional[dict]:
     """Return a 4-way support verdict, or None when the judge is unavailable.
 
@@ -373,7 +419,7 @@ def judge_support(claim: str, abstract: str, title: str = "", doi: str = "") -> 
     # Measured best on ClaimSupport-CN: claim + evidence only. Adding the paper
     # title into the message made the judge more lenient (macro-F1 0.876 -> 0.925
     # when removed), so it is intentionally left out here.
-    user = f"【引用句】{claim}\n【证据片段】{abstract[:1800]}"
+    user = f"【引用句】{claim}\n【证据片段】{_select_evidence_window(claim, abstract)}"
     try:
         parsed = _chat_json(PROMPT, user)
         if parsed is None:

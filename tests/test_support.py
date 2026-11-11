@@ -289,3 +289,20 @@ def test_audit_style_auto_uses_effective_endpoint(monkeypatch):
     monkeypatch.delenv("CITEGUARD_JUDGE_BASE_URL", raising=False)
     monkeypatch.setattr(config, "DEEPSEEK_BASE_URL", "http://127.0.0.1:8097/v1")
     assert sp._audit_style() == "v2"
+
+
+def test_evidence_window_prefers_relevant_tail():
+    from citeguard.support import _select_evidence_window
+    filler = "This section describes unrelated background material. " * 60
+    relevant = "On ImageNet our model improves top-1 accuracy by 2.3 percentage points over the baseline."
+    text = filler + relevant
+    assert len(text) > 1800
+    window = _select_evidence_window("所提方法在 ImageNet 上的准确率比基线高 2.3 个百分点。", text)
+    assert len(window) <= 1800
+    assert "2.3 percentage points" in window
+
+
+def test_evidence_window_keeps_short_text():
+    from citeguard.support import _select_evidence_window
+    text = "Short evidence."
+    assert _select_evidence_window("claim", text) == text
