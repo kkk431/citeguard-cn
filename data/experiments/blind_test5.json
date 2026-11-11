@@ -1,0 +1,57 @@
+{
+  "evaluated_at": "2026-11-11T04:28:58.478728+00:00",
+  "papers": {
+    "qwen3": {
+      "text_refs": 51,
+      "text_health": 0.9608,
+      "layout_entries": 73,
+      "layout_refs": 73,
+      "layout_health": 1.0,
+      "chosen": "layout",
+      "refs": 73,
+      "health": 1.0,
+      "bad_titles": [],
+      "bad_count": 0
+    },
+    "deepseek_r1": {
+      "text_refs": 34,
+      "text_health": 0.9412,
+      "layout_entries": 92,
+      "layout_refs": 92,
+      "layout_health": 0.9674,
+      "chosen": "layout",
+      "refs": 92,
+      "health": 0.9674,
+      "bad_titles": [
+        {
+          "index": 1,
+          "title": "URL odels/blob/main/models/llama3_1/MODEL_CARD.md",
+          "raw": "AI@Meta. Llama 3.1 model card, 2024. URL https://github.com/meta-llama/llama-m odels/blob/main/models/llama3_1/MODEL_CARD.md."
+        },
+        {
+          "index": 1,
+          "title": "Measuring massive multitask language understanding. In 9th International Conference on Learning Representations, ICLR 20",
+          "raw": "D. Hendrycks, C. Burns, S. Basart, A. Zou, M. Mazeika, D. Song, and J. Steinhardt. Measuring massive multitask language understanding. In 9th International Conf"
+        },
+        {
+          "index": 1,
+          "title": "",
+          "raw": "D. Rein, B. L. Hou, A. C. Stickland, J. Petty, R. Y. Pang, J. Dirani, J. Michael, and S. R. Bowman. GPQA: A graduate-level google-proof q&a benchmark. arXiv pre"
+        }
+      ],
+      "bad_count": 3
+    },
+    "mixtral": {
+      "text_refs": 35,
+      "text_health": 1.0,
+      "layout_entries": 27,
+      "layout_refs": 27,
+      "layout_health": 0.963,
+      "chosen": "text",
+      "refs": 35,
+      "health": 1.0,
+      "bad_titles": [],
+      "bad_count": 0
+    }
+  }
+}

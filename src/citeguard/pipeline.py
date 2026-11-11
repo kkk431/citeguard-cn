@@ -93,6 +93,10 @@ def analyze_text(
             if (len(layout_refs) >= len(refs) and
                     title_health(layout_refs) >= title_health(refs) + 0.02):
                 refs = layout_refs
+    # Entries parsed one-by-one (layout path) all carry index 1; renumber so
+    # the report and exports show stable per-reference numbers.
+    for i, ref in enumerate(refs, 1):
+        ref.index = i
     if not refs:
         raise ValueError("没有解析到参考文献，请检查格式或改用 --refs 方式")
     if max_refs and max_refs > 0:

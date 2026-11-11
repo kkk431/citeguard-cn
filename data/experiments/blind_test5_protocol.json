@@ -1,0 +1,24 @@
+{
+  "registered_at": "2026-11-11T04:28:33.097943+00:00",
+  "code_version": "0f7b649f615bf9e5a45161d3aeb245e262b9ed12",
+  "scope": "reference parsing only (not verification)",
+  "papers": {
+    "qwen3": {
+      "arxiv": "2505.09388",
+      "title": "Qwen3 Technical Report"
+    },
+    "deepseek_r1": {
+      "arxiv": "2501.12948",
+      "title": "DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning"
+    },
+    "mixtral": {
+      "arxiv": "2401.04088",
+      "title": "Mixtral of Experts"
+    }
+  },
+  "metrics": {
+    "strict_health": "share of titles passing refs_layout.title_health",
+    "pass_threshold": "each paper >= 0.95; corpus regression stays 529 refs / clean 1.0"
+  },
+  "note": "PDFs downloaded AFTER this protocol is written; no tuning on these files."
+}
