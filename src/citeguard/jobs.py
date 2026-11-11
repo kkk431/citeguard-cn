@@ -104,6 +104,12 @@ class JobManager:
             )
         except Exception:
             pass
+        try:
+            from .history_db import HistoryDB
+
+            HistoryDB().upsert(job, has_report=(JOBS_DIR / job["id"] / "report.json").exists())
+        except Exception:
+            pass
 
     def mark_stale_as_interrupted(self) -> int:
         """Turn jobs left "running" by a previous process into retryable records.
@@ -132,6 +138,16 @@ class JobManager:
         return changed
 
     def recent(self, limit: int = 6) -> list[dict]:
+        try:
+            from .history_db import HistoryDB
+
+            db = HistoryDB()
+            db.sync_dir(JOBS_DIR)
+            rows = db.list(limit=limit)
+            if rows:
+                return rows
+        except Exception:
+            pass
         jobs: list[dict] = []
         try:
             paths = sorted(JOBS_DIR.glob("*.json"), key=lambda p: p.stat().st_mtime, reverse=True)
@@ -169,6 +185,9 @@ class JobManager:
             try:
                 path.unlink()
                 removed["records"] += 1
+                from .history_db import HistoryDB
+
+                HistoryDB().delete(job_id)
             except OSError:
                 pass
             job_dir = JOBS_DIR / job_id
