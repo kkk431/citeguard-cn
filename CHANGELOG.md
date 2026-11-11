@@ -2,6 +2,17 @@
 
 All notable changes to CiteGuard-CN. Earlier pre-1.0 history is condensed.
 
+## [1.0.3] - 2026-11-11
+
+### Added
+- Report “总览” now lists the article’s in-text citations (key, sentence, matched
+  reference numbers); the full list remains in the report JSON. Verified on a real
+  run: 18 citations / 18 sentences, first 6 rendered.
+- Evidence screenshot `docs/evidence/shots/phase-27-citation-list-1.0.3.png`.
+
+### Changed
+- Version bump to 1.0.3.
+
 ## [1.0.2] - 2026-11-11
 
 ### Fixed

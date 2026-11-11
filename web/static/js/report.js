@@ -373,6 +373,28 @@
     }).join("");
   }
 
+  function renderCitations(data) {
+    const panel = document.getElementById("citation-panel");
+    const list = document.getElementById("citation-list");
+    if (!panel || !list) return;
+    const c = data.citations || {};
+    const items = (c.items || []).slice(0, 6);
+    if (!items.length) { panel.classList.add("hidden"); return; }
+    panel.classList.remove("hidden");
+    const summary = c.summary || {};
+    const count = document.getElementById("citation-count");
+    if (count) count.textContent = (summary.total || items.length) + " 处 · 覆盖 " + (summary.sentences || 0) + " 句";
+    list.innerHTML = items.map(function (it) {
+      const nums = (it.ref_numbers || []).slice(0, 4);
+      let tail = "";
+      if (nums.length) tail = "→ 第 " + nums.join("、") + " 条";
+      else if (it.style === "author_year" || it.style === "cn_author_year") tail = "作者-年";
+      return "<li><code>" + esc(it.key || "") + "</code><span>" + esc((it.sentence || "").slice(0, 100)) + "</span>" + (tail ? "<em>" + esc(tail) + "</em>" : "") + "</li>";
+    }).join("");
+    const note = document.getElementById("citation-note");
+    if (note) note.textContent = c.truncated ? "只列出前 6 处；报告 JSON 含完整列表。" : "";
+  }
+
   function render(data) {
   window.__reportData = data;
     renderInputMeta(data);
@@ -389,6 +411,7 @@
     });
     renderFigureChecks(data);
     renderCitationConsistency(data);
+    renderCitations(data);
     renderCharts(data);
     const s = data.stats || {};
     const total = s.total || 1;
