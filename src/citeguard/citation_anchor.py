@@ -199,3 +199,15 @@ def main(argv: list[str] | None = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
+def coverage(citations: list[Citation], ref_count: int) -> dict:
+    """正文引注覆盖了多少条参考文献（只统计落在 1..ref_count 的编号）。"""
+    cited = sorted({n for c in citations for n in c.ref_numbers if 1 <= n <= ref_count})
+    seen = set(cited)
+    uncited = [n for n in range(1, ref_count + 1) if n not in seen]
+    return {
+        "refs": ref_count,
+        "cited": len(cited),
+        "uncited": uncited,
+        "ratio": round(len(cited) / ref_count, 4) if ref_count else 0.0,
+    }

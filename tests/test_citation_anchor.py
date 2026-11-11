@@ -123,3 +123,18 @@ def test_summary_includes_footnote_style():
     summary = summarize(items)
     assert summary["by_style"]["footnote"] == 1
     assert summary["ref_numbers"] == [3]
+
+
+def test_coverage_counts_only_cited_numbers():
+    from citeguard.citation_anchor import Citation, coverage
+
+    items = [
+        Citation("[1]", "numeric", [1], "s1", 0, 3),
+        Citation("[2,4]", "numeric", [2, 4], "s2", 5, 11),
+        Citation("[99]", "numeric", [99], "s3", 12, 16),
+    ]
+    cov = coverage(items, 5)
+    assert cov["refs"] == 5
+    assert cov["cited"] == 3
+    assert cov["uncited"] == [3, 5]
+    assert cov["ratio"] == 0.6

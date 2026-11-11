@@ -2,6 +2,15 @@
 
 All notable changes to CiteGuard-CN. Earlier pre-1.0 history is condensed.
 
+## [1.0.5] - 2026-11-11
+
+### Added
+- Report overview shows citation coverage: how many reference entries are actually
+  cited in the body, and which numbers never appear. Real run: 15/15 cited.
+- `citation_anchor.coverage()` with unit test; coverage stored under
+  `report.citations.coverage`.
+- Evidence screenshot `docs/evidence/shots/phase-29-citation-coverage-1.0.5.png`.
+
 ## [1.0.4] - 2026-11-11
 
 ### Added

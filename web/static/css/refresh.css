@@ -779,3 +779,7 @@ body.theme-light .chart-bar{background:rgba(15,40,35,.10)}
 .cite-jump { font: inherit; font-size: 76%; color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent);
   border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 999px; padding: 2px 9px; cursor: pointer; }
 .cite-jump:hover { background: color-mix(in srgb, var(--accent) 22%, transparent); }
+
+.cov-num { display: flex; align-items: baseline; gap: 8px; margin-top: 6px; }
+.cov-num b { font-size: 30px; font-family: var(--font-mono); color: var(--accent); }
+.cov-num span { font-size: 82%; color: var(--muted); }

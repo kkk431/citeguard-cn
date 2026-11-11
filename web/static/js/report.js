@@ -388,6 +388,24 @@
     }, 80);
   }
 
+  function renderCitationCoverage(data) {
+    const el = document.getElementById("citation-coverage");
+    if (!el) return;
+    const cv = (data.citations || {}).coverage;
+    if (!cv || !cv.refs) { el.classList.add("hidden"); return; }
+    el.classList.remove("hidden");
+    const un = cv.uncited || [];
+    let note = "";
+    if (un.length) {
+      const shown = un.slice(0, 8).join("、");
+      note = '<div class="inline-note">未被正文引用：第 ' + esc(shown) + (un.length > 8 ? " 等 " + un.length + " 条" : " 条") + "</div>";
+    } else {
+      note = '<div class="inline-note">每一条参考文献都在正文里出现过。</div>';
+    }
+    el.innerHTML = "<h3>正文引注覆盖</h3>" +
+      '<div class="cov-num"><b>' + cv.cited + "</b><span>/ " + cv.refs + " 条被正文引用</span></div>" + note;
+  }
+
   function renderCitations(data) {
     const panel = document.getElementById("citation-panel");
     const list = document.getElementById("citation-list");
@@ -437,6 +455,7 @@
     renderFigureChecks(data);
     renderCitationConsistency(data);
     renderCitations(data);
+    renderCitationCoverage(data);
     renderCharts(data);
     const s = data.stats || {};
     const total = s.total || 1;
