@@ -16,7 +16,7 @@
 - [x] `docs/plan_national.md`（本文件）
 - [x] `docs/evidence/shots/` 目录 + 命名规则
 - [x] `tests/test_licenses.py`：核心依赖不得含 AGPL
-- [ ] 0.9.85 提交、推送、CI 绿
+- [x] 0.9.85 提交、推送、CI 绿（run 241 success）
 
 ## Phase 1 · 可信内核
 
