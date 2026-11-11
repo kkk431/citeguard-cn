@@ -1,0 +1,7 @@
+# Optional layout fallback — NOT installed by requirements.txt or the Docker image.
+#
+# PyMuPDF is AGPL-3.0. Installing this file makes the resulting environment
+# subject to AGPL-3.0 obligations. Only opt in locally if you need the
+# hanging-indent layout fallback; the core app degrades gracefully without it.
+# See docs/licenses.md.
+pymupdf>=1.24
