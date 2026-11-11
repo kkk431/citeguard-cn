@@ -96,7 +96,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.89", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.90", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
@@ -1256,6 +1256,16 @@ def support_page(request: Request):
         request,
         "support.html",
         {"active": "support", "judge_ok": support.judge_available()},
+    )
+
+
+@app.get("/batch", response_class=HTMLResponse)
+def batch_page(request: Request):
+    """Batch claim-evidence check page (same API as the SDK)."""
+    return templates.TemplateResponse(
+        request,
+        "batch.html",
+        {"active": "batch", "judge_ok": support.judge_available()},
     )
 
 

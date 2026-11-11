@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}批量核验 · 引证卫士 CiteGuard{% endblock %}
+{% block content %}
+<style>
+  .bt-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:18px;align-items:start}
+  .bt-panel{padding:20px}
+  .bt-label{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;font-weight:600;color:var(--ink-2);margin-bottom:8px}
+  .bt-label small{font-weight:400;color:var(--muted)}
+  .bt-ta{width:100%;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink);
+    padding:12px 14px;font-size:13.5px;line-height:1.7;resize:vertical;font-family:var(--mono,monospace)}
+  .bt-ta:focus{outline:2px solid var(--accent);outline-offset:1px}
+  .bt-ta + .bt-label{margin-top:16px}
+  .bt-actions{display:flex;gap:10px;align-items:center;margin-top:16px;flex-wrap:wrap}
+  .bt-hint{font-size:12.5px;color:var(--muted)}
+  .bt-err{margin-top:10px;color:#9b2c1c;font-size:13px}
+  .bt-result{margin-top:16px}
+  .bt-table{width:100%;border-collapse:collapse;font-size:13px}
+  .bt-table th,.bt-table td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  .bt-table th{font-size:11.5px;letter-spacing:.06em;color:var(--muted);font-weight:600}
+  .bt-table td.claim{max-width:300px}
+  .bt-table td.reason{color:var(--ink-2);font-size:12.5px}
+  .bt-chip{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11.5px;font-weight:700;white-space:nowrap}
+  .bt-chip.support{background:rgba(60,230,180,.16);color:#0f7a5c}
+  .bt-chip.partial{background:rgba(255,184,77,.18);color:#8a5a00}
+  .bt-chip.contradict{background:rgba(255,107,87,.16);color:#9b2c1c}
+  .bt-chip.no_evidence,.bt-chip.not_checked{background:rgba(120,130,140,.15);color:#4b5563}
+  .bt-conf{font-variant-numeric:tabular-nums;color:var(--muted);font-size:12px}
+  .bt-empty{color:var(--muted);font-size:13.5px;padding:22px 4px;line-height:1.8}
+  @media(max-width:980px){.bt-grid{grid-template-columns:1fr}}
+</style>
+
+<section class="wrap" style="padding:48px 0 8px">
+  <div class="kicker">BATCH CLAIM–EVIDENCE CHECK</div>
+  <h1 class="serif" style="font-size:34px;font-weight:600;margin:10px 0">一次粘贴，最多 50 条。</h1>
+  <p class="lede" style="max-width:78ch">
+    左栏一行一条「引用句」，右栏一行一条「对应证据」——按行一一配对。判成四档（支持 / 部分支持 / 矛盾 / 无证据），
+    结果可导出 CSV。适合把一段综述里的多条断言一次性过一遍。
+  </p>
+  <div class="stats stats-4">
+    <div class="stat"><b>≤ 50 条</b><span>单次上限</span></div>
+    <div class="stat"><b>4 并发</b><span>服务端并行判定</span></div>
+    <div class="stat"><b>CSV</b><span>结果可直接下载</span></div>
+    <div class="stat"><b>{{ '已配置' if judge_ok else '未配置' }}</b><span>判定服务状态</span></div>
+  </div>
+</section>
+
+<section class="wrap section">
+  <div class="bt-grid">
+    <form class="panel bt-panel" id="bt-form">
+      <label class="bt-label" for="bt-claims">引用句 <small>一行一条，≤50 行</small></label>
+      <textarea class="bt-ta" id="bt-claims" rows="7" placeholder="例如：&#10;图中 2025 年的发文量最高，为 195 篇。&#10;该模型在中文任务上优于基线。"></textarea>
+      <label class="bt-label" for="bt-evidence">证据 <small>与左栏逐行对应</small></label>
+      <textarea class="bt-ta" id="bt-evidence" rows="7" placeholder="把每条引用对应的摘要/原文片段贴在这里（同一行数）。"></textarea>
+      <div class="bt-actions">
+        <button class="btn" type="submit" id="bt-run">开始批量核验</button>
+        <button class="btn ghost sm" type="button" id="bt-sample">填入示例</button>
+        <span class="bt-hint" id="bt-count">0 条</span>
+      </div>
+      <div class="bt-err" id="bt-err" role="alert"></div>
+    </form>
+
+    <div class="panel bt-panel">
+      <div class="bt-label">结果 <small id="bt-result-meta"></small></div>
+      <div class="bt-result" id="bt-result">
+        <div class="bt-empty">还没开始。左栏和右栏行数一致后点「开始批量核验」。</div>
+      </div>
+    </div>
+  </div>
+</section>
+<script src="/static/js/batch.js?v={{ request.app.version }}"></script>
+{% endblock %}

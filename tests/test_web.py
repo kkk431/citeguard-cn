@@ -674,3 +674,11 @@ def test_job_events_stream_ends_on_done(client):
     assert '"progress": 100' in body
     lines = [ln for ln in body.splitlines() if ln.startswith("data: ")]
     assert lines and lines[0].startswith("data: {")
+
+
+def test_batch_page_renders(plain_client):
+    r = plain_client.get("/batch")
+    assert r.status_code == 200
+    assert "批量核验" in r.text
+    assert "batch.js" in r.text
+    assert "一次粘贴，最多 50 条" in r.text
