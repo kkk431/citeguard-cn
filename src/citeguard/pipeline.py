@@ -621,7 +621,7 @@ def run_job(
             from .annotate import annotate_pdf
 
             stats = annotate_pdf(file_path, report, out_dir / "report.annotated.pdf")
-            report["annotated"] = {k: stats[k] for k in ("annotated", "unmapped", "pages")}
+            report["annotated"] = {k: stats.get(k, 0) for k in ("annotated", "unmapped", "citations_annotated", "citations_unmapped", "pages")}
         except Exception:
             pass
 

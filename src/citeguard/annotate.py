@@ -59,6 +59,51 @@ def _note(ref: dict) -> str:
     return "\n".join(lines)
 
 
+def _citation_note(item: dict) -> str:
+    """Short left-margin note for an in-text citation."""
+    key = str(item.get("key") or "").strip()
+    nums = [str(n) for n in (item.get("ref_numbers") or [])][:4]
+    head = key[:28] + ("…" if len(key) > 28 else "")
+    if nums:
+        return f"引注 {head}\n→ 第 {'、'.join(nums)} 条"
+    return f"引注 {head}\n→ 作者-年条目"
+
+
+def _annotate_citations(writer: PdfWriter, report: dict, page_count: int, *, per_page: int = 10, total_cap: int = 40) -> tuple[int, int]:
+    """Pin in-text citations to the page they occur on (left margin).
+
+    Uses the ``page`` already computed by the report (1.0.8). Entries without a
+    located page are counted as unmapped, never placed on a guessed page.
+    """
+    items = ((report.get("citations") or {}).get("items")) or []
+    annotated = 0
+    unmapped = 0
+    used: dict[int, int] = {}
+    for item in items:
+        page_no = int(item.get("page") or 0) - 1
+        if page_no < 0 or page_no >= page_count:
+            unmapped += 1
+            continue
+        if annotated >= total_cap or used.get(page_no, 0) >= per_page:
+            continue
+        page = writer.pages[page_no]
+        height = float(page.mediabox.height)
+        slot = used.get(page_no, 0)
+        rect = (10, height - 84 - slot * 62, 178, height - 14 - slot * 62)
+        annotation = FreeText(
+            text=_citation_note(item),
+            rect=rect,
+            font_size="6.5pt",
+            font_color="1f4d6b",
+            border_color="55d6ff",
+            background_color="eef9ff",
+        )
+        writer.add_annotation(page_number=page_no, annotation=annotation)
+        used[page_no] = slot + 1
+        annotated += 1
+    return annotated, unmapped
+
+
 def annotate_pdf(input_pdf: str | Path, report: dict, output_pdf: str | Path) -> dict:
     """Write a copy of ``input_pdf`` with margin notes for problem references."""
     reader = PdfReader(str(input_pdf))
@@ -102,8 +147,17 @@ def annotate_pdf(input_pdf: str | Path, report: dict, output_pdf: str | Path) ->
         writer.add_annotation(page_number=page_no, annotation=annotation)
         annotated += 1
 
+    citations_annotated, citations_unmapped = _annotate_citations(writer, report, len(reader.pages))
+
     out = Path(output_pdf)
     out.parent.mkdir(parents=True, exist_ok=True)
     with open(out, "wb") as fh:
         writer.write(fh)
-    return {"annotated": annotated, "unmapped": unmapped, "pages": len(reader.pages), "path": str(out)}
+    return {
+        "annotated": annotated,
+        "unmapped": unmapped,
+        "citations_annotated": citations_annotated,
+        "citations_unmapped": citations_unmapped,
+        "pages": len(reader.pages),
+        "path": str(out),
+    }

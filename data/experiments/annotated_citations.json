@@ -1,0 +1,19 @@
+{
+ "job": "dfdd817f81af",
+ "paper": "hanspub_152575.pdf",
+ "pages": 10,
+ "free_text_annotations_per_page": [
+  0,
+  1,
+  0,
+  0,
+  4,
+  0,
+  7,
+  12,
+  0,
+  0
+ ],
+ "total": 24,
+ "note": "reference notes (right margin) + citation notes (left margin); source PDF's link annotations excluded"
+}

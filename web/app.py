@@ -97,7 +97,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.0.8", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.0.9", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
@@ -803,6 +803,8 @@ def api_report_annotated(job_id: str):
         headers={
             "X-Annotated": str(stats["annotated"]),
             "X-Unmapped": str(stats["unmapped"]),
+            "X-Citations-Annotated": str(stats.get("citations_annotated", 0)),
+            "X-Citations-Unmapped": str(stats.get("citations_unmapped", 0)),
             "Cache-Control": "no-store",
         },
     )

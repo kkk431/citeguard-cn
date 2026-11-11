@@ -125,3 +125,21 @@ def test_library_suggest_ranks_and_marks_existing(isolated_project, monkeypatch)
     assert data["candidates"][0]["sim"] >= data["candidates"][1]["sim"]
     assert data["candidates"][0]["already"] is False
     assert client.get("/api/library/suggest?title=abc").status_code == 400
+
+def test_annotate_pins_in_text_citations(tmp_path):
+    src = _pdf(tmp_path, [["intro page"], ["body [1] cites here"]])
+    report = {
+        "references": [],
+        "citations": {
+            "items": [
+                {"key": "[1]", "ref_numbers": [1], "sentence": "body [1] cites here", "page": 2},
+                {"key": "[7]", "ref_numbers": [7], "sentence": "not located", "page": 0},
+            ]
+        },
+    }
+    out = tmp_path / "out.pdf"
+    stats = annotate_pdf(src, report, out)
+    assert stats["citations_annotated"] == 1
+    assert stats["citations_unmapped"] == 1
+    reader = PdfReader(str(out))
+    assert len(reader.pages[1].get("/Annots") or []) == 1

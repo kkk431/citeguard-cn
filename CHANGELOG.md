@@ -2,6 +2,14 @@
 
 All notable changes to CiteGuard-CN. Earlier pre-1.0 history is condensed.
 
+## [1.0.9] - 2026-11-11
+
+### Added
+- Annotated PDFs now also pin in-text citations to the page they occur on
+  (left margin, up to 4 per page / 40 total), using the page numbers from 1.0.8.
+  Citations without a located page are reported as `citations_unmapped`, never
+  placed on a guessed page.
+
 ## [1.0.8] - 2026-11-11
 
 ### Added
