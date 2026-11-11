@@ -393,9 +393,9 @@ label.field span{color:var(--ink-2)}
 /* ---------- 浅色主题（保留原编辑风格，作为可切换皮肤） ---------- */
 body.theme-light{
   --paper:#f5f4ef; --surface:#ffffff; --surface-2:#eef1ea; --surface-3:#e7ece4;
-  --ink:#101f1b; --ink-2:#435a54; --muted:#7d938e;
+  --ink:#101f1b; --ink-2:#435a54; --muted:#5f726d;
   --line:rgba(18,80,66,.13); --line-strong:rgba(18,80,66,.3);
-  --accent:#0e9f7f; --accent-ink:#ffffff; --accent-soft:rgba(14,159,127,.1);
+  --accent:#08785f; --accent-ink:#ffffff; --accent-soft:rgba(8,120,95,.1);
   --ok:#137a55; --ok-soft:#e3f3ec; --warn:#a46508; --warn-soft:#fbf0dd;
   --bad:#b03127; --bad-soft:#f9e7e4; --unknown:#61736e; --unknown-soft:#eceeea;
 }

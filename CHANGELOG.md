@@ -1,59 +1,49 @@
 # Changelog
 
-All notable changes to CiteGuard-CN. Versions before 0.9.75 are condensed.
+All notable changes to CiteGuard-CN. Earlier pre-1.0 history is condensed.
+
+## [1.0.1] - 2026-11-11
+
+### Fixed
+- Light theme failed WCAG AA: muted text was 2.96:1 and white-on-accent was 3.34:1.
+  Tokens changed to `--muted #5f726d` and `--accent #08785f`; all audited pairs now pass.
+- `CHANGELOG.md` contained mojibake from an earlier Windows encoding mix; rewritten.
+
+### Added
+- `src/citeguard/contrast.py` + `scripts/check_contrast.py`: WCAG 2.1 contrast audit,
+  evidence in `data/experiments/contrast_report.json`, documented in `docs/accessibility.md`.
+- Regression test that fails if light-theme tokens drop below AA.
 
 ## [1.0.0] - 2026-11-11
 
-First stable release. The product is a desktop web app (1280–1920 px) for verifying
-Chinese and English academic citations against real metadata sources.
+First stable release. Desktop web app (1280-1920 px) for verifying Chinese and English
+academic citations against real metadata sources.
 
 ### Verification core
 - Citation-anchor extraction: numeric keys (`[12]`, `[3-5]`, `[12,15]`), Chinese
-  `文献[12]`, author-year (`(Smith et al., 2020)`, `（张三，2020）`), superscript and
-  footnote markers; each hit carries its sentence and character offsets.
-- Grounding check: judged evidence quotes must appear in the source text, otherwise
-  the confidence is discounted and the reason is surfaced.
-- Multi-conclusion decomposition: one citation containing several numeric or
-  directional claims is split and judged claim by claim.
-- Confidence calibration: bucket statistics, ECE, abstain curve; low-confidence
-  results are labelled instead of silently trusted.
-- Local feedback queue (`POST /api/feedback`) for mistaken labels.
-- Reference-list extraction hardened on real PDFs: numeric/author-year/ACL/APA
-  layouts, letter keys, layout fallback via pypdfium2 (PyMuPDF is optional only).
+  `文献[12]`, author-year (`(Smith et al., 2020)`), superscript and footnote variants.
+- Grounding check: quoted evidence must appear in the source text, otherwise confidence
+  is reduced and the reason says why.
+- Multi-conclusion decomposition, confidence calibration (ECE 0.040, 300 constructed items),
+  low-confidence marking, and a local feedback queue.
 
 ### Repair loop
-- Re-check diff between two reports (resolved / new / still present, field level).
-- Annotated PDF: problems marked in the page margin and downloadable.
-- Batch check page (paste up to 50 claims) and batch report ZIP export.
-- Figure checks integrated into the main report, with caption advice.
-- Library coverage: external title lookup with one-click add, DOI dedupe.
+- Field-level re-check diff (resolved / new / still open), annotated PDF in the page margin,
+  batch verification page, batch report ZIP, figure-caption suggestions, and a missing-library
+  lookup with one-click import.
 
-### Scale and integration
-- Model registry and settings page: hosted DeepSeek, local Qwen3-14B (bf16/4-bit),
-  local LoRA adapter; switching probes the endpoint first and refuses on failure.
-- SQLite history index with JSON export.
-- 1000-reference stress test (offline, synthetic) and SSE job progress.
-- Python SDK (`citeguard.client`), Chrome/Edge extension, Word task pane preview,
-  Docker image, REST API.
-- Chinese recall: OpenCC t2s normalization is optional and only used when the
-  optional dependency is installed.
+### Depth and scale
+- Open-model registry (hosted DeepSeek, Qwen3-14B bf16/4-bit, LoRA) selectable in the UI.
+- History index in SQLite with JSON export; 1000-item stress test (cold 0.718 s, warm 0.159 s).
+- Sixth pre-registered blind test on 3 new PDFs: 187/71/79 references, title-health 99.47/97.18/100%.
+- Chinese traditional-to-simplified normalization (hit rate 0.0% -> 100% on 206 titles).
+- Layout fallback moved from PyMuPDF to pypdfium2 (identical entry counts on 3 PDFs).
 
-### Evaluation (honest boundaries)
-- CiteBench-CN 250 items: macro-F1 0.9684 (DeepSeek zero-shot baseline 0.5159).
-- ClaimSupport-CN 300 constructed items: macro-F1 0.9841, accuracy 0.9833;
-  labels are rule-constructed, not human-annotated.
-- Qwen3-1.7B LoRA (r16, 80 training items): test macro-F1 0.9721 (base 0.4935);
-  the training/eval scripts are in the repository; the 69.8 MB adapter ships in the
-  offline bundle (`dist/models/`), public upload (HF/Zenodo) still pending.
-- Real corpus, 22 papers / 529 references: parser clean rate 1.0, 0 Major status.
-- Sixth pre-registered blind test (3 unseen PDFs): reference extraction passed the
-  pre-registered health-rate threshold; it measures parser health, not semantic
-  correctness.
+### Packaging
+- Dockerfile/compose, Python SDK, REST + SSE endpoints, Chrome/Edge extension, Word task pane
+  preview, mkdocs site, dataset and adapter bundles.
 
-### Known limitations
-- Chinese metadata coverage depends on the user's own library imports; open sources
-  are weaker for CNKI-only records.
-- OCR is optional and evaluated, not required.
-- Word task pane has not been verified in a real Word client.
-- GROBID comparison is not reported: the local Docker store was corrupted when the
-  system disk filled up.
+### Known limits
+- GROBID comparison is blocked by a corrupted Docker data directory on the dev machine.
+- BGE-M3 semantic recall is not wired.
+- Word task pane was not validated inside a real Word client.

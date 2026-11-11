@@ -64,3 +64,5 @@
 - E32 发布清单：v1.0.0 tag、CHANGELOG、mkdocs 严格构建通过（`site/index.html`）、数据集发布包 sha256 见 MANIFEST。
 - E33 v1.0 发布物料：`dist/CiteGuard-CN_LoRA-Qwen3-1.7B_v1.0.zip`（含 MANIFEST sha256）、`docker/docker-compose.yml`、文档站构建 `site/`。
 - E34 键盘导航与无障碍：`docs/evidence/shots/phase-24-keyboard-nav-1.0.0.png`（j 键移动焦点，`.ref.kb-active` 可见）；报告 verdict 加 `aria-live`；589 tests。
+
+| E35 | 浅色主题 WCAG AA 对比度 | 1.0.1 | `data/experiments/contrast_report.json` | `PYTHONPATH=src python scripts/check_contrast.py` | 20 组配色全部通过 |

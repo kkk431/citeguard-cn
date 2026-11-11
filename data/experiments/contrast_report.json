@@ -1,0 +1,165 @@
+{
+  "rows": [
+    {
+      "theme": "dark",
+      "fg": "ink",
+      "bg": "paper",
+      "ratio": 17.68,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "theme": "dark",
+      "fg": "ink-2",
+      "bg": "paper",
+      "ratio": 10.59,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "theme": "dark",
+      "fg": "muted",
+      "bg": "paper",
+      "ratio": 5.58,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "theme": "dark",
+      "fg": "accent",
+      "bg": "paper",
+      "ratio": 12.3,
+      "required": 3.0,
+      "pass": true
+    },
+    {
+      "theme": "dark",
+      "fg": "accent-ink",
+      "bg": "accent",
+      "ratio": 11.84,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "theme": "dark",
+      "fg": "bad",
+      "bg": "paper",
+      "ratio": 7.71,
+      "required": 3.0,
+      "pass": true
+    },
+    {
+      "theme": "dark",
+      "fg": "warn",
+      "bg": "paper",
+      "ratio": 12.75,
+      "required": 3.0,
+      "pass": true
+    },
+    {
+      "theme": "dark",
+      "fg": "ok",
+      "bg": "paper",
+      "ratio": 12.48,
+      "required": 3.0,
+      "pass": true
+    },
+    {
+      "theme": "dark",
+      "fg": "ink",
+      "bg": "surface",
+      "ratio": 16.54,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "theme": "dark",
+      "fg": "ink-2",
+      "bg": "surface",
+      "ratio": 9.9,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "theme": "light",
+      "fg": "ink",
+      "bg": "paper",
+      "ratio": 15.45,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "theme": "light",
+      "fg": "ink-2",
+      "bg": "paper",
+      "ratio": 6.74,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "theme": "light",
+      "fg": "muted",
+      "bg": "paper",
+      "ratio": 4.63,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "theme": "light",
+      "fg": "accent",
+      "bg": "paper",
+      "ratio": 4.94,
+      "required": 3.0,
+      "pass": true
+    },
+    {
+      "theme": "light",
+      "fg": "accent-ink",
+      "bg": "accent",
+      "ratio": 5.44,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "theme": "light",
+      "fg": "bad",
+      "bg": "paper",
+      "ratio": 5.75,
+      "required": 3.0,
+      "pass": true
+    },
+    {
+      "theme": "light",
+      "fg": "warn",
+      "bg": "paper",
+      "ratio": 4.29,
+      "required": 3.0,
+      "pass": true
+    },
+    {
+      "theme": "light",
+      "fg": "ok",
+      "bg": "paper",
+      "ratio": 4.84,
+      "required": 3.0,
+      "pass": true
+    },
+    {
+      "theme": "light",
+      "fg": "ink",
+      "bg": "surface",
+      "ratio": 17.02,
+      "required": 4.5,
+      "pass": true
+    },
+    {
+      "theme": "light",
+      "fg": "ink-2",
+      "bg": "surface",
+      "ratio": 7.42,
+      "required": 4.5,
+      "pass": true
+    }
+  ],
+  "failed": []
+}
