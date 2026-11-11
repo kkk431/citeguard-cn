@@ -1,7 +1,5 @@
-# Optional layout fallback — NOT installed by requirements.txt or the Docker image.
-#
-# PyMuPDF is AGPL-3.0. Installing this file makes the resulting environment
-# subject to AGPL-3.0 obligations. Only opt in locally if you need the
-# hanging-indent layout fallback; the core app degrades gracefully without it.
-# See docs/licenses.md.
+# Optional PyMuPDF extras (AGPL-3.0), NOT installed by requirements.txt or Docker.
+# The layout fallback no longer needs it (pypdfium2 is core). It is only used
+# by legacy fast-text extraction and figure-cropping scripts; the app degrades
+# gracefully when it is absent. See docs/licenses.md.
 pymupdf>=1.24

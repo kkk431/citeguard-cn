@@ -11,3 +11,4 @@ python-multipart>=0.0.9
 # Optional layout fallback (AGPL-3.0, opt-in only):
 #   pip install -r requirements-optional-layout.txt
 # See docs/licenses.md for the license rationale.
+pypdfium2>=4.30

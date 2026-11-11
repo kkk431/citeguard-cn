@@ -29,7 +29,7 @@
 | rapidocr-onnxruntime | requirements-ocr.txt | Apache-2.0 | 扫描件 OCR；不装也能用，只是不自动识别图片版 PDF |
 | pypdfium2 | requirements-ocr.txt | Apache-2.0 / BSD-3-Clause | 页面渲染（图表定位、批注 PDF） |
 | numpy | requirements-ocr.txt | BSD-3-Clause | OCR 图像数组 |
-| **PyMuPDF (fitz)** | requirements-optional-layout.txt | **AGPL-3.0** | 仅“版面回退”与紧排文本备用解析；核心与 Docker **不安装**，缺失时自动退回 pdfplumber/pypdf |
+| **PyMuPDF (fitz)** | requirements-optional-layout.txt | **AGPL-3.0** | 仅遗留快速文本路径与图表裁剪脚本；版面回退已改用 pypdfium2，核心与 Docker **不安装** |
 
 ### 关于 PyMuPDF（重要）
 
@@ -40,7 +40,7 @@ PyMuPDF 是 AGPL-3.0。把它随 Docker 镜像/发行包分发，会触发 AGPL 
 - 从 `requirements.txt` 移除，`Dockerfile` 因此不再安装；
 - 代码中均为**函数内延迟导入**，缺失时 `_pdf_pymupdf()` / `extract_reference_entries()` 返回空，自动使用 pdfplumber / 悬挂缩进；
 - 需要更强版面能力时，用户可自行 `pip install -r requirements-optional-layout.txt`，此时 PyMuPDF 由用户本地安装、不随本项目分发；
-- Phase 3 计划用 `pypdfium2` 重写 `refs_layout`，彻底去掉 PyMuPDF。
+- Phase 3 已完成：`refs_layout` 改用 pypdfium2，核心版面回退不再依赖 PyMuPDF（三篇盲测 PDF 条数 73/92/27 完全一致）。
 
 ## 评测 / 训练 / 脚本（不随运行时打包）
 

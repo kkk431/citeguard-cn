@@ -56,3 +56,5 @@
 | E28 | 1000 条引用离线压测：解析 0.118 s / 冷 0.718 s / 热 0.159 s / 双并发 0.329 s / 峰值 5.2 MB | data/experiments/stress_1000.json；命令见 docs/performance.md | 0.9.96 | 2026-11-11 |
 
 | E29 | 中文标题繁简归一 | 206 条真实中文题名；繁体标题检出率 0.0% → 1.0%，平均相似度 0.6191 → 1.0 | `data/experiments/title_norm_cn.json`；`PYTHONPATH=src python scripts/eval_title_norm.py` | optional OpenCC；只改进匹配层，不改变题录来源 |
+
+| E30 | 版面回退去 PyMuPDF | 三篇盲测 PDF 条目数 pypdfium2 与旧 PyMuPDF 完全一致（73/92/27） | `data/experiments/refs_layout_pdfium_parity.json`；`python -c "..."` 对比脚本 | 只测条目数，不测语义；现有解析回归 529/clean 1.0 另行保证 |

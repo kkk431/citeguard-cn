@@ -1,0 +1,10 @@
+{
+  "pdfs": {
+    "qwen3": 73,
+    "deepseek_r1": 92,
+    "mixtral": 27
+  },
+  "old_backend": "PyMuPDF 1.28 (fitz line boxes)",
+  "new_backend": "pypdfium2 text rects grouped into lines",
+  "note": "identical entry counts on out/blind_test5 PDFs; layouts were used by the blind-5 runs"
+}
