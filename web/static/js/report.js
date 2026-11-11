@@ -1060,6 +1060,20 @@
       drawerBody = node;
       drawerCard = card;
     }
+    const cited = item.cited_in || [];
+    const cites = document.createElement("div");
+    cites.className = "drawer-cites";
+    if (cited.length) {
+      cites.innerHTML = '<div class="mono-sm">正文引用 ' + cited.length + " 处</div>" +
+        cited.map(function (c) {
+          const page = c.page ? "第 " + c.page + " 页" : "页码未定位";
+          return '<div class="drawer-cite"><span class="dc-meta">' + esc(c.key || "") + " · " + page + "</span>" +
+            '<span class="dc-sentence">' + esc(c.sentence || "") + "</span></div>";
+        }).join("");
+    } else {
+      cites.innerHTML = '<div class="inline-note">正文里没有找到对这条的引用（编号 ' + (item.index || "?") + "）。</div>";
+    }
+    body.appendChild(cites);
     card.classList.add("open");
     drawer.hidden = false;
     if (backdrop) backdrop.hidden = false;

@@ -85,6 +85,30 @@ def _citations_payload(body: str, references=(), limit: int = 200, pdf_path: str
     }
 
 
+def _attach_cited_in(report: dict) -> None:
+    """给每条参考文献挂上正文里的引用位置，供报告/抽屉双向跳转。"""
+    citations = ((report.get("citations") or {}).get("items") or [])
+    refs = report.get("references") or []
+    hits: dict[int, list[dict]] = {}
+    for c in citations:
+        for n in c.get("ref_numbers") or []:
+            if not isinstance(n, int) or n < 1 or n > len(refs):
+                continue
+            bucket = hits.setdefault(n, [])
+            if len(bucket) >= 5:
+                continue
+            sentence = (c.get("sentence") or "").strip()
+            if sentence and any(x["sentence"] == sentence for x in bucket):
+                continue
+            bucket.append({
+                "key": c.get("key") or "",
+                "page": c.get("page") or 0,
+                "sentence": sentence[:160],
+            })
+    for i, ref in enumerate(refs, 1):
+        ref["cited_in"] = hits.get(i, [])
+
+
 def _judge_run_config() -> dict:
     """Record which judge endpoint actually generated this report."""
     try:
@@ -212,6 +236,7 @@ def analyze_text(
     report["stats"]["library_entries"] = len(library) if library is not None else 0
     report["stats"]["library_hits"] = local_hits
     report["citations"] = _citations_payload(body, refs, pdf_path=pdf_path)
+    _attach_cited_in(report)
     from .report_charts import build_charts
 
     report["charts"] = build_charts(report)

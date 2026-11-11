@@ -783,3 +783,8 @@ body.theme-light .chart-bar{background:rgba(15,40,35,.10)}
 .cov-num { display: flex; align-items: baseline; gap: 8px; margin-top: 6px; }
 .cov-num b { font-size: 30px; font-family: var(--font-mono); color: var(--accent); }
 .cov-num span { font-size: 82%; color: var(--muted); }
+
+.drawer-cites { margin: 14px 0 2px; padding-top: 12px; border-top: 1px solid var(--line); }
+.drawer-cite { margin-top: 9px; }
+.drawer-cite .dc-meta { display: block; font-size: 12px; color: var(--muted); letter-spacing: .04em; }
+.drawer-cite .dc-sentence { display: block; font-size: 14px; line-height: 1.65; color: var(--text); }

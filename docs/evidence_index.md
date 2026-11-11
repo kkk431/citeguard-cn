@@ -77,3 +77,5 @@
 | E43 | 批注 PDF 标正文引注 | 1.0.9 | `tests/test_annotate.py::test_annotate_pins_in_text_citations` + 真实任务 `annotated` 统计 | `pytest tests/test_annotate.py -q`；下载 `report.annotated.pdf` 数 `/Annots` | 10 页真实论文：17 处可定位引注贴左页边，1 处未定位如实计数 |
 
 | E44 | 图表引用抽取（22 篇真实语料 185 处 / 101 标签） | `data/experiments/citation_captions.json`；`python scripts/eval_caption_mentions.py`（规则） | 22 篇 / 12 篇有提及；规则匹配、下界 | 报告页引注面板 `docs/evidence/shots/phase-34-caption-mentions-1.0.10.png` |
+
+| E45 | 条目↔正文双向定位：15/15 条命中，抽屉显示引用句与页码 | 报告 JSON `references[*].cited_in`；`tests/test_cited_in.py` | 真实任务 77136f8db5cc；15 条均有正文引用（每页最多 5 处） | `docs/evidence/shots/phase-35-reference-cited-in-1.0.11.png` |
