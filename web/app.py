@@ -1719,6 +1719,24 @@ async def support_check(request: Request):
     }
 
 
+@app.post("/api/feedback")
+async def post_feedback(request: Request):
+    """判错反馈：本地 JSONL 队列，不上传。"""
+    try:
+        payload = await request.json()
+    except Exception:
+        raise HTTPException(status_code=400, detail="请求体必须是 JSON")
+    if not isinstance(payload, dict):
+        raise HTTPException(status_code=400, detail="请求体必须是对象")
+    from citeguard.feedback import record_feedback, summarize_feedback
+
+    try:
+        item = record_feedback(payload)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
+    return {"ok": True, "item": item, "queue": summarize_feedback([item])}
+
+
 @app.get("/api/health")
 def health():
     return {

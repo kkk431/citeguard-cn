@@ -23,3 +23,4 @@ data/experiments/scifact_raw/
 report/
 .env.wanfang
 .env.*.local
+data/feedback/

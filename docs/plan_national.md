@@ -27,7 +27,7 @@
 - [x] 接地校验：judge 证据原句必须可在证据中找到（忽略标点/空白），找不到则置信度 ×0.6 并写 `grounding.quote_found=false`
 - [ ] 多结论拆解：数字 / 方向 / 比较分开判
 - [~] 置信度校准：分桶 + ECE + 弃权曲线已完成（`docs/calibration.md`）；产品默认阈值/弃权交互待接入
-- [ ] 判错反馈：本地 JSONL 队列 + 导出（匿名、带版本）
+- [x] 判错反馈：本地 JSONL 队列 + 导出（匿名、带版本）——`src/citeguard/feedback.py` + `POST /api/feedback`；报告页按钮待接
 - [ ] 报告三张真图：结论分布、支持度四档、GB/T 问题 Top-N
 - [ ] 覆盖率/准确率：30 篇语料抽取覆盖 ≥70%，人工抽 50 条准确 ≥85%
 - [ ] 截图归档：`docs/evidence/shots/phase1-*.png`
