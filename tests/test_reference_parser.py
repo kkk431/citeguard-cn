@@ -568,3 +568,47 @@ def test_long_author_list_title_split():
     ref = parse_reference_list(entry)[0]
     assert ref.title.startswith("A very long author list")
     assert ref.year == 2024
+
+def test_author_prefix_with_et_al_is_stripped():
+    from citeguard.reference_parser import parse_reference_list
+
+    entry = (
+        "R. Anil, A. M. Dai, O. Firat, M. Johnson, D. Lepikhin, A. Passos, "
+        "S. Shakeri, E. Taropa, P. Bailey, Z. Chen, et al. Palm 2 technical "
+        "report. arXiv preprint arXiv:2305.10403, 2023."
+    )
+    ref = parse_reference_list(entry)[0]
+    assert ref.title.startswith("Palm 2 technical report")
+    assert not ref.title.startswith("M. Dai")
+
+
+def test_merged_next_entry_authors_are_cut():
+    from citeguard.reference_parser import parse_reference_list
+
+    entry = (
+        "A. Talmor, J. Herzig, N. Lourie, and J. Berant. Commonsenseqa: A "
+        "question answering challenge targeting commonsense knowledge, "
+        "H. Touvron, T. Lavril, G. Izacard, X. Martinet, M.- A. Lachaux, "
+        "T. Lacroix, B. Roziere, N. Goyal, E. Hambro, F. Azhar, A. Rodriguez, "
+        "A. Joulin, E. Grave, and G. Lample. Llama: Open and efficient "
+        "foundation language models, 2023a"
+    )
+    ref = parse_reference_list(entry)[0]
+    assert ref.title == (
+        "Commonsenseqa: A question answering challenge targeting commonsense knowledge"
+    )
+
+
+def test_appendix_prose_after_year_is_cut():
+    from citeguard.reference_parser import parse_reference_list
+
+    entry = (
+        "A. Zou, L. Phan, S. Chen, J. Campbell, P. Guo, R. Ren, A. Pan. "
+        "Representation engineering: A top-down approach to ai transparency, "
+        "2023. Gemma 1.0 IT results The core of the paper presents the results "
+        "of the Gemma 1.1 IT models. We kept the results of the previous "
+        "models for comparison in this appendix."
+    )
+    ref = parse_reference_list(entry)[0]
+    assert ref.title.endswith("transparency, 2023.")
+    assert len(ref.title) < 120

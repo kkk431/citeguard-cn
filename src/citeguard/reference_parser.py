@@ -1460,6 +1460,22 @@ def _strip_author_prefix(ref: Reference) -> None:
     title = (ref.title or "").strip()
     if not title:
         return
+    # Run the merged-tail / appendix-tail checks first: the ", and " branch
+    # below returns early and would otherwise keep the appended text.
+    m3_first = re.search(
+        r",\s+(?:[A-Z]\.\s*[A-Z][A-Za-z\u00c0-\u024f'\u2019-]+,\s*){2,}",
+        title,
+    )
+    if m3_first and m3_first.start() >= 15 and len(title[: m3_first.start()].split()) >= 4:
+        ref.title = title[: m3_first.start()].rstrip(",; ")
+        return
+    m4_first = re.search(
+        r"((?:19|20)\d{2})\.\s+[A-Z].{0,80}?\b(?:results|Results)\b",
+        title,
+    )
+    if m4_first and m4_first.start() >= 40:
+        ref.title = title[: m4_first.start()] + m4_first.group(1) + "."
+        return
     if ", and " in title[:200]:
         pos = title.find(", and ")
         m = re.search(r"\.\s+", title[pos:])
@@ -1476,6 +1492,32 @@ def _strip_author_prefix(ref: Reference) -> None:
     )
     if m2 and len(m2.group(2).split()) >= 4 and not title.startswith(("Figure", "Table")):
         ref.title = m2.group(2)
+        return
+    # "M. Dai, O. Firat, ..., Z. Chen, et al. Palm 2 technical report" — the
+    # whole leading author run survived and must be cut through "et al.".
+    m0 = re.match(
+        r"^((?:[A-Z]\.\s*[A-Z][A-Za-z\u00c0-\u024f'\u2019-]+,?\s*){2,}.*?\bet al\.)\s+([A-Z].+)$",
+        title,
+    )
+    if m0 and len(m0.group(2).split()) >= 4:
+        ref.title = m0.group(2)
+        return
+    # The next entry's author list was appended to this title:
+    # "... commonsense knowledge, H. Touvron, T. Lavril, ...".
+    m3 = re.search(
+        r",\s+(?:[A-Z]\.\s*[A-Z][A-Za-z\u00c0-\u024f'\u2019-]+,\s*){2,}",
+        title,
+    )
+    if m3 and m3.start() >= 15 and len(title[: m3.start()].split()) >= 4:
+        ref.title = title[: m3.start()].rstrip(",; ")
+        return
+    # Appendix prose appended after the year: "..., 2023. Gemma 1.0 IT results The ...".
+    m4 = re.search(
+        r"((?:19|20)\d{2})\.\s+[A-Z][^.]{0,70}?\b(?:results|Results)\b",
+        title,
+    )
+    if m4 and m4.start() >= 40:
+        ref.title = title[: m4.start()] + m4.group(1) + "."
 
 
 def parse_reference_list(refs_text: str) -> list[Reference]:
@@ -1488,8 +1530,11 @@ def parse_reference_list(refs_text: str) -> list[Reference]:
         if _is_date_only_ref(ref) or _is_url_fragment(ref):
             continue
         refs.append(ref)
-    for ref in refs:
-        _strip_author_prefix(ref)
+    # Two passes: the first may cut a merged tail and leave a stray leading
+    # surname, the second removes it.
+    for _ in range(2):
+        for ref in refs:
+            _strip_author_prefix(ref)
     return refs
 
 
