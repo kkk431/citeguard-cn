@@ -69,3 +69,4 @@
 
 | E36 | 前端键盘/可访问性审计 | 1.0.2 | `data/experiments/frontend_audit.json` + `docs/evidence/shots/phase-26-keyboard-a11y-1.0.2.png` | `PYTHONPATH=src python scripts/audit_frontend.py` | 8 项全过 |
 | E37 | 正文引注列表（报告总览） | 1.0.3 | `docs/evidence/shots/phase-27-citation-list-1.0.3.png` | `pytest tests/test_web.py -q` | 真实任务 18 处引注 / 覆盖 18 句，前 6 条渲染 |
+| E38 | 正文引注 → 条目跳转 | 1.0.4 | `docs/evidence/shots/phase-28-citation-jump-1.0.4.png` | Playwright 点击 `.cite-jump` 后断言 `aria-selected=true`、抽屉 `open` 且序号为 [1] | 真实任务 18 处引注可跳转 |

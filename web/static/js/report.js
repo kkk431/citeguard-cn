@@ -373,6 +373,21 @@
     }).join("");
   }
 
+  function jumpToRef(n) {
+    const data = window.__reportData || {};
+    const refs = (data.references || []).slice().sort(function (a, b) { return (a.index || 0) - (b.index || 0); });
+    const idx = refs.findIndex(function (r) { return Number(r.index) === Number(n); });
+    if (idx < 0) return;
+    selectSummaryTab("refs");
+    state.page = Math.floor(idx / PAGE_SIZE) + 1;
+    apply(data);
+    setTimeout(function () {
+      const card = document.querySelector('#ref-list .ref[data-pos="' + idx + '"]');
+      if (card) card.scrollIntoView({ block: "center" });
+      openRefDrawer(idx);
+    }, 80);
+  }
+
   function renderCitations(data) {
     const panel = document.getElementById("citation-panel");
     const list = document.getElementById("citation-list");
@@ -387,12 +402,22 @@
     list.innerHTML = items.map(function (it) {
       const nums = (it.ref_numbers || []).slice(0, 4);
       let tail = "";
-      if (nums.length) tail = "→ 第 " + nums.join("、") + " 条";
-      else if (it.style === "author_year" || it.style === "cn_author_year") tail = "作者-年";
-      return "<li><code>" + esc(it.key || "") + "</code><span>" + esc((it.sentence || "").slice(0, 100)) + "</span>" + (tail ? "<em>" + esc(tail) + "</em>" : "") + "</li>";
+      if (nums.length) {
+        tail = nums.map(function (n) { return '<button class="cite-jump" type="button" data-ref-jump="' + n + '">第 ' + n + ' 条</button>'; }).join("");
+      } else if (it.style === "author_year" || it.style === "cn_author_year") {
+        tail = "<em>作者-年</em>";
+      }
+      return "<li><code>" + esc(it.key || "") + "</code><span>" + esc((it.sentence || "").slice(0, 100)) + "</span>" + (tail ? "<span class=\"cite-tail\">" + tail + "</span>" : "") + "</li>";
     }).join("");
     const note = document.getElementById("citation-note");
     if (note) note.textContent = c.truncated ? "只列出前 6 处；报告 JSON 含完整列表。" : "";
+    if (!list.__jumpBound) {
+      list.__jumpBound = true;
+      list.addEventListener("click", function (e) {
+        const btn = e.target && e.target.closest ? e.target.closest("[data-ref-jump]") : null;
+        if (btn) jumpToRef(btn.getAttribute("data-ref-jump"));
+      });
+    }
   }
 
   function render(data) {

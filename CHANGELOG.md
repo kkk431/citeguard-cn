@@ -2,6 +2,14 @@
 
 All notable changes to CiteGuard-CN. Earlier pre-1.0 history is condensed.
 
+## [1.0.4] - 2026-11-11
+
+### Added
+- Report citations are now actionable: clicking “第 N 条” switches to the
+  “审稿条目” tab, pages to the right slice and opens that entry’s evidence
+  drawer, so a citation and its reference take one click to compare.
+- Evidence screenshot `docs/evidence/shots/phase-28-citation-jump-1.0.4.png`.
+
 ## [1.0.3] - 2026-11-11
 
 ### Added

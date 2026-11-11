@@ -773,3 +773,9 @@ body.theme-light .chart-bar{background:rgba(15,40,35,.10)}
 .citation-list code { font-size: 72%; color: var(--accent); white-space: nowrap; }
 .citation-list span { font-size: 88%; color: var(--text); }
 .citation-list em { font-style: normal; font-size: 76%; color: var(--muted); white-space: nowrap; }
+
+/* 正文引注 → 条目跳转 */
+.cite-tail { display: inline-flex; gap: 6px; flex-wrap: wrap; }
+.cite-jump { font: inherit; font-size: 76%; color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 999px; padding: 2px 9px; cursor: pointer; }
+.cite-jump:hover { background: color-mix(in srgb, var(--accent) 22%, transparent); }
