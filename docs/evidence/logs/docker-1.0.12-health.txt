@@ -1,0 +1,24 @@
+﻿Docker reset + CiteGuard-CN 1.0.12 image verification
+date: 2026-11-12 (Asia/Shanghai)
+host: Windows, Docker Desktop engine 29.9.2
+
+problem
+  docker run hello-world -> containerd blob sha256:... input/output error
+  docker_data.vhdx = 10,964,959,232 bytes (corrupt content store)
+
+reset (user authorized "可以清")
+  docker desktop stop
+  wsl --shutdown
+  Remove-Item %LOCALAPPDATA%\Docker\wsl\disk\docker_data.vhdx
+  start Docker Desktop
+  free C: 4.8 GB -> 14.3 GB
+
+verification
+  docker run --rm hello-world -> "Hello from Docker!" exit 0
+  docker pull python:3.12-slim -> ok
+  docker build -f docker/Dockerfile -t citeguard-cn:1.0.12 . -> DONE
+  image size: 414 MB
+  docker run -d --rm -p 18081:8000 -e CITEGUARD_OFFLINE=1 citeguard-cn:1.0.12
+  GET http://127.0.0.1:18081/api/health
+  -> {"ok":true,"version":"1.0.12","offline":true,"supported":[".doc",".docx",".md",".pdf",".txt"]}
+  container stopped after check

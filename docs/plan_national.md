@@ -59,7 +59,7 @@
 - [x] v1.0.0 + CHANGELOG（1.0.0 已发布，tag `v1.0.0`）
 - [x] 文档站（mkdocs 配置 + 本地构建通过）
 - [~] HuggingFace 数据集 + adapter；Zenodo DOI（可选）——数据集包与 adapter 包均已备好（`dist/CiteGuard-CN_ClaimSupport-CN-300_v1.0.zip`、`dist/CiteGuard-CN_LoRA-Qwen3-1.7B_v1.0.zip`，含 MANIFEST），上传缺 token
-- [~] Docker 镜像发布说明——镜像 0.9.85 曾验证；1.0.0 构建被本机 containerd 元数据损坏阻塞（磁盘写满后 `blob ... input/output error`），需重建 Docker 数据目录
+- [x] Docker 镜像发布说明：2026-11-12 重置损坏的 containerd 数据目录后，`citeguard-cn:1.0.12` 构建成功（414 MB），容器 `/api/health` 返回 `1.0.12/offline=true`（E49，日志 `docs/evidence/logs/docker-1.0.12-health.txt`）
 - [x] README / 架构 / 评测 / 许可证 / 复现命令同步（README 已更新到 1.0.12 / 611 tests；`reproduce.sh`、`docs/` 同步）
 - [x] 截图：`phase4-v1.0-docs-site-1.0.0.png`（文档站首页，E33）
 

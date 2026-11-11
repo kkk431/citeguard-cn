@@ -91,3 +91,5 @@
 | E48 | 全站可访问性/键盘巡检 50/50（11 页 + 报告页） | `scripts/audit_frontend.py http://127.0.0.1:8014`；`data/experiments/frontend_audit.json` | 11 页 × 4 项 + 6 项键盘 = 50 | `docs/evidence/shots/phase-38-a11y-pages-1.0.12.png` |
 
 自检：`python scripts/audit_evidence.py`（见 [evidence_audit.md](evidence_audit.md)）。
+
+- E49 Docker 重置与 1.0.12 镜像验证：`docs/evidence/logs/docker-1.0.12-health.txt`（构建 DONE、镜像 414 MB、容器 health 200 / version 1.0.12 / offline=true）。

@@ -124,6 +124,6 @@ academic citations against real metadata sources.
   preview, mkdocs site, dataset and adapter bundles.
 
 ### Known limits
-- GROBID comparison is blocked by a corrupted Docker data directory on the dev machine.
+- GROBID comparison was blocked by a corrupted Docker data directory on the dev machine; the directory was reset on 2026-11-12 and `citeguard-cn:1.0.12` now builds and passes `/api/health` (see E49).
 - BGE-M3 semantic recall is not wired.
 - Word task pane was not validated inside a real Word client.
