@@ -158,3 +158,36 @@ def test_find_page_normalizes_whitespace():
 
     assert find_page("Alpha  Beta\nGamma", ["x", "alpha beta gamma"]) == 2
     assert find_page("nothing here", ["x"]) == 0
+
+
+def test_caption_mentions_cjk():
+    from citeguard.citation_anchor import extract_caption_mentions
+    items = extract_caption_mentions("如图 3 所示，模型在表 2 中给出结果；图 3 再次出现。")
+    assert [i["label"] for i in items] == ["图 3", "表 2"]
+    assert items[0]["count"] == 2
+    assert "图 3" in items[0]["sentence"]
+
+
+def test_caption_mentions_english():
+    from citeguard.citation_anchor import extract_caption_mentions
+    items = extract_caption_mentions("As shown in Fig. 2 and Table 3.")
+    assert {i["label"] for i in items} == {"Figure 2", "Table 3"}
+
+
+def test_citations_payload_includes_captions():
+    from citeguard.pipeline import _citations_payload
+    payload = _citations_payload("如图 1 所示，见文献[2]。", [object()], limit=5)
+    assert payload["captions"]["unique"] == 1
+    assert payload["captions"]["items"][0]["label"] == "图 1"
+
+
+def test_caption_mentions_ignores_word_table():
+    from citeguard.citation_anchor import extract_caption_mentions
+    items = extract_caption_mentions("作者共发表 1~2 篇相关论文，代表 3 种观点。")
+    assert items == []
+
+
+def test_caption_mentions_numbered_subsection_not_caption():
+    from citeguard.citation_anchor import extract_caption_mentions
+    items = extract_caption_mentions("图 3.3 作者与合作分布")
+    assert items == []

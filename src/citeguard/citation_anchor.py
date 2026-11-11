@@ -40,6 +40,9 @@ _CN_AUTHOR_YEAR = re.compile(
 _CN_AUTHOR_YEAR_BARE = re.compile(
     r"([\u4e00-\u9fff]{2,4})(?:等)?[（(]((?:19|20)\d{2})[）)]"
 )
+# 图表引用：图 3 / 表 2 / Fig. 3 / Table 2（只抽“提到了哪张图表”，不判断对错）
+_CAPTION_CN = re.compile(r"(图|表)\s*([0-9]{1,2})(?![.．]\d)")
+_CAPTION_EN = re.compile(r"\b(Fig(?:ure)?|Table)\.?\s*([0-9]{1,2})\b", re.IGNORECASE)
 # 脚注/尾注引用：[^12]（Markdown 脚注语义）与 ^[12]（Pandoc 语义）
 _FOOTNOTE = re.compile(r"\[\^(\d{1,3})\](?!:)|\^\[(\d{1,3})\]")
 
@@ -130,6 +133,48 @@ def _collect(text: str, pattern: re.Pattern[str], style: str,
             end=m.end(),
         ))
     return out
+
+
+def extract_caption_mentions(text: str) -> list[dict]:
+    """抽出正文对图/表的引用（去重到“哪张图/表”，保留首次句子与出现次数）。"""
+    if not text:
+        return []
+    found: dict[tuple[str, int], dict] = {}
+
+    def _add(kind: str, number: int, start: int, end: int) -> None:
+        key = (kind, number)
+        item = found.get(key)
+        if item is None:
+            item = {
+                "kind": kind,
+                "number": number,
+                "label": f"{kind} {number}",
+                "count": 0,
+                "sentence": _sentence_at(text, start, end),
+                "start": start,
+            }
+            found[key] = item
+        item["count"] += 1
+
+    cues = "如见据根据通过由在在中上下表图"
+    for m in _CAPTION_CN.finditer(text):
+        start, end = m.start(), m.end()
+        prefix = text[max(0, start - 12):start]
+        follow = text[end:end + 1]
+        # 只在“如图所示 / 见表 2 / 图 3. 标题 / 句首”这类语境里认，
+        # 避免把“发表 1~2 篇”里的“表 1”当成图表引用。
+        ok = (
+            follow in ".．、:："
+            or start == 0
+            or text[start - 1] in " \n\t（(【[。；;，,：:"
+            or any(c in prefix for c in cues)
+        )
+        if ok:
+            _add(m.group(1), int(m.group(2)), start, end)
+    for m in _CAPTION_EN.finditer(text):
+        word = m.group(1).lower()
+        _add("Figure" if word.startswith("fig") else "Table", int(m.group(2)), m.start(), m.end())
+    return sorted(found.values(), key=lambda x: (x["start"], x["kind"]))
 
 
 def extract_citations(text: str) -> list[Citation]:

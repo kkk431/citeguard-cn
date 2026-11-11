@@ -429,7 +429,16 @@
       return "<li><code>" + esc(it.key || "") + "</code><span>" + esc((it.sentence || "").slice(0, 100)) + "</span>" + ((page || tail) ? "<span class=\"cite-tail\">" + page + tail + "</span>" : "") + "</li>";
     }).join("");
     const note = document.getElementById("citation-note");
-    if (note) note.textContent = c.truncated ? "只列出前 6 处；报告 JSON 含完整列表。" : "";
+    if (note) {
+      const bits = [];
+      if (c.truncated) bits.push("只列出前 6 处；报告 JSON 含完整列表。");
+      const caps = c.captions || {};
+      if (caps.unique) {
+        const labels = (caps.items || []).slice(0, 5).map(function (x) { return x.label; }).join("、");
+        bits.push("正文还提到 " + caps.total + " 处图表（" + labels + (caps.unique > 5 ? " 等" : "") + "）");
+      }
+      note.textContent = bits.join(" ");
+    }
     if (!list.__jumpBound) {
       list.__jumpBound = true;
       list.addEventListener("click", function (e) {

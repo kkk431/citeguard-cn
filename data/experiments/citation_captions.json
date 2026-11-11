@@ -1,0 +1,288 @@
+{
+ "corpus": "data/real_corpus",
+ "papers": 22,
+ "with_captions": 12,
+ "captions_total": 185,
+ "captions_unique": 101,
+ "per_paper": [
+  {
+   "paper": "hanspub_152572.pdf",
+   "pages": 7,
+   "captions_unique": 0,
+   "captions_total": 0,
+   "labels": [],
+   "citations": 51
+  },
+  {
+   "paper": "hanspub_152573.pdf",
+   "pages": 7,
+   "captions_unique": 0,
+   "captions_total": 0,
+   "labels": [],
+   "citations": 28
+  },
+  {
+   "paper": "hanspub_152574.pdf",
+   "pages": 7,
+   "captions_unique": 0,
+   "captions_total": 0,
+   "labels": [],
+   "citations": 23
+  },
+  {
+   "paper": "hanspub_152575.pdf",
+   "pages": 10,
+   "captions_unique": 10,
+   "captions_total": 15,
+   "labels": [
+    "图 1",
+    "Figure 1",
+    "图 2",
+    "Figure 2",
+    "图 3",
+    "Figure 3",
+    "图 4",
+    "Figure 4",
+    "表 1",
+    "Table 1"
+   ],
+   "citations": 33
+  },
+  {
+   "paper": "hanspub_152576.pdf",
+   "pages": 8,
+   "captions_unique": 0,
+   "captions_total": 0,
+   "labels": [],
+   "citations": 26
+  },
+  {
+   "paper": "hanspub_152577.pdf",
+   "pages": 16,
+   "captions_unique": 20,
+   "captions_total": 35,
+   "labels": [
+    "表 1",
+    "Table 1",
+    "表 2",
+    "Table 2",
+    "图 1",
+    "Figure 1",
+    "表 3",
+    "Table 3",
+    "表 4",
+    "表 5",
+    "Table 4",
+    "Table 5"
+   ],
+   "citations": 53
+  },
+  {
+   "paper": "hanspub_152592.pdf",
+   "pages": 9,
+   "captions_unique": 10,
+   "captions_total": 15,
+   "labels": [
+    "表 1",
+    "Table 1",
+    "表 2",
+    "图 1",
+    "Table 2",
+    "Figure 1",
+    "表 3",
+    "图 2",
+    "Table 3",
+    "Figure 2"
+   ],
+   "citations": 36
+  },
+  {
+   "paper": "hanspub_152593.pdf",
+   "pages": 10,
+   "captions_unique": 8,
+   "captions_total": 14,
+   "labels": [
+    "表 1",
+    "Table 1",
+    "表 2",
+    "Table 2",
+    "图 1",
+    "表 3",
+    "Figure 1",
+    "Table 3"
+   ],
+   "citations": 33
+  },
+  {
+   "paper": "hanspub_152594.pdf",
+   "pages": 11,
+   "captions_unique": 6,
+   "captions_total": 9,
+   "labels": [
+    "表 1",
+    "Table 1",
+    "表 2",
+    "图 1",
+    "Table 2",
+    "Figure 1"
+   ],
+   "citations": 53
+  },
+  {
+   "paper": "hanspub_152595.pdf",
+   "pages": 9,
+   "captions_unique": 0,
+   "captions_total": 0,
+   "labels": [],
+   "citations": 32
+  },
+  {
+   "paper": "hanspub_152678.pdf",
+   "pages": 10,
+   "captions_unique": 6,
+   "captions_total": 9,
+   "labels": [
+    "图 1",
+    "Figure 1",
+    "表 1",
+    "Table 1",
+    "表 2",
+    "Table 2"
+   ],
+   "citations": 98
+  },
+  {
+   "paper": "hanspub_152679.pdf",
+   "pages": 13,
+   "captions_unique": 4,
+   "captions_total": 7,
+   "labels": [
+    "表 1",
+    "Table 1",
+    "图 1",
+    "Figure 1"
+   ],
+   "citations": 32
+  },
+  {
+   "paper": "hanspub_152680.pdf",
+   "pages": 15,
+   "captions_unique": 15,
+   "captions_total": 22,
+   "labels": [
+    "表 1",
+    "Table 1",
+    "表 2",
+    "图 1",
+    "Table 2",
+    "表 3",
+    "Table 4",
+    "表 4",
+    "图 2",
+    "Figure 1",
+    "Figure 2",
+    "Figure 3"
+   ],
+   "citations": 41
+  },
+  {
+   "paper": "hanspub_152699.pdf",
+   "pages": 10,
+   "captions_unique": 0,
+   "captions_total": 0,
+   "labels": [],
+   "citations": 71
+  },
+  {
+   "paper": "hanspub_152700.pdf",
+   "pages": 10,
+   "captions_unique": 9,
+   "captions_total": 27,
+   "labels": [
+    "表 1",
+    "表 2",
+    "表 3",
+    "表 4",
+    "Table 1",
+    "表 9",
+    "Table 2",
+    "Table 3",
+    "Table 4"
+   ],
+   "citations": 100
+  },
+  {
+   "paper": "hanspub_152701.pdf",
+   "pages": 6,
+   "captions_unique": 0,
+   "captions_total": 0,
+   "labels": [],
+   "citations": 26
+  },
+  {
+   "paper": "hanspub_152702.pdf",
+   "pages": 11,
+   "captions_unique": 4,
+   "captions_total": 7,
+   "labels": [
+    "表 1",
+    "Table 1",
+    "表 2",
+    "Table 2"
+   ],
+   "citations": 45
+  },
+  {
+   "paper": "hanspub_152703.pdf",
+   "pages": 11,
+   "captions_unique": 0,
+   "captions_total": 0,
+   "labels": [],
+   "citations": 36
+  },
+  {
+   "paper": "hanspub_152704.pdf",
+   "pages": 8,
+   "captions_unique": 0,
+   "captions_total": 0,
+   "labels": [],
+   "citations": 20
+  },
+  {
+   "paper": "hanspub_152705.pdf",
+   "pages": 6,
+   "captions_unique": 0,
+   "captions_total": 0,
+   "labels": [],
+   "citations": 20
+  },
+  {
+   "paper": "W2098348787.pdf",
+   "pages": 29,
+   "captions_unique": 7,
+   "captions_total": 15,
+   "labels": [
+    "Figure 1",
+    "Figure 7",
+    "Figure 2",
+    "Figure 3",
+    "Figure 4",
+    "Figure 5",
+    "Figure 6"
+   ],
+   "citations": 0
+  },
+  {
+   "paper": "W2996762219.pdf",
+   "pages": 13,
+   "captions_unique": 2,
+   "captions_total": 10,
+   "labels": [
+    "图 1",
+    "图 2"
+   ],
+   "citations": 19
+  }
+ ],
+ "note": "rule-based mention detection only; counts are lower bounds; no semantic verification; bilingual captions may list both 图 N and Figure N"
+}

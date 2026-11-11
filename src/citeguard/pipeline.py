@@ -65,16 +65,22 @@ def _with_pages(items: list[dict], pdf_path: str | None) -> list[dict]:
 
 def _citations_payload(body: str, references=(), limit: int = 200, pdf_path: str | None = None) -> dict:
     """Report-level citation context: where each citation appears and what it cites."""
-    from .citation_anchor import coverage, extract_citations, summarize
+    from .citation_anchor import coverage, extract_caption_mentions, extract_citations, summarize
 
     is_list = isinstance(references, (list, tuple))
     ref_count = len(references) if is_list else int(references or 0)
 
     items = extract_citations(body)
+    captions = extract_caption_mentions(body)
     return {
         "summary": summarize(items),
         "coverage": coverage(items, references if is_list else ref_count),
         "items": _with_pages([c.to_dict() for c in items[:limit]], pdf_path),
+        "captions": {
+            "total": sum(c["count"] for c in captions),
+            "unique": len(captions),
+            "items": captions[:50],
+        },
         "truncated": len(items) > limit,
     }
 

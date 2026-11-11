@@ -75,3 +75,5 @@
 | E41 | 正文引注抽取真实语料评测 | 1.0.7 | `data/experiments/citation_anchor_real.json` + `citation_anchor_sample.csv` + `docs/citation_eval.md` | `PYTHONPATH=src python scripts/eval_citation_anchor.py` | 22 篇 / 529 条：21 篇有引注（95.5%）、参考文献被引 318 条（60.1%）、自洽 486/543（89.5%） |
 | E42 | 正文引注页码定位 | 1.0.8 | `docs/evidence/shots/phase-32-citation-pages-1.0.8.png` | `pytest tests/test_citation_anchor.py -q` + 真实任务报告 `citations.items[*].page` | 10 页真实论文 18 处引注，17 处定位到页（94.4%） |
 | E43 | 批注 PDF 标正文引注 | 1.0.9 | `tests/test_annotate.py::test_annotate_pins_in_text_citations` + 真实任务 `annotated` 统计 | `pytest tests/test_annotate.py -q`；下载 `report.annotated.pdf` 数 `/Annots` | 10 页真实论文：17 处可定位引注贴左页边，1 处未定位如实计数 |
+
+| E44 | 图表引用抽取（22 篇真实语料 185 处 / 101 标签） | `data/experiments/citation_captions.json`；`python scripts/eval_caption_mentions.py`（规则） | 22 篇 / 12 篇有提及；规则匹配、下界 | 报告页引注面板 `docs/evidence/shots/phase-34-caption-mentions-1.0.10.png` |
