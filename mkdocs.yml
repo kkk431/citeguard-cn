@@ -1,24 +1,28 @@
-site_name: CiteGuard-CN
-site_description: 中文引文核验工作台
+site_name: CiteGuard-CN 文档
+site_description: 中文引文核验工作台：真实性 / 引用支持度 / GB/T 7714-2025 格式
+site_author: CiteGuard-CN
+repo_url: https://github.com/kkk431/citeguard-cn
 docs_dir: docs
+site_dir: site
 theme:
-  name: material
-  language: zh
-  palette:
-    - scheme: slate
-      primary: teal
-      accent: amber
+  name: readthedocs
+  locale: zh_CN
+  navigation_depth: 2
 nav:
   - 首页: index.md
-  - API: api.md
-  - 部署: deployment.md
+  - 部署与运行: deployment.md
+  - API 与 Python SDK: api.md
+  - 生态集成: ecosystem.md
+  - 存储与索引: storage.md
+  - 评测与证据: experiments.md
+  - 证据索引: evidence_index.md
   - 性能: performance.md
-  - 存储: storage.md
-  - 生态: ecosystem.md
-  - 校准: calibration.md
-  - 许可证: licenses.md
-  - 模型卡: model_card_support_lora.md
-  - 更新日志: changelog.md
+  - 数据集: dataset_release.md
+  - 开源模型: models.md
+  - 许可与依赖: licenses.md
+  - 路线图: plan_national.md
 markdown_extensions:
   - tables
   - fenced_code
+  - toc:
+      permalink: true

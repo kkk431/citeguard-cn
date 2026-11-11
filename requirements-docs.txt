@@ -1,1 +1,2 @@
-mkdocs-material>=9
+# 仅构建文档站；不进入运行时依赖
+mkdocs==1.6.1
