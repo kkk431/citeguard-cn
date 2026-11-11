@@ -1,21 +1,33 @@
 import json
 
-from pypdf import PdfReader
-from reportlab.pdfgen import canvas
+from pypdf import PdfReader, PdfWriter
+from pypdf.generic import DictionaryObject, NameObject, StreamObject
 
 from citeguard.annotate import annotate_pdf, locate_page
 
 
 def _pdf(tmp_path, pages):
-    path = tmp_path / "in.pdf"
-    c = canvas.Canvas(str(path))
+    """Minimal text PDF without reportlab (CI only installs core deps)."""
+    writer = PdfWriter()
+    font = DictionaryObject(
+        {NameObject("/Type"): NameObject("/Font"),
+         NameObject("/Subtype"): NameObject("/Type1"),
+         NameObject("/BaseFont"): NameObject("/Helvetica")}
+    )
     for lines in pages:
-        y = 800
+        page = writer.add_blank_page(width=595, height=842)
+        parts = []
         for line in lines:
-            c.drawString(40, y, line)
-            y -= 18
-        c.showPage()
-    c.save()
+            safe = line.replace("\\", "\\\\").replace("(", "\\(").replace(")", "\\)")
+            parts.append(f"({safe}) Tj 0 -18 Td")
+        stream = StreamObject()
+        stream.set_data(("BT /F1 12 Tf 40 800 Td " + " ".join(parts) + " ET").encode("latin-1", "replace"))
+        page[NameObject("/Contents")] = writer._add_object(stream)
+        page[NameObject("/Resources")] = DictionaryObject(
+            {NameObject("/Font"): DictionaryObject({NameObject("/F1"): writer._add_object(font)})}
+        )
+    path = tmp_path / "in.pdf"
+    writer.write(path)
     return path
 
 
