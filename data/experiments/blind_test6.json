@@ -1,0 +1,27 @@
+{
+  "llama3": {
+    "refs": 187,
+    "strict_health": 0.9947,
+    "chars": 341922,
+    "bad_count": 1,
+    "bad_sample": [
+      "Measuring massive multitask language understanding. In 9th International Conference on Learning Representations, ICLR 2021, Virtual Event, Austria, May 3-7, 2021. OpenReview.net, 2021a"
+    ]
+  },
+  "phi3": {
+    "refs": 71,
+    "strict_health": 0.9718,
+    "chars": 52617,
+    "bad_count": 1,
+    "bad_sample": [
+      "Albert Q. Jiang, Alexandre Sablayrolles, Arthur Mensch, Chris Bamford, Devendra Singh Chaplot, Diego de las Casas, Florian Bressand, Gianna Lengyel, Guillaume Lample, Lucile Saulnier, L ́elio Renard Lavaud, Marie-Anne Lachaux, Pierre Stock, Teven Le Scao, Thibaut Lavril, Thomas Wang, Timoth ́ee Lacroix, and William El Sayed. Mistral 7b, 2023"
+    ]
+  },
+  "qwen2": {
+    "refs": 79,
+    "strict_health": 1.0,
+    "chars": 75967,
+    "bad_count": 0,
+    "bad_sample": []
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "registered_at": "2026-11-11T12:44:42.249127+00:00",
+  "code_version": "41a18d71ea469b35bb8849797267b4a44b0a5ef8",
+  "scope": "reference parsing only (not verification)",
+  "papers": {
+    "llama3": {
+      "arxiv": "2407.21783",
+      "title": "The Llama 3 Herd of Models"
+    },
+    "phi3": {
+      "arxiv": "2404.14219",
+      "title": "Phi-3 Technical Report"
+    },
+    "qwen2": {
+      "arxiv": "2407.10671",
+      "title": "Qwen2 Technical Report"
+    }
+  },
+  "metrics": {
+    "strict_health": "share of titles passing refs_layout.title_health",
+    "pass_threshold": "each paper >= 0.95; corpus regression stays 529 refs / clean 1.0"
+  },
+  "note": "PDFs downloaded AFTER this protocol is written; no tuning on these files."
+}
