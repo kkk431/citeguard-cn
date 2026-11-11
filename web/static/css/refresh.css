@@ -741,3 +741,10 @@ body.theme-light .chart-bar{background:rgba(15,40,35,.10)}
 /* history: inline report-bundle checkbox */
 .zip-toggle { display: inline-flex; align-items: center; gap: 6px; margin-left: 10px; font-size: 13px; color: #9db4b0; }
 .zip-toggle input { accent-color: var(--accent, #3ce6b4); }
+
+
+/* library: external title lookup */
+.suggest-row { display: flex; justify-content: space-between; gap: 18px; align-items: center; padding: 10px 0; border-top: 1px solid rgba(120, 200, 180, 0.14); }
+.suggest-main { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.suggest-main b { font-size: 15px; }
+.suggest-side { display: flex; align-items: center; gap: 12px; white-space: nowrap; }

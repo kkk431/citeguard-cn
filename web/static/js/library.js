@@ -307,6 +307,68 @@
     });
   }
 
+  const suggInput = document.getElementById("lib-suggest-title");
+  const suggRun = document.getElementById("lib-suggest-run");
+  const suggHint = document.getElementById("lib-suggest-hint");
+  const suggResults = document.getElementById("lib-suggest-results");
+
+  function renderSuggest(items) {
+    if (!suggResults) return;
+    if (!items.length) {
+      suggResults.innerHTML = '<p class="hint">没有搜到相近题名。中文期刊可先在 CNKI/万方导出 RIS 再导入。</p>';
+      return;
+    }
+    const rows = items.map(function (c, i) {
+      const meta = [c.authors && c.authors[0] ? c.authors[0] + (c.authors.length > 1 ? " 等" : "") : "",
+                    c.year || "", c.venue || "", c.doi ? "DOI " + c.doi : ""].filter(Boolean).join(" · ");
+      const pct = Math.round((c.sim || 0) * 100);
+      const btn = c.already
+        ? '<span class="hint">已在库中</span>'
+        : '<button class="btn btn-sm" type="button" data-add="' + i + '">入库</button>';
+      return '<div class="suggest-row"><div class="suggest-main"><b>' + (c.title || "") + '</b><span class="hint">' + meta + '</span></div><div class="suggest-side"><span class="mono-sm">' + pct + '%</span>' + btn + '</div></div>';
+    }).join("");
+    suggResults.innerHTML = rows;
+    suggResults.querySelectorAll("button[data-add]").forEach(function (btn) {
+      btn.addEventListener("click", async function () {
+        const c = items[Number(btn.dataset.add)];
+        btn.disabled = true;
+        try {
+          const data = await postJSONBody("/api/library/add", {
+            title: c.title, authors: c.authors || [], year: c.year,
+            venue: c.venue || "", doi: c.doi || "", url: c.url || "", abstract: c.abstract || ""
+          });
+          window.CiteGuard.toast(data.added ? "已加入题录库" : (data.message || "已在库中"));
+          if (data.added) { await loadEntries(); }
+          btn.outerHTML = '<span class="hint">' + (data.added ? "已入库" : "已在库中") + '</span>';
+        } catch (err) {
+          btn.disabled = false;
+          window.CiteGuard.toast("入库失败：" + err.message);
+        }
+      });
+    });
+  }
+
+  async function runSuggest() {
+    const title = (suggInput && suggInput.value || "").trim();
+    if (title.length < 4) { window.CiteGuard.toast("至少输入 4 个字"); return; }
+    suggRun.disabled = true;
+    if (suggHint) suggHint.textContent = "检索中…";
+    try {
+      const r = await fetch("/api/library/suggest?title=" + encodeURIComponent(title));
+      const data = await r.json();
+      if (!r.ok) throw new Error(data.detail || "检索失败");
+      renderSuggest(data.candidates || []);
+      if (suggHint) suggHint.textContent = "共 " + (data.count || 0) + " 条";
+    } catch (err) {
+      if (suggHint) suggHint.textContent = "";
+      window.CiteGuard.toast(err.message);
+    } finally {
+      suggRun.disabled = false;
+    }
+  }
+  if (suggRun) suggRun.addEventListener("click", runSuggest);
+  if (suggInput) suggInput.addEventListener("keydown", function (ev) { if (ev.key === "Enter") runSuggest(); });
+
   if (search) search.addEventListener("input", render);
   if (enrichBtn) enrichBtn.addEventListener("click", enrichAbstracts);
 

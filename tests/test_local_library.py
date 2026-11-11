@@ -478,3 +478,14 @@ def test_library_enrich_endpoint_persists_filled_abstract(client, monkeypatch):
 
 def test_library_enrich_empty_library_is_a_400(client):
     assert client.post("/api/library/enrich").status_code == 400
+
+
+def test_add_dedupes_by_doi_even_with_different_titles():
+    from citeguard.local_library import Library, LibraryEntry
+
+    lib = Library()
+    lib.add([LibraryEntry(title="A study of things", doi="10.1/ABC")])
+    lib.add([LibraryEntry(title="A study of things (preprint)", doi="10.1/abc")])
+    assert len(lib) == 1
+    lib.add([LibraryEntry(title="Another paper", doi="10.2/xyz")])
+    assert len(lib) == 2

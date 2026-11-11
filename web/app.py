@@ -96,7 +96,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.91", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.92", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
@@ -439,6 +439,48 @@ def library_bulk(body: dict = Body(...)):
 def library_clear():
     Library().save(config.LIBRARY_FILE)
     return {"count": 0}
+
+
+@app.get("/api/library/suggest")
+def library_suggest(title: str = "", year: int | None = None):
+    """Look up a title in OpenAlex/Crossref so the user can add it in one click."""
+    title = (title or "").strip()
+    if len(title) < 4:
+        raise HTTPException(status_code=400, detail="请输入至少 4 个字的题名")
+    from citeguard.metadata_verify import (
+        Reference,
+        _candidate_to_dict,
+        _title_candidates,
+        norm_title,
+        title_sim,
+    )
+
+    ref = Reference(raw=title, title=title, year=year)
+    try:
+        cands = _title_candidates(ref)
+    except Exception:
+        cands = []
+    lib = Library.load(config.LIBRARY_FILE)
+    have = {norm_title(e.title) for e in lib.entries}
+    have_dois = {(e.doi or "").strip().lower() for e in lib.entries if e.doi}
+    seen: set[str] = set()
+    out: list[dict] = []
+    for cand in cands:
+        sim = title_sim(title, cand.title or "")
+        if sim < 0.5:
+            continue
+        key = norm_title(cand.title or "")
+        doi = (cand.doi or "").strip().lower()
+        if not key or key in seen:
+            continue
+        seen.add(key)
+        item = _candidate_to_dict(cand)
+        item["sim"] = round(sim, 3)
+        item["cited_by"] = int((cand.raw or {}).get("cited_by_count") or 0)
+        item["already"] = key in have or bool(doi and doi in have_dois)
+        out.append(item)
+    out.sort(key=lambda item: (round(item["sim"], 2), item["cited_by"]), reverse=True)
+    return {"query": title, "count": len(out[:6]), "candidates": out[:6]}
 
 
 @app.get("/api/library")

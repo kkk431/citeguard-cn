@@ -52,3 +52,11 @@ curl -N http://127.0.0.1:8010/api/jobs/<job_id>/events
 
 把多个已完成报告打成一个 ZIP：每个任务一个子目录（report.html/json/md/refs/ris/enw/annotated），根目录额外合并 `all.ris` 与 `all.enw`，附 `manifest.json`。一次最多 20 份；未知/未完成的任务会被跳过，全部无效时返回 404。
 
+
+### GET /api/library/suggest
+
+按题名在 OpenAlex/Crossref 检索候选，用于题录库“缺什么补什么”。
+
+Query: `title`（≥4 字）、`year`（可选，用于排序）。
+
+返回 `{query, count, candidates[]}`，每条含 `title/doi/year/authors/venue/source/sim/cited_by/already`；`already=true` 表示本地库已有同题名或同 DOI。

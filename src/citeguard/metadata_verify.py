@@ -789,7 +789,7 @@ def search_openalex(title: str, limit: int = 5) -> list[Candidate]:
         {
             "search": title,
             "per-page": limit,
-            "select": "id,doi,title,publication_year,authorships,primary_location,biblio,type,language,abstract_inverted_index,is_retracted",
+            "select": "id,doi,title,publication_year,authorships,primary_location,biblio,type,language,abstract_inverted_index,is_retracted,cited_by_count",
             "mailto": config.OPENALEX_MAILTO,
         },
     )
@@ -821,6 +821,7 @@ def search_openalex(title: str, limit: int = 5) -> list[Candidate]:
                     abstract=_reconstruct_abstract(w.get("abstract_inverted_index")),
                     url=w.get("id", ""),
                     retracted=bool(w.get("is_retracted")),
+                    raw={"cited_by_count": int(w.get("cited_by_count") or 0)},
                 )
             )
         except Exception:

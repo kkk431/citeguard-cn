@@ -682,3 +682,22 @@ def test_batch_page_renders(plain_client):
     assert "批量核验" in r.text
     assert "batch.js" in r.text
     assert "一次粘贴，最多 50 条" in r.text
+
+
+def test_library_suggest_returns_ranked_candidates(client, monkeypatch):
+    from citeguard import metadata_verify as mv
+    cand = mv.Candidate(
+        source="openalex",
+        title="Attention Is All You Need",
+        doi="10.1/x",
+        year=2017,
+        authors=["A. Vaswani"],
+        raw={"cited_by_count": 100},
+    )
+    monkeypatch.setattr(mv, "_title_candidates", lambda ref: [cand])
+    r = client.get("/api/library/suggest", params={"title": "Attention is all you need"})
+    assert r.status_code == 200
+    body = r.json()
+    assert body["count"] == 1
+    assert body["candidates"][0]["sim"] == 1.0
+    assert body["candidates"][0]["cited_by"] == 100

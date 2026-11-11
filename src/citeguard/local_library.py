@@ -354,11 +354,17 @@ class Library:
 
     def add(self, entries: Iterable[LibraryEntry]) -> None:
         seen = {norm_title(e.title) for e in self.entries}
+        seen_dois = {(e.doi or "").strip().lower() for e in self.entries if e.doi}
         for entry in entries:
             key = norm_title(entry.title)
+            doi = (entry.doi or "").strip().lower()
+            if doi and doi in seen_dois:
+                continue
             if key and key not in seen:
                 self.entries.append(entry)
                 seen.add(key)
+                if doi:
+                    seen_dois.add(doi)
 
     def search(self, title: str, year: Optional[int] = None, limit: int = 5) -> list[tuple[float, LibraryEntry]]:
         if not title:

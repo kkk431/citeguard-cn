@@ -102,3 +102,26 @@ def test_reports_zip_bundles_several(isolated_project):
     assert "manifest.json" in names
     assert client.get("/api/reports/zip?ids=").status_code == 400
     assert client.get("/api/reports/zip?ids=none").status_code == 404
+
+
+def test_library_suggest_ranks_and_marks_existing(isolated_project, monkeypatch):
+    from fastapi.testclient import TestClient
+
+    import web.app as webapp
+    from citeguard.metadata_verify import Candidate
+
+    cands = [
+        Candidate(source="openalex", title="Attention is all you need", year=2017,
+                  authors=["A Vaswani"], venue="NeurIPS", doi="10.5555/3295222"),
+        Candidate(source="crossref", title="Attention all you need", year=2017,
+                  authors=["A Vaswani"], venue="NeurIPS", doi="10.5555/other"),
+    ]
+    monkeypatch.setattr("citeguard.metadata_verify._title_candidates", lambda ref: cands)
+    client = TestClient(webapp.app)
+    r = client.get("/api/library/suggest", params={"title": "Attention is all you need"})
+    assert r.status_code == 200
+    data = r.json()
+    assert data["count"] == 2
+    assert data["candidates"][0]["sim"] >= data["candidates"][1]["sim"]
+    assert data["candidates"][0]["already"] is False
+    assert client.get("/api/library/suggest?title=abc").status_code == 400
