@@ -45,3 +45,29 @@ PYTHONPATH=src python scripts/benchmark_latency.py data/real_corpus/arxiv/1810.0
 ```
 
 结果写 `data/experiments/latency_bench.json`。
+
+## 1000 条引用压力测试（离线，2026-11-11）
+
+命令：
+
+```bash
+CITEGUARD_OFFLINE=1 PYTHONPATH=src python scripts/stress_1000.py --refs 1000
+```
+
+合成 1000 条 GB/T 风格题录（中英文混合、8 种类型轮换，86,263 字符），只测**解析 / 格式校验 / 报告生成**，关闭联网核验（因此状态全为 Unknown）。
+
+| 指标 | 数值 |
+|---|---|
+| 解析 1000 条 | 0.118 s |
+| 完整分析（冷，进程内首次） | 0.718 s |
+| 完整分析（热，同进程第二次） | 0.159 s |
+| 两路并发（2×1000 条） | 0.329 s |
+| 峰值内存（tracemalloc） | 5.2 MB |
+| 解析成功率 | 1000/1000 |
+
+边界：
+
+- 这是**离线**数字，不含 OpenAlex/Crossref/DOI 联网核验；联网耗时由数据源限速与缓存决定，不在此表内；
+- 题录是合成模板，`status_counts` 全为 `Unknown` 是关闭核验的预期结果，不代表真实核验准确率；
+- 冷/热指同一进程内两次调用，热路径主要省掉重复的规范化与格式检查；
+- 原始数据 `data/experiments/stress_1000.json`。

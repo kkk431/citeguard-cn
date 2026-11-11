@@ -1,0 +1,17 @@
+{
+  "refs_requested": 1000,
+  "chars": 86263,
+  "parsed_references": 1000,
+  "blocks": 2,
+  "parse_s": 0.118,
+  "cold_full_s": 0.718,
+  "warm_full_s": 0.159,
+  "two_concurrent_s": 0.329,
+  "peak_mb": 5.2,
+  "report_refs": 1000,
+  "status_counts": {
+    "Unknown": 1000
+  },
+  "offline": true,
+  "python": "3.13.14"
+}
