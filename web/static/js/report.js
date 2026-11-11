@@ -1252,3 +1252,102 @@ const manualCsvBtn = document.getElementById("manual-csv");
 if (manualCsvBtn) {
   manualCsvBtn.addEventListener("click", manualCsv);
 }
+
+/* Re-check diff against an earlier report. */
+(function () {
+  const btn = document.getElementById("btn-diff");
+  const picker = document.getElementById("diff-picker");
+  const select = document.getElementById("diff-against");
+  const runBtn = document.getElementById("btn-diff-run");
+  const result = document.getElementById("diff-result");
+  if (!btn || !select || !picker || !runBtn || !result) return;
+
+  const rootEl = document.getElementById("report-root");
+  const currentJobId = (rootEl && rootEl.dataset.jobId) || "";
+
+  const KIND = {
+    fixed: "\u5df2\u89e3\u51b3",
+    new: "\u65b0\u589e",
+    still: "\u4ecd\u5b58\u5728",
+    status: "\u72b6\u6001\u53d8\u5316",
+    support: "\u652f\u6301\u5ea6\u53d8\u5316",
+  };
+
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  function issueList(items) {
+    if (!items || !items.length) return "";
+    return '<ul class="diff-issues">' + items.map(function (x) {
+      return "<li>" + esc(x.field || "") + "\uff1a" + esc(x.message || "") + "</li>";
+    }).join("") + "</ul>";
+  }
+
+  function render(d) {
+    const s = d.summary || {};
+    const items = d.items || [];
+    if (!items.length) {
+      result.innerHTML = '<div class="diff-empty">\u4e24\u4efd\u62a5\u544a\u6ca1\u6709\u53ef\u89c1\u5dee\u5f02\u3002</div>';
+      return;
+    }
+    let html = '<div class="diff-summary">' +
+      '<span class="diff-chip">\u5df2\u89e3\u51b3 <b>' + (s.fixed || 0) + "</b></span>" +
+      '<span class="diff-chip">\u4ecd\u5b58\u5728 <b>' + (s.still || 0) + "</b></span>" +
+      '<span class="diff-chip">\u65b0\u589e <b>' + (s.new || 0) + "</b></span>" +
+      '<span class="diff-chip">\u72b6\u6001\u53d8\u5316 <b>' + (s.status_changed || 0) + "</b></span>" +
+      '<span class="diff-chip">\u652f\u6301\u5ea6\u53d8\u5316 <b>' + (s.support_changed || 0) + "</b></span>" +
+      "</div>";
+    html += '<div class="diff-items">' + items.map(function (it) {
+      const kind = it.kind || "unchanged";
+      const st = it.status || {};
+      const sup = it.support || {};
+      let body = "";
+      if (it.fixed && it.fixed.length) body += "<div class=\"diff-block\"><i>\u5df2\u89e3\u51b3</i>" + issueList(it.fixed) + "</div>";
+      if (it.new && it.new.length) body += "<div class=\"diff-block\"><i>\u65b0\u589e</i>" + issueList(it.new) + "</div>";
+      if (it.still && it.still.length) body += "<div class=\"diff-block\"><i>\u4ecd\u5b58\u5728</i>" + issueList(it.still) + "</div>";
+      return '<article class="diff-item"><header><span class="diff-kind ' + kind + '">' +
+        esc(KIND[kind] || kind) + "</span><b>" + esc(it.title || ("#" + it.index)) + "</b>" +
+        '<span class="diff-status">' + esc(st.old || "") + " \u2192 " + esc(st.new || "") + "</span></header>" +
+        (sup.old && sup.old !== sup.new ? '<p class="diff-sup">\u652f\u6301\u5ea6\uff1a' + esc(sup.old) + " \u2192 " + esc(sup.new) + "</p>" : "") +
+        body + "</article>";
+    }).join("") + "</div>";
+    result.innerHTML = html;
+  }
+
+  btn.addEventListener("click", async function () {
+    picker.classList.toggle("hidden");
+    if (picker.classList.contains("hidden")) return;
+    select.innerHTML = '<option value="">\u52a0\u8f7d\u4e2d\u2026</option>';
+    try {
+      const res = await fetch("/api/jobs?limit=40");
+      const data = await res.json();
+      const jobs = (data.jobs || []).filter(function (j) { return j.has_report && j.id !== currentJobId; });
+      if (!jobs.length) {
+        select.innerHTML = '<option value="">\u6ca1\u6709\u5176\u4ed6\u5df2\u5b8c\u6210\u7684\u62a5\u544a</option>';
+        return;
+      }
+      select.innerHTML = jobs.map(function (j) {
+        return '<option value="' + esc(j.id) + '">' + esc((j.name || j.id) + " \u00b7 " + (j.created_at || "")) + "</option>";
+      }).join("");
+    } catch (e) {
+      select.innerHTML = '<option value="">\u52a0\u8f7d\u5931\u8d25</option>';
+    }
+  });
+
+  runBtn.addEventListener("click", async function () {
+    const against = select.value;
+    if (!against) return;
+    result.innerHTML = '<div class="diff-empty">\u6b63\u5728\u5bf9\u6bd4\u2026</div>';
+    try {
+      const res = await fetch("/api/report/" + encodeURIComponent(currentJobId) + "/diff?against=" + encodeURIComponent(against));
+      if (!res.ok) {
+        const err = await res.json().catch(function () { return {}; });
+        throw new Error(err.detail || res.status);
+      }
+      render(await res.json());
+    } catch (e) {
+      result.innerHTML = '<div class="diff-empty">\u5bf9\u6bd4\u5931\u8d25\uff1a' + esc(e.message) + "</div>";
+    }
+  });
+})();

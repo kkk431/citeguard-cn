@@ -80,7 +80,14 @@
             <div class="panel compact hidden" id="support-summary"></div>
             <div class="panel compact hidden" id="citation-consistency"></div>
           </div>
-          <div class="chart-grid" id="report-charts"></div>
+          <div class="chart-grid" id="report-charts"></div>          <div class="diff-bar">
+            <button class="btn ghost sm" type="button" id="btn-diff">对比历史报告</button>
+            <div class="diff-picker hidden" id="diff-picker">
+              <select class="select" id="diff-against" aria-label="选择旧报告"></select>
+              <button class="btn sm" type="button" id="btn-diff-run">开始对比</button>
+            </div>
+          </div>
+          <div id="diff-result"></div>
         </div>
       </div>
       <div class="refs-pane hidden" id="refs-pane">

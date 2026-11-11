@@ -34,7 +34,7 @@
 
 ## Phase 2 · 修复闭环
 
-- [x] 修正建议 → 复检 diff（已解决/新增/仍存，字段级）（`src/citeguard/diff.py` + `GET /api/report/{id}/diff`；界面待接）
+- [x] 修正建议 → 复检 diff（已解决/新增/仍存，字段级）（`diff.py` + `/api/report/{id}/diff` + 报告页“对比历史报告”面板）
 - [ ] 批注 PDF：问题标到原文页边，可下载/预览
 - [ ] 批量核验页：粘贴 ≤50 条 → 表格 → CSV
 - [ ] 报告批处理（多任务导出 RIS/EndNote/BibTeX）

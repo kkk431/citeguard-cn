@@ -96,7 +96,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.88", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.89", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
@@ -860,6 +860,22 @@ def history_page(request: Request):
     return templates.TemplateResponse(
         request, "history.html", {"jobs": jobs, "active": "history"}
     )
+
+
+@app.get("/api/jobs")
+def api_jobs(limit: int = 30):
+    """最近任务列表（报告页的“对比历史”选择器用）。"""
+    jobs = manager.recent(min(max(int(limit), 1), 60))
+    out = []
+    for job in jobs:
+        out.append({
+            "id": job.get("id"),
+            "name": job.get("name") or job.get("input_name") or "",
+            "created_at": job.get("created_at") or job.get("created") or "",
+            "status": job.get("status") or "",
+            "has_report": _report_path(job.get("id") or "").exists(),
+        })
+    return {"jobs": out}
 
 
 @app.get("/api/compare")

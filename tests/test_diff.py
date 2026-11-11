@@ -76,3 +76,22 @@ def test_web_diff_endpoint(isolated_project):
     assert r.json()["summary"]["resolved"] == 1
     assert client.get("/api/report/newjob/diff").status_code == 400
     assert client.get("/api/report/newjob/diff?against=nope").status_code == 404
+
+
+def test_web_jobs_endpoint(isolated_project):
+    import web.app as webapp
+
+    d = isolated_project / "jobs" / "jobx"
+    d.mkdir(parents=True, exist_ok=True)
+    (d / "report.json").write_text("{}", encoding="utf-8")
+    (isolated_project / "jobs" / "jobx.json").write_text(
+        json.dumps({"id": "jobx", "name": "paper.pdf", "status": "done",
+                    "created_at": "2026-11-11T19:00:00", "progress": 100}),
+        encoding="utf-8",
+    )
+    client = TestClient(webapp.app)
+    r = client.get("/api/jobs?limit=5")
+    assert r.status_code == 200
+    jobs = {j["id"]: j for j in r.json()["jobs"]}
+    assert jobs["jobx"]["has_report"] is True
+    assert jobs["jobx"]["name"] == "paper.pdf"

@@ -711,3 +711,28 @@ body.theme-light .chart-bar{background:rgba(15,40,35,.10)}
 .subclaims .chip{display:inline-block;margin-right:6px;padding:1px 7px;border-radius:999px;background:rgba(127,240,207,.12);color:var(--accent);font-size:11px}
 .lowconf{display:flex;flex-direction:column;gap:2px;margin:8px 0 4px;padding:8px 10px;border-radius:8px;border:1px solid rgba(255,184,77,.35);background:rgba(255,184,77,.08);color:var(--warn);font-size:13px;font-weight:600}
 .lowconf span{font-weight:400;color:var(--muted);font-size:12px}
+
+
+/* Re-check diff */
+.diff-bar { display: flex; align-items: center; gap: 10px; margin: 18px 0 12px; flex-wrap: wrap; }
+.diff-picker { display: inline-flex; gap: 8px; align-items: center; }
+.diff-picker.hidden { display: none; }
+.diff-picker .select { min-width: 260px; }
+.diff-summary { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0 14px; }
+.diff-chip { font-size: 12.5px; color: var(--muted); padding: 5px 10px; border: 1px solid var(--line, #1e3b3a); border-radius: 999px; }
+.diff-chip b { color: var(--text, #e8f7f2); margin-left: 4px; }
+.diff-items { display: grid; gap: 10px; }
+.diff-item { border: 1px solid var(--line, #1e3b3a); border-radius: 10px; padding: 12px 14px; background: rgba(9, 24, 28, .45); }
+.diff-item header { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; font-size: 13.5px; }
+.diff-kind { font-size: 11.5px; padding: 2px 7px; border-radius: 6px; border: 1px solid; }
+.diff-kind.fixed { color: #7ff0cf; border-color: #2b6d5c; }
+.diff-kind.new { color: #ff9d7d; border-color: #7b4231; }
+.diff-kind.still { color: #ffd27a; border-color: #7a6231; }
+.diff-kind.status, .diff-kind.support { color: #9fd0ff; border-color: #355d84; }
+.diff-status { margin-left: auto; color: var(--muted); font-size: 12.5px; }
+.diff-block { margin-top: 8px; font-size: 13px; color: var(--muted); }
+.diff-block i { font-style: normal; color: var(--text, #e8f7f2); margin-right: 6px; }
+.diff-issues { margin: 4px 0 0 18px; padding: 0; }
+.diff-issues li { margin: 2px 0; }
+.diff-sup { margin: 6px 0 0; font-size: 12.5px; color: var(--muted); }
+.diff-empty { padding: 18px; color: var(--muted); font-size: 13.5px; }
