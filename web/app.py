@@ -97,9 +97,17 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.0.11", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.0.12", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
+
+
+@app.get("/favicon.ico", include_in_schema=False)
+def favicon():
+    """Serve the SVG icon at the legacy path so browsers stop logging 404."""
+    from fastapi.responses import FileResponse
+
+    return FileResponse(BASE / "static" / "img" / "favicon.svg", media_type="image/svg+xml")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
 
 

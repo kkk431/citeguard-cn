@@ -8,7 +8,21 @@ from pathlib import Path
 
 from playwright.sync_api import sync_playwright
 
-BASE = "http://127.0.0.1:8010"
+BASE = sys.argv[1] if len(sys.argv) > 1 else "http://127.0.0.1:8010"
+
+PAGES = [
+    ("/", "home"),
+    ("/support", "support"),
+    ("/library", "library"),
+    ("/discover", "discover"),
+    ("/compare", "compare"),
+    ("/figure", "figure"),
+    ("/batch", "batch"),
+    ("/benchmark", "benchmark"),
+    ("/history", "history"),
+    ("/settings/models", "settings_models"),
+    ("/about", "about"),
+]
 
 
 def main() -> int:
@@ -22,22 +36,26 @@ def main() -> int:
     with sync_playwright() as p:
         browser = p.chromium.launch(channel="msedge", headless=True)
         page = browser.new_page(viewport={"width": 1280, "height": 800}, device_scale_factor=1.5)
-        page.goto(BASE + "/", wait_until="domcontentloaded")
-        page.wait_for_timeout(500)
-        ck("home_no_horizontal_overflow_1280",
-           page.evaluate("document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1"))
-        ck("home_has_aria_live", page.locator("[aria-live]").count() > 0)
-        unnamed = page.evaluate("""() => [...document.querySelectorAll('button,a[href]')]
-          .filter(e => !(e.innerText || e.getAttribute('aria-label') || e.title || '').trim()).length""")
-        ck("home_all_controls_named", unnamed == 0, unnamed)
-        page.keyboard.press("Control+k")
-        page.wait_for_timeout(300)
-        ck("palette_opens_ctrl_k", page.evaluate("""() => { const e = document.querySelector('#palette');
-          return !!e && !e.hasAttribute('hidden'); }"""))
-        page.keyboard.press("Escape")
+        errors: list[str] = []
+        page.on("console", lambda m: errors.append(m.text) if m.type == "error" else None)
 
+        for path, name in PAGES:
+            errors.clear()
+            page.goto(BASE + path, wait_until="domcontentloaded")
+            page.wait_for_timeout(400)
+            ck(f"{name}_no_horizontal_overflow_1280",
+               page.evaluate("document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1"))
+            ck(f"{name}_has_h1", page.locator("h1").count() > 0)
+            unnamed = page.evaluate("""() => [...document.querySelectorAll('button,a[href]')]
+              .filter(e => !(e.innerText || e.getAttribute('aria-label') || e.title || '').trim()).length""")
+            ck(f"{name}_all_controls_named", unnamed == 0, unnamed)
+            ck(f"{name}_no_console_errors", not errors, errors[:3])
+
+        # keyboard flows on the real report
         page.goto(f"{BASE}/report/{report_id}", wait_until="domcontentloaded")
         page.wait_for_timeout(1500)
+        ck("report_no_horizontal_overflow_1280",
+           page.evaluate("document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1"))
         page.keyboard.press("j")
         page.wait_for_timeout(400)
         ck("report_j_focuses_first_row", "ref" in page.evaluate("document.activeElement.className"))
@@ -45,7 +63,6 @@ def main() -> int:
         page.wait_for_timeout(600)
         ck("report_enter_opens_drawer", page.evaluate("""() => { const d = document.getElementById('ref-drawer');
           return !!d && !d.hasAttribute('hidden'); }"""))
-        page.screenshot(path="docs/evidence/shots/phase-26-keyboard-a11y-1.0.2.png")
         page.keyboard.press("Escape")
         page.wait_for_timeout(300)
         ck("report_esc_closes_drawer", page.evaluate("""() => { const d = document.getElementById('ref-drawer');
@@ -53,6 +70,15 @@ def main() -> int:
         page.keyboard.press("/")
         page.wait_for_timeout(250)
         ck("report_slash_focuses_search", page.evaluate("document.activeElement.id === 'search'"))
+
+        page.goto(f"{BASE}/support", wait_until="domcontentloaded")
+        page.wait_for_timeout(400)
+        page.keyboard.press("Control+k")
+        page.wait_for_timeout(300)
+        ck("palette_opens_ctrl_k", page.evaluate("""() => { const e = document.querySelector('#palette');
+          return !!e && !e.hasAttribute('hidden'); }"""))
+        page.keyboard.press("Escape")
+        page.screenshot(path="docs/evidence/shots/phase-38-a11y-pages-1.0.12.png")
         browser.close()
 
     target = Path("data/experiments/frontend_audit.json")

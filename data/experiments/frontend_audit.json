@@ -1,6 +1,6 @@
 {
-  "base": "http://127.0.0.1:8010",
-  "report_job": "f71299c6e3f8",
+  "base": "http://127.0.0.1:8014",
+  "report_job": "94c2214965b1",
   "checks": [
     {
       "name": "home_no_horizontal_overflow_1280",
@@ -8,7 +8,7 @@
       "detail": ""
     },
     {
-      "name": "home_has_aria_live",
+      "name": "home_has_h1",
       "ok": true,
       "detail": ""
     },
@@ -18,7 +18,212 @@
       "detail": 0
     },
     {
-      "name": "palette_opens_ctrl_k",
+      "name": "home_no_console_errors",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "support_no_horizontal_overflow_1280",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "support_has_h1",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "support_all_controls_named",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "support_no_console_errors",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "library_no_horizontal_overflow_1280",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "library_has_h1",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "library_all_controls_named",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "library_no_console_errors",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "discover_no_horizontal_overflow_1280",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "discover_has_h1",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "discover_all_controls_named",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "discover_no_console_errors",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "compare_no_horizontal_overflow_1280",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "compare_has_h1",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "compare_all_controls_named",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "compare_no_console_errors",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "figure_no_horizontal_overflow_1280",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "figure_has_h1",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "figure_all_controls_named",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "figure_no_console_errors",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "batch_no_horizontal_overflow_1280",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "batch_has_h1",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "batch_all_controls_named",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "batch_no_console_errors",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "benchmark_no_horizontal_overflow_1280",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "benchmark_has_h1",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "benchmark_all_controls_named",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "benchmark_no_console_errors",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "history_no_horizontal_overflow_1280",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "history_has_h1",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "history_all_controls_named",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "history_no_console_errors",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "settings_models_no_horizontal_overflow_1280",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "settings_models_has_h1",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "settings_models_all_controls_named",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "settings_models_no_console_errors",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "about_no_horizontal_overflow_1280",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "about_has_h1",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "about_all_controls_named",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "about_no_console_errors",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "report_no_horizontal_overflow_1280",
       "ok": true,
       "detail": ""
     },
@@ -39,6 +244,11 @@
     },
     {
       "name": "report_slash_focuses_search",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "palette_opens_ctrl_k",
       "ok": true,
       "detail": ""
     }

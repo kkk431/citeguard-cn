@@ -47,3 +47,16 @@ Dark theme passed unchanged; see the JSON for all 20 pairs.
 
 The audit also caught two real bugs fixed in 1.0.2: rail links were unnamed when
 collapsed, and j/k/`/` targeted the hidden list when the overview tab was active.
+
+
+## 1.0.12 全站巡检（50/50）
+
+`scripts/audit_frontend.py [base]` 覆盖 11 个页面（首页/支持度/题录库/发现/对比/图表/批量/评测/历史/模型设置/关于）与报告页键盘流，逐页检查：
+
+1. 1280 宽无横向溢出；
+2. 存在 `h1`；
+3. 所有 `button` / `a[href]` 有可访问名；
+4. 控制台无错误；
+5. 报告页 j/Enter/Esc/`/` 与全局 Ctrl+K。
+
+结果：**50/50 通过**；唯一失败项是首页 favicon 404，已用 SVG icon + `/favicon.ico` 路由修复。证据 `data/experiments/frontend_audit.json`，截图 `docs/evidence/shots/phase-38-a11y-pages-1.0.12.png`（E48）。

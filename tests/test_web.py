@@ -742,3 +742,12 @@ def test_report_page_has_aria_live_verdict(client):
     assert 'id="verdict" aria-live="polite"' in html
     js = Path("web/static/js/report.js").read_text(encoding="utf-8")
     assert 'e.key === "j" || e.key === "k"' in js
+
+
+def test_favicon_served_as_svg(plain_client):
+    r = plain_client.get("/favicon.ico")
+    assert r.status_code == 200
+    assert "svg" in r.headers["content-type"]
+    r2 = plain_client.get("/static/img/favicon.svg")
+    assert r2.status_code == 200
+    assert "<svg" in r2.text

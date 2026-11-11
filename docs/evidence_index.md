@@ -81,3 +81,4 @@
 | E45 | 条目↔正文双向定位：15/15 条命中，抽屉显示引用句与页码 | 报告 JSON `references[*].cited_in`；`tests/test_cited_in.py` | 真实任务 77136f8db5cc；15 条均有正文引用（每页最多 5 处） | `docs/evidence/shots/phase-35-reference-cited-in-1.0.11.png` |
 | E46 | 端到端冒烟 14/14（上传→报告→批注→导出→证据包→diff） | `scripts/e2e_smoke.py`；`data/experiments/e2e_smoke.json`；job 94c2214965b1 | 1 篇真实论文 / 14 项检查 | `docs/evidence/shots/phase-36-e2e-report-1.0.11.png` |
 | E47 | 文档站 mkdocs 本地构建（12 项导航） | `mkdocs.yml`；`requirements-docs.txt`；`docs/index.md` | 构建成功，`site/index.html` | `docs/evidence/shots/phase-37-docs-site-1.0.11.png` |
+| E48 | 全站可访问性/键盘巡检 50/50（11 页 + 报告页） | `scripts/audit_frontend.py http://127.0.0.1:8014`；`data/experiments/frontend_audit.json` | 11 页 × 4 项 + 6 项键盘 = 50 | `docs/evidence/shots/phase-38-a11y-pages-1.0.12.png` |
