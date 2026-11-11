@@ -1,0 +1,134 @@
+{
+  "index": "docs/evidence_index.md",
+  "paths_checked": 63,
+  "missing": [],
+  "rows": [
+    {
+      "evidence": "E22",
+      "path": "docs/evidence/shots/phase-11-annotated-pdf-0.9.91.png",
+      "exists": true
+    },
+    {
+      "evidence": "E23",
+      "path": "docs/evidence/shots/phase-12-batch-reports-0.9.91.png",
+      "exists": true
+    },
+    {
+      "evidence": "E29",
+      "path": "data/experiments/title_norm_cn.json",
+      "exists": true
+    },
+    {
+      "evidence": "E30",
+      "path": "data/experiments/refs_layout_pdfium_parity.json",
+      "exists": true
+    },
+    {
+      "evidence": "E31",
+      "path": "data/experiments/ocr_backends_eval.json",
+      "exists": true
+    },
+    {
+      "evidence": "E35",
+      "path": "data/experiments/contrast_report.json",
+      "exists": true
+    },
+    {
+      "evidence": "E36",
+      "path": "data/experiments/frontend_audit.json",
+      "exists": true
+    },
+    {
+      "evidence": "E36",
+      "path": "docs/evidence/shots/phase-26-keyboard-a11y-1.0.2.png",
+      "exists": true
+    },
+    {
+      "evidence": "E37",
+      "path": "docs/evidence/shots/phase-27-citation-list-1.0.3.png",
+      "exists": true
+    },
+    {
+      "evidence": "E38",
+      "path": "docs/evidence/shots/phase-28-citation-jump-1.0.4.png",
+      "exists": true
+    },
+    {
+      "evidence": "E39",
+      "path": "docs/evidence/shots/phase-29-citation-coverage-1.0.5.png",
+      "exists": true
+    },
+    {
+      "evidence": "E40",
+      "path": "docs/embeddings.md",
+      "exists": true
+    },
+    {
+      "evidence": "E41",
+      "path": "data/experiments/citation_anchor_real.json",
+      "exists": true
+    },
+    {
+      "evidence": "E41",
+      "path": "data/experiments/citation_anchor_sample.csv",
+      "exists": true
+    },
+    {
+      "evidence": "E41",
+      "path": "docs/citation_eval.md",
+      "exists": true
+    },
+    {
+      "evidence": "E42",
+      "path": "docs/evidence/shots/phase-32-citation-pages-1.0.8.png",
+      "exists": true
+    },
+    {
+      "evidence": "E44",
+      "path": "data/experiments/citation_captions.json",
+      "exists": true
+    },
+    {
+      "evidence": "E44",
+      "path": "docs/evidence/shots/phase-34-caption-mentions-1.0.10.png",
+      "exists": true
+    },
+    {
+      "evidence": "E45",
+      "path": "docs/evidence/shots/phase-35-reference-cited-in-1.0.11.png",
+      "exists": true
+    },
+    {
+      "evidence": "E46",
+      "path": "data/experiments/e2e_smoke.json",
+      "exists": true
+    },
+    {
+      "evidence": "E46",
+      "path": "docs/evidence/shots/phase-36-e2e-report-1.0.11.png",
+      "exists": true
+    },
+    {
+      "evidence": "E47",
+      "path": "docs/index.md",
+      "exists": true
+    },
+    {
+      "evidence": "E47",
+      "path": "docs/evidence/shots/phase-37-docs-site-1.0.11.png",
+      "exists": true
+    },
+    {
+      "evidence": "E48",
+      "path": "data/experiments/frontend_audit.json",
+      "exists": true
+    },
+    {
+      "evidence": "E48",
+      "path": "docs/evidence/shots/phase-38-a11y-pages-1.0.12.png",
+      "exists": true
+    }
+  ],
+  "shots_registered": 25,
+  "shots_unregistered": []
+}

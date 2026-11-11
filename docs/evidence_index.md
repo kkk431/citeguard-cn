@@ -14,7 +14,7 @@
 | 真实文献 **409 条，Major 0** | `data/experiments/verify_real.json` | `PYTHONPATH=src python scripts/eval_verify_real.py` | 22 篇已发表论文的 409 条参考文献 |
 | 本地库 definite **409/412（99.27%）** | `data/experiments/library_real.json` | `PYTHONPATH=src python scripts/eval_library_real.py` | 建库后 412 条；10 条字段偏差 |
 | 解析 **529 条 / clean 1.0** | `data/experiments/parse_real.json` | `PYTHONPATH=src python scripts/eval_parse_real.py` | 22 篇，标题行/题名覆盖率 |
-| 盲测 5：Qwen3 **73 条/100%**、R1 **92 条/96.7%**、Mixtral **35 条/100%** | `data/experiments/blind_test5.json`、`blind_test5_protocol.json` | 见 `docs/blind_test_results.md` §14 | 预注册协议，健康率启发式，不是语义正确率 |
+| 盲测 5：Qwen3 **73 条/100%**、R1 **92 条/96.7%**、Mixtral **35 条/100%** | `data/experiments/blind_test5.json`、`data/experiments/blind_test5_protocol.json` | 见 `docs/blind_test_results.md` §14 | 预注册协议，健康率启发式，不是语义正确率 |
 | LoRA（Qwen3-1.7B）test **0.9721 / 0.9667** | `data/experiments/support_lora_qwen3_1.7b.json` | `PYTHONPATH=src python scripts/eval_support_adapter.py` | test 60 条；基座零样本 0.4935/0.4833 |
 | 图表 ChartCheck 400 零样本 **0.7628**（三分类 0.695） | `data/experiments/chartcheck_val400_v3.json` | 见 `docs/experiments.md` | 400 条英文图表结论 |
 | 图表真实论文（8B）n=10 **acc 1.0**（小样本） | `data/experiments/figure_real26_8b_v3.json` | `PYTHONPATH=src python scripts/eval_figure_prompt.py` | 仅 10 条，只能作小样本复测 |
@@ -29,11 +29,18 @@
 
 | 截图 | 内容 | 数据来源 |
 |---|---|---|
-| `phase0-plan.png`（待补） | 本清单/许可证整改 | `docs/plan_national.md` |
-| `phase1-01-report-charts-v0.9.85.png` | 报告总览三张真图：核验结论分布 / 支持度四档 / GB/T 问题 Top 字段（CSS 条形图 + 表格视图） | 任务 `4e5b9681ea00` 的 `report.json`（15 条真实文献） |
-| `phase1-model-compare.png`（待补） | 模型对比（1.7B/8B/14B/4bit/API） | `data/experiments/support_local_*.json` |
-| `phase2-diff.png`（待补） | 复检 diff | 任务前后两份 report.json |
-| `phase3-1000refs.png`（待补） | 1000 条压测 | `docs/performance.md` |
+| `docs/evidence/shots/phase-0-plan-1.0.12.png` | 30 天规划页（mkdocs 渲染）：Phase 0 合规、Phase 1–4 与 DoD | `docs/plan_national.md` |
+| `docs/evidence/shots/phase1-01-report-charts-v0.9.85.png` | 报告总览三张真图：核验结论分布 / 支持度四档 / GB/T 问题 Top 字段（CSS 条形图 + 表格视图） | 任务 `4e5b9681ea00` 的 `report.json`（15 条真实文献） |
+| `docs/evidence/shots/phase-1-model-compare-1.0.12.png` | 同一 100 条构造集：14B bf16 / 14B 4bit / 8B bf16 / 8B 4bit 的 macro-F1（另：1.7B LoRA test60 0.9721，口径不同不混画） | `data/experiments/support_local_qwen3_14b_v10_all.json`、`data/experiments/support_local_qwen3_14b_4bit_all.json`、`data/experiments/support_local_qwen3_8b_product_all.json`、`data/experiments/support_local_qwen3_8b_4bit_v10_all.json` |
+| `docs/evidence/shots/phase-09-diff-ui-0.9.89.png` | 复检 diff 界面：已解决/仍存在/新增 | 任务前后两份 report.json |
+| `docs/evidence/shots/phase-3-stress1000-1.0.12.png` | 1000 条合成题录离线解析/全流程/并发耗时（峰值 5.2 MB） | `data/experiments/stress_1000.json` |
+| `docs/evidence/shots/phase-13-library-suggest-0.9.91.png` | 题录库外部检索补库（候选/一键入库） | job/截图 0.9.91 |
+| `docs/evidence/shots/phase-16-model-registry-0.9.95.png` | 模型注册表设置页（来源/许可/测连接） | 0.9.95 |
+| `docs/evidence/shots/phase-24-keyboard-nav-1.0.0.png` | 报告页 j/k 条目导航 | 1.0.0 |
+| `docs/evidence/shots/phase-25-light-contrast-1.0.1.png` | 浅色主题 WCAG AA 修复 | `data/experiments/contrast_report.json` |
+| `docs/evidence/shots/phase-33-annotated-citations-1.0.9.png` | 批注 PDF 标正文引注（第 8 页） | job `dfdd817f81af` |
+| `docs/evidence/shots/phase1-01-report-charts-v0.9.85-charts.png` | 报告三张真图单独裁切 | 同上 |
+| `docs/evidence/shots/phase4-v1.0-docs-site-1.0.0.png` | v1.0 文档站首版截图 | `mkdocs.yml` |
 
 ## 不能这么说（边界）
 
@@ -72,7 +79,7 @@
 | E38 | 正文引注 → 条目跳转 | 1.0.4 | `docs/evidence/shots/phase-28-citation-jump-1.0.4.png` | Playwright 点击 `.cite-jump` 后断言 `aria-selected=true`、抽屉 `open` 且序号为 [1] | 真实任务 18 处引注可跳转 |
 | E39 | 正文引注覆盖率 | 1.0.5 | `docs/evidence/shots/phase-29-citation-coverage-1.0.5.png` + `tests/test_citation_anchor.py::test_coverage_counts_only_cited_numbers` | `pytest tests/test_citation_anchor.py -q` | 真实任务 15/15 条被引用，0 条未被引用 |
 | E40 | 可选向量接口层（BGE-M3 / OpenAI 兼容） | 1.0.6 | `tests/test_embeddings.py`（6 例，本地假服务）+ `docs/embeddings.md` | `pytest tests/test_embeddings.py -q` | 接口/错误/重排全过；真实 BGE-M3 未部署，无召回数字 |
-| E41 | 正文引注抽取真实语料评测 | 1.0.7 | `data/experiments/citation_anchor_real.json` + `citation_anchor_sample.csv` + `docs/citation_eval.md` | `PYTHONPATH=src python scripts/eval_citation_anchor.py` | 22 篇 / 529 条：21 篇有引注（95.5%）、参考文献被引 318 条（60.1%）、自洽 486/543（89.5%） |
+| E41 | 正文引注抽取真实语料评测 | 1.0.7 | `data/experiments/citation_anchor_real.json` + `data/experiments/citation_anchor_sample.csv` + `docs/citation_eval.md` | `PYTHONPATH=src python scripts/eval_citation_anchor.py` | 22 篇 / 529 条：21 篇有引注（95.5%）、参考文献被引 318 条（60.1%）、自洽 486/543（89.5%） |
 | E42 | 正文引注页码定位 | 1.0.8 | `docs/evidence/shots/phase-32-citation-pages-1.0.8.png` | `pytest tests/test_citation_anchor.py -q` + 真实任务报告 `citations.items[*].page` | 10 页真实论文 18 处引注，17 处定位到页（94.4%） |
 | E43 | 批注 PDF 标正文引注 | 1.0.9 | `tests/test_annotate.py::test_annotate_pins_in_text_citations` + 真实任务 `annotated` 统计 | `pytest tests/test_annotate.py -q`；下载 `report.annotated.pdf` 数 `/Annots` | 10 页真实论文：17 处可定位引注贴左页边，1 处未定位如实计数 |
 
@@ -82,3 +89,5 @@
 | E46 | 端到端冒烟 14/14（上传→报告→批注→导出→证据包→diff） | `scripts/e2e_smoke.py`；`data/experiments/e2e_smoke.json`；job 94c2214965b1 | 1 篇真实论文 / 14 项检查 | `docs/evidence/shots/phase-36-e2e-report-1.0.11.png` |
 | E47 | 文档站 mkdocs 本地构建（12 项导航） | `mkdocs.yml`；`requirements-docs.txt`；`docs/index.md` | 构建成功，`site/index.html` | `docs/evidence/shots/phase-37-docs-site-1.0.11.png` |
 | E48 | 全站可访问性/键盘巡检 50/50（11 页 + 报告页） | `scripts/audit_frontend.py http://127.0.0.1:8014`；`data/experiments/frontend_audit.json` | 11 页 × 4 项 + 6 项键盘 = 50 | `docs/evidence/shots/phase-38-a11y-pages-1.0.12.png` |
+
+自检：`python scripts/audit_evidence.py`（见 [evidence_audit.md](evidence_audit.md)）。
