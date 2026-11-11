@@ -48,3 +48,5 @@
 | E23 | 批量报告打包（多任务 ZIP + 合并 RIS/ENW） | `docs/evidence/shots/phase-12-batch-reports-0.9.91.png`；`GET /api/reports/zip?ids=cf6d160d6fd7,135fc226f7de` 实测 18 个文件、含 `all.ris`；`python -m pytest tests/test_annotate.py -q`（5 passed） | 两份真实报告；最多 20 份/次 |
 
 | E24 | 题录库外部检索补库（Attention 6 条，TOP1 2017/136007 引用） | phase-13-library-suggest-0.9.91.png | 0.9.91 | 2026-11-11 |
+
+| E25 | 图注修改建议（规则版，supported 不给建议） | 单元测试 tests/test_figure_advice.py；截图待视觉服务在线时补 | 0.9.94 | 2026-11-11 |

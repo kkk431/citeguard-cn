@@ -308,6 +308,7 @@
           esc(it.claim || "") +
           (it.reason ? '<span class="mono-sm" style="color:var(--muted)"> · ' + esc(it.reason) + "</span>" : "") +
           (it.error ? '<span class="mono-sm" style="color:var(--muted)"> · ' + esc(it.error) + "</span>" : "") +
+          (it.advice ? '<div class="fig-advice">改法：' + esc(it.advice.text) + "</div>" : "") +
           "</li>";
       }).join("");
       const kindLabel = b.kind === "table" ? "表" : "图";

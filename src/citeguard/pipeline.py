@@ -263,6 +263,7 @@ def _body_figure_claims(body: str, *, max_figures: int = 3, per_figure: int = 2)
 
 
 def _check_body_figures(body: str, pdf_path: str, step: Callable[[int, str], None]) -> list[dict]:
+    from .figure_advice import annotate_items
     from .figure_check import check_claims
     from .pdf_extract import extract_page_text, find_figure_page, render_page_png
 
@@ -295,7 +296,7 @@ def _check_body_figures(body: str, pdf_path: str, step: Callable[[int, str], Non
                 "page": page, 
                 "caption": caption,
                 "claims": claims,
-                "items": batch.get("items") or [],
+                "items": annotate_items(batch.get("items") or []),
                 "ok": bool(batch.get("ok")),
                 "error": batch.get("error", ""),
             }

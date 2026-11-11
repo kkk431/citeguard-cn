@@ -748,3 +748,5 @@ body.theme-light .chart-bar{background:rgba(15,40,35,.10)}
 .suggest-main { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
 .suggest-main b { font-size: 15px; }
 .suggest-side { display: flex; align-items: center; gap: 12px; white-space: nowrap; }
+
+.fig-advice{margin:6px 0 2px;padding:7px 11px;border-left:3px solid var(--amber);background:rgba(255,180,58,.08);border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);line-height:1.55}

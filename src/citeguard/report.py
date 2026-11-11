@@ -375,8 +375,10 @@ def render_markdown(report: dict) -> str:
             lines.append(head)
             for item in block.get("items") or []:
                 verdict = item.get("verdict") or ("未完成" if not item.get("ok") else "")
+                advice = (item.get("advice") or {}).get("text") or ""
                 lines.append(
                     f"  - {item.get('claim', '')} → {verdict}；{item.get('reason', '')[:160]}"
+                    + (f"；改法：{advice}" if advice else "")
                 )
             if block.get("error"):
                 lines.append(f"  - 未能核验：{block['error']}")
@@ -579,10 +581,14 @@ def render_html(report: dict) -> str:
             for item in block.get("items") or []:
                 verdict = item.get("verdict") or ("未完成" if not item.get("ok") else "")
                 reason = item.get("reason") or item.get("error") or ""
+                advice = (item.get("advice") or {}).get("text") or ""
+                reason_cell = html.escape(reason[:160]) + (
+                    f'<br><span style="color:#b45309">改法：{html.escape(advice)}</span>' if advice else ""
+                )
                 rows.append(
                     f"<tr><td>{html.escape(str(number))}</td><td>{html.escape(str(page))}</td>"
                     f"<td>{html.escape(item.get('claim', ''))}</td>"
-                    f"<td>{html.escape(str(verdict))}</td><td>{html.escape(reason[:160])}</td></tr>"
+                    f"<td>{html.escape(str(verdict))}</td><td>{reason_cell}</td></tr>"
                 )
             if block.get("error"):
                 rows.append(
