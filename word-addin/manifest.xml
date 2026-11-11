@@ -18,7 +18,7 @@
     <Host Name="Document"/>
   </Hosts>
   <DefaultSettings>
-    <SourceLocation DefaultValue="https://localhost:8010/word/taskpane"/>
+    <SourceLocation DefaultValue="https://localhost:8443/word/taskpane"/>
   </DefaultSettings>
   <Permissions>ReadDocument</Permissions>
 </OfficeApp>
