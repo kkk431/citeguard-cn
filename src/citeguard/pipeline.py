@@ -45,7 +45,25 @@ def _health_since(errors_at_start: int) -> dict:
     return health
 
 
-def _citations_payload(body: str, references=(), limit: int = 200) -> dict:
+def _with_pages(items: list[dict], pdf_path: str | None) -> list[dict]:
+    """Attach a best-effort 1-based page number to each citation item."""
+    if not pdf_path or not items:
+        return items
+    try:
+        from .citation_anchor import find_page
+        from .pdf_extract import page_texts
+
+        pages = page_texts(pdf_path)
+        if not pages:
+            return items
+        for item in items:
+            item["page"] = find_page(item.get("sentence", ""), pages)
+    except Exception:
+        return items
+    return items
+
+
+def _citations_payload(body: str, references=(), limit: int = 200, pdf_path: str | None = None) -> dict:
     """Report-level citation context: where each citation appears and what it cites."""
     from .citation_anchor import coverage, extract_citations, summarize
 
@@ -56,7 +74,7 @@ def _citations_payload(body: str, references=(), limit: int = 200) -> dict:
     return {
         "summary": summarize(items),
         "coverage": coverage(items, references if is_list else ref_count),
-        "items": [c.to_dict() for c in items[:limit]],
+        "items": _with_pages([c.to_dict() for c in items[:limit]], pdf_path),
         "truncated": len(items) > limit,
     }
 
@@ -187,7 +205,7 @@ def analyze_text(
     )
     report["stats"]["library_entries"] = len(library) if library is not None else 0
     report["stats"]["library_hits"] = local_hits
-    report["citations"] = _citations_payload(body, refs)
+    report["citations"] = _citations_payload(body, refs, pdf_path=pdf_path)
     from .report_charts import build_charts
 
     report["charts"] = build_charts(report)

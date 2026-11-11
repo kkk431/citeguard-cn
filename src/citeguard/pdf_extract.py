@@ -102,6 +102,26 @@ def extract_page_text(path: str | Path, page_number: int, *, max_chars: int = 60
     return text[:max_chars]
 
 
+def page_texts(path: str | Path, *, max_pages: int = 400) -> list[str]:
+    """Return normalized text for each PDF page (empty list when unavailable).
+
+    Used to map an extracted citation sentence back to a page number; this is a
+    best-effort locator, not a layout engine. pdfplumber is already a core dep.
+    """
+    p = Path(path)
+    if p.suffix.lower() != ".pdf":
+        return []
+    try:
+        import pdfplumber
+    except Exception:  # pragma: no cover - dependency guard
+        return []
+    try:
+        with pdfplumber.open(str(p)) as pdf:
+            return [normalize_text(_page_text(page)) for page in pdf.pages[:max_pages]]
+    except Exception:
+        return []
+
+
 _FIG_REF_RE = re.compile(
     r"(?P<kind>图|表|figure|fig\.?|table|tab\.?)\s*(?P<num>[0-9]{1,3}(?:\.[0-9]+)?[a-zA-Z]?)",
     re.IGNORECASE,

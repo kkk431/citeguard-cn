@@ -425,7 +425,8 @@
       } else if (it.style === "author_year" || it.style === "cn_author_year") {
         tail = "<em>作者-年</em>";
       }
-      return "<li><code>" + esc(it.key || "") + "</code><span>" + esc((it.sentence || "").slice(0, 100)) + "</span>" + (tail ? "<span class=\"cite-tail\">" + tail + "</span>" : "") + "</li>";
+      const page = it.page ? "<em class=\"cite-page\">第 " + it.page + " 页</em>" : "";
+      return "<li><code>" + esc(it.key || "") + "</code><span>" + esc((it.sentence || "").slice(0, 100)) + "</span>" + ((page || tail) ? "<span class=\"cite-tail\">" + page + tail + "</span>" : "") + "</li>";
     }).join("");
     const note = document.getElementById("citation-note");
     if (note) note.textContent = c.truncated ? "只列出前 6 处；报告 JSON 含完整列表。" : "";

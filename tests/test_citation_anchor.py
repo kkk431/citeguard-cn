@@ -152,3 +152,9 @@ def test_coverage_resolves_author_year():
     cov = coverage(cites, refs)
     assert cov["cited"] == 1
     assert cov["uncited"] == [2]
+
+def test_find_page_normalizes_whitespace():
+    from citeguard.citation_anchor import find_page
+
+    assert find_page("Alpha  Beta\nGamma", ["x", "alpha beta gamma"]) == 2
+    assert find_page("nothing here", ["x"]) == 0

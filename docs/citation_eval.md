@@ -32,3 +32,7 @@ PYTHONPATH=src python scripts/eval_citation_anchor.py
 ```
 
 输出 `data/experiments/citation_anchor_real.json`（逐篇）与 `citation_anchor_sample.csv`（40 条随机抽样，供人工看）。
+
+## 页码定位（1.0.8）
+
+报告里的每条引注会带 `page`：用 pdfplumber 逐页取文本、归一化空白后，把引注句子按子串匹配到页。10 页真实论文 18 处引注中 **17 处命中（94.4%）**；跨页断开的句子会漏，属于已知限制，不声称 100%。

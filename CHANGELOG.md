@@ -2,6 +2,14 @@
 
 All notable changes to CiteGuard-CN. Earlier pre-1.0 history is condensed.
 
+## [1.0.8] - 2026-11-11
+
+### Added
+- Best-effort page numbers for in-text citations: sentences are matched against
+  normalized page text and the report shows `第 N 页` next to the citation key.
+  On the 10-page real sample, 17/18 citations were located; one sentence split
+  across a page boundary is not recovered (documented limit).
+
 ## [1.0.7] - 2026-11-11
 
 ### Changed

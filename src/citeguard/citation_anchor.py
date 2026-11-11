@@ -252,3 +252,25 @@ def coverage(citations: list[Citation], references_or_count) -> dict:
         "uncited": uncited,
         "ratio": round(len(cited) / ref_count, 4) if ref_count else 0.0,
     }
+
+
+_WS_RE = re.compile(r"\s+")
+
+
+def _norm_text(text: str) -> str:
+    return _WS_RE.sub(" ", (text or "")).strip().lower()
+
+
+def find_page(sentence: str, pages: list[str]) -> int:
+    """1-based page containing *sentence* (0 when not found).
+
+    Whitespace and case are normalized; sentences split across a page boundary
+    are not recovered — that is a known limit, not an error.
+    """
+    needle = _norm_text(sentence)
+    if len(needle) < 8:
+        return 0
+    for i, page in enumerate(pages, 1):
+        if needle in _norm_text(page):
+            return i
+    return 0
