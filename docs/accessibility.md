@@ -29,3 +29,21 @@ Dark theme passed unchanged; see the JSON for all 20 pairs.
 - Charts have a table view (`build_charts` + report template), so information is not colour-only.
 - Keyboard: `/` focus search, `j`/`k` row navigation, Enter open, Esc close drawer, Ctrl/Cmd+K palette.
 - Reduced-motion media query disables reveal animations.
+
+## Keyboard audit (1.0.2)
+
+`data/experiments/frontend_audit.json` records 8 Playwright checks at 1280x800:
+
+| check | result |
+|---|---|
+| home has no horizontal overflow | pass |
+| home has an aria-live region | pass |
+| all home buttons/links have names | pass (0 unnamed) |
+| Ctrl+K opens the command palette | pass |
+| j focuses the first reference row | pass |
+| Enter opens the evidence drawer | pass |
+| Esc closes the drawer | pass |
+| / focuses report search | pass |
+
+The audit also caught two real bugs fixed in 1.0.2: rail links were unnamed when
+collapsed, and j/k/`/` targeted the hidden list when the overview tab was active.

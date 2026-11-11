@@ -2,6 +2,20 @@
 
 All notable changes to CiteGuard-CN. Earlier pre-1.0 history is condensed.
 
+## [1.0.2] - 2026-11-11
+
+### Fixed
+- Keyboard shortcuts now work from any report tab: `j`/`k` and `/` switch to the
+  "审稿条目" tab before moving focus, so they no longer target a hidden list.
+- Rail navigation links had no accessible name when the sidebar text was hidden;
+  added `aria-label` to every rail link.
+
+### Added
+- Frontend keyboard/accessibility audit (`data/experiments/frontend_audit.json`):
+  8 checks at 1280 px — Ctrl+K palette, j/k row focus, Enter drawer, Esc close,
+  `/` search, no horizontal overflow, aria-live present, all controls named.
+- Evidence screenshot `docs/evidence/shots/phase-26-keyboard-a11y-1.0.2.png`.
+
 ## [1.0.1] - 2026-11-11
 
 ### Fixed

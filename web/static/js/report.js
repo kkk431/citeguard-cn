@@ -575,6 +575,8 @@
       const tag = (document.activeElement && document.activeElement.tagName) || "";
       if (e.key === "/" && document.activeElement !== search) {
         e.preventDefault();
+        const refTab = document.querySelector('[data-summary-tab="refs"]');
+        if (refTab && document.getElementById("ref-list") && document.getElementById("ref-list").offsetParent === null) refTab.click();
         search.focus();
       } else if (e.key === "Escape") {
         search.value = "";
@@ -593,6 +595,8 @@
         if (viewSel) viewSel.value = state.view;
         apply(data);
       } else if (e.key === "j" || e.key === "k") {
+        const refTab = document.querySelector('[data-summary-tab="refs"]');
+        if (refTab && document.getElementById("ref-list") && document.getElementById("ref-list").offsetParent === null) refTab.click();
         const rows = Array.from(document.querySelectorAll("#ref-list .ref"));
         if (!rows.length) return;
         e.preventDefault();

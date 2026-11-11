@@ -66,3 +66,5 @@
 - E34 键盘导航与无障碍：`docs/evidence/shots/phase-24-keyboard-nav-1.0.0.png`（j 键移动焦点，`.ref.kb-active` 可见）；报告 verdict 加 `aria-live`；589 tests。
 
 | E35 | 浅色主题 WCAG AA 对比度 | 1.0.1 | `data/experiments/contrast_report.json` | `PYTHONPATH=src python scripts/check_contrast.py` | 20 组配色全部通过 |
+
+| E36 | 前端键盘/可访问性审计 | 1.0.2 | `data/experiments/frontend_audit.json` + `docs/evidence/shots/phase-26-keyboard-a11y-1.0.2.png` | `PYTHONPATH=src python scripts/audit_frontend.py` | 8 项全过 |

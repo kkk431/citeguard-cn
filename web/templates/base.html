@@ -58,21 +58,21 @@
     <nav class="rail-nav" aria-label="主导航">
       <div class="rail-label">核验</div>
       {% for key, href, label, sub in nav[:4] %}
-      <a href="{{ href }}" class="rail-link{% if active == key %} on{% endif %}">
+      <a href="{{ href }}" class="rail-link{% if active == key %} on{% endif %}" aria-label="{{ label }}">
         <span class="rail-ico" aria-hidden="true"><svg><use href="#ico-{{ key }}"/></svg></span>
         <span class="rail-txt">{{ label }}<small>{{ sub }}</small></span>
       </a>
       {% endfor %}
       <div class="rail-label">资产</div>
       {% for key, href, label, sub in nav[4:6] %}
-      <a href="{{ href }}" class="rail-link{% if active == key %} on{% endif %}">
+      <a href="{{ href }}" class="rail-link{% if active == key %} on{% endif %}" aria-label="{{ label }}">
         <span class="rail-ico" aria-hidden="true"><svg><use href="#ico-{{ key }}"/></svg></span>
         <span class="rail-txt">{{ label }}<small>{{ sub }}</small></span>
       </a>
       {% endfor %}
       <div class="rail-label">洞察</div>
       {% for key, href, label, sub in nav[6:] %}
-      <a href="{{ href }}" class="rail-link{% if active == key %} on{% endif %}">
+      <a href="{{ href }}" class="rail-link{% if active == key %} on{% endif %}" aria-label="{{ label }}">
         <span class="rail-ico" aria-hidden="true"><svg><use href="#ico-{{ key }}"/></svg></span>
         <span class="rail-txt">{{ label }}<small>{{ sub }}</small></span>
       </a>
