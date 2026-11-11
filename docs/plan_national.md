@@ -37,7 +37,7 @@
 - [x] 修正建议 → 复检 diff（已解决/新增/仍存，字段级）（`diff.py` + `/api/report/{id}/diff` + 报告页“对比历史报告”面板）
 - [x] 批注 PDF：问题标到原文页边，可下载/预览（`/api/report/{id}/annotated`，纯 pypdf，页边贴注）
 - [x] 批量核验页：粘贴 ≤50 条 → 表格 → CSV（`/batch`：粘贴 ≤50 条 → 表格 → CSV）
-- [ ] 报告批处理（多任务导出 RIS/EndNote/BibTeX）
+- [x] 报告批处理（多任务 ZIP，含合并 `all.ris`/`all.enw`；`/api/reports/zip`）
 - [ ] 图表核验独立节 + 图注修改建议
 - [ ] 题录库“缺什么补什么”：候选一键入库、去重、覆盖率仪表盘
 - [ ] 端到端：上传 → 报告 → 修正 → 复检 → 导出 → Word

@@ -45,3 +45,4 @@
 | phase-09-diff-ui-0.9.89.png | 报告页“对比历史报告”面板：字段级 diff、状态迁移、已解决/仍存在/新增 | `docs/evidence/shots/phase-09-diff-ui-0.9.89.png` | 2026-11-11 |
 | phase-10-batch-ui-0.9.90.png | 批量核验页 `/batch`：3 条示例、逐条判定、置信度、理由、CSV 下载 | `docs/evidence/shots/phase-10-batch-ui-0.9.90.png` | 2026-11-11 |
 | E22 | 批注 PDF（7 条问题标到原文页） | `docs/evidence/shots/phase-11-annotated-pdf-0.9.91.png`；脚本 `python -m pytest tests/test_annotate.py -q`（8 passed）；接口 `GET /api/report/{job_id}/annotated` 头 `x-annotated: 7`、`x-unmapped: 0` | 真实中文论文 hanspub_152575.pdf，14 条引用中 7 条可定位 |
+| E23 | 批量报告打包（多任务 ZIP + 合并 RIS/ENW） | `docs/evidence/shots/phase-12-batch-reports-0.9.91.png`；`GET /api/reports/zip?ids=cf6d160d6fd7,135fc226f7de` 实测 18 个文件、含 `all.ris`；`python -m pytest tests/test_annotate.py -q`（5 passed） | 两份真实报告；最多 20 份/次 |

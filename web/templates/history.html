@@ -23,6 +23,8 @@
   <div class="toolbar">
     <button class="ghost" type="button" id="compare-run" disabled>对比所选两份</button>
     <span class="muted" id="compare-hint">已选 0 / 2</span>
+    <button class="ghost" type="button" id="zip-run" disabled>打包下载所选报告</button>
+    <span class="muted" id="zip-hint">打包已选 0 份</span>
   </div>
   <table class="table">
     <thead><tr><th></th><th>创建时间</th><th>文件</th><th>状态</th><th>进度</th><th>操作</th></tr></thead>
@@ -42,6 +44,7 @@
         <td>{{ job.progress }}%</td>
         <td>
           {% if job.has_report %}<a href="/report/{{ job.id }}">查看报告</a>{% else %}<span class="muted">—</span>{% endif %}
+          {% if job.has_report %}<label class="zip-toggle"><input type="checkbox" class="zipbox" value="{{ job.id }}" aria-label="打包 {{ job.filename or job.id }}"> 打包</label>{% endif %}
           {% if job.retryable and job.status != 'done' %}<button class="ghost retry" type="button" data-job="{{ job.id }}">重新运行</button>{% endif %}
         </td>
       </tr>
@@ -122,6 +125,38 @@
     boxes().forEach(function (b) { b.checked = false; });
     panel.hidden = true;
     refresh();
+  });
+
+  var zipBoxes = Array.prototype.slice.call(document.querySelectorAll('input.zipbox'));
+  var zipRun = document.getElementById('zip-run');
+  var zipHint = document.getElementById('zip-hint');
+  function zipRefresh() {
+    var n = zipBoxes.filter(function (b) { return b.checked; }).length;
+    zipHint.textContent = '打包已选 ' + n + ' 份';
+    zipRun.disabled = n === 0;
+  }
+  zipBoxes.forEach(function (b) { b.addEventListener('change', zipRefresh); });
+  zipRefresh();
+  zipRun.addEventListener('click', function () {
+    var ids = zipBoxes.filter(function (b) { return b.checked; }).map(function (b) { return b.value; });
+    if (!ids.length) { return; }
+    zipRun.disabled = true;
+    fetch('/api/reports/zip?ids=' + encodeURIComponent(ids.join(',')))
+      .then(function (r) {
+        if (!r.ok) { return r.json().then(function (j) { throw new Error(j.detail || '打包失败'); }); }
+        return r.blob();
+      })
+      .then(function (blob) {
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'citeguard-reports.zip';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000);
+      })
+      .catch(function (err) { alert(err.message); })
+      .then(function () { zipRun.disabled = false; zipRefresh(); });
   });
 
   document.querySelectorAll('button.retry').forEach(function (btn) {

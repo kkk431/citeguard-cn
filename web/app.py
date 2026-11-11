@@ -765,6 +765,59 @@ def api_report_annotated(job_id: str):
     )
 
 
+@app.get("/api/reports/zip")
+def reports_zip(ids: str = ""):
+    """Bundle several finished reports into one archive for batch review."""
+    wanted = [part.strip() for part in ids.split(",") if part.strip()]
+    if not wanted:
+        raise HTTPException(status_code=400, detail="请至少选择一份报告")
+    if len(wanted) > 20:
+        raise HTTPException(status_code=400, detail="一次最多打包 20 份报告")
+    import io
+    import zipfile
+
+    entries: list[tuple[str, list[Path]]] = []
+    seen: set[str] = set()
+    for job_id in wanted:
+        if job_id in seen:
+            continue
+        seen.add(job_id)
+        job_dir = config.DATA_DIR / "jobs" / job_id
+        files = sorted(p for p in job_dir.glob("report.*") if p.is_file())
+        if files:
+            entries.append((job_id, files))
+    if not entries:
+        raise HTTPException(status_code=404, detail="所选报告都还没有生成")
+    manifest = {
+        "version": app.version,
+        "jobs": [job_id for job_id, _ in entries],
+        "files": {job_id: [p.name for p in files] for job_id, files in entries},
+    }
+    ris_parts: list[str] = []
+    enw_parts: list[str] = []
+    for _, files in entries:
+        for path in files:
+            if path.name == "report.ris":
+                ris_parts.append(path.read_text(encoding="utf-8-sig"))
+            elif path.name == "report.enw":
+                enw_parts.append(path.read_text(encoding="utf-8-sig"))
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as zf:
+        for job_id, files in entries:
+            for path in files:
+                zf.write(path, arcname=f"{job_id}/{path.name}")
+        if ris_parts:
+            zf.writestr("all.ris", "\ufeff" + "".join(ris_parts))
+        if enw_parts:
+            zf.writestr("all.enw", "\ufeff" + "".join(enw_parts))
+        zf.writestr("manifest.json", json.dumps(manifest, ensure_ascii=False, indent=2))
+    return Response(
+        content=buf.getvalue(),
+        media_type="application/zip",
+        headers={"Content-Disposition": 'attachment; filename="citeguard-reports.zip"'},
+    )
+
+
 @app.get("/api/report/{job_id}/bundle")
 def report_bundle(job_id: str):
     """Evidence bundle: every rendered report file plus a manifest, one zip."""

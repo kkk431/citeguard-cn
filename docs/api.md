@@ -47,3 +47,8 @@ curl -N http://127.0.0.1:8010/api/jobs/<job_id>/events
 ```
 
 前端现在优先用 SSE；连接失败或服务端不支持时自动回退到轮询（1.2 s 一次），所以老部署也能工作。
+
+## GET /api/reports/zip?ids=id1,id2
+
+把多个已完成报告打成一个 ZIP：每个任务一个子目录（report.html/json/md/refs/ris/enw/annotated），根目录额外合并 `all.ris` 与 `all.enw`，附 `manifest.json`。一次最多 20 份；未知/未完成的任务会被跳过，全部无效时返回 404。
+

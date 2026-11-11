@@ -77,3 +77,28 @@ def test_annotated_endpoint_serves_cached_copy(isolated_project):
     assert r.status_code == 200
     assert r.headers["x-annotated"] == "0"
     assert client.get("/api/report/missing/annotated").status_code == 404
+
+
+def test_reports_zip_bundles_several(isolated_project):
+    import io
+    import zipfile
+
+    from fastapi.testclient import TestClient
+
+    import web.app as webapp
+
+    for job_id in ("batcha", "batchb"):
+        d = isolated_project / "jobs" / job_id
+        d.mkdir(parents=True, exist_ok=True)
+        (d / "report.json").write_text("{}", encoding="utf-8")
+        (d / "report.html").write_text("<html></html>", encoding="utf-8")
+        (d / "report.ris").write_text(f"TY  - JOUR\nTI  - {job_id}\nER  - \n", encoding="utf-8")
+    client = TestClient(webapp.app)
+    r = client.get("/api/reports/zip?ids=batcha,batchb,missing")
+    assert r.status_code == 200
+    with zipfile.ZipFile(io.BytesIO(r.content)) as zf:
+        names = set(zf.namelist())
+    assert {"batcha/report.json", "batcha/report.html", "batchb/report.json", "all.ris"} <= names
+    assert "manifest.json" in names
+    assert client.get("/api/reports/zip?ids=").status_code == 400
+    assert client.get("/api/reports/zip?ids=none").status_code == 404
