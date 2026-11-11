@@ -682,3 +682,26 @@ body:has(.report-shell) .rail-again{margin-top:auto}
 body.theme-light .cc-stats span{background:#f7f3ea}
 .cc-stats b{display:block;font-family:var(--serif);font-size:22px;line-height:1.15;color:var(--ink)}
 .cc-stats em{display:block;font-style:normal;font-size:11px;color:var(--muted);margin-top:2px}
+
+/* ---- report charts (Phase 1) ---- */
+.chart-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:12px}
+.chart-card{padding:14px 16px;min-width:0}
+.chart-sub{font-size:13px;color:var(--muted);margin:4px 0 10px;line-height:1.5}
+.chart-row{display:grid;grid-template-columns:96px minmax(0,1fr) 88px;align-items:center;gap:8px;margin:6px 0}
+.chart-label{font-size:13px;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chart-bar{height:10px;border-radius:999px;background:rgba(255,255,255,.07);overflow:hidden;display:block}
+.chart-bar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+.bar-Exact i,.bar-support i{background:var(--ok)}
+.bar-Minor i,.bar-partial i{background:var(--warn)}
+.bar-Major i,.bar-contradict i{background:var(--bad)}
+.bar-Unverified i,.bar-no_evidence i{background:#8aa0b5}
+.bar-Unknown i,.bar-not_checked i{background:#5b6b7c}
+.chart-val{font-size:12px;text-align:right;white-space:nowrap}
+.chart-val b{font-size:15px}
+.chart-val em{font-style:normal;color:var(--muted);margin-left:4px}
+.chart-table{margin-top:8px}
+.chart-table summary{cursor:pointer;font-size:12px;color:var(--muted)}
+.chart-table .table.mini{font-size:12px;margin-top:6px}
+.chart-note{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.6}
+body.theme-light .chart-bar{background:rgba(15,40,35,.10)}
+@media(max-width:1200px){.chart-grid{grid-template-columns:1fr}}

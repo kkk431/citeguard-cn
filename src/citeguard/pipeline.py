@@ -166,6 +166,9 @@ def analyze_text(
     report["stats"]["library_entries"] = len(library) if library is not None else 0
     report["stats"]["library_hits"] = local_hits
     report["citations"] = _citations_payload(body)
+    from .report_charts import build_charts
+
+    report["charts"] = build_charts(report)
     report["input_meta"] = input_meta or {
         "method": "text",
         "file_type": "txt",

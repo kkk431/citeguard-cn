@@ -347,6 +347,31 @@
       "这不是论文本身的问题——来源限流时我们如实标 Unknown，可稍后重试或手动核对。</div>";
   }
 
+  function renderCharts(data) {
+    const el = document.getElementById("report-charts");
+    if (!el) return;
+    const charts = data.charts || [];
+    el.innerHTML = charts.map(function (c) {
+      const rows = (c.rows || []).map(function (r) {
+        const pct = Math.max(0, Math.min(100, Number(r.pct) || 0));
+        return '<div class="chart-row">' +
+          '<span class="chart-label">' + esc(r.label) + '</span>' +
+          '<span class="chart-bar bar-' + esc(r.key) + '"><i style="width:' + pct.toFixed(1) + '%"></i></span>' +
+          '<span class="chart-val"><b>' + r.value + '</b><em>' + pct.toFixed(1) + '%</em></span>' +
+          '</div>';
+      }).join("");
+      const table = '<table class="table mini"><thead><tr><th>类别</th><th>数量</th><th>占比</th></tr></thead><tbody>' +
+        (c.rows || []).map(function (r) {
+          return '<tr><td>' + esc(r.label) + '</td><td>' + r.value + '</td><td>' + r.pct + '%</td></tr>';
+        }).join("") + '</tbody></table>';
+      return '<div class="panel compact chart-card">' +
+        '<div class="mono-sm">' + esc(c.title) + '</div>' +
+        '<div class="chart-sub">' + esc(c.subtitle || "") + '</div>' + rows +
+        '<details class="chart-table"><summary>表格视图</summary>' + table + '</details>' +
+        '<div class="chart-note">' + esc(c.note || "") + '</div></div>';
+    }).join("");
+  }
+
   function render(data) {
   window.__reportData = data;
     renderInputMeta(data);
@@ -363,6 +388,7 @@
     });
     renderFigureChecks(data);
     renderCitationConsistency(data);
+    renderCharts(data);
     const s = data.stats || {};
     const total = s.total || 1;
 

@@ -21,7 +21,7 @@
 | 扫描件 OCR **23/24 条** | `data/experiments/ocr_scan_real.json` | `PYTHONPATH=src python scripts/eval_ocr_scanned.py --input <pdf>` | 7 页扫描 PDF，题名/年份/作者 23/23 |
 | GB/T E4 严格控制漂移 **29/30** | `data/experiments/e4_format.json` | `PYTHONPATH=src python scripts/e4_format_check.py` | 30 个构造样本 |
 | 万方中文强命中 **111/184** | `data/experiments/wanfang_batch.json` | 见 `docs/chinese_sources.md` | 184 条中文题录，试用配额；非全样本 |
-| 测试 **517 passed** | `pytest -q` | `PYTHONPATH=src python -m pytest tests -q` | 本地 Python 3.13 |
+| 测试 **548 passed** | `pytest -q` | `PYTHONPATH=src python -m pytest tests -q` | 本地 Python 3.13 |
 | 交付自检 **137/137** | `scripts/verify_artifacts.py` | `PYTHONPATH=src python scripts/verify_artifacts.py` | 版本/路由/文档/数字一致性 |
 | 知网导入 **22 → 27 条，Exact** | `data/library/cnki_demo.enw`、`data/library/library.json` | `PYTHONPATH=src python -m citeguard.cli --import-library data/library/cnki_demo.enw` | 5 条机构导出题录 |
 
@@ -30,7 +30,7 @@
 | 截图 | 内容 | 数据来源 |
 |---|---|---|
 | `phase0-plan.png`（待补） | 本清单/许可证整改 | `docs/plan_national.md` |
-| `phase1-support-chart-*.png`（待补） | 支持度分布 / GB/T Top-N | 真实报告 JSON |
+| `phase1-01-report-charts-v0.9.85.png` | 报告总览三张真图：核验结论分布 / 支持度四档 / GB/T 问题 Top 字段（CSS 条形图 + 表格视图） | 任务 `4e5b9681ea00` 的 `report.json`（15 条真实文献） |
 | `phase1-model-compare.png`（待补） | 模型对比（1.7B/8B/14B/4bit/API） | `data/experiments/support_local_*.json` |
 | `phase2-diff.png`（待补） | 复检 diff | 任务前后两份 report.json |
 | `phase3-1000refs.png`（待补） | 1000 条压测 | `docs/performance.md` |
