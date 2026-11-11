@@ -455,6 +455,48 @@ def judge_support(claim: str, abstract: str, title: str = "", doi: str = "") -> 
         return None
 
 
+_GROUND_PUNCT = re.compile(r"[\s，。；：、,.;:!?！？\"'“”‘’（）()\[\]【】《》<>-]+")
+
+
+def _ground_norm(text: str) -> str:
+    return _GROUND_PUNCT.sub("", text or "").lower()
+
+
+def evidence_grounded(quote: str, evidence: str, min_len: int = 8) -> bool:
+    """True when the judge's evidence quote appears verbatim in the evidence.
+
+    Punctuation and whitespace are ignored, but wording must match. A quote
+    shorter than ``min_len`` after normalization is treated as ungrounded (it
+    would match almost any text).
+    """
+    q = _ground_norm(quote)
+    e = _ground_norm(evidence)
+    if len(q) < min_len:
+        return False
+    return q in e
+
+
+def apply_grounding(result: Optional[dict], evidence: str) -> Optional[dict]:
+    """Attach a grounding flag; lower confidence when the quote is not verifiable.
+
+    This runs in the product path (pipeline) rather than inside ``judge_support``
+    so cached verdicts and the offline evaluation scripts keep their measured
+    semantics; the grounding check is cheap and can be recomputed every run.
+    """
+    if not result:
+        return result
+    quote = (result.get("evidence") or "").strip()
+    if not quote or result.get("label") not in ("support", "partial"):
+        return result
+    found = evidence_grounded(quote, evidence)
+    result["grounding"] = {"checked": True, "quote_found": found}
+    if not found:
+        conf = float(result.get("confidence") or 0.0)
+        result["confidence"] = round(conf * 0.6, 3)
+        result["reason"] = (result.get("reason") or "") + "；证据原句未在摘要中逐字找到，置信度下调"
+    return result
+
+
 def summarize_support(results: list[Optional[dict]]) -> dict:
     counts = {"support": 0, "partial": 0, "contradict": 0, "no_evidence": 0, "not_checked": 0}
     for r in results:

@@ -306,3 +306,31 @@ def test_evidence_window_keeps_short_text():
     from citeguard.support import _select_evidence_window
     text = "Short evidence."
     assert _select_evidence_window("claim", text) == text
+
+
+def test_evidence_grounded_ignores_punctuation_and_width():
+    assert sp.evidence_grounded("模型在 2023 年达到 90.1%", "该模型在2023年达到90.1%的准确率。")
+    assert not sp.evidence_grounded("模型达到 95%", "该模型在2023年达到90.1%的准确率。")
+    assert not sp.evidence_grounded("短", "短文本")  # 太短，不能当证据
+
+
+def test_apply_grounding_lowers_confidence_when_quote_missing():
+    res = {"label": "support", "confidence": 0.9, "evidence": "摘要里没有的句子", "reason": "理由"}
+    out = sp.apply_grounding(res, "摘要内容完全不同")
+    assert out is not None
+    assert out["grounding"] == {"checked": True, "quote_found": False}
+    assert out["confidence"] == pytest.approx(0.54)
+    assert "置信度下调" in out["reason"]
+
+
+def test_apply_grounding_keeps_confidence_when_quote_found():
+    res = {"label": "support", "confidence": 0.9, "evidence": "模型达到 90.1%", "reason": "理由"}
+    out = sp.apply_grounding(res, "该模型达到90.1%的准确率。")
+    assert out["grounding"]["quote_found"] is True
+    assert out["confidence"] == pytest.approx(0.9)
+
+
+def test_apply_grounding_skips_not_checked():
+    res = {"label": "not_checked", "confidence": 0.0, "evidence": "", "reason": "x"}
+    assert sp.apply_grounding(res, "摘要") == res
+    assert "grounding" not in res

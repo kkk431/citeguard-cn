@@ -20,7 +20,7 @@ from .metadata_verify import source_error_count, source_health, VerifyResult, lo
 from .pdf_extract import extract_text_with_meta, split_references
 from .reference_parser import parse_intext_citations, parse_reference_list
 from .report import build_report, save_report
-from .support import PROMPT_VERSION, build_claims, judge_available, judge_support
+from .support import PROMPT_VERSION, apply_grounding, build_claims, judge_available, judge_support
 
 Progress = Optional[Callable[[int, str], None]]
 
@@ -415,7 +415,7 @@ def _judge_support(
         if workers == 1:
             for i, claim_text, abstract, best_title, doi in pending:
                 res = judge_support(claim_text, abstract, best_title, doi)
-                results[i] = _normalise(res, claim_text)
+                results[i] = apply_grounding(_normalise(res, claim_text), abstract)
                 judged += 1
                 step(90 + int(6 * judged / total), _stage_with_eta("支持度判定", judged, total, support_started))
         else:
@@ -424,16 +424,17 @@ def _judge_support(
                     pool.submit(judge_support, claim_text, abstract, best_title, doi): (
                         i,
                         claim_text,
+                        abstract,
                     )
                     for i, claim_text, abstract, best_title, doi in pending
                 }
                 for fut in as_completed(futures):
-                    i, claim_text = futures[fut]
+                    i, claim_text, abstract = futures[fut]
                     try:
                         res = fut.result()
                     except Exception:
                         res = None
-                    results[i] = _normalise(res, claim_text)
+                    results[i] = apply_grounding(_normalise(res, claim_text), abstract)
                     judged += 1
                     step(90 + int(6 * judged / total), _stage_with_eta("支持度判定", judged, total, support_started))
 
