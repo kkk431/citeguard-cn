@@ -15,7 +15,7 @@
 
 ## 2. GROBID 对照（未完成，如实记录）
 
-- 本地 Docker 拉取 `grobid/grobid:0.8.1` 失败：`failed to copy: failed to send write: ... read-only file system`（Docker Desktop containerd 存储只读）。
+- 本地 Docker 拉取 `grobid/grobid:0.8.1` 失败：`failed to copy: failed to send write: ... read-only file system`。根因是当时 C: 磁盘写满（0 字节可用）；清理缓存释放 6.6 GB 后，Docker containerd 元数据已损坏（`blob ... input/output error`），需重建 Docker 数据目录才能重试。
 - 公共演示服务 `https://cloud.science-miner.com/grobid/api/processReferences` 请求返回 HTTP 000（不可达）。
 - 因此本轮**没有** GROBID 的参考文献抽取数字，不写“对照结论”。
 
