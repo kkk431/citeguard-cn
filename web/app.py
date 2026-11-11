@@ -96,7 +96,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.87", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.88", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
@@ -653,6 +653,22 @@ def report_json(job_id: str):
     if report is None:
         raise HTTPException(status_code=404, detail="report not ready")
     return report
+
+
+@app.get("/api/report/{job_id}/diff")
+def report_diff(job_id: str, against: str = ""):
+    """与另一份报告做字段级复检 diff（修正前 vs 修正后）。"""
+    new = _load_report(job_id)
+    if new is None:
+        raise HTTPException(status_code=404, detail="report not ready")
+    if not against:
+        raise HTTPException(status_code=400, detail="缺少 against 参数（旧任务号）")
+    old = _load_report(against)
+    if old is None:
+        raise HTTPException(status_code=404, detail="旧报告不存在")
+    from citeguard.diff import diff_reports
+
+    return diff_reports(old, new)
 
 
 @app.get("/api/report/{job_id}/export")

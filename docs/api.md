@@ -12,6 +12,7 @@
 | POST | `/api/feedback` | 判错反馈：本地 JSONL 队列（任务号/条目号/原判/正确标签/备注），不上传 |
 | POST | `/api/figure-check` | 图表核验（图片 + 每行一条 claim，最多 5 条） |
 | GET | `/word/taskpane` | Word 任务窗格页面（预览版） |
+| GET | `/api/report/{id}/diff?against={old_id}` | 字段级复检 diff（已解决/仍存在/新增/状态变化） |
 | GET | `/api/jobs/{id}/events` | 任务进度的 SSE 流（`text/event-stream`，每 0.5 s 推送一条 JSON，`status` 为 done/error 时结束） |
 
 `X-API-Key` / Bearer 认证只在设置了访问令牌时要求，默认本机不鉴权。
