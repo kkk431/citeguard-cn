@@ -96,7 +96,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.85", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.86", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
@@ -1699,6 +1699,7 @@ async def support_check(request: Request):
     if len(evidence) > 8000:
         evidence = evidence[:8000]
     from citeguard.numeric_check import check as numeric_check
+    from citeguard.claim_decompose import analyze_claim
 
     numeric = numeric_check(claim, evidence).as_dict()
     result = support.judge_support(claim, evidence)
@@ -1715,6 +1716,7 @@ async def support_check(request: Request):
         "evidence": result.get("evidence", ""),
         "audit": result.get("audit"),
         "numeric": numeric,
+        "sub_claims": analyze_claim(claim),
         "prompt_version": support.PROMPT_VERSION,
     }
 

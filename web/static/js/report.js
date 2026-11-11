@@ -863,7 +863,7 @@
       body.innerHTML =
         visible +
         (item.suggested_entry ? "<h4>建议条目</h4><pre>" + esc(item.suggested_entry) + "</pre>" : "") +
-        (item.support ? "<h4>支持度判定</h4><pre>" + esc(JSON.stringify(item.support, null, 2)) + "</pre>" : "") +
+        renderSupportBlock(item.support) +
         "<h4>原始条目</h4><pre>" + esc(item.raw || "") + "</pre>" +
         "<h4>完整 JSON</h4><pre>" + esc(JSON.stringify(item, null, 2)) + "</pre>";
     }
@@ -872,6 +872,32 @@
       drawer.hidden = false;
       document.body.classList.add("drawer-open");
     }
+  }
+
+  function renderSupportBlock(sup) {
+    if (!sup) return "";
+    const labelMap = { support: "支持", partial: "部分支持", contradict: "矛盾", no_evidence: "无证据", not_checked: "未判定" };
+    const sub = sup.sub_claims || null;
+    let html = "<h4>支持度判定</h4><div class=\"drawer-support\">" +
+      "<b>" + esc(labelMap[sup.label] || sup.label || "未判定") + "</b>" +
+      (typeof sup.confidence === "number" ? "<span class=\"mono-sm\"> · 置信度 " + sup.confidence.toFixed(2) + "</span>" : "") +
+      (sup.reason ? "<div class=\"mono-sm\" style=\"margin-top:4px\">" + esc(sup.reason) + "</div>" : "") +
+      (sup.evidence ? "<div class=\"mono-sm\" style=\"margin-top:4px\">证据原句：" + esc(sup.evidence) + "</div>" : "") +
+      "</div>";
+    if (sub && sub.count > 1) {
+      html += '<div class="mono-sm" style="margin-top:10px">这句话含 ' + sub.count +
+        ' 个子结论（整句仍只给一个标签，建议逐条核对）</div><ul class="subclaims">' +
+        (sub.parts || []).map(function (p) {
+          const kind = ({ numeric: "数字", comparison: "比较", causal: "因果", statement: "陈述" })[p.kind] || p.kind;
+          const nums = (p.numbers || []).map(function (n) { return n.raw; }).join("、");
+          return "<li><span class=\"chip\">" + esc(kind) + "</span>" + esc(p.text) +
+            (nums ? '<div class="mono-sm">数字：' + esc(nums) + "</div>" : "") + "</li>";
+        }).join("") + "</ul>";
+    }
+    if (sub && sub.note) {
+      html += '<div class="mono-sm" style="margin-top:6px">' + esc(sub.note) + "</div>";
+    }
+    return html;
   }
 
   function closeEvidence() {

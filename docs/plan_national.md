@@ -25,7 +25,7 @@
 - [ ] 上标 / 脚注 / 跨栏 / 图表标题里的引用
 - [ ] `citation_context` 写入报告（句子、页码、条目号、置信度）
 - [x] 接地校验：judge 证据原句必须可在证据中找到（忽略标点/空白），找不到则置信度 ×0.6 并写 `grounding.quote_found=false`
-- [ ] 多结论拆解：数字 / 方向 / 比较分开判
+- [x] 多结论拆解：数字 / 方向 / 比较分开判（`claim_decompose.py`：数字/比较/因果/陈述；整句仍单标签）
 - [~] 置信度校准：分桶 + ECE + 弃权曲线已完成（`docs/calibration.md`）；产品默认阈值/弃权交互待接入
 - [x] 判错反馈：本地 JSONL 队列 + 导出（匿名、带版本）——`src/citeguard/feedback.py` + `POST /api/feedback`；报告页按钮待接
 - [x] 报告三张真图：结论分布、支持度四档、GB/T 问题 Top-N（`src/citeguard/report_charts.py`；截图 `docs/evidence/shots/phase1-01-report-charts-v0.9.85.png`）

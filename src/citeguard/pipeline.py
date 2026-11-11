@@ -407,6 +407,12 @@ def _judge_support(
                 "claim": claim_text,
             }
         res["claim"] = claim_text
+        try:
+            from .claim_decompose import analyze_claim
+
+            res["sub_claims"] = analyze_claim(claim_text)
+        except Exception:
+            pass
         return res
 
     judged = 0
