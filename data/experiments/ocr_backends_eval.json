@@ -1,0 +1,19 @@
+{
+  "pdf": "hanspub_152575.pdf",
+  "page": 3,
+  "dpi": 200,
+  "backends": {
+    "rapidocr": {
+      "seconds": 10.3,
+      "chars": 1017,
+      "cer": 0.1825,
+      "sample": "彭健坤，陈江毅\n保持审慎。据此，本研究在计算聚类的基础上辅以人工解读，以部分缓解上述问题。\n2.2.数据来源\n本研究基于 Web of Science 核心合集数据库进行数据样本的采集。为确保检索结果的查准率与代\n表性, 检索词设置为 TS =((\"Artificial Intelligence\" OR AI) AND(\"e-commerc*\" OR \"electronic commerce\"\n0"
+    },
+    "paddleocr": {
+      "seconds": 109.27,
+      "chars": 1135,
+      "cer": 0.153,
+      "sample": "彭健坤，陈江毅\n保持审慎。据此，本研究在计算聚类的基础上辅以人工解读，以部分缓解上述问题。\n2.2. 数据来源\n本研究基于 Web of Science 核心合集数据库进行数据样本的采集。为确保检索结果的查准率与代\n表性，检索词设置为 TS = ((\"Artificial Intelligence\" OR AI) AND (\"e-commerc*\" OR \"electronic commerce\""
+    }
+  }
+}

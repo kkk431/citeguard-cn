@@ -58,3 +58,5 @@
 | E29 | 中文标题繁简归一 | 206 条真实中文题名；繁体标题检出率 0.0% → 1.0%，平均相似度 0.6191 → 1.0 | `data/experiments/title_norm_cn.json`；`PYTHONPATH=src python scripts/eval_title_norm.py` | optional OpenCC；只改进匹配层，不改变题录来源 |
 
 | E30 | 版面回退去 PyMuPDF | 三篇盲测 PDF 条目数 pypdfium2 与旧 PyMuPDF 完全一致（73/92/27） | `data/experiments/refs_layout_pdfium_parity.json`；`python -c "..."` 对比脚本 | 只测条目数，不测语义；现有解析回归 529/clean 1.0 另行保证 |
+
+| E31 | OCR 后端对照 | 单页 200dpi+轻噪声；RapidOCR 10.3s / CER 0.1825，PaddleOCR 109.3s / CER 0.1530；GROBID 拉取失败（read-only fs）与公共端点不可达，未评测 | `data/experiments/ocr_backends_eval.json`；`PYTHONPATH=src python scripts/eval_ocr_backends.py` | 单页单篇、数字 PDF 渲染；PaddleOCR 仅评测不入依赖 |

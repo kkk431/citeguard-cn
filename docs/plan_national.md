@@ -49,7 +49,7 @@
 - [~] 历史与题录库迁 SQLite（任务历史已索引 + 自动同步 + JSON 导出；题录库仍 JSON，待与召回一起迁）
 - [x] 1000 条长文档压测：冷/热、并发、内存（离线解析/格式/报告链，`scripts/stress_1000.py`，JSON+表；不含联网核验）
 - [x] 第六次预注册盲测（3 篇新 PDF，先协议后跑）
-- [ ] PaddleOCR 与 GROBID 对照（只评测，不默认接入）
+- [~] PaddleOCR 与 GROBID 对照：PaddleOCR 已评测（CER 0.1530 vs RapidOCR 0.1825，但慢 10.6×，不接入）；GROBID 因 Docker 存储只读/公共端点不可达**未完成**（E31）
 - [x] 中文召回增强 v1：繁简归一（可选 OpenCC；206 条真实题名 0%→100%）；BGE-M3 保留为可选路线，未接入
 - [ ] 截图：`phase3-*.png`
 
