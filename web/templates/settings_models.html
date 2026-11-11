@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}判定模型 · 引证卫士 CiteGuard{% endblock %}
+{% block content %}
+<section class="wrap" style="padding:48px 0 8px">
+  <div class="kicker">SUPPORT JUDGE</div>
+  <h1 class="serif" style="font-size:34px;font-weight:600;margin:10px 0">判定模型</h1>
+  <p class="lede" style="max-width:78ch">
+    支持度判定默认走云端 DeepSeek；也可以切到本地开源模型（14B bf16 / 4-bit）或 LoRA adapter。
+    切换即时生效，不需要改环境变量或重启；结果里会标注实际使用的模型来源。
+  </p>
+  <div class="panel" id="judge-current" style="margin-top:16px">
+    <div class="mono-sm">当前生效</div>
+    <div id="judge-current-body" class="hint" style="margin-top:6px">读取中…</div>
+  </div>
+</section>
+
+<section class="wrap section">
+  <div class="section-head"><h2>可选模型</h2><span class="hint">只登记地址与名称，不存 API Key</span></div>
+  <div class="stat-grid" id="judge-grid" aria-live="polite"></div>
+</section>
+
+<script src="/static/js/settings_models.js?v={{ request.app.version }}"></script>
+{% endblock %}

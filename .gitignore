@@ -24,3 +24,5 @@ report/
 .env.wanfang
 .env.*.local
 data/feedback/
+
+data/judge_models.json

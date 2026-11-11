@@ -701,3 +701,32 @@ def test_library_suggest_returns_ranked_candidates(client, monkeypatch):
     assert body["count"] == 1
     assert body["candidates"][0]["sim"] == 1.0
     assert body["candidates"][0]["cited_by"] == 100
+
+
+def test_models_api_lists_and_switches(plain_client, tmp_path, monkeypatch):
+    import web.app as webapp
+
+    monkeypatch.setenv("CITEGUARD_MODEL_REGISTRY", str(tmp_path / "reg.json"))
+    monkeypatch.setattr(webapp, "_probe_judge", lambda entry: {"ok": False, "error": "down"})
+
+    r = plain_client.get("/api/models")
+    assert r.status_code == 200
+    body = r.json()
+    assert body["active"] is None
+    assert any(m["id"] == "local-qwen3-14b" for m in body["models"])
+
+    r = plain_client.post("/api/models/active", json={"id": "local-qwen3-14b"})
+    assert r.status_code == 409
+
+    r = plain_client.post("/api/models/active", json={"id": "local-qwen3-14b", "force": True})
+    assert r.status_code == 200
+    assert r.json()["active"] == "local-qwen3-14b"
+
+    r = plain_client.post("/api/models/active", json={"id": "nope"})
+    assert r.status_code == 400
+
+
+def test_model_settings_page_renders(plain_client):
+    r = plain_client.get("/settings/models")
+    assert r.status_code == 200
+    assert "判定模型" in r.text

@@ -6,6 +6,7 @@ Run (from the citeguard/ directory):
 from __future__ import annotations
 
 import asyncio
+import os
 import json
 from concurrent.futures import ThreadPoolExecutor
 import re
@@ -96,7 +97,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.94", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.95", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
@@ -1908,6 +1909,79 @@ async def post_feedback(request: Request):
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc))
     return {"ok": True, "item": item, "queue": summarize_feedback([item])}
+
+
+@app.get("/settings/models", response_class=HTMLResponse)
+def settings_models(request: Request):
+    """Choose which support-judge model the product uses (hosted/local/adapter)."""
+    return templates.TemplateResponse(request=request, name="settings_models.html", context={"active": "settings"})
+
+
+@app.get("/api/models")
+def api_models():
+    from citeguard import model_registry, support
+
+    data = model_registry.load_registry()
+    base, model, _key = support.judge_endpoint()
+    return {
+        "models": data["models"],
+        "active": data["active"],
+        "current": {"base_url": base, "model": model, "label": (model_registry.active_model() or {}).get("label") if data["active"] else "环境变量"},
+    }
+
+
+def _probe_judge(entry: dict) -> dict:
+    import time
+    import urllib.request
+
+    url = entry["base_url"].rstrip("/") + "/models"
+    started = time.monotonic()
+    headers = {"Accept": "application/json"}
+    key = os.environ.get("CITEGUARD_JUDGE_API_KEY") or config.DEEPSEEK_API_KEY
+    if key:
+        headers["Authorization"] = "Bearer " + key
+    try:
+        req = urllib.request.Request(url, headers=headers)
+        with urllib.request.urlopen(req, timeout=4) as resp:
+            resp.read(400)
+        return {"ok": True, "latency_ms": int((time.monotonic() - started) * 1000), "url": url}
+    except Exception as exc:
+        return {"ok": False, "error": str(exc), "url": url}
+
+
+@app.post("/api/models/active")
+async def api_models_active(request: Request):
+    from citeguard import model_registry
+
+    payload = await request.json()
+    model_id = payload.get("id")
+    force = bool(payload.get("force"))
+    try:
+        if model_id:
+            entry = model_registry.get_model(model_id)
+            if not entry:
+                raise ValueError("模型不存在")
+            probe = _probe_judge(entry)
+            if not probe["ok"] and not force:
+                return JSONResponse(
+                    {"ok": False, "error": "连不上该模型服务，先启动它或点“测连接”确认", "probe": probe},
+                    status_code=409,
+                )
+        data = model_registry.set_active(model_id or None)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
+    return {"ok": True, **data}
+
+
+@app.post("/api/models/test")
+async def api_models_test(request: Request):
+    from citeguard import model_registry
+
+    payload = await request.json()
+    entry = model_registry.get_model(payload.get("id") or "")
+    if not entry:
+        raise HTTPException(status_code=404, detail="模型不存在")
+    return JSONResponse(_probe_judge(entry), status_code=200)
 
 
 @app.get("/api/health")

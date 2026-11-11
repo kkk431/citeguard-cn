@@ -212,6 +212,14 @@ def judge_endpoint() -> tuple[str, str, str]:
     open-source model and no third-party API; ``CITEGUARD_JUDGE_API_KEY`` is
     optional in that case.
     """
+    from .model_registry import active_model
+
+    entry = active_model()
+    if entry:
+        base = entry.get("base_url") or config.DEEPSEEK_BASE_URL
+        model = entry.get("model") or config.DEEPSEEK_MODEL
+        key = os.environ.get("CITEGUARD_JUDGE_API_KEY") or config.DEEPSEEK_API_KEY
+        return base.rstrip("/"), model, key
     base = os.environ.get("CITEGUARD_JUDGE_BASE_URL") or config.DEEPSEEK_BASE_URL
     model = os.environ.get("CITEGUARD_JUDGE_MODEL") or config.DEEPSEEK_MODEL
     key = os.environ.get("CITEGUARD_JUDGE_API_KEY") or config.DEEPSEEK_API_KEY
@@ -225,12 +233,12 @@ def judge_available() -> bool:
 
 
 def _cache_path(claim: str, abstract: str):
-    model = judge_endpoint()[1]
+    base, model, _key = judge_endpoint()
     # The cached value is the *final* verdict (after the coverage audit), so the
     # audit style must be part of the key; otherwise switching v1<->v2 keeps
     # serving verdicts produced by the old audit prompt.
     audit_tag = _audit_style() if config.SUPPORT_AUDIT else "off"
-    h = hashlib.md5((model + "||" + audit_tag + "||" + _EVIDENCE_MODE + "||" + claim + "||" + abstract).encode("utf-8")).hexdigest()
+    h = hashlib.md5((base + "||" + model + "||" + audit_tag + "||" + _EVIDENCE_MODE + "||" + claim + "||" + abstract).encode("utf-8")).hexdigest()
     d = config.CACHE_DIR / "support" / f"v{PROMPT_VERSION}"
     d.mkdir(parents=True, exist_ok=True)
     return d / f"{h}.json"

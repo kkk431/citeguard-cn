@@ -52,3 +52,4 @@
 | E25 | 图注修改建议（规则版，supported 不给建议） | 单元测试 tests/test_figure_advice.py；截图待视觉服务在线时补 | 0.9.94 | 2026-11-11 |
 
 | E26 | 第六次预注册盲测（Llama3 187/99.47%、Phi-3 71/97.18%、Qwen2 79/100%） | data/experiments/blind_test6.json + docs/blind_test_results.md §15 | 41a18d7 | 2026-11-11 |
+| E27 | 判定模型设置页（hosted / 14B bf16 / 4bit / LoRA，切换前实测连通性） | docs/evidence/shots/phase-16-model-registry-0.9.95.png | 0.9.95 | 2026-11-11 |

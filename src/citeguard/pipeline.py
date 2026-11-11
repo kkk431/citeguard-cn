@@ -57,6 +57,17 @@ def _citations_payload(body: str, limit: int = 200) -> dict:
     }
 
 
+def _judge_run_config() -> dict:
+    """Record which judge endpoint actually generated this report."""
+    try:
+        from .support import judge_endpoint
+
+        base, model, _key = judge_endpoint()
+        return {"base_url": base, "model": model}
+    except Exception:
+        return {"base_url": "", "model": ""}
+
+
 def analyze_text(
     text: str,
     source_name: str = "粘贴文本",
@@ -193,6 +204,7 @@ def analyze_text(
         "support_prompt": PROMPT_VERSION,
         "support_audit": bool(config.SUPPORT_AUDIT),
         "support_judge_available": bool(judge_available()),
+        "judge": _judge_run_config(),
         "wanfang": bool(getattr(config, "WANFANG_APP_KEY", "")),
         "sources": ["local-library", "openalex", "crossref", "arxiv"]
         + (["semantic-scholar"] if getattr(config, "SEMANTIC_SCHOLAR", False) else []),

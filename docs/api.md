@@ -60,3 +60,9 @@ curl -N http://127.0.0.1:8010/api/jobs/<job_id>/events
 Query: `title`（≥4 字）、`year`（可选，用于排序）。
 
 返回 `{query, count, candidates[]}`，每条含 `title/doi/year/authors/venue/source/sim/cited_by/already`；`already=true` 表示本地库已有同题名或同 DOI。
+
+### 判定模型
+
+- `GET /api/models`：列出内置模型（云端 / 本地 14B / 4bit / LoRA）与当前生效项。
+- `POST /api/models/active`，body `{"id": "local-qwen3-14b"}`：切换判定模型；切换前会实测 `/models` 连通性，连不上返回 409（可传 `force: true`）。
+- `POST /api/models/test`，body `{"id": "..."}`：只测连通性与延迟，不切换。
