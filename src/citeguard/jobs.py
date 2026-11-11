@@ -99,6 +99,7 @@ class JobManager:
 
     def _persist(self, job: dict) -> None:
         try:
+            JOBS_DIR.mkdir(parents=True, exist_ok=True)
             (JOBS_DIR / f"{job['id']}.json").write_text(
                 json.dumps(job, ensure_ascii=False, indent=2), encoding="utf-8"
             )

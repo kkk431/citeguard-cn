@@ -592,6 +592,17 @@
         const viewSel = document.getElementById("view");
         if (viewSel) viewSel.value = state.view;
         apply(data);
+      } else if (e.key === "j" || e.key === "k") {
+        const rows = Array.from(document.querySelectorAll("#ref-list .ref"));
+        if (!rows.length) return;
+        e.preventDefault();
+        let idx = rows.indexOf(document.activeElement);
+        if (idx < 0) idx = rows.findIndex(function (r) { return r.classList.contains("kb-active"); });
+        if (idx < 0) idx = -1;
+        rows.forEach(function (r) { r.classList.remove("kb-active"); });
+        idx = e.key === "j" ? Math.min(rows.length - 1, idx + 1) : Math.max(0, idx - 1);
+        rows[idx].classList.add("kb-active");
+        rows[idx].focus();
       } else if (e.key === "p") {
         window.print();
       } else if (e.key >= "1" && e.key <= "5") {

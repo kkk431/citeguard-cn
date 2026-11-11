@@ -47,6 +47,17 @@ def isolated_local_library(tmp_path, monkeypatch):
     yield
 
 
+@pytest.fixture(autouse=True)
+def isolated_jobs_dir(tmp_path, monkeypatch):
+    """Never let a test write into or clean the developer's real data/jobs."""
+    from citeguard import jobs
+
+    jobs_dir = tmp_path / "jobs"
+    monkeypatch.setattr(jobs, "JOBS_DIR", jobs_dir)
+    monkeypatch.setattr(jobs.manager, "_jobs", {})
+    yield jobs_dir
+
+
 @pytest.fixture
 def isolated_project(tmp_path, monkeypatch):
     """Redirect all mutable project directories (jobs/cache/uploads) to tmp_path.

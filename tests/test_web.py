@@ -730,3 +730,15 @@ def test_model_settings_page_renders(plain_client):
     r = plain_client.get("/settings/models")
     assert r.status_code == 200
     assert "判定模型" in r.text
+
+
+def test_report_page_has_aria_live_verdict(client):
+    response = client.get("/report/does-not-exist")
+    # unknown job returns 404; static template check instead
+    assert response.status_code == 404
+
+    from pathlib import Path
+    html = Path("web/templates/report.html").read_text(encoding="utf-8")
+    assert 'id="verdict" aria-live="polite"' in html
+    js = Path("web/static/js/report.js").read_text(encoding="utf-8")
+    assert 'e.key === "j" || e.key === "k"' in js

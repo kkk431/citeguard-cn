@@ -761,3 +761,6 @@ body.theme-light .chart-bar{background:rgba(15,40,35,.10)}
 .badge-mint{color:var(--mint);border-color:rgba(127,240,207,.5)}
 .badge-cyan{color:var(--cyan);border-color:rgba(111,231,255,.5)}
 @media (max-width:980px){.stat-grid{grid-template-columns:1fr}}
+
+#ref-list .ref.kb-active{outline:2px solid var(--accent);outline-offset:2px}
+#ref-list .ref:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
