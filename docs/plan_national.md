@@ -10,7 +10,7 @@
 ## Phase 0 · 冻结与合规
 
 - [x] PyMuPDF 从核心依赖移除，改为可选 `requirements-optional-layout.txt`
-- [ ] Docker 镜像用新 requirements 重建并通过 health
+- [x] Docker 镜像用新 requirements 重建并通过 health（`citeguard-cn:0.9.85`，18080 返回 0.9.85/offline）
 - [x] `docs/licenses.md`：全依赖 SPDX + 数据/模型许可证
 - [x] `docs/evidence_index.md`：对外数字 → 证据
 - [x] `docs/plan_national.md`（本文件）
@@ -20,7 +20,7 @@
 
 ## Phase 1 · 可信内核
 
-- [ ] 正文引用句抽取 v1：数字键 `[12]`、`[12,15]`、`[3-5]`
+- [x] 正文引用句抽取 v1：数字键 `[12]`、`[12,15]`、`[3-5]`；中文“文献[12]”；作者年 `(Smith et al., 2020)`；写入报告 `citations.summary/items`（句子 + 偏移；页码/图表标题后续）
 - [ ] 作者年 `(Smith et al., 2020)` / 中文“文献[12]”
 - [ ] 上标 / 脚注 / 跨栏 / 图表标题里的引用
 - [ ] `citation_context` 写入报告（句子、页码、条目号、置信度）

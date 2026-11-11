@@ -38,6 +38,18 @@ def _health_since(errors_at_start: int) -> dict:
     return health
 
 
+def _citations_payload(body: str, limit: int = 200) -> dict:
+    """Report-level citation context: where each citation appears and what it cites."""
+    from .citation_anchor import extract_citations, summarize
+
+    items = extract_citations(body)
+    return {
+        "summary": summarize(items),
+        "items": [c.to_dict() for c in items[:limit]],
+        "truncated": len(items) > limit,
+    }
+
+
 def analyze_text(
     text: str,
     source_name: str = "粘贴文本",
@@ -153,6 +165,7 @@ def analyze_text(
     )
     report["stats"]["library_entries"] = len(library) if library is not None else 0
     report["stats"]["library_hits"] = local_hits
+    report["citations"] = _citations_payload(body)
     report["input_meta"] = input_meta or {
         "method": "text",
         "file_type": "txt",
