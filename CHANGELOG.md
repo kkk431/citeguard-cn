@@ -2,6 +2,16 @@
 
 All notable changes to CiteGuard-CN. Earlier pre-1.0 history is condensed.
 
+## [1.0.6] - 2026-11-11
+
+### Added
+- Optional embedding backend (`citeguard.embeddings`) for an OpenAI-compatible
+  `/embeddings` endpoint (BGE-M3, TEI, vLLM). Off by default; unconfigured calls
+  raise a human-readable error instead of silently degrading.
+- `cosine()` and `rerank()` helpers; 6 tests against a local stub server.
+- `docs/embeddings.md` documents the environment contract and the honest boundary:
+  no real BGE-M3 endpoint is deployed in this environment, so no recall claim.
+
 ## [1.0.5] - 2026-11-11
 
 ### Added
