@@ -79,3 +79,4 @@
 | E44 | 图表引用抽取（22 篇真实语料 185 处 / 101 标签） | `data/experiments/citation_captions.json`；`python scripts/eval_caption_mentions.py`（规则） | 22 篇 / 12 篇有提及；规则匹配、下界 | 报告页引注面板 `docs/evidence/shots/phase-34-caption-mentions-1.0.10.png` |
 
 | E45 | 条目↔正文双向定位：15/15 条命中，抽屉显示引用句与页码 | 报告 JSON `references[*].cited_in`；`tests/test_cited_in.py` | 真实任务 77136f8db5cc；15 条均有正文引用（每页最多 5 处） | `docs/evidence/shots/phase-35-reference-cited-in-1.0.11.png` |
+| E46 | 端到端冒烟 14/14（上传→报告→批注→导出→证据包→diff） | `scripts/e2e_smoke.py`；`data/experiments/e2e_smoke.json`；job 94c2214965b1 | 1 篇真实论文 / 14 项检查 | `docs/evidence/shots/phase-36-e2e-report-1.0.11.png` |

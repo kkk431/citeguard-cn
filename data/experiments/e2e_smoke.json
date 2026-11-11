@@ -1,0 +1,121 @@
+{
+ "base": "http://127.0.0.1:8013",
+ "pdf": "data\\real_corpus\\hanspub_152575.pdf",
+ "job": "94c2214965b1",
+ "version": "1.0.11",
+ "checks": [
+  {
+   "check": "health",
+   "ok": true,
+   "detail": {
+    "version": "1.0.11"
+   }
+  },
+  {
+   "check": "job_done",
+   "ok": true,
+   "detail": {
+    "job": "94c2214965b1",
+    "status": "done"
+   }
+  },
+  {
+   "check": "report_references",
+   "ok": true,
+   "detail": {
+    "references": 15
+   }
+  },
+  {
+   "check": "report_citations",
+   "ok": true,
+   "detail": {
+    "citations": 18
+   }
+  },
+  {
+   "check": "report_captions",
+   "ok": true,
+   "detail": {
+    "caption_labels": 10
+   }
+  },
+  {
+   "check": "report_cited_in",
+   "ok": true,
+   "detail": {
+    "refs_with_cited_in": 15
+   }
+  },
+  {
+   "check": "annotated_pdf",
+   "ok": true,
+   "detail": {
+    "bytes": 1667177,
+    "x_annotated": "7",
+    "x_citations": "17"
+   }
+  },
+  {
+   "check": "export_ris",
+   "ok": true,
+   "detail": {
+    "bytes": 8900
+   }
+  },
+  {
+   "check": "export_enw",
+   "ok": true,
+   "detail": {
+    "bytes": 4612
+   }
+  },
+  {
+   "check": "export_bibtex",
+   "ok": true,
+   "detail": {
+    "bytes": 5720
+   }
+  },
+  {
+   "check": "export_csl",
+   "ok": true,
+   "detail": {
+    "bytes": 10178
+   }
+  },
+  {
+   "check": "export_refs",
+   "ok": true,
+   "detail": {
+    "bytes": 3594
+   }
+  },
+  {
+   "check": "evidence_bundle",
+   "ok": true,
+   "detail": {
+    "files": 10,
+    "sample": [
+     "report.annotated.pdf",
+     "report.bib",
+     "report.csl.json",
+     "report.enw",
+     "report.html",
+     "report.json",
+     "report.md",
+     "report.refs.txt"
+    ]
+   }
+  },
+  {
+   "check": "diff_self",
+   "ok": true,
+   "detail": {
+    "status": 200
+   }
+  }
+ ],
+ "passed": 14,
+ "failed": []
+}
