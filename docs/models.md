@@ -39,4 +39,4 @@ CITEGUARD_VL_MODEL=qwen2.5-vl-7b
 
 - 以上模型均为 Apache-2.0；权重不随本仓库分发。
 - 模型输出仅作辅助判断，最终结论与修改建议由规则引擎与人工复核决定。
-- 第三方组件与资源见 [THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md)。
+- 第三方组件与资源见 [THIRD_PARTY_NOTICES.md](https://github.com/kkk431/citeguard-cn/blob/main/THIRD_PARTY_NOTICES.md)。

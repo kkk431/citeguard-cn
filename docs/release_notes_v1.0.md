@@ -17,7 +17,8 @@ GB/T 7714-2025. It runs against real metadata sources, with an offline mode.
 - **Open models as first-class options**: hosted DeepSeek or a local Qwen3-14B
   (bf16 / 4-bit), with a settings page that probes the endpoint before switching.
 - **Open results**: source code (Apache-2.0), a 300-item constructed Chinese claim
-  support set, a LoRA adapter for Qwen3-1.7B, and reproducible evaluation scripts.
+  support set, LoRA training/eval scripts, and reproducible evaluation scripts.
+  The adapter weights are in the offline bundle; public HF/Zenodo upload is pending.
 
 ## Numbers (with boundaries)
 

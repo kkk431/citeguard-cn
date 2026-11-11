@@ -26,3 +26,5 @@ report/
 data/feedback/
 
 data/judge_models.json
+
+site/

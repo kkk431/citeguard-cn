@@ -43,7 +43,8 @@ Chinese and English academic citations against real metadata sources.
 - ClaimSupport-CN 300 constructed items: macro-F1 0.9841, accuracy 0.9833;
   labels are rule-constructed, not human-annotated.
 - Qwen3-1.7B LoRA (r16, 80 training items): test macro-F1 0.9721 (base 0.4935);
-  adapter and training script released.
+  the training/eval scripts are in the repository; the 69.8 MB adapter ships in the
+  offline bundle (`dist/models/`), public upload (HF/Zenodo) still pending.
 - Real corpus, 22 papers / 529 references: parser clean rate 1.0, 0 Major status.
 - Sixth pre-registered blind test (3 unseen PDFs): reference extraction passed the
   pre-registered health-rate threshold; it measures parser health, not semantic

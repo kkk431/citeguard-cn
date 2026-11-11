@@ -9,7 +9,7 @@ theme:
       primary: teal
       accent: amber
 nav:
-  - 首页: ../README.md
+  - 首页: index.md
   - API: api.md
   - 部署: deployment.md
   - 性能: performance.md
@@ -18,7 +18,7 @@ nav:
   - 校准: calibration.md
   - 许可证: licenses.md
   - 模型卡: model_card_support_lora.md
-  - CHANGELOG: ../CHANGELOG.md
+  - 更新日志: changelog.md
 markdown_extensions:
   - tables
   - fenced_code

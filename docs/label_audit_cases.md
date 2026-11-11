@@ -2,7 +2,7 @@
 
 > 这是 **LLM 共识审计**，不是人工金标准。三个独立模型（DeepSeek-Chat、DeepSeek-Reasoner、
 > Qwen3-8B）在固定 rubric 下只看 claim + evidence 盲标；具体口径与局限见
-> [data/claimsupport_cn/README.md](../data/claimsupport_cn/README.md) §10。
+> [data/claimsupport_cn/README.md](https://github.com/kkk431/citeguard-cn/blob/main/data/claimsupport_cn/README.md) §10。
 
 ## 数字先摆清楚
 
