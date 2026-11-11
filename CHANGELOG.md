@@ -2,6 +2,18 @@
 
 All notable changes to CiteGuard-CN. Earlier pre-1.0 history is condensed.
 
+## [1.0.7] - 2026-11-11
+
+### Changed
+- Report citation coverage now resolves author-year keys (`Smith et al., 2020`,
+  Chinese author-year) to reference entries instead of counting numeric keys only.
+- Added a real-corpus citation extraction evaluation: 22 papers / 529 references,
+  21 papers with citations (95.5%), 318 cited entries (60.1%), 89.5% key
+  self-consistency. This is an automated check, not human-annotated accuracy.
+
+### Docs
+- `docs/citation_eval.md` documents method, numbers and limits.
+
 ## [1.0.6] - 2026-11-11
 
 ### Added

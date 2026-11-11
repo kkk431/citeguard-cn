@@ -200,11 +200,52 @@ def main(argv: list[str] | None = None) -> int:
 if __name__ == "__main__":
     raise SystemExit(main())
 
-def coverage(citations: list[Citation], ref_count: int) -> dict:
-    """正文引注覆盖了多少条参考文献（只统计落在 1..ref_count 的编号）。"""
-    cited = sorted({n for c in citations for n in c.ref_numbers if 1 <= n <= ref_count})
-    seen = set(cited)
-    uncited = [n for n in range(1, ref_count + 1) if n not in seen]
+def _citation_author_year(key: str) -> tuple[str, str] | None:
+    """Best-effort (surname, year) from an author-year key like ``Smith et al., 2020``."""
+    year = re.search(r"(?:19|20)\d{2}", key or "")
+    if not year:
+        return None
+    head = (key or "").split(year.group(0), 1)[0].strip("( ").strip()
+    name = head.split(",", 1)[0]
+    name = re.split(r"\s+(?:et\s+al\.?|and|&)", name, maxsplit=1, flags=re.I)[0]
+    surname = name.split()[-1] if name.split() else ""
+    return (surname.casefold(), year.group(0)) if surname else None
+
+
+def _author_year_cited(citations: list[Citation], references: list) -> set[int]:
+    """Resolve author-year citations to 1-based reference indices when possible."""
+    cited: set[int] = set()
+    for c in citations:
+        parsed = _citation_author_year(c.key)
+        if not parsed:
+            continue
+        surname, year = parsed
+        for i, ref in enumerate(references, 1):
+            if str(getattr(ref, "year", "") or "") != year:
+                continue
+            authors = getattr(ref, "authors", []) or []
+            joined = " ".join(str(a) for a in authors).casefold()
+            names = [str(a).split()[-1].casefold() for a in authors if str(a).strip()]
+            if any(n == surname or n.endswith(" " + surname) for n in names) or (
+                len(surname) >= 2 and surname in joined
+            ):
+                cited.add(i)
+                break
+    return cited
+
+
+def coverage(citations: list[Citation], references_or_count) -> dict:
+    """正文引注覆盖了多少条参考文献。
+
+    ``references_or_count`` 可以是参考文献数量（只算数字编号，兼容旧调用），
+    也可以是 Reference 列表；传列表时会把作者年引用也解析到条目。
+    """
+    refs = references_or_count if isinstance(references_or_count, (list, tuple)) else None
+    ref_count = len(refs) if refs is not None else int(references_or_count or 0)
+    cited = {n for c in citations for n in c.ref_numbers if 1 <= n <= ref_count}
+    if refs is not None:
+        cited |= _author_year_cited(citations, refs)
+    uncited = [n for n in range(1, ref_count + 1) if n not in cited]
     return {
         "refs": ref_count,
         "cited": len(cited),

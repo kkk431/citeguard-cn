@@ -72,3 +72,4 @@
 | E38 | 正文引注 → 条目跳转 | 1.0.4 | `docs/evidence/shots/phase-28-citation-jump-1.0.4.png` | Playwright 点击 `.cite-jump` 后断言 `aria-selected=true`、抽屉 `open` 且序号为 [1] | 真实任务 18 处引注可跳转 |
 | E39 | 正文引注覆盖率 | 1.0.5 | `docs/evidence/shots/phase-29-citation-coverage-1.0.5.png` + `tests/test_citation_anchor.py::test_coverage_counts_only_cited_numbers` | `pytest tests/test_citation_anchor.py -q` | 真实任务 15/15 条被引用，0 条未被引用 |
 | E40 | 可选向量接口层（BGE-M3 / OpenAI 兼容） | 1.0.6 | `tests/test_embeddings.py`（6 例，本地假服务）+ `docs/embeddings.md` | `pytest tests/test_embeddings.py -q` | 接口/错误/重排全过；真实 BGE-M3 未部署，无召回数字 |
+| E41 | 正文引注抽取真实语料评测 | 1.0.7 | `data/experiments/citation_anchor_real.json` + `citation_anchor_sample.csv` + `docs/citation_eval.md` | `PYTHONPATH=src python scripts/eval_citation_anchor.py` | 22 篇 / 529 条：21 篇有引注（95.5%）、参考文献被引 318 条（60.1%）、自洽 486/543（89.5%） |

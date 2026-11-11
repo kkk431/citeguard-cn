@@ -138,3 +138,17 @@ def test_coverage_counts_only_cited_numbers():
     assert cov["cited"] == 3
     assert cov["uncited"] == [3, 5]
     assert cov["ratio"] == 0.6
+
+def test_coverage_resolves_author_year():
+    from types import SimpleNamespace
+
+    from citeguard.citation_anchor import Citation, coverage
+
+    cites = [Citation(key="Smith et al., 2020", style="author_year", ref_numbers=[], sentence="Smith et al., 2020 show it.", start=0, end=18)]
+    refs = [
+        SimpleNamespace(authors=["Smith, J."], year="2020"),
+        SimpleNamespace(authors=["Lee, A."], year="2019"),
+    ]
+    cov = coverage(cites, refs)
+    assert cov["cited"] == 1
+    assert cov["uncited"] == [2]

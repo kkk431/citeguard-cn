@@ -1,0 +1,695 @@
+{
+ "papers": [
+  {
+   "paper": "hanspub_152572.pdf",
+   "pages": 7,
+   "refs": 24,
+   "citations": 27,
+   "style": {
+    "numeric": 27,
+    "chinese": 0,
+    "author_year": 0,
+    "cn_author_year": 0,
+    "footnote": 0
+   },
+   "coverage": {
+    "refs": 24,
+    "cited": 24,
+    "uncited": [],
+    "ratio": 1.0
+   },
+   "self_consistent": 27,
+   "self_consistent_ratio": 1.0
+  },
+  {
+   "paper": "hanspub_152573.pdf",
+   "pages": 7,
+   "refs": 14,
+   "citations": 14,
+   "style": {
+    "numeric": 14,
+    "chinese": 0,
+    "author_year": 0,
+    "cn_author_year": 0,
+    "footnote": 0
+   },
+   "coverage": {
+    "refs": 14,
+    "cited": 14,
+    "uncited": [],
+    "ratio": 1.0
+   },
+   "self_consistent": 14,
+   "self_consistent_ratio": 1.0
+  },
+  {
+   "paper": "hanspub_152574.pdf",
+   "pages": 7,
+   "refs": 11,
+   "citations": 12,
+   "style": {
+    "numeric": 12,
+    "chinese": 0,
+    "author_year": 0,
+    "cn_author_year": 0,
+    "footnote": 0
+   },
+   "coverage": {
+    "refs": 11,
+    "cited": 11,
+    "uncited": [],
+    "ratio": 1.0
+   },
+   "self_consistent": 12,
+   "self_consistent_ratio": 1.0
+  },
+  {
+   "paper": "hanspub_152575.pdf",
+   "pages": 10,
+   "refs": 15,
+   "citations": 18,
+   "style": {
+    "numeric": 16,
+    "chinese": 0,
+    "author_year": 0,
+    "cn_author_year": 2,
+    "footnote": 0
+   },
+   "coverage": {
+    "refs": 15,
+    "cited": 15,
+    "uncited": [],
+    "ratio": 1.0
+   },
+   "self_consistent": 16,
+   "self_consistent_ratio": 0.8889
+  },
+  {
+   "paper": "hanspub_152576.pdf",
+   "pages": 8,
+   "refs": 13,
+   "citations": 13,
+   "style": {
+    "numeric": 13,
+    "chinese": 0,
+    "author_year": 0,
+    "cn_author_year": 0,
+    "footnote": 0
+   },
+   "coverage": {
+    "refs": 13,
+    "cited": 13,
+    "uncited": [],
+    "ratio": 1.0
+   },
+   "self_consistent": 13,
+   "self_consistent_ratio": 1.0
+  },
+  {
+   "paper": "hanspub_152577.pdf",
+   "pages": 16,
+   "refs": 27,
+   "citations": 26,
+   "style": {
+    "numeric": 26,
+    "chinese": 0,
+    "author_year": 0,
+    "cn_author_year": 0,
+    "footnote": 0
+   },
+   "coverage": {
+    "refs": 27,
+    "cited": 23,
+    "uncited": [
+     2,
+     3,
+     4,
+     5
+    ],
+    "ratio": 0.8519
+   },
+   "self_consistent": 26,
+   "self_consistent_ratio": 1.0
+  },
+  {
+   "paper": "hanspub_152592.pdf",
+   "pages": 9,
+   "refs": 34,
+   "citations": 26,
+   "style": {
+    "numeric": 0,
+    "chinese": 0,
+    "author_year": 18,
+    "cn_author_year": 8,
+    "footnote": 0
+   },
+   "coverage": {
+    "refs": 34,
+    "cited": 10,
+    "uncited": [
+     1,
+     4,
+     5,
+     8,
+     9,
+     11,
+     13,
+     15,
+     16,
+     18,
+     19,
+     20,
+     21,
+     24,
+     25,
+     26,
+     27,
+     28,
+     29,
+     30,
+     31,
+     32,
+     33,
+     34
+    ],
+    "ratio": 0.2941
+   },
+   "self_consistent": 18,
+   "self_consistent_ratio": 0.6923
+  },
+  {
+   "paper": "hanspub_152593.pdf",
+   "pages": 10,
+   "refs": 40,
+   "citations": 25,
+   "style": {
+    "numeric": 0,
+    "chinese": 0,
+    "author_year": 18,
+    "cn_author_year": 7,
+    "footnote": 0
+   },
+   "coverage": {
+    "refs": 40,
+    "cited": 7,
+    "uncited": [
+     1,
+     2,
+     3,
+     4,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     13,
+     15,
+     16,
+     17,
+     18,
+     19,
+     20,
+     21,
+     22,
+     23,
+     24,
+     26,
+     29,
+     30,
+     31,
+     33,
+     34,
+     35,
+     36,
+     37,
+     38,
+     39,
+     40
+    ],
+    "ratio": 0.175
+   },
+   "self_consistent": 17,
+   "self_consistent_ratio": 0.68
+  },
+  {
+   "paper": "hanspub_152594.pdf",
+   "pages": 11,
+   "refs": 37,
+   "citations": 36,
+   "style": {
+    "numeric": 0,
+    "chinese": 0,
+    "author_year": 18,
+    "cn_author_year": 18,
+    "footnote": 0
+   },
+   "coverage": {
+    "refs": 37,
+    "cited": 9,
+    "uncited": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19,
+     21,
+     23,
+     24,
+     25,
+     26,
+     27,
+     28,
+     29,
+     33,
+     34,
+     37
+    ],
+    "ratio": 0.2432
+   },
+   "self_consistent": 18,
+   "self_consistent_ratio": 0.5
+  },
+  {
+   "paper": "hanspub_152595.pdf",
+   "pages": 9,
+   "refs": 9,
+   "citations": 23,
+   "style": {
+    "numeric": 19,
+    "chinese": 4,
+    "author_year": 0,
+    "cn_author_year": 0,
+    "footnote": 0
+   },
+   "coverage": {
+    "refs": 9,
+    "cited": 9,
+    "uncited": [],
+    "ratio": 1.0
+   },
+   "self_consistent": 23,
+   "self_consistent_ratio": 1.0
+  },
+  {
+   "paper": "hanspub_152678.pdf",
+   "pages": 10,
+   "refs": 39,
+   "citations": 59,
+   "style": {
+    "numeric": 59,
+    "chinese": 0,
+    "author_year": 0,
+    "cn_author_year": 0,
+    "footnote": 0
+   },
+   "coverage": {
+    "refs": 39,
+    "cited": 38,
+    "uncited": [
+     13
+    ],
+    "ratio": 0.9744
+   },
+   "self_consistent": 59,
+   "self_consistent_ratio": 1.0
+  },
+  {
+   "paper": "hanspub_152679.pdf",
+   "pages": 13,
+   "refs": 12,
+   "citations": 20,
+   "style": {
+    "numeric": 20,
+    "chinese": 0,
+    "author_year": 0,
+    "cn_author_year": 0,
+    "footnote": 0
+   },
+   "coverage": {
+    "refs": 12,
+    "cited": 12,
+    "uncited": [],
+    "ratio": 1.0
+   },
+   "self_consistent": 20,
+   "self_consistent_ratio": 1.0
+  },
+  {
+   "paper": "hanspub_152680.pdf",
+   "pages": 15,
+   "refs": 20,
+   "citations": 21,
+   "style": {
+    "numeric": 21,
+    "chinese": 0,
+    "author_year": 0,
+    "cn_author_year": 0,
+    "footnote": 0
+   },
+   "coverage": {
+    "refs": 20,
+    "cited": 18,
+    "uncited": [
+     5,
+     16
+    ],
+    "ratio": 0.9
+   },
+   "self_consistent": 21,
+   "self_consistent_ratio": 1.0
+  },
+  {
+   "paper": "hanspub_152699.pdf",
+   "pages": 10,
+   "refs": 22,
+   "citations": 49,
+   "style": {
+    "numeric": 30,
+    "chinese": 0,
+    "author_year": 1,
+    "cn_author_year": 18,
+    "footnote": 0
+   },
+   "coverage": {
+    "refs": 22,
+    "cited": 22,
+    "uncited": [],
+    "ratio": 1.0
+   },
+   "self_consistent": 31,
+   "self_consistent_ratio": 0.6327
+  },
+  {
+   "paper": "hanspub_152700.pdf",
+   "pages": 10,
+   "refs": 29,
+   "citations": 71,
+   "style": {
+    "numeric": 69,
+    "chinese": 2,
+    "author_year": 0,
+    "cn_author_year": 0,
+    "footnote": 0
+   },
+   "coverage": {
+    "refs": 29,
+    "cited": 27,
+    "uncited": [
+     16,
+     20
+    ],
+    "ratio": 0.931
+   },
+   "self_consistent": 71,
+   "self_consistent_ratio": 1.0
+  },
+  {
+   "paper": "hanspub_152701.pdf",
+   "pages": 6,
+   "refs": 12,
+   "citations": 14,
+   "style": {
+    "numeric": 12,
+    "chinese": 0,
+    "author_year": 0,
+    "cn_author_year": 2,
+    "footnote": 0
+   },
+   "coverage": {
+    "refs": 12,
+    "cited": 12,
+    "uncited": [],
+    "ratio": 1.0
+   },
+   "self_consistent": 12,
+   "self_consistent_ratio": 0.8571
+  },
+  {
+   "paper": "hanspub_152702.pdf",
+   "pages": 11,
+   "refs": 14,
+   "citations": 31,
+   "style": {
+    "numeric": 31,
+    "chinese": 0,
+    "author_year": 0,
+    "cn_author_year": 0,
+    "footnote": 0
+   },
+   "coverage": {
+    "refs": 14,
+    "cited": 14,
+    "uncited": [],
+    "ratio": 1.0
+   },
+   "self_consistent": 31,
+   "self_consistent_ratio": 1.0
+  },
+  {
+   "paper": "hanspub_152703.pdf",
+   "pages": 11,
+   "refs": 18,
+   "citations": 18,
+   "style": {
+    "numeric": 18,
+    "chinese": 0,
+    "author_year": 0,
+    "cn_author_year": 0,
+    "footnote": 0
+   },
+   "coverage": {
+    "refs": 18,
+    "cited": 18,
+    "uncited": [],
+    "ratio": 1.0
+   },
+   "self_consistent": 18,
+   "self_consistent_ratio": 1.0
+  },
+  {
+   "paper": "hanspub_152704.pdf",
+   "pages": 8,
+   "refs": 10,
+   "citations": 10,
+   "style": {
+    "numeric": 10,
+    "chinese": 0,
+    "author_year": 0,
+    "cn_author_year": 0,
+    "footnote": 0
+   },
+   "coverage": {
+    "refs": 10,
+    "cited": 10,
+    "uncited": [],
+    "ratio": 1.0
+   },
+   "self_consistent": 10,
+   "self_consistent_ratio": 1.0
+  },
+  {
+   "paper": "hanspub_152705.pdf",
+   "pages": 6,
+   "refs": 9,
+   "citations": 11,
+   "style": {
+    "numeric": 11,
+    "chinese": 0,
+    "author_year": 0,
+    "cn_author_year": 0,
+    "footnote": 0
+   },
+   "coverage": {
+    "refs": 9,
+    "cited": 9,
+    "uncited": [],
+    "ratio": 1.0
+   },
+   "self_consistent": 11,
+   "self_consistent_ratio": 1.0
+  },
+  {
+   "paper": "W2098348787.pdf",
+   "pages": 29,
+   "refs": 51,
+   "citations": 0,
+   "style": {
+    "numeric": 0,
+    "chinese": 0,
+    "author_year": 0,
+    "cn_author_year": 0,
+    "footnote": 0
+   },
+   "coverage": {
+    "refs": 51,
+    "cited": 0,
+    "uncited": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19,
+     20,
+     21,
+     22,
+     23,
+     24,
+     25,
+     26,
+     27,
+     28,
+     29,
+     30,
+     31,
+     32,
+     33,
+     34,
+     35,
+     36,
+     37,
+     38,
+     39,
+     40,
+     41,
+     42,
+     43,
+     44,
+     45,
+     46,
+     47,
+     48,
+     49,
+     50,
+     51
+    ],
+    "ratio": 0.0
+   },
+   "self_consistent": 0,
+   "self_consistent_ratio": 0.0
+  },
+  {
+   "paper": "W2996762219.pdf",
+   "pages": 13,
+   "refs": 69,
+   "citations": 19,
+   "style": {
+    "numeric": 0,
+    "chinese": 0,
+    "author_year": 19,
+    "cn_author_year": 0,
+    "footnote": 0
+   },
+   "coverage": {
+    "refs": 69,
+    "cited": 3,
+    "uncited": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19,
+     20,
+     21,
+     22,
+     23,
+     24,
+     25,
+     26,
+     27,
+     28,
+     29,
+     30,
+     31,
+     32,
+     33,
+     34,
+     35,
+     36,
+     37,
+     38,
+     39,
+     40,
+     41,
+     42,
+     43,
+     44,
+     45,
+     46,
+     47,
+     48,
+     49,
+     50,
+     51,
+     52,
+     53,
+     54,
+     55,
+     56,
+     57,
+     58,
+     59,
+     60,
+     62,
+     63,
+     64,
+     65,
+     66,
+     67,
+     68,
+     69
+    ],
+    "ratio": 0.0435
+   },
+   "self_consistent": 18,
+   "self_consistent_ratio": 0.9474
+  }
+ ],
+ "papers_with_citations": 21,
+ "paper_coverage": 0.9545,
+ "total_references": 529,
+ "total_citations": 543,
+ "cited_reference_entries": 318,
+ "reference_coverage": 0.6011,
+ "self_consistent": 486,
+ "self_consistent_ratio": 0.895,
+ "auto_check_note": "self-consistency only; not human-annotated accuracy"
+}
