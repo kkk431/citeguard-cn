@@ -96,7 +96,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.82", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="0.9.83", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE / "templates"))
@@ -1214,6 +1214,16 @@ def word_taskpane(request: Request):
     """Task pane for the Word add-in preview (served same-origin by this app)."""
     return templates.TemplateResponse(
         request, "word_taskpane.html", {"active": "", "version": app.version}
+    )
+
+
+@app.get("/support", response_class=HTMLResponse)
+def support_page(request: Request):
+    """Single-claim support check: the same judge the extension and SDK call."""
+    return templates.TemplateResponse(
+        request,
+        "support.html",
+        {"active": "support", "judge_ok": support.judge_available()},
     )
 
 

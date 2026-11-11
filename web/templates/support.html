@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% block title %}支持度速查 · 引证卫士 CiteGuard{% endblock %}
+{% block content %}
+<style>
+  .sp-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:18px;align-items:start}
+  .sp-form{display:flex;flex-direction:column;gap:14px;padding:22px}
+  .sp-label{font-size:13px;font-weight:600;color:var(--ink-2);display:flex;align-items:center;gap:8px}
+  .sp-label small{font-weight:400;color:var(--muted)}
+  .sp-ta{width:100%;border:1px solid var(--line);border-radius:12px;background:var(--surface);
+    color:var(--ink);padding:12px 14px;font-size:14px;line-height:1.7;resize:vertical}
+  .sp-ta:focus{outline:2px solid var(--accent);outline-offset:1px}
+  .sp-examples{display:flex;flex-wrap:wrap;gap:8px}
+  .sp-ex{border:1px solid var(--line);background:var(--surface-2);color:var(--ink-2);border-radius:999px;
+    padding:6px 12px;font-size:12.5px;cursor:pointer}
+  .sp-ex:hover{border-color:var(--accent);color:var(--ink)}
+  .sp-result{min-height:320px;padding:22px;position:sticky;top:84px}
+  .sp-empty{color:var(--muted);font-size:14px;line-height:1.8}
+  .sp-chip{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:8px 16px;
+    font-size:15px;font-weight:700;letter-spacing:.02em}
+  .sp-chip.support{background:rgba(60,230,180,.14);color:#0f7a5c;border:1px solid rgba(60,230,180,.5)}
+  .sp-chip.partial{background:rgba(255,184,77,.16);color:#8a5a00;border:1px solid rgba(255,184,77,.5)}
+  .sp-chip.contradict{background:rgba(255,107,87,.14);color:#9b2c1c;border:1px solid rgba(255,107,87,.5)}
+  .sp-chip.no_evidence,.sp-chip.not_checked{background:rgba(120,130,140,.14);color:#4b5563;border:1px solid rgba(120,130,140,.35)}
+  .sp-row{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-top:18px}
+  .sp-row b{font-size:13px;color:var(--muted);font-weight:500}
+  .sp-row span{font-size:15px;color:var(--ink)}
+  .sp-meter{height:8px;border-radius:999px;background:var(--surface-2);overflow:hidden;margin-top:10px}
+  .sp-meter i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2));width:0;transition:width .5s}
+  .sp-quote{margin-top:18px;border-left:3px solid var(--accent);padding:10px 14px;background:var(--surface-2);
+    border-radius:0 10px 10px 0;font-size:14px;line-height:1.8;color:var(--ink-2)}
+  .sp-quote b{display:block;font-size:12px;color:var(--muted);margin-bottom:6px;letter-spacing:.08em}
+  .sp-note{margin-top:14px;font-size:13.5px;line-height:1.75;color:var(--amber,#8a5a00)}
+  .sp-err{margin-top:12px;color:#9b2c1c;font-size:13.5px}
+  @media(max-width:980px){.sp-grid{grid-template-columns:1fr}.sp-result{position:static}}
+</style>
+
+<section class="wrap" style="padding:48px 0 8px">
+  <div class="kicker">CLAIM–EVIDENCE CHECK</div>
+  <h1 class="serif" style="font-size:34px;font-weight:600;margin:10px 0">一句话，证据到底支不支持？</h1>
+  <p class="lede" style="max-width:76ch">
+    把「引用句」和「被引论文的证据片段（摘要/原文）」贴进来，判成四档：支持 / 部分支持 / 矛盾 / 无证据。
+    同一个接口也给浏览器扩展和 Python SDK 用；不查重、不做文献管理，只回答这一句话有没有被证据撑住。
+  </p>
+  <div class="stats stats-4">
+    <div class="stat"><b>四档</b><span>支持 / 部分 / 矛盾 / 无证据</span></div>
+    <div class="stat"><b>0.9597</b><span>ClaimSupport-CN 100 条 macro-F1</span></div>
+    <div class="stat"><b>300 条</b><span>构造评测集（非人工标注）</span></div>
+    <div class="stat"><b>{{ '已配置' if judge_ok else '未配置' }}</b><span>判定服务状态</span></div>
+  </div>
+</section>
+
+<section class="wrap section">
+  <div class="sp-grid">
+    <form class="panel sp-form" id="sp-form">
+      <label class="sp-label" for="sp-claim">引用句 <small>论文里怎么写这句话</small></label>
+      <textarea class="sp-ta" id="sp-claim" rows="3" placeholder="例如：所提方法在 ImageNet 上的 Top-1 准确率比基线高 2.3 个百分点。"></textarea>
+
+      <label class="sp-label" for="sp-evidence">证据片段 <small>被引论文的摘要 / 原文，最多 8000 字</small></label>
+      <textarea class="sp-ta" id="sp-evidence" rows="8" placeholder="粘贴被引论文的摘要或相关段落。没有证据片段就无法判断。"></textarea>
+
+      <div class="sp-examples" id="sp-examples">
+        <button type="button" class="sp-ex" data-claim="所提方法在 ImageNet 上的 Top-1 准确率比基线高 2.3 个百分点。" data-evidence="On ImageNet, our model improves the top-1 accuracy by 2.3 percentage points over the strong baseline.">英文支持</button>
+        <button type="button" class="sp-ex" data-claim="该方法的准确率比基线高 2.3%。" data-evidence="Our approach improves accuracy by 2.1% over the baseline on ImageNet.">数字不一致</button>
+        <button type="button" class="sp-ex" data-claim="作者认为数据规模是主要瓶颈。" data-evidence="We present a new optimizer and study its convergence behavior on small models.">无关证据</button>
+      </div>
+
+      <div style="display:flex;gap:10px;align-items:center">
+        <button type="submit" class="btn btn-primary" id="sp-submit" {% if not judge_ok %}disabled{% endif %}>
+          核验这句话
+        </button>
+        <span class="mono-sm" id="sp-hint" style="margin-left:auto;color:var(--muted)">Ctrl/⌘ + Enter</span>
+      </div>
+      <div class="mono-sm" style="color:var(--muted);line-height:1.7">
+        同一接口：<code>POST /api/support/check</code>；模型未配置时返回 503，页面会如实提示。
+        数字与升降方向会另做一致性提示，不替代人工判断。
+      </div>
+    </form>
+
+    <aside class="panel sp-result" id="sp-result" aria-live="polite">
+      <div class="sp-empty" id="sp-empty">
+        左侧填一句话和一段证据，点「核验这句话」。<br>
+        结果会给出判定、置信度、理由，以及证据里最相关的一句原文。
+      </div>
+      <div id="sp-body" hidden>
+        <span class="sp-chip" id="sp-chip">—</span>
+        <div class="sp-row"><b>置信度</b><span id="sp-conf">—</span></div>
+        <div class="sp-meter"><i id="sp-meter"></i></div>
+        <div class="sp-row" style="margin-top:16px"><b>理由</b></div>
+        <div style="font-size:14.5px;line-height:1.8;color:var(--ink-2);margin-top:6px" id="sp-reason">—</div>
+        <div class="sp-quote" id="sp-quote" hidden><b>依据原句</b><span id="sp-quote-text"></span></div>
+        <div class="sp-note" id="sp-numeric" hidden></div>
+        <div class="sp-err" id="sp-err" hidden></div>
+      </div>
+    </aside>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/support.js?v={{ request.app.version }}" defer></script>
+{% endblock %}
