@@ -2,6 +2,19 @@
 
 All notable changes to CiteGuard-CN. Earlier pre-1.0 history is condensed.
 
+## [1.3.1] - 2026-11-12
+
+### Added
+- Blind human-audit scorer: reads the filled 60-item sheet plus the separate
+  answer key, rejects empty/malformed/low-coverage sheets, and reports
+  accuracy, macro-F1, Cohen's kappa, per-label metrics and a confusion matrix.
+  Optional prediction CSV compares system vs human vs constructed labels.
+  No human labels exist yet; the docs say so and the tool refuses to score an
+  empty sheet.
+
+### Tests
+- `pytest tests -q` -> 653 passed.
+
 ## [1.3.0] - 2026-11-12
 
 ### Added

@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 83,
+  "paths_checked": 85,
   "missing": [],
   "rows": [
     {
@@ -166,6 +166,16 @@
     {
       "evidence": "E57",
       "path": "docs/evidence/shots/phase-S1-page-view-v1.1.2.png",
+      "exists": true
+    },
+    {
+      "evidence": "E63",
+      "path": "docs/audit_scoring.md",
+      "exists": true
+    },
+    {
+      "evidence": "E63",
+      "path": "data/audit/audit_sheet.csv",
       "exists": true
     },
     {
