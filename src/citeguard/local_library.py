@@ -396,16 +396,33 @@ class Library:
         path = Path(path)
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(json.dumps(self.to_dict(), ensure_ascii=False, indent=2), encoding="utf-8")
+        # Secondary SQLite index; JSON stays authoritative. A failed index write
+        # must never lose a library the user just imported.
+        try:
+            from .library_db import db_path_for, write_library
+
+            write_library(self, db_path_for(path))
+        except Exception:
+            pass
 
     @classmethod
     def load(cls, path: str | Path) -> "Library":
         path = Path(path)
-        if not path.exists():
-            return cls()
+        if path.exists():
+            try:
+                return cls.from_dict(json.loads(path.read_text(encoding="utf-8")))
+            except Exception:
+                pass
+        # JSON missing or unreadable: fall back to the SQLite sidecar.
         try:
-            return cls.from_dict(json.loads(path.read_text(encoding="utf-8")))
+            from .library_db import db_path_for, read_library
+
+            db_path = db_path_for(path)
+            if db_path.exists():
+                return read_library(db_path)
         except Exception:
-            return cls()
+            pass
+        return cls()
 
 
 def entry_to_candidate(entry: LibraryEntry) -> Candidate:

@@ -2,6 +2,18 @@
 
 All notable changes to CiteGuard-CN. Earlier pre-1.0 history is condensed.
 
+## [1.3.2] - 2026-11-12
+
+### Added
+- SQLite sidecar for the local reference library. JSON remains authoritative;
+  every save also refreshes `library.json.sqlite3`, `Library.load` falls back
+  to the sidecar when JSON is missing/corrupt, and migration/rollback are
+  explicit (`scripts/migrate_library_sqlite.py`). Rollback refuses to overwrite
+  JSON with an empty sidecar. DOI de-duplication is preserved in the index.
+
+### Tests
+- `pytest tests -q` -> 658 passed.
+
 ## [1.3.1] - 2026-11-12
 
 ### Added
