@@ -29,6 +29,9 @@
 
 | 截图 | 内容 | 数据来源 |
 |---|---|---|
+| E68 | Docker 1.3.4 镜像（1.3.4） | `docker/Dockerfile`；`docs/deployment.md`；`docs/status_v1.3.4.md` | `citeguard-cn:1.3.4` 493 MB；容器 `-p 18082:8000 -e CITEGUARD_OFFLINE=1` health `{"ok":true,"version":"1.3.4","offline":true}`；启动时曾遇 WSL vpnkit 超时，`wsl --terminate docker-desktop` + 重启 Docker Desktop 后恢复 | `docs/evidence/logs/docker-1.3.4-health.txt` |
+| E67 | OpenAPI 契约（1.3.4） | `tests/test_openapi.py`；`web/app.py` 的 `openapi_extra` | 13 个公开路径均在 schema；`info.version == app.version`；`/api/support/check`、`/api/support/batch` 公开 JSON requestBody（运行时仍返回 400，未改行为）；3 个测试 + test_web 52 passed | 无界面截图，测试即证据 |
+| E66 | 截图自动化（1.3.4） | `scripts/capture_evidence.py`；`docs/evidence/shots/README.md` | Playwright 1920×1080；11 个页面 + `--job` 报告页，实测 12/12 OK；控制台报错或加载失败非零退出；输出目录已 gitignore，入库证据仍按 phase-* 命名 | 输出 `docs/evidence/shots/captured/`（不入库） |
 | `docs/evidence/shots/phase-0-plan-1.0.12.png` | 30 天规划页（mkdocs 渲染）：Phase 0 合规、Phase 1–4 与 DoD | `docs/plan_national.md` |
 | `docs/evidence/shots/phase1-01-report-charts-v0.9.85.png` | 报告总览三张真图：核验结论分布 / 支持度四档 / GB/T 问题 Top 字段（CSS 条形图 + 表格视图） | 任务 `4e5b9681ea00` 的 `report.json`（15 条真实文献） |
 | `docs/evidence/shots/phase-1-model-compare-1.0.12.png` | 同一 100 条构造集：14B bf16 / 14B 4bit / 8B bf16 / 8B 4bit 的 macro-F1（另：1.7B LoRA test60 0.9721，口径不同不混画） | `data/experiments/support_local_qwen3_14b_v10_all.json`、`data/experiments/support_local_qwen3_14b_4bit_all.json`、`data/experiments/support_local_qwen3_8b_product_all.json`、`data/experiments/support_local_qwen3_8b_4bit_v10_all.json` |

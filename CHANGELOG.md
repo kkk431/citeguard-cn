@@ -2,6 +2,21 @@
 
 All notable changes to CiteGuard-CN. Earlier pre-1.0 history is condensed.
 
+## [1.3.4] - 2026-11-12
+
+### Added
+- OpenAPI contract tests for the public integration surface. `/api/support/check`
+  and `/api/support/batch` now publish their JSON request bodies in the schema
+  (behavior and 400 errors unchanged).
+- `scripts/capture_evidence.py`: capture 11 pages plus an optional report page
+  at 1920x1080, fail on console errors, and write PNGs under
+  `docs/evidence/shots/captured/` (gitignored).
+- `docs/status_v1.3.4.md`: capability matrix, current verified numbers and the
+  remaining external blockers in one page.
+
+### Tests
+- `pytest tests -q` -> 661 passed.
+
 ## [1.3.3] - 2026-11-12
 
 ### Added

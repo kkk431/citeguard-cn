@@ -1,8 +1,28 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 88,
+  "paths_checked": 92,
   "missing": [],
   "rows": [
+    {
+      "evidence": "E68",
+      "path": "docs/deployment.md",
+      "exists": true
+    },
+    {
+      "evidence": "E68",
+      "path": "docs/status_v1.3.4.md",
+      "exists": true
+    },
+    {
+      "evidence": "E68",
+      "path": "docs/evidence/logs/docker-1.3.4-health.txt",
+      "exists": true
+    },
+    {
+      "evidence": "E66",
+      "path": "docs/evidence/shots/README.md",
+      "exists": true
+    },
     {
       "evidence": "E22",
       "path": "docs/evidence/shots/phase-11-annotated-pdf-0.9.91.png",
@@ -264,6 +284,6 @@
       "exists": true
     }
   ],
-  "shots_registered": 36,
+  "shots_registered": 37,
   "shots_unregistered": []
 }

@@ -99,7 +99,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.3.3", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.3.4", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 
@@ -2021,7 +2021,39 @@ def benchmark_api():
     }
 
 
-@app.post("/api/support/batch")
+
+_SUPPORT_CHECK_BODY = {
+    "type": "object",
+    "required": ["claim", "evidence"],
+    "properties": {
+        "claim": {"type": "string", "maxLength": 500},
+        "evidence": {"type": "string"},
+    },
+}
+_SUPPORT_BATCH_BODY = {
+    "type": "object",
+    "required": ["items"],
+    "properties": {
+        "items": {
+            "type": "array",
+            "maxItems": 50,
+            "items": {
+                "type": "object",
+                "required": ["claim", "evidence"],
+                "properties": {
+                    "claim": {"type": "string", "maxLength": 500},
+                    "evidence": {"type": "string"},
+                },
+            },
+        }
+    },
+}
+
+
+@app.post(
+    "/api/support/batch",
+    openapi_extra={"requestBody": {"required": True, "content": {"application/json": {"schema": _SUPPORT_BATCH_BODY}}}},
+)
 async def support_batch(request: Request):
     """Batch version of /api/support/check for SDKs and scripts (max 50 items)."""
     if config.OFFLINE:
@@ -2071,7 +2103,10 @@ async def support_batch(request: Request):
     return {"ok": True, "count": len(results), "items": results}
 
 
-@app.post("/api/support/check")
+@app.post(
+    "/api/support/check",
+    openapi_extra={"requestBody": {"required": True, "content": {"application/json": {"schema": _SUPPORT_CHECK_BODY}}}},
+)
 async def support_check(request: Request):
     """Lightweight per-claim support check for the browser extension / SDK.
 

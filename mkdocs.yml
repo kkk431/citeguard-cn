@@ -15,6 +15,7 @@ nav:
   - 公开榜单: leaderboard.md
   - CiteBench-CN v2: citebench_v2.md
   - 首页: index.md
+  - 状态总表 v1.3.4: status_v1.3.4.md
   - 部署与运行: deployment.md
   - API 与 Python SDK: api.md
   - 生态集成: ecosystem.md

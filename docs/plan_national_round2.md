@@ -67,8 +67,8 @@
 | S4 ✅ | 题录库 SQLite | 兼容旧 JSON、索引、DOI 去重、迁移/回滚测试 | 3 天 |
 | S5 ✅ | 离线 E2E 进 CI | `e2e_smoke.py --offline` + Actions job：上传→报告→导出→证据包 | 2 天 |
 | S6 ✅ | 人审评分脚本 | 读 60 条盲标 CSV + 答案键 → acc/macro-F1/κ；空表/错标/低覆盖报错，假数据测试跑通（未有人工标签，不能写人工准确率） | 1 天 |
-| S7 | 收尾对齐 | `status_v1.0.13.md`、mkdocs 导航、`/docs` OpenAPI 检查、Docker 1.0.13 | 1 天 |
-| S8 | 截图自动化 | `capture_evidence.py` 按场景截 1920×1080，减少漏拍 | 1 天 |
+| S7 ✅ | 收尾对齐 | `status_v1.0.13.md`、mkdocs 导航、`/docs` OpenAPI 检查、Docker 1.0.13 | 1 天 |
+| S8 ✅ | 截图自动化 | `capture_evidence.py` 按场景截 1920×1080，减少漏拍 | 1 天 |
 
 ## 3. 评测数字目标（先定口径，再写代码）
 
