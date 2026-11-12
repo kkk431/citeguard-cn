@@ -2,6 +2,23 @@
 
 All notable changes to CiteGuard-CN. Earlier pre-1.0 history is condensed.
 
+## [1.3.0] - 2026-11-12
+
+### Added
+- CiteBench-CN v2: 500 Chinese references across 11 constructed categories
+  (v1 Exact/Minor/Major + author_swap, year_shift, venue_swap, doi_swap,
+  paraphrase, fabricated, retracted, predatory). Unique source works; dataset
+  card and build/eval scripts included.
+- Product baseline on 453 metadata items: precision 1.0000 (0 false positives
+  on 100 real Exact), recall 0.6487 / F1 0.7869 when Unknown counts as a miss;
+  after excluding Unknown, recall 0.8707 / accuracy 0.9063. Retracted: 17/17.
+  No predatory detector: reported as a gap, not a score.
+- Public leaderboard page with separate tables for Chinese metadata checking,
+  ClaimSupport-CN model comparison, retraction and external references.
+
+### Tests
+- `pytest tests -q` -> 648 passed.
+
 ## [1.2.0] - 2026-11-12
 
 ### Added

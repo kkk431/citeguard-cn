@@ -4,11 +4,16 @@ site_author: CiteGuard-CN
 repo_url: https://github.com/kkk431/citeguard-cn
 docs_dir: docs
 site_dir: site
+extra_css:
+  - stylesheets/extra.css
+
 theme:
   name: readthedocs
   locale: zh_CN
   navigation_depth: 2
 nav:
+  - 公开榜单: leaderboard.md
+  - CiteBench-CN v2: citebench_v2.md
   - 首页: index.md
   - 部署与运行: deployment.md
   - API 与 Python SDK: api.md

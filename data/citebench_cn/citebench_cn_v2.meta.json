@@ -1,0 +1,31 @@
+{
+  "dataset": "CiteBench-CN",
+  "version": 2,
+  "built_at": "2026-11-12T13:21:35+00:00",
+  "seed": 20261112,
+  "n": 500,
+  "counts": {
+    "Exact": 100,
+    "Minor": 75,
+    "Major": 75,
+    "author_swap": 35,
+    "year_shift": 35,
+    "venue_swap": 30,
+    "doi_swap": 30,
+    "paraphrase": 30,
+    "fabricated": 43,
+    "retracted": 17,
+    "predatory": 30
+  },
+  "v1_items": 250,
+  "new_items": 250,
+  "sha256": "de5731bc4951c46d65d545d52cfb3bc60adaf92d4ead23e048cfbd7c7f41f617",
+  "labels": "constructed by mutation rules; not human annotation",
+  "retracted_source": "OpenAlex works?filter=is_retracted:true,language:zh",
+  "predatory": "constructed from a documented, deliberately small venue list; no production blocklist",
+  "notes": [
+    "v1 250 items keep their Exact/Minor/Major labels.",
+    "new classes are binary problem labels for per-class detection; see eval script.",
+    "no item reuses a source work across the 500."
+  ]
+}

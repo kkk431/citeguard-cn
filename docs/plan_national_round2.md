@@ -41,7 +41,8 @@
 - 边界：期刊 DOAJ 白名单只做提示、未接入本次判定；撤稿只查结构化标记，撤稿声明未同步到 OpenAlex 的查不到。
 - 量级：4 天（实际 1 天）。
 
-### F4 开放基准 CiteBench-CN v2 + 公开榜单
+### F4 开放基准 CiteBench-CN v2 + 公开榜单 ✅
+> 已完成（1.3.0）：500 条（v1 250 + author_swap 35 / year_shift 35 / venue_swap 30 / doi_swap 30 / paraphrase 30 / fabricated 43 / retracted 17 / predatory 30）。产品同路径 453 条：精确率 1.0000、召回 0.6487、F1 0.7869（Unknown 19.87%，计为漏报）；剔除 Unknown 后召回 0.8707、准确率 0.9063；撤稿 17/17；predatory 无专用检测器。短边如实写：中文撤稿只有 17 条可用、predatory 是构造类。数据 `data/citebench_cn/citebench_cn_v2.jsonl`，结果 `v2_results.json`，文档 `docs/citebench_v2.md`、`docs/leaderboard.md`（E62）。
 把“我们很准”变成“大家来测”。
 
 - 从 250 条扩到 **500 条**，新增对抗类别：纯编造、作者换、年份偏移、期刊换、DOI 错、撤稿、 predatory 期刊、题名改写；每类 ≥30 条，全部构造标签（如实写明）。

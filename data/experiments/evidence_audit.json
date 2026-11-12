@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 78,
+  "paths_checked": 83,
   "missing": [],
   "rows": [
     {
@@ -169,6 +169,31 @@
       "exists": true
     },
     {
+      "evidence": "E62",
+      "path": "data/citebench_cn/v2_results.json",
+      "exists": true
+    },
+    {
+      "evidence": "E62",
+      "path": "docs/citebench_v2.md",
+      "exists": true
+    },
+    {
+      "evidence": "E62",
+      "path": "docs/leaderboard.md",
+      "exists": true
+    },
+    {
+      "evidence": "E62",
+      "path": "docs/evidence/shots/phase-F4-citebench-v2-1.3.0.png",
+      "exists": true
+    },
+    {
+      "evidence": "E62",
+      "path": "docs/evidence/shots/phase-F4-leaderboard-1.3.0.png",
+      "exists": true
+    },
+    {
       "evidence": "E61",
       "path": "docs/aggregate.md",
       "exists": true
@@ -214,6 +239,6 @@
       "exists": true
     }
   ],
-  "shots_registered": 34,
+  "shots_registered": 36,
   "shots_unregistered": []
 }
