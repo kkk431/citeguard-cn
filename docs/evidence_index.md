@@ -93,3 +93,5 @@
 自检：`python scripts/audit_evidence.py`（见 [evidence_audit.md](evidence_audit.md)）。
 
 - E49 Docker 重置与 1.0.12 镜像验证：`docs/evidence/logs/docker-1.0.12-health.txt`（构建 DONE、镜像 414 MB、容器 health 200 / version 1.0.12 / offline=true）。
+
+- E50 HuggingFace 发布：数据集 <https://huggingface.co/datasets/dfdafs/claimsupport-cn-300>（5 文件）、适配器 <https://huggingface.co/models/dfdafs/citeguard-support-lora-qwen3-1.7b>（9 文件，含 training/ 脚本）；API 校验 `private=false`，上传脚本 `scripts/upload_hf.py`。

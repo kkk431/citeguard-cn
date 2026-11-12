@@ -379,7 +379,9 @@ PYTHONPATH=src python3 scripts/enrich_library_abstracts.py
 - 主评测复现：`PYTHONPATH=src python scripts/reproduce_all.py`；每个对外数字的 JSON/命令/样本量见 `docs/evidence_index.md`
 - 文档站：`pip install -r requirements-docs.txt && mkdocs serve`
 - 数据集包：`dist/CiteGuard-CN_ClaimSupport-CN-300_v1.0.zip`（CC-BY-4.0，构造标签）
-- Docker：`docker compose -f docker/docker-compose.yml up --build`
+- HuggingFace 数据集：<https://huggingface.co/datasets/dfdafs/claimsupport-cn-300>（300 条，构造标签，非人审）
+- HuggingFace 适配器：<https://huggingface.co/models/dfdafs/citeguard-support-lora-qwen3-1.7b>（Qwen3-1.7B LoRA，Apache-2.0）
+- Docker：`docker compose -f docker/docker-compose.yml up --build`；`citeguard-cn:1.0.12` 已构建并通过 `/api/health`（E49）
 
 ## 参考与致谢
 

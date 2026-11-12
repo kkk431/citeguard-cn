@@ -10,13 +10,12 @@
 | 1 可信内核 | **基本完成** | 引注抽取（数字/作者年/中文/脚注）+ 页码（17/18）；接地校验；多结论拆解；校准 ECE 0.04；反馈队列；报告三张真图 | 上标/图表标题内部引用未做；50 条人工准确率需真人 |
 | 2 修复闭环 | **完成（Word 除外）** | diff；批注 PDF（条目 7 + 引注 17）；批量页；报告 ZIP；图注建议；题录库补库 | Word 任务窗格需人工插入验证 |
 | 3 深度与规模 | **大部分完成** | 模型注册表/设置页；历史 SQLite；1000 条压测；第六次盲测 3/3 过 95%；中文繁简归一 0→100%；OCR 对照 | GROBID（Docker 阻塞）；BGE-M3 真端点未部署；题录库仍 JSON |
-| 4 发布 | **部分完成** | v1.0.0 tag；CHANGELOG 到 1.0.12；mkdocs 文档站；数据集/adapter 包已备；README 同步；**Docker 1.0.12 镜像构建 + health 通过（E49）** | HF/Zenodo 上传缺 token |
+| 4 发布 | **基本完成** | v1.0.0 tag；CHANGELOG 到 1.0.12；mkdocs 文档站；README 同步；**Docker 1.0.12 构建 + health（E49）**；**HF 数据集 + adapter 已公开（E50）** | Zenodo DOI（可选）未做 |
 | 前端贯穿 | **完成** | 键盘/对比度/aria-live/SSE/复制；50 项巡检全过（E48）；20 组配色 AA（E35） | 移动端不做（用户明确） |
 
 ## 对外阻塞（需要外部条件，不是代码问题）
 
-1. **HuggingFace token**（write）→ 上传 ClaimSupport-CN-300 与 LoRA adapter，补 model card/dataset card。
-2. **Zenodo token**（可选）→ DOI。
+1. **Zenodo token**（可选）→ DOI。
 3. **BGE-M3 端点**（GPU 服务）→ 真实向量召回对照数字。
 4. **GROBID**（随 Docker）→ 与 RapidOCR/解析对照。
 5. **Word 真机**（人工插入任务窗格）→ 截图 + 端到端记录。
@@ -24,10 +23,9 @@
 
 ## 解锁后的下一步（按顺序）
 
-1. HF 上传数据集与 adapter → 在 README 与 evidence_index 补链接。
-2. 部署 BGE-M3（lmh 4×4090）→ 跑 `scripts/eval_embeddings_recall.py` 对照。
-3. Word：打开 Word → 插入 → 我的加载项 → 引证卫士 → 截图。
-4. 真人抽检 50 条 → 更新 `docs/human_audit.md` 与报告 4.3。
+1. 部署 BGE-M3（lmh 4×4090）→ 跑 `scripts/eval_embeddings_recall.py` 对照。
+2. Word：打开 Word → 插入 → 我的加载项 → 引证卫士 → 截图。
+3. 真人抽检 50 条 → 更新 `docs/human_audit.md` 与报告 4.3。
 
 ## 对外数字（全部可追溯）
 
