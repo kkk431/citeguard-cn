@@ -19,7 +19,7 @@
   },
   "v1_items": 250,
   "new_items": 250,
-  "sha256": "de5731bc4951c46d65d545d52cfb3bc60adaf92d4ead23e048cfbd7c7f41f617",
+  "sha256": "8c39c70e7a4427c6c3e036eaa61513a7a63d6f88f844f5796998dc15340df754",
   "labels": "constructed by mutation rules; not human annotation",
   "retracted_source": "OpenAlex works?filter=is_retracted:true,language:zh",
   "predatory": "constructed from a documented, deliberately small venue list; no production blocklist",

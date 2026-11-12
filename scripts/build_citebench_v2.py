@@ -268,7 +268,7 @@ def build() -> int:
     if len({r["source"] for r in rows}) != len(rows):
         raise SystemExit("duplicate source works")
 
-    OUT_PATH.write_text("\n".join(json.dumps(r, ensure_ascii=False) for r in rows) + "\n", encoding="utf-8")
+    OUT_PATH.write_bytes(("\n".join(json.dumps(r, ensure_ascii=False) for r in rows) + "\n").encode("utf-8"))
     counts: dict[str, int] = {}
     for row in rows:
         counts[row["label"]] = counts.get(row["label"], 0) + 1
