@@ -28,7 +28,12 @@
     not_checked: { label: "未检测", cls: "unknown" },
   };
   const SUPPORT_ORDER = ["support", "partial", "contradict", "no_evidence", "not_checked"];
-  const state = { filter: "all", q: "", sort: "index", view: "cards", needs: false, fmt: false, sup: "", page: 1 };
+  const TRIAGE = {
+    todo: { label: "待修", cls: "warn" },
+    fixed: { label: "已修", cls: "ok" },
+    ignored: { label: "忽略", cls: "unknown" },
+  };
+  const state = { filter: "all", q: "", sort: "index", view: "cards", needs: false, fmt: false, sup: "", triage: "", page: 1 };
   const PAGE_SIZE = 4;
   var summaryTab = "verdict";
 
@@ -37,6 +42,35 @@
     return;
   }
   render(report);
+  loadTriage();
+
+  function updateTriageCounts() {
+    const el = document.getElementById("triage-counts");
+    if (!el) return;
+    const counts = { todo: 0, fixed: 0, ignored: 0 };
+    Object.keys(window.__triage || {}).forEach(function (key) {
+      const st = (window.__triage[key] || {}).state;
+      if (counts[st] != null) counts[st] += 1;
+    });
+    const total = counts.todo + counts.fixed + counts.ignored;
+    const all = ((window.__reportData || {}).references || []).length;
+    el.textContent = total
+      ? "已处理 " + total + (all ? "/" + all : "") + " · 待修 " + counts.todo + " · 已修 " + counts.fixed + " · 忽略 " + counts.ignored
+      : "";
+  }
+
+  async function loadTriage() {
+    try {
+      const res = await fetch("/api/report/" + encodeURIComponent(jobId) + "/triage");
+      if (!res.ok) return;
+      const data = await res.json();
+      window.__triage = data.items || {};
+      updateTriageCounts();
+      apply(window.__reportData || report || {});
+    } catch (e) {
+      /* triage is optional; keep the report usable without it */
+    }
+  }
 
   function esc(value) {
     return String(value == null ? "" : value)
@@ -720,7 +754,7 @@
     chipEl.innerHTML =
       chips
         .map(function (c) {
-          return '<button class="chip' + (state.filter === c[0] && !state.needs && !state.fmt && !state.sup ? " on" : "") + '" data-filter="' + c[0] + '">' + c[1] + " " + c[2] + "</button>";
+          return '<button class="chip' + (state.filter === c[0] && !state.needs && !state.fmt && !state.sup && !state.triage ? " on" : "") + '" data-filter="' + c[0] + '">' + c[1] + " " + c[2] + "</button>";
         })
         .join("") +
       supportChips.join("") +
@@ -765,6 +799,14 @@
       state.view = e.target.value;
       apply(data);
     });
+    const triageSel = document.getElementById("triage-filter");
+    if (triageSel) {
+      triageSel.value = state.triage;
+      triageSel.addEventListener("change", function (e) {
+        state.triage = e.target.value;
+        apply(data);
+      });
+    }
 
     document.addEventListener("keydown", function (e) {
       const tag = (document.activeElement && document.activeElement.tagName) || "";
@@ -946,7 +988,18 @@
     return lines.join("\n");
   }
 
+  function triageState(item) {
+    const entry = (window.__triage || {})[String((item && item.index) || "")];
+    return entry && TRIAGE[entry.state] ? entry.state : "";
+  }
+
   function matches(item, data) {
+    const tri = triageState(item);
+    if (state.triage === "none") {
+      if (tri) return false;
+    } else if (state.triage) {
+      if (tri !== state.triage) return false;
+    }
     if (state.fmt && !hasFormatError(item)) return false;
     if (state.needs && !needsAttention(item)) return false;
     if (state.sup) {
@@ -1018,7 +1071,7 @@
     } else {
       items.sort(function (a, b) { return (a.index || 0) - (b.index || 0); });
     }
-    const sig = [state.filter, state.q, state.sort, state.needs, state.fmt, state.sup].join("|");
+    const sig = [state.filter, state.q, state.sort, state.needs, state.fmt, state.sup, state.triage].join("|");
     if (sig !== state._sig) { state._sig = sig; state.page = 1; }
     const total = items.length;
     const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
@@ -1172,6 +1225,7 @@
       '<h3 class="ref-drawer-title">' + esc(p.title || short(item.raw, 160)) + "</h3>" +
       '<div class="ref-drawer-sub">' + esc((p.authors || []).join(", ") || "（未解析作者）") + " · " + esc(p.year || "") +
       (p.venue ? " · " + esc(p.venue) : "") + "</div>";
+    body.appendChild(triageControls(item, pos));
     const node = card.querySelector(".ref-body");
     if (node) {
       body.appendChild(node);
@@ -1199,6 +1253,64 @@
     const evBtn = body.querySelector("[data-detail-evidence]");
     if (evBtn) evBtn.addEventListener("click", function () { openEvidence(pos); });
     body.scrollTop = 0;
+  }
+
+  function triageControls(item, pos) {
+    const wrap = document.createElement("div");
+    wrap.className = "drawer-triage";
+    const current = triageState(item);
+    wrap.innerHTML = '<div class="mono-sm">处理状态 · 修完再复检，diff 会自动把已解决的标为已修</div>' +
+      '<div class="triage-btns">' +
+      Object.keys(TRIAGE).map(function (key) {
+        return '<button class="btn btn-sm triage-btn' + (current === key ? " on " + TRIAGE[key].cls : "") +
+          '" type="button" data-triage="' + key + '">' + TRIAGE[key].label + "</button>";
+      }).join("") +
+      "</div>";
+    wrap.querySelectorAll("[data-triage]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        setTriageState(item, pos, btn.getAttribute("data-triage"));
+      });
+    });
+    return wrap;
+  }
+
+  async function setTriageState(item, pos, nextState) {
+    try {
+      const res = await fetch("/api/report/" + encodeURIComponent(jobId) + "/triage", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ index: item.index, state: nextState }),
+      });
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      const data = await res.json();
+      window.__triage = data.items || {};
+      updateTriageCounts();
+    } catch (e) {
+      window.CiteGuard.toast("保存处理状态失败：" + e.message);
+      return;
+    }
+    const card = document.querySelector('#ref-list .ref[data-pos="' + pos + '"]');
+    if (card) {
+      const tags = card.querySelector(".ref-tags");
+      let pill = tags && tags.querySelector(".triage-pill");
+      if (!pill && tags) {
+        pill = document.createElement("span");
+        pill.className = "pill triage-pill";
+        pill.innerHTML = "<i></i>";
+        tags.appendChild(pill);
+      }
+      if (pill) {
+        pill.className = "pill triage-pill " + TRIAGE[nextState].cls;
+        pill.innerHTML = "<i></i>" + TRIAGE[nextState].label;
+      }
+    }
+    document.querySelectorAll("#ref-drawer [data-triage]").forEach(function (btn) {
+      const on = btn.getAttribute("data-triage") === nextState;
+      btn.classList.toggle("on", on);
+      Object.keys(TRIAGE).forEach(function (key) { btn.classList.remove(TRIAGE[key].cls); });
+      if (on) btn.classList.add(TRIAGE[nextState].cls);
+    });
+    window.CiteGuard.toast("已标记为「" + TRIAGE[nextState].label + "」");
   }
 
   function renderCards(pageItems, allItems) {
@@ -1242,6 +1354,10 @@
         const supInfo = sup ? SUPPORT[sup.label] : null;
         const supPill = '<span class="pill ' + (supInfo ? supInfo.cls : "unknown") + '"><i></i>支持度 ' + (supInfo ? supInfo.label : "未检测") + "</span>";
         const sources = v.sources || [];
+        const tri = triageState(item);
+        const triagePill = tri
+          ? '<span class="pill ' + TRIAGE[tri].cls + ' triage-pill"><i></i>' + TRIAGE[tri].label + "</span>"
+          : "";
         const isWeb = sources.some(function (x) { return x.indexOf("url:") === 0; });
         if (isWeb) {
           evidence.length = 0;
@@ -1346,7 +1462,7 @@
                 '<div class="ref-sub">' + esc((p.authors || []).join(", ") || "（未解析作者）") + " · " + esc(p.year || "") + (p.venue ? " · " + esc(p.venue) : "") + "</div>" +
                 '<div class="ref-tags">' +
                   '<span class="pill ' + st.cls + '"><i></i>' + st.label + "</span>" +
-                  supPill + localPill + retractPill + provPills.join("") + urlPills.join("") +
+                  supPill + triagePill + localPill + retractPill + provPills.join("") + urlPills.join("") +
                 "</div>" +
               "</div>" +
               '<div class="ref-side">' +

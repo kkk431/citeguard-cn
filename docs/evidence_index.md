@@ -106,3 +106,5 @@
 
 | E55 | 引用健康画像（1.1.0） | `src/citeguard/health.py`；`tests/test_health.py`；`docs/health.md`；`data/experiments/health_real.json` | 真实任务 `ddf4a1d38040`：95.9 / A；22 篇基线：均值 76.2、中位 79.2、范围 48.3–95.9 | `docs/evidence/shots/phase-F1-health-v1.1.0.png` |
 
+| E56 | 问题分诊（1.1.1） | `src/citeguard/triage.py`；`tests/test_triage.py`；`docs/api.md`；`web/static/js/report.js` | 真实任务 `ddf4a1d38040`：第 1 条标为已修，筛选“已修”返回 1 条；复检 diff 的 resolved 会自动关闭（ignored 保留）；624 tests | `docs/evidence/shots/phase-S2-triage-buttons-v1.1.1.png`、`docs/evidence/shots/phase-S2-triage-filter-v1.1.1.png` |
+

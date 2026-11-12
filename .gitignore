@@ -33,3 +33,6 @@ data/history.db
 
 .env.hf
 
+
+data/triage/
+

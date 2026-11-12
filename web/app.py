@@ -32,6 +32,7 @@ from citeguard import compare  # noqa: E402
 from citeguard import config  # noqa: E402
 from citeguard import discover  # noqa: E402
 from citeguard import figure_check  # noqa: E402
+from citeguard import triage  # noqa: E402
 from citeguard.abstract_enrich import MAX_ENRICH_PER_REQUEST, enrich_missing  # noqa: E402
 from citeguard.jobs import manager  # noqa: E402
 from citeguard.local_library import Library, LibraryEntry, parse_library_text  # noqa: E402
@@ -97,7 +98,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.1.0", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.1.1", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 
@@ -719,7 +720,33 @@ def report_diff(job_id: str, against: str = ""):
         raise HTTPException(status_code=404, detail="旧报告不存在")
     from citeguard.diff import diff_reports
 
-    return diff_reports(old, new)
+    result = diff_reports(old, new)
+    resolved = [int(i["index"]) for i in result["items"] if i.get("kind") == "resolved"]
+    result["auto_closed"] = triage.auto_mark_fixed(job_id, resolved)
+    return result
+
+
+class TriageUpdate(BaseModel):
+    index: int
+    state: str
+    note: str = ""
+
+
+@app.get("/api/report/{job_id}/triage")
+def get_triage(job_id: str):
+    if _load_report(job_id) is None:
+        raise HTTPException(status_code=404, detail="report not ready")
+    return triage.load(job_id)
+
+
+@app.post("/api/report/{job_id}/triage")
+def update_triage(job_id: str, body: TriageUpdate):
+    if _load_report(job_id) is None:
+        raise HTTPException(status_code=404, detail="report not ready")
+    try:
+        return triage.set_state(job_id, body.index, body.state, body.note)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
 
 
 @app.get("/api/report/{job_id}/export")

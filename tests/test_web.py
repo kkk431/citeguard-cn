@@ -179,6 +179,7 @@ def test_e2e_upload_sample_paper(client, monkeypatch, isolated_project, sample_r
     assert page.status_code == 200
     assert job_id in page.text
     assert "引证卫士" in page.text
+    assert 'id="triage-filter"' in page.text
 
     # exports
     md = client.get(f"/api/report/{job_id}/export?format=md")

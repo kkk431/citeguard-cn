@@ -821,3 +821,18 @@ body.theme-light .chart-bar{background:rgba(15,40,35,.10)}
   .health-body { grid-template-columns: 1fr; }
   .health-radar svg { width: 320px; height: 280px; }
 }
+
+/* ---- 分诊（待修 / 已修 / 忽略） ---- */
+.drawer-triage { margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--line); }
+.triage-btns { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+.triage-btn.on { font-weight: 700; }
+.triage-btn.warn.on { background: var(--warn-soft); color: var(--warn); border-color: var(--warn); }
+.triage-btn.ok.on { background: var(--ok-soft); color: var(--ok); border-color: var(--ok); }
+.triage-btn.unknown.on { background: var(--accent-soft); color: var(--accent); border-color: var(--accent); }
+.triage-pill { border: 1px dashed currentColor; }
+
+/* app.css 里 .chip.on 用 var(--ink) 当深色底；新主题 --ink 是浅色文字，会变成白底白字 */
+.chip.on { background: var(--accent); border-color: var(--accent); color: #041a14; }
+body.theme-light .chip.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+.triage-counts { font-size: 12.5px; color: var(--muted); white-space: nowrap; align-self: center; }

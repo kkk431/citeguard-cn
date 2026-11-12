@@ -2,6 +2,18 @@
 
 All notable changes to CiteGuard-CN. Earlier pre-1.0 history is condensed.
 
+## [1.1.1] - 2026-11-12
+
+### Added
+- Triage state on every report entry: 待修 / 已修 / 忽略, persisted per job under
+  `data/triage/`, filterable from the review toolbar and editable in the drawer.
+  Re-check diffs auto-close resolved entries as 已修 (ignored entries are kept).
+  APIs: `GET|POST /api/report/{job_id}/triage`. `src/citeguard/triage.py`.
+
+### Fixed
+- Active filter chip rendered white-on-white in the dark theme (app.css used
+  `var(--ink)` as a background while the refreshed theme treats it as text).
+
 ## [1.1.0] - 2026-11-12
 
 ### Added

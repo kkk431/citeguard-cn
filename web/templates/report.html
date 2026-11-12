@@ -123,6 +123,14 @@
           <option value="cards">卡片</option>
           <option value="table">表格</option>
         </select>
+        <select class="select" id="triage-filter" aria-label="处理状态">
+          <option value="">全部处理状态</option>
+          <option value="todo">待修</option>
+          <option value="fixed">已修</option>
+          <option value="ignored">忽略</option>
+          <option value="none">未标记</option>
+        </select>
+        <span class="triage-counts" id="triage-counts"></span>
       </div>
 
       <div class="ref-workbench" id="ref-workbench">
