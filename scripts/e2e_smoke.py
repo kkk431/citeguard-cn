@@ -33,11 +33,12 @@ def poll(base: str, job_id: str, timeout: int = TIMEOUT) -> dict:
     raise TimeoutError(f"job {job_id} did not finish in {timeout}s")
 
 
-def analyze(base: str, pdf: Path) -> str:
-    with pdf.open("rb") as fh:
+def analyze(base: str, path: Path) -> str:
+    mime = "application/pdf" if path.suffix.lower() == ".pdf" else "text/plain"
+    with path.open("rb") as fh:
         resp = requests.post(
             f"{base}/api/analyze",
-            files={"file": (pdf.name, fh, "application/pdf")},
+            files={"file": (path.name, fh, mime)},
             data={"support_max": "0", "figures": "0"},
             timeout=60,
         )
@@ -49,10 +50,12 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--base", default="http://127.0.0.1:8013")
     ap.add_argument("--pdf", default="data/real_corpus/hanspub_152575.pdf")
+    ap.add_argument("--text", help="plain-text paper (for offline CI, no PDF/annotation)")
     ap.add_argument("--out", default="data/experiments/e2e_smoke.json")
     args = ap.parse_args()
     base = args.base.rstrip("/")
-    pdf = Path(args.pdf)
+    source = Path(args.text) if args.text else Path(args.pdf)
+    is_pdf = source.suffix.lower() == ".pdf"
     checks: list[dict] = []
 
     def check(name: str, ok: bool, detail=None) -> None:
@@ -61,7 +64,7 @@ def main() -> int:
     health = requests.get(f"{base}/api/health", timeout=15).json()
     check("health", health.get("ok") is True, {"version": health.get("version")})
 
-    job_id = analyze(base, pdf)
+    job_id = analyze(base, source)
     job = poll(base, job_id)
     check("job_done", job.get("status") == "done", {"job": job_id, "status": job.get("status")})
     if job.get("status") != "done":
@@ -79,10 +82,11 @@ def main() -> int:
     check("report_cited_in", any(r.get("cited_in") for r in refs),
           {"refs_with_cited_in": sum(1 for r in refs if r.get("cited_in"))})
 
-    ann = requests.get(f"{base}/api/report/{job_id}/annotated", timeout=60)
-    check("annotated_pdf", ann.status_code == 200 and len(ann.content) > 10000,
-          {"bytes": len(ann.content), "x_annotated": ann.headers.get("x-annotated"),
-           "x_citations": ann.headers.get("x-citations-annotated")})
+    if is_pdf:
+        ann = requests.get(f"{base}/api/report/{job_id}/annotated", timeout=60)
+        check("annotated_pdf", ann.status_code == 200 and len(ann.content) > 10000,
+              {"bytes": len(ann.content), "x_annotated": ann.headers.get("x-annotated"),
+               "x_citations": ann.headers.get("x-citations-annotated")})
 
     for fmt in ("ris", "enw", "bibtex", "csl", "refs"):
         r = requests.get(f"{base}/api/report/{job_id}/export", params={"format": fmt}, timeout=30)
@@ -103,7 +107,8 @@ def main() -> int:
 
     result = {
         "base": base,
-        "pdf": str(pdf),
+        "input": str(source),
+        "pdf": str(source) if is_pdf else "",
         "job": job_id,
         "version": health.get("version"),
         "checks": checks,

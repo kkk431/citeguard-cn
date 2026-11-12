@@ -2,6 +2,17 @@
 
 All notable changes to CiteGuard-CN. Earlier pre-1.0 history is condensed.
 
+## [1.3.3] - 2026-11-12
+
+### Added
+- Offline end-to-end smoke in CI. `scripts/e2e_smoke.py` accepts a plain-text
+  paper (no PDF/annotation) and a new `smoke` GitHub Actions job starts the app
+  with `CITEGUARD_OFFLINE=1`, uploads a small text paper and checks report,
+  exports, evidence bundle and diff (13 checks). Local run: 13/13.
+
+### Tests
+- `pytest tests -q` -> 658 passed.
+
 ## [1.3.2] - 2026-11-12
 
 ### Added

@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 86,
+  "paths_checked": 88,
   "missing": [],
   "rows": [
     {
@@ -166,6 +166,16 @@
     {
       "evidence": "E57",
       "path": "docs/evidence/shots/phase-S1-page-view-v1.1.2.png",
+      "exists": true
+    },
+    {
+      "evidence": "E65",
+      "path": "data/experiments/e2e_offline_1.3.2.json",
+      "exists": true
+    },
+    {
+      "evidence": "E65",
+      "path": "docs/e2e.md",
       "exists": true
     },
     {

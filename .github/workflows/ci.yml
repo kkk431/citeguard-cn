@@ -46,3 +46,58 @@ jobs:
 
       - name: Run pytest
         run: pytest tests -q
+
+  smoke:
+    name: e2e smoke (offline)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      PYTHONPATH: src
+      CITEGUARD_OFFLINE: "1"
+      DEEPSEEK_API_KEY: ""
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+
+      - name: Write a tiny paper
+        run: |
+          cat > /tmp/smoke_paper.txt <<'EOF'
+          人工智能对教育公平的影响
+
+          近年来，人工智能技术在教育领域的应用不断扩大[1]，但也带来了新的公平性问题[2]。如图 1 所示，这一趋势仍在扩大。本文讨论这一现象。
+
+          参考文献
+          [1] 伍麟, 严昊东. 人工智能发展对教育公平的影响研究[J]. 教育研究, 2023, 44(2): 1-10.
+          [2] 张三. 深度学习在医学影像中的应用[J]. 中国医学影像学杂志, 2021, 29(3): 201-205.
+          [3] 李四. 在线教育平台的设计与实现[D]. 北京: 某大学, 2020.
+          EOF
+
+      - name: Start server (offline)
+        run: |
+          python -m uvicorn web.app:app --host 127.0.0.1 --port 8013 > /tmp/uvicorn.log 2>&1 &
+          for i in $(seq 1 30); do
+            if curl -sf http://127.0.0.1:8013/api/health > /dev/null; then
+              echo "server ready"; exit 0
+            fi
+            sleep 1
+          done
+          echo "server did not start"; tail -100 /tmp/uvicorn.log; exit 1
+
+      - name: Upload -> report -> exports -> bundle -> diff
+        run: python scripts/e2e_smoke.py --base http://127.0.0.1:8013 --text /tmp/smoke_paper.txt --out /tmp/e2e_smoke.json
+
+      - name: Show server log on failure
+        if: failure()
+        run: tail -200 /tmp/uvicorn.log
