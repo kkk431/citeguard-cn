@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 75,
+  "paths_checked": 78,
   "missing": [],
   "rows": [
     {
@@ -169,6 +169,21 @@
       "exists": true
     },
     {
+      "evidence": "E61",
+      "path": "docs/aggregate.md",
+      "exists": true
+    },
+    {
+      "evidence": "E61",
+      "path": "docs/evidence/shots/phase-F5-aggregate-21-v1.2.0.png",
+      "exists": true
+    },
+    {
+      "evidence": "E61",
+      "path": "docs/evidence/shots/phase-F5-aggregate-21-table-v1.2.0.png",
+      "exists": true
+    },
+    {
       "evidence": "E60",
       "path": "docs/replacement.md",
       "exists": true
@@ -199,6 +214,6 @@
       "exists": true
     }
   ],
-  "shots_registered": 32,
+  "shots_registered": 34,
   "shots_unregistered": []
 }

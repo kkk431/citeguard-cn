@@ -24,7 +24,8 @@
     <button class="ghost" type="button" id="compare-run" disabled>对比所选两份</button>
     <span class="muted" id="compare-hint">已选 0 / 2</span>
     <button class="ghost" type="button" id="zip-run" disabled>打包下载所选报告</button>
-    <span class="muted" id="zip-hint">打包已选 0 份</span>
+    <button class="ghost" type="button" id="aggregate-run" disabled>聚合健康画像</button>
+    <span class="muted" id="zip-hint">已选 0 份</span>
   </div>
   <table class="table">
     <thead><tr><th></th><th>创建时间</th><th>文件</th><th>状态</th><th>进度</th><th>操作</th></tr></thead>
@@ -130,10 +131,12 @@
   var zipBoxes = Array.prototype.slice.call(document.querySelectorAll('input.zipbox'));
   var zipRun = document.getElementById('zip-run');
   var zipHint = document.getElementById('zip-hint');
+  var aggregateRun = document.getElementById('aggregate-run');
   function zipRefresh() {
     var n = zipBoxes.filter(function (b) { return b.checked; }).length;
-    zipHint.textContent = '打包已选 ' + n + ' 份';
+    zipHint.textContent = '已选 ' + n + ' 份';
     zipRun.disabled = n === 0;
+    aggregateRun.disabled = n === 0;
   }
   zipBoxes.forEach(function (b) { b.addEventListener('change', zipRefresh); });
   zipRefresh();
@@ -157,6 +160,13 @@
       })
       .catch(function (err) { alert(err.message); })
       .then(function () { zipRun.disabled = false; zipRefresh(); });
+  });
+
+  aggregateRun.addEventListener('click', function () {
+    var ids = zipBoxes.filter(function (b) { return b.checked; }).map(function (b) { return b.value; });
+    if (!ids.length) { return; }
+    if (ids.length > 50) { ids = ids.slice(0, 50); }
+    window.location.href = '/aggregate?ids=' + encodeURIComponent(ids.join(','));
   });
 
   document.querySelectorAll('button.retry').forEach(function (btn) {

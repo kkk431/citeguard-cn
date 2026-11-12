@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block title %}批量健康画像 · 引证卫士 CiteGuard{% endblock %}
+{% block content %}
+<style>
+  .ag-wrap{max-width:1280px;margin:0 auto;padding:48px 26px 80px}
+  .ag-kicker{font-size:12px;letter-spacing:.18em;color:var(--accent);font-weight:700}
+  .ag-h1{font-family:var(--serif);font-size:40px;font-weight:600;margin:10px 0 12px;line-height:1.25}
+  .ag-lede{max-width:82ch;color:var(--muted);font-size:15px;line-height:1.85;margin:0 0 24px}
+  .ag-actions{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px}
+  .ag-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+  .ag-stat{padding:18px 20px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+  .ag-stat b{display:block;font-family:var(--mono,monospace);font-size:30px;letter-spacing:-.02em}
+  .ag-stat span{display:block;margin-top:6px;color:var(--muted);font-size:12.5px}
+  .ag-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:16px;margin-bottom:18px}
+  .ag-card{padding:20px 22px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+  .ag-card h2{font-size:15px;margin:0 0 14px;font-weight:700}
+  .ag-grades{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+  .ag-grade{display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--line);border-radius:999px;font-size:13px}
+  .ag-grade b{font-family:var(--mono,monospace)}
+  .ag-dim{margin:12px 0}
+  .ag-dim-top{display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px}
+  .ag-dim-top span{color:var(--muted)}
+  .ag-bar{height:7px;border-radius:999px;background:rgba(120,140,150,.16);overflow:hidden}
+  .ag-bar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent-2,var(--accent)))}
+  .ag-issue{display:flex;justify-content:space-between;gap:14px;padding:11px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+  .ag-issue:last-child{border-bottom:0}
+  .ag-issue b{font-family:var(--mono,monospace);color:var(--accent);font-size:16px}
+  .ag-table{width:100%;border-collapse:collapse;font-size:13px}
+  .ag-table th,.ag-table td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+  .ag-table th{font-size:11.5px;letter-spacing:.06em;color:var(--muted);font-weight:600}
+  .ag-table td.name{white-space:normal;max-width:360px}
+  .ag-table a{color:var(--accent);text-decoration:none;font-weight:600}
+  .ag-grade-chip{display:inline-block;padding:2px 9px;border-radius:999px;font-size:11.5px;font-weight:700}
+  .ag-grade-chip.A{background:rgba(60,230,180,.18);color:#0b6b52}
+  .ag-grade-chip.B{background:rgba(85,214,255,.16);color:#0b5d78}
+  .ag-grade-chip.C{background:rgba(255,184,77,.18);color:#7a5200}
+  .ag-grade-chip.D,.ag-grade-chip.E{background:rgba(255,107,87,.18);color:#8f2a1c}
+  .ag-grade-chip.N{background:rgba(120,130,140,.15);color:#4b5563}
+  .ag-note{margin-top:16px;color:var(--muted);font-size:12.5px;line-height:1.8}
+  .ag-err{padding:18px;border:1px solid rgba(255,107,87,.4);border-radius:12px;color:#ff9b8a;font-size:14px}
+  .ag-empty{padding:30px 4px;color:var(--muted);font-size:14px}
+  @media(max-width:980px){.ag-stats{grid-template-columns:repeat(2,1fr)}.ag-grid{grid-template-columns:1fr}}
+</style>
+
+<section class="ag-wrap" id="aggregate-root" data-ids="{{ ids }}">
+  <div class="ag-kicker">COHORT VIEW · 批量聚合</div>
+  <h1 class="ag-h1">一批论文，一张健康总表。</h1>
+  <p class="ag-lede">
+    把同一门课、同一个实验室的一批论文放在一起看：平均健康分、五维分布、最常见的问题、逐篇排序。
+    所有数字都来自已存报告，可回到单篇继续处理；没有报告的未完成任务不计入。
+  </p>
+  <div class="ag-actions">
+    <button class="btn btn-primary" id="ag-csv" type="button">导出 CSV</button>
+    <a class="btn" href="/history">返回历史报告</a>
+    <span class="ag-note" id="ag-scope"></span>
+  </div>
+
+  <div class="ag-stats" id="ag-stats"></div>
+  <div id="ag-error" class="ag-err" hidden></div>
+  <div id="ag-body">
+    <div class="ag-err" id="ag-loading">正在汇总所选报告…</div>
+    <div class="ag-grid" id="ag-overview" hidden>
+      <div class="ag-card">
+        <h2>等级分布</h2>
+        <div class="ag-grades" id="ag-grades"></div>
+        <h2>五维平均分</h2>
+        <div id="ag-dims"></div>
+      </div>
+      <div class="ag-card">
+        <h2>最常见的问题</h2>
+        <div id="ag-issues"></div>
+      </div>
+    </div>
+    <div class="ag-card" id="ag-table-card" hidden>
+      <h2>逐篇排序</h2>
+      <div style="overflow:auto">
+        <table class="ag-table">
+          <thead>
+            <tr>
+              <th>论文</th><th>健康分</th><th>等级</th><th>参考文献</th>
+              <th>有效</th><th>偏差</th><th>未核验</th><th>严重不符</th>
+              <th>格式问题</th><th>证据矛盾</th><th>撤稿</th><th></th>
+            </tr>
+          </thead>
+          <tbody id="ag-rows"></tbody>
+        </table>
+      </div>
+      <p class="ag-note" id="ag-note"></p>
+    </div>
+  </div>
+</section>
+<script src="/static/js/aggregate.js?v={{ request.app.version }}"></script>
+{% endblock %}

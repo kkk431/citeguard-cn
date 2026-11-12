@@ -28,6 +28,7 @@ from fastapi.staticfiles import StaticFiles  # noqa: E402
 from fastapi.templating import Jinja2Templates  # noqa: E402
 from pydantic import BaseModel  # noqa: E402
 
+from citeguard import aggregate as aggregate_mod  # noqa: E402
 from citeguard import compare  # noqa: E402
 from citeguard import config  # noqa: E402
 from citeguard import discover  # noqa: E402
@@ -98,7 +99,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.1.5", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.2.0", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 
@@ -773,6 +774,55 @@ def report_json(job_id: str):
     if report is None:
         raise HTTPException(status_code=404, detail="report not ready")
     return report
+
+
+@app.get("/api/aggregate")
+def aggregate_reports(ids: str = ""):
+    """Aggregate finished reports by job id (max 50, order preserved)."""
+    wanted = [i.strip() for i in ids.split(",") if i.strip()]
+    wanted = list(dict.fromkeys(wanted))[:50]
+    if not wanted:
+        raise HTTPException(status_code=400, detail="请提供至少一份报告（ids=a,b）")
+    reports = []
+    missing = []
+    for job_id in wanted:
+        if not re.fullmatch(r"[A-Za-z0-9_-]{1,64}", job_id):
+            missing.append(job_id)
+            continue
+        report = _load_report(job_id)
+        if report is None:
+            missing.append(job_id)
+            continue
+        job = manager.get(job_id) or {}
+        name = job.get("filename") or (report.get("input") or {}).get("name") or job_id
+        reports.append((job_id, name, report))
+    if not reports:
+        raise HTTPException(status_code=404, detail="所选任务暂无已完成的报告")
+    seen = {}
+    unique = []
+    duplicates = []
+    for job_id, name, report in reports:
+        if name in seen:
+            duplicates.append(job_id)
+            continue
+        seen[name] = job_id
+        unique.append((job_id, name, report))
+    data = aggregate_mod.aggregate(unique)
+    data["missing"] = missing
+    data["duplicates"] = duplicates
+    return data
+
+
+@app.get("/api/aggregate.csv")
+def aggregate_csv(ids: str = ""):
+    """CSV of the cohort view (UTF-8 BOM for Excel)."""
+    data = aggregate_reports(ids)
+    body = aggregate_mod.to_csv(data)
+    return Response(
+        content="\ufeff" + body,
+        media_type="text/csv; charset=utf-8",
+        headers={"Content-Disposition": 'attachment; filename="citeguard-aggregate.csv"'},
+    )
 
 
 @app.get("/api/report/{job_id}/diff")
@@ -1556,6 +1606,18 @@ def batch_page(request: Request):
         request,
         "batch.html",
         {"active": "batch", "judge_ok": support.judge_available()},
+    )
+
+
+@app.get("/aggregate", response_class=HTMLResponse)
+def aggregate_page(request: Request):
+    """Cohort view for several finished reports (class / lab batch)."""
+    raw = request.query_params.get("ids", "")
+    ids = [i for i in dict.fromkeys(part.strip() for part in raw.split(",")) if i]
+    return templates.TemplateResponse(
+        request,
+        "aggregate.html",
+        {"active": "history", "ids": ",".join(ids[:50])},
     )
 
 

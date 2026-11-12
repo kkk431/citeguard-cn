@@ -2,6 +2,25 @@
 
 All notable changes to CiteGuard-CN. Earlier pre-1.0 history is condensed.
 
+## [1.2.0] - 2026-11-12
+
+### Added
+- Cohort view for a batch of finished reports: `/aggregate?ids=...` shows average
+  citation-health score, grade distribution, five-dimension averages, the five
+  most common problems and a per-paper ranking; CSV export. Entry point is the
+  "聚合健康画像" button on the history page (up to 50 reports).
+- API `GET /api/aggregate` and `GET /api/aggregate.csv`; reports of the same
+  filename are merged (first kept, rest listed under `duplicates`), unfinished
+  jobs are skipped and listed under `missing`.
+- Real run over 21 distinct papers / 509 references: mean health 76.1, A1 B2 C13
+  D1 E4; top issues are missing DOI/volume fields and unverified references. The
+  9 Major labels in this cohort were manually traced to two PDFs whose two-column
+  reference lines were merged by the parser (broken DOIs), not to faked citations;
+  documented in docs/aggregate.md.
+
+### Tests
+- `pytest tests -q` -> 645 passed.
+
 ## [1.1.5] - 2026-11-12
 
 ### Added
