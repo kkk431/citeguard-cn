@@ -280,6 +280,16 @@ def render_markdown(report: dict) -> str:
         f"- 新国标合规均分：**{s['avg_compliance']}/100**｜风险指数：**{s['risk_index']}**",
         f"- 结论：{_markdown_verdict(s)}",
     ]
+    health = report.get("health") or {}
+    if health.get("overall") is not None:
+        available = [d["label"] for d in health.get("dimensions") or [] if d.get("available")]
+        lines.append(
+            f"- 引用健康画像：**{health['overall']} / 100（{health.get('grade', '-')} 级）**"
+            f"｜已检测维度：{'、'.join(available) or '无'}"
+        )
+        top = (health.get("top_fixes") or [])[:2]
+        if top:
+            lines.append("- 最该先修：" + "；".join(f"{x['title']}（{x['detail']}）" for x in top))
     cfg = report.get("run_config") or {}
     if cfg:
         lines.append(
@@ -633,6 +643,22 @@ def render_html(report: dict) -> str:
             wanfang="开" if cfg.get("wanfang") else "关",
         )
 
+    health = report.get("health") or {}
+    health_html = ""
+    if health.get("overall") is not None:
+        chips = []
+        for d in health.get("dimensions") or []:
+            value = d["score"] if d.get("available") else "未检测"
+            chips.append(f"{html.escape(d['label'])} <b>{value}</b>")
+        health_html = (
+            '<div style="background:#fff;border:1px solid #e5e7eb;border-left:4px solid #0f766e;'
+            'border-radius:12px;padding:12px 16px;margin:0 0 16px;font-size:13px;color:#374151">'
+            f"引用健康画像 <b style=\"font-size:20px;color:#0f766e\">{health['overall']} / 100</b>"
+            f"（{html.escape(str(health.get('grade', '-')))} 级） · "
+            + " · ".join(chips)
+            + "</div>"
+        )
+
     return f"""<!doctype html>
 <html lang="zh-CN">
 <head>
@@ -686,6 +712,7 @@ def render_html(report: dict) -> str:
     </div>
   </header>
   {run_config_html}
+  {health_html}
   {ocr_note}
   <div class="stats">
     <div class="stat"><b>{s['total']}</b><span>参考文献</span></div>

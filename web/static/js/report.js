@@ -295,6 +295,123 @@
       '<div class="mono-sm" style="color:var(--muted);margin-top:6px">' + esc(r.note || "") + "</div>";
   }
 
+  function renderHealth(data) {
+    const panel = document.getElementById("health-panel");
+    if (!panel) return;
+    const h = data.health;
+    if (!h || !h.dimensions || !h.dimensions.length) {
+      panel.classList.add("hidden");
+      return;
+    }
+    panel.classList.remove("hidden");
+    const dims = h.dimensions;
+    const conf = document.getElementById("health-confidence");
+    conf.textContent =
+      "综合 " + h.overall + " 分 · 等级 " + h.grade +
+      " · 已检测 " + Math.round((h.confidence || 0) * 100) + "% 权重";
+
+    // Score ring.
+    const pct = Math.max(0, Math.min(100, Number(h.overall) || 0));
+    const circ = 2 * Math.PI * 52;
+    document.getElementById("health-score").innerHTML =
+      '<svg viewBox="0 0 140 140" width="140" height="140" role="img" aria-label="综合健康分 ' + h.overall + '">' +
+      '<circle cx="70" cy="70" r="52" fill="none" stroke="rgba(255,255,255,.09)" stroke-width="10"/>' +
+      '<circle cx="70" cy="70" r="52" fill="none" stroke="#2ee6b0" stroke-width="10" stroke-linecap="round" ' +
+      'stroke-dasharray="' + circ.toFixed(1) + '" stroke-dashoffset="' + (circ * (1 - pct / 100)).toFixed(1) + '" ' +
+      'transform="rotate(-90 70 70)"/>' +
+      '<text x="70" y="66" text-anchor="middle" fill="#e9f6f1" font-size="30" font-weight="700">' + h.overall + "</text>" +
+      '<text x="70" y="88" text-anchor="middle" fill="#8fb3a8" font-size="12">健康分 / 100</text>' +
+      '<text x="70" y="108" text-anchor="middle" fill="#ffb84d" font-size="13" font-weight="700">' + esc(h.grade) + " 级</text>" +
+      "</svg>";
+
+    // Radar: five axes in fixed order; unavailable dimensions are drawn at the
+    // centre and marked "未检测" (they are excluded from the weighted total).
+    const cx = 165;
+    const cy = 140;
+    const R = 92;
+    const angle = function (i) { return -Math.PI / 2 + (i * 2 * Math.PI) / dims.length; };
+    const ring = function (k) {
+      const pts = dims.map(function (_d, i) {
+        return (cx + R * k * Math.cos(angle(i))).toFixed(1) + "," + (cy + R * k * Math.sin(angle(i))).toFixed(1);
+      });
+      return '<polygon points="' + pts.join(" ") + '" fill="none" stroke="rgba(255,255,255,.10)" stroke-width="1"/>';
+    };
+    const axes = dims.map(function (_d, i) {
+      return '<line x1="' + cx + '" y1="' + cy + '" x2="' + (cx + R * Math.cos(angle(i))).toFixed(1) +
+        '" y2="' + (cy + R * Math.sin(angle(i))).toFixed(1) + '" stroke="rgba(255,255,255,.10)"/>';
+    }).join("");
+    const poly = dims.map(function (d, i) {
+      const rr = d.available ? R * (Math.max(0, Math.min(100, d.score)) / 100) : 0;
+      return (cx + rr * Math.cos(angle(i))).toFixed(1) + "," + (cy + rr * Math.sin(angle(i))).toFixed(1);
+    }).join(" ");
+    const dots = dims.map(function (d, i) {
+      const rr = d.available ? R * (Math.max(0, Math.min(100, d.score)) / 100) : 0;
+      const x = cx + rr * Math.cos(angle(i));
+      const y = cy + rr * Math.sin(angle(i));
+      return '<circle cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="3.5" fill="' +
+        (d.available ? "#2ee6b0" : "#5c6f68") + '"/>';
+    }).join("");
+    const labels = dims.map(function (d, i) {
+      const lx = cx + (R + 30) * Math.cos(angle(i));
+      const ly = cy + (R + 26) * Math.sin(angle(i));
+      const anchor = Math.abs(Math.cos(angle(i))) < 0.2 ? "middle" : (Math.cos(angle(i)) > 0 ? "start" : "end");
+      const value = d.available ? d.score : "未检测";
+      return '<text x="' + lx.toFixed(1) + '" y="' + ly.toFixed(1) + '" text-anchor="' + anchor +
+        '" fill="#cfe4dc" font-size="13">' + esc(d.label) + "</text>" +
+        '<text x="' + lx.toFixed(1) + '" y="' + (ly + 16).toFixed(1) + '" text-anchor="' + anchor +
+        '" fill="' + (d.available ? "#2ee6b0" : "#8fb3a8") + '" font-size="12" font-weight="700">' + value + "</text>";
+    }).join("");
+    document.getElementById("health-radar").innerHTML =
+      '<svg viewBox="0 0 330 290" width="330" height="290" role="img" aria-label="五维引用健康雷达图">' +
+      ring(0.25) + ring(0.5) + ring(0.75) + ring(1) + axes +
+      '<polygon points="' + poly + '" fill="rgba(46,230,176,.16)" stroke="#2ee6b0" stroke-width="2"/>' +
+      dots + labels + "</svg>";
+
+    // Dimension rows: score + weight + why.
+    const rows = dims.map(function (d) {
+      const width = d.available ? Math.max(0, Math.min(100, d.score)) : 0;
+      const detail = d.note || healthDetail(d);
+      return '<div class="health-dim' + (d.available ? "" : " off") + '">' +
+        '<div class="hd-head"><span>' + esc(d.label) + "</span><b>" +
+        (d.available ? d.score + " 分" : "未检测") + "</b></div>" +
+        '<div class="hd-bar"><i style="width:' + width + '%"></i></div>' +
+        '<div class="hd-meta">权重 ' + d.weight + "%" + (detail ? " · " + esc(detail) : "") + "</div>" +
+        "</div>";
+    }).join("");
+    document.getElementById("health-dims").innerHTML = rows;
+
+    const fixes = (h.top_fixes || []).map(function (f) {
+      const sev = f.severity === "high" ? "高" : f.severity === "medium" ? "中" : "低";
+      return '<li class="sev-' + esc(f.severity) + '"><span class="fix-sev">' + sev + "</span>" +
+        "<b>" + esc(f.title) + "</b><span>" + esc(f.detail || "") + "</span></li>";
+    }).join("");
+    document.getElementById("health-fixes").innerHTML =
+      '<div class="mono-sm">最该先修</div><ol class="health-fix-list">' + fixes + "</ol>";
+
+    let note = h.disclaimer || "";
+    if ((h.confidence || 0) < 1) {
+      const missing = dims.filter(function (d) { return !d.available; }).map(function (d) { return d.label; });
+      note += " 本次未检测：" + missing.join("、") + "（已从总分中排除）。";
+    }
+    document.getElementById("health-note").textContent = note;
+  }
+
+  function healthDetail(d) {
+    const x = d.detail || {};
+    if (d.key === "authenticity") {
+      return "精确 " + (x.Exact || 0) + " · 偏差 " + (x.Minor || 0) + " · 未找到 " + (x.Unverified || 0) +
+        " · 错配 " + (x.Major || 0);
+    }
+    if (d.key === "support") {
+      return "支持 " + (x.support || 0) + " · 部分 " + (x.partial || 0) + " · 矛盾 " + (x.contradict || 0) +
+        " · 无依据 " + (x.no_evidence || 0);
+    }
+    if (d.key === "relevance") return "正文引用 " + (x.cited_refs || 0) + "/" + (x.total || 0) + " 条";
+    if (d.key === "coverage") return "编号 " + (x.numbers || 0) + " 个 · 缺失 " + ((x.missing || []).length) + " 个";
+    if (d.key === "compliance") return "国标均分 " + (x.avg == null ? "-" : x.avg) + "/100";
+    return "";
+  }
+
   function renderFigureChecks(data) {
     const el = document.getElementById("figure-checks");
     if (!el) return;
@@ -454,6 +571,7 @@
     renderVerdict(data);
     renderSourceHealth(data);
     renderReviewSummary(data);
+    renderHealth(data);
     selectSummaryTab(summaryTab);
     document.querySelectorAll("[data-summary-tab]").forEach(function (btn) {
       if (btn.__tabBound) return;

@@ -281,6 +281,9 @@ def analyze_text(
         + (["semantic-scholar"] if getattr(config, "SEMANTIC_SCHOLAR", False) else []),
         "source_health": _health_since(errors_at_start),
     }
+    from .health import compute_health
+
+    report["health"] = compute_health(report)
     if figure_checks and pdf_path and not config.OFFLINE:
         step(93, "抽检正文图表结论")
         try:

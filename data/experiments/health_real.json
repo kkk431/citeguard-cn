@@ -1,0 +1,420 @@
+{
+  "corpus": "data/real_corpus/*.pdf",
+  "papers": 22,
+  "condition": {
+    "online_verify": true,
+    "library_entries": 28,
+    "support_max": 0,
+    "model": "none (support off)"
+  },
+  "mean": 76.2,
+  "median": 79.2,
+  "min": 48.3,
+  "max": 95.9,
+  "grades": {
+    "C": 13,
+    "A": 1,
+    "B": 3,
+    "D": 1,
+    "E": 4
+  },
+  "dimensions": {
+    "authenticity": {
+      "n": 22,
+      "mean": 57.9
+    },
+    "support": {
+      "n": 0,
+      "mean": null
+    },
+    "relevance": {
+      "n": 22,
+      "mean": 79.1
+    },
+    "coverage": {
+      "n": 17,
+      "mean": 99.8
+    },
+    "compliance": {
+      "n": 22,
+      "mean": 89.3
+    }
+  },
+  "rows": [
+    {
+      "paper": "hanspub_152572.pdf",
+      "pages": 7,
+      "refs": 24,
+      "citations": 27,
+      "overall": 80.1,
+      "grade": "C",
+      "confidence": 0.75,
+      "dimensions": {
+        "authenticity": 43.8,
+        "support": null,
+        "relevance": 100.0,
+        "coverage": 100.0,
+        "compliance": 94.2
+      },
+      "top_fix": "20 条未找到或未完成核验"
+    },
+    {
+      "paper": "hanspub_152573.pdf",
+      "pages": 7,
+      "refs": 14,
+      "citations": 14,
+      "overall": 80.4,
+      "grade": "C",
+      "confidence": 0.75,
+      "dimensions": {
+        "authenticity": 45.4,
+        "support": null,
+        "relevance": 100.0,
+        "coverage": 100.0,
+        "compliance": 92.8
+      },
+      "top_fix": "11 条未找到或未完成核验"
+    },
+    {
+      "paper": "hanspub_152574.pdf",
+      "pages": 7,
+      "refs": 11,
+      "citations": 12,
+      "overall": 79.3,
+      "grade": "C",
+      "confidence": 0.75,
+      "dimensions": {
+        "authenticity": 42.3,
+        "support": null,
+        "relevance": 100.0,
+        "coverage": 100.0,
+        "compliance": 92.5
+      },
+      "top_fix": "9 条未找到或未完成核验"
+    },
+    {
+      "paper": "hanspub_152575.pdf",
+      "pages": 10,
+      "refs": 15,
+      "citations": 18,
+      "overall": 95.9,
+      "grade": "A",
+      "confidence": 0.75,
+      "dimensions": {
+        "authenticity": 95.0,
+        "support": null,
+        "relevance": 100.0,
+        "coverage": 100.0,
+        "compliance": 87.7
+      },
+      "top_fix": "36 处格式问题"
+    },
+    {
+      "paper": "hanspub_152576.pdf",
+      "pages": 8,
+      "refs": 13,
+      "citations": 13,
+      "overall": 78.7,
+      "grade": "C",
+      "confidence": 0.75,
+      "dimensions": {
+        "authenticity": 41.2,
+        "support": null,
+        "relevance": 100.0,
+        "coverage": 100.0,
+        "compliance": 91.7
+      },
+      "top_fix": "11 条未找到或未完成核验"
+    },
+    {
+      "paper": "hanspub_152577.pdf",
+      "pages": 16,
+      "refs": 27,
+      "citations": 26,
+      "overall": 88.7,
+      "grade": "B",
+      "confidence": 0.75,
+      "dimensions": {
+        "authenticity": 89.6,
+        "support": null,
+        "relevance": 85.2,
+        "coverage": 95.8,
+        "compliance": 84.9
+      },
+      "top_fix": "1 个正文编号在参考文献表中缺失"
+    },
+    {
+      "paper": "hanspub_152592.pdf",
+      "pages": 9,
+      "refs": 34,
+      "citations": 26,
+      "overall": 60.6,
+      "grade": "D",
+      "confidence": 0.6,
+      "dimensions": {
+        "authenticity": 70.4,
+        "support": null,
+        "relevance": 29.4,
+        "coverage": null,
+        "compliance": 85.9
+      },
+      "top_fix": "12 条未找到或未完成核验"
+    },
+    {
+      "paper": "hanspub_152593.pdf",
+      "pages": 10,
+      "refs": 40,
+      "citations": 25,
+      "overall": 58.5,
+      "grade": "E",
+      "confidence": 0.6,
+      "dimensions": {
+        "authenticity": 75.5,
+        "support": null,
+        "relevance": 17.5,
+        "coverage": null,
+        "compliance": 84.8
+      },
+      "top_fix": "12 条未找到或未完成核验"
+    },
+    {
+      "paper": "hanspub_152594.pdf",
+      "pages": 11,
+      "refs": 37,
+      "citations": 36,
+      "overall": 56.7,
+      "grade": "E",
+      "confidence": 0.6,
+      "dimensions": {
+        "authenticity": 65.0,
+        "support": null,
+        "relevance": 24.3,
+        "coverage": null,
+        "compliance": 86.2
+      },
+      "top_fix": "18 条未找到或未完成核验"
+    },
+    {
+      "paper": "hanspub_152595.pdf",
+      "pages": 9,
+      "refs": 9,
+      "citations": 23,
+      "overall": 92.9,
+      "grade": "B",
+      "confidence": 0.75,
+      "dimensions": {
+        "authenticity": 86.1,
+        "support": null,
+        "relevance": 100.0,
+        "coverage": 100.0,
+        "compliance": 87.9
+      },
+      "top_fix": "22 处格式问题"
+    },
+    {
+      "paper": "hanspub_152678.pdf",
+      "pages": 10,
+      "refs": 39,
+      "citations": 59,
+      "overall": 82.5,
+      "grade": "C",
+      "confidence": 0.75,
+      "dimensions": {
+        "authenticity": 53.7,
+        "support": null,
+        "relevance": 97.4,
+        "coverage": 100.0,
+        "compliance": 93.2
+      },
+      "top_fix": "27 条未找到或未完成核验"
+    },
+    {
+      "paper": "hanspub_152679.pdf",
+      "pages": 13,
+      "refs": 12,
+      "citations": 20,
+      "overall": 79.4,
+      "grade": "C",
+      "confidence": 0.75,
+      "dimensions": {
+        "authenticity": 45.0,
+        "support": null,
+        "relevance": 100.0,
+        "coverage": 100.0,
+        "compliance": 88.5
+      },
+      "top_fix": "9 条未找到或未完成核验"
+    },
+    {
+      "paper": "hanspub_152680.pdf",
+      "pages": 15,
+      "refs": 20,
+      "citations": 21,
+      "overall": 89.0,
+      "grade": "B",
+      "confidence": 0.75,
+      "dimensions": {
+        "authenticity": 84.8,
+        "support": null,
+        "relevance": 90.0,
+        "coverage": 100.0,
+        "compliance": 83.8
+      },
+      "top_fix": "2 条未找到或未完成核验"
+    },
+    {
+      "paper": "hanspub_152699.pdf",
+      "pages": 10,
+      "refs": 22,
+      "citations": 49,
+      "overall": 77.5,
+      "grade": "C",
+      "confidence": 0.75,
+      "dimensions": {
+        "authenticity": 36.8,
+        "support": null,
+        "relevance": 100.0,
+        "coverage": 100.0,
+        "compliance": 92.6
+      },
+      "top_fix": "21 条未找到或未完成核验"
+    },
+    {
+      "paper": "hanspub_152700.pdf",
+      "pages": 10,
+      "refs": 29,
+      "citations": 71,
+      "overall": 77.7,
+      "grade": "C",
+      "confidence": 0.75,
+      "dimensions": {
+        "authenticity": 45.0,
+        "support": null,
+        "relevance": 93.1,
+        "coverage": 100.0,
+        "compliance": 89.4
+      },
+      "top_fix": "23 条未找到或未完成核验"
+    },
+    {
+      "paper": "hanspub_152701.pdf",
+      "pages": 6,
+      "refs": 12,
+      "citations": 14,
+      "overall": 78.6,
+      "grade": "C",
+      "confidence": 0.75,
+      "dimensions": {
+        "authenticity": 41.7,
+        "support": null,
+        "relevance": 100.0,
+        "coverage": 100.0,
+        "compliance": 90.2
+      },
+      "top_fix": "10 条未找到或未完成核验"
+    },
+    {
+      "paper": "hanspub_152702.pdf",
+      "pages": 11,
+      "refs": 14,
+      "citations": 31,
+      "overall": 83.1,
+      "grade": "C",
+      "confidence": 0.75,
+      "dimensions": {
+        "authenticity": 55.0,
+        "support": null,
+        "relevance": 100.0,
+        "coverage": 100.0,
+        "compliance": 90.3
+      },
+      "top_fix": "1 条疑似错配或虚构"
+    },
+    {
+      "paper": "hanspub_152703.pdf",
+      "pages": 11,
+      "refs": 18,
+      "citations": 18,
+      "overall": 79.2,
+      "grade": "C",
+      "confidence": 0.75,
+      "dimensions": {
+        "authenticity": 43.9,
+        "support": null,
+        "relevance": 100.0,
+        "coverage": 100.0,
+        "compliance": 89.4
+      },
+      "top_fix": "14 条未找到或未完成核验"
+    },
+    {
+      "paper": "hanspub_152704.pdf",
+      "pages": 8,
+      "refs": 10,
+      "citations": 10,
+      "overall": 80.3,
+      "grade": "C",
+      "confidence": 0.75,
+      "dimensions": {
+        "authenticity": 45.5,
+        "support": null,
+        "relevance": 100.0,
+        "coverage": 100.0,
+        "compliance": 92.5
+      },
+      "top_fix": "8 条未找到或未完成核验"
+    },
+    {
+      "paper": "hanspub_152705.pdf",
+      "pages": 6,
+      "refs": 9,
+      "citations": 11,
+      "overall": 77.3,
+      "grade": "C",
+      "confidence": 0.75,
+      "dimensions": {
+        "authenticity": 35.0,
+        "support": null,
+        "relevance": 100.0,
+        "coverage": 100.0,
+        "compliance": 94.7
+      },
+      "top_fix": "9 条未找到或未完成核验"
+    },
+    {
+      "paper": "W2098348787.pdf",
+      "pages": 29,
+      "refs": 51,
+      "citations": 0,
+      "overall": 48.3,
+      "grade": "E",
+      "confidence": 0.6,
+      "dimensions": {
+        "authenticity": 66.4,
+        "support": null,
+        "relevance": 0.0,
+        "coverage": null,
+        "compliance": 82.7
+      },
+      "top_fix": "16 条未找到或未完成核验"
+    },
+    {
+      "paper": "W2996762219.pdf",
+      "pages": 13,
+      "refs": 69,
+      "citations": 19,
+      "overall": 51.2,
+      "grade": "E",
+      "confidence": 0.6,
+      "dimensions": {
+        "authenticity": 66.2,
+        "support": null,
+        "relevance": 4.3,
+        "coverage": null,
+        "compliance": 88.6
+      },
+      "top_fix": "9 条疑似错配或虚构"
+    }
+  ],
+  "note": "Rule-weighted triage score, not a journal/reviewer standard. Online condition with local library; support excluded. Scores are comparable only within the same parser/verifier version."
+}

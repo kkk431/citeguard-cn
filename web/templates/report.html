@@ -75,6 +75,19 @@
         <div class="tab-pane" id="pane-overview">
           <div class="verdict" id="verdict" aria-live="polite"></div>
           <div id="review-summary"></div>
+          <div class="panel health-panel hidden" id="health-panel">
+            <div class="panel-head">
+              <h3>引用健康画像</h3>
+              <span class="muted" id="health-confidence"></span>
+            </div>
+            <div class="health-body">
+              <div class="health-score" id="health-score"></div>
+              <div class="health-radar" id="health-radar"></div>
+              <div class="health-dims" id="health-dims"></div>
+            </div>
+            <div class="health-fixes" id="health-fixes"></div>
+            <div class="inline-note" id="health-note"></div>
+          </div>
           <div class="overview-grid">
             <div class="panel compact hidden" id="source-health"></div>
             <div class="panel compact hidden" id="figure-checks"></div>

@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 63,
+  "paths_checked": 66,
   "missing": [],
   "rows": [
     {
@@ -127,8 +127,23 @@
       "evidence": "E48",
       "path": "docs/evidence/shots/phase-38-a11y-pages-1.0.12.png",
       "exists": true
+    },
+    {
+      "evidence": "E55",
+      "path": "docs/health.md",
+      "exists": true
+    },
+    {
+      "evidence": "E55",
+      "path": "data/experiments/health_real.json",
+      "exists": true
+    },
+    {
+      "evidence": "E55",
+      "path": "docs/evidence/shots/phase-F1-health-v1.1.0.png",
+      "exists": true
     }
   ],
-  "shots_registered": 25,
+  "shots_registered": 26,
   "shots_unregistered": []
 }

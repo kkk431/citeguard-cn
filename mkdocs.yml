@@ -15,6 +15,7 @@ nav:
   - 生态集成: ecosystem.md
   - 存储与索引: storage.md
   - 评测与证据: experiments.md
+  - 引用健康画像: health.md
   - 证据索引: evidence_index.md
   - 性能: performance.md
   - 数据集: dataset_release.md
@@ -26,3 +27,6 @@ markdown_extensions:
   - fenced_code
   - toc:
       permalink: true
+validation:
+  nav:
+    omitted_files: ignore

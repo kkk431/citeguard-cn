@@ -2,6 +2,19 @@
 
 All notable changes to CiteGuard-CN. Earlier pre-1.0 history is condensed.
 
+## [1.1.0] - 2026-11-12
+
+### Added
+- Citation health profile: every report now carries a 0–100 score and A–E grade
+  across five weighted dimensions — authenticity 25, support 25, relevance 20,
+  coverage 15, compliance 15. Support is skipped (and confidence drops) when no
+  claim had a judgeable abstract; Unknown is never counted as Major. The report
+  overview renders a score ring, five-axis radar, per-dimension bars and up to
+  three "fix first" suggestions. `src/citeguard/health.py`, `docs/health.md`.
+  Real 15-reference paper: 95.9 / A with confidence 0.75 (support not checked).
+  Evidence: `docs/evidence/shots/phase-F1-health-v1.1.0.png`,
+  `tests/test_health.py`.
+
 ## [1.0.14] - 2026-11-12
 
 ### Changed

@@ -339,3 +339,15 @@ def test_prefer_layout_rejects_worse_titles():
     layout_refs = [_ref(f"A study of citation verification method {i}") for i in range(10)]
     layout_refs[-1] = _ref("URL")
     assert pipeline._prefer_layout(text_refs, layout_refs) is False
+
+def test_report_contains_health_profile(monkeypatch, isolated_project):
+    monkeypatch.setattr(pipeline, "verify_many", _fake_verify_many)
+
+    report = pipeline.run_job("jobhealth", text=TEXT)
+
+    health = report["health"]
+    assert len(health["dimensions"]) == 5
+    assert 0 <= health["overall"] <= 100
+    assert health["confidence"] < 1  # support cannot be judged without a judge key
+    md = (isolated_project / "jobs" / "jobhealth" / "report.md").read_text(encoding="utf-8")
+    assert "引用健康画像" in md

@@ -788,3 +788,36 @@ body.theme-light .chart-bar{background:rgba(15,40,35,.10)}
 .drawer-cite { margin-top: 9px; }
 .drawer-cite .dc-meta { display: block; font-size: 12px; color: var(--muted); letter-spacing: .04em; }
 .drawer-cite .dc-sentence { display: block; font-size: 14px; line-height: 1.65; color: var(--text); }
+
+/* Citation health profile (1.1.0) */
+.health-panel .panel-head { margin-bottom: 6px; }
+.health-body { display: grid; grid-template-columns: 150px 340px 1fr; gap: 20px; align-items: center; }
+.health-score { display: flex; align-items: center; justify-content: center; }
+.health-radar { display: flex; justify-content: center; }
+.health-dims { display: grid; gap: 10px; }
+.health-dim { display: grid; gap: 5px; }
+.health-dim.off { opacity: .55; }
+.hd-head { display: flex; justify-content: space-between; font-size: 14px; color: var(--text); }
+.hd-head b { font-family: var(--font-mono); color: var(--accent); }
+.health-dim.off .hd-head b { color: var(--muted); }
+.hd-bar { height: 6px; border-radius: 6px; background: rgba(255,255,255,.07); overflow: hidden; }
+.hd-bar i { display: block; height: 100%; border-radius: 6px; background: linear-gradient(90deg, var(--accent), #55d6ff); }
+.health-dim.off .hd-bar i { background: none; }
+.hd-meta { font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+.health-fixes { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line); }
+.health-fix-list { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 8px; }
+.health-fix-list li { display: grid; grid-template-columns: 34px 1fr; gap: 4px 10px; align-items: baseline; }
+.health-fix-list li b { font-size: 14px; color: var(--text); }
+.health-fix-list li span:last-child { grid-column: 2; font-size: 13px; color: var(--muted); line-height: 1.55; }
+.fix-sev { font-size: 11px; font-weight: 700; text-align: center; padding: 2px 0; border-radius: 5px; }
+.sev-high .fix-sev { background: var(--bad-soft); color: var(--bad); }
+.sev-medium .fix-sev { background: var(--warn-soft); color: var(--warn); }
+.sev-low .fix-sev { background: var(--accent-soft); color: var(--accent); }
+@media (max-width: 1180px) {
+  .health-body { grid-template-columns: 130px 300px 1fr; gap: 14px; }
+  .health-radar svg { width: 280px; height: 248px; }
+}
+@media (max-width: 900px) {
+  .health-body { grid-template-columns: 1fr; }
+  .health-radar svg { width: 320px; height: 280px; }
+}

@@ -104,3 +104,5 @@
 
 - E54 版面/文本选路（1.0.14）：`data/experiments/refs_layout_selection.json`，`scripts/eval_layout_selection.py`。6 篇盲测 PDF 复查；旧 +0.02 健康度门槛让 Phi-3 停在文本路径（71 条 / 0.972），新规则（版面条数不减少且题名健康度更高；或持平但条目更多）改走版面（72 条 / 0.986）。Mixtral 产品路径本来就是文本 35 条 / 1.000，版面 27 条 / 0.926，因此维持文本，不宣称“27→35 修复”。
 
+| E55 | 引用健康画像（1.1.0） | `src/citeguard/health.py`；`tests/test_health.py`；`docs/health.md`；`data/experiments/health_real.json` | 真实任务 `ddf4a1d38040`：95.9 / A；22 篇基线：均值 76.2、中位 79.2、范围 48.3–95.9 | `docs/evidence/shots/phase-F1-health-v1.1.0.png` |
+
