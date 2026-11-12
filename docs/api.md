@@ -18,6 +18,8 @@
 | GET | `/api/jobs/{id}/events` | 任务进度的 SSE 流（`text/event-stream`，每 0.5 s 推送一条 JSON，`status` 为 done/error 时结束） |
 | GET | `/api/report/{id}/page/{page}` | 页内证据：`page` / `text` / `image` / `note`（该页在分析时渲染，最多 20 页） |
 | GET | `/api/report/{id}/page/{page}.png` | 该页的 PNG 图（140 dpi，分析时生成，上传件此时已删除） |
+| GET | `/api/report/{id}/fixed` | 修订预览：逐条 `before/after/fixes/missing/safe`，只重排已解析字段，不联网补全 |
+| GET | `/api/report/{id}/fixed.txt` | 修订后的参考文献表（TXT，UTF-8 BOM；字段不完整的条目标 `*`） |
 
 `X-API-Key` / Bearer 认证只在设置了访问令牌时要求，默认本机不鉴权。
 

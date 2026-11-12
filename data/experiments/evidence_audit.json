@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 70,
+  "paths_checked": 71,
   "missing": [],
   "rows": [
     {
@@ -167,8 +167,18 @@
       "evidence": "E57",
       "path": "docs/evidence/shots/phase-S1-page-view-v1.1.2.png",
       "exists": true
+    },
+    {
+      "evidence": "E58",
+      "path": "docs/api.md",
+      "exists": true
+    },
+    {
+      "evidence": "E58",
+      "path": "docs/evidence/shots/phase-F2-fix-preview-v1.1.3.png",
+      "exists": true
     }
   ],
-  "shots_registered": 29,
+  "shots_registered": 30,
   "shots_unregistered": []
 }

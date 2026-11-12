@@ -98,7 +98,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.1.2", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.1.3", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 
@@ -846,6 +846,34 @@ def export_report(job_id: str, format: str = "html"):
         raise HTTPException(status_code=404, detail="export not ready")
     media = {"html": "text/html; charset=utf-8", "md": "text/markdown; charset=utf-8", "json": "application/json"}
     return FileResponse(p, media_type=media[format], filename=f"citeguard-{job_id}.{format}")
+
+
+@app.get("/api/report/{job_id}/fixed")
+def report_fixed(job_id: str):
+    """Preview re-typeset reference entries (deterministic, no online lookup)."""
+    report = _load_report(job_id)
+    if report is None:
+        raise HTTPException(status_code=404, detail="report not ready")
+    from citeguard.fix import fix_report
+
+    return fix_report(report)
+
+
+@app.get("/api/report/{job_id}/fixed.txt")
+def report_fixed_txt(job_id: str):
+    report = _load_report(job_id)
+    if report is None:
+        raise HTTPException(status_code=404, detail="report not ready")
+    from citeguard.fix import as_text, fix_report
+
+    text = as_text(fix_report(report))
+    return Response(
+        content=("\ufeff" + text).encode("utf-8"),
+        media_type="text/plain; charset=utf-8",
+        headers={
+            "Content-Disposition": f'attachment; filename="citeguard-{job_id}-fixed.txt"'
+        },
+    )
 
 
 @app.get("/api/report/{job_id}/annotated")

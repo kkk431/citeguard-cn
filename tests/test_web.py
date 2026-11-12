@@ -221,6 +221,15 @@ def test_e2e_upload_sample_paper(client, monkeypatch, isolated_project, sample_r
 
     assert isinstance(_json.loads(csl.text), list)
 
+    fixed = client.get(f"/api/report/{job_id}/fixed")
+    assert fixed.status_code == 200
+    fixed_data = fixed.json()
+    assert fixed_data["summary"]["total"] == 12
+    assert fixed_data["items"][0]["after"]
+    fixed_txt = client.get(f"/api/report/{job_id}/fixed.txt")
+    assert fixed_txt.status_code == 200
+    assert fixed_txt.text.lstrip("\ufeff").startswith("引证卫士")
+
     import io
     import zipfile
 

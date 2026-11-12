@@ -110,3 +110,5 @@
 
 | E57 | 页内证据视图（1.1.2） | `src/citeguard/pipeline.py::_save_citation_pages`；`tests/test_citation_pages.py`；`docs/api.md`；`web/static/js/report.js` | 真实任务 `96511af51c97`：点「第 2 页」显示原页渲染图 + 页文本，引用句高亮；引注页码定位 17/18（94.4%，跨页断句会漏）；3 个单测 | `docs/evidence/shots/phase-S1-page-view-v1.1.2.png` |
 
+| E58 | 修订预览（1.1.3） | `src/citeguard/fix.py`；`tests/test_fix.py`；`web/static/js/report.js`；`docs/api.md` | 真实任务 `96511af51c97`：15 条全部可重排、15 条字段完整；修复卷期/页码重复与 Article ID 重复；仅重排已解析字段、不补全缺失项 | `docs/evidence/shots/phase-F2-fix-preview-v1.1.3.png` |
+

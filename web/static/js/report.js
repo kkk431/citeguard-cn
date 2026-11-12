@@ -1222,6 +1222,58 @@
     document.body.classList.remove("page-viewer-open");
   }
 
+  let fixText = "";
+
+  async function openFixPreview() {
+    const modal = document.getElementById("fix-modal");
+    if (!modal) return;
+    const list = document.getElementById("fix-list");
+    const note = document.getElementById("fix-note");
+    const summary = document.getElementById("fix-summary");
+    const dl = document.getElementById("fix-download");
+    modal.hidden = false;
+    document.body.classList.add("page-viewer-open");
+    if (list) list.innerHTML = '<div class="inline-note">加载中…</div>';
+    try {
+      const res = await fetch("/api/report/" + encodeURIComponent(jobId) + "/fixed");
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      const data = await res.json();
+      const items = (data.items || []).filter((it) => it.after);
+      fixText = items.map((it) => "[" + it.index + "] " + it.after).join("\n");
+      if (note) note.textContent = "共 " + data.summary.total + " 条，可重排 " + data.summary.changed + " 条，其中字段较完整 " + data.summary.safe + " 条";
+      if (summary) summary.textContent = "带「缺」的条目字段不完整，请对照原文核对";
+      if (dl) dl.href = "/api/report/" + encodeURIComponent(jobId) + "/fixed.txt";
+      if (!items.length) {
+        if (list) list.innerHTML = '<div class="inline-note">这份报告没有可重排的题录。</div>';
+        return;
+      }
+      if (list) {
+        list.innerHTML = items.map((it) => {
+          const tags = (it.fixes || []).map((f) => '<span class="fix-tag">' + esc(f) + "</span>").join("");
+          const miss = (it.missing || []).map((m) => '<span class="fix-tag warn">缺' + esc(m) + "</span>").join("");
+          return (
+            '<div class="fix-item">' +
+            '<div class="fix-item-head"><b>第 ' + it.index + " 条</b>" +
+            (it.safe ? '<span class="triage-pill todo">可复制</span>' : '<span class="triage-pill ignored">待核对</span>') +
+            "</div>" +
+            '<div class="fix-before">原文：' + esc(it.before || "（空）") + "</div>" +
+            '<div class="fix-after">' + esc(it.after) + "</div>" +
+            '<div class="fix-tags">' + tags + miss + "</div>" +
+            "</div>"
+          );
+        }).join("");
+      }
+    } catch (e) {
+      if (list) list.innerHTML = '<div class="inline-note">修订预览加载失败，请刷新后重试。</div>';
+    }
+  }
+
+  function closeFixPreview() {
+    const modal = document.getElementById("fix-modal");
+    if (modal) modal.hidden = true;
+    document.body.classList.remove("page-viewer-open");
+  }
+
   function closeEvidence() {
     const drawer = document.getElementById("evidence-drawer");
     if (drawer) drawer.hidden = true;
@@ -1229,7 +1281,7 @@
   }
 
   document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") { closeEvidence(); closeRefDrawer(); closePageViewer(); }
+    if (e.key === "Escape") { closeEvidence(); closeRefDrawer(); closePageViewer(); closeFixPreview(); }
   });
 
   const refBackdrop = document.getElementById("ref-drawer-backdrop");
@@ -1242,6 +1294,24 @@
   if (pvModal) {
     pvModal.addEventListener("click", function (e) {
       if (e.target === pvModal) closePageViewer();
+    });
+  }
+
+  const fixBtn = document.getElementById("btn-fix-preview");
+  if (fixBtn) fixBtn.addEventListener("click", openFixPreview);
+  const fixClose = document.getElementById("fix-close");
+  if (fixClose) fixClose.addEventListener("click", closeFixPreview);
+  const fixModal = document.getElementById("fix-modal");
+  if (fixModal) {
+    fixModal.addEventListener("click", function (e) {
+      if (e.target === fixModal) closeFixPreview();
+    });
+  }
+  const fixCopy = document.getElementById("fix-copy");
+  if (fixCopy) {
+    fixCopy.addEventListener("click", async function () {
+      const ok = await window.CiteGuard.copyText(fixText);
+      window.CiteGuard.toast(ok ? "修订后的参考文献已复制" : "复制失败，请手动选择");
     });
   }
 

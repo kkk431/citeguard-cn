@@ -2,6 +2,21 @@
 
 All notable changes to CiteGuard-CN. Earlier pre-1.0 history is condensed.
 
+## [1.1.3] - 2026-11-12
+
+### Added
+- Fix preview: every parsed reference is re-typeset as a GB/T 7714-style entry
+  without any online lookup, with before/after text and tags for what changed
+  (type code, author separators, bracketed year, DOI form, trailing period).
+  Missing fields are flagged instead of invented; entries without title/authors/
+  year are marked "待核对". Export the revised list as TXT.
+  `src/citeguard/fix.py`; `GET /api/report/{id}/fixed` and `.../fixed.txt`.
+
+### Fixed
+- Volume/pages/article numbers left inside the venue string are moved back into
+  their fields, so re-typesetting no longer duplicates "12, 138-150, 2025: 138-150"
+  or "238, Article ID: 121801, 2024: 238".
+
 ## [1.1.2] - 2026-11-12
 
 ### Added

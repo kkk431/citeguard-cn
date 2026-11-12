@@ -51,6 +51,8 @@
             <button class="btn btn-ghost btn-sm" type="button" id="copy-refs">复制参考文献表</button>
             <button class="btn btn-ghost btn-sm" type="button" id="manual-csv">导出待人工核对 CSV</button>
             <a class="btn btn-ghost btn-sm" href="/api/report/{{ job.id }}/export?format=refs">导出参考文献表</a>
+            <button class="btn btn-ghost btn-sm" type="button" id="btn-fix-preview">预览可修复条目</button>
+            <a class="btn btn-ghost btn-sm" href="/api/report/{{ job.id }}/fixed.txt">下载修订参考文献（TXT）</a>
             <a class="btn btn-ghost btn-sm" href="/api/report/{{ job.id }}/export?format=ris">导出 RIS（NoteExpress/Zotero）</a>
             <a class="btn btn-ghost btn-sm" href="/api/report/{{ job.id }}/export?format=enw">导出 EndNote</a>
             <a class="btn btn-ghost btn-sm" href="/api/report/{{ job.id }}/export?format=bibtex">导出 BibTeX（LaTeX）</a>
@@ -186,6 +188,25 @@
         <div class="mono-sm" id="page-viewer-quote"></div>
         <pre id="page-viewer-pre"></pre>
       </div>
+    </div>
+  </div>
+</div>
+<div id="fix-modal" class="page-viewer" hidden>
+  <div class="page-viewer-panel fix-panel" role="dialog" aria-modal="true" aria-label="修订后的参考文献">
+    <div class="page-viewer-head">
+      <strong>修订后的参考文献</strong>
+      <span class="mono-sm" id="fix-note"></span>
+      <button type="button" class="drawer-close" id="fix-close" aria-label="关闭">×</button>
+    </div>
+    <div class="fix-body">
+      <div class="inline-note">只按已解析字段重新排版，不补全缺失字段；带「缺」的条目请对照原文核对。这不是自动改写正文。</div>
+      <div class="fix-list" id="fix-list"></div>
+    </div>
+    <div class="fix-foot">
+      <span class="mono-sm" id="fix-summary"></span>
+      <span class="spacer"></span>
+      <button class="btn btn-ghost btn-sm" type="button" id="fix-copy">复制全部修订条目</button>
+      <a class="btn btn-sm" id="fix-download" href="#">下载 TXT</a>
     </div>
   </div>
 </div>
