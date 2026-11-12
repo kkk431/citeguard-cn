@@ -108,3 +108,5 @@
 
 | E56 | 问题分诊（1.1.1） | `src/citeguard/triage.py`；`tests/test_triage.py`；`docs/api.md`；`web/static/js/report.js` | 真实任务 `ddf4a1d38040`：第 1 条标为已修，筛选“已修”返回 1 条；复检 diff 的 resolved 会自动关闭（ignored 保留）；624 tests | `docs/evidence/shots/phase-S2-triage-buttons-v1.1.1.png`、`docs/evidence/shots/phase-S2-triage-filter-v1.1.1.png` |
 
+| E57 | 页内证据视图（1.1.2） | `src/citeguard/pipeline.py::_save_citation_pages`；`tests/test_citation_pages.py`；`docs/api.md`；`web/static/js/report.js` | 真实任务 `96511af51c97`：点「第 2 页」显示原页渲染图 + 页文本，引用句高亮；引注页码定位 17/18（94.4%，跨页断句会漏）；3 个单测 | `docs/evidence/shots/phase-S1-page-view-v1.1.2.png` |
+

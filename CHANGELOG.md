@@ -2,6 +2,22 @@
 
 All notable changes to CiteGuard-CN. Earlier pre-1.0 history is condensed.
 
+## [1.1.2] - 2026-11-12
+
+### Added
+- In-page evidence viewer: clicking a "第 N 页" citation chip opens the cited
+  page rendered at analysis time (left) next to the page text (right), with the
+  quoted claim highlighted. Cited pages are rendered once per job (≤20 pages,
+  140 dpi) and stored under the job directory; APIs:
+  `GET /api/report/{job_id}/page/{page}.json` and `.../{page}.png`.
+  `src/citeguard/pipeline.py::_save_citation_pages`.
+
+### Fixed
+- Extracted page text kept one line per PDF line (ragged column) and inserted
+  spaces between Chinese characters; text is now collapsed and CJK gaps removed.
+- Page-viewer modal was nested in the shell stacking context, so the left rail
+  covered its title; it now renders from a page-level `modals` block.
+
 ## [1.1.1] - 2026-11-12
 
 ### Added

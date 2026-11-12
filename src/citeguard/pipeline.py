@@ -595,6 +595,50 @@ def _extract_cached(file_path: str, on_page=None) -> tuple[str, dict]:
     return text, meta
 
 
+def _save_citation_pages(pdf_path: str, report: dict, out_dir) -> list[int]:
+    """Render the pages that carry in-text citations, for the page-view evidence panel.
+
+    Kept next to the report (not the upload): the uploaded PDF is deleted after
+    the run, so this is the only way the report page can show the original page
+    later. Only cited pages are rendered, capped at 20 pages.
+    """
+    from pathlib import Path as _Path
+
+    pages = sorted(
+        {
+            int(item["page"])
+            for item in (report.get("citations") or {}).get("items") or []
+            if isinstance(item.get("page"), int) and item["page"] > 0
+        }
+    )[:20]
+    if not pages:
+        return []
+    from .pdf_extract import page_texts, render_page_png
+
+    folder = _Path(out_dir) / "pages"
+    folder.mkdir(parents=True, exist_ok=True)
+    texts = page_texts(pdf_path)
+    saved: list[int] = []
+    for number in pages:
+        try:
+            png = render_page_png(pdf_path, number, dpi=140)
+            (folder / f"p{number}.png").write_bytes(png)
+            text = texts[number - 1] if number <= len(texts) else ""
+            # Extracted page text keeps one line per PDF line; collapse it so the
+            # viewer reads as a paragraph instead of a ragged column.
+            text = " ".join(text.split())
+            # PDF line breaks inside Chinese sentences leave spaces between hanzi;
+            # drop those so the quoted evidence reads naturally.
+            text = re.sub(r"(?<=[\u4e00-\u9fff])\s+(?=[\u4e00-\u9fff])", "", text)
+            (folder / f"p{number}.txt").write_text(text, encoding="utf-8")
+            saved.append(number)
+        except Exception:
+            continue
+    if saved:
+        report["citation_pages"] = saved
+    return saved
+
+
 def run_job(
     job_id: str,
     *,
@@ -674,6 +718,10 @@ def run_job(
 
             stats = annotate_pdf(file_path, report, out_dir / "report.annotated.pdf")
             report["annotated"] = {k: stats.get(k, 0) for k in ("annotated", "unmapped", "citations_annotated", "citations_unmapped", "pages")}
+        except Exception:
+            pass
+        try:
+            _save_citation_pages(file_path, report, out_dir)
         except Exception:
             pass
 

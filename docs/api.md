@@ -16,6 +16,8 @@
 | GET | `/api/report/{id}/triage` | 该报告的条目处理状态（待修/已修/忽略）与计数 |
 | POST | `/api/report/{id}/triage` | 设置单条状态：`{"index": 1, "state": "todo|fixed|ignored", "note": ""}` |
 | GET | `/api/jobs/{id}/events` | 任务进度的 SSE 流（`text/event-stream`，每 0.5 s 推送一条 JSON，`status` 为 done/error 时结束） |
+| GET | `/api/report/{id}/page/{page}` | 页内证据：`page` / `text` / `image` / `note`（该页在分析时渲染，最多 20 页） |
+| GET | `/api/report/{id}/page/{page}.png` | 该页的 PNG 图（140 dpi，分析时生成，上传件此时已删除） |
 
 `X-API-Key` / Bearer 认证只在设置了访问令牌时要求，默认本机不鉴权。
 

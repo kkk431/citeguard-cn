@@ -576,7 +576,9 @@
       } else if (it.style === "author_year" || it.style === "cn_author_year") {
         tail = "<em>作者-年</em>";
       }
-      const page = it.page ? "<em class=\"cite-page\">第 " + it.page + " 页</em>" : "";
+      const page = it.page
+        ? '<button class="cite-page-btn" type="button" data-page-view="' + it.page + '">第 ' + it.page + ' 页</button>'
+        : "";
       return "<li><code>" + esc(it.key || "") + "</code><span>" + esc((it.sentence || "").slice(0, 100)) + "</span>" + ((page || tail) ? "<span class=\"cite-tail\">" + page + tail + "</span>" : "") + "</li>";
     }).join("");
     const note = document.getElementById("citation-note");
@@ -594,7 +596,13 @@
       list.__jumpBound = true;
       list.addEventListener("click", function (e) {
         const btn = e.target && e.target.closest ? e.target.closest("[data-ref-jump]") : null;
-        if (btn) jumpToRef(btn.getAttribute("data-ref-jump"));
+        if (btn) { jumpToRef(btn.getAttribute("data-ref-jump")); return; }
+        const pageBtn = e.target && e.target.closest ? e.target.closest("[data-page-view]") : null;
+        if (pageBtn) {
+          const n = Number(pageBtn.getAttribute("data-page-view"));
+          const hit = (items || []).find(function (x) { return x.page === n; });
+          openPageViewer(n, (hit && hit.sentence) || "");
+        }
       });
     }
   }
@@ -1172,6 +1180,48 @@
     return html;
   }
 
+  function escPageText(text, quote) {
+    const q = (quote || "").trim().slice(0, 40);
+    const idx = q ? text.indexOf(q) : -1;
+    if (idx < 0) return esc(text);
+    const head = text.slice(Math.max(0, idx - 200), idx);
+    const hit = text.slice(idx, idx + Math.max(quote.length, q.length));
+    const tail = text.slice(idx + hit.length, idx + hit.length + 400);
+    return esc(head) + "<mark>" + esc(hit) + "</mark>" + esc(tail);
+  }
+
+  async function openPageViewer(page, quote) {
+    const modal = document.getElementById("page-viewer");
+    if (!modal) return;
+    const img = document.getElementById("page-viewer-img");
+    const pre = document.getElementById("page-viewer-pre");
+    const title = document.getElementById("page-viewer-title");
+    const quoteEl = document.getElementById("page-viewer-quote");
+    const note = document.getElementById("page-viewer-note");
+    modal.hidden = false;
+    document.body.classList.add("page-viewer-open");
+    if (title) title.textContent = "第 " + page + " 页 · 页内证据";
+    if (quoteEl) quoteEl.textContent = quote ? "正文引注句：" + quote : "这一页包含正文引注。";
+    if (note) note.textContent = "图像在分析时渲染，原上传件已按隐私策略删除";
+    if (img) { img.removeAttribute("src"); img.alt = "第 " + page + " 页原图"; }
+    if (pre) pre.textContent = "加载中…";
+    try {
+      const res = await fetch("/api/report/" + encodeURIComponent(jobId) + "/page/" + page);
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      const data = await res.json();
+      if (img) img.src = data.image;
+      if (pre) pre.innerHTML = escPageText(data.text || "（这一页没有可提取的文字层，请看左侧页图）", quote);
+    } catch (e) {
+      if (pre) pre.innerHTML = '<span class="inline-note">这一页的页图没有保存（旧任务或非 PDF）。重新分析同一篇即可生成。</span>';
+    }
+  }
+
+  function closePageViewer() {
+    const modal = document.getElementById("page-viewer");
+    if (modal) modal.hidden = true;
+    document.body.classList.remove("page-viewer-open");
+  }
+
   function closeEvidence() {
     const drawer = document.getElementById("evidence-drawer");
     if (drawer) drawer.hidden = true;
@@ -1179,13 +1229,21 @@
   }
 
   document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") { closeEvidence(); closeRefDrawer(); }
+    if (e.key === "Escape") { closeEvidence(); closeRefDrawer(); closePageViewer(); }
   });
 
   const refBackdrop = document.getElementById("ref-drawer-backdrop");
   if (refBackdrop) refBackdrop.addEventListener("click", closeRefDrawer);
   const refCloseBtn = document.getElementById("ref-drawer-close");
   if (refCloseBtn) refCloseBtn.addEventListener("click", closeRefDrawer);
+  const pvClose = document.getElementById("page-viewer-close");
+  if (pvClose) pvClose.addEventListener("click", closePageViewer);
+  const pvModal = document.getElementById("page-viewer");
+  if (pvModal) {
+    pvModal.addEventListener("click", function (e) {
+      if (e.target === pvModal) closePageViewer();
+    });
+  }
 
   let drawerBody = null;
   let drawerCard = null;

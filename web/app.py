@@ -98,7 +98,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.1.1", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.1.2", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 
@@ -747,6 +747,39 @@ def update_triage(job_id: str, body: TriageUpdate):
         return triage.set_state(job_id, body.index, body.state, body.note)
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+def _page_dir(job_id: str) -> Path:
+    return config.DATA_DIR / "jobs" / job_id / "pages"
+
+
+@app.get("/api/report/{job_id}/page/{page}.png")
+def report_page_png(job_id: str, page: int):
+    p = _page_dir(job_id) / f"p{page}.png"
+    if not p.exists():
+        raise HTTPException(status_code=404, detail="该报告没有保存这一页的图像（旧任务、非 PDF，或该页没有正文引注）")
+    return FileResponse(p, media_type="image/png")
+
+
+@app.get("/api/report/{job_id}/page/{page}")
+def report_page_text(job_id: str, page: int):
+    folder = _page_dir(job_id)
+    png = folder / f"p{page}.png"
+    if not png.exists():
+        raise HTTPException(status_code=404, detail="该报告没有保存这一页（旧任务、非 PDF，或该页没有正文引注）")
+    txt = folder / f"p{page}.txt"
+    text = ""
+    if txt.exists():
+        try:
+            text = txt.read_text(encoding="utf-8")
+        except Exception:
+            text = ""
+    return {
+        "page": page,
+        "text": text,
+        "image": f"/api/report/{job_id}/page/{page}.png",
+        "note": "页图在分析时渲染并保存在任务目录；原始上传件按隐私策略已删除。",
+    }
 
 
 @app.get("/api/report/{job_id}/export")

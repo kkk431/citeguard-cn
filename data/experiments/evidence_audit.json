@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 66,
+  "paths_checked": 70,
   "missing": [],
   "rows": [
     {
@@ -142,8 +142,33 @@
       "evidence": "E55",
       "path": "docs/evidence/shots/phase-F1-health-v1.1.0.png",
       "exists": true
+    },
+    {
+      "evidence": "E56",
+      "path": "docs/api.md",
+      "exists": true
+    },
+    {
+      "evidence": "E56",
+      "path": "docs/evidence/shots/phase-S2-triage-buttons-v1.1.1.png",
+      "exists": true
+    },
+    {
+      "evidence": "E56",
+      "path": "docs/evidence/shots/phase-S2-triage-filter-v1.1.1.png",
+      "exists": true
+    },
+    {
+      "evidence": "E57",
+      "path": "docs/api.md",
+      "exists": true
+    },
+    {
+      "evidence": "E57",
+      "path": "docs/evidence/shots/phase-S1-page-view-v1.1.2.png",
+      "exists": true
     }
   ],
-  "shots_registered": 26,
+  "shots_registered": 29,
   "shots_unregistered": []
 }

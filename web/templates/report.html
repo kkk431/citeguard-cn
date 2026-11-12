@@ -172,4 +172,22 @@
 
 <script id="report-data" type="application/json">{{ report|tojson if report else 'null' }}</script>
 {% endblock %}
+{% block modals %}
+<div id="page-viewer" class="page-viewer" hidden>
+  <div class="page-viewer-panel" role="dialog" aria-modal="true" aria-label="页内证据">
+    <div class="page-viewer-head">
+      <strong id="page-viewer-title">页内证据</strong>
+      <span class="mono-sm" id="page-viewer-note"></span>
+      <button type="button" class="drawer-close" id="page-viewer-close" aria-label="关闭">×</button>
+    </div>
+    <div class="page-viewer-body">
+      <div class="page-viewer-image"><img id="page-viewer-img" alt="论文原页"></div>
+      <div class="page-viewer-text">
+        <div class="mono-sm" id="page-viewer-quote"></div>
+        <pre id="page-viewer-pre"></pre>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
 {% block scripts %}<script src="/static/js/report.js?v={{ request.app.version }}"></script>{% endblock %}
