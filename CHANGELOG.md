@@ -2,6 +2,17 @@
 
 All notable changes to CiteGuard-CN. Earlier pre-1.0 history is condensed.
 
+## [1.0.14] - 2026-11-12
+
+### Changed
+- Layout-vs-text reference selection no longer requires a +0.02 title-health
+  margin. The layout candidate now wins when it keeps at least as many entries
+  and has better titles (or equal titles and more entries). Phi-3 blind PDF:
+  71 refs / 0.972 → 72 / 0.986; Mixtral stays on the text path (35 / 1.000 vs
+  27 / 0.926), so its product result is unchanged. Evidence:
+  `data/experiments/refs_layout_selection.json`,
+  `scripts/eval_layout_selection.py`.
+
 ## [1.0.13] - 2026-11-12
 
 ### Added

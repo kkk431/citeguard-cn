@@ -312,3 +312,30 @@ def test_stage_eta_text():
     assert pipeline._fmt_duration(5.9) == "5s"
     text = pipeline._stage_with_eta("多源核验", 5, 20, 0.0)
     assert "5/20" in text and "剩约" in text
+
+def _ref(title, i=1):
+    from citeguard.reference_parser import Reference
+    return Reference(raw=f"[{i}] {title}[J]. Journal, 2020.", index=i, title=title, year=2020)
+
+
+def test_prefer_layout_accepts_small_health_gain_with_more_entries():
+    # Mirrors the Phi-3 case: 72 refs / 0.986 vs 71 / 0.972 (+0.014, below the
+    # old +0.02 gate) must now take the layout result.
+    text_refs = [_ref(f"Deep residual learning for image recognition number {i}") for i in range(9)]
+    text_refs.append(_ref("URL"))
+    layout_refs = [_ref(f"Deep residual learning for image recognition number {i}") for i in range(10)]
+    layout_refs.append(_ref("URL"))
+    assert pipeline._prefer_layout(text_refs, layout_refs) is True
+
+
+def test_prefer_layout_rejects_fewer_entries():
+    text_refs = [_ref(f"A study of citation verification method {i}") for i in range(10)]
+    layout_refs = [_ref(f"A study of citation verification method {i}") for i in range(9)]
+    assert pipeline._prefer_layout(text_refs, layout_refs) is False
+
+
+def test_prefer_layout_rejects_worse_titles():
+    text_refs = [_ref(f"A study of citation verification method {i}") for i in range(10)]
+    layout_refs = [_ref(f"A study of citation verification method {i}") for i in range(10)]
+    layout_refs[-1] = _ref("URL")
+    assert pipeline._prefer_layout(text_refs, layout_refs) is False

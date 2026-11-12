@@ -45,6 +45,25 @@ def _health_since(errors_at_start: int) -> dict:
     return health
 
 
+def _prefer_layout(refs, layout_refs) -> bool:
+    """Pick the layout-parsed list when it recovers entries without hurting titles.
+
+    The old rule required a +0.02 title-health margin, which silently dropped
+    cases where layout found more entries *and* better titles by a smaller
+    margin (Phi-3: 72 refs / 0.986 vs 71 / 0.972).  Layout must never lose
+    entries, and must not lower title health.
+    """
+    if len(layout_refs) < 5 or len(layout_refs) < len(refs):
+        return False
+    from .refs_layout import title_health
+
+    text_health = title_health(refs)
+    layout_health = title_health(layout_refs)
+    if layout_health > text_health:
+        return True
+    return layout_health == text_health and len(layout_refs) > len(refs)
+
+
 def _with_pages(items: list[dict], pdf_path: str | None) -> list[dict]:
     """Attach a best-effort 1-based page number to each citation item."""
     if not pdf_path or not items:
@@ -156,7 +175,7 @@ def analyze_text(
         # Hanging-indent / two-column lists often collapse after text extraction.
         # Build a layout candidate and keep it only when its titles are healthier.
         try:
-            from .refs_layout import extract_reference_entries, title_health
+            from .refs_layout import extract_reference_entries
 
             layout_entries = extract_reference_entries(pdf_path)
         except Exception:
@@ -172,8 +191,7 @@ def analyze_text(
                     if better:
                         parsed[0].title = better
                 layout_refs.extend(parsed)
-            if (len(layout_refs) >= len(refs) and
-                    title_health(layout_refs) >= title_health(refs) + 0.02):
+            if _prefer_layout(refs, layout_refs):
                 refs = layout_refs
     # Entries parsed one-by-one (layout path) all carry index 1; renumber so
     # the report and exports show stable per-reference numbers.

@@ -1,0 +1,71 @@
+{
+  "n": 6,
+  "rule": "layout wins when it has >= entries and strictly better titles, or equal titles and more entries; old gate required +0.02 health",
+  "changed": [
+    {
+      "paper": "phi3",
+      "text_refs": 71,
+      "text_health": 0.9718,
+      "layout_refs": 72,
+      "layout_health": 0.9861,
+      "chosen_old": "text",
+      "chosen_new": "layout"
+    }
+  ],
+  "rows": [
+    {
+      "paper": "deepseek_r1",
+      "text_refs": 34,
+      "text_health": 0.9412,
+      "layout_refs": 92,
+      "layout_health": 0.9674,
+      "chosen_old": "layout",
+      "chosen_new": "layout"
+    },
+    {
+      "paper": "mixtral",
+      "text_refs": 35,
+      "text_health": 1.0,
+      "layout_refs": 27,
+      "layout_health": 0.9259,
+      "chosen_old": "text",
+      "chosen_new": "text"
+    },
+    {
+      "paper": "qwen3",
+      "text_refs": 51,
+      "text_health": 0.9608,
+      "layout_refs": 73,
+      "layout_health": 1.0,
+      "chosen_old": "layout",
+      "chosen_new": "layout"
+    },
+    {
+      "paper": "llama3",
+      "text_refs": 157,
+      "text_health": 0.9745,
+      "layout_refs": 187,
+      "layout_health": 0.9947,
+      "chosen_old": "layout",
+      "chosen_new": "layout"
+    },
+    {
+      "paper": "phi3",
+      "text_refs": 71,
+      "text_health": 0.9718,
+      "layout_refs": 72,
+      "layout_health": 0.9861,
+      "chosen_old": "text",
+      "chosen_new": "layout"
+    },
+    {
+      "paper": "qwen2",
+      "text_refs": 54,
+      "text_health": 0.9444,
+      "layout_refs": 79,
+      "layout_health": 0.9747,
+      "chosen_old": "layout",
+      "chosen_new": "layout"
+    }
+  ]
+}
