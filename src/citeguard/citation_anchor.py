@@ -31,8 +31,8 @@ _CN_WENXIAN = re.compile(
     r"文献\s*\[?\s*(\d{1,3}(?:\s*[-,–—~，]\s*\d{1,3})*)\s*\]?"
 )
 _EN_AUTHOR_YEAR = re.compile(
-    r"\(([A-Z][A-Za-z\-']+(?:\s+et\s+al\.?)?"
-    r"(?:\s*(?:&|and)\s+[A-Z][A-Za-z\-']+)?),\s*((?:19|20)\d{2}[a-z]?)\)"
+    r"[（(]([A-Z][A-Za-z\-']+(?:\s+et\s+al\.?)?"
+    r"(?:\s*(?:&|and)\s+[A-Z][A-Za-z\-']+)?),\s*((?:19|20)\d{2}[a-z]?)[）)]"
 )
 _CN_AUTHOR_YEAR = re.compile(
     r"[（(]([\u4e00-\u9fff]{2,4})(?:等)?[，,]\s*((?:19|20)\d{2})[）)]"

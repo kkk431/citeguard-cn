@@ -2,6 +2,23 @@
 
 All notable changes to CiteGuard-CN. Earlier pre-1.0 history is condensed.
 
+## [1.1.4] - 2026-11-12
+
+### Added
+- Retraction and correction check for every matched reference that carries a DOI:
+  OpenAlex `is_retracted`, Crossref `relation.updated-by/update-to`, capped at 40
+  references with 4 workers. Red banner on the report overview and per-entry
+  pills; `references[i].retraction` plus top-level `retractions` summary.
+  `src/citeguard/retraction.py`; docs/retraction.md.
+
+### Fixed
+- English author-year citations wrapped in full-width parentheses
+  （Livingston et al., 2020）are now recognised, so Chinese papers that cite
+  English authors in Chinese punctuation no longer lose citation coverage.
+
+### Tests
+- `pytest tests -q` -> 640 passed.
+
 ## [1.1.3] - 2026-11-12
 
 ### Added

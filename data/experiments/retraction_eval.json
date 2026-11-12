@@ -1,0 +1,223 @@
+{
+  "sampled": {
+    "retracted": 100,
+    "control": 100
+  },
+  "retracted_counts": {
+    "retracted": 100
+  },
+  "control_counts": {
+    "clean": 100
+  },
+  "recall_on_checked": 1.0,
+  "recall_all": 1.0,
+  "false_positive_rate": 0.0,
+  "elapsed_s": 243.7,
+  "boundary": "OpenAlex is both the sample label and the check source; this measures agreement with that flag, not independent truth. Crossref corrections are counted separately, not as false positives.",
+  "samples": {
+    "retracted": [
+      {
+        "doi": "10.1016/s0140-6736(20)30367-6",
+        "title": "Dementia prevention, intervention, and care: 2020 report of the Lancet Commission",
+        "status": "retracted"
+      },
+      {
+        "doi": "10.1038/nature00870",
+        "title": "RETRACTED ARTICLE: Pluripotency of mesenchymal stem cells derived from adult marrow",
+        "status": "retracted"
+      },
+      {
+        "doi": "10.1016/j.ijantimicag.2020.105949",
+        "title": "Hydroxychloroquine and azithromycin as a treatment of COVID-19: results of an open-label non-randomized clinical trial",
+        "status": "retracted"
+      },
+      {
+        "doi": "10.1056/nejmoa1200303",
+        "title": "RETRACTED: Primary Prevention of Cardiovascular Disease with a Mediterranean Diet",
+        "status": "retracted"
+      },
+      {
+        "doi": "10.1016/s0140-6736(20)32656-8",
+        "title": "RETRACTED: 6-month consequences of COVID-19 in patients discharged from hospital: a cohort study",
+        "status": "retracted"
+      },
+      {
+        "doi": "10.1016/s0140-6736(97)11096-0",
+        "title": "RETRACTED: Ileal-lymphoid-nodular hyperplasia, non-specific colitis, and pervasive developmental disorder in children",
+        "status": "retracted"
+      },
+      {
+        "doi": "10.1111/j.1751-7176.2008.07572.x",
+        "title": "Retracted: Predictive Validity of a Medication Adherence Measure in an Outpatient Setting",
+        "status": "retracted"
+      },
+      {
+        "doi": "10.1038/nature04533",
+        "title": "RETRACTED ARTICLE: A specific amyloid-β protein assembly in the brain impairs memory",
+        "status": "retracted"
+      },
+      {
+        "doi": "10.1016/j.ygyno.2008.04.033",
+        "title": "RETRACTED: MicroRNA signatures of tumor-derived exosomes as diagnostic biomarkers of ovarian cancer",
+        "status": "retracted"
+      },
+      {
+        "doi": "10.15585/mmwr.ss6503a1",
+        "title": "Prevalence and Characteristics of Autism Spectrum Disorder Among Children Aged 8 Years — Autism and Developmental Disabilities Monitoring Network, 11 Sites, United States, 2012",
+        "status": "retracted"
+      },
+      {
+        "doi": "10.1155/2014/943162",
+        "title": "A Comprehensive Review on Metabolic Syndrome",
+        "status": "retracted"
+      },
+      {
+        "doi": "10.1126/science.1097243",
+        "title": "Visfatin: A Protein Secreted by Visceral Fat That Mimics the Effects of Insulin",
+        "status": "retracted"
+      },
+      {
+        "doi": "10.1046/j.1365-313x.2003.01676.x",
+        "title": "Retracted: An enhanced transient expression system in plants based on suppression of gene silencing by the p19 protein of tomato bushy stunt virus",
+        "status": "retracted"
+      },
+      {
+        "doi": "10.1016/j.pmatsci.2004.04.001",
+        "title": "RETRACTED: Recent progress in processing and properties of ZnO",
+        "status": "retracted"
+      },
+      {
+        "doi": "10.1074/jbc.m800102200",
+        "title": "Mitochondrial Autophagy Is an HIF-1-dependent Adaptive Metabolic Response to Hypoxia",
+        "status": "retracted"
+      },
+      {
+        "doi": "10.1207/s15326934crj1801_10",
+        "title": "RETRACTED ARTICLE: The Nature of Creativity",
+        "status": "retracted"
+      },
+      {
+        "doi": "10.1038/s41929-018-0063-z",
+        "title": "RETRACTED ARTICLE: A universal principle for a rational design of single-atom electrocatalysts",
+        "status": "retracted"
+      },
+      {
+        "doi": "10.1002/14651858.cd001872.pub2",
+        "title": "Interventions for treating obesity in children",
+        "status": "retracted"
+      },
+      {
+        "doi": "10.1155/2021/5102014",
+        "title": "Nanomaterial by Sol‐Gel Method: Synthesis and Application",
+        "status": "retracted"
+      },
+      {
+        "doi": "10.1088/0957-4484/18/22/225103",
+        "title": "Retracted: Characterization of enhanced antibacterial effects of novel silver nanoparticles",
+        "status": "retracted"
+      }
+    ],
+    "control": [
+      {
+        "doi": "10.1016/s0021-9258(19)52451-6",
+        "title": "PROTEIN MEASUREMENT WITH THE FOLIN PHENOL REAGENT",
+        "status": "clean"
+      },
+      {
+        "doi": "10.1016/0003-2697(76)90527-3",
+        "title": "A Rapid and Sensitive Method for the Quantitation of Microgram Quantities of Protein Utilizing the Principle of Protein-Dye Binding",
+        "status": "clean"
+      },
+      {
+        "doi": "10.1038/227680a0",
+        "title": "Cleavage of Structural Proteins during the Assembly of the Head of Bacteriophage T4",
+        "status": "clean"
+      },
+      {
+        "doi": "10.1109/cvpr.2016.90",
+        "title": "Deep Residual Learning for Image Recognition",
+        "status": "clean"
+      },
+      {
+        "doi": "10.1191/1478088706qp063oa",
+        "title": "Using thematic analysis in psychology",
+        "status": "clean"
+      },
+      {
+        "doi": "10.1103/physrevlett.77.3865",
+        "title": "Generalized Gradient Approximation Made Simple",
+        "status": "clean"
+      },
+      {
+        "doi": "10.1006/meth.2001.1262",
+        "title": "Analysis of Relative Gene Expression Data Using Real-Time Quantitative PCR and the 2−ΔΔCT Method",
+        "status": "clean"
+      },
+      {
+        "doi": "10.1023/a:1010933404324",
+        "title": "Random Forests",
+        "status": "clean"
+      },
+      {
+        "doi": "10.1136/bmj.n71",
+        "title": "The PRISMA 2020 statement: an updated guideline for reporting systematic reviews",
+        "status": "clean"
+      },
+      {
+        "doi": "10.1103/physrevb.54.11169",
+        "title": "Efficient iterative schemes for ab initio total-energy calculations using a plane-wave basis set",
+        "status": "clean"
+      },
+      {
+        "doi": "10.1176/appi.books.9780890425596",
+        "title": "Diagnostic and Statistical Manual of Mental Disorders",
+        "status": "clean"
+      },
+      {
+        "doi": "10.1177/002224378101800104",
+        "title": "Evaluating Structural Equation Models with Unobservable Variables and Measurement Error",
+        "status": "clean"
+      },
+      {
+        "doi": "10.1080/10705519909540118",
+        "title": "Cutoff criteria for fit indexes in covariance structure analysis: Conventional criteria versus new alternatives",
+        "status": "clean"
+      },
+      {
+        "doi": "10.1145/3065386",
+        "title": "ImageNet classification with deep convolutional neural networks",
+        "status": "clean"
+      },
+      {
+        "doi": "10.3322/caac.70090",
+        "title": "Global Cancer Statistics 2020: GLOBOCAN Estimates of Incidence and Mortality Worldwide for 36 Cancers in 185 Countries",
+        "status": "clean"
+      },
+      {
+        "doi": "10.1111/j.2517-6161.1995.tb02031.x",
+        "title": "Controlling the False Discovery Rate: A Practical and Powerful Approach to Multiple Testing",
+        "status": "clean"
+      },
+      {
+        "doi": "10.1162/neco.1997.9.8.1735",
+        "title": "Long Short-Term Memory",
+        "status": "clean"
+      },
+      {
+        "doi": "10.1016/0749-5978(91)90020-t",
+        "title": "The theory of planned behavior",
+        "status": "clean"
+      },
+      {
+        "doi": "10.1063/1.464913",
+        "title": "Density-functional thermochemistry. III. The role of exact exchange",
+        "status": "clean"
+      },
+      {
+        "doi": "10.1007/978-3-319-24574-4_28",
+        "title": "U-Net: Convolutional Networks for Biomedical Image Segmentation",
+        "status": "clean"
+      }
+    ]
+  }
+}

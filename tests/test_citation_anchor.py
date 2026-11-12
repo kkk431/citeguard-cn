@@ -42,6 +42,13 @@ def test_two_author_year():
     assert cites[0].style == "author_year"
 
 
+def test_english_author_year_in_fullwidth_parentheses():
+    cites = extract_citations("有研究指出这一点（Livingston et al., 2020），也有不同结论。")
+    assert len(cites) == 1
+    assert cites[0].style == "author_year"
+    assert "Livingston" in cites[0].key
+
+
 def test_cn_author_year():
     cites = extract_citations("有研究指出这一点（张三，2020），也有不同结论。")
     assert len(cites) == 1

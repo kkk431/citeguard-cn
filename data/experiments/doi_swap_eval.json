@@ -1,0 +1,104 @@
+{
+  "pairs": 99,
+  "statuses": {
+    "Minor": 99
+  },
+  "missed_exact": 0,
+  "doi_mismatch_noted": 98,
+  "doi_mismatch_rate": 0.9899,
+  "not_exact_rate": 1.0,
+  "elapsed_s": 65.7,
+  "boundary": "Constructed swap: title from paper A, DOI from paper B. Any Exact is a missed DOI mismatch; this is not a human-labelled test.",
+  "samples": [
+    {
+      "title": "PROTEIN MEASUREMENT WITH THE FOLIN PHENOL REAGENT",
+      "doi": "10.1016/0003-2697(76)90527-3",
+      "status": "Minor",
+      "notes": [
+        "DOI 10.1016/0003-2697(76)90527-3 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "title": "A Rapid and Sensitive Method for the Quantitation of Microgram Quantities of Protein Utilizing the Principle of Protein-Dye Binding",
+      "doi": "10.1038/227680a0",
+      "status": "Minor",
+      "notes": [
+        "DOI 10.1038/227680a0 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "title": "Cleavage of Structural Proteins during the Assembly of the Head of Bacteriophage T4",
+      "doi": "10.1109/cvpr.2016.90",
+      "status": "Minor",
+      "notes": [
+        "DOI 10.1109/cvpr.2016.90 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "title": "Deep Residual Learning for Image Recognition",
+      "doi": "10.1191/1478088706qp063oa",
+      "status": "Minor",
+      "notes": [
+        "DOI 10.1191/1478088706qp063oa resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "title": "Using thematic analysis in psychology",
+      "doi": "10.1103/physrevlett.77.3865",
+      "status": "Minor",
+      "notes": [
+        "DOI 10.1103/physrevlett.77.3865 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "title": "Generalized Gradient Approximation Made Simple",
+      "doi": "10.1006/meth.2001.1262",
+      "status": "Minor",
+      "notes": [
+        "DOI 10.1006/meth.2001.1262 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "title": "Analysis of Relative Gene Expression Data Using Real-Time Quantitative PCR and the 2−ΔΔCT Method",
+      "doi": "10.1023/a:1010933404324",
+      "status": "Minor",
+      "notes": [
+        "DOI 10.1023/a:1010933404324 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "title": "Random Forests",
+      "doi": "10.1136/bmj.n71",
+      "status": "Minor",
+      "notes": [
+        "DOI 10.1136/bmj.n71 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "title": "The PRISMA 2020 statement: an updated guideline for reporting systematic reviews",
+      "doi": "10.1103/physrevb.54.11169",
+      "status": "Minor",
+      "notes": [
+        "DOI 10.1103/physrevb.54.11169 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    },
+    {
+      "title": "Efficient iterative schemes for ab initio total-energy calculations using a plane-wave basis set",
+      "doi": "10.1176/appi.books.9780890425596",
+      "status": "Minor",
+      "notes": [
+        "DOI 10.1176/appi.books.9780890425596 resolved",
+        "DOI 指向另一篇文献，但题名检索命中（相似度 1.00）：更可能是 DOI 抄错"
+      ]
+    }
+  ]
+}

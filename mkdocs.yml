@@ -16,6 +16,7 @@ nav:
   - 存储与索引: storage.md
   - 评测与证据: experiments.md
   - 引用健康画像: health.md
+  - 撤稿与勘误检查: retraction.md
   - 证据索引: evidence_index.md
   - 性能: performance.md
   - 数据集: dataset_release.md

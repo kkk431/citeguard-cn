@@ -104,6 +104,41 @@ def _citations_payload(body: str, references=(), limit: int = 200, pdf_path: str
     }
 
 
+def _attach_retractions(report: dict, limit: int = 40) -> None:
+    """Flag retracted / corrected cited works (online mode only).
+
+    Only Exact/Minor matches with a DOI are checked: a wrong-match DOI would
+    produce a retraction flag about a different paper. Results go both per
+    reference and as a summary at the top of the report.
+    """
+    from .retraction import check_doi, summarize
+
+    refs = report.get("references") or []
+    targets: list[tuple[dict, str]] = []
+    for ref in refs:
+        verify = ref.get("verify") or {}
+        doi = (ref.get("parsed") or {}).get("doi") or ""
+        if doi and verify.get("status") in {"Exact", "Minor"}:
+            targets.append((ref, doi))
+    targets = targets[:limit]
+    if not targets:
+        return
+    results: dict[int, dict] = {}
+    with ThreadPoolExecutor(max_workers=4) as pool:
+        futures = {pool.submit(check_doi, doi): i for i, (_ref, doi) in enumerate(targets)}
+        for future in as_completed(futures):
+            i = futures[future]
+            try:
+                results[i] = future.result()
+            except Exception:
+                results[i] = {"status": "error", "source": "", "title": "", "detail": "检查失败"}
+    for i, (ref, doi) in enumerate(targets):
+        result = results.get(i) or {"status": "error", "source": "", "title": "", "detail": ""}
+        result["doi"] = doi
+        ref["retraction"] = result
+    report["retractions"] = summarize([ref.get("retraction") or {} for ref, _ in targets])
+
+
 def _attach_cited_in(report: dict) -> None:
     """给每条参考文献挂上正文里的引用位置，供报告/抽屉双向跳转。"""
     citations = ((report.get("citations") or {}).get("items") or [])
@@ -255,6 +290,8 @@ def analyze_text(
     report["stats"]["library_hits"] = local_hits
     report["citations"] = _citations_payload(body, refs, pdf_path=pdf_path)
     _attach_cited_in(report)
+    if online:
+        _attach_retractions(report)
     from .report_charts import build_charts
 
     report["charts"] = build_charts(report)

@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 71,
+  "paths_checked": 73,
   "missing": [],
   "rows": [
     {
@@ -169,6 +169,16 @@
       "exists": true
     },
     {
+      "evidence": "E59",
+      "path": "docs/retraction.md",
+      "exists": true
+    },
+    {
+      "evidence": "E59",
+      "path": "docs/evidence/shots/phase-F3-retraction-v1.1.4.png",
+      "exists": true
+    },
+    {
       "evidence": "E58",
       "path": "docs/api.md",
       "exists": true
@@ -179,6 +189,6 @@
       "exists": true
     }
   ],
-  "shots_registered": 30,
+  "shots_registered": 31,
   "shots_unregistered": []
 }

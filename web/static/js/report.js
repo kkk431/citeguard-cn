@@ -329,6 +329,25 @@
       '<div class="mono-sm" style="color:var(--muted);margin-top:6px">' + esc(r.note || "") + "</div>";
   }
 
+  function renderRetractions(data) {
+    const el = document.getElementById("retraction-banner");
+    if (!el) return;
+    const r = data.retractions;
+    if (!r || !r.checked || (!r.retracted && !r.corrected)) {
+      el.classList.add("hidden");
+      return;
+    }
+    el.classList.remove("hidden");
+    el.classList.add("retraction-panel");
+    const parts = [];
+    if (r.retracted) parts.push("<b>" + r.retracted + "</b> 条已撤稿");
+    if (r.corrected) parts.push("<b>" + r.corrected + "</b> 条有勘误/更新");
+    let html = "撤稿与勘误检查：" + parts.join("、") + "（OpenAlex + Crossref）";
+    if (r.error) html += "；另有 " + r.error + " 条未完成检查";
+    html += "。引用前请打开原文核对撤稿声明或勘误页。";
+    el.innerHTML = html;
+  }
+
   function renderHealth(data) {
     const panel = document.getElementById("health-panel");
     if (!panel) return;
@@ -614,6 +633,7 @@
     renderSourceHealth(data);
     renderReviewSummary(data);
     renderHealth(data);
+    renderRetractions(data);
     selectSummaryTab(summaryTab);
     document.querySelectorAll("[data-summary-tab]").forEach(function (btn) {
       if (btn.__tabBound) return;
@@ -1520,6 +1540,9 @@
         const retractPill = v.retracted
           ? '<span class="pill warn" title="OpenAlex 撤稿标记；引用前请核对原文与撤稿声明"><i></i>该文献已撤稿</span>'
           : "";
+        const corrPill = item.retraction && item.retraction.status === "corrected"
+          ? '<span class="pill warn" title="Crossref 记录了勘误或更新关系"><i></i>有勘误/更新</span>'
+          : "";
         const provPills = [];
         if (sources.indexOf("doi:landing") !== -1) {
           provPills.push('<span class="pill warn"><i></i>中国 DOI 平台 · 卷期页未核对</span>');
@@ -1590,7 +1613,7 @@
                 '<div class="ref-sub">' + esc((p.authors || []).join(", ") || "（未解析作者）") + " · " + esc(p.year || "") + (p.venue ? " · " + esc(p.venue) : "") + "</div>" +
                 '<div class="ref-tags">' +
                   '<span class="pill ' + st.cls + '"><i></i>' + st.label + "</span>" +
-                  supPill + triagePill + localPill + retractPill + provPills.join("") + urlPills.join("") +
+                  supPill + triagePill + localPill + retractPill + corrPill + provPills.join("") + urlPills.join("") +
                 "</div>" +
               "</div>" +
               '<div class="ref-side">' +
