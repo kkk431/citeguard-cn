@@ -2,6 +2,21 @@
 
 All notable changes to CiteGuard-CN. Earlier pre-1.0 history is condensed.
 
+## [1.1.5] - 2026-11-12
+
+### Added
+- Replacement suggestions: from a reference's citation context, search OpenAlex
+  and show up to three candidates with a ready-to-paste GB/T 7714 entry, DOI
+  link and an explicit "verify before replacing" note. Drawer button in the
+  report; `GET /api/report/{id}/replacement?index=N`.
+- Retrieval benchmark over 21 real papers: 438 citation-context queries, 477
+  candidate references; BGE-M3 beats BM25 and title overlap (Recall@1 0.1986,
+  Recall@3 0.3219, MRR 0.2948). Absolute numbers are low because ground truth is
+  the cited reference, not a claim-support label; documented in docs/replacement.md.
+
+### Tests
+- `pytest tests -q` -> 642 passed.
+
 ## [1.1.4] - 2026-11-12
 
 ### Added

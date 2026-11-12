@@ -1,0 +1,32 @@
+{
+  "dataset": {
+    "papers": 21,
+    "pool": 477,
+    "queries": 438,
+    "boundary": "Ground truth is the cited reference; candidate pool is the 22-paper corpus. This measures context-to-reference retrieval, not whether the reference actually supports the claim."
+  },
+  "results": {
+    "title": {
+      "n": 438,
+      "recall@1": 0.1712,
+      "recall@3": 0.2329,
+      "recall@5": 0.2763,
+      "mrr": 0.2245
+    },
+    "bm25": {
+      "n": 438,
+      "recall@1": 0.1872,
+      "recall@3": 0.258,
+      "recall@5": 0.29,
+      "mrr": 0.2428
+    },
+    "bge": {
+      "n": 438,
+      "recall@1": 0.1986,
+      "recall@3": 0.3219,
+      "recall@5": 0.3973,
+      "mrr": 0.2948
+    }
+  },
+  "boundary": "Context-to-cited-reference retrieval over the 22-paper corpus; not a judgement that the cited reference supports the claim."
+}

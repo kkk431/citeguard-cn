@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 73,
+  "paths_checked": 75,
   "missing": [],
   "rows": [
     {
@@ -169,6 +169,16 @@
       "exists": true
     },
     {
+      "evidence": "E60",
+      "path": "docs/replacement.md",
+      "exists": true
+    },
+    {
+      "evidence": "E60",
+      "path": "docs/evidence/shots/phase-F2-replacement-v1.1.5.png",
+      "exists": true
+    },
+    {
       "evidence": "E59",
       "path": "docs/retraction.md",
       "exists": true
@@ -189,6 +199,6 @@
       "exists": true
     }
   ],
-  "shots_registered": 31,
+  "shots_registered": 32,
   "shots_unregistered": []
 }

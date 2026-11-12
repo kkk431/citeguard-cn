@@ -889,3 +889,34 @@ body.theme-light .retraction-panel {
   color: #7a1f18;
 }
 body.theme-light .retraction-panel b { color: #c0392b; }
+
+/* Replacement candidates (F2) */
+.drawer-replace {
+  margin: 14px 0;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(255, 184, 77, .06);
+}
+.drawer-replace .replace-btn { margin: 8px 0; }
+.replace-list { display: grid; gap: 10px; margin-top: 8px; }
+.replace-item {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, .03);
+}
+.replace-title { font-size: 15px; font-weight: 700; line-height: 1.5; }
+.replace-entry {
+  margin: 8px 0;
+  padding: 8px 10px;
+  font-size: 12.5px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  background: rgba(0, 0, 0, .25);
+  border-radius: 6px;
+}
+.replace-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+body.theme-light .drawer-replace { background: #fff8ec; }
+body.theme-light .replace-item { background: #fff; }
+body.theme-light .replace-entry { background: #f4f6f5; }

@@ -1374,6 +1374,7 @@
       '<div class="ref-drawer-sub">' + esc((p.authors || []).join(", ") || "（未解析作者）") + " · " + esc(p.year || "") +
       (p.venue ? " · " + esc(p.venue) : "") + "</div>";
     body.appendChild(triageControls(item, pos));
+    body.appendChild(replacementBlock(item));
     const node = card.querySelector(".ref-body");
     if (node) {
       body.appendChild(node);
@@ -1401,6 +1402,61 @@
     const evBtn = body.querySelector("[data-detail-evidence]");
     if (evBtn) evBtn.addEventListener("click", function () { openEvidence(pos); });
     body.scrollTop = 0;
+  }
+
+  function replacementBlock(item) {
+    const wrap = document.createElement("div");
+    wrap.className = "drawer-replace";
+    wrap.innerHTML =
+      '<div class="mono-sm">这句话没有合适的文献支撑？按引用语境检索候选</div>' +
+      '<button class="btn btn-sm btn-ghost replace-btn" type="button">找替代文献</button>' +
+      '<div class="replace-list"></div>';
+    const btn = wrap.querySelector(".replace-btn");
+    const list = wrap.querySelector(".replace-list");
+    btn.addEventListener("click", async function () {
+      btn.disabled = true;
+      btn.textContent = "检索中…";
+      try {
+        const res = await fetch(
+          "/api/report/" + encodeURIComponent(jobId) + "/replacement?index=" + encodeURIComponent(item.index),
+          { headers: { Accept: "application/json" } }
+        );
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || "HTTP " + res.status);
+        const items = data.candidates || [];
+        if (!items.length) {
+          list.innerHTML = '<div class="inline-note">没有找到可推荐的候选。可以换一句更具体的引用句再试。</div>';
+        } else {
+          list.innerHTML = items.map(function (c) {
+            const doi = (c.doi || "").replace(/^https?:\/\/(dx\.)?doi\.org\//, "");
+            return '<div class="replace-item">' +
+              '<div class="replace-title">' + esc(c.title || "") + "</div>" +
+              '<div class="mono-sm">' + esc([c.venue, c.year, c.source].filter(Boolean).join(" · ")) + "</div>" +
+              '<pre class="replace-entry">' + esc(c.entry || "") + "</pre>" +
+              '<div class="replace-actions">' +
+              (c.entry ? '<button class="btn btn-sm btn-ghost" type="button" data-copy-entry>复制条目</button>' : "") +
+              (doi ? '<a class="btn btn-sm btn-ghost" href="https://doi.org/' + encodeURIComponent(doi) + '" target="_blank" rel="noopener">打开 DOI</a>' : "") +
+              "</div></div>";
+          }).join("") +
+            '<div class="inline-note">' + esc(data.note || "") + "</div>";
+          list.querySelectorAll("[data-copy-entry]").forEach(function (b) {
+            b.addEventListener("click", function () {
+              const pre = b.closest(".replace-item").querySelector(".replace-entry");
+              if (pre && navigator.clipboard) {
+                navigator.clipboard.writeText(pre.textContent || "").then(function () {
+                  window.CiteGuard.toast("已复制候选条目");
+                });
+              }
+            });
+          });
+        }
+      } catch (e) {
+        list.innerHTML = '<div class="inline-note">检索失败：' + esc(e.message) + "</div>";
+      }
+      btn.disabled = false;
+      btn.textContent = "重新检索";
+    });
+    return wrap;
   }
 
   function triageControls(item, pos) {

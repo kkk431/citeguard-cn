@@ -98,7 +98,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.1.4", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.1.5", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 
@@ -491,6 +491,74 @@ def library_suggest(title: str = "", year: int | None = None):
         out.append(item)
     out.sort(key=lambda item: (round(item["sim"], 2), item["cited_by"]), reverse=True)
     return {"query": title, "count": len(out[:6]), "candidates": out[:6]}
+
+
+@app.get("/api/report/{job_id}/replacement")
+def report_replacement(job_id: str, index: int, q: str = ""):
+    """Suggest candidate references for a claim the current citation cannot support.
+
+    Candidates come from an OpenAlex full-text search on the citation context; they
+    are leads to check, not a claim that any candidate actually supports the sentence.
+    """
+    from citeguard.format_gbt import format_from_candidate
+    from citeguard.metadata_verify import Reference, norm_title, search_openalex
+
+    report = _load_report(job_id)
+    refs = report.get("references") or []
+    if not (1 <= index <= len(refs)):
+        raise HTTPException(status_code=404, detail="没有这一条参考文献")
+    item = refs[index - 1]
+    parsed = item.get("parsed") or {}
+    if not (q or "").strip():
+        cited = item.get("cited_in") or []
+        if cited:
+            q = cited[0].get("sentence") or ""
+        elif item.get("support"):
+            q = (item["support"] or {}).get("claim") or ""
+        if not q:
+            q = parsed.get("title") or ""
+    q = (q or "").strip()
+    if len(q) < 4:
+        raise HTTPException(status_code=400, detail="需要引用句或题名才能检索候选")
+    query = q[:300]
+    try:
+        cands = search_openalex(query, limit=10)
+    except Exception:
+        cands = []
+    have = {norm_title((r.get("parsed") or {}).get("title") or "") for r in refs}
+    out: list[dict] = []
+    for cand in cands:
+        key = norm_title(cand.title or "")
+        if not key or key in have:
+            continue
+        ref = Reference(
+            raw=cand.title or "",
+            title=cand.title or "",
+            authors=list(cand.authors or []),
+            year=cand.year,
+            venue=cand.venue or "",
+            doi=cand.doi or "",
+            doc_type="J",
+        )
+        out.append(
+            {
+                "title": cand.title,
+                "year": cand.year,
+                "venue": cand.venue,
+                "doi": cand.doi,
+                "source": cand.source,
+                "entry": format_from_candidate(ref, cand),
+            }
+        )
+        if len(out) >= 3:
+            break
+    return {
+        "index": index,
+        "query": query,
+        "count": len(out),
+        "candidates": out,
+        "note": "检索线索，不代表该文献一定支持这句话；请打开摘要核对后再替换。",
+    }
 
 
 @app.get("/api/library")
