@@ -1,0 +1,11 @@
+{
+ "generated_at": "2026-11-12 14:03:49",
+ "endpoint": "http://222.20.126.148:8090/v1",
+ "model": "bge-m3",
+ "n": 300,
+ "distractors": 5,
+ "recall_at_1": 0.8667,
+ "mrr": 0.9042,
+ "embed_seconds": 20.24,
+ "boundary": "构造集，正例证据与引用句措辞接近；只验证向量端点与重排链路，不代表语义检索 SOTA。"
+}

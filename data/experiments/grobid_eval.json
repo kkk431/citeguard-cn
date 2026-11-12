@@ -1,0 +1,23 @@
+{
+ "generated_at": "2026-11-12 18:49:16",
+ "items": [
+  {
+   "paper": "deepseek_r1.pdf",
+   "arxiv": "deepseek_r1",
+   "grobid_refs": 90,
+   "ours_refs": 92
+  },
+  {
+   "paper": "mixtral.pdf",
+   "arxiv": "mixtral",
+   "grobid_refs": 35,
+   "ours_refs": 27
+  },
+  {
+   "paper": "qwen3.pdf",
+   "arxiv": "qwen3",
+   "grobid_refs": 74,
+   "ours_refs": 73
+  }
+ ]
+}

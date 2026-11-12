@@ -95,3 +95,10 @@
 - E49 Docker 重置与 1.0.12 镜像验证：`docs/evidence/logs/docker-1.0.12-health.txt`（构建 DONE、镜像 414 MB、容器 health 200 / version 1.0.12 / offline=true）。
 
 - E50 HuggingFace 发布：数据集 <https://huggingface.co/datasets/dfdafs/claimsupport-cn-300>（5 文件）、适配器 <https://huggingface.co/models/dfdafs/citeguard-support-lora-qwen3-1.7b>（9 文件，含 training/ 脚本）；API 校验 `private=false`，上传脚本 `scripts/upload_hf.py`。
+
+- E51 BGE-M3 真实端点召回：`data/experiments/embeddings_recall_bge_m3_n300.json`（n=300，recall@1 0.8667 / MRR 0.9042 / 编码 20.24 s）；服务脚本 `scripts/bge_embed_server.py`，评测脚本 `scripts/eval_embeddings_recall.py`；`docs/embeddings.md`。构造集、5 个干扰项、单次运行；只验证链路，不代表语义检索 SOTA；服务用完已关。
+
+- E52 GROBID 参考文献对照：`data/experiments/grobid_eval.json`，`scripts/eval_grobid.py`，`docs/ocr_grobid_eval.md` §2。Qwen3 74 vs 73、DeepSeek-R1 90 vs 92、Mixtral 35 vs 27；只比条数、不做字段级质量，未计时。
+
+- E53 Docker 数据盘迁移与 1.0.12 镜像复验：`docs/evidence/logs/docker-1.0.12-health.txt`；`docker_data.vhdx` 由 C: 迁到 `D:\Docker\wsl` 并留 junction，C: 释放约 15.6 GB（3.1→18.7 GB）；迁后 engine 29.9.2、`hello-world` 与 `citeguard-cn:1.0.12` 镜像均在。
+

@@ -30,3 +30,6 @@ data/judge_models.json
 site/
 
 data/history.db
+
+.env.hf
+

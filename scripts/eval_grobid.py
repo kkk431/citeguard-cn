@@ -16,6 +16,7 @@ from pathlib import Path
 BASE = "http://127.0.0.1:8070"
 PDFS = sorted(Path("out/blind_test5").glob("*.pdf"))
 OURS = {"2505.09388": 73, "2501.12948": 92, "2401.04088": 27}
+OURS_BY_STEM = {"qwen3": 73, "deepseek_r1": 92, "mixtral": 27}
 
 
 def wait_ready(timeout=180):
@@ -59,7 +60,8 @@ def main():
             n = len(re.findall(r"<biblStruct\b", xml))
             m = re.search(r"(\d{4}\.\d{4,5})", pdf.name)
             key = m.group(1) if m else pdf.stem
-            out.append({"paper": pdf.name, "arxiv": key, "grobid_refs": n, "ours_refs": OURS.get(key)})
+            ours = OURS.get(key) if key in OURS else OURS_BY_STEM.get(pdf.stem)
+            out.append({"paper": pdf.name, "arxiv": key, "grobid_refs": n, "ours_refs": ours})
         except Exception as exc:
             out.append({"paper": pdf.name, "error": str(exc)})
     dest = Path("data/experiments/grobid_eval.json")

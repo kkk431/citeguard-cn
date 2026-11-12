@@ -50,8 +50,8 @@
 - [~] 历史与题录库迁 SQLite（任务历史已索引 + 自动同步 + JSON 导出；题录库仍 JSON，待与召回一起迁）
 - [x] 1000 条长文档压测：冷/热、并发、内存（离线解析/格式/报告链，`scripts/stress_1000.py`，JSON+表；不含联网核验）
 - [x] 第六次预注册盲测（3 篇新 PDF，先协议后跑）
-- [~] PaddleOCR 与 GROBID 对照：PaddleOCR 已评测（CER 0.1530 vs RapidOCR 0.1825，但慢 10.6×，不接入）；GROBID 因 Docker 存储只读/公共端点不可达**未完成**（E31）
-- [x] 中文召回增强 v1：繁简归一（可选 OpenCC；206 条真实题名 0%→100%）；BGE-M3 保留为可选路线，未接入
+- [x] PaddleOCR 与 GROBID 对照：PaddleOCR CER 0.1530 vs RapidOCR 0.1825（慢 10.6×，不接入）；GROBID 0.8.1 容器已跑通，三篇盲测 PDF 条数 74/73、90/92、35/27（只比条数，E31/E52）
+- [x] 中文召回增强 v1：繁简归一（可选 OpenCC；206 条真实题名 0%→100%）；BGE-M3 真端点已测（300 条 recall@1 0.8667 / MRR 0.9042，E51），仍未接入产品路径
 - [x] 截图：`phase-16-model-registry-0.9.95.png`、`phase-24-keyboard-nav-1.0.0.png`、`phase-25-light-contrast-1.0.1.png`、`phase-33-annotated-citations-1.0.9.png`、`phase-38-a11y-pages-1.0.12.png`
 
 ## Phase 4 · 发布
@@ -59,8 +59,8 @@
 - [x] v1.0.0 + CHANGELOG（1.0.0 已发布，tag `v1.0.0`）
 - [x] 文档站（mkdocs 配置 + 本地构建通过）
 - [x] HuggingFace 数据集 + adapter：<https://huggingface.co/datasets/dfdafs/claimsupport-cn-300>（5 文件）、<https://huggingface.co/models/dfdafs/citeguard-support-lora-qwen3-1.7b>（9 文件，含 adapter/训练脚本/metrics）；公开可访问。Zenodo DOI（可选）未做
-- [x] Docker 镜像发布说明：2026-11-12 重置损坏的 containerd 数据目录后，`citeguard-cn:1.0.12` 构建成功（414 MB），容器 `/api/health` 返回 `1.0.12/offline=true`（E49，日志 `docs/evidence/logs/docker-1.0.12-health.txt`）
-- [x] README / 架构 / 评测 / 许可证 / 复现命令同步（README 已更新到 1.0.12 / 611 tests；`reproduce.sh`、`docs/` 同步）
+- [x] Docker 镜像发布说明：2026-11-12 重置损坏的 containerd 数据目录后，`citeguard-cn:1.0.12` 构建成功（414 MB），容器 `/api/health` 返回 `1.0.12/offline=true`（E49）；同日数据盘迁到 `D:\Docker\wsl` 并留 junction（E53）
+- [x] README / 架构 / 评测 / 许可证 / 复现命令同步（README 已更新到 1.0.13 / 611 tests；`reproduce.sh`、`docs/` 同步）
 - [x] 截图：`phase4-v1.0-docs-site-1.0.0.png`（文档站首页，E33）
 
 ## 前端贯穿（桌面 Web）

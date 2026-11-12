@@ -33,11 +33,35 @@ if load_config():
 PY
 ```
 
-## 当前状态与边界
+## 真实端点实测（BGE-M3，2026-11-12）
 
-- 已实现：配置解析、OpenAI 兼容调用、超时/HTTP/JSON 错误的人话提示、余弦相似度、
-  重排函数、6 个测试（本地假服务，不访问外网）。
-- **未部署真实 BGE-M3 服务**：本机没有 embedding 端点；lmh GPU 服务已按要求关闭。
-  因此没有“BGE-M3 召回提升 X%”的数字，也不把接口层写成效果。
-- 尚未接入产品路径：库检索与候选重排仍走现有字符串归一化 + 模糊匹配；接入时必须
-  先跑同一批评测（`scripts/eval_library_real.py` / `scripts/eval_title_norm.py`）做对照。
+在 lmh（4×RTX 4090）上部署了真实的 BGE-M3 服务：`BAAI/bge-m3`，1024 维，OpenAI 兼容
+`POST /v1/embeddings`，脚本 `scripts/bge_embed_server.py`，端口 8090。评测脚本
+`scripts/eval_embeddings_recall.py`：从 ClaimSupport-CN 取 n 条，每条 1 条正确证据 +
+5 条其他条目的证据作干扰，按余弦相似度排序；原始 JSON 见
+`data/experiments/embeddings_recall_bge_m3_n300.json`。
+
+| n | recall@1 | MRR | 编码耗时 |
+|---|---|---|---|
+| 100 | 0.8000 | 0.8568 | 5.65 s |
+| 300 | **0.8667** | **0.9042** | 20.24 s |
+
+复现：
+
+```bash
+export CITEGUARD_EMBED_ENDPOINT=http://<host>:8090/v1
+export CITEGUARD_EMBED_MODEL=bge-m3
+PYTHONPATH=src python scripts/eval_embeddings_recall.py --n 300 \
+  --out data/experiments/embeddings_recall_bge_m3_n300.json
+```
+
+边界（必须一起引用）：
+
+- ClaimSupport-CN 是**构造集**，正例证据与引用句措辞接近，本评测只验证“端点可用 +
+  重排链路能工作”，**不代表语义检索 SOTA**，也不等同真人写作分布。
+- 干扰项是其他条目的证据，不是人工挑的难负例；中文长句、同主题干扰下 13.3% 的
+  引用句首选不到正确证据。
+- 一次运行、单模型、单硬件；服务用完已关闭，没有吞吐/并发数字。
+- 本轮仍**未接入产品路径**：库检索与候选重排继续走字符串归一化 + 模糊匹配；
+  接入前要用同一批 `scripts/eval_library_real.py` / `scripts/eval_title_norm.py`
+  做对照，并保证 BGE 不可用时自动回退。

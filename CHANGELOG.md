@@ -2,6 +2,42 @@
 
 All notable changes to CiteGuard-CN. Earlier pre-1.0 history is condensed.
 
+## [1.0.13] - 2026-11-12
+
+### Added
+- HuggingFace public release: dataset `dfdafs/claimsupport-cn-300` and LoRA adapter
+  `dfdafs/citeguard-support-lora-qwen3-1.7b` (Apache-2.0, with training scripts).
+- Real BGE-M3 embedding endpoint evaluated: recall@1 0.8667 / MRR 0.9042 on 300
+  ClaimSupport-CN items with 5 distractors (`docs/embeddings.md`). Constructed
+  labels, link-only validation; endpoint is not wired into the product path.
+- GROBID reference-extraction comparison on the three blind-test PDFs: 74/73,
+  90/92, 35/27 (counts only; no field-level quality claim).
+
+### Changed
+- Docker data disk moved from C: to `D:\Docker\wsl` behind a junction; C: free
+  space 3.1 GB → 18.7 GB. The 1.0.12 image and hello-world survived the move.
+
+## [1.0.12] - 2026-11-12
+
+### Added
+- Full-site accessibility audit: 11 pages × 4 checks plus 6 keyboard checks
+  (`scripts/audit_frontend.py`, 50/50 passing) and a real favicon.
+
+### Fixed
+- `/favicon.ico` 404 in the console (served as SVG from `web/static/img/`).
+
+## [1.0.11] - 2026-11-11
+
+### Added
+- Reference → body back-links: each entry gets `cited_in` (key, page, sentence),
+  shown in the evidence drawer as “正文引用 N 处”.
+
+## [1.0.10] - 2026-11-11
+
+### Added
+- Figure/table mentions in the body (`图 3`, `表 2`, `Fig. 3`, `Table 2`) are
+  extracted into `citations.captions` and summarized on the report page.
+
 ## [1.0.9] - 2026-11-11
 
 ### Added
