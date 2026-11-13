@@ -99,7 +99,7 @@
 
 - E49 Docker 重置与 1.0.12 镜像验证：`docs/evidence/logs/docker-1.0.12-health.txt`（构建 DONE、镜像 414 MB、容器 health 200 / version 1.0.12 / offline=true）。
 
-- E50 HuggingFace 发布：数据集 <https://huggingface.co/datasets/dfdafs/claimsupport-cn-300>（5 文件）、适配器 <https://huggingface.co/models/dfdafs/citeguard-support-lora-qwen3-1.7b>（9 文件，含 training/ 脚本）；API 校验 `private=false`，上传脚本 `scripts/upload_hf.py`。
+- E50 HuggingFace 发布：数据集 <https://huggingface.co/datasets/dfdafs/claimsupport-cn-300>（5 文件）、适配器 <https://huggingface.co/models/dfdafs/citeguard-support-lora-qwen3-1.7b>（9 文件，含 training/ 脚本）；4B 适配器 <https://huggingface.co/dfdafs/citeguard-support-lora-qwen3-4b>（9 文件，132 MB，base_model Qwen/Qwen3-4B）；API 校验 `private=false`，上传脚本 `scripts/upload_hf.py`（支持 `--only`）。
 
 - E51 BGE-M3 真实端点召回：`data/experiments/embeddings_recall_bge_m3_n300.json`（n=300，recall@1 0.8667 / MRR 0.9042 / 编码 20.24 s）；服务脚本 `scripts/bge_embed_server.py`，评测脚本 `scripts/eval_embeddings_recall.py`；`docs/embeddings.md`。构造集、5 个干扰项、单次运行；只验证链路，不代表语义检索 SOTA；服务用完已关。
 

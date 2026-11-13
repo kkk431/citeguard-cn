@@ -1,5 +1,7 @@
 # Support-LoRA：ClaimSupport-CN 上的 Qwen3-4B 微调
 
+发布位置：<https://huggingface.co/dfdafs/citeguard-support-lora-qwen3-4b>（Apache-2.0，含 adapter/config/metrics/训练脚本）。
+
 > 4B 基座 + LoRA 的支持度判定组件：判断「一条主张是否被给定证据支持」。
 > 它不负责引用真伪，也不负责 GB/T 格式。
 

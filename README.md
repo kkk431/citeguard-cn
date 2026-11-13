@@ -412,6 +412,7 @@ PYTHONPATH=src python3 scripts/enrich_library_abstracts.py
 - 数据集包：`dist/CiteGuard-CN_ClaimSupport-CN-300_v1.0.zip`（CC-BY-4.0，构造标签）
 - HuggingFace 数据集：<https://huggingface.co/datasets/dfdafs/claimsupport-cn-300>（300 条，构造标签，非人审）
 - HuggingFace 适配器：<https://huggingface.co/models/dfdafs/citeguard-support-lora-qwen3-1.7b>（Qwen3-1.7B LoRA，Apache-2.0）
+- HuggingFace 适配器（4B）：<https://huggingface.co/dfdafs/citeguard-support-lora-qwen3-4b>（Qwen3-4B LoRA，Apache-2.0；构造测试集饱和，见模型卡）
 - Docker：`docker compose -f docker/docker-compose.yml up --build`；`citeguard-cn:1.0.12` 已构建并通过 `/api/health`（E49）
 
 ## 参考与致谢
