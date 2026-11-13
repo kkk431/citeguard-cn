@@ -1,9 +1,15 @@
 {% extends "base.html" %}
 {% block title %}关于 · 引证卫士 CiteGuard{% endblock %}
 {% block content %}
-<section class="wrap" style="padding:48px 0 8px">
-  <div class="kicker" style="font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:12px">About</div>
-  <h1 class="serif" style="font-size:34px;font-weight:600;margin:0 0 10px">一个开源的引文核验工作台</h1>
+{% set section_tabs = [
+  ('about', '/about', '关于', '方法与边界'),
+  ('benchmark', '/benchmark', '评测', '可复核的数字'),
+  ('models', '/settings/models', '模型', '本地或托管判官')
+] %}
+{% set section_tab = 'about' %}
+{% include "_section_tabs.html" %}
+<section class="wrap" style="padding:32px 0 8px">
+  <h1 class="serif" style="font-size:34px;font-weight:600;margin:6px 0 10px">一个开源的引文核验工作台</h1>
   <p style="color:var(--ink-2);max-width:74ch;margin:0">引证卫士把「中文引文解析、多源元数据核验、引用支持度判定、GB/T 7714-2025 规则检查」串成一条可复现的流水线。代码、评测集与规则库开源；不依赖知网/万方，不使用不可再分发的数据。</p>
 </section>
 
@@ -48,45 +54,7 @@
     </table>
   </div>
   <div class="mono-sm" style="margin-top:10px;color:var(--muted)">
-    候选（本期未集成，仅路线图）：Qwen3-8B（Apache-2.0）、Qwen3-Embedding / Reranker（Apache-2.0）、bge-m3（MIT）、PaddleOCR（Apache-2.0）、Docling（MIT）。支持度 judge 走 OpenAI 兼容接口，切换这些本地后端只需改环境变量。
-  </div>
-</section>
-
-<section class="wrap section">
-  <div class="section-head"><h2>路线图</h2><span class="hint">从「能核验」到「可信写作」</span></div>
-  <div class="roadmap">
-    <div class="col">
-      <h3>现在</h3>
-      <ul>
-        <li>中文引文解析与多源核验</li>
-        <li>本地题录库（RIS / BibTeX / EndNote / CSL-JSON）</li>
-        <li>中国 DOI 注册平台元数据识别</li>
-        <li>PDF / Word(.docx) / 文本输入</li>
-        <li>GB/T 7714-2025 字段检查</li>
-        <li>引用支持度判定（可插拔 judge）</li>
-        <li>CiteBench-CN 250 条评测</li>
-        <li>Web 工作台 + 批量 + 导出</li>
-      </ul>
-    </div>
-    <div class="col">
-      <h3>下一步</h3>
-      <ul>
-        <li>知网题录一键带摘要导入引导</li>
-        <li>扫描件 OCR 默认开启与版面恢复</li>
-        <li>浏览器插件 / 写作工具联动</li>
-        <li>更多中文文献类型与著录格式</li>
-        <li>批处理与机构批量审查</li>
-      </ul>
-    </div>
-    <div class="col">
-      <h3>未来</h3>
-      <ul>
-        <li>多语言引文核验</li>
-        <li>本地开源模型默认路线</li>
-        <li>开放 benchmark 社区共建</li>
-        <li>从核验到可信写作</li>
-      </ul>
-    </div>
+    可选扩展（已验证，不改变默认部署）：Qwen3 系列与 1.7B LoRA（Apache-2.0）、BGE-M3（MIT）、PaddleOCR（Apache-2.0，仅对照评测）、GROBID（Apache-2.0，仅对照评测）。支持度 judge 走 OpenAI 兼容接口。
   </div>
 </section>
 

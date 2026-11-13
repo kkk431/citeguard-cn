@@ -29,36 +29,16 @@
     离线模式（CITEGUARD_OFFLINE=1）：只做本地解析、GB/T 规则检查和本地题录库核验；在线核验、支持度、图表、对比、发现已停用。
   </div>
   {% endif %}
-  {% set primary = [
-    ('home', '/workspace', '工作台', '上传论文，逐条核验', 'home'),
-    ('history', '/history', '报告', '全部体检记录', 'history'),
-    ('library', '/library', '题录库', '本地中文元数据', 'library')
+  {% set sections = [
+    ('workspace', '/workspace', '工作台', '上传 · 快速判定 · 批量', 'home', ['home', 'support', 'batch']),
+    ('reports', '/history', '报告', '历史 · 报告 · 聚合', 'history', ['history', 'report', 'aggregate']),
+    ('library', '/library', '题录库', '本地中文元数据', 'library', ['library']),
+    ('tools', '/figure', '工具', '图表 · 对比 · 发现', 'figure', ['figure', 'compare', 'discover']),
+    ('about', '/about', '关于', '评测 · 模型 · 边界', 'about', ['about', 'benchmark', 'settings'])
   ] %}
-  {% set tools = [
-    ('figure', '/figure', '图表核验', '图中结论是否成立', 'figure'),
-    ('compare', '/compare', '文献对比', '多篇论文横向比较', 'compare'),
-    ('discover', '/discover', '文献发现', '选题检索与排序', 'discover'),
-    ('support', '/support', '支持度速查', '一句话有没有证据', 'support')
-  ] %}
-  {% set extra = [
-    ('batch', '/batch', '批量核验', '粘贴多条，逐条判', 'batch'),
-    ('aggregate', '/aggregate', '批量聚合', '一批论文的体检账', 'benchmark'),
-    ('benchmark', '/benchmark', '评测', '可复核的数字', 'benchmark'),
-    ('settings', '/settings/models', '模型设置', '本地或托管判官', 'settings'),
-    ('about', '/about', '关于', '方法与边界', 'about')
-  ] %}
-  {% set allnav = primary + tools + extra %}
-  {% set current = namespace(title='体检', sub='上传论文，逐条核验') %}
-  {% for key, href, label, sub, icon in allnav %}
-    {% if active == key %}{% set current.title = label %}{% set current.sub = sub %}{% endif %}
-  {% endfor %}
-  {% if active == 'report' %}
-    {% set current.title = '报告' %}
-    {% set current.sub = '逐条证据与修改建议' %}
-  {% endif %}
-  {% set more = namespace(open=false) %}
-  {% for key, href, label, sub, icon in extra %}
-    {% if active == key %}{% set more.open = true %}{% endif %}
+  {% set current = namespace(title='工作台', sub='上传论文，逐条核验') %}
+  {% for key, href, label, sub, icon, members in sections %}
+    {% if active in members %}{% set current.title = label %}{% set current.sub = sub %}{% endif %}
   {% endfor %}
 
   <a class="skip" href="#main">跳到正文</a>
@@ -70,41 +50,18 @@
     </a>
 
     <nav class="rail-nav" aria-label="主导航">
-      <div class="rail-label">核验</div>
-      {% for key, href, label, sub, icon in primary %}
-      <a href="{{ href }}" class="rail-link{% if active == key %} on{% endif %}" aria-label="{{ label }}"{% if active == key %} aria-current="page"{% endif %}>
-        <span class="rail-ico" aria-hidden="true"><svg><use href="#ico-{{ icon }}"/></svg></span>
-        <span class="rail-txt">{{ label }}<small>{{ sub }}</small></span>
-      </a>
-      {% endfor %}
-
-      <div class="rail-label">工具</div>
-      {% for key, href, label, sub, icon in tools %}
-      <a href="{{ href }}" class="rail-link{% if active == key %} on{% endif %}" aria-label="{{ label }}"{% if active == key %} aria-current="page"{% endif %}>
+      {% for key, href, label, sub, icon, members in sections %}
+      {% if key == 'tools' %}<div class="rail-sep"></div>{% endif %}
+      <a href="{{ href }}" class="rail-link{% if active in members %} on{% endif %}" aria-label="{{ label }}"{% if active in members %} aria-current="page"{% endif %}>
         <span class="rail-ico" aria-hidden="true"><svg><use href="#ico-{{ icon }}"/></svg></span>
         <span class="rail-txt">{{ label }}<small>{{ sub }}</small></span>
       </a>
       {% endfor %}
     </nav>
 
-    <details class="rail-more"{% if more.open %} open{% endif %}>
-      <summary class="rail-link rail-more-btn" aria-label="更多功能">
-        <span class="rail-ico" aria-hidden="true"><svg><use href="#ico-more"/></svg></span>
-        <span class="rail-txt">更多<small>批量 · 评测 · 设置</small></span>
-      </summary>
-      <div class="rail-extra">
-        {% for key, href, label, sub, icon in extra %}
-        <a href="{{ href }}" class="rail-link{% if active == key %} on{% endif %}" aria-label="{{ label }}"{% if active == key %} aria-current="page"{% endif %}>
-          <span class="rail-ico" aria-hidden="true"><svg><use href="#ico-{{ icon }}"/></svg></span>
-          <span class="rail-txt">{{ label }}<small>{{ sub }}</small></span>
-        </a>
-        {% endfor %}
-      </div>
-    </details>
-
     <div class="rail-foot">
       <span class="dot"></span>
-      <span>v{{ request.app.version }} · 数据仅留本机</span>
+      <span>数据仅留本机</span>
     </div>
   </aside>
   <div class="rail-backdrop" id="rail-backdrop" hidden></div>

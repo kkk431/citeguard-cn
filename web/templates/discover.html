@@ -1,20 +1,18 @@
 {% extends "base.html" %}
 {% block title %}选题与文献发现 · 引证卫士 CiteGuard{% endblock %}
 {% block content %}
-<section class="wrap" style="padding:48px 0 8px">
-  <div class="kicker">LITERATURE DISCOVERY</div>
-  <h1 class="serif" style="font-size:34px;font-weight:600;margin:10px 0">选题与文献发现</h1>
+{% set section_tabs = [
+  ('figure', '/figure', '图表核验', '图中结论是否成立'),
+  ('compare', '/compare', '多篇对比', '横向看几篇论文'),
+  ('discover', '/discover', '文献发现', '按主题找候选')
+] %}
+{% set section_tab = 'discover' %}
+{% include "_section_tabs.html" %}
+<section class="wrap" style="padding:32px 0 8px">
+  <h1 class="serif" style="font-size:34px;font-weight:600;margin:6px 0">选题与文献发现</h1>
   <p class="lede" style="max-width:76ch">
-    给一个研究主题，从 OpenAlex 开放索引里找候选论文。中文主题会自动扩成英文检索（需要判词模型），中英文结果合并去重后，
-    按「相关度 + 标题/关键词重合 + 被引 + 新近度 + 开放获取」的透明规则排序；勾选后可加入本地题录库，或导出 CSV。
-    只展示公开元数据，不抓取、不转存全文；排序是写死的启发式规则，不是训练出来的推荐模型。
+    给一个研究主题，从 OpenAlex 找候选论文；中英文结果合并去重，按相关度、重合度、被引与新近度排序，可加入本地题录库或导出 CSV。
   </p>
-  <div class="stats stats-4">
-    <div class="stat"><b>OpenAlex</b><span>数亿条开放作品索引（CC0）</span></div>
-    <div class="stat"><b>中英双语召回</b><span>中文主题 → 英文检索式</span></div>
-    <div class="stat"><b>去重 + 撤稿过滤</b><span>DOI / 题名归并</span></div>
-    <div class="stat"><b>一键入库</b><span>只存题录，不抓全文</span></div>
-  </div>
 </section>
 
 <section class="wrap section">

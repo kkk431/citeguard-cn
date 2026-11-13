@@ -2,6 +2,26 @@
 
 All notable changes to CiteGuard-CN. Earlier pre-1.0 history is condensed.
 
+## [1.6.0] - 2026-11-13
+
+### Changed
+- The rail now has five task areas instead of a dozen flat entries:
+  workspace, reports, library, tools, and about. Pages that serve the same job
+  are grouped behind one entry, with a tab strip inside the group
+  (`论文体检 / 快速判定 / 批量判定`, `全部报告 / 批量聚合`,
+  `图表核验 / 多篇对比 / 文献发现`, `关于 / 评测 / 模型`).
+- Functional pages lost their English kickers, marketing-sized headings and
+  four-stat strips; the task and the form come first. The local library header
+  keeps only the numbers that matter (entries, abstracts, source formats).
+- The command palette lists the five areas plus their direct sub-pages, and
+  every workspace action now points at `/workspace` rather than the landing
+  page.
+- Reports now default to one row per file (the newest analysis), with a
+  `· N 次` count; `/history?all=1` still shows every run.
+- The report page folds its diagnostic detail (source health, figure checks,
+  support, citations, trends) into a collapsed "检查明细" panel, and the quick
+  support page explains the four verdicts before the first submission.
+
 ## [1.5.1] - 2026-11-13
 
 ### Changed

@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 99,
+  "paths_checked": 105,
   "missing": [],
   "rows": [
     {
@@ -317,8 +317,38 @@
       "evidence": "E71",
       "path": "docs/evidence/shots/phase-43-workspace-focus-1.5.1.png",
       "exists": true
+    },
+    {
+      "evidence": "E72",
+      "path": "docs/evidence/shots/phase-45-workspace-1.6.0.png",
+      "exists": true
+    },
+    {
+      "evidence": "E72",
+      "path": "docs/evidence/shots/phase-45-reports-1.6.0.png",
+      "exists": true
+    },
+    {
+      "evidence": "E72",
+      "path": "docs/evidence/shots/phase-45-tools-1.6.0.png",
+      "exists": true
+    },
+    {
+      "evidence": "E72",
+      "path": "docs/evidence/shots/phase-45-about-1.6.0.png",
+      "exists": true
+    },
+    {
+      "evidence": "E72",
+      "path": "docs/evidence/shots/phase-45-support-1.6.0.png",
+      "exists": true
+    },
+    {
+      "evidence": "E72",
+      "path": "docs/evidence/shots/phase-45-library-1.6.0.png",
+      "exists": true
     }
   ],
-  "shots_registered": 44,
+  "shots_registered": 50,
   "shots_unregistered": []
 }

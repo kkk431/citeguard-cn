@@ -1,0 +1,11 @@
+{% if section_tabs %}
+<nav class="section-tabs" aria-label="功能分区">
+  <div class="section-tabs-inner">
+    {% for key, href, label, sub in section_tabs %}
+    <a class="section-tab{% if section_tab == key %} on{% endif %}" href="{{ href }}"{% if section_tab == key %} aria-current="page"{% endif %}>
+      <b>{{ label }}</b><small>{{ sub }}</small>
+    </a>
+    {% endfor %}
+  </div>
+</nav>
+{% endif %}

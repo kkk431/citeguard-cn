@@ -82,6 +82,32 @@ def test_history_page_renders(client):
     assert "sk-" not in text
 
 
+def test_history_groups_repeated_runs_of_the_same_file():
+    import web.app as webapp
+
+    jobs = [
+        {"id": "c", "filename": "paper.pdf", "status": "done"},
+        {"id": "b", "name": "paper.pdf", "status": "done"},
+        {"id": "a", "filename": "other.pdf", "status": "done"},
+    ]
+    grouped = webapp._group_jobs_by_file(jobs)
+    assert [job["id"] for job in grouped] == ["c", "a"]
+    assert grouped[0]["runs"] == 2
+    assert grouped[1]["runs"] == 1
+
+
+def test_history_grouping_prefers_a_run_with_a_report():
+    import web.app as webapp
+
+    jobs = [
+        {"id": "failed", "filename": "paper.pdf", "status": "error", "has_report": False},
+        {"id": "ok", "filename": "paper.pdf", "status": "done", "has_report": True},
+    ]
+    grouped = webapp._group_jobs_by_file(jobs)
+    assert [job["id"] for job in grouped] == ["ok"]
+    assert grouped[0]["runs"] == 2
+
+
 def test_about_page_renders(client):
     resp = client.get("/about")
     assert resp.status_code == 200
@@ -785,10 +811,29 @@ def test_navigation_groups_are_clear(plain_client):
     r = plain_client.get("/workspace")
     assert r.status_code == 200
     assert 'aria-label="主导航"' in r.text
-    # 三段式导航：工作台 / 工具 / 更多（内部页面收进「更多」）
-    for label in ("工作台", "工具", "更多", "题录库", "图表核验", "批量聚合"):
+    # 五个任务分组；具体页面放在分组内的标签里，不再平铺在导航。
+    for label in ("工作台", "报告", "题录库", "工具", "关于"):
         assert label in r.text
-    assert "rail-more" in r.text
+    assert "rail-more" not in r.text
+
+
+def test_section_tabs_group_related_tasks(plain_client):
+    workspace = plain_client.get("/workspace").text
+    assert 'aria-label="功能分区"' in workspace
+    for label in ("论文体检", "快速判定", "批量判定"):
+        assert label in workspace
+
+    history = plain_client.get("/history").text
+    for label in ("全部报告", "批量聚合"):
+        assert label in history
+
+    tools = plain_client.get("/figure").text
+    for label in ("图表核验", "多篇对比", "文献发现"):
+        assert label in tools
+
+    about = plain_client.get("/about").text
+    for label in ("关于", "评测", "模型"):
+        assert label in about
 
 
 def test_report_advanced_checks_start_collapsed():

@@ -1,6 +1,13 @@
 {% extends "base.html" %}
 {% block title %}支持度速查 · 引证卫士 CiteGuard{% endblock %}
 {% block content %}
+{% set section_tabs = [
+  ('paper', '/workspace', '论文体检', '上传整篇论文'),
+  ('quick', '/support', '快速判定', '一句话 + 证据'),
+  ('batch', '/batch', '批量判定', '多条引用句')
+] %}
+{% set section_tab = 'quick' %}
+{% include "_section_tabs.html" %}
 <style>
   .sp-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:18px;align-items:start}
   .sp-form{display:flex;flex-direction:column;gap:14px;padding:22px}
@@ -15,6 +22,8 @@
   .sp-ex:hover{border-color:var(--accent);color:var(--ink)}
   .sp-result{min-height:320px;padding:22px;position:sticky;top:84px}
   .sp-empty{color:var(--muted);font-size:14px;line-height:1.8}
+  .sp-legend{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px;font-size:13px;color:var(--muted)}
+  .sp-legend b{display:block;color:var(--ink);font-size:13.5px;margin-bottom:2px}
   .sp-chip{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:8px 16px;
     font-size:15px;font-weight:700;letter-spacing:.02em}
   .sp-chip.support{background:rgba(60,230,180,.14);color:#0f7a5c;border:1px solid rgba(60,230,180,.5)}
@@ -34,19 +43,11 @@
   @media(max-width:980px){.sp-grid{grid-template-columns:1fr}.sp-result{position:static}}
 </style>
 
-<section class="wrap" style="padding:48px 0 8px">
-  <div class="kicker">CLAIM–EVIDENCE CHECK</div>
-  <h1 class="serif" style="font-size:34px;font-weight:600;margin:10px 0">一句话，证据到底支不支持？</h1>
+<section class="wrap" style="padding:32px 0 8px">
+  <h1 class="serif" style="font-size:34px;font-weight:600;margin:6px 0">一句话，证据到底支不支持？</h1>
   <p class="lede" style="max-width:76ch">
     把「引用句」和「被引论文的证据片段（摘要/原文）」贴进来，判成四档：支持 / 部分支持 / 矛盾 / 无证据。
-    同一个接口也给浏览器扩展和 Python SDK 用；不查重、不做文献管理，只回答这一句话有没有被证据撑住。
   </p>
-  <div class="stats stats-4">
-    <div class="stat"><b>四档</b><span>支持 / 部分 / 矛盾 / 无证据</span></div>
-    <div class="stat"><b>0.9597</b><span>ClaimSupport-CN 100 条 macro-F1</span></div>
-    <div class="stat"><b>300 条</b><span>构造评测集（非人工标注）</span></div>
-    <div class="stat"><b>{{ '已配置' if judge_ok else '未配置' }}</b><span>判定服务状态</span></div>
-  </div>
 </section>
 
 <section class="wrap section">
@@ -71,15 +72,19 @@
         <span class="mono-sm" id="sp-hint" style="margin-left:auto;color:var(--muted)">Ctrl/⌘ + Enter</span>
       </div>
       <div class="mono-sm" style="color:var(--muted);line-height:1.7">
-        同一接口：<code>POST /api/support/check</code>；模型未配置时返回 503，页面会如实提示。
         数字与升降方向会另做一致性提示，不替代人工判断。
       </div>
     </form>
 
     <aside class="panel sp-result" id="sp-result" aria-live="polite">
       <div class="sp-empty" id="sp-empty">
-        左侧填一句话和一段证据，点「核验这句话」。<br>
-        结果会给出判定、置信度、理由，以及证据里最相关的一句原文。
+        左侧填一句话和一段证据，点「核验这句话」。结果会给出判定、置信度、理由与最相关的一句原文。
+        <div class="sp-legend">
+          <div><b>支持</b>证据直接印证这句话</div>
+          <div><b>部分支持</b>只印证了一部分</div>
+          <div><b>矛盾</b>证据与这句话方向相反</div>
+          <div><b>无证据</b>片段里找不到依据</div>
+        </div>
       </div>
       <div id="sp-body" hidden>
         <span class="sp-chip" id="sp-chip">—</span>

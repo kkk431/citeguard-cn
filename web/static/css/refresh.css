@@ -1256,3 +1256,45 @@ body.theme-light .rail-extra { background: #fff; }
   .wb-options { grid-template-columns: 1fr; }
   .wb-side { grid-template-columns: 1fr; }
 }
+
+
+/* ---------- 1.6.0: task sections with shared tabs ---------- */
+.rail-sep {
+  height: 1px;
+  margin: 10px 16px;
+  background: var(--line);
+}
+.section-tabs {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 22px 30px 0;
+}
+.section-tabs-inner {
+  display: flex;
+  gap: 2px;
+  border-bottom: 1px solid var(--line);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.section-tabs-inner::-webkit-scrollbar { display: none; }
+.section-tab {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 9px 15px 11px;
+  border-bottom: 2px solid transparent;
+  color: var(--muted);
+  white-space: nowrap;
+  text-decoration: none;
+  flex: none;
+}
+.section-tab b { font-size: 14px; font-weight: 600; color: var(--ink-2); }
+.section-tab small { font-size: 11.5px; color: var(--muted); }
+.section-tab:hover b { color: var(--ink); }
+.section-tab.on { border-bottom-color: var(--accent); }
+.section-tab.on b { color: var(--accent); }
+@media (max-width: 720px) {
+  .section-tabs { padding: 16px 16px 0; }
+  .section-tab { padding: 8px 10px 10px; }
+  .section-tab small { display: none; }
+}

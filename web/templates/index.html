@@ -1,6 +1,13 @@
 {% extends "base.html" %}
 {% block title %}工作台 · 引证卫士{% endblock %}
 {% block content %}
+{% set section_tabs = [
+  ('paper', '/workspace', '论文体检', '上传整篇论文'),
+  ('quick', '/support', '快速判定', '一句话 + 证据'),
+  ('batch', '/batch', '批量判定', '多条引用句')
+] %}
+{% set section_tab = 'paper' %}
+{% include "_section_tabs.html" %}
 <section class="workbench">
   <header class="wb-head">
     <div>
@@ -85,8 +92,9 @@
         {% if done %}
         <ul class="wb-recent">
           {% for job in done[:5] %}
+          {% set title = job.filename or job.name or ('任务 ' ~ job.id) %}
           <li>
-            <a href="/report/{{ job.id }}" title="{{ job.name }}">{{ job.name }}</a>
+            <a href="/report/{{ job.id }}" title="{{ title }}">{{ title }}</a>
             <span>{{ (job.created_at or "")[:10] }}</span>
           </li>
           {% endfor %}

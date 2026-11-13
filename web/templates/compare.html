@@ -1,25 +1,21 @@
 {% extends "base.html" %}
 {% block title %}多篇文献对比 · 引证卫士 CiteGuard{% endblock %}
 {% block content %}
-<section class="wrap" style="padding:48px 0 8px">
-  <div class="kicker">MULTI-PAPER COMPARISON</div>
-  <h1 class="serif" style="font-size:34px;font-weight:600;margin:10px 0">多篇文献对比</h1>
+{% set section_tabs = [
+  ('figure', '/figure', '图表核验', '图中结论是否成立'),
+  ('compare', '/compare', '多篇对比', '横向看几篇论文'),
+  ('discover', '/discover', '文献发现', '按主题找候选')
+] %}
+{% set section_tab = 'compare' %}
+{% include "_section_tabs.html" %}
+<section class="wrap" style="padding:32px 0 8px">
+  <h1 class="serif" style="font-size:34px;font-weight:600;margin:6px 0">多篇文献对比</h1>
   <p class="lede" style="max-width:74ch">
-    写综述时最费时的，是把十几篇论文的「研究问题、方法、样本、结论、局限」逐条摊开对照。
-    一次上传 2–6 篇，系统从每篇的摘要与正文前部抽取这六个维度，排成一张对比矩阵，可导出 Markdown / CSV。
-    字段由模型自动读取，用于快速建立全局印象；写作引用前仍须回到原文核对。
+    一次上传 2–6 篇，抽取研究问题、方法、数据、结论、局限与贡献，排成一张对比矩阵，可导出 Markdown / CSV。
   </p>
-  <div class="stats stats-4">
-    <div class="stat"><b>{{ min_papers }}–{{ max_papers }} 篇</b><span>一次对比的文献数</span></div>
-    <div class="stat"><b>6 个维度</b><span>问题 / 方法 / 数据 / 结论 / 局限 / 贡献</span></div>
-    <div class="stat"><b>机器抽取</b><span>仅读摘要与正文前部</span></div>
-    <div class="stat"><b>{{ '已配置' if judge_available else '未配置' }}</b><span>判官接口状态</span></div>
-  </div>
   {% if not judge_available %}
   <div class="lib-banner" style="margin-top:14px">
-    当前部署没有配置判官接口，所以这个页面只能展示、不能提交。配置任意 OpenAI 兼容服务即可：
-    <code>CITEGUARD_JUDGE_BASE_URL</code>、<code>CITEGUARD_JUDGE_MODEL</code>，
-    以及可选的 <code>CITEGUARD_JUDGE_API_KEY</code>（本地 Ollama / vLLM 不需要 Key）。
+    当前部署没有配置模型接口，暂不能提交；配置方式见 <code>docs/api.md</code>。
   </div>
   {% endif %}
 </section>

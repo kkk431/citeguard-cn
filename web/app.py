@@ -99,7 +99,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.5.1", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.6.0", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 
@@ -1200,14 +1200,44 @@ def _report_to_csv(report: dict) -> str:
     return buf.getvalue()
 
 
+def _group_jobs_by_file(jobs: list[dict]) -> list[dict]:
+    """Collapse repeated analyses of the same file, keeping the newest run."""
+    grouped: list[dict] = []
+    seen: dict[str, dict] = {}
+    for job in jobs:
+        key = (job.get("filename") or job.get("name") or "").strip().lower()
+        if key and key in seen:
+            current = seen[key]
+            current["runs"] += 1
+            if not current.get("has_report") and job.get("has_report"):
+                replacement = dict(job)
+                replacement["runs"] = current["runs"]
+                index = grouped.index(current)
+                grouped[index] = replacement
+                seen[key] = replacement
+            continue
+        item = dict(job)
+        item["runs"] = 1
+        if key:
+            seen[key] = item
+        grouped.append(item)
+    return grouped
+
+
 @app.get("/history", response_class=HTMLResponse)
 def history_page(request: Request):
     jobs = manager.recent(60)
     for job in jobs:
         job["has_report"] = _report_path(job["id"]).exists()
         job["retryable"] = (config.DATA_DIR / "jobs" / job["id"] / "input.txt").exists()
+    total_runs = len(jobs)
+    show_all = request.query_params.get("all", "").lower() in {"1", "true", "yes"}
+    if not show_all:
+        jobs = _group_jobs_by_file(jobs)
     return templates.TemplateResponse(
-        request, "history.html", {"jobs": jobs, "active": "history"}
+        request,
+        "history.html",
+        {"jobs": jobs, "total_runs": total_runs, "show_all": show_all, "active": "history"},
     )
 
 

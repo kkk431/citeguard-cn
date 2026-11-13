@@ -1,6 +1,13 @@
 {% extends "base.html" %}
 {% block title %}批量核验 · 引证卫士 CiteGuard{% endblock %}
 {% block content %}
+{% set section_tabs = [
+  ('paper', '/workspace', '论文体检', '上传整篇论文'),
+  ('quick', '/support', '快速判定', '一句话 + 证据'),
+  ('batch', '/batch', '批量判定', '多条引用句')
+] %}
+{% set section_tab = 'batch' %}
+{% include "_section_tabs.html" %}
 <style>
   .bt-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:18px;align-items:start}
   .bt-panel{padding:20px}
@@ -29,19 +36,11 @@
   @media(max-width:980px){.bt-grid{grid-template-columns:1fr}}
 </style>
 
-<section class="wrap" style="padding:48px 0 8px">
-  <div class="kicker">BATCH CLAIM–EVIDENCE CHECK</div>
-  <h1 class="serif" style="font-size:34px;font-weight:600;margin:10px 0">一次粘贴，最多 50 条。</h1>
+<section class="wrap" style="padding:32px 0 8px">
+  <h1 class="serif" style="font-size:34px;font-weight:600;margin:6px 0">一次粘贴，最多 50 条。</h1>
   <p class="lede" style="max-width:78ch">
-    左栏一行一条「引用句」，右栏一行一条「对应证据」——按行一一配对。判成四档（支持 / 部分支持 / 矛盾 / 无证据），
-    结果可导出 CSV。适合把一段综述里的多条断言一次性过一遍。
+    左栏一行一条「引用句」，右栏一行一条「对应证据」——按行一一配对，判成四档，结果可导出 CSV。
   </p>
-  <div class="stats stats-4">
-    <div class="stat"><b>≤ 50 条</b><span>单次上限</span></div>
-    <div class="stat"><b>4 并发</b><span>服务端并行判定</span></div>
-    <div class="stat"><b>CSV</b><span>结果可直接下载</span></div>
-    <div class="stat"><b>{{ '已配置' if judge_ok else '未配置' }}</b><span>判定服务状态</span></div>
-  </div>
 </section>
 
 <section class="wrap section">

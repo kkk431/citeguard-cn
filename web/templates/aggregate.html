@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% block title %}批量聚合 · 引证卫士 CiteGuard{% endblock %}
 {% block content %}
+{% set section_tabs = [
+  ('reports', '/history', '全部报告', '逐篇体检记录'),
+  ('aggregate', '/aggregate', '批量聚合', '一批论文的账')
+] %}
+{% set section_tab = 'aggregate' %}
+{% include "_section_tabs.html" %}
 <style>
   .ag-wrap{max-width:1280px;margin:0 auto;padding:48px 26px 80px}
   .ag-kicker{font-size:12px;letter-spacing:.18em;color:var(--accent);font-weight:700}
@@ -43,11 +49,9 @@
 </style>
 
 <section class="ag-wrap" id="aggregate-root" data-ids="{{ ids }}">
-  <div class="ag-kicker">COHORT VIEW · 批量聚合</div>
-  <h1 class="ag-h1">一批论文，一张健康总表。</h1>
+  <h1 class="ag-h1">批量健康总表</h1>
   <p class="ag-lede">
-    把同一门课、同一个实验室的一批论文放在一起看：平均健康分、五维分布、最常见的问题、逐篇排序。
-    所有数字都来自已存报告，可回到单篇继续处理；没有报告的未完成任务不计入。
+    把同一批论文放在一起看：平均健康分、五维分布、常见问题与逐篇排序；所有数字都来自已存报告。
   </p>
   <div class="ag-actions">
     <button class="btn btn-primary" id="ag-csv" type="button">导出 CSV</button>

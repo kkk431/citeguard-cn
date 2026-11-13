@@ -138,7 +138,7 @@ def test_figure_page_and_api(monkeypatch):
     client = TestClient(webapp.app)
     page = client.get("/figure")
     assert page.status_code == 200
-    assert "没有配置视觉模型服务" in page.text
+    assert "没有配置视觉模型" in page.text
     blocked = client.post(
         "/api/figure-check",
         files={"image": ("a.png", b"img", "image/png")},

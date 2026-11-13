@@ -1,11 +1,20 @@
 {% extends "base.html" %}
 {% block title %}报告 · 引证卫士{% endblock %}
 {% block content %}
-<section class="hero">
+{% set section_tabs = [
+  ('reports', '/history', '全部报告', '逐篇体检记录'),
+  ('aggregate', '/aggregate', '批量聚合', '一批论文的账')
+] %}
+{% set section_tab = 'reports' %}
+{% include "_section_tabs.html" %}
+<section class="hero" style="padding:26px 0 4px">
   <div class="hero-main">
-    <div class="kicker">TASK HISTORY</div>
     <h1>全部报告</h1>
-    <p class="lede">最近 60 个核验任务（本机保存，最多保留 7 天）。旧记录会被自动清理。</p>
+    <p class="lede">
+      {% if show_all %}{{ jobs|length }} 次分析（每次运行单独列出）{% else %}{{ jobs|length }} 份论文 · 共 {{ total_runs }} 次分析（同一文件只显示最近一次）{% endif %}
+      · 本机保存，最多保留 7 天。
+      {% if show_all %}<a href="/history">按论文合并</a>{% else %}<a href="/history?all=1">查看每次分析</a>{% endif %}
+    </p>
   </div>
 </section>
 
@@ -33,7 +42,7 @@
       <tr>
         <td>{% if job.has_report %}<input type="checkbox" class="cmp" value="{{ job.id }}" aria-label="选择 {{ job.filename or job.id }}">{% endif %}</td>
         <td class="mono">{{ (job.created_at or "")[:16] | replace("T", " ") }}</td>
-        <td>{{ job.filename or '—' }}</td>
+        <td>{{ job.filename or '—' }}{% if job.runs and job.runs > 1 %}<span class="muted"> · {{ job.runs }} 次</span>{% endif %}</td>
         <td>
           {% if job.status == 'done' %}<span class="pill ok">完成</span>
           {% elif job.status == 'error' %}<span class="pill bad">失败</span>

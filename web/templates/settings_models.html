@@ -1,12 +1,17 @@
 {% extends "base.html" %}
 {% block title %}模型设置 · 引证卫士 CiteGuard{% endblock %}
 {% block content %}
-<section class="wrap" style="padding:48px 0 8px">
-  <div class="kicker">SUPPORT JUDGE</div>
-  <h1 class="serif" style="font-size:34px;font-weight:600;margin:10px 0">判定模型</h1>
+{% set section_tabs = [
+  ('about', '/about', '关于', '方法与边界'),
+  ('benchmark', '/benchmark', '评测', '可复核的数字'),
+  ('models', '/settings/models', '模型', '本地或托管判官')
+] %}
+{% set section_tab = 'models' %}
+{% include "_section_tabs.html" %}
+<section class="wrap" style="padding:32px 0 8px">
+  <h1 class="serif" style="font-size:34px;font-weight:600;margin:6px 0">判定模型</h1>
   <p class="lede" style="max-width:78ch">
-    支持度判定默认走云端 DeepSeek；也可以切到本地开源模型（14B bf16 / 4-bit）或 LoRA adapter。
-    切换即时生效，不需要改环境变量或重启；结果里会标注实际使用的模型来源。
+    支持度判定默认走云端 DeepSeek，也可以切到本地开源模型或 LoRA adapter；切换即时生效。
   </p>
   <div class="panel" id="judge-current" style="margin-top:16px">
     <div class="mono-sm">当前生效</div>
