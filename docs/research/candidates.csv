@@ -1,0 +1,38 @@
+id,name,type,feature,license,availability,chinese_fit,integration,expected_gain,risk,decision
+A01,OpenAlex,开放学术元数据 API/快照,Check+Map,CC0（https://ourresearch.gitbook.io/help.openalex.org/faq）,公开 API+快照,弱,Map 复用 references/cited_by 建图；Check 沿用,引文网络零新增成本,中文社科覆盖弱；限流,adopt
+A02,Crossref REST API,注册元数据 API,Check+Map,开放（免费 API；https://www.crossref.org/documentation/retrieve-metadata/rest-api/）,公开 API,弱,沿用 DOI/撤稿查询；Map 补 DOI 对齐,DOI 真实性核验不变,中文元数据少；速率,adopt
+A03,arXiv API,预印本元数据 API,Map,CC0（元数据；https://info.arxiv.org/help/api/tou.html）,公开 API,弱,Map 补预印本节点,扩大开放论文池,仅英文预印本,adopt
+A04,OpenCitations COCI,开放引文网络数据,Map,CC0 数据/ISC 软件（https://opencitations.net/）,公开 dump/API,弱,补 Crossref 外引文边,引文边更全,规模大；中文少,hold
+A05,ChinaXiv,中文预印本 OAI 平台,Map,CC BY 3.0 元数据（https://chinaxiv.org/user/help.htm）,OAI 元数据公开；全文待核实,强,采集标题/摘要作 Map paper 节点,补中文开放论文,全文受限；字段少,test
+A06,Crossref Retraction Watch,撤稿记录库,Check,CC BY 4.0（https://www.crossref.org/documentation/retrieve-metadata/retraction-watch/）,公开数据,弱,补 F3 撤稿库,提高撤稿召回,中文撤稿少；需 DOI 对齐,hold
+B01,SciFact,科学声明-证据数据集,Check,claims CC BY 4.0/corpus ODC-By 1.0（https://github.com/allenai/scifact/blob/master/LICENSE.md）,公开,无,英文零样本对照,英文对照基线,英文；域差,adopt
+B02,LongCite-45k,长上下文句级引用数据,Live+Map,Apache-2.0（https://github.com/THUDM/LongCite）,公开（HF 下载；本机网络受限）,强,E1 句级监督与提示词参考,支持度升级为句级证据定位,长上下文成本；中文占比待统计,test
+B03,CFEVER,中文事实核验数据集,Check+Live,Apache-2.0（https://github.com/IKMLab/CFEVER-data）,公开 jsonl,强,E2 外部集（CFEVER dev 抽 300）,暴露构造集过拟合,三分类需映射；test 无标签,test
+B04,RAGTruth,RAG 幻觉片段标注,Live,MIT（https://github.com/ParticleMedia/RAGTruth）,公开,弱,P2 迁移实验；标红特征参考,补无依据句粒度,英文；域差,test
+B05,SciCite,引用意图数据集,Map,代码 Apache-2.0；数据待核实（https://github.com/allenai/scicite）,公开,弱,Map 边语义（背景/方法/对比）,边有语义,数据许可待核实；英文,hold
+B06,ALCE,带引用生成评测,Live,MIT（https://github.com/princeton-nlp/ALCE）,公开,无,借鉴引用质量评测协议,Live 评测口径,英文；生成非核验,hold
+B07,RAGChecker,RAG 细粒度诊断,Check,Apache-2.0（https://github.com/amazon-science/ragchecker）,公开,弱,claim 级误差诊断,分清检索错/判定错,英文；依赖抽取器,hold
+B08,RefChecker,claim-evidence 三元组核验,Check,Apache-2.0（https://github.com/amazon-science/refchecker）,公开,弱,参考两段式抽取-核验,结构化证据,英文；需中文适配,hold
+B09,FActScore,原子事实分解核验,Live,MIT（https://github.com/shmsw25/FActScore）,公开,弱,原子事实拆解流程,更可解释,英文知识源,hold
+B10,ContextCite,上下文片段归因,Live,MIT（https://github.com/MadryLab/context-cite）,公开,弱,句→片段归因思路,证据高亮,需白盒模型,hold
+B11,CiteBench,引用文本生成基准,Check,Apache-2.0（https://github.com/UKPLab/citebench）,公开,弱,只作生成任务参考,明确生成≠核验,任务错配,hold
+B12,CRAG,RAG 综合基准,Check,CC BY-NC 4.0（https://github.com/facebookresearch/CRAG）,公开但非商用,无,不集成,方法阅读,非商用；英文,reject
+B13,CiteME,引用核验基准,Check,待核实（https://github.com/bethgelab/CiteME）,公开,无,不集成,任务定义参考,无中文；许可未声明,reject
+B14,ChartCheck,图表事实核验基准,Check,数据集 MIT（https://github.com/mubasharaak/chartfc_dataset_wikicommons）,公开,无,已在图表评测使用；不集成,图表评测经验,场景窄；英文,reject
+C01,BGE-M3,多语检索模型,Check,MIT（https://github.com/FlagOpen/FlagEmbedding）,公开权重,强,已用于替换检索,修复候选排序,显存；长文本截断,adopt
+C02,T2Ranking/T2Retrieval,中文段落检索数据,Check,Apache-2.0（https://leaderboard.mteb.org/tasks/T2Retrieval）,公开,强,E3 固定子集 200 查询/5k 段落,检索阈值外部校准,分布不同；抽样需固定,test
+C03,DuReader-Retrieval,中文检索数据,Check,Apache-2.0（https://github.com/baidu/DuReader）,公开但体量大,强,不落地；参考难负例,难负例思路,8M 段落成本,reject
+D01,MinerU,PDF 版面解析,Map+Check,Apache-2.0+附加条款（https://github.com/opendatalab/MinerU）,公开可离线,强,P3 对比 22 篇 PDF,中文 PDF 解析更准,商用阈值；依赖重,test
+D02,GROBID,PDF→TEI 结构化,Check,Apache-2.0（https://github.com/kermitt2/grobid）,公开可离线,中,英文结构化路径,英文引文解析,中文弱；服务化成本,adopt
+D03,Docling,文档解析,Map,MIT（https://github.com/docling-project/docling）,公开,中,MinerU 备选,许可最干净,中文版式待评,hold
+D04,marker,PDF→Markdown,Map,Apache-2.0（https://github.com/VikParuchuri/marker）,公开,中,备选,速度质量参考,模型大；中文表格弱,hold
+D05,PyMuPDF,PDF 解析（现状）,Check,AGPL-3.0（https://github.com/pymupdf/PyMuPDF）,公开,强,已隔离为可选依赖,现有页定位,AGPL 不能进核心镜像,reject
+D06,SingleFile,网页单文件归档,Live,AGPL-3.0（https://github.com/gildas-lormeau/SingleFile）,公开,中,不集成,证据留存参考,AGPL,reject
+D07,Readability.js,网页正文抽取,Live,Apache-2.0（https://github.com/mozilla/readability）,公开,中,Live 扩展正文抽取,过滤噪声证据,动态页需兜底,adopt
+D08,PDF.js,浏览器 PDF 渲染,Live,Apache-2.0（https://github.com/mozilla/pdf.js）,公开,中,Live 页级定位,点证据跳页,大文件性能,adopt
+D09,jieba,中文分词,Check,MIT（https://github.com/fxsjy/jieba）,公开,强,BM25/关键词分词,中文切分稳定,新词弱,adopt
+D10,PaperQA2,科学文献 RAG,Map,Apache-2.0（https://github.com/Future-House/paper-qa）,公开,弱,参考证据链管线,综述交互参考,英文；集成重,hold
+D11,OpenScholar,科学综述系统,Map,Apache-2.0（https://github.com/AkariAsai/OpenScholar）,公开,弱,参考检索-综合管线,综述设计参考,8B 依赖；英文,hold
+D12,CSL styles,引用样式库,Live,CC BY-SA 3.0（https://github.com/citation-style-language/styles）,公开,强,导出 GB/T 样式；需隔离,GB/T 导出,share-alike 传染性,hold
+E01,CNKI,中文全文库,Check,商业订阅（https://www.cnki.net/）,不可得,强,不集成,中文覆盖最全但不可产品化,无 API；再分发风险,reject
+E02,Wanfang,中文题录/全文平台,Check,商业 ToS（https://www.wanfangdata.com.cn/）,受限（100 次/日）,强,不集成；仅人工核验辅助,中文题录命中提升,ToS/配额/不可再分发,reject
