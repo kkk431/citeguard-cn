@@ -1,3 +1,11 @@
+## [1.7.11] - 2026-11-14
+
+- CiteMap 机器抽取（摘要级）：两主题共 **42 条机器证据、覆盖 25/30 篇**，逐字引用不合格 0；对 10 条人工示例覆盖 6 条、这 6 条 stance 一致 6/6（只在这 10 对示例上计算，不是全量准确率）。新增 60 格人工核对包与产品内「核对模式」，机器结果单独标注 `auto:abstract-only` / `verified=false`，不冒充人工。
+- CiteGuard Live 页面引用增强：识别正文 `[n]/[3,5]/[3–5]` 并映射 arXiv HTML 页内参考文献（仅 arxiv.org / ar5iv，5s/2MB/磁盘缓存，失败静默回退）；page-reference 候选按 DOI/题名补 OpenAlex/Crossref 摘要，无摘要不生成证据句；同页解析结果进程缓存 TTL 300s。
+- 冻结 held-out 集（5 篇新 arXiv HTML / 30 句英文）：补摘要后 **hit@1 27/30、hit@3 30/30**，P50 2.98 s、P95 16.09 s，有逐字证据 11/30；**判定模型未配置、四档为规则降级**，不能宣称 stance 准确率；公开页集 21/30、跨语言集 0/30，三套不混算。
+- 浏览器扩展 v2 真实 Chromium 验收：service worker/manifest 正常，3 个公开页选区→消息→`POST /api/live/check` 200，错误地址有中文提示；7 张真实截图，未自动化的原生右键/side panel 相关操作在文档中列为手工步骤。
+- 版本 1.7.11；869 项 pytest；`docs/evidence_index.md` 增 E83（CiteMap 机器抽取/核对）与 E84（Live held-out/扩展验收）；证据矩阵增 2 行、待补仍为 100 条人审与 60 格核对。
+
 ## [1.7.10] - 2026-11-14
 
 - 新增 `docs/baselines.md`：SciFact 300 条（本产品 0.8224 / RefChecker 官方两阶段 0.7646）、ChartCheck 400 条（三分类 0.7628、二分类 0.7903）、BGE-M3 recall@1 0.8667、T2Retrieval BM25 R@3 0.79；每条标 n、口径、不可比之处。

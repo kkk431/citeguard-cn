@@ -1,0 +1,57 @@
+{
+ "dataset": "public-live-holdout-30",
+ "generated_at": "2026-11-14T03:12:55+08:00",
+ "notes": "held-out：5 篇 2026 年 arXiv 论文，未参与任何调参；句子均来自页面正文并带页面内 [n] 编号参考文献；选样只做 DOI 可解析校验，不做收益筛选。",
+ "pages": [
+  {
+   "id": "arxiv-2611-07772",
+   "url": "https://arxiv.org/html/2611.07772",
+   "title": "Adapt the Object to the Subject: Representative Study Material for Empirical Software Engineering",
+   "fetched_at": "2026-11-14T03:12:55+08:00",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0",
+   "source": "https://arxiv.org/html/2611.07772 (LaTeXML HTML5 full text)",
+   "references": 54
+  },
+  {
+   "id": "arxiv-2610-38049",
+   "url": "https://arxiv.org/html/2610.38049",
+   "title": "Perspective on AI and quantum open-source software",
+   "fetched_at": "2026-11-14T03:12:55+08:00",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0",
+   "source": "https://arxiv.org/html/2610.38049 (LaTeXML HTML5 full text)",
+   "references": 126
+  },
+  {
+   "id": "arxiv-2610-24037",
+   "url": "https://arxiv.org/html/2610.24037",
+   "title": "Benchmarking and Improvement of Artifact Segmentation Methods in H&E-Stained Whole Slide Imaging",
+   "fetched_at": "2026-11-14T03:12:55+08:00",
+   "license": "CC BY NC SA 4.0",
+   "license_url": "https://creativecommons.org/licenses/by-nc-sa/4.0",
+   "source": "https://arxiv.org/html/2610.24037 (LaTeXML HTML5 full text)",
+   "references": 60
+  },
+  {
+   "id": "arxiv-2610-32576",
+   "url": "https://arxiv.org/html/2610.32576",
+   "title": "From Regulation to Engineering: Organizational Privacy Climate as Mediator",
+   "fetched_at": "2026-11-14T03:12:55+08:00",
+   "license": "arXiv nonexclusive-distrib 1.0",
+   "license_url": "https://arxiv.org/licenses/nonexclusive-distrib/1.0/",
+   "source": "https://arxiv.org/html/2610.32576 (LaTeXML HTML5 full text)",
+   "references": 63
+  },
+  {
+   "id": "arxiv-2610-18926",
+   "url": "https://arxiv.org/html/2610.18926",
+   "title": "Personalising Deformable Image Registration with Clinical Context and Deformation History for Adaptive Radiotherapy",
+   "fetched_at": "2026-11-14T03:12:55+08:00",
+   "license": "arXiv nonexclusive-distrib 1.0",
+   "license_url": "https://arxiv.org/licenses/nonexclusive-distrib/1.0/",
+   "source": "https://arxiv.org/html/2610.18926 (LaTeXML HTML5 full text)",
+   "references": 19
+  }
+ ]
+}

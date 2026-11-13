@@ -9,8 +9,11 @@ OpenAlex / Crossref, looks at their abstracts, and returns one of four labels:
 
 When the page can be identified as a paper (DOI/arXiv URL, or a close tab-title
 match), Live first uses that work's ``referenced_works`` as candidates (at most
-40 references, abstract-only).  Otherwise it falls back to the keyword search.
-Page enrichment is best effort and never raises.
+40 references, abstract-only).  If the selected sentence carries a numeric
+citation marker (``[2]``, ``[3,5]``) and the tab is a real arXiv HTML page, the
+matching bibliography entry is resolved directly and becomes the first
+candidate (source ``page-reference``).  Otherwise it falls back to the keyword
+search.  Page enrichment is best effort and never raises.
 
 Two important guarantees:
 
@@ -25,11 +28,20 @@ The FastAPI route for this module is owned by ``web/app.py``; see
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import sys
+import threading
+import time
+from collections import OrderedDict
+from datetime import date
+from html.parser import HTMLParser
+from pathlib import Path
 from typing import Any, Optional
 from urllib.parse import quote, unquote, urlparse
+
+import requests
 
 from . import config, support
 from .metadata_verify import (
@@ -51,6 +63,18 @@ MAX_QUOTE_CHARS = 600
 MAX_REFERENCED_WORKS = 40
 REFERENCE_BATCH_SIZE = 50
 PAGE_TITLE_MIN_SIM = 0.6
+MAX_HTML_BYTES = 2 * 1024 * 1024
+PAGE_FETCH_TIMEOUT = 5
+MAX_CITATION_MARKERS = 20
+BIBLIOGRAPHY_CACHE_TTL = 300.0
+BIBLIOGRAPHY_CACHE_MAX = 32
+_ABSTRACT_SELECT = "id,doi,title,abstract_inverted_index"
+_BIBLIOGRAPHY_CACHE: "OrderedDict[str, tuple[float, dict[int, dict[str, Any]]]]" = OrderedDict()
+_BIBLIOGRAPHY_CACHE_LOCK = threading.Lock()
+_ARXIV_HTML_HOSTS = {"arxiv.org", "www.arxiv.org", "ar5iv.labs.arxiv.org"}
+_CITATION_MARKER_RE = re.compile(
+    r"\[(\d{1,3}(?:\s*[,;，]\s*\d{1,3}|\s*[-–—]\s*\d{1,3})*)\]"
+)
 
 _OPENALEX_WORKS = "https://api.openalex.org/works"
 _PAGE_WORK_SELECT = "id,doi,title,publication_year,referenced_works"
@@ -258,6 +282,7 @@ def _candidate_payload(candidate: Candidate, score: float, verdict: Optional[dic
         "url": _candidate_url(candidate),
         "source": candidate.source or "",
         "abstract": (candidate.abstract or "")[:MAX_ABSTRACT_CHARS],
+        "has_abstract": bool((candidate.abstract or "").strip()),
         "score": score,
     }
     if verdict:
@@ -400,6 +425,9 @@ def _judged_result(
 
 
 def _heuristic_hit(claim: str, candidates: list[Candidate]) -> Optional[dict]:
+    # Citation numbers are pointers, not quantities.  Treating "[1]" as a
+    # factual number would make number_coverage fail against every abstract.
+    claim = _CITATION_MARKER_RE.sub(" ", claim or "")
     claim_terms = _terms(claim)
     claim_numbers = _numbers(claim)
     claim_polarity = _polarity(claim)
@@ -694,12 +722,492 @@ def _referenced_candidates(work: Any) -> list[Candidate]:
     return found
 
 
-def _merge_candidates(
-    page_candidates: list[Candidate],
-    keyword_candidates: list[Candidate],
-) -> list[Candidate]:
-    """Merge reference-list hits before keyword hits, de-duplicating by DOI/title."""
-    return _dedupe(list(page_candidates or []) + list(keyword_candidates or []))
+def _merge_candidates(*groups: list[Candidate]) -> list[Candidate]:
+    """Merge candidate groups in priority order, de-duplicating by DOI/title.
+
+    The first (highest-priority) record keeps its source/title, but a later
+    duplicate may contribute an abstract that the page-reference record does
+    not have.  Without this, a ``page-reference`` candidate could hide the same
+    paper's abstract from the judgement step.
+    """
+    merged: list[Candidate] = []
+    by_key: dict[str, Candidate] = {}
+    for group in groups:
+        for candidate in group or []:
+            key = (
+                (candidate.doi or "").strip().lower()
+                or _norm_title(candidate.title)
+                or (candidate.url or "").strip()
+            )
+            if not key:
+                continue
+            existing = by_key.get(key)
+            if existing is None:
+                by_key[key] = candidate
+                merged.append(candidate)
+                continue
+            for field in ("abstract", "doi", "url", "venue"):
+                if not getattr(existing, field) and getattr(candidate, field):
+                    setattr(existing, field, getattr(candidate, field))
+            if existing.year is None and candidate.year is not None:
+                existing.year = candidate.year
+            if not existing.authors and candidate.authors:
+                existing.authors = list(candidate.authors)
+    return merged
+
+
+def _extract_citation_markers(claim: str) -> list[int]:
+    """Return reference numbers from ``[12]`` / ``[3,5]`` / ``[3-5]`` markers."""
+    markers: list[int] = []
+    seen: set[int] = set()
+    for match in _CITATION_MARKER_RE.finditer(str(claim or "")):
+        body = match.group(1)
+        for part in re.split(r"[,;，]", body):
+            part = part.strip()
+            if not part:
+                continue
+            single = re.fullmatch(r"(\d{1,3})", part)
+            if single:
+                values = [int(single.group(1))]
+            else:
+                span = re.fullmatch(r"(\d{1,3})\s*[-–—]\s*(\d{1,3})", part)
+                if not span:
+                    continue
+                start, end = int(span.group(1)), int(span.group(2))
+                if start <= end and end - start <= 20:
+                    values = list(range(start, end + 1))
+                else:
+                    values = [start, end]
+            for value in values:
+                if value <= 0 or value in seen:
+                    continue
+                seen.add(value)
+                markers.append(value)
+                if len(markers) >= MAX_CITATION_MARKERS:
+                    return markers
+    return markers
+
+
+def _page_html_url(page_url: str) -> str:
+    """Return a fetchable arXiv HTML URL, or ``""`` for every other page.
+
+    Only the two documented hosts and ``/html/`` paths are accepted.  This is
+    deliberately narrow: Live must not turn a user-supplied URL into an
+    arbitrary server-side request.
+    """
+    parsed = urlparse(str(page_url or "").strip())
+    if parsed.scheme not in {"http", "https"}:
+        return ""
+    host = (parsed.hostname or "").lower()
+    if host not in _ARXIV_HTML_HOSTS:
+        return ""
+    if not parsed.path.startswith("/html/"):
+        return ""
+    return parsed._replace(fragment="").geturl()
+
+
+def _cache_page_path(url: str) -> Path:
+    digest = hashlib.sha256(url.encode("utf-8")).hexdigest()[:32]
+    return Path(config.CACHE_DIR) / "live_html" / f"{digest}-{date.today().isoformat()}.html"
+
+
+def _fetch_page_html(url: str) -> str:
+    """Fetch one arXiv HTML page with a 5 s timeout and a hard 2 MB cap."""
+    try:
+        response = requests.get(
+            url,
+            timeout=PAGE_FETCH_TIMEOUT,
+            stream=True,
+            allow_redirects=True,
+            headers={"User-Agent": config.USER_AGENT},
+        )
+    except Exception:  # noqa: BLE001 - page enrichment is best effort
+        return ""
+    try:
+        if response.status_code != 200:
+            return ""
+        if not _page_html_url(response.url):
+            return ""
+        declared = response.headers.get("content-length")
+        if declared:
+            try:
+                if int(declared) > MAX_HTML_BYTES:
+                    return ""
+            except ValueError:
+                pass
+        chunks: list[bytes] = []
+        total = 0
+        for chunk in response.iter_content(chunk_size=65536):
+            if not chunk:
+                continue
+            total += len(chunk)
+            if total > MAX_HTML_BYTES:
+                return ""
+            chunks.append(chunk)
+        return b"".join(chunks).decode("utf-8", errors="replace")
+    except Exception:  # noqa: BLE001
+        return ""
+    finally:
+        response.close()
+
+
+def _load_page_html(url: str) -> str:
+    """Read a URL+date cached arXiv HTML page, fetching it on a miss."""
+    path = _cache_page_path(url)
+    try:
+        if path.exists():
+            cached = path.read_bytes()
+            if cached:
+                return cached.decode("utf-8", errors="replace")
+    except OSError:
+        pass
+    html = _fetch_page_html(url)
+    if html:
+        try:
+            path.parent.mkdir(parents=True, exist_ok=True)
+            # Binary write keeps the fetched bytes byte-for-byte; text mode on
+            # Windows would translate "\n" to "\r\n" and make cache hits differ
+            # from fresh fetches for no reason.
+            path.write_bytes(html.encode("utf-8"))
+        except OSError:
+            pass
+    return html
+
+
+def _clear_bibliography_cache() -> None:
+    """Drop the in-process parsed-bibliography cache (tests / manual reset)."""
+    with _BIBLIOGRAPHY_CACHE_LOCK:
+        _BIBLIOGRAPHY_CACHE.clear()
+
+
+def _load_bibliography(page_url: str) -> dict[int, dict[str, Any]]:
+    """Load and parse one arXiv HTML bibliography, with a short TTL cache.
+
+    The HTML itself is already disk-cached by URL+date.  This second cache avoids
+    re-parsing the same reference list for every selected sentence in one page
+    session.  Empty parses for successfully fetched HTML are cached too; a
+    failed fetch (empty HTML) is not cached so a transient network error can be
+    retried on the next request.
+    """
+    html_url = _page_html_url(page_url)
+    if not html_url:
+        return {}
+    now = time.monotonic()
+    with _BIBLIOGRAPHY_CACHE_LOCK:
+        entry = _BIBLIOGRAPHY_CACHE.get(html_url)
+        if entry is not None and now - entry[0] <= BIBLIOGRAPHY_CACHE_TTL:
+            _BIBLIOGRAPHY_CACHE.move_to_end(html_url)
+            return dict(entry[1])
+        if entry is not None:
+            _BIBLIOGRAPHY_CACHE.pop(html_url, None)
+
+    try:
+        html = _load_page_html(html_url)
+    except Exception:  # noqa: BLE001 - optional enrichment must never fail Live
+        return {}
+    if not html:
+        return {}
+    references = _parse_bibliography(html)
+    with _BIBLIOGRAPHY_CACHE_LOCK:
+        _BIBLIOGRAPHY_CACHE[html_url] = (now, dict(references))
+        _BIBLIOGRAPHY_CACHE.move_to_end(html_url)
+        while len(_BIBLIOGRAPHY_CACHE) > BIBLIOGRAPHY_CACHE_MAX:
+            _BIBLIOGRAPHY_CACHE.popitem(last=False)
+    return references
+
+
+class _BibliographyParser(HTMLParser):
+    """Small, dependency-free parser for LaTeXML reference lists.
+
+    It understands both the current ``section.ltx_bibliography`` wrapper and the
+    older ``ol.ltx_bibliography`` form.  Each ``li.ltx_bibitem`` becomes one
+    reference; the ``span.ltx_tag_bibitem`` text is used as the number when it
+    is numeric, otherwise the list position is used.
+    """
+
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self._bib_stack: list[str] = []
+        self._li: Optional[dict[str, Any]] = None
+        self._block_depth = 0
+        self._block_text: list[str] = []
+        self._tag_depth = 0
+        self._tag_text: list[str] = []
+        self._order = 0
+        self.references: dict[int, dict[str, Any]] = {}
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, Optional[str]]]) -> None:
+        attrs_dict = dict(attrs)
+        classes = set((attrs_dict.get("class") or "").split())
+        if "ltx_bibliography" in classes:
+            self._bib_stack.append(tag)
+
+        if self._li is None:
+            if self._bib_stack and tag == "li" and "ltx_bibitem" in classes:
+                self._li = {
+                    "tag": "",
+                    "blocks": [],
+                    "hrefs": [],
+                    "anchor": attrs_dict.get("id") or "",
+                }
+                self._block_depth = 0
+                self._tag_depth = 0
+            return
+
+        if tag == "a":
+            href = attrs_dict.get("href")
+            if href:
+                self._li["hrefs"].append(href)
+
+        if tag == "span" and "ltx_bibblock" in classes:
+            if self._block_depth == 0:
+                self._block_text = []
+            self._block_depth += 1
+        elif self._block_depth:
+            self._block_depth += 1
+
+        if tag == "span" and "ltx_tag_bibitem" in classes:
+            if self._tag_depth == 0:
+                self._tag_text = []
+            self._tag_depth += 1
+        elif self._tag_depth:
+            self._tag_depth += 1
+
+    def handle_data(self, data: str) -> None:
+        if self._li is None:
+            return
+        if self._block_depth:
+            self._block_text.append(data)
+        if self._tag_depth:
+            self._tag_text.append(data)
+
+    def handle_endtag(self, tag: str) -> None:
+        if self._li is not None:
+            if self._block_depth:
+                self._block_depth -= 1
+                if self._block_depth == 0:
+                    text = _clean_text(" ".join(self._block_text))
+                    if text:
+                        self._li["blocks"].append(text)
+            if self._tag_depth:
+                self._tag_depth -= 1
+                if self._tag_depth == 0:
+                    self._li["tag"] = _clean_text(" ".join(self._tag_text))
+            if tag == "li" and self._block_depth == 0 and self._tag_depth == 0:
+                self._finish_li()
+
+        if self._bib_stack and tag == self._bib_stack[-1]:
+            self._bib_stack.pop()
+
+    def close(self) -> None:
+        try:
+            super().close()
+        finally:
+            if self._li is not None:
+                self._finish_li()
+
+    def _finish_li(self) -> None:
+        item, self._li = self._li, None
+        if not item:
+            return
+        self._order += 1
+        number = self._order
+        tag_text = item.get("tag") or ""
+        numeric = re.fullmatch(r"\[?\s*(\d{1,3})\s*\]?\.?", tag_text)
+        if numeric:
+            number = int(numeric.group(1))
+        if number <= 0:
+            number = self._order
+
+        blocks = [block for block in item.get("blocks") or [] if block]
+        text = _clean_text(" ".join(blocks + list(item.get("hrefs") or [])))
+        if not blocks and not text:
+            return
+        authors_text = blocks[0] if len(blocks) >= 2 else ""
+        title = blocks[1] if len(blocks) >= 2 else (blocks[0] if blocks else "")
+        venue = blocks[2] if len(blocks) >= 3 else ""
+        if not title:
+            return
+        year_match = re.findall(r"(?:19|20)\d{2}", text)
+        doi_match = _DOI_IN_URL_RE.search(text)
+        doi = doi_match.group(0).rstrip(".,;:)]}'\"<>") if doi_match else ""
+        self.references[number] = {
+            "title": title,
+            "authors": [
+                author.strip()
+                for author in re.split(r"[,;，]", authors_text)
+                if author.strip()
+            ][:20],
+            "year": int(year_match[-1]) if year_match else None,
+            "venue": venue,
+            "doi": doi,
+            "anchor": item.get("anchor") or "",
+        }
+
+
+def _parse_bibliography(html: str) -> dict[int, dict[str, Any]]:
+    parser = _BibliographyParser()
+    try:
+        parser.feed(str(html or ""))
+        parser.close()
+    except Exception:  # noqa: BLE001 - malformed HTML must not fail Live
+        return {}
+    return parser.references
+
+
+def _reference_candidate(
+    reference: dict[str, Any],
+    number: int,
+    html_url: str,
+) -> Optional[Candidate]:
+    title = _clean_text(reference.get("title"))
+    if not title:
+        return None
+    doi = _clean_text(reference.get("doi"))
+    anchor = _clean_text(reference.get("anchor"))
+    if doi:
+        url = f"https://doi.org/{doi}"
+    elif anchor:
+        url = f"{html_url}#{anchor}"
+    else:
+        url = html_url
+    return Candidate(
+        source="page-reference",
+        title=title,
+        doi=doi,
+        year=reference.get("year"),
+        authors=list(reference.get("authors") or []),
+        venue=_clean_text(reference.get("venue")),
+        abstract="",
+        url=url,
+        raw={"from": "page-reference", "marker": number},
+    )
+
+
+def _page_reference_candidates(claim: str, page_url: str) -> list[Candidate]:
+    """Map ``[n]`` markers to the bibliography of a fetchable arXiv HTML page."""
+    markers = _extract_citation_markers(claim)
+    if not markers:
+        return []
+    html_url = _page_html_url(page_url)
+    if not html_url:
+        return []
+    try:
+        references = _load_bibliography(html_url)
+    except Exception:  # noqa: BLE001 - fall back to the existing retrieval path
+        return []
+    candidates: list[Candidate] = []
+    for number in markers:
+        reference = references.get(number)
+        if not reference:
+            continue
+        candidate = _reference_candidate(reference, number, html_url)
+        if candidate is not None:
+            candidates.append(candidate)
+    return candidates
+
+
+def _openalex_abstract_by_doi(doi: str) -> str:
+    """Look up one DOI in OpenAlex and return its reconstructed abstract."""
+    doi = _strip_doi_prefix(doi)
+    if not doi:
+        return ""
+    encoded = quote(f"https://doi.org/{doi}", safe=":/")
+    try:
+        data = _cached_json(
+            f"{_OPENALEX_WORKS}/{encoded}",
+            {"select": _ABSTRACT_SELECT, "mailto": config.OPENALEX_MAILTO},
+        )
+    except Exception:  # noqa: BLE001 - abstract enrichment is best effort
+        return ""
+    if isinstance(data, dict):
+        return _reconstruct_abstract(data.get("abstract_inverted_index"))
+    return ""
+
+
+def _best_reference_hit(
+    candidate: Candidate,
+    hits: list[Candidate],
+) -> Optional[Candidate]:
+    """Pick the search hit that clearly matches a bibliography candidate."""
+    reference_doi = _strip_doi_prefix(candidate.doi)
+    best: Optional[Candidate] = None
+    best_similarity = 0.0
+    for hit in hits or []:
+        if not isinstance(hit, Candidate):
+            continue
+        hit_doi = _strip_doi_prefix(hit.doi)
+        if reference_doi and hit_doi and reference_doi.lower() == hit_doi.lower():
+            return hit
+        similarity = title_sim(candidate.title, hit.title)
+        if similarity > best_similarity:
+            best, best_similarity = hit, similarity
+    # A loose title match can attach the wrong paper's abstract and produce a
+    # false quote; require a close title match when there is no DOI identity.
+    if best is not None and best_similarity >= 0.7:
+        return best
+    return None
+
+
+def _fill_reference_from_hit(candidate: Candidate, hit: Candidate) -> None:
+    abstract = (hit.abstract or "").strip()
+    if abstract and not candidate.abstract:
+        candidate.abstract = abstract
+        candidate.raw["abstract_from"] = hit.source or "unknown"
+    if not candidate.doi and hit.doi:
+        candidate.doi = hit.doi
+    if candidate.year is None and hit.year is not None:
+        candidate.year = hit.year
+    if not candidate.authors and hit.authors:
+        candidate.authors = list(hit.authors)
+    if not candidate.venue and hit.venue:
+        candidate.venue = hit.venue
+    if not candidate.url and hit.url:
+        candidate.url = hit.url
+
+
+def _enrich_page_reference(candidate: Candidate) -> None:
+    """Attach a real abstract to one bibliography-only candidate.
+
+    The bibliography has title/authors/year/venue (sometimes DOI) but never an
+    abstract.  Try the exact DOI first, then a title search on OpenAlex and
+    Crossref.  Failures are silent: a candidate without an abstract stays
+    candidate-only and can never fabricate an evidence quote.
+    """
+    if (candidate.abstract or "").strip():
+        return
+    if candidate.doi:
+        try:
+            abstract = _openalex_abstract_by_doi(candidate.doi)
+        except Exception:  # noqa: BLE001
+            abstract = ""
+        if abstract:
+            candidate.abstract = abstract
+            candidate.raw["abstract_from"] = "openalex"
+            return
+    if not candidate.title:
+        return
+    for search in (search_openalex, search_crossref):
+        try:
+            hits = search(candidate.title, limit=3) or []
+        except Exception:  # noqa: BLE001 - external API failure must not block
+            hits = []
+        hit = _best_reference_hit(candidate, hits)
+        if hit is not None:
+            _fill_reference_from_hit(candidate, hit)
+            if (candidate.abstract or "").strip():
+                return
+
+
+def _enrich_page_references(candidates: list[Candidate]) -> list[Candidate]:
+    """Best-effort abstract enrichment for marker-mapped bibliography entries."""
+    for candidate in candidates or []:
+        if candidate.source == "page-reference":
+            try:
+                _enrich_page_reference(candidate)
+            except Exception:  # noqa: BLE001 - never fail Live for enrichment
+                continue
+    return candidates
 
 
 def check_claim(claim: str, page_url: str = "", page_title: str = "") -> dict:
@@ -714,9 +1222,11 @@ def check_claim(claim: str, page_url: str = "", page_title: str = "") -> dict:
         Optional context from the browser tab.  A DOI/arXiv URL is resolved to
         an OpenAlex work and its reference list is tried first; the title is
         used as a fallback query when the selected sentence is too short and as
-        a lookup key when the URL has no identifier.  The DOI/arXiv identifier
-        (or title) is sent to OpenAlex; the page's URL/HTML itself is not
-        fetched.  The URL host is included in no-result reasons.
+        a lookup key when the URL has no identifier.  For arXiv HTML pages a
+        numeric ``[n]`` marker is mapped directly to the page bibliography.
+        The page HTML is fetched only from the whitelisted arXiv hosts; the
+        DOI/arXiv identifier (or title) is sent to OpenAlex.  The URL host is
+        included in no-result reasons.
 
     Returns
     -------
@@ -742,33 +1252,52 @@ def check_claim(claim: str, page_url: str = "", page_title: str = "") -> dict:
 
     query = _build_query(claim, page_title)
     claim_terms = _terms(claim)
-    claim_numbers = _numbers(claim)
+    # A citation marker such as "[2]" is a pointer, not a factual quantity.  If
+    # it leaked into ``claim_numbers`` the number check would demote otherwise
+    # supported claims (the abstract does not contain the bibliography number).
+    claim_numbers = _numbers(_CITATION_MARKER_RE.sub(" ", claim))
+
+    # A numeric citation marker on a fetchable arXiv HTML page is the strongest
+    # signal we have: it names the reference directly.  This is best effort and
+    # must never make Live fail or issue an arbitrary URL fetch.
+    marker_candidates: list[Candidate] = []
+    try:
+        marker_candidates = _dedupe(_page_reference_candidates(claim, page_url))
+        # Bibliography entries have metadata but no abstract.  Enrich them from
+        # DOI/title before ranking; without an abstract they remain valid
+        # candidates but cannot produce an evidence quote.
+        marker_candidates = _enrich_page_references(marker_candidates)
+    except Exception:  # noqa: BLE001 - optional enrichment must not fail Live
+        marker_candidates = marker_candidates or []
 
     # If the browser tab is a paper page we can resolve, its reference list is a
     # much better candidate set than a keyword search over a Chinese sentence.
     # Page enrichment is best effort: no network error may escape here.
-    try:
-        page_work = _page_work(page_url, page_title)
-    except Exception:  # noqa: BLE001 - optional enrichment must not fail Live
-        page_work = None
-    try:
-        page_candidates = _referenced_candidates(page_work) if page_work else []
-    except Exception:  # noqa: BLE001
-        page_candidates = []
-    page_candidates = _dedupe(page_candidates)
-    page_ranked = sorted(
-        page_candidates,
-        key=lambda candidate: _page_candidate_score(claim_terms, claim_numbers, candidate),
-        reverse=True,
-    )
-    page_usable = any((candidate.abstract or "").strip() for candidate in page_ranked)
-
+    page_ranked: list[Candidate] = []
     keyword_candidates: list[Candidate] = []
     errors: list[str] = []
-    if not page_usable and query:
-        keyword_candidates, errors = _search_candidates(query, page_title)
+    page_usable = False
+    if len(marker_candidates) < MAX_CANDIDATES:
+        try:
+            page_work = _page_work(page_url, page_title)
+        except Exception:  # noqa: BLE001 - optional enrichment must not fail Live
+            page_work = None
+        try:
+            page_candidates = _referenced_candidates(page_work) if page_work else []
+        except Exception:  # noqa: BLE001
+            page_candidates = []
+        page_candidates = _dedupe(page_candidates)
+        page_ranked = sorted(
+            page_candidates,
+            key=lambda candidate: _page_candidate_score(claim_terms, claim_numbers, candidate),
+            reverse=True,
+        )
+        page_usable = any((candidate.abstract or "").strip() for candidate in page_ranked)
 
-    if not page_ranked and not keyword_candidates:
+        if not page_usable and query:
+            keyword_candidates, errors = _search_candidates(query, page_title)
+
+    if not marker_candidates and not page_ranked and not keyword_candidates:
         if not query:
             reason = "无法从引用句提取检索关键词" + _page_suffix(page_url)
         elif errors:
@@ -777,11 +1306,12 @@ def check_claim(claim: str, page_url: str = "", page_title: str = "") -> dict:
             reason = "未检索到候选文献（OpenAlex/Crossref 无结果，或网络不可用）" + _page_suffix(page_url)
         return _make_result("no_evidence", 0.0, reason, None, [])
 
-    merged = _merge_candidates(page_ranked, keyword_candidates)
-    if not page_usable:
+    merged = _merge_candidates(marker_candidates, page_ranked, keyword_candidates)
+    if not page_usable and not marker_candidates:
         # A page reference without an abstract cannot support a judgement; keep
         # abstract-bearing keyword hits ahead of it while still preserving the
-        # page-first order for equal evidence.
+        # page-first order for equal evidence.  Marker candidates are ordered by
+        # the user's citation numbers and must stay first.
         merged.sort(
             key=lambda candidate: (
                 bool((candidate.abstract or "").strip()),

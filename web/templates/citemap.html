@@ -51,6 +51,8 @@
                   data-topic-id="{{ topic.topic_id }}" aria-pressed="{{ 'true' if initial_topic == topic.topic_id else 'false' }}">{{ topic.name_zh or topic.name_en or topic.topic_id }}</button>
           {% endfor %}
         </div>
+        <button type="button" class="btn btn-ghost" id="ctm-verify-toggle" aria-pressed="false">核对模式（60 格）</button>
+        <span class="ctm-verify-count" id="ctm-verify-count" role="status" aria-live="polite"></span>
         <span class="ctm-status" id="ctm-status" role="status" aria-live="polite">正在加载主题…</span>
       </div>
 

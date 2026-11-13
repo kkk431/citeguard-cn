@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 140,
+  "paths_checked": 155,
   "missing": [],
   "rows": [
     {
@@ -166,6 +166,91 @@
     {
       "evidence": "E48",
       "path": "docs/evidence/shots/phase-38-a11y-pages-1.0.12.png",
+      "exists": true
+    },
+    {
+      "evidence": "E83",
+      "path": "data/evidence_map/abstracts.json",
+      "exists": true
+    },
+    {
+      "evidence": "E83",
+      "path": "data/experiments/citemap_auto_eval.json",
+      "exists": true
+    },
+    {
+      "evidence": "E83",
+      "path": "data/evidence_map/verification_packet.json",
+      "exists": true
+    },
+    {
+      "evidence": "E83",
+      "path": "docs/evidence_map.md",
+      "exists": true
+    },
+    {
+      "evidence": "E83",
+      "path": "docs/evidence/shots/phase-52-citemap-auto-1.7.11.png",
+      "exists": true
+    },
+    {
+      "evidence": "E84",
+      "path": "data/live_eval/pages_holdout.json",
+      "exists": true
+    },
+    {
+      "evidence": "E84",
+      "path": "data/live_eval/live_eval_holdout_enriched.json",
+      "exists": true
+    },
+    {
+      "evidence": "E84",
+      "path": "docs/research/live_holdout.md",
+      "exists": true
+    },
+    {
+      "evidence": "E84",
+      "path": "docs/extension_v2.md",
+      "exists": true
+    },
+    {
+      "evidence": "E84",
+      "path": "docs/evidence/shots/phase-54-extension-loaded.png",
+      "exists": true
+    },
+    {
+      "evidence": "E84",
+      "path": "docs/evidence/shots/phase-54-extension-example.png",
+      "exists": true
+    },
+    {
+      "evidence": "E84",
+      "path": "docs/evidence/shots/phase-54-extension-live-result.png",
+      "exists": true
+    },
+    {
+      "evidence": "E84",
+      "path": "docs/evidence/shots/phase-54-extension-local-live.png",
+      "exists": true
+    },
+    {
+      "evidence": "E84",
+      "path": "docs/evidence/shots/phase-54-extension-python-tutorial.png",
+      "exists": true
+    },
+    {
+      "evidence": "E84",
+      "path": "docs/evidence/shots/phase-54-extension-iana-example-domains.png",
+      "exists": true
+    },
+    {
+      "evidence": "E84",
+      "path": "docs/evidence/shots/phase-54-extension-error.png",
+      "exists": true
+    },
+    {
+      "evidence": "E84",
+      "path": "docs/research/live_holdout.md",
       "exists": true
     },
     {
@@ -544,6 +629,6 @@
       "exists": true
     }
   ],
-  "shots_registered": 67,
+  "shots_registered": 75,
   "shots_unregistered": []
 }

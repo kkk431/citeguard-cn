@@ -344,6 +344,18 @@ def rows():
         "screenshot": "docs/evidence/shots/phase-49-citemap-1.7.4.png",
     })
 
+    auto = load("data/experiments/citemap_auto_eval.json")["totals"]
+    out.append({
+        "category": "CiteMap",
+        "claim": "摘要级机器抽取覆盖",
+        "value": f"{auto['auto_items']} 条 / {auto['papers_with_auto_evidence']}/{auto['papers']} 篇；人工示例覆盖 {auto['manual_pairs_found']}/{auto['manual_items']}，一致 {auto['stance_agreement']:.2f}",
+        "n": "30 篇；10 条人工示例；60 格待核对",
+        "artifact": "data/experiments/citemap_auto_eval.json",
+        "command": "PYTHONPATH=src python scripts/eval_citemap_auto.py",
+        "note": "机器证据只读摘要、逐字 quote 0 不合格；6/6 一致只在这 10 对示例上算，不是全量准确率；60 格未核对前不显示已验证",
+        "screenshot": "docs/evidence/shots/phase-52-citemap-auto-1.7.11.png",
+    })
+
     pub = load("data/live_eval/live_eval_public.json")
     hit3 = sum(1 for r in pub["records"] if r.get("hit@3"))
     hit1 = sum(1 for r in pub["records"] if r.get("hit@1"))
@@ -356,6 +368,18 @@ def rows():
         "command": "PYTHONPATH=src python scripts/eval_live.py --claims data/live_eval/claims_public.jsonl --pages data/live_eval/pages_public.json --out data/live_eval/live_eval_public.json",
         "note": "句子真实出现在页面上；标题优先排序后 hit@3 0.60→0.70；9 条未进 top-3（4 条排 4-5、5 条更后）；规则在同一集选定，需新集复核",
         "screenshot": "docs/evidence/shots/phase-53-live-result-1.7.7.png",
+    })
+
+    hold = load("data/live_eval/live_eval_holdout_enriched.json")
+    out.append({
+        "category": "Live",
+        "claim": "冻结 held-out 30 句检索命中（补摘要后）",
+        "value": f"hit@3 {hold['hit@3']:.2f} ({round(hold['hit@3']*hold['n'])}/{hold['n']}) / hit@1 {hold['hit@1']:.2f}；有逐字证据 {hold['evidence_available']}/{hold['n']}",
+        "n": "30 句英文 / 5 篇新 arXiv HTML；与公开页集无重叠",
+        "artifact": "data/live_eval/live_eval_holdout_enriched.json",
+        "command": "PYTHONPATH=src python scripts/eval_live.py --claims data/live_eval/claims_holdout.jsonl --pages data/live_eval/pages_holdout.json --out data/live_eval/live_eval_holdout_enriched.json",
+        "note": "t18：命中已近饱和；证据 11/30，判定模型未配置、四档为规则降级；样本仅 5 页，不能外推开放网页",
+        "screenshot": "docs/extension_v2.md",
     })
 
     cross = load("data/live_eval/live_eval_crosslingual.json")

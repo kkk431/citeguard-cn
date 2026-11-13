@@ -1,13 +1,16 @@
-# CiteGuard Live 评测：两套 30 句数据与 hit@3 / 延迟 / 四档标签分布
+# CiteGuard Live 评测：三套 30 句数据与 hit@3 / 延迟 / 四档标签分布
 
-> 两套互不混算的 Live 评测数据：**跨语言集**（30 条真实中文引用句，上下文页与被引来源无关）暴露“中文句子 → 英文文献”的检索边界；**公开页集**（30 条英文句子确实出现在 5 篇 arXiv HTML 页面上，`[n]` 与页内参考文献一一对应）检验 t12「页面参考文献列表优先」在真实页面上的效果。两套都评测 `check_claim(claim, page_url="", page_title="")`，都**没有 stance 金标**。
+> 三套互不混算的 Live 评测数据：**跨语言集**（30 条真实中文引用句，上下文页与被引来源无关）暴露“中文句子 → 英文文献”的检索边界；**公开页集**（30 条英文句子确实出现在 5 篇 arXiv HTML 页面上，`[n]` 与页内参考文献一一对应）检验页面参考文献优先路径；**冻结 held-out 集**（5 篇新的 2026 arXiv HTML、30 条英文句，与公开页集无重叠）用于检验同一机制在未见页面上的泛化。三套都评测 `check_claim`，都**没有 stance 金标**。
+>
+> **重要**：本机未配置判定模型（`judge_available()=False`），held-out 集的四档标签来自**本地规则降级**，不能当作语义理解或 stance 准确率；页面引用命中（hit@1/hit@3）与“是否有逐字证据”是两件不同的事。
 
 - 跨语言集：`data/live_eval/pages.json`（5 页）、`data/live_eval/claims.jsonl`（30 句）→ `data/live_eval/live_eval.json`
 - 公开页集：`data/live_eval/pages_public.json`（5 页）、`data/live_eval/claims_public.jsonl`（30 句）→ `data/live_eval/live_eval_public.json`
+- 冻结 held-out 集：`data/live_eval/pages_holdout.json`（5 页）、`data/live_eval/claims_holdout.jsonl`（30 句）→ `data/live_eval/live_eval_holdout.json`（富化后 `live_eval_holdout_enriched.json`）
 - 评测脚本：`scripts/eval_live.py`（`--claims/--pages/--out` 切换数据集）
 - 模块契约：`src/citeguard/live_check.py`（`docs/live.md`）
 - 测试：`tests/test_live_eval.py`（13 例，全部离线）
-- 实测时间：2026-11-14 01:56（跨语言集）、2026-11-14 02:20（公开页集），基线 v1.7.3
+- 实测时间：2026-11-14 01:56（跨语言集）、02:20（公开页集）、03:35（held-out 富化前后），基线 v1.7.10
 
 ## 1. 目的与边界
 
@@ -194,17 +197,42 @@ PYTHONPATH=src python scripts/eval_live.py \
 - 延迟 P50 7.8 ms、P95 16.5 ms 是因为 5 个页面的 OpenAlex 结果全部命中缓存（本次复跑）；冷启动首条仍约 4 s。延迟只代表本机缓存状态，不作跨环境承诺。
 - 标签分布（0/12/0/18）仍不是准确率：公开页集同样没有 stance 金标，规则兜底只会给 `partial` / `no_evidence`。
 
-### 5.3 两套数据的关系（禁止混算）
+### 5.3 冻结 held-out 集（t15/t18，2026-11-14）
 
-| | 跨语言集 | 公开页集 |
-| --- | --- | --- |
-| 句子语言 | 中文（真实中文论文正文） | 英文（页面正文） |
-| 句子与页面关系 | 主题邻近的上下文页，页面引用列表**不含**被引来源 | 句子**确实在**页面上，`[n]` 对应页内参考文献 |
-| 页面参考文献列表 | 通常不覆盖被引来源 | 覆盖（选样时限制在 OpenAlex 前 40 条内） |
-| hit@3 | 0/30 | 21/30 |
-| 用途 | 暴露跨语言查询构造的边界 | 检验页面引用列表优先路径 |
+为避免“在同一公开页集上选排序规则、又在同一集上报分”，radar 另建 5 篇 2026 年 arXiv HTML（2611.07772 / 2610.38049 / 2610.24037 / 2610.32576 / 2610.18926），与 t13 的 5 页**无重叠**；30 条英文正文句，每句带页内 `[n]`，29 个唯一 DOI，30/30 可解析。t14 的 `[n] → 页面参考文献` 映射先在 t15 上跑；t17 给候选补 OpenAlex/Crossref 摘要后再跑一次（t18）：
 
-两套数据的任务难度与分母含义不同，**不能相加、不能互相替代**；跨语言集的 0/30 不能用来否定公开页集的 21/30，公开页集的 21/30 也不能用来掩盖跨语言场景的问题。
+| 指标 | t15（仅页面引用映射） | t18（补摘要后） |
+| --- | ---: | ---: |
+| n | 30 句 / 5 页 | 30 句 / 5 页 |
+| hit@1 | 27/30（0.9000） | 27/30（0.9000） |
+| **hit@3** | **30/30（1.0000）** | **30/30（1.0000）** |
+| P50 | 3129.4 ms | 2982.7 ms |
+| P95 | 10971.9 ms | 16088.8 ms |
+| 有逐字证据 | 7/30（下界） | 11/30 |
+| 四档（support/partial/contradict/no_evidence） | 2/5/0/23 | 2/9/0/19 |
+| 失败 / 无候选 | 0 / 0 | 0 / 0 |
+
+补充测量：
+
+- 30/30 的 gold DOI 都在页面候选池内；补摘要后 gold 摘要实际补到 **20/30**（OpenAlex 可得 25/30，差 5 条未逐条归因）。
+- 11 条逐字证据中 **8 条指向 gold 候选**，3 条来自同页其它候选（不是随便编的句子，但不是目标文献）。
+- **25 条 OpenAlex 有摘要子集**：hit@1 0.88、hit@3 1.0、有证据 9/30（该子集基线 hit@3 25/25）；说明摘要补全改善了“有证据”比例，但没有改变 top-3 命中（本来已近饱和）。
+- 2610.32576 的 6 条 gold 摘要仍为空，该页 0 证据；32576/18926 两页 12 条全部 no_evidence。
+- P95 从 10.97 s 升到 16.09 s（+46.6%），来自摘要补全的外部 API 调用；这是**延迟代价**，不是免费收益。
+
+**结论（谨慎）**：页面引用列表 + `[n]` 标记在**这一小批未见页**上 hit@3 = 30/30，说明机制不是只对 t13 页面有效；但样本只有 5 页/30 句、页面类型单一（arXiv HTML）、排名上限仍为 5，不能外推为“开放网页 100%”；四档标签仍无判定模型与人工金标，不能宣称 stance 准确率。
+
+### 5.4 三套数据的关系（禁止混算）
+
+| | 跨语言集 | 公开页集 | 冻结 held-out 集 |
+| --- | --- | --- | --- |
+| 句子语言 | 中文（真实中文论文正文） | 英文（页面正文） | 英文（页面正文） |
+| 句子与页面关系 | 主题邻近的上下文页，页面引用列表**不含**被引来源 | 句子**确实在**页面上，`[n]` 对应页内参考文献 | 同公开页集，但页面/句子与公开页集**无重叠** |
+| 页面参考文献列表 | 通常不覆盖被引来源 | 覆盖（选样时限制在 OpenAlex 前 40 条内） | 覆盖；补摘要前 23/30 条无逐字证据 |
+| hit@3 | 0/30 | 21/30 | 30/30（补摘要前后同） |
+| 用途 | 暴露跨语言查询构造的边界 | 检验页面引用列表优先路径 | 检验机制在未见页面上的泛化 |
+
+三套数据的任务难度与分母含义不同，**不能相加、不能互相替代**；跨语言集的 0/30 不能用来否定公开页集/held-out 的分数，反之也不行。
 
 ## 6. 结论与建议（决策）
 
@@ -212,11 +240,13 @@ PYTHONPATH=src python scripts/eval_live.py \
 | --- | --- | --- |
 | 跨语言集（回归集） | **adopt** | 真实中文正文、来源可追溯、脚本可复现；小样本，只作烟雾测试 |
 | 公开页集（页面引用列表回归集） | **adopt** | 句子与页面真实对应，30/30 DOI 可解析；补上了跨语言集测不到的 t12 路径 |
+| 冻结 held-out 集（未见页面回归集） | **adopt 机制，hold 结论** | 30/30 hit@3，说明 `[n]` 映射在未见 arXiv HTML 上有效；样本小、页型单一，且排序规则仍固定 top-5 |
 | Live 候选检索链路（跨语言场景） | **hold（可用但不达标）** | 英文标题查询 3/3 命中第 1，说明检索器可用；中文句子路径 0/30 |
-| 页面引用列表优先（公开页场景） | **adopt 机制，hold 效果** | 同函数 hit@3 从 0/30 到 21/30；标题优先排序后提升，但 9 条仍未进 top-3，且排序规则在本集选定 |
+| 页面引用列表优先（公开页场景） | **adopt 机制，hold 效果** | 同函数 hit@3 从 0/30 到 30/30（held-out）；公开页集 21/30；排序规则在公开页集选定 |
+| 页面引用列表优先（页面有 `[n]` 的 arXiv HTML） | **adopt** | t14/t17/t18：识别 `[n]`、映射 `ol.ltx_bibliography`、补摘要；失败静默回退 |
 | 候选打分 / 截断策略 | **建议下一轮实验** | 正确文献已在页面候选池内，瓶颈是 `_candidate_score` 词面匹配与 `MAX_CANDIDATES=5` 截断 |
 | 双语查询扩展 / 标题补全 | **建议下一轮实验** | 预期把中文句子的 hit@3 从 0 拉起来，且不改判断器 |
-| 判定模型（LLM judge） | **hold** | 本机未配 API key，规则兜底；候选都不对时 judge 无意义 |
+| 判定模型（LLM judge） | **hold** | 本机未配 API key，规则兜底；held-out 四档不能当 stance 准确率 |
 
 ## 7. 复现
 
@@ -231,6 +261,10 @@ PYTHONPATH=src python scripts/eval_live.py \
   --claims data/live_eval/claims_public.jsonl \
   --pages data/live_eval/pages_public.json \
   --out data/live_eval/live_eval_public.json       # 跑公开页集
+PYTHONPATH=src python scripts/eval_live.py \
+  --claims data/live_eval/claims_holdout.jsonl \
+  --pages data/live_eval/pages_holdout.json \
+  --out data/live_eval/live_eval_holdout_enriched.json  # 跑冻结 held-out 集
 PYTHONPATH=src python scripts/eval_live.py --limit 3 --out /tmp/live_preview.json
 python -m pytest tests/test_live_eval.py -q        # 13 例，离线
 ```
@@ -241,7 +275,7 @@ python -m pytest tests/test_live_eval.py -q        # 13 例，离线
 
 ## 8. 局限与后续
 
-1. **样本小**：公开页集 5 页 / 30 句 / 每页 6 条；跨语言集 30 句 / 6 篇来源。只能做回归与烟雾测试，不能外推总体 hit@3。
+1. **样本小**：公开页集 5 页 / 30 句 / 每页 6 条；冻结 held-out 集同为 5 页 / 30 句；跨语言集 30 句 / 6 篇来源。只能做回归与烟雾测试，不能外推总体 hit@3。held-out 的 30/30 是小样本上限，不是开放网页承诺。
 2. **无 stance 金标**：两套数据的标签分布都不是准确率；矛盾意图本批 0 条，后续需人工从语料中确认方向相反的引用后再补，绝不虚构。
 3. **两套数据的页面含义不同**：跨语言集的 `page_id` 只是主题邻近的上下文页，**不代表句子出现在页面上**；公开页集才是“句子确实在页面上、`[n]` 与页内参考文献同号”。引用两套结果时必须说明是哪一套。
 4. **页面候选被截断**：`live_check` 只取页面 OpenAlex `referenced_works` 前 40 条（`MAX_REFERENCED_WORKS=40`），而 `2611.02510` 有 456 条参考文献、OpenAlex 记录 283 条；若正确文献落在第 41 条之后，本集也不会命中。这不是页面本身的问题，是产品当前的取数上限。
@@ -260,6 +294,11 @@ python -m pytest tests/test_live_eval.py -q        # 13 例，离线
 | `data/live_eval/pages_public.json` | 公开页集 5 个 arXiv HTML 页（id/url/title/fetched_at/license/license_url/source/references/openalex_referenced_works） |
 | `data/live_eval/claims_public.jsonl` | 公开页集 30 条英文正文句（id/sentence/source_title/source_doi/page_url/page_title/reference_index） |
 | `data/live_eval/live_eval_public.json` | 公开页集最近一次评测结果（dataset=public，含真实指标与逐条记录） |
+| `data/live_eval/pages_holdout.json` | 冻结 held-out 集 5 个 2026 arXiv HTML 页（与公开页集无重叠） |
+| `data/live_eval/claims_holdout.jsonl` | 冻结 held-out 集 30 条英文正文句（每句带页内 `[n]` 与 DOI） |
+| `data/live_eval/live_eval_holdout.json` | t15：仅页面引用映射的 held-out 评测结果 |
+| `data/live_eval/live_eval_holdout_enriched.json` | t18：补 OpenAlex/Crossref 摘要后的 held-out 评测结果（含与 t15 对照、25 条有摘要子集） |
+| `docs/research/live_holdout.md` | radar 的 held-out 设计与完整残差分析（300 行） |
 | `scripts/eval_live.py` | 校验 + 评测脚本；`--claims/--pages/--out` 切换数据集，`--check` 只校验数据 |
 | `tests/test_live_eval.py` | 13 个离线单测（跨语言/公开页两套数据校验、命中/未命中/空候选/异常、fake checker） |
 | `docs/live_eval.md` | 本文件 |

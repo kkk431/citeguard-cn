@@ -21,7 +21,9 @@
     paperCount: document.getElementById("ctm-paper-count"),
     detail: document.getElementById("ctm-detail"),
     detailEmpty: document.getElementById("ctm-detail-empty"),
-    detailBody: document.getElementById("ctm-detail-body")
+    detailBody: document.getElementById("ctm-detail-body"),
+    verifyToggle: document.getElementById("ctm-verify-toggle"),
+    verifyCount: document.getElementById("ctm-verify-count")
   };
 
   if (!els.paperList || !els.detailBody) return;
@@ -66,6 +68,7 @@
     topicId: "",
     payload: null,
     selectedPaperId: "",
+    verifyMode: false,
     requestId: 0
   };
 
@@ -175,12 +178,19 @@
   }
 
   async function fetchJSON(url) {
+    return requestJSON(url, "GET", null);
+  }
+
+  async function requestJSON(url, method, body) {
     let response;
     try {
       response = await fetch(url, {
-        method: "GET",
-        headers: { "Accept": "application/json" },
-        credentials: "same-origin"
+        method: method,
+        headers: body
+          ? { "Accept": "application/json", "Content-Type": "application/json" }
+          : { "Accept": "application/json" },
+        credentials: "same-origin",
+        body: body ? JSON.stringify(body) : undefined
       });
     } catch (err) {
       throw new Error("无法连接 CiteMap 接口，请检查服务是否在线。");
@@ -309,6 +319,11 @@
       els.topicQuestion.hidden = !topic.question;
     }
     renderTopicStats(payload, papers, claims, evidence, gaps);
+    updateVerifyCount();
+    if (els.verifyToggle) {
+      els.verifyToggle.setAttribute("aria-pressed", state.verifyMode ? "true" : "false");
+      els.verifyToggle.classList.toggle("is-active", state.verifyMode);
+    }
 
     if (els.paperCount) {
       els.paperCount.textContent = "共 " + papers.length + " 篇 · 点击查看证据";
@@ -325,6 +340,39 @@
     return typeof value === "number" && Number.isFinite(value) ? value : fallback;
   }
 
+  function autoForTopic() {
+    return state.payload && Array.isArray(state.payload.auto_evidence) ? state.payload.auto_evidence : [];
+  }
+
+  function autoForPaper(paperId) {
+    return autoForTopic().filter(function (ev) { return ev && ev.paper_id === paperId; });
+  }
+
+  function cellsForPaper(paperId) {
+    const cells = state.payload && Array.isArray(state.payload.verification_cells)
+      ? state.payload.verification_cells
+      : [];
+    return cells.filter(function (cell) { return cell && cell.paper_id === paperId; });
+  }
+
+  function cellForEvidence(evidenceId) {
+    const cells = state.payload && Array.isArray(state.payload.verification_cells)
+      ? state.payload.verification_cells
+      : [];
+    return cells.find(function (cell) { return cell.evidence_id === evidenceId; }) || null;
+  }
+
+  function updateVerifyCount() {
+    if (!els.verifyCount) return;
+    const progress = (state.payload && state.payload.verification_progress) || {};
+    if (!progress.packet) {
+      els.verifyCount.textContent = "";
+      return;
+    }
+    els.verifyCount.textContent = "抽样 " + progress.packet + " 格 · 已核对 " + (progress.checked || 0) +
+      " · 通过 " + (progress.verified || 0);
+  }
+
   function renderTopicStats(payload, papers, claims, evidence, gaps) {
     if (!els.topicStats) return;
     els.topicStats.replaceChildren();
@@ -333,11 +381,16 @@
     addStat("篇论文", numberOr(counts.papers, papers.length));
     addStat("条断言", numberOr(counts.claims, claims.length));
     addStat("条示例证据", numberOr(counts.evidence, evidence.length));
+    addStat("条机器证据", autoForTopic().length);
     addStat("个证据缺口", numberOr(counts.gaps, gaps.length));
 
     const summary = payload.verification && payload.verification.summary;
     if (summary && typeof summary.crossref_ok === "number" && typeof summary.papers === "number") {
       addStat("全库 DOI 校验", summary.crossref_ok + "/" + summary.papers);
+    }
+    const progress = payload.verification_progress || {};
+    if (progress.packet) {
+      addStat("抽样核对", (progress.checked || 0) + "/" + progress.packet);
     }
   }
 
@@ -351,7 +404,10 @@
 
   function renderPaperList(papers) {
     els.paperList.replaceChildren();
-    papers.forEach(function (paper) {
+    const visible = state.verifyMode
+      ? papers.filter(function (paper) { return cellsForPaper(paper.paper_id).length > 0; })
+      : papers;
+    visible.forEach(function (paper) {
       const item = make("li", "ctm-paper-item");
       item.dataset.paperId = paper.paper_id || "";
 
@@ -373,6 +429,16 @@
       if (paper.cn_affiliated) tags.append(makeTag("中国机构参与", "ctm-tag--cn"));
       if (paper.license) tags.append(makeTag(paper.license, "ctm-tag--license"));
       if (paper.is_oa) tags.append(makeTag("OA", "ctm-tag--oa"));
+      const autoCount = autoForPaper(paper.paper_id).length;
+      if (autoCount) tags.append(makeTag("机器证据 " + autoCount, "ctm-tag--auto"));
+      const cells = cellsForPaper(paper.paper_id);
+      if (cells.length) {
+        const pending = cells.filter(function (cell) { return !cell.check; }).length;
+        tags.append(makeTag(
+          pending ? "待核对 " + pending : "已核对",
+          pending ? "ctm-tag--todo" : "ctm-tag--done"
+        ));
+      }
       if (tags.childElementCount) button.append(tags);
 
       item.append(button);
@@ -528,6 +594,9 @@
       body.append(section);
     }
 
+    const autoSection = renderAutoSection(paper);
+    if (autoSection) body.append(autoSection);
+
     const relatedClaims = [];
     evidence.forEach(function (ev) {
       if (ev.claim_id && relatedClaims.indexOf(ev.claim_id) === -1) relatedClaims.push(ev.claim_id);
@@ -601,6 +670,128 @@
 
     if (ev.notes) card.append(make("p", "ctm-evidence-note", ev.notes));
     return card;
+  }
+
+  function renderAutoSection(paper) {
+    const cells = cellsForPaper(paper.paper_id);
+    const allAuto = autoForPaper(paper.paper_id);
+    const auto = state.verifyMode
+      ? allAuto.filter(function (ev) { return Boolean(cellForEvidence(ev.evidence_id)); })
+      : allAuto;
+    const emptyCells = cells.filter(function (cell) { return !cell.evidence_id; });
+    if (!auto.length && !emptyCells.length) return null;
+
+    const section = make("section", "ctm-evidence-section ctm-auto-section");
+    const head = make("div", "ctm-auto-head");
+    head.append(make("h3", "", "机器抽取 · 仅摘要"));
+    head.append(make("span", "ctm-auto-note", "由模型从摘要抽取，尚未逐条人工核对；引用为逐字摘录。"));
+    section.append(head);
+
+    auto.forEach(function (ev) {
+      section.append(renderAutoEvidence(ev, claimById(ev.claim_id), cellForEvidence(ev.evidence_id)));
+    });
+    emptyCells.forEach(function (cell) {
+      section.append(renderNoEvidenceCell(cell, claimById(cell.claim_id)));
+    });
+    return section;
+  }
+
+  function renderAutoEvidence(ev, claim, cell) {
+    const card = make("article", "ctm-evidence ctm-evidence--auto");
+    const top = make("div", "ctm-evidence-top");
+    const stance = normalizeStance(ev.stance);
+    top.append(makeTag(STANCE_LABELS[stance], "ctm-stance ctm-stance--" + stance));
+    top.append(makeTag("机器抽取 · 仅摘要", "ctm-extractor ctm-extractor--auto"));
+    if (cell) top.append(makeTag("抽样格", "ctm-cell-tag"));
+    top.append(renderConfidence(ev.confidence));
+    card.append(top);
+
+    if (claim) {
+      const claimBox = make("div", "ctm-claim");
+      claimBox.append(make("span", "ctm-claim-label", "对应断言 · " + claim.claim_id));
+      claimBox.append(make("p", "ctm-claim-text", claim.text || ""));
+      card.append(claimBox);
+    }
+    if (ev.summary) card.append(make("p", "ctm-evidence-summary", ev.summary));
+    if (ev.quote) {
+      const quote = make("blockquote", "ctm-quote");
+      quote.append(make("p", "ctm-quote-text", ev.quote));
+      const meta = make("footer", "ctm-quote-meta");
+      meta.append(make("span", "ctm-locator", "定位：摘要"));
+      quote.append(meta);
+      card.append(quote);
+    }
+    const facts = [];
+    if (ev.method) facts.push("方法：" + ev.method);
+    if (ev.sample) facts.push("样本：" + ev.sample);
+    if (facts.length) card.append(make("p", "ctm-muted", facts.join(" · ")));
+    if (cell) card.append(renderVerifyRow(cell));
+    return card;
+  }
+
+  function renderNoEvidenceCell(cell, claim) {
+    const card = make("article", "ctm-evidence ctm-evidence--auto ctm-evidence--empty");
+    const top = make("div", "ctm-evidence-top");
+    top.append(makeTag("未发现证据", "ctm-stance ctm-stance--neutral"));
+    top.append(makeTag("抽样格", "ctm-cell-tag"));
+    card.append(top);
+    if (claim) {
+      const claimBox = make("div", "ctm-claim");
+      claimBox.append(make("span", "ctm-claim-label", "对应断言 · " + claim.claim_id));
+      claimBox.append(make("p", "ctm-claim-text", claim.text || ""));
+      card.append(claimBox);
+    }
+    card.append(make("p", "ctm-muted", "机器没有从摘要中找到逐字支持/反驳句。请核对是否确实无证据。"));
+    card.append(renderVerifyRow(cell));
+    return card;
+  }
+
+  function renderVerifyRow(cell) {
+    const row = make("div", "ctm-verify-row");
+    if (cell.check) {
+      const label = cell.check.status === "ok" ? "已核对：通过" : cell.check.status === "issue" ? "已核对：有问题" : "已跳过";
+      row.append(make("span", "ctm-verify-done", label));
+      return row;
+    }
+    ["ok", "issue", "skip"].forEach(function (status) {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "btn btn-ghost ctm-verify-btn";
+      button.dataset.verify = "1";
+      button.dataset.cellId = cell.cell_id;
+      button.dataset.status = status;
+      button.textContent = status === "ok" ? "✓ 正确" : status === "issue" ? "✗ 有问题" : "跳过";
+      row.append(button);
+    });
+    return row;
+  }
+
+  async function verifyCell(button) {
+    const cellId = button.dataset.cellId;
+    const status = button.dataset.status;
+    if (!cellId || !status) return;
+    button.disabled = true;
+    try {
+      const result = await requestJSON(
+        "/api/citemap/" + encodeURIComponent(state.topicId) + "/verify",
+        "POST",
+        { cell_id: cellId, status: status }
+      );
+      const cells = state.payload && Array.isArray(state.payload.verification_cells)
+        ? state.payload.verification_cells
+        : [];
+      const cell = cells.find(function (item) { return item.cell_id === cellId; });
+      if (cell) cell.check = result.cell;
+      if (state.payload) state.payload.verification_progress = result;
+      updateVerifyCount();
+      const papers = state.payload && Array.isArray(state.payload.papers) ? state.payload.papers : [];
+      renderPaperList(papers);
+      const current = papers.find(function (paper) { return paper.paper_id === state.selectedPaperId; });
+      if (current) renderDetail(current);
+    } catch (err) {
+      button.disabled = false;
+      setStatus(err && err.message ? err.message : "核对保存失败。", "warn");
+    }
   }
 
   function renderConfidence(value) {
@@ -732,8 +923,32 @@
     selectTopic(topicId, { syncUrl: false });
   }
 
+  function onVerifyToggle() {
+    state.verifyMode = !state.verifyMode;
+    if (els.verifyToggle) {
+      els.verifyToggle.setAttribute("aria-pressed", state.verifyMode ? "true" : "false");
+      els.verifyToggle.classList.toggle("is-active", state.verifyMode);
+    }
+    const papers = state.payload && Array.isArray(state.payload.papers) ? state.payload.papers : [];
+    renderPaperList(papers);
+    const first = state.verifyMode
+      ? papers.find(function (paper) { return cellsForPaper(paper.paper_id).length > 0; })
+      : papers.find(function (paper) { return paper.paper_id === state.selectedPaperId; });
+    selectPaper((first && first.paper_id) || (papers[0] && papers[0].paper_id) || "", false);
+  }
+
   if (els.retry) els.retry.addEventListener("click", init);
   els.paperList.addEventListener("click", onPaperClick);
+  if (els.verifyToggle) els.verifyToggle.addEventListener("click", onVerifyToggle);
+  if (els.detailBody) {
+    els.detailBody.addEventListener("click", function (event) {
+      const target = event.target;
+      if (!target || typeof target.closest !== "function") return;
+      const button = target.closest("[data-verify]");
+      if (!button) return;
+      verifyCell(button);
+    });
+  }
   window.addEventListener("popstate", onPopState);
   init();
 })();

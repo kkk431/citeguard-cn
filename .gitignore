@@ -39,3 +39,7 @@ data/triage/
 
 # 自动截图（scripts/capture_evidence.py），按需复制入库
 docs/evidence/shots/captured/
+
+# CiteMap runtime caches / verification state
+data/evidence_map/auto_cache/
+data/evidence_map/verification_state.json

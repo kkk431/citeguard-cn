@@ -65,6 +65,17 @@ def live_defaults(monkeypatch):
     yield
 
 
+@pytest.fixture(autouse=True)
+def offline_reference_enrichment(monkeypatch):
+    """Keep every test offline unless it explicitly supplies an abstract."""
+    monkeypatch.setattr(live_check, "_openalex_abstract_by_doi", lambda doi: "")
+    monkeypatch.setattr(live_check, "search_openalex", lambda title, limit=5: [])
+    monkeypatch.setattr(live_check, "search_crossref", lambda title, limit=5: [])
+    live_check._clear_bibliography_cache()
+    yield
+    live_check._clear_bibliography_cache()
+
+
 def test_empty_claim_returns_no_evidence():
     result = live_check.check_claim("   ")
     assert result["label"] == "no_evidence"
@@ -394,6 +405,256 @@ def test_page_identification_failure_falls_back_to_keyword_search(monkeypatch):
     assert result["label"] == "support"
     assert result["candidates"][0]["doi"] == "10.1234/live.test"
     assert result["evidence"]["quote"] in abstract
+
+
+def _bibliography_html() -> str:
+    return """
+    <html><body>
+      <section id="bib" class="ltx_bibliography">
+        <h2>References</h2>
+        <ol class="ltx_biblist">
+          <li id="bib.bib1" class="ltx_bibitem">
+            <span class="ltx_tag ltx_role_refnum ltx_tag_bibitem">[1]</span>
+            <span class="ltx_bibblock">Alice Author, Bob Builder</span>
+            <span class="ltx_bibblock">First Paper Title</span>
+            <span class="ltx_bibblock">Journal of Tests, 2020. doi:10.1234/first</span>
+          </li>
+          <li id="bib.bib2" class="ltx_bibitem">
+            <span class="ltx_tag ltx_role_refnum ltx_tag_bibitem">[2]</span>
+            <span class="ltx_bibblock">Carol Coder</span>
+            <span class="ltx_bibblock">Second Paper Title</span>
+            <span class="ltx_bibblock">Proceedings of Tests, 2021. doi:10.1234/second</span>
+          </li>
+        </ol>
+      </section>
+    </body></html>
+    """
+
+
+def test_citation_marker_maps_page_bibliography(monkeypatch, isolated_cache):
+    calls = []
+    monkeypatch.setattr(
+        live_check,
+        "_fetch_page_html",
+        lambda url: calls.append(url) or _bibliography_html(),
+    )
+    monkeypatch.setattr(live_check, "_page_work", lambda page_url, page_title="": None)
+    _patch_searches(monkeypatch)
+
+    result = live_check.check_claim(
+        "该方法在基准上提升了准确率 [2]。",
+        page_url="https://arxiv.org/html/2401.00001",
+    )
+
+    assert calls == ["https://arxiv.org/html/2401.00001"]
+    assert result["candidates"][0]["source"] == "page-reference"
+    assert result["candidates"][0]["title"] == "Second Paper Title"
+    assert result["candidates"][0]["doi"] == "10.1234/second"
+    assert result["candidates"][0]["year"] == 2021
+    assert "page-reference" not in [item["source"] for item in result["candidates"][1:]]
+
+
+def test_citation_marker_ignores_non_whitelisted_host(monkeypatch):
+    calls = []
+
+    def _must_not_fetch(url):  # noqa: ANN001
+        calls.append(url)
+        raise AssertionError("Live must not fetch arbitrary hosts")
+
+    monkeypatch.setattr(live_check, "_fetch_page_html", _must_not_fetch)
+    monkeypatch.setattr(live_check, "_page_work", lambda page_url, page_title="": None)
+    _patch_searches(
+        monkeypatch,
+        openalex=[
+            _candidate(
+                "Tutoring and outcomes",
+                "Intelligent tutoring systems improve student learning outcomes in higher education.",
+            )
+        ],
+    )
+
+    result = live_check.check_claim(
+        "AI tutoring improves student learning outcomes [1]",
+        page_url="https://example.org/html/2401.00001",
+    )
+
+    assert calls == []
+    assert result["label"] == "support"
+    assert all(item["source"] != "page-reference" for item in result["candidates"])
+
+
+def test_bibliography_parse_failure_falls_back(monkeypatch, isolated_cache):
+    monkeypatch.setattr(
+        live_check,
+        "_fetch_page_html",
+        lambda url: "<html><body><p>no bibliography here</p></body></html>",
+    )
+    monkeypatch.setattr(live_check, "_page_work", lambda page_url, page_title="": None)
+    _patch_searches(
+        monkeypatch,
+        openalex=[
+            _candidate(
+                "Tutoring and outcomes",
+                "Intelligent tutoring systems improve student learning outcomes in higher education.",
+            )
+        ],
+    )
+
+    result = live_check.check_claim(
+        "AI tutoring improves student learning outcomes [1]",
+        page_url="https://arxiv.org/html/2401.00001",
+    )
+
+    assert result["label"] == "support"
+    assert result["candidates"][0]["source"] == "openalex"
+    assert result["evidence"]["quote"] in result["candidates"][0]["abstract"]
+
+
+def test_arxiv_html_cache_is_reused(monkeypatch, isolated_cache):
+    calls = []
+    monkeypatch.setattr(
+        live_check,
+        "_fetch_page_html",
+        lambda url: calls.append(url) or _bibliography_html(),
+    )
+    url = "https://arxiv.org/html/2401.00001"
+    first = live_check._load_page_html(url)
+    second = live_check._load_page_html(url)
+
+    assert first == second
+    assert calls == [url]
+    cache_files = list((isolated_cache / "live_html").glob("*.html"))
+    assert len(cache_files) == 1
+    assert cache_files[0].read_text(encoding="utf-8") == first
+
+
+def test_bibliography_parser_supports_ol_wrapper_and_order_fallback():
+    html = """
+    <ol class="ltx_bibliography">
+      <li class="ltx_bibitem">
+        <span class="ltx_tag ltx_tag_bibitem">Author (2020)</span>
+        <span class="ltx_bibblock">An Author</span>
+        <span class="ltx_bibblock">A Fallback Title</span>
+        <span class="ltx_bibblock">A Venue, 2020.</span>
+      </li>
+    </ol>
+    """
+    references = live_check._parse_bibliography(html)
+    assert references[1]["title"] == "A Fallback Title"
+    assert references[1]["year"] == 2020
+
+
+def test_extract_citation_markers_parses_lists_and_ranges():
+    assert live_check._extract_citation_markers("A [3,5] B [7]") == [3, 5, 7]
+    assert live_check._extract_citation_markers("A [3–5] B") == [3, 4, 5]
+    assert live_check._extract_citation_markers("no markers") == []
+
+
+def test_page_reference_abstract_enriched_from_openalex(monkeypatch, isolated_cache):
+    abstract = "Retrieval augmented generation improves factual accuracy in question answering."
+    monkeypatch.setattr(
+        live_check, "_fetch_page_html", lambda url: _bibliography_html()
+    )
+    monkeypatch.setattr(live_check, "_page_work", lambda page_url, page_title="": None)
+    monkeypatch.setattr(
+        live_check, "_openalex_abstract_by_doi", lambda doi: abstract
+    )
+    _patch_searches(monkeypatch)
+
+    result = live_check.check_claim(
+        "Retrieval augmented generation improves factual accuracy [2].",
+        page_url="https://arxiv.org/html/2401.00001",
+    )
+
+    assert result["label"] == "support"
+    first = result["candidates"][0]
+    assert first["source"] == "page-reference"
+    assert first["title"] == "Second Paper Title"
+    assert first["abstract"] == abstract
+    assert first["has_abstract"] is True
+    assert result["evidence"]["quote"] in abstract
+    assert result["evidence"]["title"] == "Second Paper Title"
+
+
+def test_page_reference_abstract_enriched_from_crossref_title(monkeypatch, isolated_cache):
+    abstract = "Retrieval augmented generation improves factual accuracy in question answering."
+    monkeypatch.setattr(
+        live_check, "_fetch_page_html", lambda url: _bibliography_html()
+    )
+    monkeypatch.setattr(live_check, "_page_work", lambda page_url, page_title="": None)
+    monkeypatch.setattr(live_check, "_openalex_abstract_by_doi", lambda doi: "")
+    monkeypatch.setattr(live_check, "search_openalex", lambda title, limit=5: [])
+    _patch_searches(monkeypatch)
+    monkeypatch.setattr(
+        live_check,
+        "search_crossref",
+        lambda title, limit=5: [_candidate("Second Paper Title", abstract, doi="10.1234/second")],
+    )
+
+    result = live_check.check_claim(
+        "Retrieval augmented generation improves factual accuracy [2].",
+        page_url="https://arxiv.org/html/2401.00001",
+    )
+
+    assert result["label"] == "support"
+    first = result["candidates"][0]
+    assert first["source"] == "page-reference"
+    assert first["abstract"] == abstract
+    assert first["has_abstract"] is True
+    assert result["evidence"]["quote"] in abstract
+
+
+def test_page_reference_without_abstract_stays_no_evidence(monkeypatch, isolated_cache):
+    monkeypatch.setattr(
+        live_check, "_fetch_page_html", lambda url: _bibliography_html()
+    )
+    monkeypatch.setattr(live_check, "_page_work", lambda page_url, page_title="": None)
+    _patch_searches(monkeypatch)
+
+    result = live_check.check_claim(
+        "Completely unrelated sentence about a different topic [2].",
+        page_url="https://arxiv.org/html/2401.00001",
+    )
+
+    assert result["label"] == "no_evidence"
+    assert result["evidence"] is None
+    first = result["candidates"][0]
+    assert first["source"] == "page-reference"
+    assert first["abstract"] == ""
+    assert first["has_abstract"] is False
+
+
+def test_bibliography_cache_reuses_fetch_and_parse(monkeypatch, isolated_cache):
+    load_calls = []
+    parse_calls = []
+    original_load = live_check._load_page_html
+    original_parse = live_check._parse_bibliography
+
+    def _load(url):
+        load_calls.append(url)
+        return original_load(url)
+
+    def _parse(html):
+        parse_calls.append(html)
+        return original_parse(html)
+
+    monkeypatch.setattr(live_check, "_load_page_html", _load)
+    monkeypatch.setattr(live_check, "_parse_bibliography", _parse)
+    monkeypatch.setattr(
+        live_check, "_fetch_page_html", lambda url: _bibliography_html()
+    )
+    monkeypatch.setattr(live_check, "_page_work", lambda page_url, page_title="": None)
+    _patch_searches(monkeypatch)
+
+    claim = "A sentence with a citation [2]."
+    page_url = "https://arxiv.org/html/2401.00001"
+    first = live_check.check_claim(claim, page_url=page_url)
+    second = live_check.check_claim(claim, page_url=page_url)
+
+    assert first["candidates"][0]["title"] == "Second Paper Title"
+    assert second["candidates"][0]["title"] == "Second Paper Title"
+    assert load_calls == [page_url]
+    assert len(parse_calls) == 1
 
 def test_page_reference_ranking_prefers_title_over_long_abstract(monkeypatch):
     """Page references are ranked by title; a long generic abstract must not win."""

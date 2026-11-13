@@ -7,6 +7,8 @@ does not need ``DEEPSEEK_API_KEY`` (support degrades to ``not_checked``).
 """
 from __future__ import annotations
 
+import json
+
 import pytest
 from fastapi.testclient import TestClient
 
@@ -940,6 +942,52 @@ def test_citemap_routes_return_validated_payload(client):
     page = client.get(f"/citemap?topic={topic_id}")
     assert page.status_code == 200
     assert "citemap-app" in page.text
+
+
+def test_citemap_verification_cell_roundtrip(client):
+    import shutil
+    from citeguard import config
+
+    src = ROOT / "data" / "evidence_map"
+    dst = config.DATA_DIR / "evidence_map"
+    if not dst.exists():
+        shutil.copytree(src, dst)
+    cell = {
+        "cell_id": "ai_education-edu-001-edu-c1",
+        "topic_id": "ai_education",
+        "paper_id": "edu-001",
+        "claim_id": "edu-c1",
+        "kind": "evidence",
+        "evidence_id": "auto-edu-001-01",
+    }
+    (dst / "verification_packet.json").write_text(
+        json.dumps({"schema_version": "1.0", "cells": [cell]}), encoding="utf-8"
+    )
+    state_path = dst / "verification_state.json"
+    if state_path.exists():
+        state_path.unlink()
+
+    r = client.post(
+        "/api/citemap/ai_education/verify",
+        json={"cell_id": cell["cell_id"], "status": "ok", "note": "quote matches"},
+    )
+    assert r.status_code == 200, r.text
+    assert r.json()["checked"] == 1
+    assert r.json()["verified"] == 1
+
+    payload = client.get("/api/citemap/ai_education").json()
+    saved = next(c for c in payload["verification_cells"] if c["cell_id"] == cell["cell_id"])
+    assert saved["check"]["status"] == "ok"
+    assert payload["verification_progress"]["packet"] == 1
+
+    assert client.post(
+        "/api/citemap/ai_education/verify",
+        json={"cell_id": "missing", "status": "ok"},
+    ).status_code == 404
+    assert client.post(
+        "/api/citemap/ai_education/verify",
+        json={"cell_id": cell["cell_id"], "status": "bogus"},
+    ).status_code == 400
 
 
 def test_library_tags_api_roundtrip(client):

@@ -40,16 +40,22 @@ data/evidence_map/
 ├── index.json                  # 主题索引：顺序、名称、文件指针
 ├── verification.json           # DOI 双通道校验 + 许可一致性
 ├── README.md                   # 数据层说明
+├── abstracts.json              # OpenAlex 摘要（inverted index 还原）
 ├── corpus/
 │   ├── ai_education.json       # Topic + 15 篇 Paper（manifest）
 │   └── medical_imaging.json
-└── extractions/
-    ├── ai_education.json       # 4 Claim + 5 Evidence + 3 Gap
-    └── medical_imaging.json    # 3 Claim + 5 Evidence + 3 Gap
+├── extractions/
+│   ├── ai_education.json       # 人工示例：4 Claim + 5 Evidence + 3 Gap
+│   └── medical_imaging.json
+├── extractions_auto/           # 机器抽取（仅摘要，见下文）
+│   ├── ai_education.json
+│   └── medical_imaging.json
+└── verification_packet.json    # 60 格人工核对抽样（每主题 30 格）
 ```
 
 - `corpus/*.json` 只存元数据与开放获取链接，**不存 PDF 全文**；测试会断言 `data/evidence_map/` 下不存在 `.pdf` 文件。
 - `extractions/*.json` 是 10 条人工示例抽取，用于校验 schema、展示抽取字段与置信度，不声称覆盖全部文献。
+- `extractions_auto/*.json` 是机器抽取结果（摘要级）；与人工示例分文件存放，避免把机器输出混入人工金标。
 - `index.json` 是唯一入口；`list_topics()` 会从 corpus/extractions 重新计算计数，索引中的计数不是可信来源，校验会交叉核对。
 
 ## 语料规模
@@ -60,6 +66,27 @@ data/evidence_map/
 | 医学影像 AI | `medical_imaging` | 15 | 13 | cc-by 12、cc-by-nc-nd 2、cc-by-nc 1 | gold 13、hybrid 1、diamond 1 | 13 | 3 | 5 | 3 |
 
 选文规则：OpenAlex `is_oa:true` + `has_doi:true` + `type:article`，优先中国机构参与、有可直链 PDF、被引较高；剔除许可为空或 `other-oa` 的记录。各主题的 `question` 与 `selection` 字段记录了检索意图，逐篇来源与 DOI 见 manifest 与 `verification.json`。
+
+## 机器抽取（摘要级，2026-11-14）
+
+人工示例只有 10 条，无法覆盖 30 篇。为避免把「10 条示例」说成「全量抽取」，CiteMap 增加了一层**摘要级机器抽取**，并把人工核对显式抽成 60 格：
+
+1. **摘要**：`scripts/fetch_citemap_abstracts.py` 按 `openalex_id` 取 OpenAlex `abstract_inverted_index` 并还原为文本；30 篇中 29 篇有摘要（48,177 字符），1 篇无摘要，不补造。
+2. **抽取**：`scripts/extract_citemap_auto.py` 每篇摘要 + 主题 claims 调一次本地模型，只接受 `support / contradict`；`quote` 必须是摘要的逐字子串，否则丢弃；输出 `extractor="auto:abstract-only"`、`verified=false`，不写回人工文件。
+3. **结果**：两个主题共 **42 条机器证据、覆盖 25/30 篇**（ai_education 25 条/11 篇；medical_imaging 17 条/14 篇），逐字引用不合格 **0**。
+4. **对人工示例的检查**：10 条人工示例中机器覆盖 6 条（coverage 0.60）；这 6 条 stance 与人工一致 6/6（1.0）。**这只说明在这 10 对上一致，不是全量准确率**，也不能外推为「机器抽取准确率 60%」。
+5. **60 格人工核对**：`scripts/build_citemap_verification.py` 每主题抽 30 格（证据格优先，另含无证据格），共 60 格，seed 20261114，写入 `verification_packet.json`。产品页的「核对模式」逐格记录 `ok / issue / skip` 到 `verification_state.json`；**只有人实际点击后才计数**，脚本与演示不预填。
+
+复现命令：
+
+```bash
+PYTHONPATH=src python scripts/fetch_citemap_abstracts.py
+PYTHONPATH=src python scripts/extract_citemap_auto.py --topic ai_education --workers 3
+PYTHONPATH=src python scripts/eval_citemap_auto.py
+PYTHONPATH=src python scripts/build_citemap_verification.py
+```
+
+边界：只读摘要，不读全文/图表；一篇摘要可能对应多条 claim，模型只返回它认为有证据的条目；42 条不是「全部证据」，25/30 篇也不是「30 篇都有结论」；机器证据在 UI 上单独标注，不与人工示例混排；60 格核对未完成前，页面不得显示「已验证」。
 
 ## Schema 总览
 

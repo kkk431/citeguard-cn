@@ -102,7 +102,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.7.10", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.7.11", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 
@@ -2043,22 +2043,89 @@ def batch_page(request: Request):
 
 
 
+_CITEMAP_VERIFY_STATUS = {"ok", "issue", "skip"}
+
+
+def _citemap_dir() -> Path:
+    return config.DATA_DIR / "evidence_map"
+
+
+def _citemap_auto(topic_id: str) -> list[dict]:
+    path = _citemap_dir() / "extractions_auto" / f"{topic_id}.json"
+    if not path.exists():
+        return []
+    data = _read_json_file(path) or {}
+    return list(data.get("evidence") or [])
+
+
+def _citemap_packet() -> list[dict]:
+    path = _citemap_dir() / "verification_packet.json"
+    data = _read_json_file(path) or {}
+    return list(data.get("cells") or [])
+
+
+def _citemap_verify_state() -> dict:
+    path = _citemap_dir() / "verification_state.json"
+    data = _read_json_file(path) or {}
+    return dict(data.get("cells") or {})
+
+
+def _citemap_summary() -> dict:
+    packet = _citemap_packet()
+    state = _citemap_verify_state()
+    ids = [c.get("cell_id") for c in packet if c.get("cell_id")]
+    return {
+        "packet": len(ids),
+        "checked": sum(1 for cid in ids if cid in state),
+        "verified": sum(1 for cid in ids if (state.get(cid) or {}).get("status") == "ok"),
+    }
+
+
+@app.get("/api/citemap/verification")
+def citemap_verification_api():
+    return {"ok": True, **_citemap_summary()}
+
+
+class CitemapVerifyBody(BaseModel):
+    cell_id: str
+    status: str
+    note: str = ""
+
+
+@app.post("/api/citemap/{topic_id}/verify")
+def citemap_verify(topic_id: str, body: CitemapVerifyBody):
+    if body.status not in _CITEMAP_VERIFY_STATUS:
+        return JSONResponse({"ok": False, "error": "status must be ok/issue/skip"}, status_code=400)
+    packet = _citemap_packet()
+    cell = next((c for c in packet if c.get("cell_id") == body.cell_id), None)
+    if cell is None or cell.get("topic_id") != topic_id:
+        return JSONResponse({"ok": False, "error": "unknown cell_id"}, status_code=404)
+    state = _citemap_verify_state()
+    state[body.cell_id] = {
+        "status": body.status,
+        "note": body.note[:500],
+        "updated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+    }
+    path = _citemap_dir() / "verification_state.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    _write_json_atomic(path, {"schema_version": "1.0", "cells": state})
+    return {"ok": True, "cell": state[body.cell_id], **_citemap_summary()}
+
+
 @app.get("/api/citemap/topics")
 def citemap_topics_api():
     """Topic summaries for CiteMap (validated from the corpus files)."""
-    data_dir = config.DATA_DIR / "evidence_map"
+    data_dir = _citemap_dir()
     try:
         return {"schema_version": "1.0", "topics": evidence_map.list_topics(data_dir)}
     except evidence_map.EvidenceMapError as exc:
         return JSONResponse({"ok": False, "error": str(exc)}, status_code=500)
-
-
 @app.get("/api/citemap/{topic_id}")
 def citemap_topic_api(topic_id: str):
     """One validated CiteMap payload; unknown topic returns 404 + known ids."""
-    data_dir = config.DATA_DIR / "evidence_map"
+    data_dir = _citemap_dir()
     try:
-        return evidence_map.topic_payload(topic_id, data_dir)
+        payload = evidence_map.topic_payload(topic_id, data_dir)
     except evidence_map.UnknownTopicError as exc:
         known = [t.get("topic_id") for t in evidence_map.list_topics(data_dir)]
         return JSONResponse(
@@ -2066,6 +2133,16 @@ def citemap_topic_api(topic_id: str):
         )
     except evidence_map.EvidenceMapError as exc:
         return JSONResponse({"ok": False, "error": str(exc)}, status_code=500)
+    state = _citemap_verify_state()
+    cells = [c for c in _citemap_packet() if c.get("topic_id") == topic_id]
+    for cell in cells:
+        cell["check"] = state.get(cell.get("cell_id"))
+    return {
+        **payload,
+        "auto_evidence": _citemap_auto(topic_id),
+        "verification_cells": cells,
+        "verification_progress": _citemap_summary(),
+    }
 
 
 @app.get("/citemap", response_class=HTMLResponse)

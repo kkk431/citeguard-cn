@@ -24,6 +24,9 @@ nav:
   - 引用健康画像: health.md
   - 图表层: charts.md
   - Live 划句核验: live.md
+  - Live 评测: live_eval.md
+  - 扩展 v2 验收: extension_v2.md
+  - Live held-out 研究: research/live_holdout.md
   - CiteMap 证据地图: evidence_map.md
   - 长列表与检查明细: ui_patterns.md
   - 修复闭环: repair_loop.md

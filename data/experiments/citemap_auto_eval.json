@@ -1,0 +1,35 @@
+{
+ "topics": {
+  "ai_education": {
+   "manual_items": 5,
+   "manual_pairs_found": 3,
+   "stance_agree": 3,
+   "papers": 15,
+   "papers_with_auto_evidence": 11,
+   "auto_items": 25,
+   "missing_quote": 0,
+   "missing_pairs": 2
+  },
+  "medical_imaging": {
+   "manual_items": 5,
+   "manual_pairs_found": 3,
+   "stance_agree": 3,
+   "papers": 15,
+   "papers_with_auto_evidence": 14,
+   "auto_items": 17,
+   "missing_quote": 0,
+   "missing_pairs": 2
+  }
+ },
+ "totals": {
+  "manual_items": 10,
+  "manual_pairs_found": 6,
+  "manual_pair_coverage": 0.6,
+  "stance_agreement": 1.0,
+  "papers": 30,
+  "papers_with_auto_evidence": 25,
+  "auto_items": 42,
+  "missing_quote": 0,
+  "note": "Agreement is measured only on the 10 manual pairs; it is not a full accuracy estimate."
+ }
+}

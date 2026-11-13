@@ -40,6 +40,8 @@ CORE_IDS = [
     "ctm-detail",
     "ctm-detail-empty",
     "ctm-detail-body",
+    "ctm-verify-toggle",
+    "ctm-verify-count",
 ]
 
 

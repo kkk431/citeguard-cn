@@ -329,3 +329,176 @@ hit@3 以队长复跑结果为准；不要把本表当作准确率或 SLA。
 - `https://arxiv.org/abs/2305.01185` → work `W4401988281`，86 条引用，
   40 个候选（29 个有摘要，达到 40 条上限）。
 
+## 9. 引用标记映射（arXiv HTML）
+
+当选中句本身带正文引用编号（如 `[2]`、`[3,5]`）且浏览器当前页是可抓取的
+arXiv HTML 页面时，Live 不再只靠关键词“猜”候选，而是直接读取该页参考文献表，
+把编号对应的条目放在候选第一位。该能力只改变候选来源与顺序，仍然只读摘要
+片段，不读 PDF 全文，也不做事实核查。
+
+### 9.1 触发条件与抓取边界
+
+- 选中句必须包含方括号数字标记：`[12]`、`[3,5]`、`[3;5]`、`[3–5]`；
+  最多解析 20 个编号（`MAX_CITATION_MARKERS`），超出部分忽略。
+- `page_url` 必须是 http(s)，host 仅允许：
+  - `arxiv.org`（含 `www.arxiv.org`）
+  - `ar5iv.labs.arxiv.org`
+- URL path 必须以 `/html/` 开头；`arxiv.org/abs/...`、`/pdf/...`、普通网页、
+  PDF 链接都不触发。重定向后的最终 URL 也会重新校验 host/path。
+- 只发一次 GET，超时 5 s（`PAGE_FETCH_TIMEOUT`），流式读取，硬上限 2 MB
+  （`MAX_HTML_BYTES`）；不发送 cookie、不读取页面正文其他部分。
+- 失败（非 200、超限、超时、DNS/TLS 错误、非白名单跳转）返回空字符串并静默
+  回退，不把抓取失败暴露成 Live 失败。
+
+### 9.2 HTML 缓存
+
+- 缓存目录：`data/cache/live_html/`，文件名
+  `"{sha256(url)[:32]}-{YYYY-MM-DD}.html"`；同 URL 同一天复用，跨天重新抓取。
+- 先读缓存，未命中才抓取；读到非空缓存直接使用。缓存写入失败不影响本次判断。
+- 缓存内容是公开 arXiv HTML，不含用户 claim、页面正文或个人信息；缓存只在
+  本地，不随仓库提交（`data/cache/` 为运行期目录）。
+
+### 9.3 参考文献解析
+
+- 兼容 arXiv HTML5 / LaTeXML 的两种结构：
+  - `section.ltx_bibliography`（新版）或 `ol.ltx_bibliography`（旧版）；
+  - 每个 `li.ltx_bibitem` 为一条参考文献；
+  - 编号优先取 `span.ltx_tag_bibitem` 中的数字（如 `[2]`）；若标签是
+    `Author (2021)` 这类作者-年份形式，则按参考文献表顺序编号。
+- 每条参考文献取 `span.ltx_bibblock` 文本：第 1 块作者，第 2 块题名，
+  第 3 块期刊/会议/年份；年份取文本中最后一个 19xx/20xx；DOI 用
+  `10.xxxx/...` 正则从全文提取。
+- 解析结果 `{n: {title, authors, year, venue, doi}}`；题名为空、无
+  `li.ltx_bibitem`、HTML 不完整时返回空映射并回退。
+- 已知限制：参考文献若以普通 `<p>` 文本而非 `li.ltx_bibitem` 渲染（例如部分
+  arXiv 页面），或 ar5iv 返回 307 跳到 `/abs/`，则无法映射，按“无 HTML”回退。
+
+### 9.4 候选顺序与判定
+
+1. 标记映射出的条目转为候选，`source="page-reference"`，按选中句中的编号顺序
+   去重，始终排在 `referenced_works` 候选和关键词候选之前。
+2. 若映射候选已有 5 条（`MAX_CANDIDATES`），不再请求页面引用列表或关键词检索。
+3. 不足 5 条时，继续用第 8 节的页面 `referenced_works` / 关键词检索补充；
+   合并时按 DOI/标题/URL 去重，并从后续重复项补齐标记候选缺失的摘要、年份、
+   作者等字段（标记条目本身不带摘要）。
+4. 标记候选没有摘要时不能生成证据句；判定会使用补充进来的有摘要候选。若没有
+   任何有摘要候选，仍返回 `no_evidence`，不会编造证据。
+5. 编号本身不是事实数字：进入支持度判定前会从 claim 中移除引用标记，避免
+   `[1]` 被当成“摘要里必须出现 1”的数量校验。
+
+### 9.5 边界与不保证
+
+- 只支持 **arXiv HTML 页面**；不支持 PDF、arXiv abs 页面、普通新闻/博客、
+  登录墙、Google Scholar 等页面。
+- 参考文献表可能缺题名、缺 DOI、编号与正文不一致，或页面用了不支持的
+  LaTeXML 变体；解析失败一律回退，不保证每次都能映射。
+- 映射正确只代表“这句话指向了这条参考文献”，不代表该文献支持这句话；支持度
+  仍由摘要片段和判定逻辑给出。
+- 仍然只读摘要/元数据，不读全文；不判断页面正文是否抄错；不做事实核查。
+- `page-reference` 条目最多占用 5 个候选名额；如果 5 个标记都命中但都没有摘要，
+  可能出现“候选正确、但无证据句”的 `no_evidence`，这是预期边界。
+
+### 9.6 测试与冒烟
+
+- `pytest tests/test_live_check.py -q`：26 passed（含标记映射、白名单不发请求、
+  解析失败回退、HTML 缓存复用、`ol.ltx_bibliography` 兼容、编号列表/区间解析）。
+- 真实页面冒烟（本机，在线）：
+  - 页面 `https://arxiv.org/html/2305.20050`，claim 带 `[2]`；
+  - 映射到 1 条 `page-reference`：题名
+    `Sparks of artificial general intelligence: Early experiments with gpt-4.`，
+    年份 2023，venue 为 arXiv preprint，无 DOI，URL 为
+    `https://arxiv.org/html/2305.20050#bib.bib2`；
+  - 该条排在候选第 1 位；因参考文献条目无摘要，关键词检索补充了 4 条有摘要
+    候选，整次 `check_claim` 约 6.0 s（其中 HTML 抓取约 3.1 s，未缓存）；
+  - 返回 `partial`/0.461，证据句来自补充候选摘要的逐字片段。该结果只说明
+    “标记映射 + 回退链路可用”，不代表这条 claim 的最终事实判断。
+
+## 10. 参考文献候选摘要补全与解析缓存（t17）
+
+t14 的标记映射能准确找到 `[n]` 对应的参考文献，但条目本身通常只有题名、作者、
+年份和 DOI，没有摘要。若直接把 `abstract=""` 的 `page-reference` 候选交给判定，
+只能得到 `no_evidence`；同一页面上的每句 claim 还会重复抓取、重复解析整页
+参考文献。t17 在不改变“只读摘要、证据句逐字可核”的前提下补上摘要来源和进程内
+缓存。
+
+### 10.1 摘要补全顺序
+
+仅对 `source="page-reference"` 且摘要为空的候选执行；普通关键词候选和
+`referenced_works` 候选不经过这一步。
+
+1. 条目有 DOI → 请求 OpenAlex work：
+   `https://api.openalex.org/works/https://doi.org/{encoded_doi}`，
+   `select=id,doi,title,abstract_inverted_index`，从倒排索引还原摘要。
+2. DOI 未命中或没有摘要 → 用参考文献题名检索 OpenAlex（最多 3 条），再检索
+   Crossref（最多 3 条）。
+3. 命中匹配：有 DOI 时优先要求 DOI 完全一致；否则要求归一化题名相似度
+   ≥ 0.7（`title_sim`），避免把“同名但不同论文”的摘要贴过来。
+4. 命中后只补缺失字段：`abstract`、`doi`、`year`、`authors`、`venue`、`url`；
+   候选来源始终保留 `source="page-reference"`，并在 `raw.abstract_from`
+   记录摘要来自 `openalex` 还是 `crossref`。
+5. 摘要补全失败、超时、限流、没有匹配 → 静默保留原候选（无摘要），不抛错、
+   不阻塞 Live。
+
+摘要只从 OpenAlex `abstract_inverted_index` 和 Crossref 元数据来，不下载 PDF，
+不读页面正文。证据句仍由 `_ground_quote` 从该摘要中取**逐字子串**；没有摘要就
+不生成证据，绝不拼造 quote。
+
+### 10.2 `has_abstract` 字段
+
+`candidates[]` 新增布尔字段 `has_abstract`：
+
+- `true`：该候选当前有非空摘要，可能参与证据句生成；
+- `false`：只有题名/元数据，不能生成证据句。
+
+`has_abstract=false` 不代表候选“是假的”或“不支持”，只代表当前没有摘要可核。
+前端应把它当作“无摘要、仅题名参考”，不要展示成有证据支撑。
+
+### 10.3 两层缓存
+
+| 层 | 键 | 内容 | 生命周期 |
+| --- | --- | --- | --- |
+| HTML 磁盘缓存（§9.2） | 页面 HTML URL + 日期 | 原始 arXiv HTML | 同 URL 同天复用，跨天重抓；写入失败不影响 |
+| 参考文献进程缓存 | 页面 HTML URL | 已解析 `{n: reference}` 映射 | 进程内 TTL 300 s、最多 32 个 URL（LRU） |
+
+- 进程缓存由 `_BIBLIOGRAPHY_CACHE`（`OrderedDict` + `threading.Lock`）保存；
+  命中后直接复用解析结果，不再调用 `_load_page_html` 或 `_parse_bibliography`。
+- 成功抓取但解析为空的 HTML 也会缓存，避免对同一无参考文献页面反复解析；
+  **抓取失败（空 HTML）不缓存**，下一次仍可重试。
+- 缓存按 URL 区分，不跨进程持久化；服务重启后首次检查会重新读磁盘 HTML 并解析
+  一次。不同 worker 进程各自持有自己的缓存。
+- 摘要补全请求走 `metadata_verify` 现有的 `data/cache` 元数据缓存；t17 不新增
+  摘要磁盘缓存，也不改变 HTML 磁盘缓存格式。
+
+### 10.4 边界与不保证
+
+- 只对 arXiv HTML 页面中成功映射出的 `page-reference` 条目补摘要；PDF、abs 页、
+  普通网页仍按原路径处理。页面识别或解析失败时整条增强静默回退。
+- 摘要匹配仍可能失败：参考文献没有 DOI、题名过短/拼写差异大、OpenAlex 与
+  Crossref 都没有收录、外部 API 超时或限流。失败时保留无摘要候选，最终可能
+  仍是 `no_evidence`；这是预期边界，不是“判定为假”。
+- 补全只解决“候选有没有摘要”，不保证摘要真的支持选中句。支持度仍由本地规则
+  或判定模型给出，`support`/`partial` 都不是事实核查结论。
+- 缓存可能让同一 URL 的参考文献表在 300 s 内保持旧解析结果；跨天 HTML 会重新
+  抓取。缓存内容是公开页面解析结果，不含用户 claim。
+- 仍然只读摘要/元数据，不读 PDF 全文，不判断页面正文是否抄错。
+
+### 10.5 测试与真实冒烟（t17）
+
+- `pytest tests/test_live_check.py -q`：30 passed。新增覆盖：
+  - OpenAlex DOI 补摘要后 `page-reference` 候选有 `abstract`、`has_abstract=true`，
+    且证据句是摘要逐字子串；
+  - OpenAlex 未命中时回退到 Crossref 题名检索；
+  - 补不到摘要时 `has_abstract=false`、`label=no_evidence`、`evidence=null`；
+  - 同一 URL 连续两次 `check_claim` 只抓取/解析一次（`_load_page_html` /
+    `_parse_bibliography` 各一次，第二次走进程缓存）。
+- 与网页试用页联合：`pytest tests/test_live_check.py tests/test_live_page.py -q`
+  → 42 passed。
+- 真实页面冒烟（本机、在线、HTML 磁盘缓存已热）：
+  `https://arxiv.org/html/2305.20050` + 带 `[2]` 的 claim，标记条目
+  `Sparks of artificial general intelligence: Early experiments with gpt-4.`
+  补全后 DOI `10.48550/arxiv.2303.12712`、摘要 1696 字符、`has_abstract=true`；
+  整次 `check_claim` 4.33 s（其中标记 HTML 读取 0.02 s，已有磁盘缓存），
+  返回 `partial`/0.461。该结果只说明补全链路可用，不代表 claim 的事实结论。
+
+
+

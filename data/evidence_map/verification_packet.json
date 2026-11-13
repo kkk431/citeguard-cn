@@ -1,0 +1,608 @@
+{
+ "schema_version": "1.0",
+ "seed": 20261114,
+ "per_topic": 30,
+ "protocol": "30 cells/topic: quote+stance check for machine-evidence cells; no-evidence check otherwise. Fill with scripts? UI POST /api/citemap/{topic}/verify.",
+ "cells": [
+  {
+   "cell_id": "ai_education-edu-001-edu-c1",
+   "topic_id": "ai_education",
+   "paper_id": "edu-001",
+   "claim_id": "edu-c1",
+   "kind": "evidence",
+   "evidence_id": "auto-edu-001-02",
+   "stance": "support",
+   "quote": "Additionally, \"Personal innovativeness\" emerges as a critical determinant shaping users' behavioral intention."
+  },
+  {
+   "cell_id": "ai_education-edu-002-edu-c1",
+   "topic_id": "ai_education",
+   "paper_id": "edu-002",
+   "claim_id": "edu-c1",
+   "kind": "evidence",
+   "evidence_id": "auto-edu-002-02",
+   "stance": "support",
+   "quote": "AI literacy shows a positive association with GAI-driven well-being"
+  },
+  {
+   "cell_id": "ai_education-edu-005-edu-c1",
+   "topic_id": "ai_education",
+   "paper_id": "edu-005",
+   "claim_id": "edu-c1",
+   "kind": "evidence",
+   "evidence_id": "auto-edu-005-02",
+   "stance": "support",
+   "quote": "Overall, core TPB pathways are validated, with behavioral intentions significantly predicting students' actual use."
+  },
+  {
+   "cell_id": "ai_education-edu-006-edu-c2",
+   "topic_id": "ai_education",
+   "paper_id": "edu-006",
+   "claim_id": "edu-c2",
+   "kind": "evidence",
+   "evidence_id": "auto-edu-006-01",
+   "stance": "support",
+   "quote": "Extensive experiments are conducted over a series of real datasets showing that our proposal accurately captures students' knowledge states."
+  },
+  {
+   "cell_id": "ai_education-edu-007-edu-c1",
+   "topic_id": "ai_education",
+   "paper_id": "edu-007",
+   "claim_id": "edu-c1",
+   "kind": "evidence",
+   "evidence_id": "auto-edu-007-02",
+   "stance": "support",
+   "quote": "high interest in AI contrasted with lower self-assessed proficiency"
+  },
+  {
+   "cell_id": "ai_education-edu-008-edu-c3",
+   "topic_id": "ai_education",
+   "paper_id": "edu-008",
+   "claim_id": "edu-c3",
+   "kind": "evidence",
+   "evidence_id": "auto-edu-008-01",
+   "stance": "contradict",
+   "quote": "the study finds that effort expectancy (EE), facilitating conditions (FC), and price value (PV) significantly influence teachers' actual usage behaviour (UB)."
+  },
+  {
+   "cell_id": "ai_education-edu-009-edu-c4",
+   "topic_id": "ai_education",
+   "paper_id": "edu-009",
+   "claim_id": "edu-c4",
+   "kind": "evidence",
+   "evidence_id": "auto-edu-009-01",
+   "stance": "support",
+   "quote": "female students demonstrate lower levels of AI learning attitude, AI literacy, and AI career interest compared to their male counterparts"
+  },
+  {
+   "cell_id": "ai_education-edu-010-edu-c4",
+   "topic_id": "ai_education",
+   "paper_id": "edu-010",
+   "claim_id": "edu-c4",
+   "kind": "evidence",
+   "evidence_id": "auto-edu-010-06",
+   "stance": "support",
+   "quote": "regional stratification exacerbating urban-rural divides under standardised policies"
+  },
+  {
+   "cell_id": "ai_education-edu-011-edu-c2",
+   "topic_id": "ai_education",
+   "paper_id": "edu-011",
+   "claim_id": "edu-c2",
+   "kind": "evidence",
+   "evidence_id": "auto-edu-011-01",
+   "stance": "support",
+   "quote": "because the systems leverage machine learning and adaptability, curriculum and content has been customized and personalized in line with students' needs, which has fostered uptake and retention, thereby improving learners experience and overall quality of learning."
+  },
+  {
+   "cell_id": "ai_education-edu-012-edu-c1",
+   "topic_id": "ai_education",
+   "paper_id": "edu-012",
+   "claim_id": "edu-c1",
+   "kind": "evidence",
+   "evidence_id": "auto-edu-012-02",
+   "stance": "support",
+   "quote": "Students recognized the potential for personalized learning support, writing and brainstorming assistance, and research and analysis capabilities."
+  },
+  {
+   "cell_id": "ai_education-edu-013-edu-c3",
+   "topic_id": "ai_education",
+   "paper_id": "edu-013",
+   "claim_id": "edu-c3",
+   "kind": "evidence",
+   "evidence_id": "auto-edu-013-01",
+   "stance": "contradict",
+   "quote": "The framework fosters a nuanced understanding of the implications of AI integration in academic settings, ensuring that stakeholders are aware of their responsibilities and can take appropriate actions accordingly"
+  },
+  {
+   "cell_id": "ai_education-edu-011-edu-c3",
+   "topic_id": "ai_education",
+   "paper_id": "edu-011",
+   "claim_id": "edu-c3",
+   "kind": "evidence",
+   "evidence_id": "auto-edu-011-02",
+   "stance": "contradict",
+   "quote": "On the other hand, because the systems leverage machine learning and adaptability, curriculum and content has been customized and personalized in line with students' needs, which has fostered uptake and retention, thereby improving learners experience and overall quality of learning."
+  },
+  {
+   "cell_id": "ai_education-edu-007-edu-c3",
+   "topic_id": "ai_education",
+   "paper_id": "edu-007",
+   "claim_id": "edu-c3",
+   "kind": "evidence",
+   "evidence_id": "auto-edu-007-03",
+   "stance": "contradict",
+   "quote": "noted its limitations in complex problem-solving"
+  },
+  {
+   "cell_id": "ai_education-edu-012-edu-c3",
+   "topic_id": "ai_education",
+   "paper_id": "edu-012",
+   "claim_id": "edu-c3",
+   "kind": "evidence",
+   "evidence_id": "auto-edu-012-03",
+   "stance": "contradict",
+   "quote": "However, concerns about accuracy, privacy, ethical issues, and the impact on personal development, career prospects, and societal values were also expressed."
+  },
+  {
+   "cell_id": "ai_education-edu-005-edu-c4",
+   "topic_id": "ai_education",
+   "paper_id": "edu-005",
+   "claim_id": "edu-c4",
+   "kind": "evidence",
+   "evidence_id": "auto-edu-005-03",
+   "stance": "support",
+   "quote": "Gender and regional differences moderate the key relationships."
+  },
+  {
+   "cell_id": "ai_education-edu-015-edu-c4",
+   "topic_id": "ai_education",
+   "paper_id": "edu-015",
+   "claim_id": "edu-c4",
+   "kind": "no_evidence",
+   "evidence_id": null,
+   "stance": null,
+   "quote": null
+  },
+  {
+   "cell_id": "ai_education-edu-013-edu-c2",
+   "topic_id": "ai_education",
+   "paper_id": "edu-013",
+   "claim_id": "edu-c2",
+   "kind": "no_evidence",
+   "evidence_id": null,
+   "stance": null,
+   "quote": null
+  },
+  {
+   "cell_id": "ai_education-edu-014-edu-c2",
+   "topic_id": "ai_education",
+   "paper_id": "edu-014",
+   "claim_id": "edu-c2",
+   "kind": "no_evidence",
+   "evidence_id": null,
+   "stance": null,
+   "quote": null
+  },
+  {
+   "cell_id": "ai_education-edu-007-edu-c2",
+   "topic_id": "ai_education",
+   "paper_id": "edu-007",
+   "claim_id": "edu-c2",
+   "kind": "no_evidence",
+   "evidence_id": null,
+   "stance": null,
+   "quote": null
+  },
+  {
+   "cell_id": "ai_education-edu-012-edu-c4",
+   "topic_id": "ai_education",
+   "paper_id": "edu-012",
+   "claim_id": "edu-c4",
+   "kind": "no_evidence",
+   "evidence_id": null,
+   "stance": null,
+   "quote": null
+  },
+  {
+   "cell_id": "ai_education-edu-001-edu-c2",
+   "topic_id": "ai_education",
+   "paper_id": "edu-001",
+   "claim_id": "edu-c2",
+   "kind": "no_evidence",
+   "evidence_id": null,
+   "stance": null,
+   "quote": null
+  },
+  {
+   "cell_id": "ai_education-edu-015-edu-c3",
+   "topic_id": "ai_education",
+   "paper_id": "edu-015",
+   "claim_id": "edu-c3",
+   "kind": "no_evidence",
+   "evidence_id": null,
+   "stance": null,
+   "quote": null
+  },
+  {
+   "cell_id": "ai_education-edu-015-edu-c2",
+   "topic_id": "ai_education",
+   "paper_id": "edu-015",
+   "claim_id": "edu-c2",
+   "kind": "no_evidence",
+   "evidence_id": null,
+   "stance": null,
+   "quote": null
+  },
+  {
+   "cell_id": "ai_education-edu-013-edu-c4",
+   "topic_id": "ai_education",
+   "paper_id": "edu-013",
+   "claim_id": "edu-c4",
+   "kind": "no_evidence",
+   "evidence_id": null,
+   "stance": null,
+   "quote": null
+  },
+  {
+   "cell_id": "ai_education-edu-014-edu-c4",
+   "topic_id": "ai_education",
+   "paper_id": "edu-014",
+   "claim_id": "edu-c4",
+   "kind": "no_evidence",
+   "evidence_id": null,
+   "stance": null,
+   "quote": null
+  },
+  {
+   "cell_id": "ai_education-edu-008-edu-c1",
+   "topic_id": "ai_education",
+   "paper_id": "edu-008",
+   "claim_id": "edu-c1",
+   "kind": "no_evidence",
+   "evidence_id": null,
+   "stance": null,
+   "quote": null
+  },
+  {
+   "cell_id": "ai_education-edu-004-edu-c1",
+   "topic_id": "ai_education",
+   "paper_id": "edu-004",
+   "claim_id": "edu-c1",
+   "kind": "no_evidence",
+   "evidence_id": null,
+   "stance": null,
+   "quote": null
+  },
+  {
+   "cell_id": "ai_education-edu-010-edu-c3",
+   "topic_id": "ai_education",
+   "paper_id": "edu-010",
+   "claim_id": "edu-c3",
+   "kind": "no_evidence",
+   "evidence_id": null,
+   "stance": null,
+   "quote": null
+  },
+  {
+   "cell_id": "ai_education-edu-001-edu-c4",
+   "topic_id": "ai_education",
+   "paper_id": "edu-001",
+   "claim_id": "edu-c4",
+   "kind": "no_evidence",
+   "evidence_id": null,
+   "stance": null,
+   "quote": null
+  },
+  {
+   "cell_id": "ai_education-edu-004-edu-c4",
+   "topic_id": "ai_education",
+   "paper_id": "edu-004",
+   "claim_id": "edu-c4",
+   "kind": "no_evidence",
+   "evidence_id": null,
+   "stance": null,
+   "quote": null
+  },
+  {
+   "cell_id": "medical_imaging-med-001-med-c1",
+   "topic_id": "medical_imaging",
+   "paper_id": "med-001",
+   "claim_id": "med-c1",
+   "kind": "evidence",
+   "evidence_id": "auto-med-001-01",
+   "stance": "support",
+   "quote": "The experimental results show the significant performance boost by the SDAE-based CADx algorithm over the two conventional methods, suggesting that deep learning techniques can potentially change the design paradigm of the CADx systems without the need of explicit design and selection of problem-oriented features."
+  },
+  {
+   "cell_id": "medical_imaging-med-002-med-c1",
+   "topic_id": "medical_imaging",
+   "paper_id": "med-002",
+   "claim_id": "med-c1",
+   "kind": "evidence",
+   "evidence_id": "auto-med-002-01",
+   "stance": "support",
+   "quote": "comparable with the diagnostic level of doctors' consensus (70.8%)"
+  },
+  {
+   "cell_id": "medical_imaging-med-003-med-c1",
+   "topic_id": "medical_imaging",
+   "paper_id": "med-003",
+   "claim_id": "med-c1",
+   "kind": "evidence",
+   "evidence_id": "auto-med-003-01",
+   "stance": "support",
+   "quote": "In manual selection group, ResNet50 presented higher diagnostic efficiency in diagnosis of in vivo VRF teeth than VGG19, DensenNet169 and radiologist with 2 years of experience."
+  },
+  {
+   "cell_id": "medical_imaging-med-004-med-c1",
+   "topic_id": "medical_imaging",
+   "paper_id": "med-004",
+   "claim_id": "med-c1",
+   "kind": "evidence",
+   "evidence_id": "auto-med-004-01",
+   "stance": "support",
+   "quote": "With the assistance of our proposed DL model, radiologists got better performance in the detection of AIS lesions on NCCT."
+  },
+  {
+   "cell_id": "medical_imaging-med-005-med-c1",
+   "topic_id": "medical_imaging",
+   "paper_id": "med-005",
+   "claim_id": "med-c1",
+   "kind": "evidence",
+   "evidence_id": "auto-med-005-01",
+   "stance": "support",
+   "quote": "the proposed approach would be able to serve as a valuable tool for assisting dermatologists in the early detection of melanoma"
+  },
+  {
+   "cell_id": "medical_imaging-med-006-med-c1",
+   "topic_id": "medical_imaging",
+   "paper_id": "med-006",
+   "claim_id": "med-c1",
+   "kind": "evidence",
+   "evidence_id": "auto-med-006-01",
+   "stance": "support",
+   "quote": "Stone detection rates of ULD-HIR and ULD-DLR images were 93.1% (121/130) and 95.4% (124/130)."
+  },
+  {
+   "cell_id": "medical_imaging-med-007-med-c1",
+   "topic_id": "medical_imaging",
+   "paper_id": "med-007",
+   "claim_id": "med-c1",
+   "kind": "evidence",
+   "evidence_id": "auto-med-007-01",
+   "stance": "support",
+   "quote": "It outperformed radiologists with an area under the curve of 0.894."
+  },
+  {
+   "cell_id": "medical_imaging-med-008-med-c1",
+   "topic_id": "medical_imaging",
+   "paper_id": "med-008",
+   "claim_id": "med-c1",
+   "kind": "evidence",
+   "evidence_id": "auto-med-008-01",
+   "stance": "support",
+   "quote": "Deep learning models based on PET/CT imaging can effectively detect, segment, and classify hypermetabolic lung lesions, and identify suspicious adjacent lesions."
+  },
+  {
+   "cell_id": "medical_imaging-med-010-med-c1",
+   "topic_id": "medical_imaging",
+   "paper_id": "med-010",
+   "claim_id": "med-c1",
+   "kind": "evidence",
+   "evidence_id": "auto-med-010-01",
+   "stance": "support",
+   "quote": "The experimental results in this paper showed that in the last round of testing, the accuracy of ResNet model including deconvolution structure reached 95.2%. The area under curve (AUC) value of the working characteristics of the subject is 0.987. The sensitivity was 99.66%, and the specificity was 88.61%."
+  },
+  {
+   "cell_id": "medical_imaging-med-011-med-c2",
+   "topic_id": "medical_imaging",
+   "paper_id": "med-011",
+   "claim_id": "med-c2",
+   "kind": "evidence",
+   "evidence_id": "auto-med-011-01",
+   "stance": "support",
+   "quote": "Question AI translation in oncologic imaging remains constrained by limitations in rigorous validation, actionable interpretability, standardization, governance, and workflow integration."
+  },
+  {
+   "cell_id": "medical_imaging-med-012-med-c1",
+   "topic_id": "medical_imaging",
+   "paper_id": "med-012",
+   "claim_id": "med-c1",
+   "kind": "evidence",
+   "evidence_id": "auto-med-012-01",
+   "stance": "support",
+   "quote": "LiLNet achieves an accuracy (ACC) of 94.7% and an area under the curve (AUC) of 97.2% for benign and malignant tumors."
+  },
+  {
+   "cell_id": "medical_imaging-med-013-med-c1",
+   "topic_id": "medical_imaging",
+   "paper_id": "med-013",
+   "claim_id": "med-c1",
+   "kind": "evidence",
+   "evidence_id": "auto-med-013-01",
+   "stance": "support",
+   "quote": "Deep learning significantly surpassed radiomics models and radiologist assessments"
+  },
+  {
+   "cell_id": "medical_imaging-med-014-med-c3",
+   "topic_id": "medical_imaging",
+   "paper_id": "med-014",
+   "claim_id": "med-c3",
+   "kind": "evidence",
+   "evidence_id": "auto-med-014-01",
+   "stance": "contradict",
+   "quote": "The majority (85.9%) was approved by the FDA with a 510(k) clearance, while 8 (12.5%) received de novo pathway clearance and one (1.6%) premarket approval (PMA) clearance."
+  },
+  {
+   "cell_id": "medical_imaging-med-015-med-c1",
+   "topic_id": "medical_imaging",
+   "paper_id": "med-015",
+   "claim_id": "med-c1",
+   "kind": "evidence",
+   "evidence_id": "auto-med-015-01",
+   "stance": "support",
+   "quote": "standard AI deep learning models can be trained to predict race from medical images with high performance across multiple imaging modalities"
+  },
+  {
+   "cell_id": "medical_imaging-med-015-med-c2",
+   "topic_id": "medical_imaging",
+   "paper_id": "med-015",
+   "claim_id": "med-c2",
+   "kind": "evidence",
+   "evidence_id": "auto-med-015-03",
+   "stance": "support",
+   "quote": "we evaluated, first, performance quantification of deep learning models in detecting race from medical images, including the ability of these models to generalise to external environments and across multiple imaging modalities"
+  },
+  {
+   "cell_id": "medical_imaging-med-011-med-c3",
+   "topic_id": "medical_imaging",
+   "paper_id": "med-011",
+   "claim_id": "med-c3",
+   "kind": "evidence",
+   "evidence_id": "auto-med-011-02",
+   "stance": "contradict",
+   "quote": "Findings Eighty-one Chinese experts reached consensus on 30 clinically practical statements covering AI applications from early detection to deployment."
+  },
+  {
+   "cell_id": "medical_imaging-med-009-med-c2",
+   "topic_id": "medical_imaging",
+   "paper_id": "med-009",
+   "claim_id": "med-c2",
+   "kind": "no_evidence",
+   "evidence_id": null,
+   "stance": null,
+   "quote": null
+  },
+  {
+   "cell_id": "medical_imaging-med-001-med-c2",
+   "topic_id": "medical_imaging",
+   "paper_id": "med-001",
+   "claim_id": "med-c2",
+   "kind": "no_evidence",
+   "evidence_id": null,
+   "stance": null,
+   "quote": null
+  },
+  {
+   "cell_id": "medical_imaging-med-002-med-c3",
+   "topic_id": "medical_imaging",
+   "paper_id": "med-002",
+   "claim_id": "med-c3",
+   "kind": "no_evidence",
+   "evidence_id": null,
+   "stance": null,
+   "quote": null
+  },
+  {
+   "cell_id": "medical_imaging-med-015-med-c3",
+   "topic_id": "medical_imaging",
+   "paper_id": "med-015",
+   "claim_id": "med-c3",
+   "kind": "no_evidence",
+   "evidence_id": null,
+   "stance": null,
+   "quote": null
+  },
+  {
+   "cell_id": "medical_imaging-med-006-med-c2",
+   "topic_id": "medical_imaging",
+   "paper_id": "med-006",
+   "claim_id": "med-c2",
+   "kind": "no_evidence",
+   "evidence_id": null,
+   "stance": null,
+   "quote": null
+  },
+  {
+   "cell_id": "medical_imaging-med-008-med-c3",
+   "topic_id": "medical_imaging",
+   "paper_id": "med-008",
+   "claim_id": "med-c3",
+   "kind": "no_evidence",
+   "evidence_id": null,
+   "stance": null,
+   "quote": null
+  },
+  {
+   "cell_id": "medical_imaging-med-009-med-c1",
+   "topic_id": "medical_imaging",
+   "paper_id": "med-009",
+   "claim_id": "med-c1",
+   "kind": "no_evidence",
+   "evidence_id": null,
+   "stance": null,
+   "quote": null
+  },
+  {
+   "cell_id": "medical_imaging-med-006-med-c3",
+   "topic_id": "medical_imaging",
+   "paper_id": "med-006",
+   "claim_id": "med-c3",
+   "kind": "no_evidence",
+   "evidence_id": null,
+   "stance": null,
+   "quote": null
+  },
+  {
+   "cell_id": "medical_imaging-med-002-med-c2",
+   "topic_id": "medical_imaging",
+   "paper_id": "med-002",
+   "claim_id": "med-c2",
+   "kind": "no_evidence",
+   "evidence_id": null,
+   "stance": null,
+   "quote": null
+  },
+  {
+   "cell_id": "medical_imaging-med-014-med-c2",
+   "topic_id": "medical_imaging",
+   "paper_id": "med-014",
+   "claim_id": "med-c2",
+   "kind": "no_evidence",
+   "evidence_id": null,
+   "stance": null,
+   "quote": null
+  },
+  {
+   "cell_id": "medical_imaging-med-012-med-c2",
+   "topic_id": "medical_imaging",
+   "paper_id": "med-012",
+   "claim_id": "med-c2",
+   "kind": "no_evidence",
+   "evidence_id": null,
+   "stance": null,
+   "quote": null
+  },
+  {
+   "cell_id": "medical_imaging-med-009-med-c3",
+   "topic_id": "medical_imaging",
+   "paper_id": "med-009",
+   "claim_id": "med-c3",
+   "kind": "no_evidence",
+   "evidence_id": null,
+   "stance": null,
+   "quote": null
+  },
+  {
+   "cell_id": "medical_imaging-med-004-med-c2",
+   "topic_id": "medical_imaging",
+   "paper_id": "med-004",
+   "claim_id": "med-c2",
+   "kind": "no_evidence",
+   "evidence_id": null,
+   "stance": null,
+   "quote": null
+  },
+  {
+   "cell_id": "medical_imaging-med-011-med-c1",
+   "topic_id": "medical_imaging",
+   "paper_id": "med-011",
+   "claim_id": "med-c1",
+   "kind": "no_evidence",
+   "evidence_id": null,
+   "stance": null,
+   "quote": null
+  }
+ ]
+}
