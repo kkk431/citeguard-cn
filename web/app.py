@@ -99,7 +99,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.4.0", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.5.0", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 
@@ -236,6 +236,12 @@ def _compare_reports(a: dict, b: dict) -> dict:
 
 
 @app.get("/", response_class=HTMLResponse)
+def landing(request: Request):
+    """Marketing landing page; the functional workspace lives at /workspace."""
+    return templates.TemplateResponse(request, "landing.html", {"active": "landing"})
+
+
+@app.get("/workspace", response_class=HTMLResponse)
 def index(request: Request):
     library = Library.load(config.LIBRARY_FILE)
     return templates.TemplateResponse(

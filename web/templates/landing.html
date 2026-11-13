@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>引证卫士 CiteGuard-CN · 让每一条引用，都经得起追问</title>
+  <meta name="description" content="中文论文引文核验工作台：逐条核验参考文献是否真实存在、是否支持正文那句话、是否符合 GB/T 7714-2025，并给出证据与修改建议。">
+  <link rel="icon" type="image/svg+xml" href="/static/img/favicon.svg">
+  <link rel="stylesheet" href="/static/css/landing.css?v={{ request.app.version }}">
+  <script>document.documentElement.classList.add('js');</script>
+</head>
+<body class="landing">
+<a class="skip-link" href="#main">跳到正文</a>
+
+<header class="l-header" id="site-header">
+  <div class="wrap l-nav">
+    <a class="l-brand" href="/" aria-label="引证卫士首页">
+      <span class="shield" aria-hidden="true">
+        <svg viewBox="0 0 40 44" fill="none">
+          <path d="M20 2 36 8v12c0 10.5-6.7 17.8-16 22C10.7 37.8 4 30.5 4 20V8L20 2Z" stroke="currentColor" stroke-width="2.2"/>
+          <path d="m12.5 21 5 5 10-10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      <span><b>引证卫士</b><small>CITEGUARD-CN</small></span>
+    </a>
+    <nav class="l-links" aria-label="首页导航">
+      <a href="#why">产品</a>
+      <a href="#numbers">真实数字</a>
+      <a href="#how">工作流</a>
+      <a href="#open">开源与边界</a>
+    </nav>
+    <span class="spacer"></span>
+    <a class="l-cta" href="/workspace">
+      进入工作台
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
+    </a>
+    <button class="l-menu" id="menu-btn" type="button" aria-label="展开导航" aria-expanded="false">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ===================== hero ===================== -->
+  <section class="hero">
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="hero-grid-lines" aria-hidden="true"></div>
+    <div class="wrap hero-grid">
+      <div class="hero-copy reveal">
+        <div class="kicker"><span class="dot"></span>中文论文引文核验工作台</div>
+        <h1>让每一条引用，<br><em>都经得起追问。</em></h1>
+        <p class="hero-lede">
+          上传一篇论文，逐条回答三个问题：<b>它真的存在吗？</b><b>它撑得住这句话吗？</b><b>它写对了吗？</b>
+          不是给一个笼统的分数，而是每条都给证据、给页码、给改法。
+        </p>
+        <div class="hero-actions">
+          <a class="btn-l primary" href="/workspace">
+            上传论文，开始体检
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+          </a>
+          <a class="btn-l ghost" href="#numbers">先看真实数字</a>
+        </div>
+        <div class="hero-meta">
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 5 5L20 7"/></svg>Apache-2.0 开源</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 5 5L20 7"/></svg>可离线运行</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 5 5L20 7"/></svg>每条结论带证据</span>
+        </div>
+      </div>
+
+      <div class="hero-art reveal d1" aria-label="产品报告截图">
+        <div class="hero-glow" aria-hidden="true"></div>
+        <div class="orbit" aria-hidden="true"></div>
+        <div class="browser">
+          <div class="browser-bar">
+            <i></i><i></i><i></i>
+            <span class="url">127.0.0.1:8010/report · 15 条引用 · 12 精确 / 3 小偏差 / 0 严重不符</span>
+          </div>
+          <img src="/static/img/landing_report.png" alt="引证卫士报告页：健康分、逐条结论与证据" loading="eager">
+        </div>
+        <div class="float-chip chip-a"><span class="pip"></span>健康分 <b>95.9 / A</b></div>
+        <div class="float-chip chip-b amber"><span class="pip"></span>严重不符 <b>0 条</b></div>
+        <div class="float-chip chip-c"><span class="pip"></span>正文引注定位 <b>18 处</b></div>
+      </div>
+    </div>
+
+    <div class="trust" aria-label="可信度摘要">
+      <div class="trust-track">
+        <span><b>22</b> 篇真实论文</span><i></i>
+        <span><b>409</b> 条已发表引用</span><i></i>
+        <span><b>0</b> 条被误判为虚构</span><i></i>
+        <span><b>664</b> 项自动化测试</span><i></i>
+        <span><b>500</b> 条中文基准 CiteBench-CN v2</span><i></i>
+        <span><b>0</b> 个自研基础模型</span><i></i>
+        <span><b>Apache-2.0</b> 代码与数据开放</span><i></i>
+        <span><b>22</b> 篇真实论文</span><i></i>
+        <span><b>409</b> 条已发表引用</span><i></i>
+        <span><b>0</b> 条被误判为虚构</span><i></i>
+        <span><b>664</b> 项自动化测试</span><i></i>
+        <span><b>500</b> 条中文基准 CiteBench-CN v2</span><i></i>
+        <span><b>0</b> 个自研基础模型</span><i></i>
+        <span><b>Apache-2.0</b> 代码与数据开放</span><i></i>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== why ===================== -->
+  <section class="block why" id="why">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="sec-tag">Why CiteGuard</div>
+        <h2>查重、文献管理、通用大模型，<br><em>都替代不了「核验」。</em></h2>
+        <p>它们回答的是「像不像」「放哪儿」「怎么说」，而引文核验要回答的是「这条引用到底成不成立」。</p>
+      </div>
+
+      <div class="why-grid">
+        <article class="why-card reveal">
+          <div class="why-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="11" cy="11" r="7"/><path d="m16.5 16.5 4.5 4.5"/><path d="M11 8v3l2 2"/></svg>
+          </div>
+          <div class="q">Question 01</div>
+          <h3>它真的存在吗？</h3>
+          <p>OpenAlex、Crossref、arXiv、DOI 与本地题录库交叉核验。查不到会如实标成「未核验」，不会说成「造假」。</p>
+          <div class="why-num"><b>0 / 409</b><span>已发表引用被误判为虚构<br>（22 篇真实论文，接本地库）</span></div>
+        </article>
+
+        <article class="why-card reveal d1">
+          <div class="why-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 12a8 8 0 0 1-8 8H7l-4 3v-6.5A8 8 0 1 1 21 12Z"/><path d="M8 10h8M8 14h5"/></svg>
+          </div>
+          <div class="q">Question 02</div>
+          <h3>它撑得住这句话吗？</h3>
+          <p>两段式判定：先看文献是否存在，再判摘要是否支持正文。覆盖审计会主动把「部分支持」降级，理由必须能落回原文。</p>
+          <div class="why-num"><b>0.9597</b><span>ClaimSupport-CN 100 条<br>macro-F1（构造标签）</span></div>
+        </article>
+
+        <article class="why-card amber reveal d2">
+          <div class="why-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 6h16M4 12h16M4 18h10"/><path d="m16 20 2 2 4-4"/></svg>
+          </div>
+          <div class="q">Question 03</div>
+          <h3>它写对了吗？</h3>
+          <p>GB/T 7714-2025 规则引擎逐字段检查类型码、作者、年份、卷期页与 DOI，直接给出可替换的规范条目。</p>
+          <div class="why-num"><b>87.7</b><span>15 条真实论文格式均分<br>问题条目可一键预览修订</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== numbers ===================== -->
+  <section class="block numbers" id="numbers">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="sec-tag">Measured, not promised</div>
+        <h2>每个数字，都能追到一份 JSON。</h2>
+        <p>样本量、口径、失败案例都写在文档里；不把构造集说成人审，也不把未核验说成错误。</p>
+      </div>
+      <div class="num-grid reveal">
+        <div class="num-cell">
+          <div class="n"><span data-count="0">0</span>/409</div>
+          <div class="l">真实已发表引用被误判为虚构</div>
+          <div class="s">22 篇真实论文 · 接本地题录库 · Major 0</div>
+        </div>
+        <div class="num-cell">
+          <div class="n"><span data-count="0.9684" data-decimals="4">0.9684</span></div>
+          <div class="l">CiteBench-CN 250 条 macro-F1</div>
+          <div class="s">中文元数据一致性基准 · 4 类错误</div>
+        </div>
+        <div class="num-cell amber">
+          <div class="n"><span data-count="0.7869" data-decimals="4">0.7869</span></div>
+          <div class="l">CiteBench-CN v2 500 条 F1</div>
+          <div class="s">8 类错误 · 精确率 1.0000 · 90 条 Unknown 计漏报</div>
+        </div>
+        <div class="num-cell">
+          <div class="n"><span data-count="17">17</span>/17</div>
+          <div class="l">撤稿文献召回</div>
+          <div class="s">OpenAlex 100 条已撤稿评测 · 同源一致性</div>
+        </div>
+      </div>
+      <p class="num-note">最后更新 v{{ request.app.version }} · 证据与复现命令见仓库 docs/evidence_index.md，所有数字可重新跑出。</p>
+    </div>
+  </section>
+
+  <!-- ===================== how ===================== -->
+  <section class="block how" id="how">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="sec-tag">Workflow</div>
+        <h2>一次体检，三步闭环。</h2>
+        <p>从「找出问题」到「改完复检」，不用在五个工具之间来回搬文献。</p>
+      </div>
+      <div class="steps">
+        <div class="step reveal">
+          <h3>上传</h3>
+          <p>PDF / Word / TXT / MD 都行。自动拆出正文、参考文献、正文引注与图表标签。</p>
+          <div class="tags"><span>PDF</span><span>DOCX</span><span>扫描件 OCR</span><span>批量</span></div>
+        </div>
+        <div class="step reveal d1">
+          <h3>核验</h3>
+          <p>真实性、支持度、国标格式三条线并行；可选图表结论抽检。每条结论都带证据和理由。</p>
+          <div class="tags"><span>多源核验</span><span>两段式判官</span><span>规则引擎</span><span>图表 VL</span></div>
+        </div>
+        <div class="step reveal d2">
+          <h3>交付与复检</h3>
+          <p>报告、批注 PDF、RIS / EndNote / BibTeX 导出；改完再传一次，自动对比哪些问题真的修好了。</p>
+          <div class="tags"><span>批注 PDF</span><span>9 种导出</span><span>分诊</span><span>Diff 复检</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== open ===================== -->
+  <section class="block tight" id="open">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="sec-tag">Open &amp; honest</div>
+        <h2>把方法摊开，才敢让你信。</h2>
+        <p>代码、评测集、模型适配器、证据索引全部开放；同时把「不做什么」也写清楚。</p>
+      </div>
+      <div class="open-grid">
+        <div class="reveal">
+          <ul class="open-list">
+            <li><span class="mark" aria-hidden="true">✓</span><div><b>Apache-2.0 代码，评测集与 LoRA 适配器一起开放</b><p>GitHub 仓库、ClaimSupport-CN 300、CiteBench-CN v2 500、Qwen3-1.7B adapter。</p></div></li>
+            <li><span class="mark" aria-hidden="true">✓</span><div><b>本地可跑，也能离线</b><p>Docker 一条命令起服务；断网时只做本地解析、规则检查与本地库核验。</p></div></li>
+            <li><span class="mark" aria-hidden="true">✓</span><div><b>每条结论都带证据</b><p>原文页码、证据原句、判定理由、低置信度提示；报告可导出、可批注、可复检。</p></div></li>
+            <li><span class="mark" aria-hidden="true">✓</span><div><b>接口可复用</b><p>HTTP API、批量接口、SSE 进度、Python 客户端与浏览器扩展，方便接进自己的工作流。</p></div></li>
+            <li class="no"><span class="mark" aria-hidden="true">✕</span><div><b>不训练基础大模型</b><p>用开源模型 + 规则 + 检索组合；模型可换，证据链不换。</p></div></li>
+            <li class="no"><span class="mark" aria-hidden="true">✕</span><div><b>不替代人工终审</b><p>低置信度会标出来，图表核验只做第一道筛查，不替人读图下最终结论。</p></div></li>
+            <li class="no"><span class="mark" aria-hidden="true">✕</span><div><b>不把「查不到」说成「造假」</b><p>未核验、数据源失败、Unknown 单独列出，原因写清楚。</p></div></li>
+          </ul>
+        </div>
+        <aside class="open-side reveal d1">
+          <div class="panel-l">
+            <h3>仓库与资产</h3>
+            <div class="repo-line"><span>代码</span><b>kkk431/citeguard-cn</b></div>
+            <div class="repo-line"><span>中文基准</span><b>CiteBench-CN v2 · 500</b></div>
+            <div class="repo-line"><span>支持度数据</span><b>ClaimSupport-CN · 300</b></div>
+            <div class="repo-line"><span>小模型</span><b>Qwen3-1.7B LoRA · F1 0.9721</b></div>
+            <div class="repo-line"><span>许可证</span><b>Apache-2.0</b></div>
+            <p class="note">数据标签为构造规则生成，不是人工双标；模型卡与边界写在仓库 docs/ 下。</p>
+            <div style="margin-top:22px;display:flex;gap:10px;flex-wrap:wrap">
+              <a class="btn-l ghost" style="padding:11px 16px;font-size:13.5px" href="https://github.com/kkk431/citeguard-cn" target="_blank" rel="noopener">打开 GitHub ↗</a>
+              <a class="btn-l ghost" style="padding:11px 16px;font-size:13.5px" href="/benchmark">看公开评测</a>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== final cta ===================== -->
+  <section class="final">
+    <div class="wrap">
+      <div class="final-panel reveal">
+        <h2>现在，跑一篇<br><em>你自己的论文。</em></h2>
+        <p>不用注册，不用上传到别人的服务器。文件分析完即删，报告留在本机。</p>
+        <div class="final-actions">
+          <a class="btn-l primary" href="/workspace">
+            进入工作台
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn-l ghost" href="https://github.com/kkk431/citeguard-cn" target="_blank" rel="noopener">阅读源码</a>
+        </div>
+        <div class="fine">中文论文 · PDF / Word / TXT / MD · 单文件 ≤30 MB</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="l-footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <svg viewBox="0 0 40 44" width="26" height="28" fill="none" style="color:var(--mint)" aria-hidden="true">
+          <path d="M20 2 36 8v12c0 10.5-6.7 17.8-16 22C10.7 37.8 4 30.5 4 20V8L20 2Z" stroke="currentColor" stroke-width="2.2"/>
+          <path d="m12.5 21 5 5 10-10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        引证卫士 <small>CiteGuard-CN</small>
+      </div>
+      <nav class="foot-links" aria-label="页脚导航">
+        <a href="/workspace">工作台</a>
+        <a href="/benchmark">评测</a>
+        <a href="/about">方法与边界</a>
+        <a href="https://github.com/kkk431/citeguard-cn" target="_blank" rel="noopener">GitHub ↗</a>
+      </nav>
+    </div>
+    <div class="foot-meta">
+      <span>© 2026 CiteGuard-CN · Apache-2.0 · v{{ request.app.version }}</span>
+      <span>AIC-2026-67377639</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/static/js/landing.js?v={{ request.app.version }}"></script>
+</body>
+</html>

@@ -2,6 +2,21 @@
 
 All notable changes to CiteGuard-CN. Earlier pre-1.0 history is condensed.
 
+## [1.5.0] - 2026-11-13
+
+### Added
+- A standalone landing page at `/`: aurora hero with a real report screenshot,
+  the three questions the product answers, measured numbers with sample sizes,
+  a three-step workflow, and an explicit open-source / boundary section. This
+  gives the product a real front door instead of dropping visitors into a form.
+- `capture_evidence.py` captures the landing page and the workspace separately
+  (12 scenes plus the optional report page).
+
+### Changed
+- The functional workspace moved to `/workspace` and keeps the app shell,
+  upload composer and report entry. Navigation, the command palette, the report
+  back link, the history empty state and the brand link all point there.
+
 ## [1.4.0] - 2026-11-13
 
 ### Changed

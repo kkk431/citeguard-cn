@@ -49,10 +49,23 @@ def test_health_endpoint(client):
     assert {".pdf", ".docx", ".txt", ".md"} <= set(payload["supported"])
 
 
-def test_index_page_renders(client):
+def test_landing_page_renders(client):
     resp = client.get("/")
     assert resp.status_code == 200
     assert "引证卫士" in resp.text
+    assert 'href="/workspace"' in resp.text
+    assert "让每一条引用" in resp.text
+    # The landing page is standalone: it must not inherit the product rail.
+    assert 'aria-label="主导航"' not in resp.text
+
+
+def test_workspace_page_renders(client):
+    resp = client.get("/workspace")
+    assert resp.status_code == 200
+    assert "引证卫士" in resp.text
+    assert 'id="upload-form"' in resp.text
+    assert 'id="start-btn"' in resp.text
+    assert 'aria-label="主导航"' in resp.text
 
 
 def test_history_page_renders(client):
@@ -763,11 +776,11 @@ def test_favicon_served_as_svg(plain_client):
     assert "<svg" in r2.text
 
 def test_navigation_groups_are_clear(plain_client):
-    r = plain_client.get("/")
+    r = plain_client.get("/workspace")
     assert r.status_code == 200
     assert 'aria-label="主导航"' in r.text
-    # 三段式导航：核验 / 工具 / 更多（内部页面收进「更多」）
-    for label in ("核验", "工具", "更多", "题录库", "图表核验", "批量聚合"):
+    # 三段式导航：工作台 / 工具 / 更多（内部页面收进「更多」）
+    for label in ("工作台", "工具", "更多", "题录库", "图表核验", "批量聚合"):
         assert label in r.text
     assert "rail-more" in r.text
 

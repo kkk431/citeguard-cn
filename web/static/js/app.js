@@ -65,7 +65,7 @@
   const paletteOpen = document.getElementById("palette-open");
   if (palette && paletteInput && paletteList) {
     const items = [
-      { kind: "page", label: "体检", sub: "上传论文，逐条核验", url: "/" },
+      { kind: "page", label: "工作台", sub: "上传论文，逐条核验", url: "/workspace" },
       { kind: "page", label: "报告", sub: "历史体检与复检", url: "/history" },
       { kind: "page", label: "题录库", sub: "导入本地中文元数据", url: "/library" },
       { kind: "page", label: "图表核验", sub: "图中结论是否成立", url: "/figure" },

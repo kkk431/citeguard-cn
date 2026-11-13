@@ -19,7 +19,8 @@ import sys
 from pathlib import Path
 
 SCENES = [
-    ("home", "/", "h1"),
+    ("landing", "/", "h1"),
+    ("workspace", "/workspace", "h1"),
     ("support", "/support", "h1"),
     ("library", "/library", "h1"),
     ("discover", "/discover", "h1"),
@@ -63,6 +64,7 @@ def main() -> int:
             try:
                 page.goto(args.base.rstrip("/") + path, wait_until="networkidle", timeout=45000)
                 page.wait_for_selector(selector, timeout=15000)
+                page.wait_for_timeout(900)
                 target = out / f"{name}.png"
                 page.screenshot(path=str(target), full_page=False)
                 title = page.title()
