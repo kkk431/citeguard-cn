@@ -1,3 +1,8 @@
+## [1.7.8] - 2026-11-14
+
+- CiteGuard Live 公开页评测：5 篇 arXiv HTML、30 条英文正文句、每页 6 条；hit@3 **0.60**（18/30）、hit@1 0.4667、P50 16.7 ms、P95 3.53 s；句子与页面/参考文献真实对应，正确 DOI 在候选池内，4 条排 4–5、8 条被 top-5 截断。
+- 中文跨语言 30 句集保留为基线（hit@3 0/30）并明确与公开页集任务不同、禁止混算；证据矩阵增至 27 行、待补 2 项；857 passed。
+
 ## [1.7.7] - 2026-11-14
 
 - CiteGuard Live：新增 `POST /api/live/check`、产品内 `/live` 试用页与 `extension/v2/` MV3 侧边栏；划一句 → 识别当前论文 → 优先从 OpenAlex `referenced_works` 取候选 → 四档 + 逐字证据句；普通网页回退 OpenAlex/Crossref 检索，只读摘要，不读全文。

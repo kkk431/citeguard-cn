@@ -1,0 +1,62 @@
+{
+  "dataset": "public-live-30",
+  "generated_at": "2026-11-14T02:15:43+08:00",
+  "notes": "5 篇 arXiv HTML 公开页；句子真实出现在页面上，[n] 与页内参考文献编号一致；不复制页面正文。",
+  "pages": [
+    {
+      "id": "arxiv-2611-02510",
+      "url": "https://arxiv.org/html/2611.02510",
+      "title": "Neuro Inspired Robotics: What Robot Learning Can Borrow from the Sensorimotor Brain",
+      "fetched_at": "2026-11-14T02:15:43+08:00",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "source": "arXiv HTML (LaTeXML)",
+      "references": 456,
+      "openalex_referenced_works": 283
+    },
+    {
+      "id": "arxiv-2610-41688",
+      "url": "https://arxiv.org/html/2610.41688",
+      "title": "When the Past Shapes Action: Understanding Embodied Memory",
+      "fetched_at": "2026-11-14T02:15:43+08:00",
+      "license": "CC BY-NC-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+      "source": "arXiv HTML (LaTeXML)",
+      "references": 117,
+      "openalex_referenced_works": 78
+    },
+    {
+      "id": "arxiv-2610-34084",
+      "url": "https://arxiv.org/html/2610.34084",
+      "title": "DSGN: A Dual-Stream Gated Network for Scalable Simultaneous Surveillance and Containment",
+      "fetched_at": "2026-11-14T02:15:43+08:00",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "source": "arXiv HTML (LaTeXML)",
+      "references": 31,
+      "openalex_referenced_works": 15
+    },
+    {
+      "id": "arxiv-2611-09866",
+      "url": "https://arxiv.org/html/2611.09866",
+      "title": "GRAC: Graph-Based Retrieval-Augmented Captioning for Surgical Scene Description",
+      "fetched_at": "2026-11-14T02:15:43+08:00",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "source": "arXiv HTML (LaTeXML)",
+      "references": 26,
+      "openalex_referenced_works": 12
+    },
+    {
+      "id": "arxiv-2611-10770",
+      "url": "https://arxiv.org/html/2611.10770",
+      "title": "How reliable is an embedding of the seabed? Repeat-look measurement of frozen encoders on synthetic aperture sonar",
+      "fetched_at": "2026-11-14T02:15:43+08:00",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "source": "arXiv HTML (LaTeXML)",
+      "references": 73,
+      "openalex_referenced_works": 9
+    }
+  ]
+}

@@ -114,3 +114,134 @@ def test_validate_rejects_empty_dataset():
     errors = eval_live.validate([], [])
     assert any("pages 应为" in error for error in errors)
     assert any("claims 应为" in error for error in errors)
+
+
+# ------------------------- 公开页集（句子与页面真实对应） -------------------------
+
+
+PUBLIC_TITLES = [
+    "Zebra Migration Patterns in Semi-Arid Grasslands",
+    "Lattice Renormalization for Quantum Chromodynamics",
+    "Medieval Icelandic Saga Composition and Orality",
+    "Coral Bleaching Recovery in Shallow Reefs",
+    "Sparse Matrix Solvers on Heterogeneous Clusters",
+    "Volcanic Ash Dispersion Forecasting Models",
+    "Tonal Phonology of Southern Min Dialects",
+    "Protein Folding Kinetics under Crowding",
+    "Urban Heat Islands and Canopy Cover",
+    "Byzantine Coinage and Trade Networks",
+    "Glacial Lake Outburst Flood Risk Mapping",
+    "Reinforcement Learning for Traffic Signal Control",
+    "Soil Carbon Sequestration in Paddy Fields",
+    "Gravitational Lensing by Galaxy Clusters",
+    "Bacterial Quorum Sensing and Biofilms",
+    "Textile Dyeing in Early Modern Europe",
+    "Seismic Retrofitting of Masonry Buildings",
+    "Speech Prosody in Second Language Learners",
+    "Photosynthetic Efficiency under Drought Stress",
+    "Distributed Consensus with Byzantine Faults",
+    "Ocean Acidification and Pteropod Shells",
+    "Graph Neural Networks for Molecule Property Prediction",
+    "Agricultural Irrigation Scheduling with Remote Sensing",
+    "Musical Improvisation and Working Memory",
+    "Permafrost Thaw and Methane Emissions",
+    "Handwritten Text Recognition for Historical Archives",
+    "Wind Turbine Blade Fatigue Analysis",
+    "Sleep Architecture in Shift Workers",
+    "Cache Coherence in Many-Core Processors",
+    "Wetland Restoration and Avian Biodiversity",
+]
+
+
+def make_public_page(index=0, **overrides):
+    page = {
+        "id": f"arxiv-public-{index}",
+        "url": f"https://arxiv.org/html/2611.0000{index}",
+        "title": f"Public Benchmark Paper {index}",
+        "fetched_at": "2026-11-14T02:15:00+08:00",
+        "license": "CC BY 4.0",
+        "source": "arXiv HTML (LaTeXML)",
+        "references": 40 + index,
+    }
+    page.update(overrides)
+    return page
+
+
+def make_public_claim(page, index, **overrides):
+    claim = {
+        "id": f"pub-{index:03d}",
+        "sentence": (
+            f"Prior work on this topic reports a clear improvement over strong baselines "
+            f"across all evaluated settings [{index}], which motivates our design."
+        ),
+        "source_title": PUBLIC_TITLES[index - 1],
+        "source_doi": f"10.1234/public.{index}",
+        "page_url": page["url"],
+        "page_title": page["title"],
+        "reference_index": index,
+    }
+    claim.update(overrides)
+    return claim
+
+
+def make_public_dataset():
+    pages = [make_public_page(i) for i in range(5)]
+    claims = []
+    n = 1
+    for page in pages:
+        for _ in range(6):
+            claims.append(make_public_claim(page, n))
+            n += 1
+    return pages, claims
+
+
+def test_dataset_profile_detects_public_and_crosslingual():
+    pages, claims = make_public_dataset()
+    assert eval_live.dataset_profile(claims) == "public"
+    assert eval_live.dataset_profile([make_claim()]) == "crosslingual"
+    assert eval_live.dataset_profile([]) == "unknown"
+
+
+def test_public_dataset_validates_with_page_url_lookup():
+    pages, claims = make_public_dataset()
+    assert eval_live.validate(pages, claims) == []
+    candidate = {"title": PUBLIC_TITLES[6], "doi": "10.1234/public.7", "url": ""}
+    result = eval_live.run(claims, pages, fake_checker([candidate]))
+    assert result["n"] == 30
+    assert result["dataset"] == "public"
+    assert result["hit@3"] == pytest.approx(1 / 30, abs=1e-4)
+    assert result["records"][6]["first_hit_rank"] == 1
+    assert result["records"][6]["reference_index"] == 7
+
+
+def test_public_dataset_rejects_short_sentence_and_missing_marker():
+    pages, claims = make_public_dataset()
+    claims[0] = make_public_claim(pages[0], 1, sentence="Too short [1].")
+    claims[1] = make_public_claim(pages[0], 2, sentence="This sentence is long enough but it has no explicit citation marker at all.")
+    errors = eval_live.validate(pages, claims)
+    assert any("长度" in error for error in errors)
+    assert any("引用标记" in error for error in errors)
+
+
+def test_public_dataset_rejects_mismatched_reference_index_and_page_title():
+    pages, claims = make_public_dataset()
+    claims[2] = make_public_claim(pages[0], 3, reference_index=999)
+    claims[3] = make_public_claim(pages[1], 4, page_title="Wrong Title")
+    errors = eval_live.validate(pages, claims)
+    assert any("reference_index 999" in error for error in errors)
+    assert any("page_title" in error for error in errors)
+
+
+def test_public_dataset_rejects_wrong_per_page_count_and_cjk():
+    pages, claims = make_public_dataset()
+    claims[0] = make_public_claim(pages[0], 1, sentence="中文句子不应出现在公开页英文字段里，但仍带有引用标记 [1]。")
+    errors = eval_live.validate(pages, claims[:-1])
+    assert any("应有 6 条" in error for error in errors)
+    assert any("英文" in error for error in errors)
+
+
+def test_validate_accepts_public_repo_dataset():
+    pages = eval_live.load_pages(ROOT / "data" / "live_eval" / "pages_public.json")
+    claims = eval_live.load_claims(ROOT / "data" / "live_eval" / "claims_public.jsonl")
+    assert eval_live.validate(pages, claims) == []
+    assert eval_live.dataset_profile(claims) == "public"

@@ -1,6 +1,6 @@
 {
   "schema": "citeguard.evidence_matrix.v1",
-  "rows": 25,
+  "rows": 27,
   "missing": [],
   "items": [
     {
@@ -244,6 +244,26 @@
       "screenshot": "docs/evidence/shots/phase-49-citemap-1.7.4.png"
     },
     {
+      "category": "Live",
+      "claim": "公开页 30 句检索命中",
+      "value": "hit@3 0.60 (18/30) / hit@1 0.47 (14/30)",
+      "n": "30 句英文 / 5 篇 arXiv HTML",
+      "artifact": "data/live_eval/live_eval_public.json",
+      "command": "PYTHONPATH=src python scripts/eval_live.py --claims data/live_eval/claims_public.jsonl --pages data/live_eval/pages_public.json --out data/live_eval/live_eval_public.json",
+      "note": "句子真实出现在页面上；正确 DOI 在页面候选池内，4 条排 4-5、8 条被 top-5 截断；瓶颈是排序+截断，不证明检索天花板",
+      "screenshot": "docs/evidence/shots/phase-53-live-result-1.7.7.png"
+    },
+    {
+      "category": "Live",
+      "claim": "中文跨语言 30 句检索命中",
+      "value": "hit@3 0.00 (0/30)",
+      "n": "30 句中文 / 5 个无关公开页",
+      "artifact": "data/live_eval/live_eval_crosslingual.json",
+      "command": "PYTHONPATH=src python scripts/eval_live.py --out data/live_eval/live_eval_crosslingual.json",
+      "note": "句子来自本地中文 PDF，页面不是句子所在论文页；任务与公开页集不同，禁止混算；不声称检索天花板",
+      "screenshot": ""
+    },
+    {
       "category": "工程",
       "claim": "端到端冒烟",
       "value": "14/14 项通过",
@@ -266,12 +286,6 @@
       "item": "60 格人工核对",
       "state": "只有 10 条人工示例，60 格核对未完成",
       "where": "t4"
-    },
-    {
-      "category": "Live",
-      "item": "真实页面 30 条句子 hit@3",
-      "state": "浏览器扩展 v2 未做",
-      "where": "B2"
     }
   ]
 }

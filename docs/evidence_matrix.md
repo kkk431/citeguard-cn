@@ -29,6 +29,8 @@
 | 健康画像 | 22 篇真实论文引用健康分 | 均值 76.2 / 中位 79.2（范围 48.3–95.9） | 22 篇；支持度关闭 | `data/experiments/health_real.json` | `PYTHONPATH=src python scripts/eval_health_real.py` | docs/evidence/shots/phase-F1-health-v1.1.0.png<br>规则加权分，不是期刊标准；仅同一解析/核验版本内可比 |
 | 性能 | 1000 条离线题录 | 解析 0.118 s / 冷启动 0.718 s / 热 0.159 s / 双并发 0.329 s | 1000 条，86263 字符 | `data/experiments/stress_1000.json` | `PYTHONPATH=src python scripts/stress_1000.py` | docs/evidence/shots/phase-3-stress1000-1.0.12.png<br>峰值 5.2 MB；离线、合成题录，不含联网核验 |
 | CiteMap | 证据地图语料 | 2 主题 / 30 篇 / 7 条断言 | 2 主题 x 15 篇；10 条人工示例 | `data/evidence_map/index.json` | `PYTHONPATH=src python -m citeguard.evidence_map --check` | docs/evidence/shots/phase-49-citemap-1.7.4.png<br>30/30 DOI 可解析；60 格人工核对待补，当前只展示示例抽取 |
+| Live | 公开页 30 句检索命中 | hit@3 0.60 (18/30) / hit@1 0.47 (14/30) | 30 句英文 / 5 篇 arXiv HTML | `data/live_eval/live_eval_public.json` | `PYTHONPATH=src python scripts/eval_live.py --claims data/live_eval/claims_public.jsonl --pages data/live_eval/pages_public.json --out data/live_eval/live_eval_public.json` | docs/evidence/shots/phase-53-live-result-1.7.7.png<br>句子真实出现在页面上；正确 DOI 在页面候选池内，4 条排 4-5、8 条被 top-5 截断；瓶颈是排序+截断，不证明检索天花板 |
+| Live | 中文跨语言 30 句检索命中 | hit@3 0.00 (0/30) | 30 句中文 / 5 个无关公开页 | `data/live_eval/live_eval_crosslingual.json` | `PYTHONPATH=src python scripts/eval_live.py --out data/live_eval/live_eval_crosslingual.json` | —<br>句子来自本地中文 PDF，页面不是句子所在论文页；任务与公开页集不同，禁止混算；不声称检索天花板 |
 | 工程 | 端到端冒烟 | 14/14 项通过 | job 94c2214965b1，version 1.0.11 | `data/experiments/e2e_smoke.json` | `PYTHONPATH=src python scripts/e2e_smoke.py` | —<br>含上传/报告/批注/导出/证据包/diff；不含人工判断 |
 
 ## 待补 / 不宣称
@@ -37,7 +39,6 @@
 |---|---|---|---|
 | 人审 | 100 条三人盲标 | 包已生成，κ 待回收；不得把构造标签写作人审金标 | `dist/CiteGuard-CN_盲标包_100条_发给标注者.zip` |
 | CiteMap | 60 格人工核对 | 只有 10 条人工示例，60 格核对未完成 | `t4` |
-| Live | 真实页面 30 条句子 hit@3 | 浏览器扩展 v2 未做 | `B2` |
 
 说明：
 - 「构造标签」指标签由构造规则决定，不是人工语义标注；不能写成人工金标准。

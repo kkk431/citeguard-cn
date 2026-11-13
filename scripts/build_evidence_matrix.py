@@ -344,6 +344,32 @@ def rows():
         "screenshot": "docs/evidence/shots/phase-49-citemap-1.7.4.png",
     })
 
+    pub = load("data/live_eval/live_eval_public.json")
+    hit3 = sum(1 for r in pub["records"] if r.get("hit@3"))
+    hit1 = sum(1 for r in pub["records"] if r.get("hit@1"))
+    out.append({
+        "category": "Live",
+        "claim": "公开页 30 句检索命中",
+        "value": f"hit@3 {pub['hit@3']:.2f} ({hit3}/30) / hit@1 {pub['hit@1']:.2f} ({hit1}/30)",
+        "n": "30 句英文 / 5 篇 arXiv HTML",
+        "artifact": "data/live_eval/live_eval_public.json",
+        "command": "PYTHONPATH=src python scripts/eval_live.py --claims data/live_eval/claims_public.jsonl --pages data/live_eval/pages_public.json --out data/live_eval/live_eval_public.json",
+        "note": "句子真实出现在页面上；正确 DOI 在页面候选池内，4 条排 4-5、8 条被 top-5 截断；瓶颈是排序+截断，不证明检索天花板",
+        "screenshot": "docs/evidence/shots/phase-53-live-result-1.7.7.png",
+    })
+
+    cross = load("data/live_eval/live_eval_crosslingual.json")
+    out.append({
+        "category": "Live",
+        "claim": "中文跨语言 30 句检索命中",
+        "value": f"hit@3 {cross['hit@3']:.2f} (0/30)",
+        "n": "30 句中文 / 5 个无关公开页",
+        "artifact": "data/live_eval/live_eval_crosslingual.json",
+        "command": "PYTHONPATH=src python scripts/eval_live.py --out data/live_eval/live_eval_crosslingual.json",
+        "note": "句子来自本地中文 PDF，页面不是句子所在论文页；任务与公开页集不同，禁止混算；不声称检索天花板",
+        "screenshot": "",
+    })
+
     d = load("data/experiments/e2e_smoke.json")
     out.append({
         "category": "工程",
@@ -362,7 +388,6 @@ def rows():
 PENDING = [
     ("人审", "100 条三人盲标", "包已生成，κ 待回收；不得把构造标签写作人审金标", "dist/CiteGuard-CN_盲标包_100条_发给标注者.zip"),
     ("CiteMap", "60 格人工核对", "只有 10 条人工示例，60 格核对未完成", "t4"),
-    ("Live", "真实页面 30 条句子 hit@3", "浏览器扩展 v2 未做", "B2"),
 ]
 
 

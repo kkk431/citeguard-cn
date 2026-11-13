@@ -1,12 +1,13 @@
-# CiteGuard Live 30 句评测集：hit@3、延迟与四档标签分布
+# CiteGuard Live 评测：两套 30 句数据与 hit@3 / 延迟 / 四档标签分布
 
-> 用 30 条来自开放获取中文论文正文的真实引用句，评测 `check_claim(claim, page_url="", page_title="")` 能否在候选文献前 3 条里找回被引文献（hit@3），并记录 5 个真实公开页、四档标签分布与单次核验延迟。**本集没有 stance 金标**，标签分布是模型/规则输出，不是准确率。
+> 两套互不混算的 Live 评测数据：**跨语言集**（30 条真实中文引用句，上下文页与被引来源无关）暴露“中文句子 → 英文文献”的检索边界；**公开页集**（30 条英文句子确实出现在 5 篇 arXiv HTML 页面上，`[n]` 与页内参考文献一一对应）检验 t12「页面参考文献列表优先」在真实页面上的效果。两套都评测 `check_claim(claim, page_url="", page_title="")`，都**没有 stance 金标**。
 
-- 数据集：`data/live_eval/pages.json`（5 页）、`data/live_eval/claims.jsonl`（30 句）
-- 评测脚本：`scripts/eval_live.py`；结果：`data/live_eval/live_eval.json`
+- 跨语言集：`data/live_eval/pages.json`（5 页）、`data/live_eval/claims.jsonl`（30 句）→ `data/live_eval/live_eval.json`
+- 公开页集：`data/live_eval/pages_public.json`（5 页）、`data/live_eval/claims_public.jsonl`（30 句）→ `data/live_eval/live_eval_public.json`
+- 评测脚本：`scripts/eval_live.py`（`--claims/--pages/--out` 切换数据集）
 - 模块契约：`src/citeguard/live_check.py`（`docs/live.md`）
-- 测试：`tests/test_live_eval.py`（7 例，全部离线）
-- 实测时间：2026-11-14 01:56（Asia/Shanghai），基线 v1.7.3
+- 测试：`tests/test_live_eval.py`（13 例，全部离线）
+- 实测时间：2026-11-14 01:56（跨语言集）、2026-11-14 02:20（公开页集），基线 v1.7.3
 
 ## 1. 目的与边界
 
@@ -71,6 +72,36 @@ Live 的产品假设是：读者在浏览器里读到一句“像结论”的话
 
 `source_title` / `source_doi` 来自该句引用标记展开后的那一条参考文献；`page_id` 是上下文页。字段数、唯一性、DOI 形态、页面引用完整性由 `scripts/eval_live.py --check` 校验。
 
+### 2.4 公开页集：句子与页面真实对应
+
+跨语言集的句子与页面只是“主题邻近”，页面的参考文献列表里没有句子所引的那篇文献，t12 的页面引用列表优先因此无法生效。公开页集把这一点反过来：**句子确实出现在页面上，`[n]` 就是该页参考文献列表的编号**。
+
+5 篇 arXiv 论文（`https://arxiv.org/html/{id}`，LaTeXML 全文，均有编号制 `[n]` 参考文献）：
+
+| id | 论文 | 许可 | 参考文献数 | 句数 |
+| --- | --- | --- | --- | --- |
+| `arxiv-2611-02510` | Neuro Inspired Robotics: What Robot Learning Can Borrow from the Sensorimotor Brain | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | 456 | 6 |
+| `arxiv-2610-41688` | When the Past Shapes Action: Understanding Embodied Memory | [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) | 117 | 6 |
+| `arxiv-2610-34084` | DSGN: A Dual-Stream Gated Network for Scalable Simultaneous Surveillance and Containment | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) | 31 | 6 |
+| `arxiv-2611-09866` | GRAC: Graph-Based Retrieval-Augmented Captioning for Surgical Scene Description | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | 26 | 6 |
+| `arxiv-2611-10770` | How reliable is an embedding of the seabed? Repeat-look measurement of frozen encoders on synthetic aperture sonar | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | 73 | 6 |
+
+选句与来源规则（脚本可复核）：
+
+1. 只从页面 `<p class="ltx_p">` 正文段落抽句；句长 40–300 字符，含显式 `[n]` 标记。
+2. 每条句子的 `reference_index` 就是标记里的编号；`source_title` / `source_doi` 取自**该页参考文献列表的同号条目**，DOI 形态用 `^10\.\d{4,9}/\S+$` 校验，并逐条请求 `https://doi.org/api/handles/{doi}`，30/30 返回 `responseCode=1`。
+3. 为避免把“页面根本检索不到”的样本混进来，选句时额外要求该 DOI 出现在页面 OpenAlex 记录的 `referenced_works` 前 40 条内（`live_check.MAX_REFERENCED_WORKS=40`）——这是把样本限制在**产品当前有能力看见**的候选集合里，而不是抬高指标。
+4. 每页 6 条；30 条句子原样摘录、不改写；只存句子与编号，不复制页面正文。
+5. 页码/行号不做要求；`reference_index` 与句内 `[n]` 的一致性由 `--check` 强制校验。
+
+`claims_public.jsonl` 每行恰好 7 个字段：
+
+```json
+{"id": "pub-001", "sentence": "… mechanoreceptors [186, 194, 2].", "source_title": "The Sensory Neurons of Touch", "source_doi": "10.1016/j.neuron.2013.07.051", "page_url": "https://arxiv.org/html/2611.02510", "page_title": "Neuro Inspired Robotics: …", "reference_index": 2}
+```
+
+许可边界：公开页集只摘录句子与参考文献编号；`2610.41688` 为 CC BY-NC-SA 4.0，本仓库仅在内部评测中作短摘录并注明出处，不随产品分发页面正文；其余 4 页为 CC BY 4.0 / CC BY-SA 4.0（均需署名，页面 URL 已在 `pages_public.json` 中保留）。
+
 ## 3. 四档意图覆盖
 
 意图标签沿用 `docs/live.md`：`support` / `partial` / `contradict` / `no_evidence`。**本集不给金标**，只在文档里记录选句规则如何覆盖四类，供人工复核与后续标注。
@@ -96,6 +127,8 @@ Live 的产品假设是：读者在浏览器里读到一句“像结论”的话
 
 ## 5. 实测结果（2026-11-14）
 
+### 5.1 跨语言集（跨语言集的 hit@3 = 0，是设计使然）
+
 命令：`PYTHONPATH=src python scripts/eval_live.py`（本机网络，未配置判定模型 API key，走规则兜底）。
 
 | 指标 | 数值 |
@@ -120,12 +153,68 @@ Live 的产品假设是：读者在浏览器里读到一句“像结论”的话
 
 **结论**：Live 的“候选检索 + 摘要级判断”链路能跑通，但当前版本对“中文句子引用英文文献”这一主场景 hit@3 = 0，需双语查询扩展/标题补全后再评测；延迟也需优化。**这不是“中文语义检索天花板”的结论**，只是 30 句小样本、单一版本、单一网络环境的结果。
 
+### 5.2 公开页集（页面参考文献列表优先）
+
+命令：
+
+```bash
+PYTHONPATH=src python scripts/eval_live.py \
+  --claims data/live_eval/claims_public.jsonl \
+  --pages data/live_eval/pages_public.json \
+  --out data/live_eval/live_eval_public.json
+```
+
+| 指标 | 数值 |
+| --- | --- |
+| n | 30 句 / 5 页 |
+| hit@1 | 0.4667 |
+| **hit@3** | **0.6000** |
+| 延迟 P50 | 16.7 ms |
+| 延迟 P95 | 3528.2 ms |
+| 平均延迟 | 383.7 ms |
+| `support` / `partial` / `contradict` / `no_evidence` | 0 / 18 / 0 / 12 |
+| 失败 | 0 |
+| 无候选 | 0 |
+
+按页面拆开（每页 6 句）：
+
+| 页面 | 参考文献数 | hit@1 | hit@3 |
+| --- | --- | --- | --- |
+| `arxiv-2611-02510` | 456 | 3/6 | 3/6 |
+| `arxiv-2610-41688` | 117 | 2/6 | 3/6 |
+| `arxiv-2610-34084` | 31 | 2/6 | 3/6 |
+| `arxiv-2611-09866` | 26 | 5/6 | 5/6 |
+| `arxiv-2611-10770` | 73 | 2/6 | 4/6 |
+
+**结果解读（关键）**：
+
+- 同一个 `check_claim`，换成“句子确实在页面上、被引文献就在页面参考文献列表里”的数据后，hit@3 从 0/30 变成 18/30。说明 t12 的页面引用列表增强**确实生效**：候选集来自页面 `referenced_works`，而不是被中文句子带偏的关键词搜索。
+- 12 条未命中里，**4 条的正确 DOI 已经出现在候选里，只是排在第 4–5 名**（`pub-012`、`pub-018`、`pub-027`、`pub-028`），差一位进不了 top-3；**其余 8 条的正确文献在页面候选池里（40/38/15/12 条），但被词面打分排到前 5 之外**。例如 `pub-007` 的 `[28]` 是 DQN 论文，页面候选池里排在第 1 位（按 OpenAlex 顺序），但句子里没有与“Human-level control through deep reinforcement learning”重合的词，打分落到 5 名之后。
+- 因此剩余瓶颈不是“找不到页面参考文献”，而是 **`_candidate_score` 的词面匹配 + 固定 `MAX_CANDIDATES=5` 截断**：参考文献标题/摘要与句子用词不同（尤其英文句子引用奠基性工作）时，正确条目会被挤出。
+- 延迟 P50 只有 16.7 ms，是因为同一进程内页面解析与 OpenAlex 结果被缓存，5 个页面各只冷启动一次（首条约 4.2 s），其余 25 条走缓存；P95 3.5 s 就是冷启动那几次。延迟数字只代表本机暖/冷混合状态，不作跨环境承诺。
+- 标签分布（0/18/0/12）仍不是准确率：公开页集同样没有 stance 金标，规则兜底只会给 `partial` / `no_evidence`。
+
+### 5.3 两套数据的关系（禁止混算）
+
+| | 跨语言集 | 公开页集 |
+| --- | --- | --- |
+| 句子语言 | 中文（真实中文论文正文） | 英文（页面正文） |
+| 句子与页面关系 | 主题邻近的上下文页，页面引用列表**不含**被引来源 | 句子**确实在**页面上，`[n]` 对应页内参考文献 |
+| 页面参考文献列表 | 通常不覆盖被引来源 | 覆盖（选样时限制在 OpenAlex 前 40 条内） |
+| hit@3 | 0/30 | 18/30 |
+| 用途 | 暴露跨语言查询构造的边界 | 检验页面引用列表优先路径 |
+
+两套数据的任务难度与分母含义不同，**不能相加、不能互相替代**；跨语言集的 0/30 不能用来否定公开页集的 18/30，公开页集的 18/30 也不能用来掩盖跨语言场景的问题。
+
 ## 6. 结论与建议（决策）
 
 | 项 | 决策 | 理由 |
 | --- | --- | --- |
-| Live 候选检索链路 | **hold（可用但不达标）** | 英文标题查询 3/3 命中第 1，说明检索器可用；中文句子路径 0/30 |
-| 30 句评测集 | **adopt（作为回归集）** | 真实正文、来源可追溯、脚本可复现；小样本，只作烟雾测试 |
+| 跨语言集（回归集） | **adopt** | 真实中文正文、来源可追溯、脚本可复现；小样本，只作烟雾测试 |
+| 公开页集（页面引用列表回归集） | **adopt** | 句子与页面真实对应，30/30 DOI 可解析；补上了跨语言集测不到的 t12 路径 |
+| Live 候选检索链路（跨语言场景） | **hold（可用但不达标）** | 英文标题查询 3/3 命中第 1，说明检索器可用；中文句子路径 0/30 |
+| 页面引用列表优先（公开页场景） | **adopt 机制，hold 效果** | 同函数 hit@3 从 0/30 到 18/30，机制生效；但 12 条未命中里 4 条排第 4–5、8 条被词面打分挤出前 5 |
+| 候选打分 / 截断策略 | **建议下一轮实验** | 正确文献已在页面候选池内，瓶颈是 `_candidate_score` 词面匹配与 `MAX_CANDIDATES=5` 截断 |
 | 双语查询扩展 / 标题补全 | **建议下一轮实验** | 预期把中文句子的 hit@3 从 0 拉起来，且不改判断器 |
 | 判定模型（LLM judge） | **hold** | 本机未配 API key，规则兜底；候选都不对时 judge 无意义 |
 
@@ -133,31 +222,44 @@ Live 的产品假设是：读者在浏览器里读到一句“像结论”的话
 
 ```bash
 cd citeguard
-python scripts/eval_live.py --check                # 只校验数据：5 页 / 30 句，来源可追溯
-PYTHONPATH=src python scripts/eval_live.py         # 跑 30 句，写 data/live_eval/live_eval.json
+python scripts/eval_live.py --check                # 跨语言集：5 页 / 30 句
+python scripts/eval_live.py \
+  --claims data/live_eval/claims_public.jsonl \
+  --pages data/live_eval/pages_public.json --check # 公开页集：5 页 / 30 句 / 每页 6 条
+PYTHONPATH=src python scripts/eval_live.py         # 跑跨语言集，写 data/live_eval/live_eval.json
+PYTHONPATH=src python scripts/eval_live.py \
+  --claims data/live_eval/claims_public.jsonl \
+  --pages data/live_eval/pages_public.json \
+  --out data/live_eval/live_eval_public.json       # 跑公开页集
 PYTHONPATH=src python scripts/eval_live.py --limit 3 --out /tmp/live_preview.json
-python -m pytest tests/test_live_eval.py -q        # 7 例，离线
+python -m pytest tests/test_live_eval.py -q        # 13 例，离线
 ```
 
-- `--check` 不联网、不 import `live_check`；`live_check` 未交付时会打印“live_check 未交付，先 --check 数据”并以退出码 2 结束。
-- 结果 JSON 只含 id、标签、置信度、候选数、命中排名、延迟与失败原因，不含句子全文、摘要或候选全文。
+- `--check` 不联网、不 import `live_check`；按字段形状自动识别数据集（`page_id` → 跨语言集，`page_url/reference_index` → 公开页集），混用两种字段会被拒绝。
+- `live_check` 未交付时会打印“live_check 未交付，先 --check 数据”并以退出码 2 结束；`--check` 不受影响。
+- 结果 JSON 只含 id、标签、置信度、候选数、命中排名、延迟与失败原因，不含句子全文、摘要或候选全文；`dataset` 字段标明跑的是哪一套。
 
 ## 8. 局限与后续
 
-1. **样本小**：5 页 / 30 句 / 6 篇来源，只能做烟雾测试与回归，不能外推总体 hit@3。
-2. **无 stance 金标**：标签分布不是准确率；矛盾意图本批 0 条，后续需人工从语料中确认方向相反的引用后再补，绝不虚构。
-3. **页面是上下文页**：不代表句子出现在页面上；若要测“网页正文 ↔ 句子的对应”，需要另建带页码/锚点的页面集。
-4. **网络环境**：OpenAlex 无 API key、共享每日预算；PubMed 页面 203 拦截；arXiv 抓取曾瞬时超时。延迟数值只代表本机。
-5. **候选上限 5**：`live_check` 固定返回前 5，hit@3 只在其内部排序上评估，不能测“扩大候选能否救回”。
-6. **摘要可得性**：部分来源摘要为空（OpenAlex 未收录），会直接导致 `no_evidence`；这类句子应在下一版单独分层统计。
+1. **样本小**：公开页集 5 页 / 30 句 / 每页 6 条；跨语言集 30 句 / 6 篇来源。只能做回归与烟雾测试，不能外推总体 hit@3。
+2. **无 stance 金标**：两套数据的标签分布都不是准确率；矛盾意图本批 0 条，后续需人工从语料中确认方向相反的引用后再补，绝不虚构。
+3. **两套数据的页面含义不同**：跨语言集的 `page_id` 只是主题邻近的上下文页，**不代表句子出现在页面上**；公开页集才是“句子确实在页面上、`[n]` 与页内参考文献同号”。引用两套结果时必须说明是哪一套。
+4. **页面候选被截断**：`live_check` 只取页面 OpenAlex `referenced_works` 前 40 条（`MAX_REFERENCED_WORKS=40`），而 `2611.02510` 有 456 条参考文献、OpenAlex 记录 283 条；若正确文献落在第 41 条之后，本集也不会命中。这不是页面本身的问题，是产品当前的取数上限。
+5. **候选返回上限 5**：`MAX_CANDIDATES=5` 固定返回前 5，hit@3 只在其内部排序上评估；已确认 4 条未命中排在第 4–5、8 条被词面打分挤出前 5，扩大候选或改打分需另做实验，不能靠本集证明。
+6. **许可**：公开页集只摘录句子与参考文献编号；`2610.41688` 为 CC BY-NC-SA 4.0，仅限仓库内评测使用、需署名，不随产品分发正文；其余页面为 CC BY 4.0 / CC BY-SA 4.0，使用时保留 URL 与许可声明。
+7. **网络环境**：OpenAlex 无 API key、共享每日预算；PubMed 页面 203 拦截；arXiv 抓取曾瞬时超时。延迟数值只代表本机，P50 偏小是因为同进程缓存，P95 反映 5 次冷启动。
+8. **摘要可得性**：部分来源摘要为空（OpenAlex 未收录），会直接导致 `no_evidence`；这类句子应在下一版单独分层统计。
 
 ## 9. 文件
 
 | 文件 | 内容 |
 | --- | --- |
-| `data/live_eval/pages.json` | 5 个公开页（id/url/title/fetched_at/license/license_url/fetched_via） |
-| `data/live_eval/claims.jsonl` | 30 条真实中文引用句（id/sentence/source_title/source_doi/page_id） |
-| `data/live_eval/live_eval.json` | 最近一次评测结果（n、hit@1/hit@3、P50/P95、标签分布、逐条记录） |
-| `scripts/eval_live.py` | 校验 + 评测脚本 |
-| `tests/test_live_eval.py` | 7 个离线单测（命中/未命中/空候选/异常/数据校验） |
+| `data/live_eval/pages.json` | 跨语言集 5 个公开页（id/url/title/fetched_at/license/license_url/fetched_via） |
+| `data/live_eval/claims.jsonl` | 跨语言集 30 条真实中文引用句（id/sentence/source_title/source_doi/page_id） |
+| `data/live_eval/live_eval.json` | 跨语言集最近一次评测结果（n、hit@1/hit@3、P50/P95、标签分布、逐条记录） |
+| `data/live_eval/pages_public.json` | 公开页集 5 个 arXiv HTML 页（id/url/title/fetched_at/license/license_url/source/references/openalex_referenced_works） |
+| `data/live_eval/claims_public.jsonl` | 公开页集 30 条英文正文句（id/sentence/source_title/source_doi/page_url/page_title/reference_index） |
+| `data/live_eval/live_eval_public.json` | 公开页集最近一次评测结果（dataset=public，含真实指标与逐条记录） |
+| `scripts/eval_live.py` | 校验 + 评测脚本；`--claims/--pages/--out` 切换数据集，`--check` 只校验数据 |
+| `tests/test_live_eval.py` | 13 个离线单测（跨语言/公开页两套数据校验、命中/未命中/空候选/异常、fake checker） |
 | `docs/live_eval.md` | 本文件 |

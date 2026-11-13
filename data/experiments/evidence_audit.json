@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 132,
+  "paths_checked": 135,
   "missing": [],
   "rows": [
     {
@@ -486,6 +486,26 @@
     {
       "evidence": "E80",
       "path": "docs/evidence/shots/phase-53-live-result-1.7.7.png",
+      "exists": true
+    },
+    {
+      "evidence": "E81",
+      "path": "data/live_eval/pages_public.json",
+      "exists": true
+    },
+    {
+      "evidence": "E81",
+      "path": "data/live_eval/live_eval_public.json",
+      "exists": true
+    },
+    {
+      "evidence": "E81",
+      "path": "docs/live_eval.md",
+      "exists": true
+    },
+    {
+      "evidence": "E81",
+      "path": "docs/live_eval.md",
       "exists": true
     }
   ],

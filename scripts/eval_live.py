@@ -1,7 +1,17 @@
-"""CiteGuard Live 评测：30 条真实中文引用句 -> hit@3 / 延迟 / 四档标签分布。
+"""CiteGuard Live 评测：两套 30 句数据 -> hit@3 / 延迟 / 四档标签分布。
 
 评测对象是产品里的 ``check_claim(claim, page_url="", page_title="")``（见
 ``src/citeguard/live_check.py``），不启动 Web 服务、不经过浏览器扩展。
+
+两套数据（不混算）
+------------------
+1. 跨语言集（默认，``pages.json`` + ``claims.jsonl``）：30 条真实中文引用句，
+   句子出处是本地 ``data/real_corpus`` PDF；``page_id`` 是 Live 场景里打开的
+   公开上下文页，页面的参考文献列表通常不含被引来源 —— 用于暴露跨语言检索
+   的边界，hit@3 预期很低。
+2. 公开页集（``pages_public.json`` + ``claims_public.jsonl``）：30 条英文正文
+   句子确实出现在 5 篇 arXiv HTML 页面上，``[n]`` 标记与页面参考文献列表一一
+   对应；用于检查「页面参考文献列表优先」路径在真实页面上的效果。
 
 指标
 ----
@@ -12,16 +22,19 @@
 
 边界
 ----
-- 30 句来自 ``data/real_corpus`` 的真实正文（不是模板造句），句子的出处是本地
-  PDF；``page_id`` 指向 Live 场景里打开的公开页面（上下文页），不是句子出处。
-- 本集不提供 stance 金标；标签分布是模型的输出分布，不是准确率。四档意图的
-  覆盖方式见 ``docs/live_eval.md``。
+- 跨语言集不提供 stance 金标；标签分布是模型的输出分布，不是准确率。
+- 公开页集只存句子、`[n]` 编号与页面元数据，不复制页面正文；句子长度 40–300
+  字符，每页 6 条。两套数据的 hit@3 分母不同、任务难度不同，禁止混算。
 - 结果只写 id、标签、候选数与延迟，不落盘摘要或候选全文。
 
 用法
 ----
     python scripts/eval_live.py --check        # 只校验数据完整性
-    PYTHONPATH=src python scripts/eval_live.py # 跑 30 句，写 data/live_eval/live_eval.json
+    PYTHONPATH=src python scripts/eval_live.py # 跑跨语言集，写 live_eval.json
+    PYTHONPATH=src python scripts/eval_live.py \
+        --claims data/live_eval/claims_public.jsonl \
+        --pages data/live_eval/pages_public.json \
+        --out data/live_eval/live_eval_public.json
     PYTHONPATH=src python scripts/eval_live.py --limit 5 --out /tmp/live_preview.json
 """
 
@@ -43,14 +56,29 @@ DEFAULT_DATA_DIR = ROOT / "data" / "live_eval"
 DEFAULT_OUT = DEFAULT_DATA_DIR / "live_eval.json"
 
 LABELS = ("support", "partial", "contradict", "no_evidence")
-CLAIM_FIELDS = {"id", "sentence", "source_title", "source_doi", "page_id"}
+CJK_CLAIM_FIELDS = {"id", "sentence", "source_title", "source_doi", "page_id"}
+PUBLIC_CLAIM_FIELDS = {
+    "id",
+    "sentence",
+    "source_title",
+    "source_doi",
+    "page_url",
+    "page_title",
+    "reference_index",
+}
 PAGE_FIELDS = {"id", "url", "title", "fetched_at", "license"}
+PUBLIC_PAGE_FIELDS = {"id", "url", "title", "fetched_at", "license", "source", "references"}
+CLAIM_FIELDS = CJK_CLAIM_FIELDS  # 兼容旧引用（测试与外部脚本）
 EXPECTED_PAGES = 5
 EXPECTED_CLAIMS = 30
+PUBLIC_PER_PAGE = 6
+PUBLIC_SENTENCE_MIN = 40
+PUBLIC_SENTENCE_MAX = 300
 K = 3
 TZ = timezone(timedelta(hours=8))
 
 CJK_RE = re.compile(r"[\u4e00-\u9fff]")
+CITATION_MARKER_RE = re.compile(r"\[([0-9][0-9,\s\u2013-]*?)\]")
 DOI_RE = re.compile(r"10\.\d{4,9}/[^\s\"'<>]+", re.IGNORECASE)
 
 
@@ -141,19 +169,56 @@ def _iso_ok(value: Any) -> bool:
         return False
 
 
+def _marker_indexes(sentence: str) -> set[int]:
+    """把 [2] / [186, 194] / [10–12] 解析成引用编号集合。"""
+    indexes: set[int] = set()
+    for raw in CITATION_MARKER_RE.findall(sentence or ""):
+        for part in re.split(r",\s*", raw.strip()):
+            if re.fullmatch(r"\d+", part):
+                indexes.add(int(part))
+                continue
+            match = re.fullmatch(r"(\d+)\s*[\u2013-]\s*(\d+)", part)
+            if match:
+                indexes.update(range(int(match.group(1)), int(match.group(2)) + 1))
+    return indexes
+
+
+def dataset_profile(claims: list[dict]) -> str:
+    """按字段形状识别数据集：crosslingual / public / unknown。"""
+    if not claims:
+        return "unknown"
+    keys = [set(claim) for claim in claims if isinstance(claim, dict)]
+    if keys and all(PUBLIC_CLAIM_FIELDS <= k for k in keys):
+        return "public"
+    if keys and all(CJK_CLAIM_FIELDS <= k for k in keys):
+        return "crosslingual"
+    return "unknown"
+
+
 def validate(pages: list[dict], claims: list[dict]) -> list[str]:
     """校验评测数据（不依赖 live_check），返回错误列表；空列表表示通过。"""
+    profile = dataset_profile(claims)
+    if profile == "public":
+        return _validate_public(pages, claims)
+    if profile == "crosslingual":
+        return _validate_crosslingual(pages, claims)
     errors: list[str] = []
+    _validate_page_common(pages, errors)
+    if len(claims) != EXPECTED_CLAIMS:
+        errors.append(f"claims 应为 {EXPECTED_CLAIMS} 条，实际 {len(claims)}")
+    errors.append("claims 字段形状既不是跨语言集也不是公开页集，无法识别数据集")
+    return errors
+
+
+def _validate_page_common(pages: list[dict], errors: list[str]) -> dict[str, dict]:
     if len(pages) != EXPECTED_PAGES:
         errors.append(f"pages 应为 {EXPECTED_PAGES} 个，实际 {len(pages)}")
+    page_by_url: dict[str, dict] = {}
     page_ids: set[str] = set()
     for index, page in enumerate(pages, 1):
         if not isinstance(page, dict):
             errors.append(f"pages[{index}] 不是对象")
             continue
-        missing = PAGE_FIELDS - set(page)
-        if missing:
-            errors.append(f"pages[{index}] 缺字段: {sorted(missing)}")
         pid = str(page.get("id") or "")
         if not pid:
             errors.append(f"pages[{index}] id 为空")
@@ -161,6 +226,9 @@ def validate(pages: list[dict], claims: list[dict]) -> list[str]:
             errors.append(f"pages[{index}] id 重复: {pid}")
         page_ids.add(pid)
         url = str(page.get("url") or "")
+        if url in page_by_url:
+            errors.append(f"pages[{index}] url 重复: {url}")
+        page_by_url[url] = page
         if not url.startswith(("http://", "https://")):
             errors.append(f"pages[{index}] url 不是 http(s): {url!r}")
         if not str(page.get("title") or "").strip():
@@ -169,31 +237,42 @@ def validate(pages: list[dict], claims: list[dict]) -> list[str]:
             errors.append(f"pages[{index}] fetched_at 不是 ISO 时间: {page.get('fetched_at')!r}")
         if not str(page.get("license") or "").strip():
             errors.append(f"pages[{index}] license 为空")
+    return page_by_url
+
+
+def _validate_claim_common(claim: dict, index: int, errors: list[str], seen: set[str]) -> str:
+    cid = str(claim.get("id") or "")
+    if not cid:
+        errors.append(f"claims[{index}] id 为空")
+    elif cid in seen:
+        errors.append(f"claims[{index}] id 重复: {cid}")
+    seen.add(cid)
+    if not str(claim.get("source_title") or "").strip():
+        errors.append(f"claims[{index}] source_title 为空")
+    if not normalize_doi(str(claim.get("source_doi") or "")):
+        errors.append(f"claims[{index}] source_doi 不是 DOI: {claim.get('source_doi')!r}")
+    return cid
+
+
+def _validate_crosslingual(pages: list[dict], claims: list[dict]) -> list[str]:
+    errors: list[str] = []
+    page_by_url = _validate_page_common(pages, errors)
+    page_ids = {str(page.get("id")) for page in pages if isinstance(page, dict)}
 
     if len(claims) != EXPECTED_CLAIMS:
         errors.append(f"claims 应为 {EXPECTED_CLAIMS} 条，实际 {len(claims)}")
-    claim_ids: set[str] = set()
+    seen: set[str] = set()
     used_pages: set[str] = set()
     for index, claim in enumerate(claims, 1):
         if not isinstance(claim, dict):
             errors.append(f"claims[{index}] 不是对象")
             continue
-        fields = set(claim)
-        if fields != CLAIM_FIELDS:
-            errors.append(f"claims[{index}] 字段应恰为 {sorted(CLAIM_FIELDS)}，实际 {sorted(fields)}")
-        cid = str(claim.get("id") or "")
-        if not cid:
-            errors.append(f"claims[{index}] id 为空")
-        elif cid in claim_ids:
-            errors.append(f"claims[{index}] id 重复: {cid}")
-        claim_ids.add(cid)
+        if set(claim) != CJK_CLAIM_FIELDS:
+            errors.append(f"claims[{index}] 字段应恰为 {sorted(CJK_CLAIM_FIELDS)}，实际 {sorted(set(claim))}")
+        _validate_claim_common(claim, index, errors, seen)
         sentence = str(claim.get("sentence") or "").strip()
         if len(sentence) < 10 or not CJK_RE.search(sentence):
             errors.append(f"claims[{index}] 句子过短或非中文: {sentence[:30]!r}")
-        if not str(claim.get("source_title") or "").strip():
-            errors.append(f"claims[{index}] source_title 为空")
-        if not normalize_doi(str(claim.get("source_doi") or "")):
-            errors.append(f"claims[{index}] source_doi 不是 DOI: {claim.get('source_doi')!r}")
         page_id = str(claim.get("page_id") or "")
         if page_id not in page_ids:
             errors.append(f"claims[{index}] page_id 不在 pages 中: {page_id!r}")
@@ -201,6 +280,60 @@ def validate(pages: list[dict], claims: list[dict]) -> list[str]:
             used_pages.add(page_id)
     for pid in sorted(page_ids - used_pages):
         errors.append(f"页面未被任何 claim 使用: {pid}")
+    if not page_by_url:
+        errors.append("pages 为空")
+    return errors
+
+
+def _validate_public(pages: list[dict], claims: list[dict]) -> list[str]:
+    errors: list[str] = []
+    page_by_url = _validate_page_common(pages, errors)
+    for index, page in enumerate(pages, 1):
+        if not isinstance(page, dict):
+            continue
+        missing = PUBLIC_PAGE_FIELDS - set(page)
+        if missing:
+            errors.append(f"pages[{index}] 缺字段: {sorted(missing)}")
+        references = page.get("references")
+        if not isinstance(references, int) or references <= 0:
+            errors.append(f"pages[{index}] references 应为正整数: {references!r}")
+
+    if len(claims) != EXPECTED_CLAIMS:
+        errors.append(f"claims 应为 {EXPECTED_CLAIMS} 条，实际 {len(claims)}")
+    seen: set[str] = set()
+    per_url: dict[str, int] = {}
+    for index, claim in enumerate(claims, 1):
+        if not isinstance(claim, dict):
+            errors.append(f"claims[{index}] 不是对象")
+            continue
+        if set(claim) != PUBLIC_CLAIM_FIELDS:
+            errors.append(f"claims[{index}] 字段应恰为 {sorted(PUBLIC_CLAIM_FIELDS)}，实际 {sorted(set(claim))}")
+        _validate_claim_common(claim, index, errors, seen)
+        sentence = str(claim.get("sentence") or "").strip()
+        if not PUBLIC_SENTENCE_MIN <= len(sentence) <= PUBLIC_SENTENCE_MAX:
+            errors.append(f"claims[{index}] 长度 {len(sentence)} 不在 {PUBLIC_SENTENCE_MIN}–{PUBLIC_SENTENCE_MAX}: {sentence[:40]!r}")
+        if CJK_RE.search(sentence):
+            errors.append(f"claims[{index}] 公开页集句子应为英文: {sentence[:40]!r}")
+        indexes = _marker_indexes(sentence)
+        if not indexes:
+            errors.append(f"claims[{index}] 缺少 [n] 引用标记: {sentence[:40]!r}")
+        ref_index = claim.get("reference_index")
+        if not isinstance(ref_index, int) or ref_index <= 0:
+            errors.append(f"claims[{index}] reference_index 应为正整数: {ref_index!r}")
+        elif indexes and ref_index not in indexes:
+            errors.append(f"claims[{index}] reference_index {ref_index} 不在句子的引用标记 {sorted(indexes)} 中")
+        page_url = str(claim.get("page_url") or "")
+        page = page_by_url.get(page_url)
+        if page is None:
+            errors.append(f"claims[{index}] page_url 不在 pages 中: {page_url!r}")
+        else:
+            per_url[page_url] = per_url.get(page_url, 0) + 1
+            if str(claim.get("page_title") or "").strip() != str(page.get("title") or "").strip():
+                errors.append(f"claims[{index}] page_title 与 pages 不一致: {claim.get('page_title')!r}")
+    for url, page in page_by_url.items():
+        count = per_url.get(url, 0)
+        if count != PUBLIC_PER_PAGE:
+            errors.append(f"页面 {url} 应有 {PUBLIC_PER_PAGE} 条 claim，实际 {count}")
     return errors
 
 
@@ -215,13 +348,19 @@ def load_checker() -> tuple[Optional[Callable[..., dict]], str]:
 
 def run(claims: list[dict], pages: list[dict], checker: Callable[..., dict], k: int = K) -> dict:
     page_by_id = {str(page["id"]): page for page in pages}
+    page_by_url = {str(page.get("url") or ""): page for page in pages}
     records: list[dict] = []
     failures: list[dict] = []
     latencies: list[float] = []
     label_counts = {label: 0 for label in LABELS}
 
     for claim in claims:
-        page = page_by_id[str(claim["page_id"])]
+        page = page_by_id.get(str(claim.get("page_id") or "")) or page_by_url.get(
+            str(claim.get("page_url") or "")
+        )
+        if page is None:
+            failures.append({"id": claim.get("id"), "error": "找不到 claim 对应的页面"})
+            continue
         started = time.perf_counter()
         try:
             result = checker(
@@ -252,19 +391,20 @@ def run(claims: list[dict], pages: list[dict], checker: Callable[..., dict], k: 
             confidence = 0.0
         latencies.append(elapsed_ms)
         label_counts[label] += 1
-        records.append(
-            {
-                "id": claim["id"],
-                "page_id": claim["page_id"],
-                "label": label,
-                "confidence": confidence,
-                "n_candidates": len(candidates),
-                "hit@1": rank == 1,
-                "hit@3": bool(rank and rank <= k),
-                "first_hit_rank": rank,
-                "latency_ms": elapsed_ms,
-            }
-        )
+        record = {
+            "id": claim["id"],
+            "page_id": page.get("id"),
+            "label": label,
+            "confidence": confidence,
+            "n_candidates": len(candidates),
+            "hit@1": rank == 1,
+            "hit@3": bool(rank and rank <= k),
+            "first_hit_rank": rank,
+            "latency_ms": elapsed_ms,
+        }
+        if "reference_index" in claim:
+            record["reference_index"] = claim["reference_index"]
+        records.append(record)
 
     n = len(claims)
     hit1 = sum(1 for r in records if r["hit@1"])
@@ -272,6 +412,7 @@ def run(claims: list[dict], pages: list[dict], checker: Callable[..., dict], k: 
     no_candidates = sum(1 for r in records if r["n_candidates"] == 0)
     result = {
         "generated_at": _now(),
+        "dataset": dataset_profile(claims),
         "n": n,
         "n_pages": len(pages),
         "k": k,
@@ -296,16 +437,25 @@ def _print_summary(result: dict) -> None:
     print(f"labels={result['label_counts']} failures={result['n_failures']} no_candidates={result['n_no_candidates']}")
 
 
+def _rel(path: Path) -> str:
+    try:
+        return str(path.resolve().relative_to(ROOT))
+    except ValueError:
+        return str(path)
+
+
 def main(argv: Optional[list[str]] = None) -> int:
-    parser = argparse.ArgumentParser(description="CiteGuard Live 30 句评测")
+    parser = argparse.ArgumentParser(description="CiteGuard Live 30 句评测（跨语言集 / 公开页集）")
     parser.add_argument("--data-dir", type=Path, default=DEFAULT_DATA_DIR)
+    parser.add_argument("--claims", type=Path, default=None, help="claims JSONL；默认 <data-dir>/claims.jsonl")
+    parser.add_argument("--pages", type=Path, default=None, help="pages JSON；默认 <data-dir>/pages.json")
     parser.add_argument("--out", type=Path, default=DEFAULT_OUT)
     parser.add_argument("--check", action="store_true", help="只校验 pages/claims 完整性")
     parser.add_argument("--limit", type=int, default=0, help="只跑前 N 条（预览用）")
     args = parser.parse_args(argv)
 
-    pages_path = args.data_dir / "pages.json"
-    claims_path = args.data_dir / "claims.jsonl"
+    pages_path = args.pages if args.pages else args.data_dir / "pages.json"
+    claims_path = args.claims if args.claims else args.data_dir / "claims.jsonl"
     try:
         pages = load_pages(pages_path)
         claims = load_claims(claims_path)
@@ -313,6 +463,7 @@ def main(argv: Optional[list[str]] = None) -> int:
         print(f"数据读取失败: {exc}", file=sys.stderr)
         return 1
 
+    profile = dataset_profile(claims)
     errors = validate(pages, claims)
     if args.check:
         if errors:
@@ -320,7 +471,8 @@ def main(argv: Optional[list[str]] = None) -> int:
             for error in errors:
                 print(f"- {error}")
             return 1
-        print(f"OK: {len(pages)} 个公开页 / {len(claims)} 条引用句，来源字段齐全")
+        label = "公开页集" if profile == "public" else "跨语言集"
+        print(f"OK: {len(pages)} 个页面 / {len(claims)} 条引用句（{label}），来源字段齐全")
         return 0
     if errors:
         print("数据校验失败（先修数据）:", file=sys.stderr)
@@ -336,7 +488,7 @@ def main(argv: Optional[list[str]] = None) -> int:
     if args.limit > 0:
         claims = claims[: args.limit]
     result = run(claims, pages, checker)
-    result["data"] = {"pages": str(pages_path.relative_to(ROOT)), "claims": str(claims_path.relative_to(ROOT))}
+    result["data"] = {"pages": _rel(pages_path), "claims": _rel(claims_path)}
     result["checker"] = "citeguard.live_check.check_claim"
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
