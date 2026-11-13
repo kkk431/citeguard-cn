@@ -1,0 +1,506 @@
+{
+ "seed": 20261114,
+ "n": 100,
+ "labels": {
+  "HS001": {
+   "label": "support",
+   "set": "",
+   "source_url": ""
+  },
+  "HS002": {
+   "label": "contradict",
+   "set": "",
+   "source_url": ""
+  },
+  "HS003": {
+   "label": "partial",
+   "set": "",
+   "source_url": ""
+  },
+  "HS004": {
+   "label": "support",
+   "set": "",
+   "source_url": ""
+  },
+  "HS005": {
+   "label": "contradict",
+   "set": "",
+   "source_url": ""
+  },
+  "HS006": {
+   "label": "contradict",
+   "set": "",
+   "source_url": ""
+  },
+  "HS007": {
+   "label": "partial",
+   "set": "",
+   "source_url": ""
+  },
+  "HS008": {
+   "label": "partial",
+   "set": "",
+   "source_url": ""
+  },
+  "HS009": {
+   "label": "partial",
+   "set": "",
+   "source_url": ""
+  },
+  "HS010": {
+   "label": "support",
+   "set": "",
+   "source_url": ""
+  },
+  "HS011": {
+   "label": "support",
+   "set": "",
+   "source_url": ""
+  },
+  "HS012": {
+   "label": "no_evidence",
+   "set": "",
+   "source_url": ""
+  },
+  "HS013": {
+   "label": "support",
+   "set": "",
+   "source_url": ""
+  },
+  "HS014": {
+   "label": "support",
+   "set": "",
+   "source_url": ""
+  },
+  "HS015": {
+   "label": "contradict",
+   "set": "",
+   "source_url": ""
+  },
+  "HS016": {
+   "label": "partial",
+   "set": "",
+   "source_url": ""
+  },
+  "HS017": {
+   "label": "support",
+   "set": "",
+   "source_url": ""
+  },
+  "HS018": {
+   "label": "contradict",
+   "set": "",
+   "source_url": ""
+  },
+  "HS019": {
+   "label": "support",
+   "set": "",
+   "source_url": ""
+  },
+  "HS020": {
+   "label": "support",
+   "set": "",
+   "source_url": ""
+  },
+  "HS021": {
+   "label": "partial",
+   "set": "",
+   "source_url": ""
+  },
+  "HS022": {
+   "label": "partial",
+   "set": "",
+   "source_url": ""
+  },
+  "HS023": {
+   "label": "support",
+   "set": "",
+   "source_url": ""
+  },
+  "HS024": {
+   "label": "no_evidence",
+   "set": "",
+   "source_url": ""
+  },
+  "HS025": {
+   "label": "no_evidence",
+   "set": "",
+   "source_url": ""
+  },
+  "HS026": {
+   "label": "support",
+   "set": "",
+   "source_url": ""
+  },
+  "HS027": {
+   "label": "support",
+   "set": "",
+   "source_url": ""
+  },
+  "HS028": {
+   "label": "support",
+   "set": "",
+   "source_url": ""
+  },
+  "HS029": {
+   "label": "no_evidence",
+   "set": "",
+   "source_url": ""
+  },
+  "HS030": {
+   "label": "support",
+   "set": "",
+   "source_url": ""
+  },
+  "HS031": {
+   "label": "support",
+   "set": "",
+   "source_url": ""
+  },
+  "HS032": {
+   "label": "contradict",
+   "set": "",
+   "source_url": ""
+  },
+  "HS033": {
+   "label": "no_evidence",
+   "set": "",
+   "source_url": ""
+  },
+  "HS034": {
+   "label": "partial",
+   "set": "",
+   "source_url": ""
+  },
+  "HS035": {
+   "label": "support",
+   "set": "",
+   "source_url": ""
+  },
+  "HS036": {
+   "label": "no_evidence",
+   "set": "",
+   "source_url": ""
+  },
+  "HS037": {
+   "label": "partial",
+   "set": "",
+   "source_url": ""
+  },
+  "HS038": {
+   "label": "support",
+   "set": "",
+   "source_url": ""
+  },
+  "HS039": {
+   "label": "contradict",
+   "set": "",
+   "source_url": ""
+  },
+  "HS040": {
+   "label": "no_evidence",
+   "set": "",
+   "source_url": ""
+  },
+  "HS041": {
+   "label": "support",
+   "set": "",
+   "source_url": ""
+  },
+  "HS042": {
+   "label": "partial",
+   "set": "",
+   "source_url": ""
+  },
+  "HS043": {
+   "label": "no_evidence",
+   "set": "",
+   "source_url": ""
+  },
+  "HS044": {
+   "label": "contradict",
+   "set": "",
+   "source_url": ""
+  },
+  "HS045": {
+   "label": "support",
+   "set": "",
+   "source_url": ""
+  },
+  "HS046": {
+   "label": "support",
+   "set": "",
+   "source_url": ""
+  },
+  "HS047": {
+   "label": "no_evidence",
+   "set": "",
+   "source_url": ""
+  },
+  "HS048": {
+   "label": "support",
+   "set": "",
+   "source_url": ""
+  },
+  "HS049": {
+   "label": "contradict",
+   "set": "",
+   "source_url": ""
+  },
+  "HS050": {
+   "label": "partial",
+   "set": "",
+   "source_url": ""
+  },
+  "HS051": {
+   "label": "contradict",
+   "set": "",
+   "source_url": ""
+  },
+  "HS052": {
+   "label": "partial",
+   "set": "",
+   "source_url": ""
+  },
+  "HS053": {
+   "label": "support",
+   "set": "",
+   "source_url": ""
+  },
+  "HS054": {
+   "label": "no_evidence",
+   "set": "",
+   "source_url": ""
+  },
+  "HS055": {
+   "label": "partial",
+   "set": "",
+   "source_url": ""
+  },
+  "HS056": {
+   "label": "partial",
+   "set": "",
+   "source_url": ""
+  },
+  "HS057": {
+   "label": "partial",
+   "set": "",
+   "source_url": ""
+  },
+  "HS058": {
+   "label": "partial",
+   "set": "",
+   "source_url": ""
+  },
+  "HS059": {
+   "label": "support",
+   "set": "",
+   "source_url": ""
+  },
+  "HS060": {
+   "label": "support",
+   "set": "",
+   "source_url": ""
+  },
+  "HS061": {
+   "label": "support",
+   "set": "claimsupport_cn_v2",
+   "source_url": "https://openalex.org/W4244784782"
+  },
+  "HS062": {
+   "label": "contradict",
+   "set": "claimsupport_cn_ext",
+   "source_url": "https://openalex.org/W4250695752"
+  },
+  "HS063": {
+   "label": "support",
+   "set": "claimsupport_cn",
+   "source_url": "https://openalex.org/W4412685122"
+  },
+  "HS064": {
+   "label": "partial",
+   "set": "claimsupport_cn_v2",
+   "source_url": "https://openalex.org/W4412759828"
+  },
+  "HS065": {
+   "label": "partial",
+   "set": "claimsupport_cn",
+   "source_url": "https://openalex.org/W4364377658"
+  },
+  "HS066": {
+   "label": "partial",
+   "set": "claimsupport_cn",
+   "source_url": "https://openalex.org/W3152048985"
+  },
+  "HS067": {
+   "label": "partial",
+   "set": "claimsupport_cn_v2",
+   "source_url": "https://openalex.org/W4221103261"
+  },
+  "HS068": {
+   "label": "partial",
+   "set": "claimsupport_cn_v2",
+   "source_url": "https://openalex.org/W4238443697"
+  },
+  "HS069": {
+   "label": "support",
+   "set": "claimsupport_cn_v2",
+   "source_url": "https://openalex.org/W4409862850"
+  },
+  "HS070": {
+   "label": "partial",
+   "set": "claimsupport_cn_v2",
+   "source_url": "https://openalex.org/W3146610601"
+  },
+  "HS071": {
+   "label": "partial",
+   "set": "claimsupport_cn",
+   "source_url": "https://openalex.org/W4212958519"
+  },
+  "HS072": {
+   "label": "no_evidence",
+   "set": "claimsupport_cn",
+   "source_url": "https://openalex.org/W4230251397"
+  },
+  "HS073": {
+   "label": "support",
+   "set": "claimsupport_cn",
+   "source_url": "https://openalex.org/W4255907190"
+  },
+  "HS074": {
+   "label": "support",
+   "set": "claimsupport_cn_v2",
+   "source_url": "https://openalex.org/W4401636831"
+  },
+  "HS075": {
+   "label": "support",
+   "set": "claimsupport_cn_ext",
+   "source_url": "https://openalex.org/W4242376998"
+  },
+  "HS076": {
+   "label": "partial",
+   "set": "claimsupport_cn_v2",
+   "source_url": "https://openalex.org/W4244494600"
+  },
+  "HS077": {
+   "label": "contradict",
+   "set": "claimsupport_cn_v2",
+   "source_url": "https://openalex.org/W3147878642"
+  },
+  "HS078": {
+   "label": "support",
+   "set": "claimsupport_cn",
+   "source_url": "https://openalex.org/W4413254427"
+  },
+  "HS079": {
+   "label": "support",
+   "set": "claimsupport_cn_ext",
+   "source_url": "https://openalex.org/W3146332738"
+  },
+  "HS080": {
+   "label": "contradict",
+   "set": "claimsupport_cn_v2",
+   "source_url": "https://openalex.org/W4323763278"
+  },
+  "HS081": {
+   "label": "contradict",
+   "set": "claimsupport_cn_v2",
+   "source_url": "https://openalex.org/W3152043601"
+  },
+  "HS082": {
+   "label": "no_evidence",
+   "set": "claimsupport_cn_v2",
+   "source_url": "https://openalex.org/W4206701487"
+  },
+  "HS083": {
+   "label": "no_evidence",
+   "set": "claimsupport_cn_v2",
+   "source_url": "https://openalex.org/W3143589858"
+  },
+  "HS084": {
+   "label": "no_evidence",
+   "set": "claimsupport_cn",
+   "source_url": "https://openalex.org/W4401636655"
+  },
+  "HS085": {
+   "label": "partial",
+   "set": "claimsupport_cn",
+   "source_url": "https://openalex.org/W4312494579"
+  },
+  "HS086": {
+   "label": "contradict",
+   "set": "claimsupport_cn",
+   "source_url": "https://openalex.org/W4206636511"
+  },
+  "HS087": {
+   "label": "no_evidence",
+   "set": "claimsupport_cn",
+   "source_url": "https://openalex.org/W4283802151"
+  },
+  "HS088": {
+   "label": "support",
+   "set": "claimsupport_cn",
+   "source_url": "https://openalex.org/W4232930047"
+  },
+  "HS089": {
+   "label": "support",
+   "set": "claimsupport_cn_ext",
+   "source_url": "https://openalex.org/W4246542812"
+  },
+  "HS090": {
+   "label": "contradict",
+   "set": "claimsupport_cn",
+   "source_url": "https://openalex.org/W4381515253"
+  },
+  "HS091": {
+   "label": "partial",
+   "set": "claimsupport_cn",
+   "source_url": "https://openalex.org/W3144322828"
+  },
+  "HS092": {
+   "label": "support",
+   "set": "claimsupport_cn_v2",
+   "source_url": "https://openalex.org/W4212788700"
+  },
+  "HS093": {
+   "label": "support",
+   "set": "claimsupport_cn",
+   "source_url": "https://openalex.org/W4404207773"
+  },
+  "HS094": {
+   "label": "partial",
+   "set": "claimsupport_cn_ext",
+   "source_url": "https://openalex.org/W4237408659"
+  },
+  "HS095": {
+   "label": "contradict",
+   "set": "claimsupport_cn_v2",
+   "source_url": "https://openalex.org/W4205539134"
+  },
+  "HS096": {
+   "label": "support",
+   "set": "claimsupport_cn",
+   "source_url": "https://openalex.org/W4250743116"
+  },
+  "HS097": {
+   "label": "no_evidence",
+   "set": "claimsupport_cn",
+   "source_url": "https://openalex.org/W3145689996"
+  },
+  "HS098": {
+   "label": "support",
+   "set": "claimsupport_cn_ext",
+   "source_url": "https://openalex.org/W4253757930"
+  },
+  "HS099": {
+   "label": "support",
+   "set": "claimsupport_cn",
+   "source_url": "https://openalex.org/W4412907361"
+  },
+  "HS100": {
+   "label": "support",
+   "set": "claimsupport_cn_ext",
+   "source_url": "https://openalex.org/W4250536567"
+  }
+ }
+}

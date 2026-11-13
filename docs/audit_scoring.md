@@ -2,6 +2,8 @@
 
 ClaimSupport-CN 的标签由构造规则决定，不是人工语义标注。要回答“模型在真人眼里准不准”，需要一次**盲标**：标注者只看 `item_id`、引用句、证据原文，不看构造标签，也不看模型输出。
 
+> 当前推荐的是 **100 条、三人独立盲标**：见 [human_audit.md](human_audit.md)、`scripts/build_audit_sheet_100.py`、`scripts/build_audit_kit.py` 与 `scripts/score_audit_kit.py`。下面的 60 条单人流程保留为早期工具，不再作为主口径。
+
 这条工具链有三步：
 
 ```bash

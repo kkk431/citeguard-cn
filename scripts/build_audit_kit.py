@@ -24,11 +24,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-SOURCE_SHEET = ROOT / "data" / "audit" / "audit_sheet.csv"
-SOURCE_KEY = ROOT / "data" / "audit" / "audit_key.json"
+SOURCE_SHEET = ROOT / "data" / "audit" / "audit_sheet_100.csv"
+SOURCE_KEY = ROOT / "data" / "audit" / "audit_key_100.json"
 DEFAULT_OUT = ROOT / "dist" / "audit_kit"
 
-INSTRUCTIONS = """# 引文支持度盲标说明（60 条，约 60–90 分钟）
+INSTRUCTIONS = """# 引文支持度盲标说明（100 条，约 1.5–2 小时）
 
 你的任务：判断 **给出的证据（evidence）是否支持这句话（claim）**。只依据 evidence，不查资料、不看模型结果、不和别人讨论。
 
@@ -69,11 +69,12 @@ INSTRUCTIONS = """# 引文支持度盲标说明（60 条，约 60–90 分钟）
 ## 先做 5 条练习题
 
 打开 `practice.csv`，按上面规则填 `human_label`，然后对照 `practice_answers.md`。
-如果 5 条里错 2 条以上，先重读“判定顺序”和“边界规则”，再开始正式 60 条。
+如果 5 条里错 2 条以上，先重读“判定顺序”和“边界规则”，再开始正式 100 条。
+如果不知道最后三列怎么填，先看 `demo_填写示例.csv`（已填好 3 条）。
 
 ## 时间与提交
 
-- 建议分两次完成（每次 30 条），避免疲劳。
+- 建议分 2–3 次完成（每次 30–40 条），避免疲劳。
 - 3 天内交回；中途不要改已提交的标签。
 - 有疑问写在 `note`，不要空着。
 """
@@ -122,7 +123,7 @@ ORGANIZER = """# 盲标包使用说明（组织者）
 
 - `instructions_给标注者.md`：一页规则，发给每位标注者。
 - `practice.csv` + `practice_answers.md`：5 条校准题，发给标注者。
-- `audit_A.csv` / `audit_B.csv` / `audit_C.csv`：同一批 60 条，三种随机顺序；每人只发自己那一份。
+- `audit_A.csv` / `audit_B.csv` / `audit_C.csv`：同一批 100 条，三种随机顺序；每人只发自己那一份。
 - `_organizer_only/audit_key.json`：**构造标签，不是人工金标**；绝对不要发给标注者。
 
 ## 发放
@@ -155,7 +156,7 @@ python scripts/score_audit_kit.py --kit dist/audit_kit --out dist/audit_kit/_res
 
 ## 写作口径
 
-- 对外只能写“60 条、3 人独立盲标、Fleiss κ=…、其中 N 条仲裁”。
+- 对外只能写“100 条、3 人独立盲标、Fleiss κ=…、其中 N 条仲裁”。
 - 不能写“人工金标准覆盖 300 条”，也不能把构造标签说成人审。
 - 标注者个人信息不采集；CSV 只含编号与判断。
 """
@@ -164,8 +165,8 @@ python scripts/score_audit_kit.py --kit dist/audit_kit --out dist/audit_kit/_res
 def read_rows() -> list[dict[str, str]]:
     with SOURCE_SHEET.open("r", encoding="utf-8-sig", newline="") as handle:
         rows = list(csv.DictReader(handle))
-    if len(rows) != 60:
-        raise SystemExit(f"expected 60 audit rows, found {len(rows)}")
+    if len(rows) != 100:
+        raise SystemExit(f"expected 100 audit rows, found {len(rows)}")
     return rows
 
 
@@ -221,6 +222,25 @@ def main() -> int:
         answers.append("")
     (out / "practice_answers.md").write_text("\n".join(answers), encoding="utf-8")
 
+    demo_conf = {"P1": ("5", "证据方向、剂量与结论一致，明确支持。"),
+                 "P2": ("4", "只支持 2 型糖尿病亚组，结论外推到所有糖尿病患者。"),
+                 "P3": ("5", "证据说差异无统计学意义，结论说显著提高。")}
+    write_csv(
+        out / "demo_填写示例.csv",
+        [
+            {
+                "item_id": item["item_id"],
+                "claim": item["claim"],
+                "evidence": item["evidence"],
+                "source_title": "",
+                "human_label": item["answer"],
+                "confidence_1_5": demo_conf[item["item_id"]][0],
+                "note": demo_conf[item["item_id"]][1],
+            }
+            for item in PRACTICE[:3]
+        ],
+    )
+
     for name, seed in (("A", 101), ("B", 202), ("C", 303)):
         shuffled = list(rows)
         random.Random(seed).shuffle(shuffled)
@@ -234,7 +254,7 @@ def main() -> int:
     shutil.copyfile(SOURCE_KEY, organizer / "audit_key.json")
 
     print(f"[audit-kit] wrote {out}")
-    print(f"[audit-kit] sheets: audit_A/B/C.csv, 60 items each")
+    print(f"[audit-kit] sheets: audit_A/B/C.csv, 100 items each")
     print(f"[audit-kit] key: {organizer / 'audit_key.json'} (do not send)")
     return 0
 
