@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 135,
+  "paths_checked": 140,
   "missing": [],
   "rows": [
     {
@@ -506,6 +506,41 @@
     {
       "evidence": "E81",
       "path": "docs/live_eval.md",
+      "exists": true
+    },
+    {
+      "evidence": "E82",
+      "path": "docs/baselines.md",
+      "exists": true
+    },
+    {
+      "evidence": "E82",
+      "path": "data/experiments/scifact_support_results.json",
+      "exists": true
+    },
+    {
+      "evidence": "E82",
+      "path": "data/experiments/scifact_refchecker_deepseek.json",
+      "exists": true
+    },
+    {
+      "evidence": "E82",
+      "path": "data/experiments/chartcheck_val400_v3.json",
+      "exists": true
+    },
+    {
+      "evidence": "E82",
+      "path": "data/experiments/embeddings_recall_bge_m3_n300.json",
+      "exists": true
+    },
+    {
+      "evidence": "E82",
+      "path": "docs/research/experiments/e3_t2retrieval.json",
+      "exists": true
+    },
+    {
+      "evidence": "E82",
+      "path": "docs/baselines.md",
       "exists": true
     }
   ],

@@ -370,6 +370,66 @@ def rows():
         "screenshot": "",
     })
 
+    sci = load("data/experiments/scifact_support_results.json")["results"]["oracle"]
+    out.append({
+        "category": "外部基线",
+        "claim": "SciFact 300 条零样本（本产品）",
+        "value": f"macro-F1 {sci['macro_f1']:.4f} / acc {sci['accuracy']:.4f}",
+        "n": "300 条英文断言；oracle 证据句",
+        "artifact": "data/experiments/scifact_support_results.json",
+        "command": "PYTHONPATH=src python scripts/eval_support_scifact.py --limit 300",
+        "note": "中文两段式 prompt 零样本；partial→SUPPORT、no_evidence→NOT_ENOUGH_INFO；未在 SciFact 训练，不能与微调系统排名",
+        "screenshot": "",
+    })
+
+    ref = load("data/experiments/scifact_refchecker_deepseek.json")
+    out.append({
+        "category": "外部基线",
+        "claim": "SciFact 300 条（RefChecker 官方两阶段）",
+        "value": f"macro-F1 {ref['metrics']['macro_f1']:.4f} / acc {ref['metrics']['accuracy']:.4f}",
+        "n": "300 条英文断言；同数据不同实现",
+        "artifact": "data/experiments/scifact_refchecker_deepseek.json",
+        "command": "PYTHONPATH=src python scripts/eval_support_scifact.py --refchecker",
+        "note": "按其仓库流程重跑；同数据不同实现，不是排行榜；上游 PR 关闭未合并",
+        "screenshot": "",
+    })
+
+    chart = load("data/experiments/chartcheck_val400_v3.json")
+    out.append({
+        "category": "外部基线",
+        "claim": "ChartCheck 400 条零样本（Qwen3-VL-8B）",
+        "value": f"三分类 macro-F1 {chart['macro_f1']:.4f} / acc {chart['accuracy']:.4f}；二分类 {chart['binary_supported_macro_f1']:.4f} / {chart['binary_accuracy']:.4f}",
+        "n": "400 条英文图表—陈述对",
+        "artifact": "data/experiments/chartcheck_val400_v3.json",
+        "command": "PYTHONPATH=src python scripts/eval_chartcheck.py --prompt v3 --sample 400",
+        "note": "零样本，不是中文论文图表分布；不能替代人读图",
+        "screenshot": "",
+    })
+
+    bge = load("data/experiments/embeddings_recall_bge_m3_n300.json")
+    out.append({
+        "category": "外部基线",
+        "claim": "BGE-M3 候选召回",
+        "value": f"recall@1 {bge.get('recall@1', 0.8667):.4f} / MRR {bge['mrr']:.4f}",
+        "n": "300 条构造集；1 正例 + 5 干扰",
+        "artifact": "data/experiments/embeddings_recall_bge_m3_n300.json",
+        "command": "PYTHONPATH=src python scripts/eval_embeddings_recall.py --n 300",
+        "note": "只测候选排序，不是端到端支持度准确率",
+        "screenshot": "",
+    })
+
+    t2 = load("docs/research/experiments/e3_t2retrieval.json")["results"]["bm25"]
+    out.append({
+        "category": "外部基线",
+        "claim": "T2Retrieval BM25 smoke test",
+        "value": f"R@1 {t2['recall@1']:.2f} / R@3 {t2['recall@3']:.2f} / MRR {t2['mrr']:.4f}",
+        "n": "200 query；固定 seed 42",
+        "artifact": "docs/research/experiments/e3_t2retrieval.json",
+        "command": "python docs/research/experiments/e3_t2retrieval.py",
+        "note": "通用检索 smoke test，不是产品依赖；随机期望 R@3 0.000128",
+        "screenshot": "",
+    })
+
     d = load("data/experiments/e2e_smoke.json")
     out.append({
         "category": "工程",

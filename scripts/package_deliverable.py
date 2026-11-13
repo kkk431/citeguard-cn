@@ -30,7 +30,7 @@ from typing import Iterable, Optional
 from zipfile import ZIP_DEFLATED, ZipFile
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_NAME = "citeguard-cn-1.7.9.zip"
+DEFAULT_NAME = "citeguard-cn-1.7.10.zip"
 
 # Directories pruned wherever they appear in the tree.
 EXCLUDE_DIR_NAMES = {

@@ -31,6 +31,7 @@ nav:
   - 撤稿与勘误检查: retraction.md
   - 替换建议: replacement.md
   - 证据矩阵: evidence_matrix.md
+  - 外部基线: baselines.md
   - 题录库标签: library_tags.md
   - 证据索引: evidence_index.md
   - 性能: performance.md

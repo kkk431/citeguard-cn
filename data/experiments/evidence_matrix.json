@@ -1,6 +1,6 @@
 {
   "schema": "citeguard.evidence_matrix.v1",
-  "rows": 27,
+  "rows": 32,
   "missing": [],
   "items": [
     {
@@ -261,6 +261,56 @@
       "artifact": "data/live_eval/live_eval_crosslingual.json",
       "command": "PYTHONPATH=src python scripts/eval_live.py --out data/live_eval/live_eval_crosslingual.json",
       "note": "句子来自本地中文 PDF，页面不是句子所在论文页；任务与公开页集不同，禁止混算；不声称检索天花板",
+      "screenshot": ""
+    },
+    {
+      "category": "外部基线",
+      "claim": "SciFact 300 条零样本（本产品）",
+      "value": "macro-F1 0.8224 / acc 0.8267",
+      "n": "300 条英文断言；oracle 证据句",
+      "artifact": "data/experiments/scifact_support_results.json",
+      "command": "PYTHONPATH=src python scripts/eval_support_scifact.py --limit 300",
+      "note": "中文两段式 prompt 零样本；partial→SUPPORT、no_evidence→NOT_ENOUGH_INFO；未在 SciFact 训练，不能与微调系统排名",
+      "screenshot": ""
+    },
+    {
+      "category": "外部基线",
+      "claim": "SciFact 300 条（RefChecker 官方两阶段）",
+      "value": "macro-F1 0.7646 / acc 0.7933",
+      "n": "300 条英文断言；同数据不同实现",
+      "artifact": "data/experiments/scifact_refchecker_deepseek.json",
+      "command": "PYTHONPATH=src python scripts/eval_support_scifact.py --refchecker",
+      "note": "按其仓库流程重跑；同数据不同实现，不是排行榜；上游 PR 关闭未合并",
+      "screenshot": ""
+    },
+    {
+      "category": "外部基线",
+      "claim": "ChartCheck 400 条零样本（Qwen3-VL-8B）",
+      "value": "三分类 macro-F1 0.7628 / acc 0.6950；二分类 0.7903 / 0.7925",
+      "n": "400 条英文图表—陈述对",
+      "artifact": "data/experiments/chartcheck_val400_v3.json",
+      "command": "PYTHONPATH=src python scripts/eval_chartcheck.py --prompt v3 --sample 400",
+      "note": "零样本，不是中文论文图表分布；不能替代人读图",
+      "screenshot": ""
+    },
+    {
+      "category": "外部基线",
+      "claim": "BGE-M3 候选召回",
+      "value": "recall@1 0.8667 / MRR 0.9042",
+      "n": "300 条构造集；1 正例 + 5 干扰",
+      "artifact": "data/experiments/embeddings_recall_bge_m3_n300.json",
+      "command": "PYTHONPATH=src python scripts/eval_embeddings_recall.py --n 300",
+      "note": "只测候选排序，不是端到端支持度准确率",
+      "screenshot": ""
+    },
+    {
+      "category": "外部基线",
+      "claim": "T2Retrieval BM25 smoke test",
+      "value": "R@1 0.73 / R@3 0.79 / MRR 0.7715",
+      "n": "200 query；固定 seed 42",
+      "artifact": "docs/research/experiments/e3_t2retrieval.json",
+      "command": "python docs/research/experiments/e3_t2retrieval.py",
+      "note": "通用检索 smoke test，不是产品依赖；随机期望 R@3 0.000128",
       "screenshot": ""
     },
     {
