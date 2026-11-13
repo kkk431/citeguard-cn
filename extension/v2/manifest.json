@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "CiteGuard Live · 划词核验",
+  "version": "0.2.0",
+  "description": "选中网页中的一句话，调用本地 CiteGuard Live 服务，对照开放论文摘要返回支持/部分支持/矛盾/无证据四档与可核对证据句。",
+  "minimum_chrome_version": "116",
+  "permissions": [
+    "storage",
+    "contextMenus",
+    "activeTab",
+    "sidePanel"
+  ],
+  "host_permissions": [
+    "http://127.0.0.1/*",
+    "http://localhost/*",
+    "https://127.0.0.1/*",
+    "https://localhost/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "打开 CiteGuard Live 侧边栏"
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "options_page": "options.html"
+}

@@ -1,3 +1,9 @@
+## [1.7.7] - 2026-11-14
+
+- CiteGuard Live：新增 `POST /api/live/check`、产品内 `/live` 试用页与 `extension/v2/` MV3 侧边栏；划一句 → 识别当前论文 → 优先从 OpenAlex `referenced_works` 取候选 → 四档 + 逐字证据句；普通网页回退 OpenAlex/Crossref 检索，只读摘要，不读全文。
+- 30 句真实中文引用句跨语言评测 hit@3=0/30（P50 5.47 s），诊断与边界见 `docs/live_eval.md`：中文句子检索到中文文献，英文被引文献不在候选；英文 source_title 抽查 3/3 top1，不把该结果说成检索天花板。
+- 851 passed；新增 Live 页面/接口/扩展测试；证据 E80。
+
 ## [1.7.6] - 2026-11-14
 
 - 新增支持度模型对比矩阵（`scripts/build_support_matrix.py`、`docs/model_matrix.md`）：8 行同口径指标、逐条预测的 bootstrap 95% CI、错误清单与「不能这么说」边界。

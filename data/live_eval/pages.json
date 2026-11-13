@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "built_at": "2026-11-14T01:50:33+08:00",
+  "pages": [
+    {
+      "id": "arxiv-1706-03762",
+      "url": "https://arxiv.org/abs/1706.03762",
+      "title": "Attention Is All You Need",
+      "fetched_at": "2026-11-14T01:50:33+08:00",
+      "license": "arXiv 非独占分发许可（Nonexclusive-Distrib 1.0）",
+      "license_url": "https://arxiv.org/licenses/nonexclusive-distrib/1.0/",
+      "fetched_via": "arxiv.org/abs HTML（HTTP 200，citation_title 元数据）"
+    },
+    {
+      "id": "arxiv-2005-11401",
+      "url": "https://arxiv.org/abs/2005.11401",
+      "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
+      "fetched_at": "2026-11-14T01:50:33+08:00",
+      "license": "arXiv 非独占分发许可（Nonexclusive-Distrib 1.0）",
+      "license_url": "https://arxiv.org/licenses/nonexclusive-distrib/1.0/",
+      "fetched_via": "arxiv.org/abs HTML（HTTP 200，citation_title 元数据）"
+    },
+    {
+      "id": "arxiv-2303-08774",
+      "url": "https://arxiv.org/abs/2303.08774",
+      "title": "GPT-4 Technical Report",
+      "fetched_at": "2026-11-14T01:50:33+08:00",
+      "license": "arXiv 非独占分发许可（Nonexclusive-Distrib 1.0）",
+      "license_url": "https://arxiv.org/licenses/nonexclusive-distrib/1.0/",
+      "fetched_via": "arxiv.org/abs HTML（HTTP 200，citation_title 元数据）"
+    },
+    {
+      "id": "pubmed-42698590",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42698590/",
+      "title": "Students' experiences of using ChatGPT for English language learning: a qualitative study in a Malaysian higher education institution",
+      "fetched_at": "2026-11-14T01:50:39+08:00",
+      "license": "CC BY 4.0（PMC 全文开放获取）",
+      "license_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13541550/",
+      "fetched_via": "PubMed 页面返回 203 JS 拦截；标题/许可来自 Europe PMC REST（ext_id:42698590）"
+    },
+    {
+      "id": "pubmed-42181435",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42181435/",
+      "title": "Harnessing ChatGPT for Medical Education: A Narrative Review",
+      "fetched_at": "2026-11-14T01:50:40+08:00",
+      "license": "CC BY 4.0（PMC 全文开放获取）",
+      "license_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13198158/",
+      "fetched_via": "PubMed 页面返回 203 JS 拦截；标题/许可来自 Europe PMC REST（ext_id:42181435）"
+    }
+  ]
+}

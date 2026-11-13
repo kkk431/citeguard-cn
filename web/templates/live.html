@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+{% block title %}Live 试用 · 划一句查摘要 · 引证卫士 CiteGuard{% endblock %}
+{% block content %}
+{# base.html has no head block, so the page-level stylesheet is loaded here. #}
+<link rel="stylesheet" href="/static/css/live.css?v={{ request.app.version }}">
+{% set section_tabs = [
+  ('figure', '/figure', '图表核验', '图中结论是否成立'),
+  ('compare', '/compare', '多篇对比', '横向看几篇论文'),
+  ('discover', '/discover', '文献发现', '按主题找候选'),
+  ('citemap', '/citemap', 'CiteMap', '证据地图'),
+  ('live', '/live', 'Live 试用', '划一句查摘要')
+] %}
+{% set section_tab = 'live' %}
+{% include "_section_tabs.html" %}
+
+<div class="live-page">
+  <section class="wrap live-hero">
+    <div class="live-kicker">CiteGuard Live · 产品内试用</div>
+    <h1 class="live-title">划一句，看看它有没有摘要依据</h1>
+    <p class="live-lede">
+      把网页或论文里的一句断言贴进来。CiteGuard 会去 OpenAlex / Crossref 取候选论文的公开摘要，
+      给出「支持 / 部分支持 / 矛盾 / 无证据」四档判断，并把支持或反驳这句话的原文句逐字标出来。
+      不用安装浏览器扩展，也能把「划一句 → 检索候选 → 四档判定」走完。
+    </p>
+    <div class="live-hero-chips" aria-label="能力边界">
+      <span class="live-chip">只读摘要</span>
+      <span class="live-chip">四档判定</span>
+      <span class="live-chip">证据句逐字校验</span>
+      <span class="live-chip">不读全文 · 不做事实核查</span>
+    </div>
+  </section>
+
+  <section class="wrap live-workbench">
+    <div class="live-input panel">
+      <div class="live-field-head">
+        <label for="live-claim">要核验的句子</label>
+        <span class="live-counter" id="live-count">0 / 500</span>
+      </div>
+      <textarea id="live-claim" class="live-claim" rows="4" maxlength="500"
+                placeholder="例如：The STIC model achieved an accuracy of 72.6% on the test set, comparable with doctors' consensus."
+                aria-describedby="live-scope-note"></textarea>
+
+      <div class="live-examples" role="group" aria-label="示例句子">
+        <span class="live-examples-label">示例：</span>
+        <button type="button" class="live-example"
+                data-claim="AI chatbots in Chinese higher education are influenced by performance expectancy and effort expectancy."
+                data-page-title="AI Chatbots in Chinese higher education">AI 教育</button>
+        <button type="button" class="live-example"
+                data-claim="The STIC model achieved an accuracy of 72.6% on the test set, comparable with doctors' consensus."
+                data-page-title="Deep learning for hepatic tumors">医学影像</button>
+        <button type="button" class="live-example"
+                data-claim="Deep learning models can predict self-reported race from medical images with high performance, even from corrupted images.">公平性</button>
+      </div>
+
+      <details class="live-context">
+        <summary>补充页面标题 / URL（可选，claim 过短时帮助检索）</summary>
+        <div class="live-context-grid">
+          <label for="live-page-title">页面标题</label>
+          <input id="live-page-title" type="text" maxlength="300" autocomplete="off"
+                 placeholder="例如：AI in Education: A Review">
+          <label for="live-page-url">页面 URL</label>
+          <input id="live-page-url" type="url" maxlength="2048" autocomplete="off"
+                 placeholder="https://example.org/article（只作为上下文，不抓取）">
+        </div>
+      </details>
+
+      <div class="live-actions">
+        <button id="live-btn" type="button" class="btn btn-primary live-submit">核验这句</button>
+        <span class="live-kbd">Ctrl / ⌘ + Enter</span>
+      </div>
+
+      <p class="live-scope" id="live-scope-note">
+        检索 OpenAlex/Crossref 摘要，不读全文；证据句逐字来自摘要，没有就不返回。
+      </p>
+      <p class="live-scope live-scope--soft">
+        结果只是阅读辅助：候选可能匹配错、摘要可能过时。<strong>不是事实核查</strong>，
+        「支持」也不等于科学界共识。
+      </p>
+    </div>
+
+    <section class="live-result-panel panel" id="live-result" aria-live="polite" aria-busy="false" aria-label="核验结果">
+      <div class="live-placeholder" id="live-placeholder">
+        <div class="live-placeholder-glyph" aria-hidden="true">⌕</div>
+        <h2>四档结果怎么看</h2>
+        <ul class="live-legend">
+          <li><span class="live-badge live-badge--support">支持</span><span>候选摘要直接支持这句话。</span></li>
+          <li><span class="live-badge live-badge--partial">部分支持</span><span>方向相近，但数字、范围或条件只对上一部分。</span></li>
+          <li><span class="live-badge live-badge--contradict">矛盾</span><span>候选摘要与这句话方向相反，或明确否定。</span></li>
+          <li><span class="live-badge live-badge--no_evidence">无证据</span><span>没找到可核对摘要，或摘要里没有对应句；这不是“假”。</span></li>
+        </ul>
+        <p class="live-placeholder-note">左侧贴一句，点「核验这句」开始。首次检索可能需要几秒。</p>
+      </div>
+
+      <div class="live-loading" id="live-loading" role="status" hidden>
+        <span class="live-spinner" aria-hidden="true"></span>
+        <div>
+          <h2>正在检索候选摘要…</h2>
+          <p>先查 OpenAlex，再查 Crossref；只取公开元数据与摘要。</p>
+        </div>
+      </div>
+
+      <div class="live-error" id="live-error" role="alert" hidden>
+        <h2>这次没有查成</h2>
+        <p id="live-error-msg">接口暂时不可用，请稍后重试。</p>
+        <button id="live-retry" type="button" class="btn">重试</button>
+      </div>
+
+      <div class="live-output" id="live-output" hidden>
+        <div class="live-verdict">
+          <div class="live-verdict-head">
+            <span id="live-label" class="live-badge live-badge--no_evidence">无证据</span>
+            <span class="live-confidence-text" id="live-confidence-text">置信度 0%</span>
+          </div>
+          <div class="live-meter" id="live-meter" role="progressbar" aria-label="判定置信度"
+               aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div class="live-meter-fill" id="live-confidence-bar"></div>
+          </div>
+          <p class="live-reason" id="live-reason"></p>
+        </div>
+
+        <div class="live-evidence" id="live-evidence" hidden>
+          <div class="live-section-head">
+            <h2>逐字证据句</h2>
+            <span class="live-hint">来自候选摘要</span>
+          </div>
+          <a class="live-evidence-link" id="live-evidence-link" target="_blank" rel="noopener">
+            <span id="live-evidence-title">候选论文</span>
+          </a>
+          <blockquote class="live-quote" id="live-quote"></blockquote>
+        </div>
+
+        <div class="live-candidates-wrap">
+          <div class="live-section-head">
+            <h2>候选论文</h2>
+            <span class="live-hint" id="live-candidate-count">0 条</span>
+          </div>
+          <ol class="live-candidates" id="live-candidates"></ol>
+        </div>
+
+        <p class="live-result-note">
+          候选按检索相关度排序，最多 5 条；来源为 OpenAlex 或 Crossref。证据句是候选摘要中的逐字片段，
+          不是模型改写。页面不读取当前网页正文，也不下载 PDF。
+        </p>
+      </div>
+    </section>
+  </section>
+
+  <section class="wrap live-explain">
+    <div class="live-explain-grid">
+      <div>
+        <h2>它做了什么</h2>
+        <p>从这句话提取关键实体与数字，检索公开文献元数据，取回最多 5 条候选摘要，再判断摘要与这句话的支持关系。</p>
+      </div>
+      <div>
+        <h2>它不做什么</h2>
+        <p>不读论文全文，不下载 PDF，不判断论文质量，也不检查这句话在论文语境里是否被正确引用。</p>
+      </div>
+      <div>
+        <h2>怎么读结果</h2>
+        <p>先看证据句是否真的对应你的句子，再看候选标题、年份与来源；数字不一致时优先相信原文摘要。</p>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="/static/js/live.js?v={{ request.app.version }}"></script>
+{% endblock %}

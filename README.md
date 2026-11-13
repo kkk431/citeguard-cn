@@ -1,6 +1,6 @@
 # 引证卫士 CiteGuard-CN
 
-> **v1.7.6** · 2026-11-14 · Apache-2.0
+> **v1.7.7** · 2026-11-14 · Apache-2.0
 
 > 给中文论文做一次「引文体检」：**引文是否真实存在、引用是否支持正文那句话、格式是否符合 GB/T 7714-2025**。每条结论都带证据链接。
 
@@ -226,6 +226,15 @@ Content-Type: application/json
 → 弹窗里贴证据 → 直接看四档判定。安装方法见 `extension/README.md`。
 它只做支持度判断，不查引用是否存在，也不做 GB/T 格式。
 
+### CiteGuard Live（划一句，查摘要）
+
+`POST /api/live/check` + **`/live` 产品内试用页** + **`extension/v2/`（MV3 侧边栏）**：
+只给一个选中句（可选页面标题/URL），系统识别当前论文后优先从其 OpenAlex
+`referenced_works` 取候选，再退到 OpenAlex/Crossref 检索；返回四档、置信度、
+逐字证据句与最多 5 条候选。不读全文、不抓取页面、`no_evidence` 只表示“摘要里找不到依据”，
+不当成“造假”。接口契约与边界见 `docs/live.md`，30 句真实引用句评测见
+`docs/live_eval.md`（含跨语言检索失败诊断，不宣称高命中率）。
+
 ## 目录
 
 ```
@@ -396,8 +405,8 @@ PYTHONPATH=src python3 scripts/enrich_library_abstracts.py
 
 ## 复现与发布
 
-- 版本：**v1.7.6**；变更见 `CHANGELOG.md`，发布说明见 `docs/release_notes_v1.0.md`
-- 单元测试：`PYTHONPATH=src python -m pytest tests -q`（811 项）
+- 版本：**v1.7.7**；变更见 `CHANGELOG.md`，发布说明见 `docs/release_notes_v1.0.md`
+- 单元测试：`PYTHONPATH=src python -m pytest tests -q`（851 项）
 - 主评测复现：`PYTHONPATH=src python scripts/reproduce_all.py`；每个对外数字的 JSON/命令/样本量见 `docs/evidence_index.md`
 - 文档站：`pip install -r requirements-docs.txt && mkdocs serve`
 - 数据集包：`dist/CiteGuard-CN_ClaimSupport-CN-300_v1.0.zip`（CC-BY-4.0，构造标签）

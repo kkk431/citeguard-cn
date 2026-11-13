@@ -102,7 +102,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.7.6", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.7.7", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 
@@ -2086,6 +2086,12 @@ def citemap_page(request: Request, topic: str = ""):
         {"active": "citemap", "topics": topics, "current_topic": current, "payload": payload},
     )
 
+@app.get("/live", response_class=HTMLResponse)
+def live_page(request: Request):
+    """CiteGuard Live：选中句对检索候选的试用页。"""
+    return templates.TemplateResponse(request, "live.html", {"active": "live"})
+
+
 @app.get("/aggregate", response_class=HTMLResponse)
 def aggregate_page(request: Request):
     """Cohort view for several finished reports (class / lab batch)."""
@@ -2578,6 +2584,44 @@ async def support_batch(request: Request):
     if any(not r.get("ok") for r in results):
         return JSONResponse({"ok": False, "code": "judge_unavailable", "items": results}, status_code=503)
     return {"ok": True, "count": len(results), "items": results}
+
+
+_LIVE_CHECK_BODY = {
+    "type": "object",
+    "required": ["claim"],
+    "properties": {
+        "claim": {"type": "string", "minLength": 1, "maxLength": 500},
+        "page_url": {"type": "string", "maxLength": 2048},
+        "page_title": {"type": "string", "maxLength": 300},
+    },
+}
+
+
+@app.post(
+    "/api/live/check",
+    openapi_extra={"requestBody": {"required": True, "content": {"application/json": {"schema": _LIVE_CHECK_BODY}}}},
+)
+async def live_check(request: Request):
+    """CiteGuard Live：判断浏览器里选中句与检索到的候选摘要是否一致。"""
+    try:
+        payload = await request.json()
+    except Exception:
+        raise HTTPException(status_code=400, detail="请求体必须是 JSON")
+    claim = str(payload.get("claim") or "").strip()
+    page_url = str(payload.get("page_url") or "").strip()
+    page_title = str(payload.get("page_title") or "").strip()
+    if not claim:
+        raise HTTPException(status_code=400, detail="claim 不能为空")
+    if len(claim) > 500:
+        raise HTTPException(status_code=400, detail="claim 最长 500 字")
+    if len(page_url) > 2048:
+        raise HTTPException(status_code=400, detail="page_url 最长 2048 字符")
+    if len(page_title) > 300:
+        raise HTTPException(status_code=400, detail="page_title 最长 300 字符")
+    from citeguard import live_check as live_mod
+
+    result = live_mod.check_claim(claim, page_url=page_url, page_title=page_title)
+    return {"ok": True, **result}
 
 
 @app.post(

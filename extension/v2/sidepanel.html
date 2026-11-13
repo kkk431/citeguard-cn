@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CiteGuard Live · 划词核验</title>
+  <link rel="stylesheet" href="sidepanel.css">
+</head>
+<body>
+  <header class="top">
+    <div>
+      <p class="kicker">CiteGuard Live</p>
+      <h1>划词核验</h1>
+    </div>
+    <button id="open-options" class="ghost" type="button" title="设置本地服务地址">设置</button>
+  </header>
+
+  <main>
+    <section class="card claim-card">
+      <label for="claim">选中的句子</label>
+      <textarea id="claim" maxlength="500" rows="4" placeholder="在网页上选中一句话后右键核验，也可以在这里粘贴一句话。"></textarea>
+      <div class="row">
+        <span id="char-count" class="hint">0 / 500</span>
+        <button id="check-btn" class="primary" type="button">核验这句话</button>
+      </div>
+      <p id="endpoint-line" class="hint"></p>
+    </section>
+
+    <section id="state-idle" class="state">
+      <p class="state-title">选中一句话，看看论文摘要怎么说。</p>
+      <ol class="steps">
+        <li>在任意网页上选中一句可核查的陈述。</li>
+        <li>右键选择“用 CiteGuard Live 核验选中句”。</li>
+        <li>这里会显示四档标签、置信度、候选来源和逐字证据句。</li>
+      </ol>
+      <p class="notice">Live 只读取候选论文的摘要片段，不读取网页全文，也不做事实判决。没有逐字证据时，证据句为空。</p>
+    </section>
+
+    <section id="state-loading" class="state" hidden>
+      <p class="state-title">正在检索候选文献并比对摘要…</p>
+      <p class="hint">第一次请求可能需要几秒；若网络不可用，会明确告诉你，而不是编造来源。</p>
+    </section>
+
+    <section id="state-error" class="state error" hidden>
+      <p class="state-title">这次没有核验成功</p>
+      <p id="error-msg" class="error-msg"></p>
+      <details id="error-details" hidden>
+        <summary>技术细节</summary>
+        <pre id="error-detail"></pre>
+      </details>
+      <button id="retry-btn" class="primary" type="button">重试</button>
+    </section>
+
+    <section id="state-result" class="state" hidden>
+      <div class="result-head">
+        <span id="label-badge" class="badge">—</span>
+        <span id="confidence" class="confidence"></span>
+      </div>
+      <p id="reason" class="reason"></p>
+
+      <div id="evidence-box" class="evidence" hidden>
+        <p class="eyebrow">候选摘要中的逐字证据</p>
+        <blockquote id="evidence-quote"></blockquote>
+        <p class="evidence-source">
+          <a id="evidence-link" href="#" target="_blank" rel="noreferrer noopener">来源标题</a>
+          <span id="evidence-meta" class="hint"></span>
+        </p>
+      </div>
+      <p id="no-evidence-note" class="notice" hidden>本次没有返回可逐字核对的证据句。没有证据不等于事实为假，请点开候选文献自行确认。</p>
+
+      <details id="candidates-box" class="candidates">
+        <summary>候选文献 <span id="candidate-count"></span></summary>
+        <div id="candidate-list"></div>
+      </details>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>边界：只判选中句与候选摘要片段；不读全文、不做事实核查、不伪造证据。标签为 support / partial / contradict / no_evidence。</p>
+  </footer>
+
+  <script src="sidepanel.js"></script>
+</body>
+</html>

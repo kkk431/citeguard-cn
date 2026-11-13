@@ -998,3 +998,38 @@ def test_library_page_exposes_tags_and_merge(client):
     assert 'id="library-dupes-btn"' in html
     assert 'id="library-tag-modal"' in html
     assert "标签" in html
+
+def test_live_check_endpoint_returns_contract(plain_client, monkeypatch):
+    from citeguard import live_check as live_mod
+
+    seen = {}
+
+    def fake(claim, page_url="", page_title=""):
+        seen["claim"] = claim
+        seen["page_url"] = page_url
+        seen["page_title"] = page_title
+        return {
+            "label": "support",
+            "confidence": 0.91,
+            "reason": "摘要中有对应结论",
+            "evidence": {"title": "T", "url": "https://example.org/t", "quote": "quote"},
+            "candidates": [{"title": "T"}],
+        }
+
+    monkeypatch.setattr(live_mod, "check_claim", fake)
+    r = plain_client.post(
+        "/api/live/check",
+        json={"claim": "  深度学习提高了准确率。 ", "page_url": "https://arxiv.org/abs/1", "page_title": "标题"},
+    )
+    assert r.status_code == 200
+    body = r.json()
+    assert body["ok"] is True
+    assert body["label"] == "support"
+    assert body["confidence"] == 0.91
+    assert seen == {"claim": "深度学习提高了准确率。", "page_url": "https://arxiv.org/abs/1", "page_title": "标题"}
+
+
+def test_live_check_rejects_empty_or_oversized_claim(plain_client):
+    assert plain_client.post("/api/live/check", json={"claim": "   "}).status_code == 400
+    assert plain_client.post("/api/live/check", json={"claim": "x" * 501}).status_code == 400
+    assert plain_client.post("/api/live/check", json={"claim": "ok", "page_url": "u" * 2049}).status_code == 400

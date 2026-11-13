@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CiteGuard Live 设置</title>
+  <link rel="stylesheet" href="sidepanel.css">
+</head>
+<body>
+  <header class="top">
+    <div>
+      <p class="kicker">CiteGuard Live</p>
+      <h1>设置</h1>
+    </div>
+  </header>
+
+  <main>
+    <section class="card">
+      <label for="endpoint">本地服务地址</label>
+      <input id="endpoint" type="url" spellcheck="false" placeholder="http://127.0.0.1:8013">
+      <p class="hint">只填服务根地址；扩展会自动追加 <code>/api/live/check</code>。默认端口 8013，可在启动服务时修改。</p>
+      <div class="row">
+        <button id="save-btn" class="primary" type="button">保存</button>
+        <button id="test-btn" type="button">测试连接</button>
+        <button id="reset-btn" class="ghost" type="button">恢复默认</button>
+      </div>
+      <p id="status" class="notice" role="status" aria-live="polite">尚未修改。</p>
+    </section>
+
+    <section class="card notice">
+      <p><strong>边界</strong>：扩展只把你选中的那一句话发给本地服务；服务只检索候选论文摘要，不读取网页全文，也不做事实判决。所有来源都可点开自行核对。</p>
+      <p>如果服务启用了访问令牌（<code>ACCESS_TOKEN</code>），请让服务端为 <code>/api/live/check</code> 放行，或关闭访问令牌；v2 扩展不保存令牌。</p>
+    </section>
+  </main>
+
+  <script src="options.js"></script>
+</body>
+</html>

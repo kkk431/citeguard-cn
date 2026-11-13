@@ -23,6 +23,7 @@ nav:
   - 评测与证据: experiments.md
   - 引用健康画像: health.md
   - 图表层: charts.md
+  - Live 划句核验: live.md
   - CiteMap 证据地图: evidence_map.md
   - 长列表与检查明细: ui_patterns.md
   - 修复闭环: repair_loop.md

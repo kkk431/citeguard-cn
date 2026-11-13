@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 130,
+  "paths_checked": 132,
   "missing": [],
   "rows": [
     {
@@ -477,8 +477,18 @@
       "evidence": "E79",
       "path": "docs/model_matrix.md",
       "exists": true
+    },
+    {
+      "evidence": "E80",
+      "path": "docs/evidence/shots/phase-53-live-page-1.7.7.png",
+      "exists": true
+    },
+    {
+      "evidence": "E80",
+      "path": "docs/evidence/shots/phase-53-live-result-1.7.7.png",
+      "exists": true
     }
   ],
-  "shots_registered": 65,
+  "shots_registered": 67,
   "shots_unregistered": []
 }
