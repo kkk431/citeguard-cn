@@ -1,0 +1,249 @@
+{
+  "schema_version": "1.0",
+  "topic": {
+    "topic_id": "ai_education",
+    "name_zh": "人工智能教育",
+    "name_en": "AI in Education",
+    "question": "生成式 AI 与智能导师系统在真实教学场景中的学习成效、公平性与教师角色证据如何？",
+    "description": "聚焦中国高校与中小学场景下生成式 AI、智能导师系统的接受度、学习收益、公平性与教师角色争议；每个主题 15 篇开放获取论文，含中国机构署名研究与高被引国际对照研究。"
+  },
+  "extractor": "boundary（人工示例抽取）",
+  "extracted_at": "2026-11-14",
+  "protocol": "每条证据由人工从论文摘要逐字摘录 quote（locator=Abstract），summary 为中文要点；method/sample 按摘要可核实信息填写，摘要未报告时留空；confidence 为“证据对该 claim 的支持强度 × 抽取确定性”的综合判断（0–1），摘要级人工抽取上限 0.75；verified=false 表示尚未逐篇核对全文/结果页。",
+  "claims": [
+    {
+      "claim_id": "edu-c1",
+      "topic_id": "ai_education",
+      "text": "生成式 AI 工具在中国高校学生中的接受度与自评收益较高，AI 素养与自我调节学习是影响收益的关键调节因素。",
+      "population": "中国高校学生",
+      "outcome": "接受度 / 自评学习收益 / 数字福祉",
+      "direction": "positive",
+      "notes": "拆分为接受度与自评收益两个可检验部分；不包括客观考试成绩。"
+    },
+    {
+      "claim_id": "edu-c2",
+      "topic_id": "ai_education",
+      "text": "智能导师系统与学习诊断模型能在真实教学数据上提升学习表现预测的准确性与可解释性。",
+      "population": "K-12 与高校学习者",
+      "outcome": "学习表现预测 / 诊断",
+      "direction": "positive",
+      "notes": "以离线基准数据为主，尚非课堂随机对照证据。"
+    },
+    {
+      "claim_id": "edu-c3",
+      "topic_id": "ai_education",
+      "text": "生成式 AI 将在高等教育中取代教师的核心教学职能。",
+      "population": "高校教师与学生",
+      "outcome": "教师角色",
+      "direction": "positive",
+      "notes": "用于检验“替代论”；利益相关者感知调查不等同于教学效果。"
+    },
+    {
+      "claim_id": "edu-c4",
+      "topic_id": "ai_education",
+      "text": "AI 教育的收益在城乡与校际之间分布不均，技术乐观叙事掩盖了结构性不平等。",
+      "population": "中国中小学",
+      "outcome": "教育公平",
+      "direction": "negative",
+      "notes": "质性研究，关注政策、资源、家庭资本与个体素养四层不平等。"
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "edu-e01",
+      "claim_id": "edu-c1",
+      "paper_id": "edu-001",
+      "stance": "support",
+      "summary": "对 373 名中国研究生的 PLS-SEM 分析显示，ECM 的“确认”和“满意度”对 AI 聊天机器人持续使用意愿的作用强于 UTAUT 构念，个人创新性也是行为意向的重要预测因素。",
+      "quote": "The findings validate seven out of the eleven proposed hypotheses, underscoring the influential role of ECM constructs, particularly \"Confirmation\" and \"Satisfaction,\" outweighing the impact of UTAUT constructs on users' behavior.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "method": {
+        "method_id": "edu-m01",
+        "design": "横断面问卷 + PLS-SEM（UTAUT 与 ECM 整合模型）",
+        "sample_size": 373,
+        "population": "中国高校研究生",
+        "setting": "中国多所高校",
+        "instruments": [
+          "自评问卷（UTAUT/ECM 量表）"
+        ],
+        "analysis": "PLS-SEM",
+        "risk_of_bias": "some"
+      },
+      "sample": {
+        "sample_id": "edu-s01",
+        "size": 373,
+        "unit": "students",
+        "population": "中国高校研究生",
+        "setting": "中国多所高校",
+        "country": "CN",
+        "recruitment": "自评问卷（方便抽样）"
+      },
+      "confidence": 0.55,
+      "extracted_by": "boundary（人工示例）",
+      "verified": false,
+      "notes": "仅读摘要、未读全文；测量的是接受度与自评意向，不是客观学习成效，故置信度封顶 0.55。"
+    },
+    {
+      "evidence_id": "edu-e02",
+      "claim_id": "edu-c1",
+      "paper_id": "edu-002",
+      "stance": "support",
+      "summary": "对 257 名中国高校学生的 SEM 显示，AI 素养与自我调节学习均显著正向预测写作表现，自我调节学习效应更强；AI 素养还通过写作表现部分中介与生成式 AI 驱动的福祉正相关。",
+      "quote": "Results show that both AI literacy and SRL significantly and positively predict students' writing performance, with SRL having a stronger effect. Moreover, AI literacy shows a positive association with GAI-driven well-being, with writing performance serving as a partial mediator in this relationship.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "method": {
+        "method_id": "edu-m02",
+        "design": "横断面问卷 + 结构方程模型（SEM）",
+        "sample_size": 257,
+        "population": "中国高校学生",
+        "setting": "生成式 AI 支持的高等教育情境",
+        "instruments": [
+          "AI 素养量表",
+          "自我调节学习量表",
+          "写作表现自评",
+          "数字福祉量表"
+        ],
+        "analysis": "SEM",
+        "risk_of_bias": "some"
+      },
+      "sample": {
+        "sample_id": "edu-s02",
+        "size": 257,
+        "unit": "students",
+        "population": "中国高校学生",
+        "setting": "生成式 AI 支持的高等教育情境",
+        "country": "CN",
+        "recruitment": "自评问卷"
+      },
+      "confidence": 0.62,
+      "extracted_by": "boundary（人工示例）",
+      "verified": false,
+      "notes": "仅读摘要、未读全文；横断面自评数据，不能证明因果方向，置信度按摘要级证据封顶 0.62。"
+    },
+    {
+      "evidence_id": "edu-e03",
+      "claim_id": "edu-c2",
+      "paper_id": "edu-004",
+      "stance": "support",
+      "summary": "提出的统一可解释学习诊断框架（LDM-ID / LDM-HMI）在两个真实数据集与一个模拟数据集上，学习表现预测准确率高于当时 SOTA 模型，并能从认知参数、学习者—资源响应网络与自注意力权重三方面给出解释。",
+      "quote": "Experiments on two real‐world datasets and a simulation dataset show that our method has higher accuracy in predicting learners’ performances compared with the state‐of‐the‐art models and can provide valuable educational interpretability",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "method": {
+        "method_id": "edu-m03",
+        "design": "模型开发 + 离线基准评测（两个真实数据集与一个模拟数据集）",
+        "population": "智能导师系统学习者",
+        "setting": "离线学习日志数据集",
+        "instruments": [],
+        "analysis": "与 SOTA 学习诊断模型对比（准确率与可解释性）",
+        "risk_of_bias": "some"
+      },
+      "sample": null,
+      "confidence": 0.58,
+      "extracted_by": "boundary（人工示例）",
+      "verified": false,
+      "notes": "仅读摘要、未读全文；摘要未报告学习者样本量，故 sample 留空；离线数据集结果不等同于课堂增益，置信度 0.58。"
+    },
+    {
+      "evidence_id": "edu-e04",
+      "claim_id": "edu-c3",
+      "paper_id": "edu-014",
+      "stance": "contradict",
+      "summary": "对文献与学生/教师调查的分析指出，尽管部分人认为 AI 最终会取代教师，但多数受访者认为人类教师具备批判性思维、创造力与情感等不可替代特质；作者主张 AI 应辅助而非替代教师，并提出学生、教师与大学三类路线图。",
+      "quote": "Findings suggest that although some believe AI may eventually replace teachers, the majority of participants argue that human teachers possess unique qualities, such as critical thinking, creativity, and emotions, which make them irreplaceable.",
+      "quote_lang": "en",
+      "locator": "Abstract (arXiv:2305.01185)",
+      "method": {
+        "method_id": "edu-m04",
+        "design": "文献综述 + 学生/教师问卷调查",
+        "population": "高校学生与教师",
+        "setting": "高等教育",
+        "instruments": [
+          "学生与教师问卷"
+        ],
+        "analysis": "描述性分析与主题归纳",
+        "risk_of_bias": "some"
+      },
+      "sample": null,
+      "confidence": 0.72,
+      "extracted_by": "boundary（人工示例）",
+      "verified": false,
+      "notes": "仅读 arXiv 摘要、未读全文；OpenAlex 无摘要，期刊版摘要未核对；感知调查只能反驳“将取代”的强断言，不能证明替代不可能，置信度 0.72。"
+    },
+    {
+      "evidence_id": "edu-e05",
+      "claim_id": "edu-c4",
+      "paper_id": "edu-010",
+      "stance": "support",
+      "summary": "基于深圳、安庆、商洛三所小学 6 个月田野（15 名学生、5 名家长、5 名教师访谈及课堂观察），识别出政策驱动的基建差异、区域分层、文化经济资本代际传递与个体 AI 素养差异四层相互关联的不平等，认为 AI 教育政策可能延续既有不平等。",
+      "quote": "The findings unveil four interconnected layers of inequality: policy-driven infrastructure disparities favouring elite urban schools, regional stratification exacerbating urban-rural divides under standardised policies, intergenerational transmission of cultural and economic capital reinforcing educational privilege, and individual disparities in AI literacy widening the “new digital divide”.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "method": {
+        "method_id": "edu-m05",
+        "design": "建构主义扎根理论质性研究（6 个月田野）",
+        "sample_size": 25,
+        "population": "小学学生、家长与教师",
+        "setting": "深圳（城市）、安庆（郊区）、商洛（农村）三所小学",
+        "instruments": [
+          "深度访谈",
+          "课堂观察"
+        ],
+        "analysis": "扎根理论编码",
+        "risk_of_bias": "high"
+      },
+      "sample": {
+        "sample_id": "edu-s05",
+        "size": 25,
+        "unit": "participants",
+        "population": "小学学生（15）、家长（5）与教师（5）",
+        "setting": "中国三所小学（城市/郊区/农村）",
+        "country": "CN",
+        "recruitment": "目的抽样 + 课堂观察"
+      },
+      "confidence": 0.66,
+      "extracted_by": "boundary（人工示例）",
+      "verified": false,
+      "notes": "仅读摘要、未读全文；质性小样本、三校案例，不能外推到全国，置信度 0.66。"
+    }
+  ],
+  "gaps": [
+    {
+      "gap_id": "edu-g1",
+      "topic_id": "ai_education",
+      "kind": "evidence",
+      "description": "现有语料以横断面自评与离线基准为主，缺少以客观学业成绩为终点、含对照组的因果设计（RCT/准实验），无法区分工具效应与选择偏差。",
+      "related_claim_ids": [
+        "edu-c1",
+        "edu-c2"
+      ],
+      "severity": "high",
+      "rationale": "两条支持性 claim 的证据均来自自评或离线数据；要支撑“学习成效”结论，需要课堂情境下的对照研究。"
+    },
+    {
+      "gap_id": "edu-g2",
+      "topic_id": "ai_education",
+      "kind": "sample",
+      "description": "城乡/校际不平等证据主要来自 3 所小学、25 名参与者的质性研究，缺少大规模纵向抽样与政策干预评估。",
+      "related_claim_ids": [
+        "edu-c4"
+      ],
+      "severity": "medium",
+      "rationale": "质性发现机制清晰但外推受限；需结合全国性面板数据或准实验政策评估。"
+    },
+    {
+      "gap_id": "edu-g3",
+      "topic_id": "ai_education",
+      "kind": "outcome",
+      "description": "教师替代论多以感知调查与文献综述检验，缺少任务层面的教学效果比较（如备课、反馈、评估质量）。",
+      "related_claim_ids": [
+        "edu-c3"
+      ],
+      "severity": "medium",
+      "rationale": "“是否取代”应以教学任务完成质量与成本为终点，而非仅询问态度。"
+    }
+  ],
+  "notes": "人工示例用于校验 schema 与展示抽取字段，不声称覆盖全部文献；CI 只校验结构，不替代专家复核。"
+}

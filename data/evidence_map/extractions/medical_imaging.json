@@ -1,0 +1,258 @@
+{
+  "schema_version": "1.0",
+  "topic": {
+    "topic_id": "medical_imaging",
+    "name_zh": "医学影像 AI",
+    "name_en": "AI in Medical Imaging",
+    "question": "深度学习影像诊断模型的临床性能、外部验证、公平性与监管证据如何？",
+    "description": "聚焦 CT/MRI/超声等影像任务的诊断性能、多中心外部验证、公平性风险与中国 AI 医疗器械审批；每个主题 15 篇开放获取论文，含中国机构署名研究与高被引国际对照研究。"
+  },
+  "extractor": "boundary（人工示例抽取）",
+  "extracted_at": "2026-11-14",
+  "protocol": "每条证据由人工从论文摘要逐字摘录 quote（locator=Abstract），summary 为中文要点；method/sample 按摘要可核实信息填写，摘要未报告时留空；confidence 为“证据对该 claim 的支持强度 × 抽取确定性”的综合判断（0–1），摘要级人工抽取上限 0.75；verified=false 表示尚未逐篇核对全文/结果页。",
+  "claims": [
+    {
+      "claim_id": "med-c1",
+      "topic_id": "medical_imaging",
+      "text": "深度学习在 CT/MRI/超声等影像诊断任务上可达到或接近专科医生水平。",
+      "population": "影像检查患者",
+      "outcome": "诊断准确率 / AUC / 读片效率",
+      "direction": "positive",
+      "notes": "需区分内部测试性能与外部验证性能。"
+    },
+    {
+      "claim_id": "med-c2",
+      "topic_id": "medical_imaging",
+      "text": "现有医学影像 AI 研究的外部验证与公平性证据不足，模型在不同机构/人群间的泛化与公平性风险被低估。",
+      "population": "多中心 / 多人群患者",
+      "outcome": "外部验证 / 公平性",
+      "direction": "negative",
+      "notes": "外部 AUC 下降与种族可预测性均指向部署风险。"
+    },
+    {
+      "claim_id": "med-c3",
+      "topic_id": "medical_imaging",
+      "text": "中国 AI 医疗器械审批数量的快速增长说明其临床有效性证据已充分。",
+      "population": "AI 医疗器械",
+      "outcome": "审批与临床证据",
+      "direction": "positive",
+      "notes": "待检验的监管—证据推断；审批数量不等同于疗效证据充分。"
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "med-e01",
+      "claim_id": "med-c1",
+      "paper_id": "med-002",
+      "stance": "support",
+      "summary": "STIC 模型在 723 例两中心数据上鉴别 HCC 与 ICC 的测试集准确率 86.2%、AUC 0.893；扩展至恶性肝肿瘤鉴别时测试集准确率 72.6%，与医生共识 70.8% 相当；模型辅助使医生平均准确率提升 8.3%、ICC 敏感度提升 26.9%；中心 2 外部测试准确率 82.9%。",
+      "quote": "STIC model achieved an accuracy of 72.6% on the test set, comparable with the diagnostic level of doctors' consensus (70.8%). With the assistance of the STIC model, doctors achieved better performance than doctors' consensus diagnosis, with an increase of 8.3% in accuracy and 26.9% in sensitivity for ICC diagnosis on average.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "method": {
+        "method_id": "med-m01",
+        "design": "回顾性多中心诊断模型开发与验证（STIC：CNN + 门控 RNN）",
+        "sample_size": 723,
+        "population": "病理确诊 HCC / ICC / 转移性肝癌患者",
+        "setting": "两家中心的多期增强 CT 与临床数据",
+        "instruments": [
+          "多期 CECT",
+          "临床特征"
+        ],
+        "analysis": "内部测试集与外部测试集分类性能；医生辅助读片比较",
+        "risk_of_bias": "some"
+      },
+      "sample": {
+        "sample_id": "med-s01",
+        "size": 723,
+        "unit": "patients",
+        "population": "病理确诊的恶性肝脏肿瘤患者",
+        "setting": "中心 1（499 训练 + 113 测试）与中心 2（111 外部测试）",
+        "country": "CN",
+        "recruitment": "回顾性连续/可及病例"
+      },
+      "confidence": 0.7,
+      "extracted_by": "boundary（人工示例）",
+      "verified": false,
+      "notes": "仅读摘要、未读全文；回顾性设计，外部测试仅一个中心，置信度 0.70。"
+    },
+    {
+      "evidence_id": "med-e02",
+      "claim_id": "med-c1",
+      "paper_id": "med-012",
+      "stance": "support",
+      "summary": "LiLNet 基于 6 个中心 4039 例多期增强 CT 开发，在 4 个外部中心验证、2 家医院临床验证：良恶性分类 ACC 94.7%、AUC 97.2%；HCC/ICC/MET 分类 ACC 88.7%、AUC 95.6%；FNH/HEM/CYST 分类 ACC 88.6%、AUC 95.9%。",
+      "quote": "Validated in four external centers and clinically verified in two hospitals, LiLNet achieves an accuracy (ACC) of 94.7% and an area under the curve (AUC) of 97.2% for benign and malignant tumors. For HCC, ICC, and MET, the ACC is 88.7% with an AUC of 95.6%. For FNH, HEM, and CYST, the ACC is 88.6% with an AUC of 95.9%.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "method": {
+        "method_id": "med-m02",
+        "design": "回顾性多中心诊断模型开发与外部验证（LiLNet）",
+        "sample_size": 4039,
+        "population": "局灶性肝脏病变患者",
+        "setting": "6 个数据中心开发；4 个外部中心验证；2 家医院临床验证",
+        "instruments": [
+          "多期增强 CT"
+        ],
+        "analysis": "良恶性及六类病变分类的 ACC / AUC",
+        "risk_of_bias": "some"
+      },
+      "sample": {
+        "sample_id": "med-s02",
+        "size": 4039,
+        "unit": "patients",
+        "population": "局灶性肝脏病变患者（HCC/ICC/MET/FNH/HEM/CYST）",
+        "setting": "6 个数据中心与 4 个外部验证中心",
+        "country": "CN",
+        "recruitment": "回顾性队列"
+      },
+      "confidence": 0.72,
+      "extracted_by": "boundary（人工示例）",
+      "verified": false,
+      "notes": "仅读摘要、未读全文；回顾性多中心证据，外部验证充分但非前瞻性，置信度 0.72（摘要级上限）。"
+    },
+    {
+      "evidence_id": "med-e03",
+      "claim_id": "med-c2",
+      "paper_id": "med-004",
+      "stance": "support",
+      "summary": "模型内部验证分割 DSC 0.600、ASPECTS AUC 0.876，外部验证 DSC 0.762、AUC 0.729，外部性能明显下降；模型辅助使读片者平均敏感度由 0.254 升至 0.333、特异度由 0.896 升至 0.915，平均读片时间由 219.0 s 降至 175.7 s，读者间一致性由 0.741 升至 0.980。",
+      "quote": "The model achieved a DSC of 0.600 and 0.762 and an AUC of 0.876 (CI 0.846-0.907) and 0.729 (CI 0.679-0.779), in the internal and external validation set, respectively. The assistance of the DL model improved the raters' average sensitivities and specificities from 0.254 (CI 0.22-0.26) and 0.896 (CI 0.884-0.907), to 0.333 (CI 0.301-0.345) and 0.915 (CI 0.904-0.926), respectively. The average interpretation time of the raters was reduced from 219.0 to 175.7 s (p = 0.035).",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "method": {
+        "method_id": "med-m03",
+        "design": "回顾性多中心模型开发 + 外部验证 + 多读者多中心（MRMC）研究",
+        "sample_size": 1476,
+        "population": "急性缺血性卒中患者",
+        "setting": "5 家医院；平扫 CT",
+        "instruments": [
+          "平扫 CT",
+          "ASPECTS 区域读片"
+        ],
+        "analysis": "DSC、ROC/AUC、敏感度/特异度、读片时间与一致性",
+        "risk_of_bias": "some"
+      },
+      "sample": {
+        "sample_id": "med-s03",
+        "size": 1476,
+        "unit": "patients",
+        "population": "急性缺血性卒中患者（1391 开发 + 85 外部验证）",
+        "setting": "5 家医院",
+        "country": "CN",
+        "recruitment": "回顾性连续病例"
+      },
+      "confidence": 0.63,
+      "extracted_by": "boundary（人工示例）",
+      "verified": false,
+      "notes": "仅读摘要、未读全文；内部到外部 AUC 下降（0.876→0.729）支持“泛化被高估”判断，但外部集仅 85 例，置信度 0.63。"
+    },
+    {
+      "evidence_id": "med-e04",
+      "claim_id": "med-c2",
+      "paper_id": "med-015",
+      "stance": "support",
+      "summary": "标准深度学习模型可从多模态医学影像高精度预测患者自报种族，外部验证下 X 线 AUC 0.91–0.99、胸部 CT 0.87–0.96、乳腺摄影 0.81；该能力不能由 BMI（0.55）、疾病分布（0.61）或乳腺密度（0.61）等代理变量解释，且在图像被裁剪、加噪后仍持续存在。",
+      "quote": "In our study, we show that standard AI deep learning models can be trained to predict race from medical images with high performance across multiple imaging modalities, which was sustained under external validation conditions (x-ray imaging [area under the receiver operating characteristics curve (AUC) range 0·91-0·99], CT chest imaging [0·87-0·96], and mammography [0·81]).",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "method": {
+        "method_id": "med-m04",
+        "design": "回顾性建模研究（多数据集、多模态、外部验证与图像损坏实验）",
+        "population": "胸部 X 线、胸部 CT、乳腺、颈椎等多模态影像数据",
+        "setting": "4 个私有数据集 + 5 个公开数据集",
+        "instruments": [
+          "私有与公开影像数据集"
+        ],
+        "analysis": "种族预测 AUC；混杂因素回归；图像损坏稳健性",
+        "risk_of_bias": "some"
+      },
+      "sample": {
+        "sample_id": "med-s04",
+        "size": 9,
+        "unit": "datasets",
+        "population": "4 个私有与 5 个公开影像数据集",
+        "setting": "美国多机构与公开数据",
+        "country": "US",
+        "recruitment": "既有数据集二次分析"
+      },
+      "confidence": 0.68,
+      "extracted_by": "boundary（人工示例）",
+      "verified": false,
+      "notes": "仅读摘要、未读全文；研究聚焦种族可预测性而非临床诊断性能，用于支持“公平性风险被低估”，置信度 0.68。"
+    },
+    {
+      "evidence_id": "med-e05",
+      "claim_id": "med-c3",
+      "paper_id": "med-009",
+      "stance": "contradict",
+      "summary": "2020 年以来中国共批准 154 个 AIMD，年批准量由 2020 年 9 个增至 2024 年 45 个（CAGR 49.53%）；但 76.6% 通过临床试验路径评价，二类器械中 67.7% 走临床豁免路径，且审批高度集中于影像（68.8%）与头部厂商（前四家 38.3%）。",
+      "quote": "Clinical trials were the primary evaluation pathway for 76.6% (118/154) of all AIMDs. This approach was predominant for class III devices (116/123, 94.3%), whereas most class II devices (21/31, 67.7%) used a clinical exemption pathway.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "method": {
+        "method_id": "med-m05",
+        "design": "监管数据库回顾性分析（Drugdataexpy，2020–2025.6）",
+        "sample_size": 154,
+        "population": "中国获批 AI 医疗器械（AIMD）",
+        "setting": "国家药监局审批记录",
+        "instruments": [
+          "Drugdataexpy 数据库"
+        ],
+        "analysis": "描述统计、趋势分析、Fisher 精确检验与卡方检验",
+        "risk_of_bias": "some"
+      },
+      "sample": {
+        "sample_id": "med-s05",
+        "size": 154,
+        "unit": "devices",
+        "population": "2020 年至 2025 年 6 月获批的 AI 医疗器械",
+        "setting": "中国",
+        "country": "CN",
+        "recruitment": "监管数据库全量检索 + 人工核验"
+      },
+      "confidence": 0.6,
+      "extracted_by": "boundary（人工示例）",
+      "verified": false,
+      "notes": "仅读摘要、未读全文；该文证明审批数量增长与路径分布，但未评估试验质量或真实世界疗效，因此只能反驳“审批增长=证据充分”的推断，置信度 0.60。"
+    }
+  ],
+  "gaps": [
+    {
+      "gap_id": "med-g1",
+      "topic_id": "medical_imaging",
+      "kind": "evidence",
+      "description": "外部验证多在同一卫生体系与回顾性数据上完成，跨国家、跨厂商、跨人群的前瞻性验证与公平性审计不足。",
+      "related_claim_ids": [
+        "med-c1",
+        "med-c2"
+      ],
+      "severity": "high",
+      "rationale": "外部 AUC 下降与种族可预测性提示部署风险；监管与临床需要前瞻性、多人群证据。"
+    },
+    {
+      "gap_id": "med-g2",
+      "topic_id": "medical_imaging",
+      "kind": "method",
+      "description": "多中心研究仍以回顾性队列为主，缺少统一参考标准、前瞻性临床试验与标准化多读者研究设计。",
+      "related_claim_ids": [
+        "med-c1",
+        "med-c2"
+      ],
+      "severity": "high",
+      "rationale": "回顾性设计与单一时点参考标准会高估性能；需要注册、预设终点与独立阅片。"
+    },
+    {
+      "gap_id": "med-g3",
+      "topic_id": "medical_imaging",
+      "kind": "outcome",
+      "description": "审批数量与临床有效性之间缺少 linkage 证据：需将审批路径、试验质量与真实世界结局关联分析。",
+      "related_claim_ids": [
+        "med-c3"
+      ],
+      "severity": "high",
+      "rationale": "二类器械临床豁免比例较高，审批增长本身不能证明疗效证据充分。"
+    }
+  ],
+  "notes": "人工示例用于校验 schema 与展示抽取字段，不声称覆盖全部文献；CI 只校验结构，不替代专家复核。"
+}

@@ -23,7 +23,9 @@ nav:
   - 评测与证据: experiments.md
   - 引用健康画像: health.md
   - 图表层: charts.md
+  - CiteMap 证据地图: evidence_map.md
   - 长列表与检查明细: ui_patterns.md
+  - 修复闭环: repair_loop.md
   - 批量聚合: aggregate.md
   - 撤稿与勘误检查: retraction.md
   - 替换建议: replacement.md

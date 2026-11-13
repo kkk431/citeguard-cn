@@ -1,0 +1,522 @@
+{
+  "schema_version": "1.0",
+  "checked_at": "2026-11-14",
+  "method": "Crossref REST API GET /works/{doi}（HTTP 200 + 标题相似度）与 doi.org/api/handles/{doi}（responseCode=1）双通道校验；许可一致性比对 Crossref license URL 与 OpenAlex 许可字段。",
+  "summary": {
+    "papers": 30,
+    "crossref_ok": 30,
+    "handle_ok": 30,
+    "title_exact": 29,
+    "title_prefix": 1,
+    "title_mismatch": 0,
+    "license_consistent": 28,
+    "license_mismatch": 0,
+    "license_unchecked": 2
+  },
+  "papers": [
+    {
+      "paper_id": "edu-001",
+      "openalex_id": "W4391609188",
+      "doi": "10.3389/fpsyg.2024.1268549",
+      "crossref_status": 200,
+      "crossref_title": "AI Chatbots in Chinese higher education: adoption, perception, and influence among graduate students—an integrated analysis utilizing UTAUT and ECM models",
+      "title_similarity": 1.0,
+      "title_match": "exact",
+      "handle_response_code": 1,
+      "oa_license": "cc-by",
+      "crossref_licenses": [
+        "https://creativecommons.org/licenses/by/4.0/"
+      ],
+      "license_consistent": true,
+      "note": ""
+    },
+    {
+      "paper_id": "edu-002",
+      "openalex_id": "W4410539449",
+      "doi": "10.3390/bs15050705",
+      "crossref_status": 200,
+      "crossref_title": "Exploring How AI Literacy and Self-Regulated Learning Relate to Student Writing Performance and Well-Being in Generative AI-Supported Higher Education",
+      "title_similarity": 1.0,
+      "title_match": "exact",
+      "handle_response_code": 1,
+      "oa_license": "cc-by",
+      "crossref_licenses": [
+        "https://creativecommons.org/licenses/by/4.0/"
+      ],
+      "license_consistent": true,
+      "note": ""
+    },
+    {
+      "paper_id": "edu-003",
+      "openalex_id": "W4387779292",
+      "doi": "10.1111/jcal.12892",
+      "crossref_status": 200,
+      "crossref_title": "Artificial intelligence education for young children: A case study of technology‐enhanced embodied learning",
+      "title_similarity": 1.0,
+      "title_match": "exact",
+      "handle_response_code": 1,
+      "oa_license": "cc-by-nc-nd",
+      "crossref_licenses": [
+        "http://creativecommons.org/licenses/by-nc-nd/4.0/"
+      ],
+      "license_consistent": true,
+      "note": ""
+    },
+    {
+      "paper_id": "edu-004",
+      "openalex_id": "W4321365943",
+      "doi": "10.1155/2023/4468025",
+      "crossref_status": 200,
+      "crossref_title": "A Unified Interpretable Intelligent Learning Diagnosis Framework for Learning Performance Prediction in Intelligent Tutoring Systems",
+      "title_similarity": 1.0,
+      "title_match": "exact",
+      "handle_response_code": 1,
+      "oa_license": "cc-by",
+      "crossref_licenses": [
+        "http://creativecommons.org/licenses/by/4.0/"
+      ],
+      "license_consistent": true,
+      "note": ""
+    },
+    {
+      "paper_id": "edu-005",
+      "openalex_id": "W4415266901",
+      "doi": "10.3390/bs15101398",
+      "crossref_status": 200,
+      "crossref_title": "Integrating AI Literacy with the TPB-TAM Framework to Explore Chinese University Students’ Adoption of Generative AI",
+      "title_similarity": 1.0,
+      "title_match": "exact",
+      "handle_response_code": 1,
+      "oa_license": "cc-by",
+      "crossref_licenses": [
+        "https://creativecommons.org/licenses/by/4.0/"
+      ],
+      "license_consistent": true,
+      "note": ""
+    },
+    {
+      "paper_id": "edu-006",
+      "openalex_id": "W4411868760",
+      "doi": "10.1038/s41598-025-07422-7",
+      "crossref_status": 200,
+      "crossref_title": "Deep learning based knowledge tracing in intelligent tutoring systems",
+      "title_similarity": 1.0,
+      "title_match": "exact",
+      "handle_response_code": 1,
+      "oa_license": "cc-by-nc-nd",
+      "crossref_licenses": [
+        "https://creativecommons.org/licenses/by-nc-nd/4.0",
+        "https://creativecommons.org/licenses/by-nc-nd/4.0"
+      ],
+      "license_consistent": true,
+      "note": ""
+    },
+    {
+      "paper_id": "edu-007",
+      "openalex_id": "W4411248962",
+      "doi": "10.3390/educsci15060735",
+      "crossref_status": 200,
+      "crossref_title": "Perceptions of AI in Higher Education: Insights from Students at a Top-Tier Chinese University",
+      "title_similarity": 1.0,
+      "title_match": "exact",
+      "handle_response_code": 1,
+      "oa_license": "cc-by",
+      "crossref_licenses": [
+        "https://creativecommons.org/licenses/by/4.0/"
+      ],
+      "license_consistent": true,
+      "note": ""
+    },
+    {
+      "paper_id": "edu-008",
+      "openalex_id": "W4411882032",
+      "doi": "10.1038/s41598-025-06476-x",
+      "crossref_status": 200,
+      "crossref_title": "Factors influencing AI adoption by Chinese mathematics teachers in STEM education",
+      "title_similarity": 1.0,
+      "title_match": "exact",
+      "handle_response_code": 1,
+      "oa_license": "cc-by-nc-nd",
+      "crossref_licenses": [
+        "https://creativecommons.org/licenses/by-nc-nd/4.0",
+        "https://creativecommons.org/licenses/by-nc-nd/4.0"
+      ],
+      "license_consistent": true,
+      "note": ""
+    },
+    {
+      "paper_id": "edu-009",
+      "openalex_id": "W4414183536",
+      "doi": "10.1007/s10639-025-13715-1",
+      "crossref_status": 200,
+      "crossref_title": "Modeling the relationships between secondary school students’ AI learning attitude, AI literacy and AI career interest",
+      "title_similarity": 1.0,
+      "title_match": "exact",
+      "handle_response_code": 1,
+      "oa_license": "cc-by-nc-nd",
+      "crossref_licenses": [
+        "https://creativecommons.org/licenses/by-nc-nd/4.0",
+        "https://creativecommons.org/licenses/by-nc-nd/4.0"
+      ],
+      "license_consistent": true,
+      "note": ""
+    },
+    {
+      "paper_id": "edu-010",
+      "openalex_id": "W7123340715",
+      "doi": "10.25159/1947-9417/18869",
+      "crossref_status": 200,
+      "crossref_title": "Revisiting Techno-Optimism",
+      "title_similarity": 0.188,
+      "title_match": "prefix",
+      "handle_response_code": 1,
+      "oa_license": "cc-by-sa",
+      "crossref_licenses": [
+        "http://creativecommons.org/licenses/by-sa/4.0"
+      ],
+      "license_consistent": true,
+      "note": "Crossref 标题被截断；OpenAlex 全标题以 Crossref 标题为前缀，人工确认同一作品。"
+    },
+    {
+      "paper_id": "edu-011",
+      "openalex_id": "W3017131514",
+      "doi": "10.1109/access.2020.2988510",
+      "crossref_status": 200,
+      "crossref_title": "Artificial Intelligence in Education: A Review",
+      "title_similarity": 1.0,
+      "title_match": "exact",
+      "handle_response_code": 1,
+      "oa_license": "cc-by",
+      "crossref_licenses": [
+        "https://creativecommons.org/licenses/by/4.0/legalcode"
+      ],
+      "license_consistent": true,
+      "note": ""
+    },
+    {
+      "paper_id": "edu-012",
+      "openalex_id": "W4384464487",
+      "doi": "10.1186/s41239-023-00411-8",
+      "crossref_status": 200,
+      "crossref_title": "Students’ voices on generative AI: perceptions, benefits, and challenges in higher education",
+      "title_similarity": 1.0,
+      "title_match": "exact",
+      "handle_response_code": 1,
+      "oa_license": "cc-by",
+      "crossref_licenses": [
+        "https://creativecommons.org/licenses/by/4.0",
+        "https://creativecommons.org/licenses/by/4.0"
+      ],
+      "license_consistent": true,
+      "note": ""
+    },
+    {
+      "paper_id": "edu-013",
+      "openalex_id": "W4383312437",
+      "doi": "10.1186/s41239-023-00408-3",
+      "crossref_status": 200,
+      "crossref_title": "A comprehensive AI policy education framework for university teaching and learning",
+      "title_similarity": 1.0,
+      "title_match": "exact",
+      "handle_response_code": 1,
+      "oa_license": "cc-by",
+      "crossref_licenses": [
+        "https://creativecommons.org/licenses/by/4.0",
+        "https://creativecommons.org/licenses/by/4.0"
+      ],
+      "license_consistent": true,
+      "note": ""
+    },
+    {
+      "paper_id": "edu-014",
+      "openalex_id": "W4401988281",
+      "doi": "10.1016/j.stueduc.2024.101395",
+      "crossref_status": 200,
+      "crossref_title": "Will generative AI replace teachers in higher education? A study of teacher and student perceptions",
+      "title_similarity": 1.0,
+      "title_match": "exact",
+      "handle_response_code": 1,
+      "oa_license": "cc-by-nc-sa",
+      "crossref_licenses": [
+        "https://www.elsevier.com/tdm/userlicense/1.0/",
+        "https://www.elsevier.com/legal/tdmrep-license",
+        "https://doi.org/10.15223/policy-017",
+        "https://doi.org/10.15223/policy-037",
+        "https://doi.org/10.15223/policy-012",
+        "https://doi.org/10.15223/policy-029",
+        "https://doi.org/10.15223/policy-004"
+      ],
+      "license_consistent": null,
+      "note": "期刊版 DOI 的 Crossref 记录与 arXiv 绿色 OA 版本标题不同；manifest 许可标注的是抽取所用 arXiv 版本（cc-by-nc-sa）。"
+    },
+    {
+      "paper_id": "edu-015",
+      "openalex_id": "W4229441880",
+      "doi": "10.1007/s40593-022-00293-3",
+      "crossref_status": 200,
+      "crossref_title": "Integrating Ethics and Career Futures with Technical Learning to Promote AI Literacy for Middle School Students: An Exploratory Study",
+      "title_similarity": 1.0,
+      "title_match": "exact",
+      "handle_response_code": 1,
+      "oa_license": "cc-by-nc-nd",
+      "crossref_licenses": [
+        "https://www.elsevier.com/tdm/userlicense/1.0/",
+        "https://www.elsevier.com/legal/tdmrep-license",
+        "http://creativecommons.org/licenses/by-nc-nd/4.0/"
+      ],
+      "license_consistent": true,
+      "note": ""
+    },
+    {
+      "paper_id": "med-001",
+      "openalex_id": "W2341106171",
+      "doi": "10.1038/srep24454",
+      "crossref_status": 200,
+      "crossref_title": "Computer-Aided Diagnosis with Deep Learning Architecture: Applications to Breast Lesions in US Images and Pulmonary Nodules in CT Scans",
+      "title_similarity": 1.0,
+      "title_match": "exact",
+      "handle_response_code": 1,
+      "oa_license": "cc-by",
+      "crossref_licenses": [
+        "https://creativecommons.org/licenses/by/4.0",
+        "https://creativecommons.org/licenses/by/4.0"
+      ],
+      "license_consistent": true,
+      "note": ""
+    },
+    {
+      "paper_id": "med-002",
+      "openalex_id": "W3201700496",
+      "doi": "10.1186/s13045-021-01167-2",
+      "crossref_status": 200,
+      "crossref_title": "Deep learning for differential diagnosis of malignant hepatic tumors based on multi-phase contrast-enhanced CT and clinical data",
+      "title_similarity": 1.0,
+      "title_match": "exact",
+      "handle_response_code": 1,
+      "oa_license": "cc-by",
+      "crossref_licenses": [
+        "https://creativecommons.org/licenses/by/4.0",
+        "https://creativecommons.org/licenses/by/4.0"
+      ],
+      "license_consistent": true,
+      "note": ""
+    },
+    {
+      "paper_id": "med-003",
+      "openalex_id": "W4294682777",
+      "doi": "10.1186/s12903-022-02422-9",
+      "crossref_status": 200,
+      "crossref_title": "Diagnosis of in vivo vertical root fracture using deep learning on cone-beam CT images",
+      "title_similarity": 1.0,
+      "title_match": "exact",
+      "handle_response_code": 1,
+      "oa_license": "cc-by",
+      "crossref_licenses": [
+        "https://creativecommons.org/licenses/by/4.0",
+        "https://creativecommons.org/licenses/by/4.0"
+      ],
+      "license_consistent": true,
+      "note": ""
+    },
+    {
+      "paper_id": "med-004",
+      "openalex_id": "W4310780294",
+      "doi": "10.1186/s13244-022-01331-3",
+      "crossref_status": 200,
+      "crossref_title": "Improving the diagnosis of acute ischemic stroke on non-contrast CT using deep learning: a multicenter study",
+      "title_similarity": 1.0,
+      "title_match": "exact",
+      "handle_response_code": 1,
+      "oa_license": "cc-by",
+      "crossref_licenses": [
+        "https://creativecommons.org/licenses/by/4.0",
+        "https://creativecommons.org/licenses/by/4.0"
+      ],
+      "license_consistent": true,
+      "note": ""
+    },
+    {
+      "paper_id": "med-005",
+      "openalex_id": "W4403215534",
+      "doi": "10.3390/diagnostics14192242",
+      "crossref_status": 200,
+      "crossref_title": "Hybrid Deep Learning Framework for Melanoma Diagnosis Using Dermoscopic Medical Images",
+      "title_similarity": 1.0,
+      "title_match": "exact",
+      "handle_response_code": 1,
+      "oa_license": "cc-by",
+      "crossref_licenses": [
+        "https://creativecommons.org/licenses/by/4.0/"
+      ],
+      "license_consistent": true,
+      "note": ""
+    },
+    {
+      "paper_id": "med-006",
+      "openalex_id": "W4303672089",
+      "doi": "10.1186/s13244-022-01300-w",
+      "crossref_status": 200,
+      "crossref_title": "Application of deep learning reconstruction of ultra-low-dose abdominal CT in the diagnosis of renal calculi",
+      "title_similarity": 1.0,
+      "title_match": "exact",
+      "handle_response_code": 1,
+      "oa_license": "cc-by",
+      "crossref_licenses": [
+        "https://creativecommons.org/licenses/by/4.0",
+        "https://creativecommons.org/licenses/by/4.0"
+      ],
+      "license_consistent": true,
+      "note": ""
+    },
+    {
+      "paper_id": "med-007",
+      "openalex_id": "W4318049578",
+      "doi": "10.3389/fonc.2023.1099104",
+      "crossref_status": 200,
+      "crossref_title": "Diagnosis of cervical lymph node metastasis with thyroid carcinoma by deep learning application to CT images",
+      "title_similarity": 1.0,
+      "title_match": "exact",
+      "handle_response_code": 1,
+      "oa_license": "cc-by",
+      "crossref_licenses": [
+        "https://creativecommons.org/licenses/by/4.0/"
+      ],
+      "license_consistent": true,
+      "note": ""
+    },
+    {
+      "paper_id": "med-008",
+      "openalex_id": "W4409183083",
+      "doi": "10.1007/s00259-025-07215-0",
+      "crossref_status": 200,
+      "crossref_title": "Hypermetabolic pulmonary lesions detection and diagnosis based on PET/CT imaging and deep learning models",
+      "title_similarity": 1.0,
+      "title_match": "exact",
+      "handle_response_code": 1,
+      "oa_license": "cc-by-nc-nd",
+      "crossref_licenses": [
+        "https://creativecommons.org/licenses/by-nc-nd/4.0",
+        "https://creativecommons.org/licenses/by-nc-nd/4.0"
+      ],
+      "license_consistent": true,
+      "note": ""
+    },
+    {
+      "paper_id": "med-009",
+      "openalex_id": "W7139087349",
+      "doi": "10.2196/85538",
+      "crossref_status": 200,
+      "crossref_title": "Approval of AI-Based Medical Devices in China From 2020 to 2025: Retrospective Analysis",
+      "title_similarity": 1.0,
+      "title_match": "exact",
+      "handle_response_code": 1,
+      "oa_license": "cc-by",
+      "crossref_licenses": [],
+      "license_consistent": null,
+      "note": ""
+    },
+    {
+      "paper_id": "med-010",
+      "openalex_id": "W4383682957",
+      "doi": "10.1162/dint_a_00228",
+      "crossref_status": 200,
+      "crossref_title": "Application of Medical Image Detection Technology Based on Deep Learning in Pneumoconiosis Diagnosis",
+      "title_similarity": 1.0,
+      "title_match": "exact",
+      "handle_response_code": 1,
+      "oa_license": "cc-by",
+      "crossref_licenses": [
+        "https://creativecommons.org/licenses/by/4.0/"
+      ],
+      "license_consistent": true,
+      "note": ""
+    },
+    {
+      "paper_id": "med-011",
+      "openalex_id": "W7170451354",
+      "doi": "10.1186/s13244-026-02359-5",
+      "crossref_status": 200,
+      "crossref_title": "Chinese expert concern and consensus on applications of artificial intelligence in clinical cancer imaging",
+      "title_similarity": 1.0,
+      "title_match": "exact",
+      "handle_response_code": 1,
+      "oa_license": "cc-by",
+      "crossref_licenses": [
+        "https://creativecommons.org/licenses/by/4.0",
+        "https://creativecommons.org/licenses/by/4.0"
+      ],
+      "license_consistent": true,
+      "note": ""
+    },
+    {
+      "paper_id": "med-012",
+      "openalex_id": "W4401612605",
+      "doi": "10.1038/s41467-024-51260-6",
+      "crossref_status": 200,
+      "crossref_title": "Focal liver lesion diagnosis with deep learning and multistage CT imaging",
+      "title_similarity": 1.0,
+      "title_match": "exact",
+      "handle_response_code": 1,
+      "oa_license": "cc-by-nc-nd",
+      "crossref_licenses": [
+        "https://creativecommons.org/licenses/by-nc-nd/4.0",
+        "https://creativecommons.org/licenses/by-nc-nd/4.0"
+      ],
+      "license_consistent": true,
+      "note": ""
+    },
+    {
+      "paper_id": "med-013",
+      "openalex_id": "W4416520069",
+      "doi": "10.1016/j.isci.2025.114180",
+      "crossref_status": 200,
+      "crossref_title": "Deep learning enables accurate diagnosis of acute cholecystitis and prediction of suppuration using noncontrast CT",
+      "title_similarity": 1.0,
+      "title_match": "exact",
+      "handle_response_code": 1,
+      "oa_license": "cc-by-nc",
+      "crossref_licenses": [
+        "https://www.elsevier.com/tdm/userlicense/1.0/",
+        "https://www.elsevier.com/legal/tdmrep-license",
+        "http://creativecommons.org/licenses/by-nc/4.0/"
+      ],
+      "license_consistent": true,
+      "note": ""
+    },
+    {
+      "paper_id": "med-014",
+      "openalex_id": "W3086667591",
+      "doi": "10.1038/s41746-020-00324-0",
+      "crossref_status": 200,
+      "crossref_title": "The state of artificial intelligence-based FDA-approved medical devices and algorithms: an online database",
+      "title_similarity": 1.0,
+      "title_match": "exact",
+      "handle_response_code": 1,
+      "oa_license": "cc-by",
+      "crossref_licenses": [
+        "https://creativecommons.org/licenses/by/4.0",
+        "https://creativecommons.org/licenses/by/4.0"
+      ],
+      "license_consistent": true,
+      "note": ""
+    },
+    {
+      "paper_id": "med-015",
+      "openalex_id": "W4280519765",
+      "doi": "10.1016/s2589-7500(22)00063-2",
+      "crossref_status": 200,
+      "crossref_title": "AI recognition of patient race in medical imaging: a modelling study",
+      "title_similarity": 1.0,
+      "title_match": "exact",
+      "handle_response_code": 1,
+      "oa_license": "cc-by",
+      "crossref_licenses": [
+        "https://www.elsevier.com/tdm/userlicense/1.0/",
+        "https://www.elsevier.com/legal/tdmrep-license",
+        "http://creativecommons.org/licenses/by/4.0/"
+      ],
+      "license_consistent": true,
+      "note": ""
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-11-14",
+  "data_dir": "data/evidence_map",
+  "topics": [
+    {
+      "topic_id": "ai_education",
+      "name_zh": "人工智能教育",
+      "name_en": "AI in Education",
+      "question": "生成式 AI 与智能导师系统在真实教学场景中的学习成效、公平性与教师角色证据如何？",
+      "corpus": "corpus/ai_education.json",
+      "extractions": "extractions/ai_education.json",
+      "papers": 15,
+      "claims": 4,
+      "evidence": 5,
+      "gaps": 3
+    },
+    {
+      "topic_id": "medical_imaging",
+      "name_zh": "医学影像 AI",
+      "name_en": "AI in Medical Imaging",
+      "question": "深度学习影像诊断模型的临床性能、外部验证、公平性与监管证据如何？",
+      "corpus": "corpus/medical_imaging.json",
+      "extractions": "extractions/medical_imaging.json",
+      "papers": 15,
+      "claims": 3,
+      "evidence": 5,
+      "gaps": 3
+    }
+  ]
+}
