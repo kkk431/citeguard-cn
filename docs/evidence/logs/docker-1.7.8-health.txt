@@ -1,0 +1,1 @@
+﻿{"ok":true,"version":"1.7.8","offline":true,"image":"citeguard-cn:1.7.8","tested_at":"2026-11-14T02:45:00+08:00"}
