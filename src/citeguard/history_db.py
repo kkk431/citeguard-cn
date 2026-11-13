@@ -120,6 +120,12 @@ class HistoryDB:
             force = True
         with self._conn() as conn:
             conn.execute("INSERT OR REPLACE INTO meta (key,value) VALUES ('jobs_dir', ?)", (str(jobs_dir),))
+            # Drop rows whose JSON backing file is gone (manual cleanup, test
+            # leakage or a crashed write). JSON stays authoritative.
+            live = {p.stem for p in paths}
+            stale = [r["id"] for r in conn.execute("SELECT id FROM jobs").fetchall() if r["id"] not in live]
+            if stale:
+                conn.executemany("DELETE FROM jobs WHERE id = ?", [(i,) for i in stale])
         newest = max(p.stat().st_mtime for p in paths)
         if not force and newest <= self._synced_at():
             return 0

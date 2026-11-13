@@ -65,13 +65,17 @@
   const paletteOpen = document.getElementById("palette-open");
   if (palette && paletteInput && paletteList) {
     const items = [
-      { kind: "page", label: "工作台", sub: "上传论文，逐条核验", url: "/" },
-      { kind: "page", label: "图表核验", sub: "图中结论是否成立", url: "/figure" },
-      { kind: "page", label: "文献对比", sub: "多篇论文横向矩阵", url: "/compare" },
-      { kind: "page", label: "文献发现", sub: "选题检索与排序", url: "/discover" },
+      { kind: "page", label: "体检", sub: "上传论文，逐条核验", url: "/" },
+      { kind: "page", label: "报告", sub: "历史体检与复检", url: "/history" },
       { kind: "page", label: "题录库", sub: "导入本地中文元数据", url: "/library" },
-      { kind: "page", label: "历史", sub: "最近的体检任务", url: "/history" },
+      { kind: "page", label: "图表核验", sub: "图中结论是否成立", url: "/figure" },
+      { kind: "page", label: "文献对比", sub: "多篇论文横向比较", url: "/compare" },
+      { kind: "page", label: "文献发现", sub: "选题检索与排序", url: "/discover" },
+      { kind: "page", label: "支持度速查", sub: "一句话有没有证据", url: "/support" },
+      { kind: "page", label: "批量核验", sub: "粘贴多条，逐条判", url: "/batch" },
+      { kind: "page", label: "批量聚合", sub: "一批论文的体检账", url: "/aggregate" },
       { kind: "page", label: "评测", sub: "可复核的数字与证据", url: "/benchmark" },
+      { kind: "page", label: "模型设置", sub: "本地或托管判官", url: "/settings/models" },
       { kind: "page", label: "关于", sub: "方法与边界", url: "/about" },
       { kind: "action", label: "开始一次新体检", sub: "回到工作台并选择文件", url: "/#upload-card" },
       { kind: "action", label: "用示例论文试试", sub: "工作台内置示例", url: "/?sample=1" },

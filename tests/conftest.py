@@ -55,6 +55,7 @@ def isolated_jobs_dir(tmp_path, monkeypatch):
     jobs_dir = tmp_path / "jobs"
     monkeypatch.setattr(jobs, "JOBS_DIR", jobs_dir)
     monkeypatch.setattr(jobs.manager, "_jobs", {})
+    monkeypatch.setenv("CITEGUARD_HISTORY_DB", str(tmp_path / "history.db"))
     yield jobs_dir
 
 

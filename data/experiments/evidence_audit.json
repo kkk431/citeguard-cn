@@ -1,8 +1,28 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 92,
+  "paths_checked": 96,
   "missing": [],
   "rows": [
+    {
+      "evidence": "E69",
+      "path": "docs/evidence/shots/phase-41-home-ia-1.4.0.png",
+      "exists": true
+    },
+    {
+      "evidence": "E69",
+      "path": "docs/evidence/shots/phase-41-history-ia-1.4.0.png",
+      "exists": true
+    },
+    {
+      "evidence": "E69",
+      "path": "docs/evidence/shots/phase-41-report-ia-1.4.0.png",
+      "exists": true
+    },
+    {
+      "evidence": "E69",
+      "path": "docs/evidence/shots/phase-41-report-ia-1440-1.4.0.png",
+      "exists": true
+    },
     {
       "evidence": "E68",
       "path": "docs/deployment.md",
@@ -284,6 +304,6 @@
       "exists": true
     }
   ],
-  "shots_registered": 37,
+  "shots_registered": 41,
   "shots_unregistered": []
 }

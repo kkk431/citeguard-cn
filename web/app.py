@@ -99,7 +99,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.3.4", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.4.0", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 
@@ -1617,7 +1617,7 @@ def aggregate_page(request: Request):
     return templates.TemplateResponse(
         request,
         "aggregate.html",
-        {"active": "history", "ids": ",".join(ids[:50])},
+        {"active": "aggregate", "ids": ",".join(ids[:50])},
     )
 
 

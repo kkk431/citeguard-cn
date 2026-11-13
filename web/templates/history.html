@@ -1,10 +1,10 @@
 {% extends "base.html" %}
-{% block title %}任务历史 · 引证卫士{% endblock %}
+{% block title %}报告 · 引证卫士{% endblock %}
 {% block content %}
 <section class="hero">
   <div class="hero-main">
     <div class="kicker">TASK HISTORY</div>
-    <h1>任务历史</h1>
+    <h1>全部报告</h1>
     <p class="lede">最近 60 个核验任务（本机保存，最多保留 7 天）。旧记录会被自动清理。</p>
   </div>
 </section>
@@ -19,13 +19,12 @@
 
 <div class="panel">
   {% if jobs %}
-  <p class="muted">勾选两份已完成的任务，可以看修改前后「结论变化」与合规分变化（按参考文献顺序对齐）。</p>
+  <p class="muted">勾选报告可批量打包或聚合；选两份可以看修改前后「结论变化」与合规分变化（按参考文献顺序对齐）。</p>
   <div class="toolbar">
     <button class="ghost" type="button" id="compare-run" disabled>对比所选两份</button>
-    <span class="muted" id="compare-hint">已选 0 / 2</span>
     <button class="ghost" type="button" id="zip-run" disabled>打包下载所选报告</button>
     <button class="ghost" type="button" id="aggregate-run" disabled>聚合健康画像</button>
-    <span class="muted" id="zip-hint">已选 0 份</span>
+    <span class="muted" id="sel-hint">已选 0 份 · 对比用前 2 份</span>
   </div>
   <table class="table">
     <thead><tr><th></th><th>创建时间</th><th>文件</th><th>状态</th><th>进度</th><th>操作</th></tr></thead>
@@ -33,7 +32,7 @@
     {% for job in jobs %}
       <tr>
         <td>{% if job.has_report %}<input type="checkbox" class="cmp" value="{{ job.id }}" aria-label="选择 {{ job.filename or job.id }}">{% endif %}</td>
-        <td class="mono">{{ job.created_at }}</td>
+        <td class="mono">{{ (job.created_at or "")[:16] | replace("T", " ") }}</td>
         <td>{{ job.filename or '—' }}</td>
         <td>
           {% if job.status == 'done' %}<span class="pill ok">完成</span>
@@ -45,7 +44,6 @@
         <td>{{ job.progress }}%</td>
         <td>
           {% if job.has_report %}<a href="/report/{{ job.id }}">查看报告</a>{% else %}<span class="muted">—</span>{% endif %}
-          {% if job.has_report %}<label class="zip-toggle"><input type="checkbox" class="zipbox" value="{{ job.id }}" aria-label="打包 {{ job.filename or job.id }}"> 打包</label>{% endif %}
           {% if job.retryable and job.status != 'done' %}<button class="ghost retry" type="button" data-job="{{ job.id }}">重新运行</button>{% endif %}
         </td>
       </tr>
@@ -61,7 +59,9 @@
 (function () {
   var boxes = function () { return Array.prototype.slice.call(document.querySelectorAll('input.cmp')); };
   var run = document.getElementById('compare-run');
-  var hint = document.getElementById('compare-hint');
+  var hint = document.getElementById('sel-hint');
+  var zipRun = document.getElementById('zip-run');
+  var aggregateRun = document.getElementById('aggregate-run');
   var panel = document.getElementById('compare-panel');
   var body = document.getElementById('compare-body');
   var clear = document.getElementById('compare-clear');
@@ -69,16 +69,12 @@
   function selected() { return boxes().filter(function (b) { return b.checked; }); }
   function refresh() {
     var n = selected().length;
-    hint.textContent = '已选 ' + n + ' / 2';
-    run.disabled = n !== 2;
+    hint.textContent = '已选 ' + n + ' 份 · 对比用前 2 份 · 打包最多 20 份';
+    run.disabled = n < 2;
+    zipRun.disabled = n === 0 || n > 20;
+    aggregateRun.disabled = n === 0 || n > 50;
   }
-  boxes().forEach(function (b) {
-    b.addEventListener('change', function () {
-      var on = selected();
-      if (on.length > 2) { on[on.length - 1].checked = false; }
-      refresh();
-    });
-  });
+  boxes().forEach(function (b) { b.addEventListener('change', refresh); });
   refresh();
 
   function fmt(v) { return (v === null || v === undefined) ? '—' : v; }
@@ -92,7 +88,7 @@
 
   run.addEventListener('click', function () {
     var on = selected();
-    if (on.length !== 2) { return; }
+    if (on.length < 2) { return; }
     fetch('/api/compare?a=' + encodeURIComponent(on[0].value) + '&b=' + encodeURIComponent(on[1].value))
       .then(function (r) { return r.json().then(function (j) { if (!r.ok) { throw new Error(j.detail || '对比失败'); } return j; }); })
       .then(function (j) {
@@ -128,20 +124,8 @@
     refresh();
   });
 
-  var zipBoxes = Array.prototype.slice.call(document.querySelectorAll('input.zipbox'));
-  var zipRun = document.getElementById('zip-run');
-  var zipHint = document.getElementById('zip-hint');
-  var aggregateRun = document.getElementById('aggregate-run');
-  function zipRefresh() {
-    var n = zipBoxes.filter(function (b) { return b.checked; }).length;
-    zipHint.textContent = '已选 ' + n + ' 份';
-    zipRun.disabled = n === 0;
-    aggregateRun.disabled = n === 0;
-  }
-  zipBoxes.forEach(function (b) { b.addEventListener('change', zipRefresh); });
-  zipRefresh();
   zipRun.addEventListener('click', function () {
-    var ids = zipBoxes.filter(function (b) { return b.checked; }).map(function (b) { return b.value; });
+    var ids = selected().map(function (b) { return b.value; });
     if (!ids.length) { return; }
     zipRun.disabled = true;
     fetch('/api/reports/zip?ids=' + encodeURIComponent(ids.join(',')))
@@ -159,11 +143,11 @@
         setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000);
       })
       .catch(function (err) { alert(err.message); })
-      .then(function () { zipRun.disabled = false; zipRefresh(); });
+      .then(refresh);
   });
 
   aggregateRun.addEventListener('click', function () {
-    var ids = zipBoxes.filter(function (b) { return b.checked; }).map(function (b) { return b.value; });
+    var ids = selected().map(function (b) { return b.value; });
     if (!ids.length) { return; }
     if (ids.length > 50) { ids = ids.slice(0, 50); }
     window.location.href = '/aggregate?ids=' + encodeURIComponent(ids.join(','));

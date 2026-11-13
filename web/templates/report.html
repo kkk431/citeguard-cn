@@ -71,7 +71,7 @@
       <div class="panel summary-tabs" id="summary-tabs">
         <div class="tabbar" role="tablist" aria-label="结论视图">
           <button class="tab on" type="button" role="tab" aria-selected="true" data-summary-tab="verdict">总览</button>
-          <button class="tab" type="button" role="tab" aria-selected="false" data-summary-tab="refs">审稿条目</button>
+          <button class="tab" type="button" role="tab" aria-selected="false" data-summary-tab="refs">逐条结果</button>
         </div>
         <div class="inline-note hidden" id="input-meta"></div>
         <div class="tab-pane" id="pane-overview">
@@ -91,26 +91,33 @@
             <div class="health-fixes" id="health-fixes"></div>
             <div class="inline-note" id="health-note"></div>
           </div>
-          <div class="overview-grid">
-            <div class="panel compact hidden" id="source-health"></div>
-            <div class="panel compact hidden" id="figure-checks"></div>
-            <div class="panel compact hidden" id="support-summary"></div>
-            <div class="panel compact hidden" id="citation-consistency"></div>
-            <div class="panel compact hidden" id="citation-coverage"></div>
-          </div>
-          <div class="panel compact hidden" id="citation-panel">
-            <div class="panel-head"><h3>正文引注</h3><span class="muted" id="citation-count"></span></div>
-            <ol class="citation-list" id="citation-list"></ol>
-            <div class="inline-note" id="citation-note"></div>
-          </div>
-          <div class="chart-grid" id="report-charts"></div>          <div class="diff-bar">
+          <div class="diff-bar">
             <button class="btn ghost sm" type="button" id="btn-diff">对比历史报告</button>
             <div class="diff-picker hidden" id="diff-picker">
               <select class="select" id="diff-against" aria-label="选择旧报告"></select>
               <button class="btn sm" type="button" id="btn-diff-run">开始对比</button>
             </div>
           </div>
-          <div id="diff-result"></div>
+          <details class="advanced-checks" id="advanced-checks">
+            <summary>
+              <span>检查明细</span>
+              <small>来源健康 · 图表抽检 · 支持度 · 正文引注 · 趋势</small>
+            </summary>
+            <div class="overview-grid">
+              <div class="panel compact hidden" id="source-health"></div>
+              <div class="panel compact hidden" id="figure-checks"></div>
+              <div class="panel compact hidden" id="support-summary"></div>
+              <div class="panel compact hidden" id="citation-consistency"></div>
+              <div class="panel compact hidden" id="citation-coverage"></div>
+            </div>
+            <div class="panel compact hidden" id="citation-panel">
+              <div class="panel-head"><h3>正文引注</h3><span class="muted" id="citation-count"></span></div>
+              <ol class="citation-list" id="citation-list"></ol>
+              <div class="inline-note" id="citation-note"></div>
+            </div>
+            <div class="chart-grid" id="report-charts"></div>
+            <div id="diff-result"></div>
+          </details>
         </div>
       </div>
       <div class="refs-pane hidden" id="refs-pane">

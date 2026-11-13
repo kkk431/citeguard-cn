@@ -50,7 +50,7 @@ def main() -> int:
     scenes = [(name, path, sel) for name, path, sel in SCENES
               if not args.only or name in args.only]
     if args.job:
-        scenes.append(("report", f"/report/{args.job}", "#verdict"))
+        scenes.append(("report", f"/report/{args.job}", "#report-root[data-ready='1']"))
 
     failures: list[str] = []
     with sync_playwright() as p:

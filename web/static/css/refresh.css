@@ -920,3 +920,200 @@ body.theme-light .retraction-panel b { color: #c0392b; }
 body.theme-light .drawer-replace { background: #fff8ec; }
 body.theme-light .replace-item { background: #fff; }
 body.theme-light .replace-entry { background: #f4f6f5; }
+
+/* ---------- IA v2：更多菜单 / 首页工具条 / 报告渐进披露 ---------- */
+[hidden] { display: none !important; }
+details:not([open]) > *:not(summary) { display: none !important; }
+.hero { padding-top: 52px; padding-bottom: 24px; }
+.hero-copy h1 { font-size: clamp(42px, 4.2vw, 60px); margin: 16px 0 16px; }
+.lede { margin-bottom: 18px; }
+.hero-chips { margin-bottom: 20px; }
+.rail-sep { height: 1px; background: var(--line); margin: 10px 12px; }
+.rail-more > summary { list-style: none; cursor: pointer; }
+.rail-more > summary::-webkit-details-marker { display: none; }
+.rail-more:not([open]) .rail-extra { display: none !important; }
+.rail-more-btn::after {
+  content: "▾"; margin-left: auto; font-size: 10px; color: var(--muted);
+  transition: transform .18s;
+}
+.rail-more[open] .rail-more-btn::after { transform: rotate(180deg); }
+.rail-extra { display: grid; gap: 2px; margin-top: 2px; }
+.rail-extra .rail-link { padding-top: 8px; padding-bottom: 8px; }
+.rail-extra .rail-ico { width: 34px; height: 34px; flex-basis: 34px; }
+.rail-extra .rail-ico svg { width: 17px; height: 17px; }
+.rail-extra .rail-txt { font-size: 13px; }
+.rail:not(:hover):not(:focus-within) .rail-more-btn::after { display: none; }
+.rail:not(:hover):not(:focus-within) .rail-extra .rail-link { justify-content: center; }
+body.theme-light .rail-sep { background: rgba(18, 38, 32, .12); }
+
+.tools-row {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 8px 18px;
+  margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line);
+  font-size: 13px; color: var(--muted);
+}
+.tools-row .tools-label { font-size: 11px; letter-spacing: .12em; }
+.tools-row a { color: var(--ink-2); font-weight: 600; }
+.tools-row a:hover { color: var(--accent); }
+
+.advanced-checks {
+  margin-top: 18px; padding: 0 16px;
+  border: 1px solid var(--line); border-radius: 14px;
+  background: rgba(9, 17, 28, .45);
+}
+.advanced-checks > summary {
+  display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
+  padding: 14px 2px; cursor: pointer; list-style: none;
+}
+.advanced-checks > summary::-webkit-details-marker { display: none; }
+.advanced-checks > summary span { font-weight: 700; font-size: 14px; }
+.advanced-checks > summary small { font-size: 12px; color: var(--muted); }
+.advanced-checks > summary::after {
+  content: "展开 ▾"; margin-left: auto; font-size: 12px; color: var(--muted);
+}
+.advanced-checks[open] > summary::after { content: "收起 ▴"; }
+.advanced-checks[open] > summary { border-bottom: 1px solid var(--line); margin-bottom: 14px; }
+body.theme-light .advanced-checks { background: #fbfaf6; }
+
+/* ---------- IA v3：宽屏默认展开导航，标签始终可读 ---------- */
+@media (min-width: 1180px) {
+  :root { --rail-w: 236px; }
+  .rail { width: 236px; }
+  .rail:hover, .rail:focus-within { width: 236px; box-shadow: none; }
+  .rail .rail-name, .rail .rail-txt, .rail .rail-label, .rail .rail-foot {
+    opacity: 1 !important; transform: none !important; display: flex !important;
+  }
+  .rail .rail-foot > span:last-child { display: inline !important; }
+  .rail .rail-link, .rail .rail-extra .rail-link {
+    justify-content: flex-start !important; padding-left: 12px !important; padding-right: 12px !important;
+  }
+  .rail .rail-brand { justify-content: flex-start; padding-left: 18px; padding-right: 18px; }
+  .rail .rail-label {
+    height: auto !important; padding: 14px 12px 6px !important; overflow: visible !important; margin: 0 !important;
+  }
+  .rail .rail-nav { padding-top: 10px !important; }
+  .rail:not(:hover):not(:focus-within) .rail-more-btn::after { display: block !important; }
+  .rail .rail-more-btn::after { display: block !important; }
+  .rail .rail-foot { justify-content: flex-start !important; }
+  .shell { margin-left: 236px; }
+}
+
+/* 健康画像：雷达图放大一档，与右侧维度条平衡 */
+.health-body { grid-template-columns: 158px 368px 1fr; gap: 22px; }
+.health-radar svg { width: 360px; height: 320px; }
+@media (max-width: 1180px) {
+  .health-body { grid-template-columns: 140px 320px 1fr; }
+  .health-radar svg { width: 300px; height: 267px; }
+}
+
+/* IA v3 补丁：更多菜单箭头不越界；报告左卡按内容收高，不撑满整屏 */
+.rail-more > summary { position: relative; padding-right: 30px !important; }
+.rail-more-btn::after {
+  position: absolute; right: 13px; top: 50%; margin: 0;
+  transform: translateY(-50%);
+}
+.rail-more[open] .rail-more-btn::after { transform: translateY(-50%) rotate(180deg); }
+body:has(.report-shell) .rail-card { height: auto; }
+body:has(.report-shell) .rail-again { margin-top: 18px; }
+
+/* IA v3 修复：报告页回归自然滚动，避免内容被裁掉；健康画像三列自适应 */
+body:has(.report-shell) { overflow: auto; height: auto; }
+.report-shell { height: auto; overflow: visible; }
+.report-shell > .report-main { height: auto; overflow: visible; }
+#report-content { height: auto; overflow: visible; display: block; }
+.summary-tabs { max-height: none; overflow: visible; }
+.summary-tabs .tab-pane { max-height: none; overflow: visible; }
+.health-body { grid-template-columns: 150px minmax(220px, 340px) minmax(220px, 1fr); gap: 18px; }
+.health-radar { min-width: 0; }
+.health-radar svg { width: 100%; max-width: 360px; height: auto; }
+.health-dims { min-width: 0; }
+@media (max-width: 1500px) {
+  .health-body { grid-template-columns: 140px minmax(200px, 280px) minmax(220px, 1fr); gap: 14px; }
+}
+@media (max-width: 980px) {
+  .health-body { grid-template-columns: 1fr; }
+  .health-radar svg { max-width: 320px; }
+}
+
+/* 结论区：明细默认收起，第一屏先给结论与健康分 */
+.review-issues { margin: 6px 0 2px; }
+.review-issues > summary {
+  cursor: pointer; list-style: none; display: inline-flex; align-items: center; gap: 6px;
+  font-size: 13px; font-weight: 600; color: var(--accent-2); padding: 4px 0;
+}
+.review-issues > summary::-webkit-details-marker { display: none; }
+.review-issues > summary::after { content: "▾"; font-size: 10px; }
+.review-issues[open] > summary::after { content: "▴"; }
+.review-issues .verdict-list { margin: 6px 0 0; padding-left: 18px; font-size: 13px; line-height: 1.8; }
+body.theme-light .review-issues > summary { color: #0b6b58; }
+
+/* 健康画像：顶部对齐，分数环/雷达不悬在面板中部 */
+.health-body { align-items: start; }
+.health-score { padding-top: 10px; }
+.health-radar { padding-top: 4px; }
+
+
+/* ---------- global ghost buttons + rail footer (1.4.0 IA) ---------- */
+.ghost {
+  border: 1px solid var(--line-strong);
+  background: rgba(15, 29, 45, .55);
+  color: var(--ink);
+  border-radius: 10px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .16s, border-color .16s, opacity .16s;
+}
+.ghost:hover:not(:disabled) { background: rgba(20, 40, 58, .9); border-color: rgba(60, 230, 180, .5); }
+.ghost:disabled { opacity: .4; cursor: not-allowed; }
+body.theme-light .ghost { background: #fff; border-color: rgba(15, 50, 40, .18); color: #0b2a22; }
+body.theme-light .ghost:hover:not(:disabled) { background: #f4faf7; border-color: rgba(8, 120, 95, .45); }
+
+.rail { display: flex; flex-direction: column; }
+.rail-nav { flex: 1 1 auto; min-height: 0; max-height: none; }
+.rail-foot {
+  position: static;
+  margin: 10px 16px 16px;
+  flex: 0 0 auto;
+  opacity: 1;
+}
+.rail:not(:hover):not(:focus-within) .rail-foot { opacity: 0; }
+
+
+/* "更多" is a bottom-anchored flyout so it cannot be buried by nav scroll */
+.rail-more { position: relative; flex: 0 0 auto; margin: 4px 12px 0; }
+.rail-extra {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background: #0b1a28;
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+  padding: 6px;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, .55);
+  max-height: 58vh;
+  overflow: auto;
+  z-index: 6;
+}
+body.theme-light .rail-extra { background: #fff; }
+.rail:not(:hover):not(:focus-within) .rail-extra { display: none !important; }
+
+
+/* ---------- 1.4.0: 首页 hero = 文案 + 直接上传 ---------- */
+.hero {
+  grid-template-columns: minmax(0, 1fr) minmax(440px, 600px);
+  gap: 40px;
+  align-items: start;
+  padding-top: 42px;
+}
+.hero-composer { min-width: 0; }
+.hero-composer .composer { padding: 22px; }
+.hero-composer .composer-head { margin-bottom: 12px; }
+.hero-composer .composer-head h2 { font-size: 22px; }
+.hero-composer .dropzone { padding: 22px 18px; }
+.hero-composer .composer-grid { grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 16px; }
+.hero-composer textarea { min-height: 116px; }
+@media (max-width: 1380px) {
+  .hero { grid-template-columns: minmax(0, 1fr) minmax(400px, 520px); gap: 30px; }
+}

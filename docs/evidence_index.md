@@ -29,6 +29,7 @@
 
 | 截图 | 内容 | 数据来源 |
 |---|---|---|
+| E69 | 信息架构改版（1.4.0） | `web/templates/base.html`、`index.html`、`history.html`、`report.html`；`web/static/css/refresh.css`；`tests/test_web.py`、`tests/conftest.py`、`tests/test_history_db.py` | 左侧导航改为「核验 / 工具 / 更多」三段，桌面端默认展开显示文字；首页上传卡进入 hero 右栏；报告页先结论与健康画像，检查明细默认折叠；历史页统一选择框、时间可读；测试不再写真实 history DB 且索引会剪除缺失 JSON 行；`pytest` 664 passed | `docs/evidence/shots/phase-41-home-ia-1.4.0.png`、`docs/evidence/shots/phase-41-history-ia-1.4.0.png`、`docs/evidence/shots/phase-41-report-ia-1.4.0.png`、`docs/evidence/shots/phase-41-report-ia-1440-1.4.0.png` |
 | E68 | Docker 1.3.4 镜像（1.3.4） | `docker/Dockerfile`；`docs/deployment.md`；`docs/status_v1.3.4.md` | `citeguard-cn:1.3.4` 493 MB；容器 `-p 18082:8000 -e CITEGUARD_OFFLINE=1` health `{"ok":true,"version":"1.3.4","offline":true}`；启动时曾遇 WSL vpnkit 超时，`wsl --terminate docker-desktop` + 重启 Docker Desktop 后恢复 | `docs/evidence/logs/docker-1.3.4-health.txt` |
 | E67 | OpenAPI 契约（1.3.4） | `tests/test_openapi.py`；`web/app.py` 的 `openapi_extra` | 13 个公开路径均在 schema；`info.version == app.version`；`/api/support/check`、`/api/support/batch` 公开 JSON requestBody（运行时仍返回 400，未改行为）；3 个测试 + test_web 52 passed | 无界面截图，测试即证据 |
 | E66 | 截图自动化（1.3.4） | `scripts/capture_evidence.py`；`docs/evidence/shots/README.md` | Playwright 1920×1080；11 个页面 + `--job` 报告页，实测 12/12 OK；控制台报错或加载失败非零退出；输出目录已 gitignore，入库证据仍按 phase-* 命名 | 输出 `docs/evidence/shots/captured/`（不入库） |

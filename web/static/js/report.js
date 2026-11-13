@@ -315,8 +315,11 @@
         "<b>" + esc(x.kind || "") + "</b>：" + esc(x.text || "") + "</li>";
     }).join("");
     el.dataset.ready = "1";
-        el.innerHTML =
-      '<div class="mono-sm">自动汇总（仅供参考）</div>' +
+    // 评审摘要已经是结论，收起旧版「体检结论」要点，避免同一问题说两遍。
+    const verdict = document.getElementById("verdict");
+    if (verdict) verdict.classList.add("hidden");
+    el.innerHTML =
+      '<div class="mono-sm">体检结论 · 自动汇总（仅供参考）</div>' +
       '<div style="font-size:15px;font-weight:600;margin:6px 0 4px;color:' + color + '">' +
       esc(r.decision) + "</div>" +
       '<div class="mono-sm" style="color:var(--muted);margin-bottom:6px">' +
@@ -324,7 +327,8 @@
       " 项 · 已判定支持度 " + (r.support_judged || 0) + " 条" +
       (r.retracted ? " · 撤稿标记 " + r.retracted + " 条" : "") + "</div>" +
       (issues
-        ? '<ul class="verdict-list" style="margin:0;padding-left:18px;font-size:13px;line-height:1.8">' + issues + "</ul>"
+        ? '<details class="review-issues"><summary>查看 ' + (r.issues || []).length +
+          ' 条待修明细</summary><ul class="verdict-list">' + issues + "</ul></details>"
         : "") +
       '<div class="mono-sm" style="color:var(--muted);margin-top:6px">' + esc(r.note || "") + "</div>";
   }
@@ -379,9 +383,9 @@
 
     // Radar: five axes in fixed order; unavailable dimensions are drawn at the
     // centre and marked "未检测" (they are excluded from the weighted total).
-    const cx = 165;
-    const cy = 140;
-    const R = 92;
+    const cx = 180;
+    const cy = 156;
+    const R = 104;
     const angle = function (i) { return -Math.PI / 2 + (i * 2 * Math.PI) / dims.length; };
     const ring = function (k) {
       const pts = dims.map(function (_d, i) {
@@ -405,17 +409,17 @@
         (d.available ? "#2ee6b0" : "#5c6f68") + '"/>';
     }).join("");
     const labels = dims.map(function (d, i) {
-      const lx = cx + (R + 30) * Math.cos(angle(i));
-      const ly = cy + (R + 26) * Math.sin(angle(i));
+      const lx = cx + (R + 34) * Math.cos(angle(i));
+      const ly = cy + (R + 30) * Math.sin(angle(i));
       const anchor = Math.abs(Math.cos(angle(i))) < 0.2 ? "middle" : (Math.cos(angle(i)) > 0 ? "start" : "end");
       const value = d.available ? d.score : "未检测";
       return '<text x="' + lx.toFixed(1) + '" y="' + ly.toFixed(1) + '" text-anchor="' + anchor +
         '" fill="#cfe4dc" font-size="13">' + esc(d.label) + "</text>" +
-        '<text x="' + lx.toFixed(1) + '" y="' + (ly + 16).toFixed(1) + '" text-anchor="' + anchor +
+        '<text x="' + lx.toFixed(1) + '" y="' + (ly + 17).toFixed(1) + '" text-anchor="' + anchor +
         '" fill="' + (d.available ? "#2ee6b0" : "#8fb3a8") + '" font-size="12" font-weight="700">' + value + "</text>";
     }).join("");
     document.getElementById("health-radar").innerHTML =
-      '<svg viewBox="0 0 330 290" width="330" height="290" role="img" aria-label="五维引用健康雷达图">' +
+      '<svg viewBox="0 0 360 320" width="360" height="320" role="img" aria-label="五维引用健康雷达图">' +
       ring(0.25) + ring(0.5) + ring(0.75) + ring(1) + axes +
       '<polygon points="' + poly + '" fill="rgba(46,230,176,.16)" stroke="#2ee6b0" stroke-width="2"/>' +
       dots + labels + "</svg>";

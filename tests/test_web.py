@@ -59,7 +59,7 @@ def test_history_page_renders(client):
     resp = client.get("/history")
     assert resp.status_code == 200
     text = resp.text
-    assert "任务历史" in text
+    assert "全部报告" in text
     assert "sk-" not in text
 
 
@@ -761,3 +761,20 @@ def test_favicon_served_as_svg(plain_client):
     r2 = plain_client.get("/static/img/favicon.svg")
     assert r2.status_code == 200
     assert "<svg" in r2.text
+
+def test_navigation_groups_are_clear(plain_client):
+    r = plain_client.get("/")
+    assert r.status_code == 200
+    assert 'aria-label="主导航"' in r.text
+    # 三段式导航：核验 / 工具 / 更多（内部页面收进「更多」）
+    for label in ("核验", "工具", "更多", "题录库", "图表核验", "批量聚合"):
+        assert label in r.text
+    assert "rail-more" in r.text
+
+
+def test_report_advanced_checks_start_collapsed():
+    from pathlib import Path
+    html = Path("web/templates/report.html").read_text(encoding="utf-8")
+    assert 'id="advanced-checks"' in html
+    assert 'id="advanced-checks" open' not in html
+    assert "检查明细" in html

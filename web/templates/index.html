@@ -4,56 +4,19 @@
   <div class="hero-copy">
     <div class="kicker"><span class="kick-dot"></span>CiteGuard · 引文取证工作台</div>
     <h1>让每一条引文，<br><em>都经得起追问。</em></h1>
-    <p class="lede">上传论文，逐条核对参考文献是否真实存在、是否真的支持正文那句话、是否符合 GB/T 7714-2025。不是给一个笼统的分数，而是每一条都给证据、给理由、给修改建议。</p>
+    <p class="lede">上传论文，逐条核对：参考文献是否真实存在、是否支持正文那句话、是否符合 GB/T 7714-2025。每条都给证据、给理由、给改法。</p>
     <div class="hero-chips">
       <span>PDF / Word / TXT / MD</span>
       <span>≤ 30 MB</span>
-      <span>开源可自部署</span>
-      <span>分析后删除原文件</span>
+      <span>原文件分析后删除</span>
     </div>
-    <div class="hero-cta">
-      <a class="btn btn-primary btn-lg" href="#upload-card">开始体检 <span aria-hidden="true">↓</span></a>
-      <a class="btn btn-ghost btn-lg" href="/benchmark">先看真实评测</a>
-    </div>
+
   </div>
 
-  <aside class="preview" aria-hidden="true">
-    <div class="scanline"></div>
-    <div class="preview-head"><b>引文健康度 · 示例报告</b><span>PREVIEW</span></div>
-    <div class="pv-score">
-      <div class="pv-ring">
-        <svg viewBox="0 0 120 120">
-          <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(120,225,200,.12)" stroke-width="9"/>
-          <circle cx="60" cy="60" r="52" fill="none" stroke="url(#pvgrad)" stroke-width="9"
-                  stroke-linecap="round" stroke-dasharray="326" stroke-dashoffset="68"/>
-          <defs><linearGradient id="pvgrad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#5ff3c8"/><stop offset="1" stop-color="#39b9ff"/>
-          </linearGradient></defs>
-        </svg>
-        <div class="pv-num"><b>79<span>%</span></b><small>健康引文</small></div>
-      </div>
-      <div class="pv-score-copy"><b>可以交稿的水平</b><span>24 条参考文献里，19 条真实且元数据一致；3 条存在年份/作者偏差；2 条需要人工确认。</span></div>
-    </div>
-    <div class="preview-row"><span class="pv-label">参考文献</span><b>24</b></div>
-    <div class="preview-row"><span class="pv-label">真实一致</span><b class="t-ok">19</b></div>
-    <div class="preview-row"><span class="pv-label">元数据偏差</span><b class="t-warn">3</b></div>
-    <div class="preview-row"><span class="pv-label">疑似虚构 / 错配</span><b class="t-bad">2</b></div>
-    <div class="riskbar"><i style="width:79%"></i><i style="width:12.5%"></i><i style="width:8.5%"></i></div>
-    <div class="risklegend"><span>一致 79%</span><span>偏差 12.5%</span><span>存疑 8.5%</span></div>
-    <div class="pv-note">每条结论都能点开 OpenAlex / Crossref / DOI 原始记录核对。</div>
-  </aside>
-</section>
 
 
-<section class="stats-strip" aria-label="产品数字">
-  <a href="/benchmark"><b data-count="0.9684" data-text="0.9684">0.9684</b><span>CiteBench-CN macro-F1</span></a>
-  <a href="/benchmark"><b>0 / 409</b><span>真实已发表引文被误判为虚构</span></a>
-  <a href="/benchmark"><b data-count="0.9597" data-text="0.9597">0.9597</b><span>引用支持度（托管判官 v10）</span></a>
-  <a href="/benchmark"><b data-count="73" data-text="73%" data-suffix="%">73%</b><span>外部 ChartCheck 二分类（Qwen3-VL-8B）</span></a>
-</section>
-
-<section class="section" id="upload-card">
-  <div class="composer panel">
+  <div class="hero-composer" id="upload-card">
+<div class="composer panel">
     <div class="composer-head">
       <div>
         <h2>新的一次体检</h2>
@@ -90,7 +53,7 @@
             <small class="opt-hint">逐条比对「引用句 ↔ 被引论文摘要」；条数越多越慢。</small>
           </label>
           <label class="field" style="flex-direction:row;align-items:center;gap:8px">
-            <input type="checkbox" id="figure-check" name="figures" value="1" style="width:auto">
+            <input type="checkbox" id="figure-check" name="figures" value="1" style="width:auto" aria-label="同时抽检正文图表结论">
             <span>同时抽检正文图表结论</span>
           </label>
           <small class="opt-hint">自动定位「图 N / 表 N」所在页并让视觉模型核对；仅 PDF，约多花 10–20 秒。</small>
@@ -112,53 +75,26 @@
       <div id="batch-results" class="batch-results hidden"></div>
     </form>
   </div>
-</section>
-
-<section class="section">
-  <div class="section-head">
-    <div><div class="kicker-sm">能力</div><h2>从引文真实性，到图表结论</h2></div>
-    <span class="hint">全部可本地部署 · 判官模型可替换</span>
-  </div>
-  <div class="cap-grid">
-    <a class="cap-card" href="/figure"><span class="cap-no">01</span><h3>图表结论核验</h3><p>上传图表截图或整页 PDF，核对「图中结论」是否真的由图支持；可一次多条主张。</p><span class="cap-go">打开 →</span></a>
-    <a class="cap-card" href="/compare"><span class="cap-no">02</span><h3>多篇文献对比</h3><p>2–6 篇论文，自动抽出研究问题、方法、数据、结论、局限与贡献，导出对比矩阵。</p><span class="cap-go">打开 →</span></a>
-    <a class="cap-card" href="/discover"><span class="cap-no">03</span><h3>选题与文献发现</h3><p>输入研究主题，从 OpenAlex 检索、双语扩展、按透明规则排序，一键加入题录库。</p><span class="cap-go">打开 →</span></a>
-    <a class="cap-card" href="/library"><span class="cap-no">04</span><h3>本地题录库</h3><p>导入中文文献元数据，让 OpenAlex 覆盖不到的文献也能被核验；数据只留本机。</p><span class="cap-go">打开 →</span></a>
-    <a class="cap-card" href="/benchmark"><span class="cap-no">05</span><h3>可复核的评测</h3><p>每个数字都对应数据卡、脚本和 JSON 证据；开源判官与托管 API 同口径对照。</p><span class="cap-go">打开 →</span></a>
-    <a class="cap-card" href="/history"><span class="cap-no">06</span><h3>任务历史</h3><p>最近的分析记录一览，可回到任意报告、看进度或清理旧任务。</p><span class="cap-go">打开 →</span></a>
   </div>
 </section>
 
-<section class="section">
-  <div class="section-head">
-    <div><div class="kicker-sm">记录</div><h2>最近任务</h2></div>
-    <span class="hint">仅保留最近 6 条 · <a href="/history">全部历史</a></span>
+
+
+<section class="section" aria-label="产品数字">
+  <div class="stats-strip">
+    <a href="/benchmark"><b data-count="0.9684" data-text="0.9684">0.9684</b><span>CiteBench-CN macro-F1</span></a>
+    <a href="/benchmark"><b>0 / 409</b><span>真实已发表引文被误判为虚构</span></a>
+    <a href="/benchmark"><b data-count="0.9597" data-text="0.9597">0.9597</b><span>引用支持度（托管判官 v10）</span></a>
+    <a href="/benchmark"><b data-count="73" data-text="73%" data-suffix="%">73%</b><span>外部 ChartCheck 二分类（Qwen3-VL-8B）</span></a>
   </div>
-  {% if recent %}
-  <div class="panel table-wrap recent-wrap">
-    <table class="table table-compact">
-      <thead><tr><th>文件</th><th>时间</th><th>状态</th><th class="col-progress">进度</th><th></th></tr></thead>
-      <tbody>
-        {% for job in recent %}
-        <tr>
-          <td class="recent-name">{{ job.filename or '粘贴文本' }}</td>
-          <td class="mono-sm">{{ (job.created_at or '')[:19].replace('T', ' ') }}</td>
-          <td>
-            {% if job.status == 'done' %}<span class="pill ok"><i></i>完成</span>
-            {% elif job.status == 'error' %}<span class="pill bad"><i></i>失败</span>
-            {% elif job.status == 'running' %}<span class="pill warn"><i></i>分析中</span>
-            {% else %}<span class="pill unknown"><i></i>排队</span>{% endif %}
-          </td>
-          <td class="col-progress" style="min-width:140px"><div class="progress" style="margin:0"><i style="width:{{ job.progress or 0 }}%"></i></div></td>
-          <td class="recent-go"><a class="btn btn-sm btn-ghost" href="/report/{{ job.id }}">查看</a></td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+  <div class="tools-row">
+    <span class="tools-label">还要别的？</span>
+    <a href="/figure">图表核验</a>
+    <a href="/compare">多篇对比</a>
+    <a href="/discover">文献发现</a>
+    <a href="/support">支持度速查</a>
+    <a href="/library">题录库</a>
   </div>
-  {% else %}
-  <div class="empty">还没有任务。上传一篇论文，或先用示例论文试试。</div>
-  {% endif %}
 </section>
 
 <section class="section">

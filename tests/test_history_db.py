@@ -43,3 +43,15 @@ def test_sync_skips_when_unchanged(tmp_path):
     assert db.sync_dir(jobs) == 0
     _job(jobs, "y", "2026-11-11T13:00:00")
     assert db.sync_dir(jobs) == 2
+
+
+def test_sync_prunes_rows_whose_json_was_removed(tmp_path):
+    jobs = tmp_path / "jobs"
+    jobs.mkdir()
+    _job(jobs, "a", "2026-11-11T11:00:00")
+    _job(jobs, "b", "2026-11-11T12:00:00")
+    db = HistoryDB(tmp_path / "history.db")
+    db.sync_dir(jobs, force=True)
+    (jobs / "a.json").unlink()
+    db.sync_dir(jobs)
+    assert [r["id"] for r in db.list()] == ["b"]

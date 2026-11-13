@@ -2,6 +2,42 @@
 
 All notable changes to CiteGuard-CN. Earlier pre-1.0 history is condensed.
 
+## [1.4.0] - 2026-11-13
+
+### Changed
+- Information architecture: the left navigation is now three groups
+  (核验 / 工具 / 更多) with labeled entries on desktop. Batch, cohort,
+  benchmark, model settings and about moved under 更多 instead of competing
+  with the daily workflow.
+- Home is task-first: the upload card now sits in the hero's right column, so
+  choosing a file is the first action on the page. Secondary numbers moved
+  below it; the capability grid, preview mock and recent-task block were
+  removed from the landing view.
+- Report page leads with the conclusion and the five-dimension health panel;
+  the review issue list, source health, chart spot-check, citation consistency
+  and charts are collapsed under 检查明细. The old "体检结论" duplicate was
+  folded into the review summary.
+- Page names now match navigation: 报告 (全部报告), 批量聚合, 模型设置.
+- History table uses one checkbox for compare/zip/cohort actions instead of a
+  second per-row "打包" checkbox; dates render as `YYYY-MM-DD HH:MM`.
+
+### Fixed
+- Details elements no longer leak their content when closed (export menu,
+  evidence drawer, page viewer, advanced checks).
+- Report pages scroll naturally instead of clipping content inside a fixed
+  viewport; the health radar scales with its column.
+- Wide-screen sidebar labels were invisible until hover; from 1180px the rail
+  is expanded and readable.
+
+### Tests
+- `pytest tests -q` -> 664 passed.
+
+### Fixed (test isolation)
+- Tests no longer write into the real `data/history.db`: the autouse fixture
+  points `CITEGUARD_HISTORY_DB` at `tmp_path`, and `HistoryDB.sync_dir()` now
+  prunes index rows whose backing job JSON disappeared. Full suite leaves the
+  developer's history index untouched.
+
 ## [1.3.4] - 2026-11-12
 
 ### Added
