@@ -9,6 +9,7 @@ import asyncio
 import os
 import json
 from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime, timedelta, timezone
 import re
 import sys
 import tempfile
@@ -33,6 +34,7 @@ from citeguard import compare  # noqa: E402
 from citeguard import config  # noqa: E402
 from citeguard import discover  # noqa: E402
 from citeguard import figure_check  # noqa: E402
+from citeguard import fix as fix_mod  # noqa: E402
 from citeguard import triage  # noqa: E402
 from citeguard.abstract_enrich import MAX_ENRICH_PER_REQUEST, enrich_missing  # noqa: E402
 from citeguard.jobs import manager  # noqa: E402
@@ -99,7 +101,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.7.3", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.7.4", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 
@@ -879,6 +881,278 @@ def update_triage(job_id: str, body: TriageUpdate):
         raise HTTPException(status_code=400, detail=str(exc)) from exc
 
 
+# ---------------------------------------------------------------------------
+# 修复闭环（C1）：预览 -> 应用 -> 撤销，report.json 始终只读
+# ---------------------------------------------------------------------------
+
+_REPAIR_LOCKS: dict[str, threading.Lock] = {}
+_REPAIR_LOCKS_GUARD = threading.Lock()
+
+
+def _repair_lock(job_id: str) -> threading.Lock:
+    with _REPAIR_LOCKS_GUARD:
+        return _REPAIR_LOCKS.setdefault(job_id, threading.Lock())
+
+
+def _repair_paths(job_id: str) -> tuple[Path, Path]:
+    folder = config.DATA_DIR / "jobs" / job_id
+    return folder / "report.fixed.json", folder / "repair.json"
+
+
+def _read_json_file(path: Path) -> dict | None:
+    if not path.exists():
+        return None
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return None
+    return data if isinstance(data, dict) else None
+
+
+def _write_json_atomic(path: Path, data: dict) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_name(path.name + ".tmp")
+    tmp.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+    os.replace(tmp, path)
+
+
+def _load_active_report(job_id: str) -> dict | None:
+    fixed_path, _ = _repair_paths(job_id)
+    fixed = _read_json_file(fixed_path)
+    return fixed or _load_report(job_id)
+
+
+def _repair_error(code: str, message: str, status: int = 400):
+    raise HTTPException(status_code=status, detail={"code": code, "message": message})
+
+
+def _parse_indexes(raw: str) -> list[int] | None:
+    raw = (raw or "").strip()
+    if not raw:
+        return None
+    values: list[int] = []
+    for part in raw.split(","):
+        part = part.strip()
+        if not part:
+            _repair_error("bad_request", "indexes 里含有空值，请用 1,3,5 形式")
+        try:
+            values.append(int(part))
+        except ValueError:
+            _repair_error("bad_request", f"条目序号不是整数：{part}")
+    return values
+
+
+def _report_fingerprint(report: dict) -> str:
+    # build_patch([]) 只计算 fingerprint，不产生任何操作。
+    return str(fix_mod.build_patch(report, []).get("report_fingerprint") or "")
+
+
+def _undo_info(job_id: str) -> dict:
+    """暴露最近一次修复的撤销窗口（TTL 30 分钟）。"""
+    base = _load_report(job_id)
+    _, store_path = _repair_paths(job_id)
+    store = _read_json_file(store_path)
+    info = {
+        "available": False,
+        "patch_id": "",
+        "applied_at": "",
+        "expires_at": "",
+        "indexes": [],
+        "reason": "",
+    }
+    if not store or base is None:
+        return info
+    patch = store.get("patch") if isinstance(store.get("patch"), dict) else None
+    if not patch:
+        return info
+    expires_at = str(store.get("expires_at") or "")
+    info.update(
+        {
+            "patch_id": str(patch.get("patch_id") or ""),
+            "applied_at": str(store.get("applied_at") or ""),
+            "expires_at": expires_at,
+            "indexes": patch.get("indexes") or [],
+        }
+    )
+    try:
+        expires = datetime.fromisoformat(expires_at)
+    except ValueError:
+        info["reason"] = "撤销窗口记录损坏；可再次修复覆盖。"
+        return info
+    if expires.tzinfo is None:
+        expires = expires.replace(tzinfo=timezone.utc)
+    if datetime.now(timezone.utc) >= expires:
+        info["reason"] = "撤销窗口已结束（30 分钟）。可再次修复并在窗口内撤销。"
+        return info
+    if patch.get("report_fingerprint") != _report_fingerprint(base):
+        info["reason"] = "原始报告已变化，不能再撤销这一次修复。"
+        return info
+    info["available"] = True
+    return info
+
+
+class RepairApply(BaseModel):
+    indexes: Optional[list[int]] = None
+    patch_id: Optional[str] = None
+
+
+class RepairUndo(BaseModel):
+    patch_id: Optional[str] = None
+    indexes: Optional[list[int]] = None
+
+
+@app.get("/api/report/{job_id}/repair/state")
+def repair_get_state(job_id: str):
+    if _load_report(job_id) is None:
+        raise HTTPException(status_code=404, detail="report not ready")
+    active = _load_active_report(job_id)
+    return {**fix_mod.repair_state(active), "undo": _undo_info(job_id)}
+
+
+@app.get("/api/report/{job_id}/repair/preview")
+def repair_preview(job_id: str, indexes: str = ""):
+    base = _load_report(job_id)
+    if base is None:
+        raise HTTPException(status_code=404, detail="report not ready")
+    active = _load_active_report(job_id)
+    selected = _parse_indexes(indexes)
+    try:
+        patch = fix_mod.build_patch(active, selected)
+    except ValueError as exc:
+        _repair_error("invalid_index", str(exc))
+    patch["state"] = fix_mod.repair_state(active)
+    patch["undo"] = _undo_info(job_id)
+    return patch
+
+
+@app.post("/api/report/{job_id}/repair/apply")
+def repair_apply(job_id: str, body: RepairApply):
+    if _load_report(job_id) is None:
+        raise HTTPException(status_code=404, detail="report not ready")
+    if body.indexes is not None and not body.indexes:
+        _repair_error("bad_request", "indexes 不能是空列表；不传表示全部条目")
+    with _repair_lock(job_id):
+        active = _load_active_report(job_id)
+        fixed_path, store_path = _repair_paths(job_id)
+        store = _read_json_file(store_path)
+        if body.patch_id and store:
+            stored_patch = store.get("patch") or {}
+            if stored_patch.get("patch_id") == body.patch_id:
+                return {
+                    "schema": fix_mod.REPAIR_SCHEMA,
+                    "applied": 0,
+                    "already_applied": True,
+                    "state": fix_mod.repair_state(active),
+                    "undo": _undo_info(job_id),
+                    "message": "该修复已经应用，无需重复点击。",
+                }
+        try:
+            patch = fix_mod.build_patch(active, body.indexes)
+        except ValueError as exc:
+            _repair_error("invalid_index", str(exc))
+        if body.patch_id and patch.get("patch_id") != body.patch_id:
+            _repair_error(
+                "stale_patch",
+                "修复预览已过期（报告或条目已变化），请重新预览。",
+                409,
+            )
+        if not patch["ops"]:
+            return {
+                "schema": fix_mod.REPAIR_SCHEMA,
+                "applied": 0,
+                "already_applied": True,
+                "state": fix_mod.repair_state(active),
+                "undo": _undo_info(job_id),
+                "message": "没有需要修复的条目。",
+            }
+        try:
+            repaired = fix_mod.apply_patch(active, patch)
+        except ValueError as exc:
+            _repair_error("stale_patch", str(exc), 409)
+        now = datetime.now(timezone.utc)
+        expires = now + timedelta(seconds=fix_mod.REPAIR_UNDO_TTL_SECONDS)
+        record = {
+            "schema": "citeguard.repair_store/1",
+            "job_id": job_id,
+            "applied_at": now.isoformat(),
+            "expires_at": expires.isoformat(),
+            "indexes": patch["indexes"],
+            "patch": patch,
+        }
+        previous_fixed = fixed_path.read_text(encoding="utf-8") if fixed_path.exists() else None
+        try:
+            _write_json_atomic(fixed_path, repaired)
+            _write_json_atomic(store_path, record)
+        except OSError as exc:
+            if previous_fixed is None:
+                fixed_path.unlink(missing_ok=True)
+            else:
+                fixed_path.write_text(previous_fixed, encoding="utf-8")
+            _repair_error("bad_request", f"写入修复视图失败：{exc}", 500)
+        return {
+            "schema": fix_mod.REPAIR_SCHEMA,
+            "applied": len(patch["ops"]),
+            "already_applied": False,
+            "patch_id": patch["patch_id"],
+            "indexes": [op["index"] for op in patch["ops"]],
+            "state": fix_mod.repair_state(repaired),
+            "undo": _undo_info(job_id),
+            "message": f"已修复 {len(patch['ops'])} 条，30 分钟内可撤销。",
+        }
+
+
+@app.post("/api/report/{job_id}/repair/undo")
+def repair_undo(job_id: str, body: RepairUndo):
+    if _load_report(job_id) is None:
+        raise HTTPException(status_code=404, detail="report not ready")
+    with _repair_lock(job_id):
+        active = _load_active_report(job_id)
+        fixed_path, store_path = _repair_paths(job_id)
+        store = _read_json_file(store_path)
+        if not store or not isinstance(store.get("patch"), dict):
+            return {
+                "schema": fix_mod.REPAIR_STATE_SCHEMA,
+                "undone": 0,
+                "already_undone": True,
+                "state": fix_mod.repair_state(active),
+                "undo": _undo_info(job_id),
+                "message": "没有可撤销的修复。",
+            }
+        patch = store["patch"]
+        if body.patch_id and patch.get("patch_id") != body.patch_id:
+            _repair_error("stale_patch", "要撤销的补丁不是最近一次修复。", 409)
+        try:
+            expires = datetime.fromisoformat(str(store.get("expires_at") or ""))
+        except ValueError:
+            _repair_error("undo_expired", "撤销窗口记录损坏，无法撤销。", 409)
+        if expires.tzinfo is None:
+            expires = expires.replace(tzinfo=timezone.utc)
+        if datetime.now(timezone.utc) >= expires:
+            _repair_error("undo_expired", "撤销窗口已结束（30 分钟），无法撤销。", 409)
+        before_fixed = fix_mod.repair_state(active)["fixed"]
+        try:
+            restored = fix_mod.undo_patch(active, patch, body.indexes)
+        except ValueError as exc:
+            _repair_error("stale_patch", str(exc), 409)
+        after_state = fix_mod.repair_state(restored)
+        try:
+            if after_state["fixed"] == 0:
+                fixed_path.unlink(missing_ok=True)
+                store_path.unlink(missing_ok=True)
+            else:
+                _write_json_atomic(fixed_path, restored)
+        except OSError as exc:
+            _repair_error("bad_request", f"写入撤销结果失败：{exc}", 500)
+        return {
+            "schema": fix_mod.REPAIR_STATE_SCHEMA,
+            "undone": before_fixed - after_state["fixed"],
+            "already_undone": False,
+            "state": after_state,
+            "undo": _undo_info(job_id),
+            "message": "已撤销本次修复，条目已恢复原文。",
+        }
+
+
 def _page_dir(job_id: str) -> Path:
     return config.DATA_DIR / "jobs" / job_id / "pages"
 
@@ -1326,7 +1600,7 @@ def report_page(request: Request, job_id: str):
     if not job:
         raise HTTPException(status_code=404, detail="job not found")
     return templates.TemplateResponse(
-        request, "report.html", {"job": job, "report": _load_report(job_id), "active": "report"}
+        request, "report.html", {"job": job, "report": _load_active_report(job_id), "active": "report"}
     )
 
 

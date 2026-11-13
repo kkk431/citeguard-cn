@@ -1514,6 +1514,19 @@
     });
   }
 
+  function repairBlock(item) {
+    const wrap = document.createElement("div");
+    wrap.className = "drawer-repair";
+    const repair = item.repair || {};
+    if (repair.state === "fixed") {
+      wrap.innerHTML = '<div class="inline-note">这条已记录修复视图；可在报告顶部撤销（30 分钟内），原始条目仍保留。</div>';
+    } else {
+      wrap.innerHTML = '<button class="btn btn-sm btn-ghost" type="button" data-repair-index="' +
+        (item.index || "") + '">修复此条</button>';
+    }
+    return wrap;
+  }
+
   function openRefDrawer(pos) {
     const items = window.__reportItems || [];
     const item = items[pos];
@@ -1535,6 +1548,7 @@
       '<div class="ref-drawer-sub">' + esc((p.authors || []).join(", ") || "（未解析作者）") + " · " + esc(p.year || "") +
       (p.venue ? " · " + esc(p.venue) : "") + "</div>";
     body.appendChild(triageControls(item, pos));
+    body.appendChild(repairBlock(item));
     body.appendChild(replacementBlock(item));
     const node = card.querySelector(".ref-body");
     if (node) {
@@ -1811,6 +1825,9 @@
           : "";
         const issueList = c.issues || [];
         const errCount = issueList.filter(function (i) { return i.level === "error"; }).length;
+        const rep = item.repair || {};
+        const displayRaw = rep.state === "fixed" && rep.after ? rep.after : item.raw;
+        const repairPill = rep.state === "fixed" ? '<span class="pill ok">已修复</span>' : "";
         const flagText = errCount ? errCount + " 处格式错误" : (issueList.length ? issueList.length + " 条建议" : "格式通过");
         const noteBlock = webNote
           ? '<div class="ref-note">' + esc(webNote) + "</div>"
@@ -1830,7 +1847,7 @@
                 '<div class="ref-sub">' + esc((p.authors || []).join(", ") || "（未解析作者）") + " · " + esc(p.year || "") + (p.venue ? " · " + esc(p.venue) : "") + "</div>" +
                 '<div class="ref-tags">' +
                   '<span class="pill ' + st.cls + '"><i></i>' + st.label + "</span>" +
-                  supPill + triagePill + localPill + retractPill + corrPill + provPills.join("") + urlPills.join("") +
+                  repairPill + supPill + triagePill + localPill + retractPill + corrPill + provPills.join("") + urlPills.join("") +
                 "</div>" +
               "</div>" +
               '<div class="ref-side">' +
@@ -1841,7 +1858,7 @@
               "</div>" +
             "</div>" +
             '<div class="ref-body">' +
-              '<div class="ref-raw">' + esc(item.raw) + "</div>" +
+              '<div class="ref-raw">' + esc(displayRaw) + "</div>" +
               '<div class="ref-evidence">' + evidence.map(function (x) { return "<span>" + x + "</span>"; }).join("") + "</div>" +
               supBlock +
               noteBlock +
@@ -2061,4 +2078,198 @@ if (manualCsvBtn) {
       result.innerHTML = '<div class="diff-empty">\u5bf9\u6bd4\u5931\u8d25\uff1a' + esc(e.message) + "</div>";
     }
   });
+})();
+
+/* 修复闭环：预览 -> 应用 -> 30 分钟内撤销 */
+(function () {
+  var root = document.getElementById("report-root");
+  if (!root) return;
+  var jobId = root.getAttribute("data-job-id");
+  if (!jobId) return;
+  var btnAll = document.getElementById("btn-repair-all");
+  var btnUndo = document.getElementById("btn-undo-repair");
+  var countdown = document.getElementById("repair-countdown");
+  var modal = document.getElementById("repair-modal");
+  var listEl = document.getElementById("repair-list");
+  var meta = document.getElementById("repair-meta");
+  var note = document.getElementById("repair-note");
+  var applyBtn = document.getElementById("repair-apply");
+  var closeBtn = document.getElementById("repair-close");
+  var cancelBtn = document.getElementById("repair-cancel");
+  var currentPatch = null;
+  var clock = null;
+
+  function esc(value) {
+    return String(value == null ? "" : value).replace(/[&<>"']/g, function (ch) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch];
+    });
+  }
+
+  function api(path, options) {
+    return fetch("/api/report/" + encodeURIComponent(jobId) + path, options).then(function (res) {
+      return res.json().catch(function () { return {}; }).then(function (data) {
+        if (!res.ok) {
+          var detail = data && data.detail;
+          var message = detail && detail.message ? detail.message : (typeof detail === "string" ? detail : "请求失败（" + res.status + "）");
+          throw new Error(message);
+        }
+        return data;
+      });
+    });
+  }
+
+  function tick() {
+    if (!btnUndo || btnUndo.hidden) return;
+    var expires = btnUndo.getAttribute("data-expires");
+    if (!expires) return;
+    var left = new Date(expires).getTime() - Date.now();
+    if (!(left > 0)) {
+      if (clock) clearInterval(clock);
+      clock = null;
+      btnUndo.hidden = true;
+      return;
+    }
+    var total = Math.ceil(left / 1000);
+    var m = Math.floor(total / 60);
+    var s = total % 60;
+    if (countdown) countdown.textContent = "（" + m + ":" + (s < 10 ? "0" : "") + s + "）";
+  }
+
+  function applyState(state) {
+    if (btnAll) {
+      btnAll.hidden = !(state.unfixed > 0);
+      btnAll.textContent = "一键修复全部";
+    }
+    var undo = state.undo || {};
+    if (btnUndo) {
+      btnUndo.hidden = !undo.available;
+      if (undo.available) {
+        btnUndo.setAttribute("data-expires", undo.expires_at || "");
+        btnUndo.setAttribute("data-patch-id", undo.patch_id || "");
+        tick();
+        if (!clock) clock = setInterval(tick, 1000);
+      } else if (clock) {
+        clearInterval(clock);
+        clock = null;
+      }
+    }
+  }
+
+  function loadState() {
+    return api("/repair/state").then(applyState).catch(function () {});
+  }
+
+  function diffHtml(entries) {
+    return (entries || []).map(function (seg) {
+      if (seg.op === "equal") return esc(seg.after || seg.before || "");
+      var out = "";
+      if (seg.before) out += "<del>" + esc(seg.before) + "</del>";
+      if (seg.after) out += "<ins>" + esc(seg.after) + "</ins>";
+      return out;
+    }).join("");
+  }
+
+  function renderPreview(data) {
+    currentPatch = data;
+    var summary = data.summary || {};
+    if (meta) {
+      meta.textContent = "共 " + (summary.total || 0) + " 条 · 可修 " + (summary.to_apply || 0) +
+        " 条 · 已修 " + (data.state && data.state.fixed || 0) + " 条";
+    }
+    if (listEl) {
+      listEl.innerHTML = (data.entries || []).map(function (entry) {
+        var tags = (entry.fixes || []).map(function (f) { return "<span>" + esc(f) + "</span>"; }).join("");
+        (entry.missing || []).forEach(function (m) { tags += '<span style="color:#a3423c">缺：' + esc(m) + "</span>"; });
+        var unchanged = !entry.changed || entry.already_fixed;
+        return '<div class="repair-item' + (unchanged ? " unchanged" : "") + '">' +
+          '<div class="repair-item-head"><b>[' + (entry.index || "") + "]</b>" +
+          '<span>' + (entry.already_fixed ? "已修复" : (entry.changed ? "将修复" : "无需修改")) + "</span></div>" +
+          '<div class="repair-diff">' + (entry.changed ? diffHtml(entry.diff) : esc(entry.before || "")) + "</div>" +
+          (tags ? '<div class="repair-item-tags">' + tags + "</div>" : "") +
+          "</div>";
+      }).join("");
+    }
+    var toApply = (summary.to_apply || 0);
+    if (applyBtn) {
+      applyBtn.disabled = toApply === 0;
+      applyBtn.textContent = toApply ? "应用修复（" + toApply + " 条）" : "没有可修复条目";
+    }
+    if (note) note.textContent = toApply ? "应用后报告页会刷新，可撤销" : "所有选中条目都无需修改";
+  }
+
+  function openPreview(indexes) {
+    var query = indexes && indexes.length ? "?indexes=" + indexes.join(",") : "";
+    return api("/repair/preview" + query).then(function (data) {
+      renderPreview(data);
+      if (modal) {
+        modal.hidden = false;
+        document.body.classList.add("repair-open");
+      }
+    }).catch(function (err) {
+      alert(err.message || "无法生成修复预览");
+    });
+  }
+
+  function closePreview() {
+    if (modal) modal.hidden = true;
+    document.body.classList.remove("repair-open");
+    currentPatch = null;
+  }
+
+  if (btnAll) btnAll.addEventListener("click", function () { openPreview(null); });
+  if (closeBtn) closeBtn.addEventListener("click", closePreview);
+  if (cancelBtn) cancelBtn.addEventListener("click", closePreview);
+  if (modal) {
+    modal.addEventListener("click", function (event) {
+      if (event.target && event.target.getAttribute("data-repair-close")) closePreview();
+    });
+  }
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape" && modal && !modal.hidden) closePreview();
+  });
+  if (applyBtn) {
+    applyBtn.addEventListener("click", function () {
+      if (!currentPatch) return;
+      applyBtn.disabled = true;
+      var body = { patch_id: currentPatch.patch_id };
+      if (currentPatch.indexes && currentPatch.indexes.length) body.indexes = currentPatch.indexes;
+      api("/repair/apply", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      }).then(function (result) {
+        closePreview();
+        if (result.applied > 0) {
+          window.location.reload();
+        } else {
+          loadState();
+        }
+      }).catch(function (err) {
+        applyBtn.disabled = false;
+        alert(err.message || "应用修复失败");
+      });
+    });
+  }
+  if (btnUndo) {
+    btnUndo.addEventListener("click", function () {
+      var patchId = btnUndo.getAttribute("data-patch-id") || "";
+      api("/repair/undo", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(patchId ? { patch_id: patchId } : {}),
+      }).then(function () {
+        window.location.reload();
+      }).catch(function (err) {
+        alert(err.message || "撤销失败");
+        loadState();
+      });
+    });
+  }
+  document.addEventListener("click", function (event) {
+    var target = event.target && event.target.closest ? event.target.closest("[data-repair-index]") : null;
+    if (!target) return;
+    event.preventDefault();
+    openPreview([Number(target.getAttribute("data-repair-index"))]);
+  });
+  loadState();
 })();

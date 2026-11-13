@@ -2,6 +2,16 @@
 
 All notable changes to CiteGuard-CN. Earlier pre-1.0 history is condensed.
 
+## [1.7.4] - 2026-11-14
+
+### Added
+- Repair loop on the report page: “一键修复全部” and per-entry “修复此条” open a preview with `del`/`ins` diffs and fix labels (document type, year placement, trailing period, DOI format). Applying writes `report.fixed.json` + `repair.json`; undo is available for 30 minutes and removes both files, restoring the original entries.
+- `GET/POST /api/report/{id}/repair/{state,preview,apply,undo}` with atomic writes, fingerprint/patch-id checks, and structured errors (`invalid_index`, `stale_patch`, `undo_expired`).
+- Evidence: `docs/repair_loop.md`, two screenshots in `docs/evidence/shots/phase-48-*.png`.
+
+### Notes
+- Repair only reformats already-parsed fields; it never fabricates missing fields or rewrites the paper body. `report.json` stays read-only.
+
 ## [1.7.3] - 2026-11-13
 
 ### Added

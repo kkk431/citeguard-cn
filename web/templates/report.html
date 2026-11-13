@@ -44,6 +44,10 @@
     <div id="report-content" class="{% if not report %}hidden{% endif %}">
       <div class="report-actions">
         {% if report %}
+        <button class="btn btn-sm" type="button" id="btn-repair-all" hidden>一键修复全部</button>
+        <button class="btn btn-ghost btn-sm" type="button" id="btn-undo-repair" hidden>
+          撤销修复 <span class="mono-sm" id="repair-countdown"></span>
+        </button>
         <details class="export-menu">
           <summary class="btn btn-ghost btn-sm">导出与操作 ▾</summary>
           <div class="export-menu-body">
@@ -247,6 +251,26 @@
       </section>
     </div>
   </aside>
+</div>
+<div id="repair-modal" class="repair-modal" hidden>
+  <div class="repair-backdrop" data-repair-close="1"></div>
+  <div class="repair-panel" role="dialog" aria-modal="true" aria-labelledby="repair-title">
+    <div class="repair-head">
+      <div>
+        <strong id="repair-title">修复预览</strong>
+        <span class="mono-sm" id="repair-meta"></span>
+      </div>
+      <button class="drawer-close" type="button" id="repair-close" aria-label="关闭修复预览">×</button>
+    </div>
+    <p class="inline-note">只重排已解析字段，不补全缺失字段，不改写正文；应用后可在 30 分钟内撤销。</p>
+    <div class="repair-list" id="repair-list"></div>
+    <div class="repair-foot">
+      <span class="mono-sm" id="repair-note"></span>
+      <span class="spacer"></span>
+      <button class="btn btn-ghost btn-sm" type="button" id="repair-cancel">取消</button>
+      <button class="btn btn-sm" type="button" id="repair-apply">应用修复</button>
+    </div>
+  </div>
 </div>
 {% endblock %}
 {% block scripts %}<script src="/static/vendor/echarts.min.js"></script>

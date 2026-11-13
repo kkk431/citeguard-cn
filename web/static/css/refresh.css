@@ -1374,3 +1374,27 @@ body.theme-light .pager-btn.on{color:#ffffff}
 .checks-pane .inline-note{margin-top:2px}
 body.checks-open{overflow:hidden}
 @media(max-width:720px){.checks-panel{width:100%}.checks-body{padding:14px 14px 24px}}
+
+/* 修复闭环：预览弹窗 + 差异高亮 */
+.repair-modal{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;padding:32px}
+.repair-modal[hidden]{display:none}
+.repair-backdrop{position:absolute;inset:0;background:rgba(2,10,9,.62);backdrop-filter:blur(3px)}
+.repair-panel{position:relative;width:min(880px,94vw);max-height:86vh;display:flex;flex-direction:column;background:var(--surface,#fff);color:var(--ink);border:1px solid var(--line);border-radius:14px;box-shadow:0 24px 70px rgba(0,0,0,.35);padding:18px 20px 16px}
+.repair-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:4px}
+.repair-head strong{font-size:18px}
+.repair-head .mono-sm{display:block;margin-top:2px;color:var(--muted)}
+.repair-list{flex:1;min-height:0;overflow:auto;margin:10px 0 8px;display:grid;gap:10px}
+.repair-item{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--surface-2,#fff)}
+.repair-item-head{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:12px;color:var(--muted)}
+.repair-item-head b{color:var(--ink,#10241f);font-size:13px}
+.repair-diff{font-size:13px;line-height:1.75;word-break:break-word;white-space:pre-wrap}
+.repair-diff del{color:#a3423c;background:rgba(214,90,80,.14);text-decoration:line-through;padding:0 1px;border-radius:3px}
+.repair-diff ins{color:#147a56;background:rgba(46,190,130,.18);text-decoration:none;padding:0 1px;border-radius:3px}
+.repair-item-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.repair-item-tags span{font-size:11px;padding:2px 7px;border-radius:99px;background:var(--chip,#eef5f1);color:var(--muted,#5d736c)}
+.repair-item.unchanged{opacity:.72}
+.repair-foot{display:flex;align-items:center;gap:8px;padding-top:10px;border-top:1px solid var(--line,#e4ece8)}
+.repair-foot .spacer{flex:1}
+@media(max-width:720px){.repair-panel{padding:14px}.repair-modal{padding:12px}}
+
+.drawer-repair{margin:10px 0 4px}
