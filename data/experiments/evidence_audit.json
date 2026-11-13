@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 98,
+  "paths_checked": 99,
   "missing": [],
   "rows": [
     {
@@ -312,8 +312,13 @@
       "evidence": "E70",
       "path": "docs/evidence/shots/phase-42-workspace-1.5.0.png",
       "exists": true
+    },
+    {
+      "evidence": "E71",
+      "path": "docs/evidence/shots/phase-43-workspace-focus-1.5.1.png",
+      "exists": true
     }
   ],
-  "shots_registered": 43,
+  "shots_registered": 44,
   "shots_unregistered": []
 }

@@ -66,6 +66,12 @@ def test_workspace_page_renders(client):
     assert 'id="upload-form"' in resp.text
     assert 'id="start-btn"' in resp.text
     assert 'aria-label="主导航"' in resp.text
+    assert "工作台" in resp.text
+    # 功能页不应再出现落地页的营销段落
+    assert "怎么工作" not in resp.text
+    assert "产品数字" not in resp.text
+    assert "让每一条引文" not in resp.text
+    assert "最近报告" in resp.text
 
 
 def test_history_page_renders(client):

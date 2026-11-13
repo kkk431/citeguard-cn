@@ -1,47 +1,46 @@
 {% extends "base.html" %}
+{% block title %}工作台 · 引证卫士{% endblock %}
 {% block content %}
-<section class="hero">
-  <div class="hero-copy">
-    <div class="kicker"><span class="kick-dot"></span>CiteGuard · 引文取证工作台</div>
-    <h1>让每一条引文，<br><em>都经得起追问。</em></h1>
-    <p class="lede">上传论文，逐条核对：参考文献是否真实存在、是否支持正文那句话、是否符合 GB/T 7714-2025。每条都给证据、给理由、给改法。</p>
-    <div class="hero-chips">
+<section class="workbench">
+  <header class="wb-head">
+    <div>
+      <h1>工作台</h1>
+      <p class="wb-sub">上传论文，逐条核验真实性、引用支持度与 GB/T 7714-2025 格式；分析完成后删除原文件。</p>
+    </div>
+    <div class="wb-meta" aria-label="输入说明">
       <span>PDF / Word / TXT / MD</span>
-      <span>≤ 30 MB</span>
+      <span>单文件 ≤ 30 MB</span>
       <span>原文件分析后删除</span>
     </div>
+  </header>
 
-  </div>
-
-
-
-  <div class="hero-composer" id="upload-card">
-<div class="composer panel">
-    <div class="composer-head">
-      <div>
-        <h2>新的一次体检</h2>
-        <p>拖入论文，或粘贴正文与参考文献。多篇会依次排队。</p>
+  <div class="wb-grid">
+    <div class="composer panel" id="upload-card">
+      <div class="composer-head">
+        <div>
+          <h2>新体检</h2>
+          <p>拖入论文，或粘贴正文与参考文献；多篇会依次排队。</p>
+        </div>
+        {% if library_count %}
+        <div class="lib-banner on">已导入 <b>{{ library_count }}</b> 条本地题录 · <a href="/library">管理</a></div>
+        {% else %}
+        <div class="lib-banner">中文文献覆盖少？<a href="/library">导入本地题录库 →</a></div>
+        {% endif %}
       </div>
-      {% if library_count %}
-      <div class="lib-banner on">已导入 <b>{{ library_count }}</b> 条本地题录 · <a href="/library">管理</a></div>
-      {% else %}
-      <div class="lib-banner">中文文献覆盖少？<a href="/library">导入本地题录库 →</a></div>
-      {% endif %}
-    </div>
 
-    <form id="upload-form" enctype="multipart/form-data">
-      <label id="dropzone" class="dropzone" for="file-input">
-        <input id="file-input" type="file" name="file" accept=".pdf,.docx,.txt,.md" multiple hidden>
-        <div class="dz-icon" aria-hidden="true">＋</div>
-        <div class="dz-title">拖入论文，或点击选择文件</div>
-        <div class="dz-sub">可一次选多篇批量体检 · 分析完成后自动删除原文件</div>
-        <div class="dz-file" id="dz-file"></div>
-      </label>
+      <form id="upload-form" enctype="multipart/form-data">
+        <label id="dropzone" class="dropzone" for="file-input">
+          <input id="file-input" type="file" name="file" accept=".pdf,.docx,.txt,.md" multiple hidden>
+          <div class="dz-icon" aria-hidden="true">＋</div>
+          <div class="dz-title">拖入论文，或点击选择文件</div>
+          <div class="dz-sub">可一次选多篇批量体检 · 分析完成后自动删除原文件</div>
+          <div class="dz-file" id="dz-file"></div>
+        </label>
 
-      <div class="composer-grid">
-        <div class="composer-side">
-          <div class="divider"><span>或粘贴文本</span></div>
-          <textarea id="paste-text" name="text" rows="6" placeholder="把论文正文和「参考文献」部分一起粘进来。"></textarea>
+        <div class="divider"><span>或粘贴文本</span></div>
+        <textarea id="paste-text" name="text" rows="6" placeholder="把论文正文和「参考文献」部分一起粘进来。"></textarea>
+
+        <div class="wb-options">
           <label class="field" for="support-max">
             <span>引用支持度判定条数</span>
             <select id="support-max" name="support_max">
@@ -52,60 +51,57 @@
             </select>
             <small class="opt-hint">逐条比对「引用句 ↔ 被引论文摘要」；条数越多越慢。</small>
           </label>
-          <label class="field" style="flex-direction:row;align-items:center;gap:8px">
-            <input type="checkbox" id="figure-check" name="figures" value="1" style="width:auto" aria-label="同时抽检正文图表结论">
-            <span>同时抽检正文图表结论</span>
-          </label>
-          <small class="opt-hint">自动定位「图 N / 表 N」所在页并让视觉模型核对；仅 PDF，约多花 10–20 秒。</small>
-        </div>
-        <div class="composer-run">
-          <div class="run-title">这次会检查</div>
-          <ul class="run-list">
-            <li><b>真实性</b><span>OpenAlex · Crossref · arXiv · 中国 DOI</span></li>
-            <li><b>引用支持度</b><span>主张句与被引摘要逐条判定</span></li>
-            <li><b>GB/T 7714-2025</b><span>类型、字段、标点逐项提示</span></li>
-          </ul>
-          <div class="upload-actions">
-            <button type="submit" class="btn btn-primary" id="start-btn">开始体检</button>
-            <button type="button" class="btn btn-ghost" id="sample-btn">用示例论文试试</button>
+          <div class="field">
+            <label class="wb-check" for="figure-check">
+              <input type="checkbox" id="figure-check" name="figures" value="1" aria-label="同时抽检正文图表结论">
+              <span>同时抽检正文图表结论</span>
+            </label>
+            <small class="opt-hint">自动定位「图 N / 表 N」所在页并让视觉模型核对；仅 PDF，约多花 10–20 秒。</small>
           </div>
+        </div>
+
+        <div class="upload-actions">
+          <button type="submit" class="btn btn-primary" id="start-btn">开始体检</button>
+          <button type="button" class="btn btn-ghost" id="sample-btn">用示例论文试试</button>
           <span class="mono-sm" id="upload-hint"></span>
         </div>
+        <div id="batch-results" class="batch-results hidden"></div>
+      </form>
+    </div>
+
+    <aside class="wb-side" aria-label="工作台信息">
+      <div class="panel wb-card">
+        <h3>本次会检查</h3>
+        <ul class="wb-checks">
+          <li><b>真实性</b><span>文献是否存在，DOI / 题名 / 作者是否对得上</span></li>
+          <li><b>支持度</b><span>正文那句话是否真的被被引论文支持</span></li>
+          <li><b>格式</b><span>GB/T 7714-2025 的类型、字段与标点</span></li>
+        </ul>
       </div>
-      <div id="batch-results" class="batch-results hidden"></div>
-    </form>
-  </div>
-  </div>
-</section>
 
+      <div class="panel wb-card">
+        <div class="wb-card-head"><h3>最近报告</h3><a href="/history">全部</a></div>
+        {% set done = recent | selectattr("has_report") | list %}
+        {% if done %}
+        <ul class="wb-recent">
+          {% for job in done[:5] %}
+          <li>
+            <a href="/report/{{ job.id }}" title="{{ job.name }}">{{ job.name }}</a>
+            <span>{{ (job.created_at or "")[:10] }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p class="wb-empty">还没有完成的报告。上传一篇论文，几分钟后这里会出现结果。</p>
+        {% endif %}
+      </div>
 
-
-<section class="section" aria-label="产品数字">
-  <div class="stats-strip">
-    <a href="/benchmark"><b data-count="0.9684" data-text="0.9684">0.9684</b><span>CiteBench-CN macro-F1</span></a>
-    <a href="/benchmark"><b>0 / 409</b><span>真实已发表引文被误判为虚构</span></a>
-    <a href="/benchmark"><b data-count="0.9597" data-text="0.9597">0.9597</b><span>引用支持度（托管判官 v10）</span></a>
-    <a href="/benchmark"><b data-count="73" data-text="73%" data-suffix="%">73%</b><span>外部 ChartCheck 二分类（Qwen3-VL-8B）</span></a>
-  </div>
-  <div class="tools-row">
-    <span class="tools-label">还要别的？</span>
-    <a href="/figure">图表核验</a>
-    <a href="/compare">多篇对比</a>
-    <a href="/discover">文献发现</a>
-    <a href="/support">支持度速查</a>
-    <a href="/library">题录库</a>
-  </div>
-</section>
-
-<section class="section">
-  <div class="section-head">
-    <div><div class="kicker-sm">方法</div><h2>怎么工作</h2></div>
-    <span class="hint">三步 · 每一步都留下证据</span>
-  </div>
-  <div class="how-grid">
-    <div class="how-card"><span class="how-no">01</span><h3>解析</h3><p>正文夹注与文后参考文献表对齐，解析作者、题名、类型、来源、年卷期页与 DOI。</p></div>
-    <div class="how-card"><span class="how-no">02</span><h3>核验</h3><p>OpenAlex → Crossref → arXiv 三级回退；中文文献优先比对你的本地题录库。</p></div>
-    <div class="how-card"><span class="how-no">03</span><h3>判定</h3><p>规则引擎 + 开源判官双段式判定，给出结论、理由和可点开的原始记录。</p></div>
+      <div class="panel wb-card">
+        <div class="wb-card-head"><h3>本地题录库</h3><a href="/library">管理</a></div>
+        <p class="wb-card-num">{{ library_count }} <span>条</span></p>
+        <p class="wb-note">中文文献优先查本地库；已导入的条目可以离线核验。</p>
+      </div>
+    </aside>
   </div>
 </section>
 {% endblock %}

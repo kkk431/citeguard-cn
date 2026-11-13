@@ -2,6 +2,16 @@
 
 All notable changes to CiteGuard-CN. Earlier pre-1.0 history is condensed.
 
+## [1.5.1] - 2026-11-13
+
+### Changed
+- The workspace at `/workspace` is now purely functional: the marketing hero,
+  product-number strip, tool cross-links and three-step explainer were removed.
+  It opens with a compact title, the upload form, and a side column for the
+  checks being run, recent reports and the local library.
+- Recent reports on the workspace are filtered by `has_report`, so queued or
+  failed jobs no longer appear as links to a missing report.
+
 ## [1.5.0] - 2026-11-13
 
 ### Added

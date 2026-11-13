@@ -99,7 +99,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.5.0", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.5.1", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 
@@ -244,10 +244,13 @@ def landing(request: Request):
 @app.get("/workspace", response_class=HTMLResponse)
 def index(request: Request):
     library = Library.load(config.LIBRARY_FILE)
+    recent = manager.recent(6)
+    for job in recent:
+        job["has_report"] = _report_path(job["id"]).exists()
     return templates.TemplateResponse(
         request,
         "index.html",
-        {"recent": manager.recent(6), "active": "home", "library_count": len(library),
+        {"recent": recent, "active": "home", "library_count": len(library),
          "vl_available": figure_check.available(), "compare_available": compare.available()},
     )
 
