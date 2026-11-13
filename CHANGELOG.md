@@ -2,6 +2,21 @@
 
 All notable changes to CiteGuard-CN. Earlier pre-1.0 history is condensed.
 
+## [1.7.1] - 2026-11-13
+
+### Added
+- Bundled Apache ECharts 5.5.1 (`web/static/vendor/echarts.min.js`, Apache-2.0) and a shared chart layer (`web/static/js/charts.js`) with dark/light tokens, empty states, resize handling and no CDN dependency.
+- Cohort page charts: grade distribution donut, five-dimension radar, per-paper health ranking (real aggregate JSON).
+- History trend: `GET /api/history/trend?days=30` plus a daily average-health line and Major-count bars.
+- Library charts: publication-year distribution and top venues, computed from the local library.
+- Evaluation charts: CiteBench-CN v2 eight-class detection rates, 2×2 confusion matrix, retraction donut (500 cases, Unknown counted as missed).
+- Batch page: verdict distribution donut after a run.
+- Report page: conclusion/support/format distributions now render as ECharts bars, with the previous CSS bars kept as a fallback and the table view retained.
+
+### Notes
+- Charts show sample size or source; no synthetic series are drawn. The history chart only plots days that actually have reports.
+- Batch charts need a configured judge; without one the page still explains why it cannot judge.
+
 ## [1.6.0] - 2026-11-13
 
 ### Changed

@@ -219,4 +219,6 @@
   </div>
 </div>
 {% endblock %}
-{% block scripts %}<script src="/static/js/report.js?v={{ request.app.version }}"></script>{% endblock %}
+{% block scripts %}<script src="/static/vendor/echarts.min.js"></script>
+<script src="/static/js/charts.js?v={{ request.app.version }}"></script>
+<script src="/static/js/report.js?v={{ request.app.version }}"></script>{% endblock %}

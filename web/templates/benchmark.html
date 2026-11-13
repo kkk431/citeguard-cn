@@ -13,6 +13,35 @@
   <p style="color:var(--ink-2);max-width:70ch;margin:0">用真实中文参考文献 + 程序化受控扰动构造的 500 条评测集，覆盖 8 类构造错误；标签由构造决定，结果可复现。</p>
 </section>
 
+{% if benchmark_v2 and benchmark_v2.metadata %}
+{% set v2 = benchmark_v2.metadata %}
+<section class="wrap" style="padding:18px 0 0">
+  <div class="metric-grid">
+    <div class="metric"><b>{{ '%.4f'|format(v2.precision) }}</b><span>Precision（假阳性 {{ v2.fp }}）</span></div>
+    <div class="metric"><b>{{ '%.4f'|format(v2.recall) }}</b><span>Recall（已判定 {{ v2.decided }}/{{ v2.n }}）</span></div>
+    <div class="metric"><b>{{ '%.4f'|format(v2.f1) }}</b><span>Macro-F1（含 Unknown 算漏报）</span></div>
+    <div class="metric"><b>{{ '%.1f'|format(v2.unknown_rate * 100) }}%</b><span>Unknown {{ v2.unknown }} 条 · 未完成核验</span></div>
+  </div>
+  <div class="chart-grid" style="margin-top:14px">
+    <div class="chart-card wide">
+      <div class="chart-head"><h2>八类扰动检出率</h2><span>n = 500；Unknown 计为漏报</span></div>
+      <div class="chart-box tall" id="cb2-detection" data-empty="没有逐类数据"></div>
+      <p class="chart-note">来源 <code>data/citebench_cn/v2_results.json</code>；标签由构造决定，不是人工标注。</p>
+    </div>
+    <div class="chart-card">
+      <div class="chart-head"><h2>核验结果</h2><span>标签 × 产品判定</span></div>
+      <div class="chart-box short" id="cb2-confusion" data-empty="没有混淆数据"></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-head"><h2>撤稿识别</h2><span>{{ benchmark_v2.special.retracted.n }} 条外部真值</span></div>
+      <div class="chart-box short" id="cb2-retracted" data-empty="没有撤稿样例"></div>
+      <p class="chart-note">来源 OpenAlex 中文撤稿记录；这是外部真值，不是构造标签。</p>
+    </div>
+  </div>
+</section>
+<script type="application/json" id="cb2-data">{{ benchmark_v2|tojson }}</script>
+{% endif %}
+
 {% if status %}
 <section class="wrap" style="padding:18px 0 0">
   <div class="panel" style="margin-bottom:8px">
@@ -396,4 +425,9 @@
   </div>
 </section>
 {% endif %}
+{% endblock %}
+{% block scripts %}
+<script src="/static/vendor/echarts.min.js"></script>
+<script src="/static/js/charts.js?v={{ request.app.version }}"></script>
+<script src="/static/js/benchmark.js?v={{ request.app.version }}"></script>
 {% endblock %}

@@ -842,3 +842,46 @@ def test_report_advanced_checks_start_collapsed():
     assert 'id="advanced-checks"' in html
     assert 'id="advanced-checks" open' not in html
     assert "检查明细" in html
+
+def test_history_trend_endpoint_returns_daily_points(plain_client):
+    r = plain_client.get("/api/history/trend", params={"days": 7})
+    assert r.status_code == 200
+    body = r.json()
+    assert body["days"] == 7
+    assert isinstance(body["points"], list)
+    assert body["source"] == "data/jobs/*/report.json"
+
+
+def test_chart_pages_load_the_chart_layer(plain_client):
+    aggregate = plain_client.get("/aggregate").text
+    assert 'id="ag-charts"' in aggregate
+    assert "echarts.min.js" in aggregate
+    assert "aggregate.js" in aggregate
+
+    from pathlib import Path as _Path
+    history_tpl = _Path("web/templates/history.html").read_text(encoding="utf-8")
+    assert 'id="history-trend"' in history_tpl
+    assert "echarts.min.js" in history_tpl
+    assert "全部报告" in plain_client.get("/history").text
+
+    library = plain_client.get("/library").text
+    library_tpl = _Path("web/templates/library.html").read_text(encoding="utf-8")
+    assert 'id="lib-chart-years"' in library_tpl
+    assert 'id="library-year-data"' in library_tpl
+    assert "\u672c\u5730\u9898\u5f55\u5e93" in library
+
+    benchmark = plain_client.get("/benchmark").text
+    assert "CiteBench-CN v2" in benchmark
+    assert 'id="cb2-detection"' in benchmark
+    assert "benchmark.js" in benchmark
+
+    batch = plain_client.get("/batch").text
+    assert 'id="bt-result"' in batch
+    assert "echarts.min.js" in batch
+
+
+def test_echarts_vendor_is_bundled():
+    from pathlib import Path
+    vendor = Path("web/static/vendor/echarts.min.js")
+    assert vendor.exists()
+    assert vendor.stat().st_size > 900_000

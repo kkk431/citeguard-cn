@@ -21,6 +21,18 @@
     <p class="hint" style="margin-top:10px">收录最多的来源：{% for name, n in coverage.top_venues %}{{ name }}（{{ n }}）{% if not loop.last %}、{% endif %}{% endfor %}</p>
     {% endif %}
   </div>
+  <div class="chart-grid" style="margin-top:16px">
+    <div class="chart-card">
+      <div class="chart-head"><h2>年份分布</h2><span id="lib-year-note"></span></div>
+      <div class="chart-box short" id="lib-chart-years" data-empty="题录里还没有年份"></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-head"><h2>来源期刊 / 会议</h2><span>收录最多的 6 个</span></div>
+      <div class="chart-box short" id="lib-chart-venues" data-empty="还没有期刊或会议字段"></div>
+    </div>
+  </div>
+  <script type="application/json" id="library-year-data">{{ year_hist|tojson }}</script>
+  <script type="application/json" id="library-venue-data">{{ coverage.top_venues|tojson }}</script>
   {% endif %}
   {% if count and with_abstract < count %}
   <div class="lib-banner" style="margin-top:14px">
@@ -107,4 +119,8 @@
   <div class="empty" id="library-empty"{% if sample %} hidden{% endif %}>题库为空。导入一份题录导出文件后，中文文献也能被核验。</div>
 </section>
 {% endblock %}
-{% block scripts %}<script src="/static/js/library.js?v={{ request.app.version }}"></script>{% endblock %}
+{% block scripts %}
+<script src="/static/vendor/echarts.min.js"></script>
+<script src="/static/js/charts.js?v={{ request.app.version }}"></script>
+<script src="/static/js/library.js?v={{ request.app.version }}"></script>
+{% endblock %}

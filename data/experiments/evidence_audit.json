@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 105,
+  "paths_checked": 111,
   "missing": [],
   "rows": [
     {
@@ -347,8 +347,38 @@
       "evidence": "E72",
       "path": "docs/evidence/shots/phase-45-library-1.6.0.png",
       "exists": true
+    },
+    {
+      "evidence": "E73",
+      "path": "docs/charts.md",
+      "exists": true
+    },
+    {
+      "evidence": "E73",
+      "path": "docs/evidence/shots/phase-46-aggregate-1.7.1.png",
+      "exists": true
+    },
+    {
+      "evidence": "E73",
+      "path": "docs/evidence/shots/phase-46-history-1.7.1.png",
+      "exists": true
+    },
+    {
+      "evidence": "E73",
+      "path": "docs/evidence/shots/phase-46-library-1.7.1.png",
+      "exists": true
+    },
+    {
+      "evidence": "E73",
+      "path": "docs/evidence/shots/phase-46-benchmark-1.7.1.png",
+      "exists": true
+    },
+    {
+      "evidence": "E73",
+      "path": "docs/evidence/shots/phase-46-report-charts-1.7.1.png",
+      "exists": true
     }
   ],
-  "shots_registered": 50,
+  "shots_registered": 55,
   "shots_unregistered": []
 }

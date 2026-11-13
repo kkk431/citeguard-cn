@@ -16,6 +16,7 @@
       btn.title = theme === "light" ? "深色模式" : "浅色模式";
     }
     try { localStorage.setItem(THEME_KEY, theme); } catch (e) { /* ignore */ }
+    document.dispatchEvent(new CustomEvent("citeguard:themechange", { detail: { theme: theme } }));
   }
   var saved = null;
   try { saved = localStorage.getItem(THEME_KEY); } catch (e) { /* ignore */ }

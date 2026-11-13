@@ -522,6 +522,46 @@
       "这不是论文本身的问题——来源限流时我们如实标 Unknown，可稍后重试或手动核对。</div>";
   }
 
+  function chartColor(key) {
+    const light = document.body.classList.contains("theme-light");
+    const map = light ? {
+      Exact: "#08785f", Minor: "#b26a00", Unverified: "#5f726d", Unknown: "#0b7285", Major: "#c0392b",
+      support: "#08785f", partial: "#b26a00", contradict: "#c0392b", no_evidence: "#5f726d", not_checked: "#8798a1"
+    } : {
+      Exact: "#3ce6b4", Minor: "#ffb84d", Unverified: "#9fb5ae", Unknown: "#55d6ff", Major: "#ff6b57",
+      support: "#3ce6b4", partial: "#ffb84d", contradict: "#ff6b57", no_evidence: "#9fb5ae", not_checked: "#5b6b70"
+    };
+    return map[key] || (light ? "#0b7285" : "#55d6ff");
+  }
+
+  function chartOption(c) {
+    return function (t) {
+      const rows = c.rows || [];
+      const opt = CGCharts.base();
+      opt.grid = { left: 6, right: 36, top: 6, bottom: 2, containLabel: true };
+      opt.xAxis = CGCharts.valueAxis();
+      opt.yAxis = CGCharts.axis();
+      opt.yAxis.inverse = true;
+      opt.yAxis.data = rows.map(function (r) { return r.label; });
+      opt.tooltip.trigger = "axis";
+      opt.tooltip.axisPointer = { type: "shadow" };
+      opt.tooltip.formatter = function (params) {
+        const p = params[0] || {};
+        const d = p.data || {};
+        return esc(d.label) + "<br/>" + d.value + " 条 · " + Number(d.pct || 0).toFixed(1) + "%";
+      };
+      opt.series = [{
+        type: "bar",
+        barWidth: 14,
+        data: rows.map(function (r) {
+          return { value: r.value, pct: r.pct, label: r.label, itemStyle: { color: chartColor(r.key), borderRadius: [0, 4, 4, 0] } };
+        }),
+        label: { show: true, position: "right", color: t.muted, fontSize: 11, formatter: "{c}" }
+      }];
+      return opt;
+    };
+  }
+
   function renderCharts(data) {
     const el = document.getElementById("report-charts");
     if (!el) return;
@@ -539,12 +579,34 @@
         (c.rows || []).map(function (r) {
           return '<tr><td>' + esc(r.label) + '</td><td>' + r.value + '</td><td>' + r.pct + '%</td></tr>';
         }).join("") + '</tbody></table>';
-      return '<div class="panel compact chart-card">' +
+      return '<div class="panel compact chart-card" data-chart-id="' + esc(c.id) + '">' +
         '<div class="mono-sm">' + esc(c.title) + '</div>' +
-        '<div class="chart-sub">' + esc(c.subtitle || "") + '</div>' + rows +
+        '<div class="chart-sub">' + esc(c.subtitle || "") + '</div>' +
+        '<div class="chart-echart" id="rchart-' + esc(c.id) + '"></div>' +
+        '<div class="chart-rows">' + rows + '</div>' +
         '<details class="chart-table"><summary>表格视图</summary>' + table + '</details>' +
         '<div class="chart-note">' + esc(c.note || "") + '</div></div>';
     }).join("");
+    // Progressive enhancement: draw ECharts when the library is available.
+    window.__reportCharts = charts;
+    enhanceReportCharts(0);
+  }
+
+  function enhanceReportCharts(attempt) {
+    const charts = window.__reportCharts || [];
+    if (!window.echarts || !window.CGCharts) {
+      if (attempt < 20) setTimeout(function () { enhanceReportCharts(attempt + 1); }, 100);
+      return;
+    }
+    charts.forEach(function (c) {
+      const box = document.getElementById("rchart-" + c.id);
+      const card = box ? box.closest(".chart-card") : null;
+      if (!box || !card || !(c.rows || []).length) return;
+      card.classList.add("has-echart");
+      if (!box.dataset.chartReady) {
+        CGCharts.mount(box, chartOption(c));
+      }
+    });
   }
 
   function jumpToRef(n) {

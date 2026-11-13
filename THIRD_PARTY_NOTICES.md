@@ -21,6 +21,7 @@
 | pypdf | 6.21.2 | BSD-3-Clause | PDF 文本抽取（回退路径） | 否 | pip 依赖 | https://github.com/py-pdf/pypdf |
 | pypdfium2 | 5.14.0 | BSD-3-Clause / Apache-2.0（含 PDFium） | pdfplumber 的渲染后端（间接依赖） | 否 | pip 依赖 | https://github.com/pypdfium2-team/pypdfium2 |
 | Pillow | 12.3.0 | MIT-CMU | 图片处理（间接依赖） | 否 | pip 依赖 | https://github.com/python-pillow/Pillow |
+| Apache ECharts | 5.5.1 | Apache-2.0 | 前端交互图表（聚合/历史/评测/题录库） | 否 | 仓库内置 `web/static/vendor/echarts.min.js` | https://github.com/apache/echarts |
 
 上述组件均以**未修改的库**形式被 import，不复制其源码；分发的是本作品源码 + pip 依赖声明，符合各许可证的保留声明与许可副本要求（见 §5）。
 

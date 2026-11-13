@@ -102,6 +102,133 @@
       (missing ? " 另有 " + missing + " 个所选任务没有已完成报告，未计入。" : "");
   }
 
+  var chartData = null;
+  var chartsMounted = false;
+
+  function shortName(name) {
+    var value = String(name || "");
+    return value.length > 18 ? value.slice(0, 17) + "…" : value;
+  }
+
+  function gradeColor(grade, t) {
+    if (grade === "A") return t.colors[0];
+    if (grade === "B") return t.colors[1];
+    if (grade === "C") return t.colors[2];
+    if (grade === "D" || grade === "E") return t.colors[3];
+    return t.muted;
+  }
+
+  function gradeOption(t) {
+    if (!chartData) return null;
+    var rows = (chartData.grades || []).filter(function (g) { return g.count > 0; });
+    if (!rows.length) return null;
+    var total = rows.reduce(function (sum, g) { return sum + g.count; }, 0);
+    return Object.assign(CGCharts.base(), {
+      tooltip: Object.assign(CGCharts.base().tooltip, { trigger: "item", formatter: "{b}: {c} 篇（{d}%）" }),
+      legend: Object.assign(CGCharts.base().legend, { top: "auto", bottom: 0, left: "center" }),
+      series: [{
+        type: "pie",
+        radius: ["50%", "72%"],
+        center: ["50%", "46%"],
+        avoidLabelOverlap: true,
+        itemStyle: { borderColor: t.colors[0] === "#3ce6b4" ? "#0b1720" : "#ffffff", borderWidth: 2 },
+        label: { color: t.text, fontSize: 11, formatter: "{b}\n{c} 篇" },
+        labelLine: { lineStyle: { color: t.line } },
+        data: rows.map(function (g) {
+          return { name: g.grade, value: g.count, itemStyle: { color: gradeColor(g.grade, t) } };
+        })
+      }],
+      graphic: [{
+        type: "text", left: "center", top: "38%",
+        style: { text: String(total) + "\n篇", fill: t.text, fontSize: 20, fontWeight: 700, textAlign: "center", lineHeight: 24 }
+      }]
+    });
+  }
+
+  function radarOption(t) {
+    if (!chartData) return null;
+    var rows = (chartData.dimensions || []).filter(function (d) { return typeof d.average === "number"; });
+    if (!rows.length) return null;
+    return Object.assign(CGCharts.base(), {
+      tooltip: Object.assign(CGCharts.base().tooltip, { trigger: "item" }),
+      legend: { show: false },
+      radar: {
+        center: ["50%", "54%"],
+        radius: "62%",
+        indicator: rows.map(function (d) { return { name: d.label, max: 100 }; }),
+        axisName: { color: t.muted, fontSize: 11 },
+        splitLine: { lineStyle: { color: t.split } },
+        splitArea: { areaStyle: { color: ["transparent", "rgba(120,160,150,.03)"] } },
+        axisLine: { lineStyle: { color: t.line } }
+      },
+      series: [{
+        type: "radar",
+        data: [{ value: rows.map(function (d) { return Math.round(d.average * 10) / 10; }), name: "平均分" }],
+        symbolSize: 5,
+        lineStyle: { width: 2, color: t.colors[0] },
+        itemStyle: { color: t.colors[0] },
+        areaStyle: { color: t.colors[0], opacity: 0.18 }
+      }]
+    });
+  }
+
+  function papersOption(t) {
+    if (!chartData) return null;
+    var rows = (chartData.papers || []).filter(function (p) { return typeof p.health === "number"; });
+    if (!rows.length) return null;
+    var shown = rows.slice(0, 18).reverse();
+    return Object.assign(CGCharts.base(), {
+      tooltip: Object.assign(CGCharts.base().tooltip, {
+        trigger: "axis",
+        axisPointer: { type: "shadow" },
+        formatter: function (params) {
+          var p = params[0];
+          return p.name + "<br/>健康分 " + p.value;
+        }
+      }),
+      legend: { show: false },
+      grid: { left: 8, right: 42, top: 8, bottom: 4, containLabel: true },
+      xAxis: Object.assign(CGCharts.valueAxis(), { max: 100 }),
+      yAxis: {
+        type: "category",
+        data: shown.map(function (p) { return shortName(p.name); }),
+        axisLine: { show: false },
+        axisTick: { show: false },
+        axisLabel: { color: t.muted, fontSize: 11 }
+      },
+      series: [{
+        type: "bar",
+        barMaxWidth: 18,
+        data: shown.map(function (p) {
+          return { value: Math.round(p.health * 10) / 10, itemStyle: { color: gradeColor(p.grade, t), borderRadius: [0, 4, 4, 0] } };
+        }),
+        label: { show: true, position: "right", color: t.muted, fontSize: 11 }
+      }]
+    });
+  }
+
+  function initCharts() {
+    if (chartsMounted || !window.CGCharts) return;
+    var grid = document.getElementById("ag-charts");
+    if (!grid) return;
+    grid.hidden = false;
+    CGCharts.mount(document.getElementById("ag-chart-grades"), function (t) { return gradeOption(t); });
+    CGCharts.mount(document.getElementById("ag-chart-radar"), function (t) { return radarOption(t); });
+    CGCharts.mount(document.getElementById("ag-chart-papers"), function (t) { return papersOption(t); });
+    chartsMounted = true;
+  }
+
+  function renderCharts(data) {
+    chartData = data;
+    initCharts();
+    if (chartsMounted && window.CGCharts) CGCharts.refresh();
+    var scored = (data.papers || []).filter(function (p) { return typeof p.health === "number"; }).length;
+    var gradeN = document.getElementById("ag-chart-grades-n");
+    var papersN = document.getElementById("ag-chart-papers-n");
+    if (gradeN) gradeN.textContent = scored + " 篇已评分";
+    if (papersN) papersN.textContent = "共 " + (data.papers || []).length + " 篇 · 显示前 18 篇";
+  }
+
   function render(data) {
     if (loadingEl) loadingEl.hidden = true;
     errorEl.hidden = true;
@@ -110,6 +237,7 @@
     renderDims(data);
     renderIssues(data);
     renderTable(data);
+    renderCharts(data);
     overviewEl.hidden = false;
     tableCardEl.hidden = false;
     const missing = (data.missing || []).length;

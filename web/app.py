@@ -99,7 +99,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.6.0", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.7.1", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 
@@ -263,6 +263,7 @@ def library_page(request: Request):
     with_doi = 0
     with_url = 0
     years: list[int] = []
+    year_counts: dict[int, int] = {}
     venues: dict[str, int] = {}
     for entry in library.entries:
         sources[entry.source] = sources.get(entry.source, 0) + 1
@@ -274,6 +275,7 @@ def library_page(request: Request):
             with_url += 1
         if entry.year:
             years.append(entry.year)
+            year_counts[entry.year] = year_counts.get(entry.year, 0) + 1
         if (entry.venue or "").strip():
             venues[entry.venue] = venues.get(entry.venue, 0) + 1
     total = max(len(library), 1)
@@ -296,6 +298,7 @@ def library_page(request: Request):
             "with_abstract": with_abstract,
             "sources": sorted(sources.items()),
             "coverage": coverage,
+            "year_hist": [[year, year_counts[year]] for year in sorted(year_counts)],
             "sample": [entry.to_dict() for entry in library.entries[:20]],
             "path": str(config.LIBRARY_FILE),
         },
@@ -1257,6 +1260,56 @@ def api_jobs(limit: int = 30):
     return {"jobs": out}
 
 
+@app.get("/api/history/trend")
+def history_trend(days: int = 30):
+    """Daily health trend from saved reports (no new work is queued)."""
+    span = min(max(int(days), 7), 180)
+    buckets: dict[str, dict] = {}
+    for job in manager.recent(200):
+        job_id = job.get("id") or ""
+        report = _load_report(job_id)
+        if not isinstance(report, dict):
+            continue
+        stamp = str(job.get("created_at") or job.get("created") or "")
+        day = stamp[:10]
+        if len(day) != 10:
+            continue
+        stats = report.get("stats") or {}
+        health = report.get("health") or {}
+        item = buckets.setdefault(day, {
+            "date": day,
+            "reports": 0,
+            "scored": 0,
+            "health_sum": 0.0,
+            "major": 0,
+            "exact": 0,
+            "unverified": 0,
+            "format_issues": 0,
+        })
+        item["reports"] += 1
+        item["major"] += int(stats.get("Major") or 0)
+        item["exact"] += int(stats.get("Exact") or 0)
+        item["unverified"] += int(stats.get("Unverified") or 0) + int(stats.get("Unknown") or 0)
+        item["format_issues"] += int(stats.get("format_issues") or 0)
+        overall = health.get("overall")
+        if isinstance(overall, (int, float)):
+            item["scored"] += 1
+            item["health_sum"] += float(overall)
+    points = []
+    for day in sorted(buckets):
+        item = buckets[day]
+        points.append({
+            "date": day,
+            "reports": item["reports"],
+            "scored": item["scored"],
+            "avg_health": round(item["health_sum"] / item["scored"], 1) if item["scored"] else None,
+            "major": item["major"],
+            "exact": item["exact"],
+            "unverified": item["unverified"],
+        })
+    return {"days": span, "points": points[-span:], "source": "data/jobs/*/report.json"}
+
+
 @app.get("/api/compare")
 def api_compare(a: str, b: str):
     """Compare two completed reports by their positional reference order."""
@@ -1290,6 +1343,7 @@ def _benchmark_context() -> dict:
     """Benchmark page: CiteBench-CN + ClaimSupport-CN + real-data experiments."""
     data_dir = config.DATA_DIR
     benchmark = _load_json(data_dir / "citebench_cn" / "results.json")
+    benchmark_v2 = _load_json(data_dir / "citebench_cn" / "v2_results.json")
     support = _load_json(data_dir / "claimsupport_cn" / "results.json")
     exp = data_dir / "experiments"
     real: dict = {}
@@ -1506,6 +1560,7 @@ def _benchmark_context() -> dict:
             pass
     return {
         "benchmark": benchmark,
+        "benchmark_v2": benchmark_v2,
         "support": support,
         "real": real,
         "local_models": local_models,

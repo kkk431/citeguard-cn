@@ -372,5 +372,67 @@
   if (search) search.addEventListener("input", render);
   if (enrichBtn) enrichBtn.addEventListener("click", enrichAbstracts);
 
+  initCharts();
   loadEntries();
+
+  function initCharts() {
+    if (!window.CGCharts) return;
+    var yearsEl = document.getElementById("lib-chart-years");
+    var venuesEl = document.getElementById("lib-chart-venues");
+    var years = [];
+    var venues = [];
+    try {
+      years = JSON.parse(document.getElementById("library-year-data").textContent || "[]");
+      venues = JSON.parse(document.getElementById("library-venue-data").textContent || "[]");
+    } catch (e) { /* keep empty */ }
+
+    if (yearsEl) {
+      years = years.slice().sort(function (a, b) { return a[0] - b[0]; });
+      CGCharts.mount(yearsEl, function (t) {
+        if (!years.length) return null;
+        return Object.assign(CGCharts.base(), {
+          tooltip: Object.assign(CGCharts.base().tooltip, { trigger: "axis", axisPointer: { type: "shadow" } }),
+          legend: { show: false },
+          grid: { left: 8, right: 12, top: 18, bottom: 4, containLabel: true },
+          xAxis: Object.assign(CGCharts.axis(), { data: years.map(function (p) { return p[0]; }) }),
+          yAxis: Object.assign(CGCharts.valueAxis(), { minInterval: 1 }),
+          series: [{
+            type: "bar",
+            data: years.map(function (p) { return p[1]; }),
+            barMaxWidth: 26,
+            itemStyle: { color: t.colors[0], borderRadius: [4, 4, 0, 0] },
+            label: { show: true, position: "top", color: t.muted, fontSize: 10 }
+          }]
+        });
+      });
+      var note = document.getElementById("lib-year-note");
+      if (note) note.textContent = years.length ? years[0][0] + "–" + years[years.length - 1][0] : "";
+    }
+
+    if (venuesEl) {
+      var top = venues.slice(0, 6).reverse();
+      CGCharts.mount(venuesEl, function (t) {
+        if (!top.length) return null;
+        return Object.assign(CGCharts.base(), {
+          tooltip: Object.assign(CGCharts.base().tooltip, { trigger: "axis", axisPointer: { type: "shadow" } }),
+          legend: { show: false },
+          grid: { left: 8, right: 30, top: 8, bottom: 4, containLabel: true },
+          xAxis: Object.assign(CGCharts.valueAxis(), { minInterval: 1 }),
+          yAxis: {
+            type: "category",
+            data: top.map(function (p) { return String(p[0]).length > 22 ? String(p[0]).slice(0, 21) + "…" : p[0]; }),
+            axisLine: { show: false }, axisTick: { show: false },
+            axisLabel: { color: t.muted, fontSize: 11 }
+          },
+          series: [{
+            type: "bar",
+            data: top.map(function (p) { return p[1]; }),
+            barMaxWidth: 16,
+            itemStyle: { color: t.colors[1], borderRadius: [0, 4, 4, 0] },
+            label: { show: true, position: "right", color: t.muted, fontSize: 11 }
+          }]
+        });
+      });
+    }
+  }
 })();

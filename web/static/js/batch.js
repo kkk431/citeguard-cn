@@ -60,9 +60,50 @@
 
   let lastRows = [];
 
+  const VERDICT_COLORS = {
+    support: "#3ce6b4", partial: "#ffb84d", contradict: "#ff6b57", no_evidence: "#9fb5ae", not_checked: "#5b6b70"
+  };
+
+  function mountVerdictChart(rows) {
+    const el = document.getElementById("bt-chart");
+    if (!el || !window.echarts || !window.CGCharts) return;
+    const counts = {};
+    rows.forEach(function (r) {
+      const k = r.label || "not_checked";
+      counts[k] = (counts[k] || 0) + 1;
+    });
+    const order = ["support", "partial", "contradict", "no_evidence", "not_checked"];
+    const data = order.filter(function (k) { return counts[k]; }).map(function (k) {
+      return { name: LABELS[k], value: counts[k], itemStyle: { color: VERDICT_COLORS[k] } };
+    });
+    const total = rows.length;
+    CGCharts.mount(el, function (t) {
+      const opt = CGCharts.base();
+      opt.tooltip = Object.assign(opt.tooltip, { trigger: "item", formatter: "{b}：{c} 条（{d}%）" });
+      opt.legend = { show: false };
+      opt.series = [{
+        type: "pie", radius: ["58%", "80%"], center: ["50%", "50%"],
+        avoidLabelOverlap: true, label: { show: false }, data: data
+      }];
+      opt.graphic = [
+        { type: "text", left: "center", top: "40%", style: { text: String(total), fill: t.text, fontSize: 24, fontWeight: 700, textAlign: "center" } },
+        { type: "text", left: "center", top: "56%", style: { text: "条判定", fill: t.muted, fontSize: 11, textAlign: "center" } }
+      ];
+      return opt;
+    });
+  }
+
   function renderRows(rows) {
     lastRows = rows;
-    let html = '<table class="bt-table"><thead><tr><th>#</th><th>引用句</th><th>判定</th><th>置信度</th><th>理由</th></tr></thead><tbody>';
+    const counts = {};
+    rows.forEach(function (r) { const k = r.label || "not_checked"; counts[k] = (counts[k] || 0) + 1; });
+    const legend = ["support", "partial", "contradict", "no_evidence", "not_checked"].filter(function (k) {
+      return counts[k];
+    }).map(function (k) {
+      return '<span class="bt-sum-item"><i style="background:' + VERDICT_COLORS[k] + '"></i>' + LABELS[k] + " <b>" + counts[k] + "</b></span>";
+    }).join("");
+    let html = '<div class="bt-summary"><div class="bt-chart" id="bt-chart"></div><div class="bt-sum-legend">' + legend + "</div></div>";
+    html += '<table class="bt-table"><thead><tr><th>#</th><th>引用句</th><th>判定</th><th>置信度</th><th>理由</th></tr></thead><tbody>';
     rows.forEach(function (r) {
       html += "<tr><td>" + (r.index + 1) + "</td><td class='claim'>" + esc(r.claim) +
         "</td><td>" + labelChip(r.label) + "</td><td class='bt-conf'>" + confText(r.confidence) +
@@ -71,6 +112,7 @@
     html += "</tbody></table>";
     resultEl.innerHTML = html;
     metaEl.textContent = rows.length + " 条 · 可导出 CSV";
+    mountVerdictChart(rows);
   }
 
   function csvCell(v) {

@@ -60,6 +60,21 @@
   </div>
 
   <div class="ag-stats" id="ag-stats"></div>
+  <div class="chart-grid" id="ag-charts" hidden>
+    <div class="chart-card">
+      <div class="chart-head"><h2>等级分布</h2><span id="ag-chart-grades-n"></span></div>
+      <div class="chart-box short" id="ag-chart-grades" data-empty="暂无可评分报告"></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-head"><h2>五维平均分</h2><span>仅计已检测维度</span></div>
+      <div class="chart-box short" id="ag-chart-radar" data-empty="本次没有可用的维度分"></div>
+    </div>
+    <div class="chart-card wide">
+      <div class="chart-head"><h2>逐篇健康分</h2><span id="ag-chart-papers-n"></span></div>
+      <div class="chart-box tall" id="ag-chart-papers" data-empty="暂无可评分报告"></div>
+      <p class="chart-note">分数为规则加权分，不是期刊或评审标准；未检测维度不计入。</p>
+    </div>
+  </div>
   <div id="ag-error" class="ag-err" hidden></div>
   <div id="ag-body">
     <div class="ag-err" id="ag-loading">正在汇总所选报告…</div>
@@ -93,5 +108,7 @@
     </div>
   </div>
 </section>
+<script src="/static/vendor/echarts.min.js"></script>
+<script src="/static/js/charts.js?v={{ request.app.version }}"></script>
 <script src="/static/js/aggregate.js?v={{ request.app.version }}"></script>
 {% endblock %}

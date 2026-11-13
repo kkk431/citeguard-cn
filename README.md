@@ -1,10 +1,10 @@
 # 引证卫士 CiteGuard-CN
 
-> **v1.6.0** · 2026-11-13 · Apache-2.0
+> **v1.7.1** · 2026-11-13 · Apache-2.0
 
 > 给中文论文做一次「引文体检」：**引文是否真实存在、引用是否支持正文那句话、格式是否符合 GB/T 7714-2025**。每条结论都带证据链接。
 
-CiteGuard-CN 是一个开源的中文引文核验工作台，面向毕业论文、课程论文与期刊投稿场景。它把「中文引文解析 → 多源元数据核验 → 引用支持度判定 → 新国标规则检查」串成一条可复现的流水线，并附带一个 250 条的中文评测基准 **CiteBench-CN**。
+CiteGuard-CN 是一个开源的中文引文核验工作台，面向毕业论文、课程论文与期刊投稿场景。它把「中文引文解析 → 多源元数据核验 → 引用支持度判定 → 新国标规则检查」串成一条可复现的流水线，并附带一个 500 条的中文评测基准 **CiteBench-CN v2**。
 
 支持的输入：**PDF**（文字层优先；扫描件可自动 OCR）、**Word（.docx）**（含放在表格里的参考文献表）、**纯文本 / Markdown**。旧版 `.doc` 请先另存为 `.docx` 或 PDF。每份报告都会记录文字来源（PDF 文字层 / OCR / Word / 文本），OCR 生成的报告会显著提示复核。
 
@@ -103,6 +103,18 @@ no_evidence    [  0,   0,   0,  20 ]
   → ④ GB/T 7714-2025 规则引擎（自研）：17 个类型码 / 13 类必备字段模板 + 正文引注一致性
   → ⑤ 证据报告（Web / HTML / Markdown / JSON / 纯文本参考文献表；报告页每条可点「证据」抽屉看完整字段与数据源）
 ```
+
+## 可视化
+
+图表不是装饰：每一个图都从真实报告或实验 JSON 生成，图上标注样本量或数据来源，空数据时显示说明而不是空白画布。
+
+- **批量聚合**：等级分布环、五维雷达、逐篇健康分排序（n=21 篇 / 509 条）。
+- **报告历史**：最近 30 天体检趋势（平均健康分 + Major 条数），按报告创建日期聚合。
+- **题录库**：年份分布与收录最多的期刊/会议（本地题录库实时统计）。
+- **评测**：CiteBench-CN v2 的八类检出率、2×2 混淆矩阵与撤稿检出（500 条，Unknown 计漏报）。
+- **批量判定**：一次提交后显示四档判定分布环；**报告页**的结论/支持度/格式分布升级为交互条形图，并保留“表格视图”折叠表。
+
+图表库为仓库内置的 Apache ECharts 5.5.1（Apache-2.0，`web/static/vendor/echarts.min.js`），不走 CDN，离线与 Docker 部署都能用；深浅色主题自动切换。实现与边界见 [docs/charts.md](docs/charts.md)。
 
 ## 快速开始
 
@@ -374,8 +386,8 @@ PYTHONPATH=src python3 scripts/enrich_library_abstracts.py
 
 ## 复现与发布
 
-- 版本：**v1.6.0**；变更见 `CHANGELOG.md`，发布说明见 `docs/release_notes_v1.0.md`
-- 单元测试：`PYTHONPATH=src python -m pytest tests -q`（668 项）
+- 版本：**v1.7.1**；变更见 `CHANGELOG.md`，发布说明见 `docs/release_notes_v1.0.md`
+- 单元测试：`PYTHONPATH=src python -m pytest tests -q`（671 项）
 - 主评测复现：`PYTHONPATH=src python scripts/reproduce_all.py`；每个对外数字的 JSON/命令/样本量见 `docs/evidence_index.md`
 - 文档站：`pip install -r requirements-docs.txt && mkdocs serve`
 - 数据集包：`dist/CiteGuard-CN_ClaimSupport-CN-300_v1.0.zip`（CC-BY-4.0，构造标签）

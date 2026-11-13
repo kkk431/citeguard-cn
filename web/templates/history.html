@@ -18,6 +18,16 @@
   </div>
 </section>
 
+{% if jobs %}
+<div class="chart-grid" style="margin:0 0 18px">
+  <div class="chart-card wide">
+    <div class="chart-head"><h2>体检趋势</h2><span id="trend-note">最近 30 天 · 已存报告</span></div>
+    <div class="chart-box short" id="history-trend" data-empty="近 30 天还没有已完成的报告"></div>
+    <p class="chart-note">按报告创建日期聚合；未评分的报告不计入平均分，Major 为规则判定为严重不符的条数。</p>
+  </div>
+</div>
+{% endif %}
+
 <div class="panel" id="compare-panel" hidden>
   <div class="panel-head">
     <h2>两份报告对比</h2>
@@ -64,6 +74,53 @@
   {% endif %}
 </div>
 
+<script src="/static/vendor/echarts.min.js"></script>
+<script src="/static/js/charts.js?v={{ request.app.version }}"></script>
+<script>
+(function () {
+  var box = document.getElementById("history-trend");
+  if (!box || !window.CGCharts) return;
+  fetch("/api/history/trend?days=30", { headers: { Accept: "application/json" } })
+    .then(function (resp) { return resp.json(); })
+    .then(function (data) {
+      var points = (data && data.points) || [];
+      var note = document.getElementById("trend-note");
+      if (note) note.textContent = "最近 " + (data.days || 30) + " 天 · " + points.length + " 个有报告的日子";
+      CGCharts.mount(box, function (t) {
+        if (!points.length) return null;
+        var dates = points.map(function (p) { return p.date.slice(5); });
+        return Object.assign(CGCharts.base(), {
+          tooltip: Object.assign(CGCharts.base().tooltip, { trigger: "axis" }),
+          legend: Object.assign(CGCharts.base().legend, { data: ["平均健康分", "Major 条数"] }),
+          grid: { left: 8, right: 12, top: 34, bottom: 4, containLabel: true },
+          xAxis: Object.assign(CGCharts.axis(), { data: dates }),
+          yAxis: [
+            Object.assign(CGCharts.valueAxis(), { min: 0, max: 100, name: "分", nameTextStyle: { color: t.muted } }),
+            Object.assign(CGCharts.valueAxis(), { minInterval: 1, name: "条", nameTextStyle: { color: t.muted } })
+          ],
+          series: [
+            {
+              name: "平均健康分", type: "line", smooth: true, connectNulls: false,
+              data: points.map(function (p) { return p.avg_health; }),
+              symbolSize: 6, lineStyle: { width: 2.5, color: t.colors[0] },
+              itemStyle: { color: t.colors[0] },
+              areaStyle: { color: t.colors[0], opacity: 0.12 }
+            },
+            {
+              name: "Major 条数", type: "bar", yAxisIndex: 1,
+              data: points.map(function (p) { return p.major; }),
+              barMaxWidth: 18,
+              itemStyle: { color: t.colors[3], borderRadius: [3, 3, 0, 0], opacity: 0.75 }
+            }
+          ]
+        });
+      });
+    })
+    .catch(function () {
+      if (box) box.innerHTML = '<div class="chart-empty">趋势加载失败</div>';
+    });
+})();
+</script>
 <script>
 (function () {
   var boxes = function () { return Array.prototype.slice.call(document.querySelectorAll('input.cmp')); };
