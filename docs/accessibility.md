@@ -60,3 +60,10 @@ collapsed, and j/k/`/` targeted the hidden list when the overview tab was active
 5. 报告页 j/Enter/Esc/`/` 与全局 Ctrl+K。
 
 结果：**50/50 通过**；唯一失败项是首页 favicon 404，已用 SVG icon + `/favicon.ico` 路由修复。证据 `data/experiments/frontend_audit.json`，截图 `docs/evidence/shots/phase-38-a11y-pages-1.0.12.png`（E48）。
+
+## 1.7.4 全站巡检（54/54）
+
+`scripts/audit_frontend.py` 扩到 12 个页面（新增 CiteMap）与报告页键盘流；同时修正检查脚本的一个真实误判：可访问名按 `aria-label > title > innerText` 取值，不能因为按钮只有空白文本就判为无名。
+
+结果：**54/54 通过**（含首页、CiteMap、报告 j/Enter/Esc/`/` 与 Ctrl+K）；产物 `data/experiments/frontend_audit.json`。
+

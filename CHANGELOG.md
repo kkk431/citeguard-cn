@@ -8,6 +8,7 @@ All notable changes to CiteGuard-CN. Earlier pre-1.0 history is condensed.
 - Repair loop on the report page: “一键修复全部” and per-entry “修复此条” open a preview with `del`/`ins` diffs and fix labels (document type, year placement, trailing period, DOI format). Applying writes `report.fixed.json` + `repair.json`; undo is available for 30 minutes and removes both files, restoring the original entries.
 - `GET/POST /api/report/{id}/repair/{state,preview,apply,undo}` with atomic writes, fingerprint/patch-id checks, and structured errors (`invalid_index`, `stale_patch`, `undo_expired`).
 - Evidence: `docs/repair_loop.md`, two screenshots in `docs/evidence/shots/phase-48-*.png`.
+- CiteMap evidence map (`/citemap`, `/api/citemap/topics`, `/api/citemap/{topic}`): two topics x 15 open papers, 10 human example extractions with quote/locator/stance/method/sample/gap; schema and corpus validated by `src/citeguard/evidence_map.py` and 104 tests.
 
 ### Notes
 - Repair only reformats already-parsed fields; it never fabricates missing fields or rewrites the paper body. `report.json` stays read-only.

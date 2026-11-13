@@ -24,6 +24,7 @@ SCENES = [
     ("support", "/support", "h1"),
     ("library", "/library", "h1"),
     ("discover", "/discover", "h1"),
+        ("citemap", "/citemap", "h1"),
     ("compare", "/compare", "h1"),
     ("figure", "/figure", "h1"),
     ("batch", "/batch", "h1"),

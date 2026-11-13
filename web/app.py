@@ -33,6 +33,7 @@ from citeguard import aggregate as aggregate_mod  # noqa: E402
 from citeguard import compare  # noqa: E402
 from citeguard import config  # noqa: E402
 from citeguard import discover  # noqa: E402
+from citeguard import evidence_map  # noqa: E402
 from citeguard import figure_check  # noqa: E402
 from citeguard import fix as fix_mod  # noqa: E402
 from citeguard import triage  # noqa: E402
@@ -1976,6 +1977,50 @@ def batch_page(request: Request):
         {"active": "batch", "judge_ok": support.judge_available()},
     )
 
+
+
+@app.get("/api/citemap/topics")
+def citemap_topics_api():
+    """Topic summaries for CiteMap (validated from the corpus files)."""
+    data_dir = config.DATA_DIR / "evidence_map"
+    try:
+        return {"schema_version": "1.0", "topics": evidence_map.list_topics(data_dir)}
+    except evidence_map.EvidenceMapError as exc:
+        return JSONResponse({"ok": False, "error": str(exc)}, status_code=500)
+
+
+@app.get("/api/citemap/{topic_id}")
+def citemap_topic_api(topic_id: str):
+    """One validated CiteMap payload; unknown topic returns 404 + known ids."""
+    data_dir = config.DATA_DIR / "evidence_map"
+    try:
+        return evidence_map.topic_payload(topic_id, data_dir)
+    except evidence_map.UnknownTopicError as exc:
+        known = [t.get("topic_id") for t in evidence_map.list_topics(data_dir)]
+        return JSONResponse(
+            {"ok": False, "error": str(exc), "known_topics": known}, status_code=404
+        )
+    except evidence_map.EvidenceMapError as exc:
+        return JSONResponse({"ok": False, "error": str(exc)}, status_code=500)
+
+
+@app.get("/citemap", response_class=HTMLResponse)
+def citemap_page(request: Request, topic: str = ""):
+    """CiteMap topic view: claims, stance evidence, method/sample and gaps."""
+    data_dir = config.DATA_DIR / "evidence_map"
+    try:
+        topics = evidence_map.list_topics(data_dir)
+        current = topic or (topics[0].get("topic_id") if topics else "")
+        payload = evidence_map.topic_payload(current, data_dir) if current else None
+    except evidence_map.UnknownTopicError as exc:
+        raise HTTPException(status_code=404, detail=str(exc))
+    except evidence_map.EvidenceMapError as exc:
+        raise HTTPException(status_code=500, detail=str(exc))
+    return templates.TemplateResponse(
+        request,
+        "citemap.html",
+        {"active": "citemap", "topics": topics, "current_topic": current, "payload": payload},
+    )
 
 @app.get("/aggregate", response_class=HTMLResponse)
 def aggregate_page(request: Request):

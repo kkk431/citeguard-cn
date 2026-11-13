@@ -74,6 +74,7 @@
       { kind: "action", label: "批量判定", sub: "一次最多 50 条", url: "/batch" },
       { kind: "action", label: "多篇对比", sub: "横向看几篇论文", url: "/compare" },
       { kind: "action", label: "文献发现", sub: "按主题找候选", url: "/discover" },
+      { kind: "action", label: "CiteMap 证据地图", sub: "2 个主题 × 15 篇开放论文", url: "/citemap" },
       { kind: "action", label: "批量聚合", sub: "一批论文的体检账", url: "/aggregate" },
       { kind: "action", label: "评测", sub: "可复核的数字与证据", url: "/benchmark" },
       { kind: "action", label: "模型", sub: "本地或托管判官", url: "/settings/models" },

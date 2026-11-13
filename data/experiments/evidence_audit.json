@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 116,
+  "paths_checked": 121,
   "missing": [],
   "rows": [
     {
@@ -402,8 +402,33 @@
       "evidence": "E74",
       "path": "docs/evidence/shots/phase-47-report-checks-charts-1.7.3.png",
       "exists": true
+    },
+    {
+      "evidence": "E75",
+      "path": "docs/repair_loop.md",
+      "exists": true
+    },
+    {
+      "evidence": "E75",
+      "path": "docs/evidence/shots/phase-48-repair-preview-1.7.4.png",
+      "exists": true
+    },
+    {
+      "evidence": "E75",
+      "path": "docs/evidence/shots/phase-48-repair-applied-1.7.4.png",
+      "exists": true
+    },
+    {
+      "evidence": "E76",
+      "path": "docs/evidence_map.md",
+      "exists": true
+    },
+    {
+      "evidence": "E76",
+      "path": "docs/evidence/shots/phase-49-citemap-1.7.4.png",
+      "exists": true
     }
   ],
-  "shots_registered": 59,
+  "shots_registered": 62,
   "shots_unregistered": []
 }

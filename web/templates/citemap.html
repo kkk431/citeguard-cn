@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block title %}CiteMap · 证据地图 · 引证卫士 CiteGuard{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="/static/css/citemap.css?v={{ request.app.version }}">
+{% set initial_topic = current_topic or (payload.topic.topic_id if payload and payload.topic else (topics[0].topic_id if topics else '')) %}
+{% set switch_topics = topics if topics else [
+  {'topic_id': 'ai_education', 'name_zh': 'AI 教育'},
+  {'topic_id': 'medical_imaging', 'name_zh': '医学影像'}
+] %}
+<div class="citemap-page">
+  <section class="wrap ctm-hero">
+    <div class="ctm-kicker">CiteMap · 证据地图</div>
+    <h1 class="ctm-title">CiteMap · 证据地图</h1>
+    <p class="ctm-lede">
+      把「某篇论文支持还是反驳了哪条断言」摊开给你看：先列断言，再放带立场的证据、方法与样本，
+      最后标出证据缺口。当前共 2 个主题 × 15 篇开放获取论文，含 10 条人工示例抽取；
+      它是 schema 与证据组织方式的演示，<strong>不是全量结论</strong>。
+    </p>
+    <div class="ctm-hero-chips" aria-label="数据规模">
+      <span class="ctm-chip">2 个主题</span>
+      <span class="ctm-chip">30 篇开放论文</span>
+      <span class="ctm-chip">10 条人工示例</span>
+      <span class="ctm-chip">仅读摘要 · verified=false</span>
+    </div>
+  </section>
+
+  <section class="wrap ctm-body">
+    <div class="ctm-guide panel">
+      <h2>怎么读这张地图</h2>
+      <div class="ctm-guide-grid">
+        <div>
+          <h3>立场是相对断言而言</h3>
+          <p>同一篇论文可以支持一条断言、反驳另一条。支持 / 反驳 / 中立只描述证据与断言的关系，不是对论文的整体评价。</p>
+        </div>
+        <div>
+          <h3>先看方法，再看数字</h3>
+          <p>每条证据都带研究设计、样本量与人群。样本不可比时，即使方向一致，也不应直接外推。</p>
+        </div>
+        <div>
+          <h3>缺口和结论同样重要</h3>
+          <p>gap 标出「被反复声称、却缺少对应设计或样本」的地方，用来决定下一轮检索与实验，而不是装饰。</p>
+        </div>
+      </div>
+    </div>
+
+    <section class="ctm-app" id="citemap-app" data-topic="{{ initial_topic }}" aria-busy="true" aria-label="CiteMap 主题浏览器">
+      <div class="ctm-toolbar">
+        <div class="ctm-topic-switch" id="ctm-topic-switch" role="group" aria-label="选择主题">
+          {% for topic in switch_topics %}
+          <button type="button" class="ctm-topic-btn{% if initial_topic == topic.topic_id %} is-active{% endif %}"
+                  data-topic-id="{{ topic.topic_id }}" aria-pressed="{{ 'true' if initial_topic == topic.topic_id else 'false' }}">{{ topic.name_zh or topic.name_en or topic.topic_id }}</button>
+          {% endfor %}
+        </div>
+        <span class="ctm-status" id="ctm-status" role="status" aria-live="polite">正在加载主题…</span>
+      </div>
+
+      <div class="ctm-loading" id="ctm-loading" role="status" aria-label="正在加载">
+        <div class="ctm-skeleton ctm-skeleton--title"></div>
+        <div class="ctm-skeleton ctm-skeleton--line"></div>
+        <div class="ctm-skeleton ctm-skeleton--line short"></div>
+        <div class="ctm-skeleton ctm-skeleton--block"></div>
+      </div>
+
+      <div class="ctm-error" id="ctm-error" role="alert" hidden>
+        <h2>主题加载失败</h2>
+        <p id="ctm-error-msg">接口暂时不可用，请稍后重试。</p>
+        <button type="button" class="btn btn-primary" id="ctm-retry">重试</button>
+      </div>
+
+      <div class="ctm-empty" id="ctm-empty" hidden>
+        <h2>暂无可展示的数据</h2>
+        <p id="ctm-empty-msg">该主题还没有登记论文或证据。</p>
+      </div>
+
+      <div class="ctm-layout" id="ctm-layout" hidden>
+        <div class="ctm-topic-head">
+          <div>
+            <span class="ctm-overline">当前主题</span>
+            <h2 id="ctm-topic-title">—</h2>
+            <p class="ctm-topic-question" id="ctm-topic-question"></p>
+          </div>
+          <div class="ctm-topic-stats" id="ctm-topic-stats"></div>
+        </div>
+
+        <aside class="ctm-papers" aria-label="论文清单">
+          <div class="ctm-panel-head">
+            <h2>论文清单</h2>
+            <span class="hint" id="ctm-paper-count"></span>
+          </div>
+          <ol class="ctm-paper-list" id="ctm-paper-list"></ol>
+        </aside>
+
+        <section class="ctm-detail" id="ctm-detail" aria-label="选中论文的证据">
+          <div class="ctm-detail-empty" id="ctm-detail-empty">
+            从左侧选择一篇论文，查看它支持 / 反驳的断言、方法、样本与相关证据缺口。
+          </div>
+          <div class="ctm-detail-body" id="ctm-detail-body" hidden></div>
+        </section>
+      </div>
+    </section>
+
+    <div class="ctm-footnotes">
+      <p><strong>阅读限制：</strong>论文元数据来自 OpenAlex / Crossref；证据是人工从摘要逐字摘录的示例（<code>verified=false</code>），未逐页核对全文。</p>
+      <p><strong>许可：</strong>仅展示开放获取论文的元数据与原文定位，不存放 PDF 全文；CC BY-NC-ND / CC BY-NC-SA 材料仅用于非商业研究引用。</p>
+    </div>
+
+    <noscript>
+      <div class="ctm-noscript">CiteMap 需要启用 JavaScript 才能加载主题与证据。请开启后刷新页面。</div>
+    </noscript>
+  </section>
+</div>
+{% endblock %}
+{% block scripts %}<script src="/static/js/citemap.js?v={{ request.app.version }}" defer></script>{% endblock %}

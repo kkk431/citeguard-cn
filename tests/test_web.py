@@ -915,3 +915,28 @@ def test_report_checks_drawer_is_wired():
     assert "checks-drawer" in js
     assert "openChecksDrawer" in js
     assert "data-checks-tab" in js
+
+def test_citemap_routes_return_validated_payload(client):
+    import shutil
+    from citeguard import config
+
+    src = ROOT / "data" / "evidence_map"
+    dst = config.DATA_DIR / "evidence_map"
+    if not dst.exists():
+        shutil.copytree(src, dst)
+    topics = client.get("/api/citemap/topics")
+    assert topics.status_code == 200
+    body = topics.json()
+    assert body["schema_version"] == "1.0"
+    assert len(body["topics"]) == 2
+    topic_id = body["topics"][0]["topic_id"]
+    payload = client.get(f"/api/citemap/{topic_id}")
+    assert payload.status_code == 200
+    assert payload.json()["topic"]["topic_id"] == topic_id
+    assert len(payload.json()["papers"]) == 15
+    missing = client.get("/api/citemap/not-a-topic")
+    assert missing.status_code == 404
+    assert missing.json()["known_topics"]
+    page = client.get(f"/citemap?topic={topic_id}")
+    assert page.status_code == 200
+    assert "citemap-app" in page.text

@@ -1,6 +1,6 @@
 {
-  "base": "http://127.0.0.1:8014",
-  "report_job": "94c2214965b1",
+  "base": "http://127.0.0.1:8013",
+  "report_job": "cded207eef8c",
   "checks": [
     {
       "name": "home_no_horizontal_overflow_1280",
@@ -79,6 +79,26 @@
     },
     {
       "name": "discover_no_console_errors",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "citemap_no_horizontal_overflow_1280",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "citemap_has_h1",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "citemap_all_controls_named",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "citemap_no_console_errors",
       "ok": true,
       "detail": []
     },
