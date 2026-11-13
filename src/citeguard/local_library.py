@@ -24,7 +24,14 @@ from typing import Iterable, Optional
 from .metadata_verify import Candidate, norm_title, title_sim
 from .reference_parser import parse_reference_list
 
-LIBRARY_VERSION = 1
+LIBRARY_VERSION = 2  # version 2 added per-entry tags
+
+MAX_TAGS = 8
+MAX_TAG_LENGTH = 24
+
+
+class LibraryError(ValueError):
+    """Invalid library operation (unknown entry, bad tag, illegal merge)."""
 
 
 @dataclass
@@ -42,6 +49,7 @@ class LibraryEntry:
     doc_type: str = ""
     source: str = "local"
     raw: str = ""
+    tags: list[str] = field(default_factory=list)
 
     def to_dict(self) -> dict:
         return asdict(self)
@@ -67,6 +75,52 @@ def _pages(first: str, last: str) -> str:
     if first and last and first != last:
         return f"{first}-{last}"
     return first or last
+
+
+_DOI_PREFIX_RE = re.compile(r"^(?:https?://(?:dx\.)?doi\.org/|doi:\s*)", re.I)
+
+
+def _doi_key(value: str) -> str:
+    """Normalise a DOI for equality checks (prefix/case insensitive)."""
+    text = _DOI_PREFIX_RE.sub("", (value or "").strip())
+    return text.strip().lower()
+
+
+def _clean_tag(value: str) -> str:
+    """Collapse whitespace inside a tag but keep its punctuation/case."""
+    return re.sub(r"\s+", " ", (value or "").strip()).strip()
+
+
+def _normalize_tags(tags, *, strict: bool = True) -> list[str]:
+    """Validate/dedupe tags (first spelling wins, max 8, each <= 24 chars)."""
+    if tags is None:
+        return []
+    if isinstance(tags, (str, bytes, dict)) or not isinstance(tags, Iterable):
+        raise LibraryError("tags 必须是字符串列表")
+    cleaned: list[str] = []
+    seen: set[str] = set()
+    for raw in tags:
+        if not isinstance(raw, str):
+            raise LibraryError("标签必须是字符串")
+        tag = _clean_tag(raw)
+        if not tag:
+            continue
+        if len(tag) > MAX_TAG_LENGTH:
+            if strict:
+                raise LibraryError(
+                    f"标签「{tag[:12]}…」超过 {MAX_TAG_LENGTH} 个字符"
+                )
+            continue
+        key = tag.casefold()
+        if key in seen:
+            continue
+        seen.add(key)
+        cleaned.append(tag)
+    if len(cleaned) > MAX_TAGS:
+        if strict:
+            raise LibraryError(f"标签最多 {MAX_TAGS} 个，当前 {len(cleaned)} 个")
+        cleaned = cleaned[:MAX_TAGS]
+    return cleaned
 
 
 # ---------------------------------------------------------------------------
@@ -340,11 +394,28 @@ def parse_library_text(text: str, filename: str = "") -> list[LibraryEntry]:
 # Library
 # ---------------------------------------------------------------------------
 
+# Fields copied from a dropped duplicate when the kept entry has them empty.
+_MERGE_FIELDS = (
+    "title",
+    "venue",
+    "volume",
+    "issue",
+    "pages",
+    "doi",
+    "url",
+    "abstract",
+    "doc_type",
+    "source",
+    "raw",
+)
+
+
 class Library:
     """A searchable set of user-supplied reference records."""
 
     def __init__(self, entries: Iterable[LibraryEntry] = ()) -> None:
         self.entries: list[LibraryEntry] = list(entries)
+        self._path: Optional[Path] = None
 
     def __len__(self) -> int:
         return len(self.entries)
@@ -380,6 +451,176 @@ class Library:
         scored.sort(key=lambda x: (x[0], x[1]), reverse=True)
         return [(sim, entry) for sim, _, entry in scored[:limit]]
 
+    # -- tags ------------------------------------------------------------
+    #
+    # "id" below is the 0-based position in ``Library.entries``, matching the
+    # index used by the existing web API (/api/library/{index}).  It is only
+    # stable until the next add/merge, so callers should resolve and use it in
+    # the same request.
+
+    def _resolve_entry(self, key_or_doi_or_id) -> LibraryEntry:
+        """Find one entry by id, DOI, or exact (normalised) title."""
+        if isinstance(key_or_doi_or_id, bool):
+            raise LibraryError("条目 id 必须是非负整数")
+        if isinstance(key_or_doi_or_id, int):
+            index = key_or_doi_or_id
+            if index < 0 or index >= len(self.entries):
+                raise LibraryError(f"条目 id 越界：{index}（共 {len(self.entries)} 条）")
+            return self.entries[index]
+        if not isinstance(key_or_doi_or_id, str) or not key_or_doi_or_id.strip():
+            raise LibraryError("请提供条目 id、DOI 或题名")
+        needle = key_or_doi_or_id.strip()
+        if needle.isdigit():
+            return self._resolve_entry(int(needle))
+        doi = _doi_key(needle)
+        if doi:
+            matches = [e for e in self.entries if _doi_key(e.doi) == doi]
+            if len(matches) == 1:
+                return matches[0]
+            if len(matches) > 1:
+                raise LibraryError(f"DOI「{needle}」对应 {len(matches)} 条记录，请改用 id")
+        title_key = norm_title(needle)
+        matches = [e for e in self.entries if title_key and norm_title(e.title) == title_key]
+        if len(matches) == 1:
+            return matches[0]
+        if len(matches) > 1:
+            raise LibraryError(f"题名「{needle[:32]}」对应 {len(matches)} 条记录，请改用 id")
+        raise LibraryError(f"找不到题录：{needle[:32]}")
+
+    def set_tags(self, key_or_doi_or_id, tags: Iterable[str]) -> LibraryEntry:
+        """Replace an entry's tags; returns the updated entry."""
+        entry = self._resolve_entry(key_or_doi_or_id)
+        entry.tags = _normalize_tags(tags)
+        return entry
+
+    def add_tags(self, key_or_doi_or_id, tags: Iterable[str]) -> LibraryEntry:
+        """Append tags (deduplicated case-insensitively); returns the entry."""
+        entry = self._resolve_entry(key_or_doi_or_id)
+        entry.tags = _normalize_tags([*entry.tags, *_normalize_tags(tags)])
+        return entry
+
+    def remove_tags(self, key_or_doi_or_id, tags: Iterable[str]) -> LibraryEntry:
+        """Remove tags case-insensitively; unknown tags are ignored."""
+        entry = self._resolve_entry(key_or_doi_or_id)
+        removing = {tag.casefold() for tag in _normalize_tags(tags)}
+        if removing:
+            entry.tags = [tag for tag in entry.tags if tag.casefold() not in removing]
+        return entry
+
+    # -- duplicates ------------------------------------------------------
+
+    def find_duplicates(self) -> list[dict]:
+        """Group likely duplicates by shared DOI or normalised title + year.
+
+        Returns ``[{"ids": [...], "entries": [...], "reason": ...}]`` with
+        0-based ids (stable until the library is mutated).  Nothing is deleted
+        or merged; call :meth:`merge_duplicates` after the user confirms.
+        """
+        count = len(self.entries)
+        parent = list(range(count))
+
+        def find(i: int) -> int:
+            while parent[i] != i:
+                parent[i] = parent[parent[i]]
+                i = parent[i]
+            return i
+
+        def union(a: int, b: int) -> None:
+            root_a, root_b = find(a), find(b)
+            if root_a != root_b:
+                parent[root_b] = root_a
+
+        doi_groups: dict[str, list[int]] = {}
+        title_groups: dict[tuple[str, int], list[int]] = {}
+        for i, entry in enumerate(self.entries):
+            doi = _doi_key(entry.doi)
+            if doi:
+                doi_groups.setdefault(doi, []).append(i)
+            title_key = norm_title(entry.title)
+            if title_key and entry.year is not None:
+                title_groups.setdefault((title_key, entry.year), []).append(i)
+        for group in (*doi_groups.values(), *title_groups.values()):
+            for other in group[1:]:
+                union(group[0], other)
+
+        buckets: dict[int, list[int]] = {}
+        for i in range(count):
+            buckets.setdefault(find(i), []).append(i)
+
+        groups: list[dict] = []
+        for ids in buckets.values():
+            if len(ids) < 2:
+                continue
+            doi_counts: dict[str, int] = {}
+            title_counts: dict[tuple[str, int], int] = {}
+            for i in ids:
+                entry = self.entries[i]
+                doi = _doi_key(entry.doi)
+                if doi:
+                    doi_counts[doi] = doi_counts.get(doi, 0) + 1
+                title_key = norm_title(entry.title)
+                if title_key and entry.year is not None:
+                    key = (title_key, entry.year)
+                    title_counts[key] = title_counts.get(key, 0) + 1
+            has_doi = any(n > 1 for n in doi_counts.values())
+            has_title = any(n > 1 for n in title_counts.values())
+            if has_doi and has_title:
+                reason = "doi+title_year"
+            elif has_doi:
+                reason = "doi"
+            else:
+                reason = "title_year"
+            groups.append(
+                {
+                    "ids": ids,
+                    "entries": [self.entries[i].to_dict() for i in ids],
+                    "reason": reason,
+                }
+            )
+        groups.sort(key=lambda group: group["ids"][0])
+        return groups
+
+    def merge_duplicates(self, keep_id, drop_ids: Iterable) -> int:
+        """Merge ``drop_ids`` into ``keep_id`` and return the number merged.
+
+        The kept record wins every non-empty field; empty fields are filled
+        from the dropped records in the given order.  Tags are unioned.  The
+        operation is rejected (``LibraryError``) when an id is unknown, the
+        kept id is also listed for deletion, no drops were given, or the
+        merged tag list would exceed ``MAX_TAGS``.  The library is saved when
+        it knows its JSON path (i.e. after ``load``/``save``).
+        """
+        keep = self._resolve_entry(keep_id)
+        if isinstance(drop_ids, (str, bytes)) or not isinstance(drop_ids, Iterable):
+            raise LibraryError("drop_ids 必须是条目 id 列表")
+        drops: list[LibraryEntry] = []
+        for raw in drop_ids:
+            entry = self._resolve_entry(raw)
+            if entry is keep:
+                raise LibraryError("保留条目不能同时出现在待删除列表中")
+            if all(entry is not seen for seen in drops):
+                drops.append(entry)
+        if not drops:
+            raise LibraryError("没有需要合并的条目")
+
+        # Validate tags before mutating, so a failure never leaves a half merge.
+        merged_tags = _normalize_tags([*keep.tags, *(tag for drop in drops for tag in drop.tags)])
+        for drop in drops:
+            for name in _MERGE_FIELDS:
+                if not getattr(keep, name) and getattr(drop, name):
+                    setattr(keep, name, getattr(drop, name))
+            if keep.year is None and drop.year is not None:
+                keep.year = drop.year
+            if not keep.authors and drop.authors:
+                keep.authors = list(drop.authors)
+        keep.tags = merged_tags
+
+        dropped = {id(drop) for drop in drops}
+        self.entries = [entry for entry in self.entries if entry is keep or id(entry) not in dropped]
+        if self._path is not None:
+            self.save(self._path)
+        return len(drops)
+
     def to_dict(self) -> dict:
         return {
             "version": LIBRARY_VERSION,
@@ -389,13 +630,24 @@ class Library:
 
     @classmethod
     def from_dict(cls, data: dict) -> "Library":
-        entries = [LibraryEntry(**e) for e in data.get("entries", []) if isinstance(e, dict)]
+        entries: list[LibraryEntry] = []
+        for raw in data.get("entries", []):
+            if not isinstance(raw, dict):
+                continue
+            item = dict(raw)
+            # Old libraries have no tags; malformed values must not break load.
+            try:
+                item["tags"] = _normalize_tags(item.get("tags", []), strict=False)
+            except LibraryError:
+                item["tags"] = []
+            entries.append(LibraryEntry(**item))
         return cls(entries)
 
     def save(self, path: str | Path) -> None:
         path = Path(path)
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(json.dumps(self.to_dict(), ensure_ascii=False, indent=2), encoding="utf-8")
+        self._path = path
         # Secondary SQLite index; JSON stays authoritative. A failed index write
         # must never lose a library the user just imported.
         try:
@@ -410,7 +662,9 @@ class Library:
         path = Path(path)
         if path.exists():
             try:
-                return cls.from_dict(json.loads(path.read_text(encoding="utf-8")))
+                library = cls.from_dict(json.loads(path.read_text(encoding="utf-8")))
+                library._path = path
+                return library
             except Exception:
                 pass
         # JSON missing or unreadable: fall back to the SQLite sidecar.
@@ -419,7 +673,9 @@ class Library:
 
             db_path = db_path_for(path)
             if db_path.exists():
-                return read_library(db_path)
+                library = read_library(db_path)
+                library._path = path
+                return library
         except Exception:
             pass
         return cls()

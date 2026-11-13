@@ -940,3 +940,61 @@ def test_citemap_routes_return_validated_payload(client):
     page = client.get(f"/citemap?topic={topic_id}")
     assert page.status_code == 200
     assert "citemap-app" in page.text
+
+
+def test_library_tags_api_roundtrip(client):
+    payload = {"title": "带标签的中文题录", "authors": "张三", "year": "2024"}
+    assert client.post("/api/library/add", json=payload).status_code == 200
+
+    r = client.post("/api/library/0/tags", json={"mode": "replace", "tags": ["AI", "教育", "ai"]})
+    assert r.status_code == 200, r.text
+    assert r.json()["tags"] == ["AI", "教育"]
+
+    r = client.post("/api/library/0/tags", json={"mode": "add", "tags": ["方法"]})
+    assert r.json()["tags"] == ["AI", "教育", "方法"]
+
+    r = client.post("/api/library/0/tags", json={"mode": "remove", "tags": ["教育"]})
+    assert r.json()["tags"] == ["AI", "方法"]
+
+    entries = client.get("/api/library").json()["entries"]
+    assert entries[0]["tags"] == ["AI", "方法"]
+
+    assert client.post("/api/library/99/tags", json={"tags": []}).status_code == 404
+    assert client.post("/api/library/0/tags", json={"mode": "bogus", "tags": []}).status_code == 400
+    too_many = ["t%d" % i for i in range(9)]
+    assert client.post("/api/library/0/tags", json={"tags": too_many}).status_code == 400
+
+
+def test_library_duplicates_api_groups_and_merges(client):
+    import web.app as webapp
+    from citeguard.local_library import Library, LibraryEntry
+
+    lib = Library.load(webapp.config.LIBRARY_FILE)
+    lib.entries.append(LibraryEntry(title="重复题录甲", doi="10.9999/dup", year=2020, tags=["a"]))
+    lib.entries.append(LibraryEntry(title="重复题录乙", doi="10.9999/dup", year=2020, tags=["b"]))
+    lib.save(webapp.config.LIBRARY_FILE)
+
+    body = client.get("/api/library/duplicates").json()
+    assert body["count"] == 1
+    group = body["groups"][0]
+    assert group["ids"] == [0, 1]
+    assert "doi" in group["reason"].lower()
+
+    merged = client.post(
+        "/api/library/duplicates/merge",
+        json={"keep_id": 0, "drop_ids": [1]},
+    )
+    assert merged.status_code == 200, merged.text
+    assert merged.json()["merged"] == 1
+    assert merged.json()["count"] == 1
+    assert merged.json()["kept"]["tags"] == ["a", "b"]
+
+    bad = client.post("/api/library/duplicates/merge", json={"keep_id": 0, "drop_ids": []})
+    assert bad.status_code == 400
+
+
+def test_library_page_exposes_tags_and_merge(client):
+    html = client.get("/library").text
+    assert 'id="library-dupes-btn"' in html
+    assert 'id="library-tag-modal"' in html
+    assert "标签" in html

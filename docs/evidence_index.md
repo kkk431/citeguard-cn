@@ -1,6 +1,7 @@
 # 对外数字 → 证据索引
 
 > 规则：任何对外使用的数字，必须能在这里找到 **证据文件 / 复现命令 / 样本量 / 口径**。
+> 1.7.x 及之后的对外数字以 `docs/evidence_matrix.md`（脚本生成）为准；本页保留历史明细。
 > 截图统一放 `docs/evidence/shots/`，命名 `phase-序号-名称-版本.png`。
 
 ## 主结果
@@ -21,7 +22,7 @@
 | 扫描件 OCR **23/24 条** | `data/experiments/ocr_scan_real.json` | `PYTHONPATH=src python scripts/eval_ocr_scanned.py --input <pdf>` | 7 页扫描 PDF，题名/年份/作者 23/23 |
 | GB/T E4 严格控制漂移 **29/30** | `data/experiments/e4_format.json` | `PYTHONPATH=src python scripts/e4_format_check.py` | 30 个构造样本 |
 | 万方中文强命中 **111/184** | `data/experiments/wanfang_batch.json` | 见 `docs/chinese_sources.md` | 184 条中文题录，试用配额；非全样本 |
-| 测试 **569 passed** | `pytest -q` | `PYTHONPATH=src python -m pytest tests -q` | 本地 Python 3.13 |
+| 测试 **808 passed** | `pytest -q` | `PYTHONPATH=src python -m pytest tests -q` | 本地 Python 3.13 |
 | 交付自检 **137/137** | `scripts/verify_artifacts.py` | `PYTHONPATH=src python scripts/verify_artifacts.py` | 版本/路由/文档/数字一致性 |
 | 知网导入 **22 → 27 条，Exact** | `data/library/cnki_demo.enw`、`data/library/library.json` | `PYTHONPATH=src python -m citeguard.cli --import-library data/library/cnki_demo.enw` | 5 条机构导出题录 |
 
@@ -129,3 +130,5 @@
 | E74 | 列表分页与检查抽屉（1.7.3） | `web/static/js/pager.js`、`web/static/js/report.js`、`web/static/js/charts.js`（`resize`）、`web/templates/base/history/library/aggregate/batch/report.html`、`web/static/css/refresh.css`、`tests/test_web.py`、`scripts/capture_ux_1_7_3.py`、`docs/ui_patterns.md` | 共享分页组件：页码/上下页/10-20-50/每页计数，URL 写 `?page=`；已接历史 23 行、题录库 28 条、聚合 20 篇、批量结果。报告检查明细改右侧 680px 抽屉，六标签按数据自动隐藏，Esc/遮罩关闭，图表切标签后 resize；`pytest` 673 passed，web 60 passed | `docs/evidence/shots/phase-47-history-pager-1.7.3.png`、`docs/evidence/shots/phase-47-library-pager-1.7.3.png`、`docs/evidence/shots/phase-47-report-checks-1.7.3.png`、`docs/evidence/shots/phase-47-report-checks-charts-1.7.3.png` |
 | E75 | 修复闭环（1.7.4） | `src/citeguard/fix.py`、`web/app.py`（`/api/report/{id}/repair/*`、报告页改用 `_load_active_report`）、`web/templates/report.html`、`web/static/js/report.js`、`web/static/css/refresh.css`、`tests/test_repair_api.py`、`docs/repair_loop.md` | 预览/应用/撤销真实任务 `96511af51c97`：15 条全部可修，应用后 `report.fixed.json` + `repair.json`，30 分钟撤销倒计时，撤销后两文件删除、state 回 unfixed；`pytest` 792 passed，repair API 4 passed | `docs/evidence/shots/phase-48-repair-preview-1.7.4.png`、`docs/evidence/shots/phase-48-repair-applied-1.7.4.png` |
 | E76 | CiteMap 证据地图（1.7.4） | `src/citeguard/evidence_map.py`、`data/evidence_map/`、`web/templates/citemap.html`、`web/static/js/citemap.js`、`web/static/css/citemap.css`、`web/app.py`（`/citemap`、`/api/citemap/*`）、`tests/test_evidence_map.py`、`tests/test_citemap_page.py`、`docs/evidence_map.md` | 2 主题 × 15 篇开放论文；AI 教育 15 篇/4 claim/5 evidence/3 gap/30 DOI 30/30；人工示例 10 条、`verified=false`、仅摘要；页面真实渲染并选中论文展示 claim/quote/locator/method/sample/gap | `docs/evidence/shots/phase-49-citemap-1.7.4.png` |
+| E77 | 证据矩阵（1.7.5） | `scripts/build_evidence_matrix.py`、`docs/evidence_matrix.md`、`data/experiments/evidence_matrix.json`、`tests/test_evidence_matrix.py` | 24 条对外数字统一收口：每条含值/样本/证据 JSON/复现命令/口径；`--check` 校验文件存在与最新；待补 4 项（100 条人审、4B LoRA、CiteMap 60 格、Live hit@3）；`pytest` 808 passed | `docs/evidence/shots/phase-50-evidence-matrix-1.7.5.png` |
+| E78 | 题录库标签与重复合并（1.7.5） | `src/citeguard/local_library.py`、`src/citeguard/library_db.py`、`web/app.py`、`web/templates/library.html`、`web/static/js/library.js`、`docs/library_tags.md`、`tests/test_local_library.py`、`tests/test_web.py` | 3 条演示题录：2 条同 DOI 被分组并可合并；标签列显示 AI/教育、综述、深度学习；JSON 主存 + SQLite sidecar schema 2 迁移；标签/重复/合并 API 3 个；`pytest` 808 passed | `docs/evidence/shots/phase-51-library-tags-1.7.5.png`、`docs/evidence/shots/phase-51-library-dupes-1.7.5.png` |

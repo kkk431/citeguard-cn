@@ -18,6 +18,14 @@
   const toolbarHint = document.getElementById("library-toolbar-hint");
   const enrichBtn = document.getElementById("library-enrich-btn");
   const pagerMount = document.getElementById("library-pager");
+  const dupesBtn = document.getElementById("library-dupes-btn");
+  const tagModal = document.getElementById("library-tag-modal");
+  const tagInput = document.getElementById("tag-input");
+  const tagSave = document.getElementById("tag-save");
+  const tagEntryTitle = document.getElementById("tag-entry-title");
+  const dupesModal = document.getElementById("library-dupes-modal");
+  const dupesBody = document.getElementById("dupes-body");
+  let tagTarget = null;
 
   let entries = [];
   let missing = 0;
@@ -125,6 +133,17 @@
       tr.appendChild(makeCell(entry.doi, "mono-sm", "180px"));
       tr.appendChild(makeCell(entry.abstract ? "有" : "缺", "mono-sm", ""));
 
+      const tagsCell = document.createElement("td");
+      tagsCell.className = "mono-sm lib-tags";
+      tagsCell.textContent = (entry.tags || []).join("、") || "—";
+      const tagBtn = document.createElement("button");
+      tagBtn.type = "button";
+      tagBtn.className = "btn btn-ghost btn-sm lib-tag";
+      tagBtn.textContent = "标签";
+      tagBtn.addEventListener("click", function () { openTagEditor(entry); });
+      tagsCell.appendChild(tagBtn);
+      tr.appendChild(tagsCell);
+
       const action = document.createElement("td");
       const del = document.createElement("button");
       del.type = "button";
@@ -139,7 +158,7 @@
     if (!rows.length) {
       const tr = document.createElement("tr");
       const td = document.createElement("td");
-      td.colSpan = 7;
+      td.colSpan = 8;
       td.className = "mono-sm";
       td.style.color = "var(--muted)";
       td.style.padding = "18px 12px";
@@ -461,4 +480,118 @@
       });
     }
   }
+
+  function openTagEditor(entry) {
+    if (!tagModal) return;
+    tagTarget = entry;
+    if (tagEntryTitle) tagEntryTitle.textContent = entry.title || "";
+    if (tagInput) tagInput.value = (entry.tags || []).join(", ");
+    tagModal.hidden = false;
+    if (tagInput) tagInput.focus();
+  }
+
+  function closeLibModal(kind) {
+    if (kind === "tag" && tagModal) tagModal.hidden = true;
+    if (kind === "dupes" && dupesModal) dupesModal.hidden = true;
+  }
+
+  async function saveTags() {
+    if (!tagTarget) return;
+    const tags = (tagInput && tagInput.value || "")
+      .split(/[,，、]/)
+      .map(function (t) { return t.trim(); })
+      .filter(Boolean);
+    tagSave.disabled = true;
+    try {
+      const data = await postJSONBody("/api/library/" + tagTarget.index + "/tags", {
+        mode: "replace",
+        tags: tags,
+      });
+      tagTarget.tags = data.tags || [];
+      closeLibModal("tag");
+      window.CiteGuard.toast("标签已保存：" + (tagTarget.tags.join("、") || "无"));
+      render();
+    } catch (err) {
+      window.CiteGuard.toast("保存标签失败：" + err.message);
+    } finally {
+      tagSave.disabled = false;
+    }
+  }
+
+  async function mergeGroup(keepId, dropIds, button) {
+    if (!dropIds.length) return;
+    if (!window.confirm("将 " + dropIds.length + " 条重复记录合并到第 1 条？\n合并后无法自动恢复。")) return;
+    button.disabled = true;
+    try {
+      const data = await postJSONBody("/api/library/duplicates/merge", {
+        keep_id: keepId,
+        drop_ids: dropIds,
+      });
+      window.CiteGuard.toast("已合并 " + data.merged + " 条重复记录");
+      closeLibModal("dupes");
+      await loadEntries();
+    } catch (err) {
+      window.CiteGuard.toast("合并失败：" + err.message);
+      button.disabled = false;
+    }
+  }
+
+  async function checkDuplicates() {
+    if (!dupesModal) return;
+    dupesBody.textContent = "正在检查…";
+    dupesModal.hidden = false;
+    try {
+      const data = await window.CiteGuard.getJSON("/api/library/duplicates");
+      dupesBody.textContent = "";
+      if (!data.count) {
+        const p = document.createElement("p");
+        p.className = "hint";
+        p.textContent = "没有发现 DOI 或「题名 + 年份」相同的重复题录。";
+        dupesBody.appendChild(p);
+        return;
+      }
+      data.groups.forEach(function (group) {
+        const box = document.createElement("div");
+        box.className = "lib-dupe";
+        const head = document.createElement("p");
+        head.className = "hint";
+        head.textContent = group.ids.length + " 条 · " + group.reason;
+        box.appendChild(head);
+        group.entries.forEach(function (e) {
+          const row = document.createElement("p");
+          row.className = "lib-dupe-row";
+          row.textContent = e.title || "（无题名）";
+          box.appendChild(row);
+        });
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "btn btn-ghost btn-sm";
+        btn.textContent = "保留第 1 条并合并其余 " + (group.ids.length - 1) + " 条";
+        btn.addEventListener("click", function () {
+          mergeGroup(group.ids[0], group.ids.slice(1), btn);
+        });
+        box.appendChild(btn);
+        dupesBody.appendChild(box);
+      });
+    } catch (err) {
+      dupesBody.textContent = "检查失败：" + err.message;
+    }
+  }
+
+
+  if (dupesBtn) dupesBtn.addEventListener("click", checkDuplicates);
+  if (tagSave) tagSave.addEventListener("click", saveTags);
+  if (tagInput) {
+    tagInput.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") saveTags();
+      if (e.key === "Escape") closeLibModal("tag");
+    });
+  }
+  document.querySelectorAll("[data-close]").forEach(function (el) {
+    el.addEventListener("click", function () { closeLibModal(el.getAttribute("data-close")); });
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") { closeLibModal("tag"); closeLibModal("dupes"); }
+  });
+
 })();

@@ -39,7 +39,7 @@ from citeguard import fix as fix_mod  # noqa: E402
 from citeguard import triage  # noqa: E402
 from citeguard.abstract_enrich import MAX_ENRICH_PER_REQUEST, enrich_missing  # noqa: E402
 from citeguard.jobs import manager  # noqa: E402
-from citeguard.local_library import Library, LibraryEntry, parse_library_text  # noqa: E402
+from citeguard.local_library import Library, LibraryEntry, LibraryError, parse_library_text  # noqa: E402
 from citeguard.pdf_extract import (  # noqa: E402
     SUPPORTED_SUFFIXES,
     extract_page_text,
@@ -102,7 +102,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.7.4", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.7.5", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 
@@ -598,6 +598,70 @@ def library_api(limit: int = 500, offset: int = 0):
         "entries": entries,
         "truncated": offset + len(entries) < total,
     }
+
+
+class LibraryTagsUpdate(BaseModel):
+    mode: str = "replace"
+    tags: list[str] = []
+
+
+class LibraryDuplicateMerge(BaseModel):
+    keep_id: int
+    drop_ids: list[int] = []
+
+
+@app.get("/api/library/duplicates")
+def library_duplicates():
+    """Group likely duplicates; never deletes anything by itself."""
+    library = Library.load(config.LIBRARY_FILE)
+    groups = []
+    for group in library.find_duplicates():
+        groups.append(
+            {
+                "ids": group["ids"],
+                "reason": group["reason"],
+                "entries": group["entries"],
+            }
+        )
+    return {"count": len(groups), "groups": groups}
+
+
+@app.post("/api/library/duplicates/merge")
+def library_duplicates_merge(payload: LibraryDuplicateMerge):
+    """Merge duplicates after the user confirms; source work is left in place."""
+    library = Library.load(config.LIBRARY_FILE)
+    try:
+        merged = library.merge_duplicates(payload.keep_id, payload.drop_ids)
+    except LibraryError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
+    kept = library.entries[payload.keep_id] if 0 <= payload.keep_id < len(library) else None
+    return {
+        "merged": merged,
+        "count": len(library),
+        "kept": kept.to_dict() if kept else None,
+    }
+
+
+@app.post("/api/library/{index}/tags")
+def library_tags(index: int, payload: LibraryTagsUpdate):
+    """Replace/add/remove tags on one entry (0-based index, same as DELETE)."""
+    library = Library.load(config.LIBRARY_FILE)
+    if index < 0 or index >= len(library):
+        raise HTTPException(status_code=404, detail="题录不存在（列表可能已刷新，请重试）")
+    mode = (payload.mode or "replace").strip().lower()
+    try:
+        if mode == "replace":
+            entry = library.set_tags(index, payload.tags)
+        elif mode == "add":
+            entry = library.add_tags(index, payload.tags)
+        elif mode == "remove":
+            entry = library.remove_tags(index, payload.tags)
+        else:
+            raise HTTPException(status_code=400, detail="mode 必须是 replace/add/remove")
+    except LibraryError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
+    library.save(config.LIBRARY_FILE)
+    return {"index": index, "tags": entry.tags, "count": len(library)}
 
 
 @app.delete("/api/library/{index}")

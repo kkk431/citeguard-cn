@@ -29,6 +29,8 @@ nav:
   - 批量聚合: aggregate.md
   - 撤稿与勘误检查: retraction.md
   - 替换建议: replacement.md
+  - 证据矩阵: evidence_matrix.md
+  - 题录库标签: library_tags.md
   - 证据索引: evidence_index.md
   - 性能: performance.md
   - 数据集: dataset_release.md

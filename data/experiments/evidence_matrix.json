@@ -1,0 +1,273 @@
+{
+  "schema": "citeguard.evidence_matrix.v1",
+  "rows": 24,
+  "missing": [],
+  "items": [
+    {
+      "category": "基准",
+      "claim": "CiteBench-CN v1 字段级检出",
+      "value": "macro-F1 0.9684 / acc 0.9680",
+      "n": "250 条",
+      "artifact": "data/citebench_cn/results.json",
+      "command": "PYTHONPATH=src python scripts/eval_citebench.py",
+      "note": "250 条构造基准；v1 口径，与 v2 500 条不可混用",
+      "screenshot": ""
+    },
+    {
+      "category": "基准",
+      "claim": "CiteBench-CN v2 问题检出",
+      "value": "precision 1.0000 / recall 0.6487 / F1 0.7869 / acc 0.7263",
+      "n": "453 条（500 中可核验）",
+      "artifact": "data/citebench_cn/v2_results.json",
+      "command": "PYTHONPATH=src python scripts/eval_citebench_v2.py",
+      "note": "Unknown 90 条（0.1987）计漏报；核验完成后 recall 0.8707",
+      "screenshot": "docs/evidence/shots/phase-46-benchmark-1.7.1.png"
+    },
+    {
+      "category": "基准",
+      "claim": "ClaimSupport-CN 100 条",
+      "value": "macro-F1 0.9597 / acc 0.9500",
+      "n": "100 条",
+      "artifact": "data/claimsupport_cn/results.json",
+      "command": "PYTHONPATH=src python scripts/eval_support_local.py",
+      "note": "构造标签；产品同路径；v10 prompt + 覆盖审计",
+      "screenshot": "docs/evidence/shots/phase-1-model-compare-1.0.12.png"
+    },
+    {
+      "category": "基准",
+      "claim": "ClaimSupport-CN 300 条合并集",
+      "value": "macro-F1 0.9841 / acc 0.9833",
+      "n": "300 条",
+      "artifact": "data/experiments/release300.json",
+      "command": "见 docs/experiments.md（release300）",
+      "note": "构造标签，非人审；与 100/60/140 分批口径不可混用",
+      "screenshot": ""
+    },
+    {
+      "category": "校准",
+      "claim": "支持度置信度校准",
+      "value": "ECE 0.0400（acc 0.9833，平均置信 0.9477）",
+      "n": "300 条",
+      "artifact": "data/experiments/support_calibration.json",
+      "command": "PYTHONPATH=src python scripts/eval_support_calibration.py",
+      "note": "judge 自报置信度；构造标签",
+      "screenshot": ""
+    },
+    {
+      "category": "真实语料",
+      "claim": "22 篇真实论文 409 条参考文献",
+      "value": "Exact 125 / Minor 87 / Unverified 197 / Major 0",
+      "n": "20 篇 / 409 条",
+      "artifact": "data/experiments/verify_real.json",
+      "command": "PYTHONPATH=src python scripts/eval_verify_real.py",
+      "note": "Major 0；Unverified 不等于错误；联网源随网络状态波动",
+      "screenshot": ""
+    },
+    {
+      "category": "真实语料",
+      "claim": "接本地题录库后的 409 条",
+      "value": "Exact 405 / Minor 4，明确结论 409/409",
+      "n": "20 篇 / 409 条",
+      "artifact": "data/experiments/library_real.json",
+      "command": "PYTHONPATH=src python scripts/eval_library_real.py",
+      "note": "库内 408 条；字段不一致检出 4",
+      "screenshot": ""
+    },
+    {
+      "category": "解析",
+      "claim": "真实论文参考文献切分",
+      "value": "529 条 / clean 1.0000",
+      "n": "22 篇",
+      "artifact": "data/experiments/parse_real.json",
+      "command": "PYTHONPATH=src python scripts/eval_parse_real.py",
+      "note": "clean = 标题/年份/作者可解析的比例；非语义正确率",
+      "screenshot": ""
+    },
+    {
+      "category": "解析",
+      "claim": "第五次预注册盲测（3 篇新 PDF）",
+      "value": "qwen3 73 条 100.0% / deepseek_r1 92 条 96.7% / mixtral 35 条 100.0%",
+      "n": "3 篇，协议先于运行固定",
+      "artifact": "data/experiments/blind_test5.json",
+      "command": "见 docs/blind_test_results.md §14",
+      "note": "健康率是启发式题名检查，不是语义正确率；不可重选样本",
+      "screenshot": ""
+    },
+    {
+      "category": "模型",
+      "claim": "Qwen3-1.7B LoRA 支持度判定",
+      "value": "test macro-F1 0.9721 / acc 0.9667；基座 0.4935",
+      "n": "60 条 test（train 80）",
+      "artifact": "data/experiments/support_lora_qwen3_1.7b.json",
+      "command": "PYTHONPATH=src python scripts/eval_support_adapter.py",
+      "note": "构造标签；训练/测试同构造管线，衡量格式与映射学习，不是开放世界泛化",
+      "screenshot": ""
+    },
+    {
+      "category": "图表",
+      "claim": "ChartCheck 400 零样本",
+      "value": "macro-F1 0.7628 / acc 0.6950",
+      "n": "400 条英文图表结论",
+      "artifact": "data/experiments/chartcheck_val400_v3.json",
+      "command": "PYTHONPATH=src python scripts/eval_chartcheck.py --prompt v3 --sample 400",
+      "note": "外部数据，零样本；只看结论与图是否一致",
+      "screenshot": "docs/evidence/shots/phase-46-benchmark-1.7.1.png"
+    },
+    {
+      "category": "图表",
+      "claim": "真实论文图表小样本",
+      "value": "acc 1.0000（支持召回 1.0000，矛盾召回 1.0000）",
+      "n": "10 条断言（样本小）",
+      "artifact": "data/experiments/figure_real26_8b_v3.json",
+      "command": "PYTHONPATH=src python scripts/eval_figure_prompt.py",
+      "note": "平均 2.25 s/条；只作小样本复测",
+      "screenshot": ""
+    },
+    {
+      "category": "扫描件",
+      "claim": "扫描版 PDF OCR 后解析",
+      "value": "23/24 条参考文献",
+      "n": "7 页，150 dpi",
+      "artifact": "data/experiments/ocr_scan_real.json",
+      "command": "PYTHONPATH=src python scripts/eval_ocr_scanned.py --input <pdf>",
+      "note": "42.5 s；字段覆盖 {'title': 23, 'authors': 23, 'year': 23, 'venue': 19, 'doi': 0}",
+      "screenshot": ""
+    },
+    {
+      "category": "国标",
+      "claim": "GB/T 7714-2025 类型码与格式漂移",
+      "value": "类型码 100/100；漂移检出 29/30",
+      "n": "100 条构造条目录入",
+      "artifact": "data/experiments/e4_format.json",
+      "command": "PYTHONPATH=src python scripts/e4_format_check.py",
+      "note": "30 条漂移为构造样本；不检查作者/卷期语义真实性",
+      "screenshot": "docs/evidence/shots/phase-46-report-charts-1.7.1.png"
+    },
+    {
+      "category": "中文覆盖",
+      "claim": "万方开放平台强命中",
+      "value": "111/184 条强命中（60.3%）",
+      "n": "184 条中文未核验题录；试用配额",
+      "artifact": "data/experiments/wanfang_batch.json",
+      "command": "见 docs/chinese_sources.md",
+      "note": "命中 138 条；仅 184 条候选，不是全部中文引用；配额已用完",
+      "screenshot": ""
+    },
+    {
+      "category": "抗伪造",
+      "claim": "真实题录变异检测",
+      "value": "197/200 检出（98.5%）",
+      "n": "5 类 x 40 条 = 200 条；语料 409 条",
+      "artifact": "data/experiments/real_mutation_eval.json",
+      "command": "见 docs/experiments.md",
+      "note": "纯编造 13 条按设计给 Unverified，不计检出；Major 占比高",
+      "screenshot": ""
+    },
+    {
+      "category": "抗伪造",
+      "claim": "题名与 DOI 张冠李戴",
+      "value": "99 对中 Exact 0 条；DOI 不符提示 98 条",
+      "n": "99 对构造样本",
+      "artifact": "data/experiments/doi_swap_eval.json",
+      "command": "PYTHONPATH=src python scripts/eval_doi_swap.py",
+      "note": "构造 swap；不是人工标注；98 条明确写 DOI 指向另一篇",
+      "screenshot": ""
+    },
+    {
+      "category": "引注",
+      "claim": "正文引注抽取与覆盖",
+      "value": "543 处引注；被引条目 318/529（0.6011）",
+      "n": "21/22 篇有引注",
+      "artifact": "data/experiments/citation_anchor_real.json",
+      "command": "PYTHONPATH=src python scripts/eval_citation_anchor.py",
+      "note": "key 自洽 0.8950；自动检查，不是人工准确率；60.1% 是下界",
+      "screenshot": "docs/evidence/shots/phase-33-annotated-citations-1.0.9.png"
+    },
+    {
+      "category": "替换候选",
+      "claim": "上下文检索候选（BGE-M3）",
+      "value": "R@1 0.1986 / R@3 0.3219 / R@5 0.3973 / MRR 0.2948",
+      "n": "438 查询 / 477 候选",
+      "artifact": "data/experiments/replacement_eval.json",
+      "command": "PYTHONPATH=src python scripts/eval_replacement.py",
+      "note": "真值是作者实际引用的文献，不是“哪条支持这句话”；BGE 需端点",
+      "screenshot": "docs/evidence/shots/phase-F2-replacement-v1.1.5.png"
+    },
+    {
+      "category": "撤稿",
+      "claim": "撤稿状态检测",
+      "value": "召回 100%（100/100）；对照误报 0%",
+      "n": "100 撤稿 + 100 对照",
+      "artifact": "data/experiments/retraction_eval.json",
+      "command": "PYTHONPATH=src python scripts/eval_retraction.py",
+      "note": "OpenAlex 同时是样本标签与检测源，衡量一致性不是独立真值",
+      "screenshot": "docs/evidence/shots/phase-F3-retraction-v1.1.4.png"
+    },
+    {
+      "category": "健康画像",
+      "claim": "22 篇真实论文引用健康分",
+      "value": "均值 76.2 / 中位 79.2（范围 48.3–95.9）",
+      "n": "22 篇；支持度关闭",
+      "artifact": "data/experiments/health_real.json",
+      "command": "PYTHONPATH=src python scripts/eval_health_real.py",
+      "note": "规则加权分，不是期刊标准；仅同一解析/核验版本内可比",
+      "screenshot": "docs/evidence/shots/phase-F1-health-v1.1.0.png"
+    },
+    {
+      "category": "性能",
+      "claim": "1000 条离线题录",
+      "value": "解析 0.118 s / 冷启动 0.718 s / 热 0.159 s / 双并发 0.329 s",
+      "n": "1000 条，86263 字符",
+      "artifact": "data/experiments/stress_1000.json",
+      "command": "PYTHONPATH=src python scripts/stress_1000.py",
+      "note": "峰值 5.2 MB；离线、合成题录，不含联网核验",
+      "screenshot": "docs/evidence/shots/phase-3-stress1000-1.0.12.png"
+    },
+    {
+      "category": "CiteMap",
+      "claim": "证据地图语料",
+      "value": "2 主题 / 30 篇 / 7 条断言",
+      "n": "2 主题 x 15 篇；10 条人工示例",
+      "artifact": "data/evidence_map/index.json",
+      "command": "PYTHONPATH=src python -m citeguard.evidence_map --check",
+      "note": "30/30 DOI 可解析；60 格人工核对待补，当前只展示示例抽取",
+      "screenshot": "docs/evidence/shots/phase-49-citemap-1.7.4.png"
+    },
+    {
+      "category": "工程",
+      "claim": "端到端冒烟",
+      "value": "14/14 项通过",
+      "n": "job 94c2214965b1，version 1.0.11",
+      "artifact": "data/experiments/e2e_smoke.json",
+      "command": "PYTHONPATH=src python scripts/e2e_smoke.py",
+      "note": "含上传/报告/批注/导出/证据包/diff；不含人工判断",
+      "screenshot": ""
+    }
+  ],
+  "pending": [
+    {
+      "category": "人审",
+      "item": "100 条三人盲标",
+      "state": "包已生成，κ 待回收；不得把构造标签写作人审金标",
+      "where": "dist/CiteGuard-CN_盲标包_100条_发给标注者.zip"
+    },
+    {
+      "category": "模型",
+      "item": "Qwen3-4B LoRA",
+      "state": "训练/评测进行中，结果未出；出结果前不写 F1",
+      "where": "t3"
+    },
+    {
+      "category": "CiteMap",
+      "item": "60 格人工核对",
+      "state": "只有 10 条人工示例，60 格核对未完成",
+      "where": "t4"
+    },
+    {
+      "category": "Live",
+      "item": "真实页面 30 条句子 hit@3",
+      "state": "浏览器扩展 v2 未做",
+      "where": "B2"
+    }
+  ]
+}

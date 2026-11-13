@@ -2,13 +2,16 @@
 from __future__ import annotations
 
 import json
+import sqlite3
 
 import pytest
 
 import citeguard.metadata_verify as mv
+from citeguard import library_db
 from citeguard.local_library import (
     Library,
     LibraryEntry,
+    LibraryError,
     entry_to_candidate,
     parse_bibtex,
     parse_csl_json,
@@ -489,3 +492,241 @@ def test_add_dedupes_by_doi_even_with_different_titles():
     assert len(lib) == 1
     lib.add([LibraryEntry(title="Another paper", doi="10.2/xyz")])
     assert len(lib) == 2
+
+
+# ---------------------------------------------------------------------------
+# Tags and duplicate merge (library format version 2)
+# ---------------------------------------------------------------------------
+
+def _entry(title="A study of citation practice", year=2020, tags=None, **fields):
+    return LibraryEntry(title=title, year=year, tags=list(tags or []), **fields)
+
+
+def test_tags_set_add_remove_and_normalise():
+    lib = Library([_entry()])
+
+    entry = lib.set_tags(0, ["  方法 ", "方法", "综述", ""])
+    assert entry.tags == ["方法", "综述"]
+    assert entry.to_dict()["tags"] == ["方法", "综述"]
+
+    entry = lib.add_tags(0, ["方法", "REVIEW", "review"])
+    assert entry.tags == ["方法", "综述", "REVIEW"]
+
+    entry = lib.remove_tags(0, ["review", "missing"])
+    assert entry.tags == ["方法", "综述"]
+
+
+def test_tags_reject_oversized_too_many_and_non_string_values():
+    lib = Library([_entry()])
+
+    with pytest.raises(LibraryError, match="最多 8 个"):
+        lib.set_tags(0, [f"t{i}" for i in range(9)])
+    with pytest.raises(LibraryError, match="24 个字符"):
+        lib.set_tags(0, ["x" * 25])
+    with pytest.raises(LibraryError):
+        lib.set_tags(0, "not-a-list")
+    with pytest.raises(LibraryError):
+        lib.set_tags(0, [1])
+    assert lib.entries[0].tags == []
+
+    lib.set_tags(0, [f"t{i}" for i in range(8)])
+    with pytest.raises(LibraryError, match="最多 8 个"):
+        lib.add_tags(0, ["overflow"])
+    assert len(lib.entries[0].tags) == 8
+
+
+def test_unknown_entry_raises_library_error():
+    lib = Library([_entry(doi="10.1000/known")])
+
+    for unknown in (5, -1, True, "unknown title", "10.9999/missing"):
+        with pytest.raises(LibraryError):
+            lib.set_tags(unknown, ["x"])
+
+    assert isinstance(LibraryError("x"), ValueError)
+    assert lib.entries[0].tags == []
+
+
+def test_tags_can_be_addressed_by_id_doi_or_title():
+    lib = Library([
+        _entry(title="A study of citation practice", doi="10.1000/ABC", year=2020),
+        _entry(title="另一种题名", doi="10.1000/xyz", year=2021),
+    ])
+
+    assert lib.set_tags("https://doi.org/10.1000/abc", ["a"]).tags == ["a"]
+    assert lib.set_tags("a  study OF citation practice", ["b"]).tags == ["b"]
+    assert lib.set_tags("1", ["c"]).tags == ["c"]
+    assert lib.set_tags("10.1000/xyz", ["d"]).tags == ["d"]
+
+
+def test_tags_persist_in_json_and_sidecar(tmp_path):
+    path = tmp_path / "library.json"
+    lib = Library([_entry(tags=["方法", "综述"])])
+    lib.save(path)
+
+    raw = json.loads(path.read_text(encoding="utf-8"))
+    assert raw["version"] == 2
+    assert raw["entries"][0]["tags"] == ["方法", "综述"]
+    assert Library.load(path).entries[0].tags == ["方法", "综述"]
+    assert library_db.read_library(library_db.db_path_for(path)).entries[0].tags == ["方法", "综述"]
+
+    # JSON is authoritative; when it is lost the sidecar still carries tags.
+    path.unlink()
+    assert Library.load(path).entries[0].tags == ["方法", "综述"]
+
+
+def test_old_json_without_tags_loads_with_empty_tags(tmp_path):
+    path = tmp_path / "library.json"
+    path.write_text(
+        json.dumps(
+            {
+                "version": 1,
+                "count": 2,
+                "entries": [
+                    {"title": "Old paper", "authors": ["ZHANG San"], "year": 2020},
+                    {"title": "Broken tags", "tags": "oops"},
+                ],
+            },
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+
+    library = Library.load(path)
+    assert [entry.tags for entry in library.entries] == [[], []]
+
+
+def test_find_duplicates_by_doi_does_not_delete():
+    lib = Library([
+        _entry(title="Original title", doi="10.1/ABC"),
+        _entry(title="Different title", doi="https://doi.org/10.1/abc"),
+        _entry(title="Unique paper", doi="10.2/unique"),
+    ])
+
+    groups = lib.find_duplicates()
+
+    assert len(groups) == 1
+    assert groups[0]["ids"] == [0, 1]
+    assert groups[0]["reason"] == "doi"
+    assert [entry["title"] for entry in groups[0]["entries"]] == ["Original title", "Different title"]
+    assert len(lib) == 3
+
+
+def test_find_duplicates_by_title_and_year_ignores_case_and_spaces():
+    lib = Library([
+        _entry(title="Deep  Learning for Graphs", year=2020),
+        _entry(title="deep learning for graphs", year=2020),
+        _entry(title="Deep Learning for Graphs", year=2021),
+    ])
+
+    groups = lib.find_duplicates()
+
+    assert len(groups) == 1
+    assert groups[0]["ids"] == [0, 1]
+    assert groups[0]["reason"] == "title_year"
+
+
+def test_merge_duplicates_keeps_fields_tags_and_removes_drops():
+    keep = _entry(title="Keep", year=2020, tags=["方法"])
+    drop = _entry(
+        title="Drop",
+        year=2019,
+        tags=["综述", "方法"],
+        abstract="来自重复条目的摘要",
+        doi="10.1/merged",
+        authors=["LI Si"],
+        venue="测试期刊",
+    )
+    lib = Library([keep, drop, _entry(title="Other", year=2018)])
+
+    assert lib.merge_duplicates(0, [1]) == 1
+    assert len(lib) == 2
+
+    merged = lib.entries[0]
+    assert (merged.title, merged.year) == ("Keep", 2020)  # kept values win
+    assert merged.abstract == "来自重复条目的摘要"
+    assert merged.doi == "10.1/merged"
+    assert merged.authors == ["LI Si"]
+    assert merged.venue == "测试期刊"
+    assert merged.tags == ["方法", "综述"]
+
+
+def test_merge_rejects_illegal_or_over_budget_requests():
+    lib = Library([_entry(title="A"), _entry(title="B")])
+
+    with pytest.raises(LibraryError, match="保留条目"):
+        lib.merge_duplicates(0, [0])
+    with pytest.raises(LibraryError, match="越界"):
+        lib.merge_duplicates(0, [9])
+    with pytest.raises(LibraryError, match="没有需要合并"):
+        lib.merge_duplicates(0, [])
+    assert len(lib) == 2
+
+    filled = Library([
+        _entry(title="C", tags=[f"t{i}" for i in range(7)]),
+        _entry(title="D", tags=["u1", "u2"]),
+    ])
+    with pytest.raises(LibraryError, match="最多 8 个"):
+        filled.merge_duplicates(0, [1])
+    assert len(filled) == 2  # rejected before mutating either entry
+
+
+def test_merge_duplicates_saves_when_library_was_loaded(tmp_path):
+    path = tmp_path / "library.json"
+    Library([_entry(title="A", tags=["x"]), _entry(title="B", tags=["y"])]).save(path)
+
+    loaded = Library.load(path)
+    assert loaded.merge_duplicates(0, [1]) == 1
+
+    reloaded = Library.load(path)
+    assert len(reloaded) == 1
+    assert reloaded.entries[0].tags == ["x", "y"]
+
+
+def test_sidecar_v1_without_tags_is_migrated(tmp_path):
+    db_path = tmp_path / "library.json.sqlite3"
+    conn = sqlite3.connect(db_path)
+    conn.executescript(
+        """
+        CREATE TABLE entries (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            norm_title TEXT UNIQUE NOT NULL,
+            title TEXT NOT NULL,
+            authors TEXT NOT NULL DEFAULT '[]',
+            venue TEXT NOT NULL DEFAULT '',
+            year INTEGER,
+            volume TEXT NOT NULL DEFAULT '',
+            issue TEXT NOT NULL DEFAULT '',
+            pages TEXT NOT NULL DEFAULT '',
+            doi TEXT NOT NULL DEFAULT '',
+            url TEXT NOT NULL DEFAULT '',
+            abstract TEXT NOT NULL DEFAULT '',
+            doc_type TEXT NOT NULL DEFAULT '',
+            source TEXT NOT NULL DEFAULT 'local',
+            raw TEXT NOT NULL DEFAULT ''
+        );
+        CREATE TABLE meta (key TEXT PRIMARY KEY, value TEXT NOT NULL);
+        """
+    )
+    conn.execute(
+        "INSERT INTO entries(norm_title, title, authors) VALUES('oldpaper', 'Old paper', '[]')"
+    )
+    conn.commit()
+    conn.close()
+
+    library = library_db.read_library(db_path)
+    assert len(library) == 1
+    assert library.entries[0].tags == []
+
+    library.entries[0].tags = ["经典"]
+    library_db.write_library(library, db_path)
+    again = library_db.read_library(db_path)
+    assert again.entries[0].tags == ["经典"]
+
+    conn = sqlite3.connect(db_path)
+    try:
+        columns = {row[1] for row in conn.execute("PRAGMA table_info(entries)")}
+        schema = conn.execute("SELECT value FROM meta WHERE key='schema'").fetchone()[0]
+    finally:
+        conn.close()
+    assert "tags" in columns
+    assert schema == "2"

@@ -1398,3 +1398,18 @@ body.checks-open{overflow:hidden}
 @media(max-width:720px){.repair-panel{padding:14px}.repair-modal{padding:12px}}
 
 .drawer-repair{margin:10px 0 4px}
+
+/* library tags + duplicate merge (1.7.5) */
+.lib-tags{max-width:150px}
+.lib-tag{margin-top:4px}
+.lib-modal{position:fixed;inset:0;z-index:120;display:flex;align-items:center;justify-content:center;padding:24px}
+.lib-modal[hidden]{display:none}
+.lib-modal-backdrop{position:absolute;inset:0;background:rgba(4,10,16,.72);backdrop-filter:blur(3px)}
+.lib-modal-card{position:relative;width:min(520px,100%);max-height:82vh;overflow:auto;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 24px 80px rgba(0,0,0,.45)}
+.lib-modal-card.wide{width:min(680px,100%)}
+.lib-modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.lib-modal-head h2{font-size:19px;margin:0}
+.lib-modal-foot{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
+.lib-dupe{border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:10px}
+.lib-dupe-row{margin:4px 0;font-size:13px;color:var(--text)}
+.lib-dupe .btn{margin-top:8px}

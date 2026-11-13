@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 121,
+  "paths_checked": 127,
   "missing": [],
   "rows": [
     {
@@ -427,8 +427,38 @@
       "evidence": "E76",
       "path": "docs/evidence/shots/phase-49-citemap-1.7.4.png",
       "exists": true
+    },
+    {
+      "evidence": "E77",
+      "path": "docs/evidence_matrix.md",
+      "exists": true
+    },
+    {
+      "evidence": "E77",
+      "path": "data/experiments/evidence_matrix.json",
+      "exists": true
+    },
+    {
+      "evidence": "E77",
+      "path": "docs/evidence/shots/phase-50-evidence-matrix-1.7.5.png",
+      "exists": true
+    },
+    {
+      "evidence": "E78",
+      "path": "docs/library_tags.md",
+      "exists": true
+    },
+    {
+      "evidence": "E78",
+      "path": "docs/evidence/shots/phase-51-library-tags-1.7.5.png",
+      "exists": true
+    },
+    {
+      "evidence": "E78",
+      "path": "docs/evidence/shots/phase-51-library-dupes-1.7.5.png",
+      "exists": true
     }
   ],
-  "shots_registered": 62,
+  "shots_registered": 65,
   "shots_unregistered": []
 }

@@ -20,7 +20,7 @@ from typing import Iterable, Optional
 
 from .local_library import Library, LibraryEntry
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
 
 _SCHEMA = """
 CREATE TABLE IF NOT EXISTS entries (
@@ -38,12 +38,21 @@ CREATE TABLE IF NOT EXISTS entries (
     abstract TEXT NOT NULL DEFAULT '',
     doc_type TEXT NOT NULL DEFAULT '',
     source TEXT NOT NULL DEFAULT 'local',
-    raw TEXT NOT NULL DEFAULT ''
+    raw TEXT NOT NULL DEFAULT '',
+    tags TEXT NOT NULL DEFAULT '[]'
 );
 CREATE INDEX IF NOT EXISTS idx_entries_doi ON entries(doi);
 CREATE INDEX IF NOT EXISTS idx_entries_year ON entries(year);
 CREATE TABLE IF NOT EXISTS meta (key TEXT PRIMARY KEY, value TEXT NOT NULL);
 """
+
+
+def _ensure_tags_column(conn: sqlite3.Connection) -> None:
+    """Add ``entries.tags`` to a version-1 sidecar in place (idempotent)."""
+    columns = {row[1] for row in conn.execute("PRAGMA table_info(entries)")}
+    if "tags" not in columns:
+        conn.execute("ALTER TABLE entries ADD COLUMN tags TEXT NOT NULL DEFAULT '[]'")
+        conn.commit()
 
 
 def db_path_for(json_path: str | Path) -> Path:
@@ -55,6 +64,7 @@ def _connect(path: Path) -> sqlite3.Connection:
     conn = sqlite3.connect(path)
     conn.execute("PRAGMA journal_mode=WAL")
     conn.executescript(_SCHEMA)
+    _ensure_tags_column(conn)
     conn.execute(
         "INSERT OR REPLACE INTO meta(key, value) VALUES('schema', ?)", (str(SCHEMA_VERSION),)
     )
@@ -79,13 +89,13 @@ def write_library(library: Library, db_path: str | Path) -> Path:
                 key, entry.title, json.dumps(entry.authors, ensure_ascii=False),
                 entry.venue, entry.year, entry.volume, entry.issue, entry.pages,
                 entry.doi, entry.url, entry.abstract, entry.doc_type,
-                entry.source, entry.raw,
+                entry.source, entry.raw, json.dumps(list(entry.tags), ensure_ascii=False),
             ))
         conn.executemany(
             "INSERT OR REPLACE INTO entries "
             "(norm_title, title, authors, venue, year, volume, issue, pages, doi, "
-            " url, abstract, doc_type, source, raw) "
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            " url, abstract, doc_type, source, raw, tags) "
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             rows,
         )
         conn.execute(
@@ -103,9 +113,10 @@ def read_library(db_path: str | Path) -> Library:
         return Library()
     conn = sqlite3.connect(db_path)
     try:
+        _ensure_tags_column(conn)
         rows = conn.execute(
             "SELECT title, authors, venue, year, volume, issue, pages, doi, url, "
-            "abstract, doc_type, source, raw FROM entries ORDER BY id"
+            "abstract, doc_type, source, raw, tags FROM entries ORDER BY id"
         ).fetchall()
     except sqlite3.DatabaseError:
         return Library()
@@ -117,10 +128,17 @@ def read_library(db_path: str | Path) -> Library:
             authors = json.loads(row[1] or "[]")
         except Exception:
             authors = []
+        try:
+            tags = json.loads(row[13] or "[]")
+        except Exception:
+            tags = []
+        if not isinstance(tags, list):
+            tags = []
         entries.append(LibraryEntry(
             title=row[0], authors=list(authors), venue=row[2], year=row[3],
             volume=row[4], issue=row[5], pages=row[6], doi=row[7], url=row[8],
             abstract=row[9], doc_type=row[10], source=row[11] or "local", raw=row[12],
+            tags=[tag for tag in tags if isinstance(tag, str)],
         ))
     return Library(entries)
 

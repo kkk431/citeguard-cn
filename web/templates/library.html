@@ -95,12 +95,13 @@
   <div class="section-head"><h2>库内题录</h2><span class="hint" id="library-count-hint">按页查看全部题录</span></div>
   <div class="lib-toolbar">
     <input id="library-search" class="lib-search" type="search" placeholder="搜索题名 / 作者 / 来源 / DOI" autocomplete="off">
+    <button type="button" class="btn btn-ghost btn-sm" id="library-dupes-btn">检查重复</button>
     <button type="button" class="btn btn-ghost btn-sm" id="library-enrich-btn"{% if not count or with_abstract >= count %} hidden{% endif %}>自动补摘要（联网）</button>
     <span class="mono-sm" id="library-toolbar-hint" style="color:var(--muted)"></span>
   </div>
   <div class="panel table-wrap" id="library-panel" style="padding:0"{% if not sample %} hidden{% endif %}>
     <table class="table" id="library-table">
-      <thead><tr><th>题名</th><th>作者</th><th>来源</th><th>年份</th><th>DOI</th><th>摘要</th><th>操作</th></tr></thead>
+      <thead><tr><th>题名</th><th>作者</th><th>来源</th><th>年份</th><th>DOI</th><th>摘要</th><th>标签</th><th>操作</th></tr></thead>
       <tbody id="library-body">
         {% for e in sample %}
         <tr>
@@ -110,6 +111,7 @@
           <td class="mono-sm">{{ e.year or '—' }}</td>
           <td class="mono-sm" style="max-width:180px">{{ e.doi or '—' }}</td>
           <td class="mono-sm">{{ '有' if e.abstract else '—' }}</td>
+          <td class="mono-sm">{{ (e.tags or [])|join('、') or '—' }}</td>
           <td></td>
         </tr>
         {% endfor %}
@@ -119,6 +121,28 @@
   </div>
   <div class="empty" id="library-empty"{% if sample %} hidden{% endif %}>题库为空。导入一份题录导出文件后，中文文献也能被核验。</div>
 </section>
+
+<div class="lib-modal" id="library-tag-modal" hidden>
+  <div class="lib-modal-backdrop" data-close="tag"></div>
+  <div class="lib-modal-card" role="dialog" aria-modal="true" aria-labelledby="tag-modal-title">
+    <div class="lib-modal-head"><h2 id="tag-modal-title">编辑标签</h2><button type="button" class="icon-btn" data-close="tag" aria-label="关闭">×</button></div>
+    <p class="hint" id="tag-entry-title" style="margin:0 0 10px"></p>
+    <input class="input" id="tag-input" placeholder="多个标签用逗号分隔，最多 8 个" style="width:100%">
+    <div class="lib-modal-foot">
+      <button type="button" class="btn btn-ghost" data-close="tag">取消</button>
+      <button type="button" class="btn btn-primary" id="tag-save">保存标签</button>
+    </div>
+  </div>
+</div>
+
+<div class="lib-modal" id="library-dupes-modal" hidden>
+  <div class="lib-modal-backdrop" data-close="dupes"></div>
+  <div class="lib-modal-card wide" role="dialog" aria-modal="true" aria-labelledby="dupes-modal-title">
+    <div class="lib-modal-head"><h2 id="dupes-modal-title">可能的重复题录</h2><button type="button" class="icon-btn" data-close="dupes" aria-label="关闭">×</button></div>
+    <div id="dupes-body"></div>
+    <div class="lib-modal-foot"><button type="button" class="btn btn-ghost" data-close="dupes">关闭</button></div>
+  </div>
+</div>
 {% endblock %}
 {% block scripts %}
 <script src="/static/vendor/echarts.min.js"></script>

@@ -1,3 +1,10 @@
+## [1.7.5] - 2026-11-14
+
+- 题录库支持标签（最多 8 个、24 字符）与重复合并：DOI / 题名+年份分组，人工确认后合并；JSON 主存储、SQLite sidecar schema 2 向后兼容迁移。
+- 新增 `GET /api/library/duplicates`、`POST /api/library/duplicates/merge`、`POST /api/library/{index}/tags`。
+- 新增 `docs/evidence_matrix.md`（脚本生成，24 条对外数字 → 证据 JSON/复现/样本/口径）与 `tests/test_evidence_matrix.py`。
+- 808 passed；文档站新增「证据矩阵」「题录库标签」。
+
 # Changelog
 
 All notable changes to CiteGuard-CN. Earlier pre-1.0 history is condensed.
