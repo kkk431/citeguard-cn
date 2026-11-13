@@ -10,7 +10,9 @@
   const overviewEl = document.getElementById("ag-overview");
   const tableCardEl = document.getElementById("ag-table-card");
   const bodyEl = document.getElementById("ag-body");
+  const pagerMount = document.getElementById("ag-pager");
   const csvBtn = document.getElementById("ag-csv");
+  let pager = null;
 
   function esc(value) {
     return String(value == null ? "" : value).replace(/[&<>"']/g, function (ch) {
@@ -74,9 +76,12 @@
       : '<p class="ag-note">这批报告里没有出现可归类的问题。</p>';
   }
 
-  function renderTable(data) {
+  let tableData = null;
+
+  function paintRows() {
     const tbody = document.getElementById("ag-rows");
-    tbody.innerHTML = (data.papers || []).map(function (p) {
+    const papers = pager && tableData ? pager.slice(tableData.papers || []) : ((tableData && tableData.papers) || []);
+    tbody.innerHTML = papers.map(function (p) {
       const grade = p.grade || "未评";
       const cls = grade === "未评" ? "N" : grade;
       return "<tr>" +
@@ -94,6 +99,20 @@
         '<td><a href="/report/' + encodeURIComponent(p.job_id) + '">查看</a></td>' +
         "</tr>";
     }).join("");
+  }
+
+  function renderTable(data) {
+    tableData = data;
+    if (!pager && window.CGList && pagerMount) {
+      pager = window.CGList.create({
+        mount: pagerMount,
+        pageSize: 20,
+        param: "page",
+        onChange: paintRows,
+      });
+    }
+    if (pager) pager.setTotal((data.papers || []).length);
+    paintRows();
     const note = document.getElementById("ag-note");
     const missing = (data.missing || []).length;
     const dup = (data.duplicates || []).length;

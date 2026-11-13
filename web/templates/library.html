@@ -92,7 +92,7 @@
 </section>
 
 <section class="wrap section">
-  <div class="section-head"><h2>库内题录</h2><span class="hint" id="library-count-hint">最多展示 20 条</span></div>
+  <div class="section-head"><h2>库内题录</h2><span class="hint" id="library-count-hint">按页查看全部题录</span></div>
   <div class="lib-toolbar">
     <input id="library-search" class="lib-search" type="search" placeholder="搜索题名 / 作者 / 来源 / DOI" autocomplete="off">
     <button type="button" class="btn btn-ghost btn-sm" id="library-enrich-btn"{% if not count or with_abstract >= count %} hidden{% endif %}>自动补摘要（联网）</button>
@@ -115,6 +115,7 @@
         {% endfor %}
       </tbody>
     </table>
+    <div class="pager" id="library-pager" aria-label="题录分页"></div>
   </div>
   <div class="empty" id="library-empty"{% if sample %} hidden{% endif %}>题库为空。导入一份题录导出文件后，中文文献也能被核验。</div>
 </section>

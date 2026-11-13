@@ -1360,15 +1360,110 @@
     document.body.classList.remove("page-viewer-open");
   }
 
-  function closeEvidence() {
-    const drawer = document.getElementById("evidence-drawer");
+  let checksTrigger = null;
+
+  const CHECKS_PANELS = {
+    source: ["source-health"],
+    figure: ["figure-checks"],
+    support: ["support-summary"],
+    citation: ["citation-consistency", "citation-coverage", "citation-panel"],
+    charts: ["report-charts"],
+    diff: ["diff-result"],
+  };
+
+  function checksTabs() {
+    return Array.prototype.slice.call(document.querySelectorAll(".checks-tab"));
+  }
+
+  function visibleChecks(name) {
+    return (CHECKS_PANELS[name] || []).some(function (id) {
+      const el = document.getElementById(id);
+      return el && !el.hidden && el.textContent.trim().length > 0;
+    });
+  }
+
+  function activateChecksTab(name) {
+    checksTabs().forEach(function (btn) {
+      const on = btn.getAttribute("data-checks-tab") === name;
+      btn.classList.toggle("on", on);
+      btn.setAttribute("aria-selected", on ? "true" : "false");
+    });
+    document.querySelectorAll(".checks-pane").forEach(function (pane) {
+      pane.classList.toggle("on", pane.getAttribute("data-checks-pane") === name);
+    });
+    const body = document.querySelector(".checks-body");
+    if (body) body.scrollTop = 0;
+    window.requestAnimationFrame(function () {
+      if (window.CGCharts && window.CGCharts.resize) window.CGCharts.resize();
+    });
+  }
+
+  function syncChecksTabs() {
+    let firstVisible = null;
+    checksTabs().forEach(function (btn) {
+      const name = btn.getAttribute("data-checks-tab");
+      const has = visibleChecks(name);
+      btn.hidden = !has;
+      if (has && !firstVisible) firstVisible = name;
+    });
+    const empty = document.getElementById("checks-empty");
+    if (empty) empty.hidden = Boolean(firstVisible);
+    const active = document.querySelector(".checks-tab.on");
+    if ((!active || active.hidden) && firstVisible) activateChecksTab(firstVisible);
+  }
+
+  function openChecksDrawer() {
+    const drawer = document.getElementById("checks-drawer");
+    if (!drawer) return;
+    checksTrigger = document.activeElement;
+    syncChecksTabs();
+    drawer.hidden = false;
+    document.body.classList.add("checks-open");
+    const active = document.querySelector(".checks-tab.on") || document.querySelector(".checks-tab");
+    if (active) active.focus();
+  }
+
+  function closeChecksDrawer() {
+    const drawer = document.getElementById("checks-drawer");
+    if (!drawer) return;
+    drawer.hidden = true;
+    document.body.classList.remove("checks-open");
+    if (checksTrigger && typeof checksTrigger.focus === "function") checksTrigger.focus();
+    checksTrigger = null;
+  }
+
+  window.__syncChecksTabs = syncChecksTabs;
+  window.__openChecks = function (name) {
+    openChecksDrawer();
+    if (name) activateChecksTab(name);
+    syncChecksTabs();
+  };
+
+  function closeEvidence() {    const drawer = document.getElementById("evidence-drawer");
     if (drawer) drawer.hidden = true;
     document.body.classList.remove("drawer-open");
   }
 
   document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") { closeEvidence(); closeRefDrawer(); closePageViewer(); closeFixPreview(); }
+    if (e.key === "Escape") { closeEvidence(); closeRefDrawer(); closePageViewer(); closeFixPreview(); closeChecksDrawer(); }
   });
+
+  const checksOpenBtn = document.getElementById("open-checks");
+  if (checksOpenBtn) checksOpenBtn.addEventListener("click", openChecksDrawer);
+  const checksCloseBtn = document.getElementById("checks-close");
+  if (checksCloseBtn) checksCloseBtn.addEventListener("click", closeChecksDrawer);
+  const checksDrawer = document.getElementById("checks-drawer");
+  if (checksDrawer) {
+    checksDrawer.addEventListener("click", function (e) {
+      if (e.target === checksDrawer || e.target.getAttribute("data-checks-close") === "1") closeChecksDrawer();
+    });
+  }
+  checksTabs().forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      activateChecksTab(btn.getAttribute("data-checks-tab"));
+    });
+  });
+  syncChecksTabs();
 
   const refBackdrop = document.getElementById("ref-drawer-backdrop");
   if (refBackdrop) refBackdrop.addEventListener("click", closeRefDrawer);
@@ -1903,6 +1998,7 @@ if (manualCsvBtn) {
     const items = d.items || [];
     if (!items.length) {
       result.innerHTML = '<div class="diff-empty">\u4e24\u4efd\u62a5\u544a\u6ca1\u6709\u53ef\u89c1\u5dee\u5f02\u3002</div>';
+      if (window.__openChecks) window.__openChecks("diff");
       return;
     }
     let html = '<div class="diff-summary">' +
@@ -1927,6 +2023,7 @@ if (manualCsvBtn) {
         body + "</article>";
     }).join("") + "</div>";
     result.innerHTML = html;
+    if (window.__openChecks) window.__openChecks("diff");
   }
 
   btn.addEventListener("click", async function () {

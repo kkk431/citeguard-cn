@@ -92,32 +92,13 @@
             <div class="inline-note" id="health-note"></div>
           </div>
           <div class="diff-bar">
+            <button class="btn ghost sm" type="button" id="open-checks">检查明细</button>
             <button class="btn ghost sm" type="button" id="btn-diff">对比历史报告</button>
             <div class="diff-picker hidden" id="diff-picker">
               <select class="select" id="diff-against" aria-label="选择旧报告"></select>
               <button class="btn sm" type="button" id="btn-diff-run">开始对比</button>
             </div>
           </div>
-          <details class="advanced-checks" id="advanced-checks">
-            <summary>
-              <span>检查明细</span>
-              <small>来源健康 · 图表抽检 · 支持度 · 正文引注 · 趋势</small>
-            </summary>
-            <div class="overview-grid">
-              <div class="panel compact hidden" id="source-health"></div>
-              <div class="panel compact hidden" id="figure-checks"></div>
-              <div class="panel compact hidden" id="support-summary"></div>
-              <div class="panel compact hidden" id="citation-consistency"></div>
-              <div class="panel compact hidden" id="citation-coverage"></div>
-            </div>
-            <div class="panel compact hidden" id="citation-panel">
-              <div class="panel-head"><h3>正文引注</h3><span class="muted" id="citation-count"></span></div>
-              <ol class="citation-list" id="citation-list"></ol>
-              <div class="inline-note" id="citation-note"></div>
-            </div>
-            <div class="chart-grid" id="report-charts"></div>
-            <div id="diff-result"></div>
-          </details>
         </div>
       </div>
       <div class="refs-pane hidden" id="refs-pane">
@@ -216,7 +197,56 @@
       <button class="btn btn-ghost btn-sm" type="button" id="fix-copy">复制全部修订条目</button>
       <a class="btn btn-sm" id="fix-download" href="#">下载 TXT</a>
     </div>
-  </div>
+</div>
+</div>
+<div id="checks-drawer" class="checks-drawer" hidden>
+  <div class="checks-backdrop" data-checks-close="1"></div>
+  <aside class="checks-panel" role="dialog" aria-modal="true" aria-labelledby="checks-title">
+    <div class="checks-head">
+      <div>
+        <strong id="checks-title">检查明细</strong>
+        <span class="mono-sm" id="checks-subtitle">按需查看，不会改变报告布局</span>
+      </div>
+      <button type="button" class="drawer-close" id="checks-close" aria-label="关闭检查明细">×</button>
+    </div>
+    <div class="checks-tabs" role="tablist" aria-label="检查明细分类">
+      <button class="checks-tab on" type="button" role="tab" aria-selected="true" data-checks-tab="source">来源健康</button>
+      <button class="checks-tab" type="button" role="tab" aria-selected="false" data-checks-tab="figure">图表抽检</button>
+      <button class="checks-tab" type="button" role="tab" aria-selected="false" data-checks-tab="support">支持度</button>
+      <button class="checks-tab" type="button" role="tab" aria-selected="false" data-checks-tab="citation">正文引注</button>
+      <button class="checks-tab" type="button" role="tab" aria-selected="false" data-checks-tab="charts">图表</button>
+      <button class="checks-tab" type="button" role="tab" aria-selected="false" data-checks-tab="diff">复检</button>
+    </div>
+    <div class="checks-body">
+      <p class="inline-note" id="checks-empty" hidden>本次没有可展开的检查明细。</p>
+      <section class="checks-pane on" data-checks-pane="source">
+        <div id="source-health" class="panel compact hidden"></div>
+      </section>
+      <section class="checks-pane" data-checks-pane="figure">
+        <div class="panel compact hidden" id="figure-checks"></div>
+      </section>
+      <section class="checks-pane" data-checks-pane="support">
+        <div class="panel compact hidden" id="support-summary"></div>
+      </section>
+      <section class="checks-pane" data-checks-pane="citation">
+        <div class="overview-grid">
+          <div class="panel compact hidden" id="citation-consistency"></div>
+          <div class="panel compact hidden" id="citation-coverage"></div>
+        </div>
+        <div class="panel compact hidden" id="citation-panel">
+          <div class="panel-head"><h3>正文引注</h3><span class="muted" id="citation-count"></span></div>
+          <ol class="citation-list" id="citation-list"></ol>
+          <div class="inline-note" id="citation-note"></div>
+        </div>
+      </section>
+      <section class="checks-pane" data-checks-pane="charts">
+        <div class="chart-grid" id="report-charts"></div>
+      </section>
+      <section class="checks-pane" data-checks-pane="diff">
+        <div id="diff-result"></div>
+      </section>
+    </div>
+  </aside>
 </div>
 {% endblock %}
 {% block scripts %}<script src="/static/vendor/echarts.min.js"></script>

@@ -1,6 +1,6 @@
 # 引证卫士 CiteGuard-CN
 
-> **v1.7.1** · 2026-11-13 · Apache-2.0
+> **v1.7.3** · 2026-11-13 · Apache-2.0
 
 > 给中文论文做一次「引文体检」：**引文是否真实存在、引用是否支持正文那句话、格式是否符合 GB/T 7714-2025**。每条结论都带证据链接。
 
@@ -115,6 +115,8 @@ no_evidence    [  0,   0,   0,  20 ]
 - **批量判定**：一次提交后显示四档判定分布环；**报告页**的结论/支持度/格式分布升级为交互条形图，并保留“表格视图”折叠表。
 
 图表库为仓库内置的 Apache ECharts 5.5.1（Apache-2.0，`web/static/vendor/echarts.min.js`），不走 CDN，离线与 Docker 部署都能用；深浅色主题自动切换。实现与边界见 [docs/charts.md](docs/charts.md)。
+
+长列表（报告历史、题录库、批量聚合、批量判定）统一分页：页码、上一页/下一页、每页 10/20/50，页码写入 URL，刷新或分享链接会停在原页；改搜索/筛选自动回到第 1 页。报告页的「检查明细」（来源健康、图表抽检、支持度、正文引注、图表、复检）改为右侧抽屉，按标签查看，不再把报告正文往下推；Esc 或遮罩关闭。实现见 [docs/ui_patterns.md](docs/ui_patterns.md)。
 
 ## 快速开始
 
@@ -386,8 +388,8 @@ PYTHONPATH=src python3 scripts/enrich_library_abstracts.py
 
 ## 复现与发布
 
-- 版本：**v1.7.1**；变更见 `CHANGELOG.md`，发布说明见 `docs/release_notes_v1.0.md`
-- 单元测试：`PYTHONPATH=src python -m pytest tests -q`（671 项）
+- 版本：**v1.7.3**；变更见 `CHANGELOG.md`，发布说明见 `docs/release_notes_v1.0.md`
+- 单元测试：`PYTHONPATH=src python -m pytest tests -q`（673 项）
 - 主评测复现：`PYTHONPATH=src python scripts/reproduce_all.py`；每个对外数字的 JSON/命令/样本量见 `docs/evidence_index.md`
 - 文档站：`pip install -r requirements-docs.txt && mkdocs serve`
 - 数据集包：`dist/CiteGuard-CN_ClaimSupport-CN-300_v1.0.zip`（CC-BY-4.0，构造标签）

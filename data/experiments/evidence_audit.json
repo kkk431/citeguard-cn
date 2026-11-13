@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 111,
+  "paths_checked": 116,
   "missing": [],
   "rows": [
     {
@@ -377,8 +377,33 @@
       "evidence": "E73",
       "path": "docs/evidence/shots/phase-46-report-charts-1.7.1.png",
       "exists": true
+    },
+    {
+      "evidence": "E74",
+      "path": "docs/ui_patterns.md",
+      "exists": true
+    },
+    {
+      "evidence": "E74",
+      "path": "docs/evidence/shots/phase-47-history-pager-1.7.3.png",
+      "exists": true
+    },
+    {
+      "evidence": "E74",
+      "path": "docs/evidence/shots/phase-47-library-pager-1.7.3.png",
+      "exists": true
+    },
+    {
+      "evidence": "E74",
+      "path": "docs/evidence/shots/phase-47-report-checks-1.7.3.png",
+      "exists": true
+    },
+    {
+      "evidence": "E74",
+      "path": "docs/evidence/shots/phase-47-report-checks-charts-1.7.3.png",
+      "exists": true
     }
   ],
-  "shots_registered": 55,
+  "shots_registered": 59,
   "shots_unregistered": []
 }

@@ -47,7 +47,7 @@
   </div>
   <table class="table">
     <thead><tr><th></th><th>创建时间</th><th>文件</th><th>状态</th><th>进度</th><th>操作</th></tr></thead>
-    <tbody>
+    <tbody id="history-body">
     {% for job in jobs %}
       <tr>
         <td>{% if job.has_report %}<input type="checkbox" class="cmp" value="{{ job.id }}" aria-label="选择 {{ job.filename or job.id }}">{% endif %}</td>
@@ -69,6 +69,7 @@
     {% endfor %}
     </tbody>
   </table>
+  <div class="pager" id="history-pager" aria-label="报告分页"></div>
   {% else %}
   <p class="muted">还没有任务记录。回到<a href="/workspace">工作台</a>上传一份文献试试。</p>
   {% endif %}
@@ -230,5 +231,19 @@
     });
   });
 })();
+
+document.addEventListener('DOMContentLoaded', function () {
+  var body = document.getElementById('history-body');
+  var mount = document.getElementById('history-pager');
+  if (!body || !mount || !window.CGList) return;
+  var rows = Array.prototype.slice.call(body.querySelectorAll('tr'));
+  function paint(page, size) {
+    var start = (page - 1) * size;
+    rows.forEach(function (row, idx) { row.hidden = idx < start || idx >= start + size; });
+  }
+  var pager = window.CGList.create({ mount: mount, pageSize: 20, param: 'page', onChange: paint });
+  pager.setTotal(rows.length);
+  paint(pager.page, pager.size);
+});
 </script>
 {% endblock %}

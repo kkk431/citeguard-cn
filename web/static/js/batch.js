@@ -109,10 +109,27 @@
         "</td><td>" + labelChip(r.label) + "</td><td class='bt-conf'>" + confText(r.confidence) +
         "</td><td class='reason'>" + esc(r.reason || "") + "</td></tr>";
     });
-    html += "</tbody></table>";
+    html += "</tbody></table>" +
+      '<div class="pager" id="bt-pager" aria-label="批量结果分页"></div>';
     resultEl.innerHTML = html;
     metaEl.textContent = rows.length + " 条 · 可导出 CSV";
     mountVerdictChart(rows);
+    paginateRows();
+  }
+
+  function paginateRows() {
+    if (!window.CGList) return;
+    const body = resultEl.querySelector(".bt-table tbody");
+    const mount = document.getElementById("bt-pager");
+    if (!body || !mount) return;
+    const trs = Array.prototype.slice.call(body.querySelectorAll("tr"));
+    function paint(page, size) {
+      const start = (page - 1) * size;
+      trs.forEach(function (tr, idx) { tr.hidden = idx < start || idx >= start + size; });
+    }
+    const pager = window.CGList.create({ mount: mount, pageSize: 20, onChange: paint });
+    pager.setTotal(trs.length);
+    paint(pager.page, pager.size);
   }
 
   function csvCell(v) {

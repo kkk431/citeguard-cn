@@ -836,11 +836,13 @@ def test_section_tabs_group_related_tasks(plain_client):
         assert label in about
 
 
-def test_report_advanced_checks_start_collapsed():
+def test_report_checks_use_a_side_drawer():
     from pathlib import Path
     html = Path("web/templates/report.html").read_text(encoding="utf-8")
-    assert 'id="advanced-checks"' in html
-    assert 'id="advanced-checks" open' not in html
+    assert 'id="checks-drawer"' in html
+    assert 'id="open-checks"' in html
+    assert 'id="advanced-checks"' not in html
+    assert 'data-checks-pane="citation"' in html
     assert "检查明细" in html
 
 def test_history_trend_endpoint_returns_daily_points(plain_client):
@@ -885,3 +887,31 @@ def test_echarts_vendor_is_bundled():
     vendor = Path("web/static/vendor/echarts.min.js")
     assert vendor.exists()
     assert vendor.stat().st_size > 900_000
+
+
+def test_long_lists_use_the_shared_pager():
+    from pathlib import Path
+    base = Path("web/templates/base.html").read_text(encoding="utf-8")
+    assert "pager.js" in base
+    pager = Path("web/static/js/pager.js").read_text(encoding="utf-8")
+    assert "window.CGList" in pager
+    assert "pager-btn" in pager
+
+    for name, mount in (
+        ("history.html", "history-pager"),
+        ("library.html", "library-pager"),
+        ("aggregate.html", "ag-pager"),
+    ):
+        html = Path("web/templates/" + name).read_text(encoding="utf-8")
+        assert 'id="' + mount + '"' in html, name
+    batch = Path("web/static/js/batch.js").read_text(encoding="utf-8")
+    assert "bt-pager" in batch
+    assert "CGList.create" in batch
+
+
+def test_report_checks_drawer_is_wired():
+    from pathlib import Path
+    js = Path("web/static/js/report.js").read_text(encoding="utf-8")
+    assert "checks-drawer" in js
+    assert "openChecksDrawer" in js
+    assert "data-checks-tab" in js

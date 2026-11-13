@@ -126,9 +126,16 @@
     builds.forEach(function (_builder, el) { draw(el); });
   }
 
+  function resize() {
+    charts.forEach(function (chart) {
+      if (chart && !chart.isDisposed()) chart.resize();
+    });
+  }
+
   window.CGCharts = {
     mount: mount,
     refresh: refresh,
+    resize: resize,
     tokens: tokens,
     base: base,
     axis: axis,

@@ -17,9 +17,11 @@
   const countHint = document.getElementById("library-count-hint");
   const toolbarHint = document.getElementById("library-toolbar-hint");
   const enrichBtn = document.getElementById("library-enrich-btn");
+  const pagerMount = document.getElementById("library-pager");
 
   let entries = [];
   let missing = 0;
+  let pager = null;
 
   function files() {
     return Array.from((input && input.files) || []);
@@ -59,7 +61,7 @@
       if (countHint) {
         countHint.textContent = entries.length
           ? "共 " + data.count + " 条 · 缺摘要 " + missing + " 条"
-          : "最多展示 20 条";
+          : "题录库为空";
       }
       if (empty) empty.hidden = entries.length > 0;
       if (panel) panel.hidden = entries.length === 0;
@@ -97,12 +99,18 @@
     return td;
   }
 
-  function render() {
+  function filteredRows() {
+    const query = (search && search.value || "").trim().toLowerCase();
+    return entries.filter(function (entry) { return matches(entry, query); });
+  }
+
+  function paint() {
     if (!tableBody) return;
     const query = (search && search.value || "").trim().toLowerCase();
-    const rows = entries.filter(function (entry) { return matches(entry, query); });
+    const rows = filteredRows();
+    const pageRows = pager ? pager.slice(rows) : rows;
     tableBody.textContent = "";
-    rows.forEach(function (entry) {
+    pageRows.forEach(function (entry) {
       const tr = document.createElement("tr");
 
       const title = makeCell(entry.title, "", "380px");
@@ -140,6 +148,21 @@
       tableBody.appendChild(tr);
     }
     if (toolbarHint && query) toolbarHint.textContent = "匹配 " + rows.length + " 条";
+  }
+
+  function render() {
+    if (!tableBody) return;
+    const rows = filteredRows();
+    if (!pager && window.CGList && pagerMount) {
+      pager = window.CGList.create({
+        mount: pagerMount,
+        pageSize: 20,
+        param: "page",
+        onChange: paint,
+      });
+    }
+    if (pager) pager.setTotal(rows.length);
+    paint();
   }
 
   async function deleteEntry(entry) {
@@ -369,7 +392,10 @@
   if (suggRun) suggRun.addEventListener("click", runSuggest);
   if (suggInput) suggInput.addEventListener("keydown", function (ev) { if (ev.key === "Enter") runSuggest(); });
 
-  if (search) search.addEventListener("input", render);
+  if (search) search.addEventListener("input", function () {
+    if (pager) pager.reset();
+    render();
+  });
   if (enrichBtn) enrichBtn.addEventListener("click", enrichAbstracts);
 
   initCharts();

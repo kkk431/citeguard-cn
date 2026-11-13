@@ -2,6 +2,17 @@
 
 All notable changes to CiteGuard-CN. Earlier pre-1.0 history is condensed.
 
+## [1.7.3] - 2026-11-13
+
+### Added
+- Shared long-list pager (`web/static/js/pager.js`): page numbers, previous/next, 10/20/50 page sizes, URL state (`?page=&size=`), and “第 a–b 条 / 共 N 条”. Applied to history, library, cohort table and batch results.
+- Report “检查明细” now opens as a right-side drawer with six tabs (source health, figure checks, support, in-text citations, charts, diff) instead of an inline expanding block; Esc/backdrop close, focus returns to the trigger, and charts resize when a tab becomes visible.
+- Evidence: `docs/ui_patterns.md`, `scripts/capture_ux_1_7_3.py`, four screenshots in `docs/evidence/shots/phase-47-*.png`.
+
+### Fixed
+- Pagination in `history.html` now initializes on `DOMContentLoaded`, because its inline script runs before the shared pager loads.
+- The report drawer no longer mounts ECharts at zero width while hidden; `CGCharts.resize()` runs when a tab is activated.
+
 ## [1.7.1] - 2026-11-13
 
 ### Added
