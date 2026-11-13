@@ -395,3 +395,23 @@ def test_page_identification_failure_falls_back_to_keyword_search(monkeypatch):
     assert result["candidates"][0]["doi"] == "10.1234/live.test"
     assert result["evidence"]["quote"] in abstract
 
+def test_page_reference_ranking_prefers_title_over_long_abstract(monkeypatch):
+    """Page references are ranked by title; a long generic abstract must not win."""
+    from citeguard import live_check as lc
+
+    claim = "Attention is all you need for sequence modeling [12]."
+    terms = lc._terms(claim)
+    numbers = lc._numbers(claim)
+    title_match = lc.Candidate(
+        title="Attention is All You Need",
+        abstract="A long abstract about unrelated biology and clinical trials.",
+        source="test",
+    )
+    abstract_match = lc.Candidate(
+        title="Unrelated title",
+        abstract="Attention is all you need for sequence modeling.",
+        source="test",
+    )
+    assert lc._page_candidate_score(terms, numbers, title_match) > lc._page_candidate_score(
+        terms, numbers, abstract_match
+    )

@@ -1,19 +1,19 @@
 {
-  "generated_at": "2026-11-14T02:18:27+08:00",
+  "generated_at": "2026-11-14T02:29:56+08:00",
   "dataset": "public",
   "n": 30,
   "n_pages": 5,
   "k": 3,
-  "hit@1": 0.4667,
-  "hit@3": 0.6,
-  "p50_ms": 16.7,
-  "p95_ms": 3528.2,
-  "mean_ms": 383.7,
+  "hit@1": 0.5667,
+  "hit@3": 0.7,
+  "p50_ms": 7.8,
+  "p95_ms": 16.5,
+  "mean_ms": 9.4,
   "label_counts": {
     "support": 0,
-    "partial": 18,
+    "partial": 12,
     "contradict": 0,
-    "no_evidence": 12
+    "no_evidence": 18
   },
   "n_failures": 0,
   "n_no_candidates": 0,
@@ -27,20 +27,20 @@
       "n_candidates": 5,
       "hit@1": false,
       "hit@3": false,
-      "first_hit_rank": null,
-      "latency_ms": 93.3,
+      "first_hit_rank": 5,
+      "latency_ms": 19.0,
       "reference_index": 2
     },
     {
       "id": "pub-002",
       "page_id": "arxiv-2611-02510",
-      "label": "partial",
-      "confidence": 0.464,
+      "label": "no_evidence",
+      "confidence": 0.0,
       "n_candidates": 5,
-      "hit@1": false,
-      "hit@3": false,
-      "first_hit_rank": null,
-      "latency_ms": 16.5,
+      "hit@1": true,
+      "hit@3": true,
+      "first_hit_rank": 1,
+      "latency_ms": 11.5,
       "reference_index": 11
     },
     {
@@ -49,10 +49,10 @@
       "label": "no_evidence",
       "confidence": 0.0,
       "n_candidates": 5,
-      "hit@1": false,
-      "hit@3": false,
-      "first_hit_rank": null,
-      "latency_ms": 14.8,
+      "hit@1": true,
+      "hit@3": true,
+      "first_hit_rank": 1,
+      "latency_ms": 12.7,
       "reference_index": 104
     },
     {
@@ -64,7 +64,7 @@
       "hit@1": true,
       "hit@3": true,
       "first_hit_rank": 1,
-      "latency_ms": 18.1,
+      "latency_ms": 12.8,
       "reference_index": 106
     },
     {
@@ -76,7 +76,7 @@
       "hit@1": true,
       "hit@3": true,
       "first_hit_rank": 1,
-      "latency_ms": 16.7,
+      "latency_ms": 11.9,
       "reference_index": 319
     },
     {
@@ -88,19 +88,19 @@
       "hit@1": true,
       "hit@3": true,
       "first_hit_rank": 1,
-      "latency_ms": 16.7,
+      "latency_ms": 10.5,
       "reference_index": 176
     },
     {
       "id": "pub-007",
       "page_id": "arxiv-2610-41688",
-      "label": "partial",
-      "confidence": 0.4,
+      "label": "no_evidence",
+      "confidence": 0.0,
       "n_candidates": 5,
       "hit@1": false,
       "hit@3": false,
       "first_hit_rank": null,
-      "latency_ms": 95.2,
+      "latency_ms": 15.3,
       "reference_index": 28
     },
     {
@@ -109,10 +109,10 @@
       "label": "no_evidence",
       "confidence": 0.0,
       "n_candidates": 5,
-      "hit@1": false,
+      "hit@1": true,
       "hit@3": true,
-      "first_hit_rank": 2,
-      "latency_ms": 20.0,
+      "first_hit_rank": 1,
+      "latency_ms": 13.4,
       "reference_index": 55
     },
     {
@@ -124,7 +124,7 @@
       "hit@1": false,
       "hit@3": false,
       "first_hit_rank": null,
-      "latency_ms": 26.7,
+      "latency_ms": 14.0,
       "reference_index": 14
     },
     {
@@ -133,10 +133,10 @@
       "label": "partial",
       "confidence": 0.45,
       "n_candidates": 5,
-      "hit@1": true,
+      "hit@1": false,
       "hit@3": true,
-      "first_hit_rank": 1,
-      "latency_ms": 28.8,
+      "first_hit_rank": 2,
+      "latency_ms": 15.4,
       "reference_index": 72
     },
     {
@@ -148,7 +148,7 @@
       "hit@1": true,
       "hit@3": true,
       "first_hit_rank": 1,
-      "latency_ms": 20.5,
+      "latency_ms": 16.2,
       "reference_index": 75
     },
     {
@@ -157,34 +157,34 @@
       "label": "no_evidence",
       "confidence": 0.0,
       "n_candidates": 5,
-      "hit@1": false,
-      "hit@3": false,
-      "first_hit_rank": 4,
-      "latency_ms": 28.4,
+      "hit@1": true,
+      "hit@3": true,
+      "first_hit_rank": 1,
+      "latency_ms": 16.7,
       "reference_index": 77
     },
     {
       "id": "pub-013",
       "page_id": "arxiv-2610-34084",
-      "label": "partial",
-      "confidence": 0.476,
+      "label": "no_evidence",
+      "confidence": 0.0,
       "n_candidates": 5,
       "hit@1": false,
       "hit@3": false,
-      "first_hit_rank": null,
-      "latency_ms": 3491.8,
+      "first_hit_rank": 5,
+      "latency_ms": 6.9,
       "reference_index": 1
     },
     {
       "id": "pub-014",
       "page_id": "arxiv-2610-34084",
-      "label": "partial",
-      "confidence": 0.45,
+      "label": "no_evidence",
+      "confidence": 0.0,
       "n_candidates": 5,
       "hit@1": false,
       "hit@3": false,
       "first_hit_rank": null,
-      "latency_ms": 54.5,
+      "latency_ms": 5.6,
       "reference_index": 10
     },
     {
@@ -193,10 +193,10 @@
       "label": "partial",
       "confidence": 0.421,
       "n_candidates": 5,
-      "hit@1": false,
+      "hit@1": true,
       "hit@3": true,
-      "first_hit_rank": 2,
-      "latency_ms": 7.6,
+      "first_hit_rank": 1,
+      "latency_ms": 4.1,
       "reference_index": 14
     },
     {
@@ -208,7 +208,7 @@
       "hit@1": true,
       "hit@3": true,
       "first_hit_rank": 1,
-      "latency_ms": 11.8,
+      "latency_ms": 5.7,
       "reference_index": 17
     },
     {
@@ -220,7 +220,7 @@
       "hit@1": true,
       "hit@3": true,
       "first_hit_rank": 1,
-      "latency_ms": 9.6,
+      "latency_ms": 4.1,
       "reference_index": 21
     },
     {
@@ -232,7 +232,7 @@
       "hit@1": false,
       "hit@3": false,
       "first_hit_rank": 4,
-      "latency_ms": 8.5,
+      "latency_ms": 4.7,
       "reference_index": 25
     },
     {
@@ -241,10 +241,10 @@
       "label": "partial",
       "confidence": 0.467,
       "n_candidates": 5,
-      "hit@1": false,
-      "hit@3": false,
-      "first_hit_rank": null,
-      "latency_ms": 3557.9,
+      "hit@1": true,
+      "hit@3": true,
+      "first_hit_rank": 1,
+      "latency_ms": 6.8,
       "reference_index": 1
     },
     {
@@ -253,22 +253,22 @@
       "label": "partial",
       "confidence": 0.446,
       "n_candidates": 5,
-      "hit@1": true,
+      "hit@1": false,
       "hit@3": true,
-      "first_hit_rank": 1,
-      "latency_ms": 55.9,
+      "first_hit_rank": 3,
+      "latency_ms": 6.3,
       "reference_index": 3
     },
     {
       "id": "pub-021",
       "page_id": "arxiv-2611-09866",
-      "label": "partial",
-      "confidence": 0.454,
+      "label": "no_evidence",
+      "confidence": 0.0,
       "n_candidates": 5,
-      "hit@1": true,
-      "hit@3": true,
-      "first_hit_rank": 1,
-      "latency_ms": 8.0,
+      "hit@1": false,
+      "hit@3": false,
+      "first_hit_rank": null,
+      "latency_ms": 5.3,
       "reference_index": 7
     },
     {
@@ -280,7 +280,7 @@
       "hit@1": true,
       "hit@3": true,
       "first_hit_rank": 1,
-      "latency_ms": 11.5,
+      "latency_ms": 5.5,
       "reference_index": 5
     },
     {
@@ -292,7 +292,7 @@
       "hit@1": true,
       "hit@3": true,
       "first_hit_rank": 1,
-      "latency_ms": 12.3,
+      "latency_ms": 5.0,
       "reference_index": 10
     },
     {
@@ -304,7 +304,7 @@
       "hit@1": true,
       "hit@3": true,
       "first_hit_rank": 1,
-      "latency_ms": 8.5,
+      "latency_ms": 5.5,
       "reference_index": 21
     },
     {
@@ -316,7 +316,7 @@
       "hit@1": true,
       "hit@3": true,
       "first_hit_rank": 1,
-      "latency_ms": 3793.5,
+      "latency_ms": 5.6,
       "reference_index": 48
     },
     {
@@ -328,19 +328,19 @@
       "hit@1": true,
       "hit@3": true,
       "first_hit_rank": 1,
-      "latency_ms": 42.7,
+      "latency_ms": 8.6,
       "reference_index": 63
     },
     {
       "id": "pub-027",
       "page_id": "arxiv-2611-10770",
-      "label": "partial",
-      "confidence": 0.385,
+      "label": "no_evidence",
+      "confidence": 0.0,
       "n_candidates": 5,
       "hit@1": false,
       "hit@3": false,
-      "first_hit_rank": 5,
-      "latency_ms": 9.7,
+      "first_hit_rank": null,
+      "latency_ms": 11.8,
       "reference_index": 13
     },
     {
@@ -351,8 +351,8 @@
       "n_candidates": 5,
       "hit@1": false,
       "hit@3": false,
-      "first_hit_rank": 4,
-      "latency_ms": 11.1,
+      "first_hit_rank": 5,
+      "latency_ms": 10.1,
       "reference_index": 55
     },
     {
@@ -363,8 +363,8 @@
       "n_candidates": 5,
       "hit@1": false,
       "hit@3": true,
-      "first_hit_rank": 2,
-      "latency_ms": 10.9,
+      "first_hit_rank": 3,
+      "latency_ms": 6.6,
       "reference_index": 13
     },
     {
@@ -376,7 +376,7 @@
       "hit@1": false,
       "hit@3": true,
       "first_hit_rank": 2,
-      "latency_ms": 9.7,
+      "latency_ms": 5.7,
       "reference_index": 22
     }
   ],

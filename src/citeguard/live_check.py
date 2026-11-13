@@ -235,6 +235,19 @@ def _candidate_score(claim_terms: set[str], claim_numbers: set[str], candidate: 
     return round(0.8 * _coverage(claim_terms, text_terms) + 0.2 * _number_coverage(claim_numbers, text_numbers), 4)
 
 
+def _page_candidate_score(claim_terms: set[str], claim_numbers: set[str], candidate: Candidate) -> float:
+    """Rank a page's own reference list by the reference title.
+
+    A reference abstract is long and often shares only generic vocabulary with
+    the citing sentence; on the 30-claim public-page set, title-focused ranking
+    put the cited work in the top 3 more often than title+abstract coverage.
+    Keyword-search candidates keep using ``_candidate_score``.
+    """
+    title_terms = _terms(candidate.title or "")
+    title_numbers = _numbers(candidate.title or "")
+    return round(0.85 * _coverage(claim_terms, title_terms) + 0.15 * _number_coverage(claim_numbers, title_numbers), 4)
+
+
 def _candidate_payload(candidate: Candidate, score: float, verdict: Optional[dict] = None) -> dict:
     item = {
         "title": candidate.title or "",
@@ -745,7 +758,7 @@ def check_claim(claim: str, page_url: str = "", page_title: str = "") -> dict:
     page_candidates = _dedupe(page_candidates)
     page_ranked = sorted(
         page_candidates,
-        key=lambda candidate: _candidate_score(claim_terms, claim_numbers, candidate),
+        key=lambda candidate: _page_candidate_score(claim_terms, claim_numbers, candidate),
         reverse=True,
     )
     page_usable = any((candidate.abstract or "").strip() for candidate in page_ranked)

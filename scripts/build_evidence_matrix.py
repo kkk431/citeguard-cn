@@ -354,7 +354,7 @@ def rows():
         "n": "30 句英文 / 5 篇 arXiv HTML",
         "artifact": "data/live_eval/live_eval_public.json",
         "command": "PYTHONPATH=src python scripts/eval_live.py --claims data/live_eval/claims_public.jsonl --pages data/live_eval/pages_public.json --out data/live_eval/live_eval_public.json",
-        "note": "句子真实出现在页面上；正确 DOI 在页面候选池内，4 条排 4-5、8 条被 top-5 截断；瓶颈是排序+截断，不证明检索天花板",
+        "note": "句子真实出现在页面上；标题优先排序后 hit@3 0.60→0.70；9 条未进 top-3（4 条排 4-5、5 条更后）；规则在同一集选定，需新集复核",
         "screenshot": "docs/evidence/shots/phase-53-live-result-1.7.7.png",
     })
 
