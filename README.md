@@ -1,6 +1,6 @@
 # 引证卫士 CiteGuard-CN
 
-> **v1.7.5** · 2026-11-14 · Apache-2.0
+> **v1.7.6** · 2026-11-14 · Apache-2.0
 
 > 给中文论文做一次「引文体检」：**引文是否真实存在、引用是否支持正文那句话、格式是否符合 GB/T 7714-2025**。每条结论都带证据链接。
 
@@ -121,6 +121,8 @@ no_evidence    [  0,   0,   0,  20 ]
 报告页新增修复闭环：一键修复全部 / 单条修复，预览里逐条给出 `del`/`ins` 差异与「补文献类型码 / 年份不再放括号 / 补结尾句点 / DOI 统一」等修复项；应用后 30 分钟内可撤销，撤销后恢复原文并删除修复视图。只重排已解析字段，不补全缺失字段、不改写正文。
 
 **题录库标签与去重**：题录可加最多 8 个标签；按 DOI 或「题名+年份」发现重复，确认后合并（非空字段补齐、标签取并集），不自动删除。
+
+**支持度模型矩阵**：8 种同口径配置（Qwen3-1.7B LoRA / 4B LoRA / 8B / 14B / 14B 4-bit / 基座）在 ClaimSupport-CN test 60 上的 macro-F1、bootstrap 95% CI 与错误清单；4B 满分明确标注为构造模板饱和。[`docs/model_matrix.md`](docs/model_matrix.md)
 
 **CiteMap 证据地图**：2 个主题 × 15 篇开放论文，把「哪条断言、哪条证据、什么立场、研究方法与样本、还缺什么」放在同一页；目前是 10 条人工示例抽取，标注 `verified=false`、仅读摘要，不是全量结论。
 
@@ -394,8 +396,8 @@ PYTHONPATH=src python3 scripts/enrich_library_abstracts.py
 
 ## 复现与发布
 
-- 版本：**v1.7.5**；变更见 `CHANGELOG.md`，发布说明见 `docs/release_notes_v1.0.md`
-- 单元测试：`PYTHONPATH=src python -m pytest tests -q`（808 项）
+- 版本：**v1.7.6**；变更见 `CHANGELOG.md`，发布说明见 `docs/release_notes_v1.0.md`
+- 单元测试：`PYTHONPATH=src python -m pytest tests -q`（811 项）
 - 主评测复现：`PYTHONPATH=src python scripts/reproduce_all.py`；每个对外数字的 JSON/命令/样本量见 `docs/evidence_index.md`
 - 文档站：`pip install -r requirements-docs.txt && mkdocs serve`
 - 数据集包：`dist/CiteGuard-CN_ClaimSupport-CN-300_v1.0.zip`（CC-BY-4.0，构造标签）

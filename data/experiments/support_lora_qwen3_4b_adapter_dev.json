@@ -1,0 +1,183 @@
+{
+ "macro_f1": 1.0,
+ "accuracy": 1.0,
+ "confusion": [
+  [
+   8,
+   0,
+   0,
+   0
+  ],
+  [
+   0,
+   5,
+   0,
+   0
+  ],
+  [
+   0,
+   0,
+   4,
+   0
+  ],
+  [
+   0,
+   0,
+   0,
+   3
+  ]
+ ],
+ "per_class": {
+  "support": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0
+  },
+  "partial": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0
+  },
+  "contradict": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0
+  },
+  "no_evidence": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0
+  }
+ },
+ "n": 20,
+ "model_size": "4b",
+ "model": "qwen3-4b-support-lora",
+ "endpoint": "http://127.0.0.1:8101/v1",
+ "data": "/data1/GYX/citeguard/a3b/data/sft/support_dev.jsonl",
+ "split": "dev",
+ "elapsed_sec": 18.4,
+ "errors": [],
+ "request_errors": [],
+ "predictions": [
+  {
+   "id": "cs-0059",
+   "gold": "support",
+   "pred": "support",
+   "raw": "{\"label\": \"support\", \"confidence\": 0.8, \"reason\": \"SFT adapter verdict\", \"evidence_quote\": \"\"}"
+  },
+  {
+   "id": "cs-0060",
+   "gold": "support",
+   "pred": "support",
+   "raw": "{\"label\": \"support\", \"confidence\": 0.8, \"reason\": \"SFT adapter verdict\", \"evidence_quote\": \"\"}"
+  },
+  {
+   "id": "cs-0062",
+   "gold": "support",
+   "pred": "support",
+   "raw": "{\"label\": \"support\", \"confidence\": 0.8, \"reason\": \"SFT adapter verdict\", \"evidence_quote\": \"\"}"
+  },
+  {
+   "id": "cs-0064",
+   "gold": "contradict",
+   "pred": "contradict",
+   "raw": "{\"label\": \"contradict\", \"confidence\": 0.8, \"reason\": \"SFT adapter verdict\", \"evidence_quote\": \"\"}"
+  },
+  {
+   "id": "cs-0066",
+   "gold": "support",
+   "pred": "support",
+   "raw": "{\"label\": \"support\", \"confidence\": 0.8, \"reason\": \"SFT adapter verdict\", \"evidence_quote\": \"\"}"
+  },
+  {
+   "id": "cs-0067",
+   "gold": "partial",
+   "pred": "partial",
+   "raw": "{\"label\": \"partial\", \"confidence\": 0.8, \"reason\": \"SFT adapter verdict\", \"evidence_quote\": \"\"}"
+  },
+  {
+   "id": "cs-0068",
+   "gold": "partial",
+   "pred": "partial",
+   "raw": "{\"label\": \"partial\", \"confidence\": 0.8, \"reason\": \"SFT adapter verdict\", \"evidence_quote\": \"\"}"
+  },
+  {
+   "id": "cs-0071",
+   "gold": "no_evidence",
+   "pred": "no_evidence",
+   "raw": "{\"label\": \"no_evidence\", \"confidence\": 0.8, \"reason\": \"SFT adapter verdict\", \"evidence_quote\": \"\"}"
+  },
+  {
+   "id": "cs-0073",
+   "gold": "contradict",
+   "pred": "contradict",
+   "raw": "{\"label\": \"contradict\", \"confidence\": 0.8, \"reason\": \"SFT adapter verdict\", \"evidence_quote\": \"\"}"
+  },
+  {
+   "id": "cs-0076",
+   "gold": "no_evidence",
+   "pred": "no_evidence",
+   "raw": "{\"label\": \"no_evidence\", \"confidence\": 0.8, \"reason\": \"SFT adapter verdict\", \"evidence_quote\": \"\"}"
+  },
+  {
+   "id": "cs-0077",
+   "gold": "partial",
+   "pred": "partial",
+   "raw": "{\"label\": \"partial\", \"confidence\": 0.8, \"reason\": \"SFT adapter verdict\", \"evidence_quote\": \"\"}"
+  },
+  {
+   "id": "cs-0080",
+   "gold": "partial",
+   "pred": "partial",
+   "raw": "{\"label\": \"partial\", \"confidence\": 0.8, \"reason\": \"SFT adapter verdict\", \"evidence_quote\": \"\"}"
+  },
+  {
+   "id": "cs-0086",
+   "gold": "support",
+   "pred": "support",
+   "raw": "{\"label\": \"support\", \"confidence\": 0.8, \"reason\": \"SFT adapter verdict\", \"evidence_quote\": \"\"}"
+  },
+  {
+   "id": "cs-0088",
+   "gold": "support",
+   "pred": "support",
+   "raw": "{\"label\": \"support\", \"confidence\": 0.8, \"reason\": \"SFT adapter verdict\", \"evidence_quote\": \"\"}"
+  },
+  {
+   "id": "cs-0089",
+   "gold": "partial",
+   "pred": "partial",
+   "raw": "{\"label\": \"partial\", \"confidence\": 0.8, \"reason\": \"SFT adapter verdict\", \"evidence_quote\": \"\"}"
+  },
+  {
+   "id": "cs-0092",
+   "gold": "support",
+   "pred": "support",
+   "raw": "{\"label\": \"support\", \"confidence\": 0.8, \"reason\": \"SFT adapter verdict\", \"evidence_quote\": \"\"}"
+  },
+  {
+   "id": "cs-0093",
+   "gold": "contradict",
+   "pred": "contradict",
+   "raw": "{\"label\": \"contradict\", \"confidence\": 0.8, \"reason\": \"SFT adapter verdict\", \"evidence_quote\": \"\"}"
+  },
+  {
+   "id": "cs-0095",
+   "gold": "contradict",
+   "pred": "contradict",
+   "raw": "{\"label\": \"contradict\", \"confidence\": 0.8, \"reason\": \"SFT adapter verdict\", \"evidence_quote\": \"\"}"
+  },
+  {
+   "id": "cs-0099",
+   "gold": "support",
+   "pred": "support",
+   "raw": "{\"label\": \"support\", \"confidence\": 0.8, \"reason\": \"SFT adapter verdict\", \"evidence_quote\": \"\"}"
+  },
+  {
+   "id": "cs-0100",
+   "gold": "no_evidence",
+   "pred": "no_evidence",
+   "raw": "{\"label\": \"no_evidence\", \"confidence\": 0.8, \"reason\": \"SFT adapter verdict\", \"evidence_quote\": \"\"}"
+  }
+ ]
+}

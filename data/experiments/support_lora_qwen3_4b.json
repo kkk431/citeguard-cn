@@ -1,0 +1,619 @@
+{
+ "model": "/data1/GYX/citeguard/models/Qwen3-4B",
+ "model_size": "4b",
+ "adapter": {
+  "dir": "dist/models/support_lora_qwen3_4b",
+  "weights": "dist/models/support_lora_qwen3_4b/adapter_model.safetensors",
+  "weights_bytes": 132187888,
+  "files": {
+   "dist/models/support_lora_qwen3_4b/adapter_adapter_config.json": {
+    "bytes": 869,
+    "sha256": "ffbf0aa3dcfca9c928090866e023271415f3f94d45517ab47255226ecf17d53b"
+   },
+   "dist/models/support_lora_qwen3_4b/adapter_model.safetensors": {
+    "bytes": 132187888,
+    "sha256": "6cfb0a23d0703eba03fb704d76bb8ec02b14111820e9c60a8662876a06fb9ce7"
+   },
+   "dist/models/support_lora_qwen3_4b/adapter_README.md": {
+    "bytes": 1106,
+    "sha256": "c888f477add1b19c7192c2013e3b5aaabb71c0d0afb0486b692b4aebdee9bc4f"
+   },
+   "dist/models/support_lora_qwen3_4b/eval_predictions.jsonl": {
+    "bytes": 3510,
+    "sha256": "5c1b0772a8786f1fcd9120293d300a63864434934ca078c2f2210c52f3af6490"
+   },
+   "dist/models/support_lora_qwen3_4b/metrics.json": {
+    "bytes": 1850,
+    "sha256": "a2c78c842b817ea154ee14aa7ed0577186a59eeacbd9b127ad5cbfdfcdb0d386"
+   }
+  }
+ },
+ "task": "4-way claim support classification (support / partial / contradict / no_evidence)",
+ "data": {
+  "train": "support_train.jsonl",
+  "train_rows": 600,
+  "dev_rows": {
+   "macro_f1": 1.0,
+   "accuracy": 1.0,
+   "confusion": [
+    [
+     8,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     5,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     4,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     3
+    ]
+   ],
+   "per_class": {
+    "support": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "partial": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "contradict": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "no_evidence": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    }
+   },
+   "n": 20
+  },
+  "test_rows": {
+   "macro_f1": 1.0,
+   "accuracy": 1.0,
+   "confusion": [
+    [
+     24,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     15,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     9,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     12
+    ]
+   ],
+   "per_class": {
+    "support": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "partial": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "contradict": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "no_evidence": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    }
+   },
+   "n": 60
+  },
+  "train_sha256": "19f4eaae682a61a6d203b812fd54e0f652bdbc252521830f6055f877dfae47e7",
+  "test_sha256": "9f474199142fd4595b21f2b3176dc05d464a171522623b5904d1d6074ed2564e",
+  "label_provenance": "construction labels (rule-built), not human annotations",
+  "split_note": "train 600 = 借用官方 dev 20 + ext 60 + v2 140 + a3 380; dev 20 与 test 60 与上一版字节级一致，训练未见过 test。"
+ },
+ "training": {
+  "method": "LoRA (bf16)",
+  "lora_r": 16,
+  "lora_alpha": 32,
+  "lora_dropout": 0.05,
+  "targets": [
+   "q_proj",
+   "k_proj",
+   "v_proj",
+   "o_proj",
+   "gate_proj",
+   "up_proj",
+   "down_proj"
+  ],
+  "epochs": 3.0,
+  "lr": 0.0002,
+  "seq_len": 2048,
+  "batch_size": 1,
+  "grad_accum": 8,
+  "optimizer_steps": 225,
+  "seed": 20261114,
+  "trainable_params": "33,030,144 / 4,055,498,240 (0.8145%)",
+  "train_seconds": 956.2,
+  "total_seconds": 989.7,
+  "peak_vram_gb": 10.88,
+  "gpu": {
+   "name": "NVIDIA GeForce RTX 4090",
+   "total_vram_gb": 23.65
+  },
+  "train_loss_last5": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "train_loss_mean": 0.016857423160141074,
+  "loss_curve_first": "0.4259",
+  "loss_curve_last": "0.0",
+  "loss_curve_points": 45,
+  "env": {
+   "host": "4-gpu",
+   "in_docker": false,
+   "os": "Linux-5.19.0-46-generic-x86_64-with-glibc2.35",
+   "python": "3.9.25",
+   "packages": {
+    "torch": "2.6.0+cu124",
+    "transformers": "4.57.6",
+    "peft": "0.15.1",
+    "accelerate": "1.10.1",
+    "bitsandbytes": "0.48.2",
+    "datasets": "4.5.0"
+   },
+   "driver": "0, NVIDIA GeForce RTX 4090, 24564 MiB, 535.129.03\n1, NVIDIA GeForce RTX 4090, 24564 MiB, 535.129.03\n2, NVIDIA GeForce RTX 4090, 24564 MiB, 535.129.03\n3, NVIDIA GeForce RTX 4090, 24564 MiB, 535.129.03"
+  }
+ },
+ "harness": {
+  "base": {
+   "macro_f1": 0.6208,
+   "accuracy": 0.7,
+   "confusion": [
+    [
+     24,
+     0,
+     0,
+     0
+    ],
+    [
+     10,
+     4,
+     0,
+     1
+    ],
+    [
+     7,
+     0,
+     2,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     12
+    ]
+   ],
+   "per_class": {
+    "support": {
+     "precision": 0.5854,
+     "recall": 1.0,
+     "f1": 0.7385
+    },
+    "partial": {
+     "precision": 1.0,
+     "recall": 0.2667,
+     "f1": 0.4211
+    },
+    "contradict": {
+     "precision": 1.0,
+     "recall": 0.2222,
+     "f1": 0.3636
+    },
+    "no_evidence": {
+     "precision": 0.9231,
+     "recall": 1.0,
+     "f1": 0.96
+    }
+   },
+   "n": 60
+  },
+  "dev": {
+   "macro_f1": 1.0,
+   "accuracy": 1.0,
+   "confusion": [
+    [
+     8,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     5,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     4,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     3
+    ]
+   ],
+   "per_class": {
+    "support": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "partial": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "contradict": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "no_evidence": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    }
+   },
+   "n": 20
+  },
+  "test": {
+   "macro_f1": 1.0,
+   "accuracy": 1.0,
+   "confusion": [
+    [
+     24,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     15,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     9,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     12
+    ]
+   ],
+   "per_class": {
+    "support": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "partial": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "contradict": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "no_evidence": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    }
+   },
+   "n": 60
+  }
+ },
+ "product_path": {
+  "test": {
+   "macro_f1": 1.0,
+   "accuracy": 1.0,
+   "confusion": [
+    [
+     24,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     15,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     9,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     12
+    ]
+   ],
+   "per_class": {
+    "support": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "partial": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "contradict": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "no_evidence": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    }
+   },
+   "n": 60
+  },
+  "dev": {
+   "macro_f1": 1.0,
+   "accuracy": 1.0,
+   "confusion": [
+    [
+     8,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     5,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     4,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     3
+    ]
+   ],
+   "per_class": {
+    "support": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "partial": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "contradict": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "no_evidence": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    }
+   },
+   "n": 20
+  },
+  "base_test": {
+   "macro_f1": 0.6208,
+   "accuracy": 0.7,
+   "confusion": [
+    [
+     24,
+     0,
+     0,
+     0
+    ],
+    [
+     10,
+     4,
+     0,
+     1
+    ],
+    [
+     7,
+     0,
+     2,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     12
+    ]
+   ],
+   "per_class": {
+    "support": {
+     "precision": 0.5854,
+     "recall": 1.0,
+     "f1": 0.7385
+    },
+    "partial": {
+     "precision": 1.0,
+     "recall": 0.2667,
+     "f1": 0.4211
+    },
+    "contradict": {
+     "precision": 1.0,
+     "recall": 0.2222,
+     "f1": 0.3636
+    },
+    "no_evidence": {
+     "precision": 0.9231,
+     "recall": 1.0,
+     "f1": 0.96
+    }
+   },
+   "n": 60
+  },
+  "elapsed_sec": 57.3,
+  "request_errors": 0,
+  "errors": []
+ },
+ "comparison": [
+  {
+   "model": "Qwen3-8B 零样本（v4 prompt）",
+   "macro_f1": 0.7817,
+   "accuracy": 0.7833,
+   "n": 60,
+   "path": "v10/product judge（离线单模型）",
+   "source": "data/experiments/support_local_qwen3_8b_test.json"
+  },
+  {
+   "model": "Qwen3-14B 零样本（v4 prompt）",
+   "macro_f1": 0.8887,
+   "accuracy": 0.8833,
+   "n": 60,
+   "path": "v10/product judge（离线单模型）",
+   "source": "data/experiments/support_local_qwen3_14b_test.json"
+  },
+  {
+   "model": "Qwen3-14B 4-bit（v10 prompt）",
+   "macro_f1": 0.9588,
+   "accuracy": 0.95,
+   "n": 60,
+   "path": "v10/product judge（离线单模型）",
+   "source": "data/experiments/support_local_qwen3_14b_4bit_test.json"
+  },
+  {
+   "model": "Qwen3-4B 基座零样本（产品 prompt，本机实测）",
+   "macro_f1": 0.6208,
+   "accuracy": 0.7,
+   "n": 60,
+   "path": "adapter_judge_server --no-adapter",
+   "source": "data/experiments/support_lora_qwen3_4b_base_test.json"
+  },
+  {
+   "model": "Qwen3-1.7B 零样本（SFT prompt）",
+   "macro_f1": 0.4935,
+   "accuracy": 0.4833,
+   "n": 60,
+   "path": "SFT prompt（历史口径）",
+   "source": "data/experiments/support_lora_qwen3_1.7b.json"
+  },
+  {
+   "model": "Qwen3-1.7B + LoRA（SFT prompt）",
+   "macro_f1": 0.9721,
+   "accuracy": 0.9667,
+   "n": 60,
+   "path": "SFT prompt（历史口径）",
+   "source": "data/experiments/support_lora_qwen3_1.7b.json"
+  },
+  {
+   "model": "**Qwen3-4B + LoRA（SFT prompt，训练器内生指标）**",
+   "macro_f1": 1.0,
+   "accuracy": 1.0,
+   "n": 60,
+   "path": "SFT prompt（与训练一致）",
+   "source": "data/experiments/support_lora_qwen3_4b_metrics.json"
+  },
+  {
+   "model": "**Qwen3-4B + LoRA（产品 prompt 路径）**",
+   "macro_f1": 1.0,
+   "accuracy": 1.0,
+   "n": 60,
+   "path": "v10 产品 prompt → shim → SFT prompt",
+   "source": "data/experiments/support_lora_qwen3_4b_adapter_test.json"
+  }
+ ],
+ "provenance_checks": {
+  "same_official_test_ids": [
+   "support_local_qwen3_14b_4bit_test",
+   "support_local_qwen3_14b_test",
+   "support_local_qwen3_8b_test",
+   "support_lora_qwen3_4b_adapter_test",
+   "support_lora_qwen3_4b_base_test"
+  ],
+  "note": "上表所有 n=60 的行都逐 id 比对过 data/sft/support_test.jsonl 的官方 test 60 顺序"
+ },
+ "honest_notes": [
+  "同分布：test 与训练数据来自同一套构造模板，分数衡量'学会映射'，不代表开放世界泛化。",
+  "饱和：4B LoRA 在 test 60 上 60/60（macro-F1 1.0），训练 loss 前 10 个记录点即降到 ~0；该构造集对 4B 已无区分度，不能据此说 4B 强于 1.7B LoRA（0.9721）。",
+  "构造标签：没有人审金标；不把它写成人工测试。",
+  "单次运行：固定 seed 20261114，未做 seed/prompt 扫描。",
+  "4B 零样本行用产品 prompt 路径（--no-adapter），与 adapter 行同一服务、同一 prompt。",
+  "历史 1.7B/8B/14B 行复用仓库既有 JSON，n=60 且已逐 id 对齐官方 test。",
+  "只做支持度判定，不查引用是否存在、不做 GB/T 格式。"
+ ],
+ "source_files": [
+  "data/experiments/support_lora_qwen3_4b_metrics.json",
+  "data/experiments/support_lora_qwen3_4b_run_meta.json",
+  "data/experiments/support_lora_qwen3_4b_adapter_test.json",
+  "data/experiments/support_lora_qwen3_4b_adapter_dev.json",
+  "data/experiments/support_lora_qwen3_4b_base_test.json"
+ ]
+}

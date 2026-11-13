@@ -33,11 +33,14 @@ _tok = None
 _lock = threading.Lock()
 
 
-def load(model_path: str, adapter_path: str) -> None:
+def load(model_path: str, adapter_path: str | None) -> None:
     global _model, _tok
     _tok = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)
     base = AutoModelForCausalLM.from_pretrained(model_path, torch_dtype=torch.bfloat16, trust_remote_code=True)
-    _model = PeftModel.from_pretrained(base, adapter_path).to("cuda").eval()
+    if adapter_path:
+        _model = PeftModel.from_pretrained(base, adapter_path).to("cuda").eval()
+    else:  # base model, no adapter: honest zero-shot row of the comparison table
+        _model = base.to("cuda").eval()
 
 
 def parse_fields(content: str) -> tuple[str, str] | None:
@@ -116,9 +119,11 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", default="models/Qwen3-1.7B")
     ap.add_argument("--adapter", default="out/support_lora/adapter")
+    ap.add_argument("--no-adapter", action="store_true",
+                    help="serve the base model only (zero-shot row, same product prompt path)")
     ap.add_argument("--port", type=int, default=8101)
     args = ap.parse_args()
-    load(args.model, args.adapter)
+    load(args.model, None if args.no_adapter else args.adapter)
     print("ready on", args.port, flush=True)
     ThreadingHTTPServer(("0.0.0.0", args.port), Handler).serve_forever()
 

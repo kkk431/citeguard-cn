@@ -1,3 +1,9 @@
+## [1.7.6] - 2026-11-14
+
+- 新增支持度模型对比矩阵（`scripts/build_support_matrix.py`、`docs/model_matrix.md`）：8 行同口径指标、逐条预测的 bootstrap 95% CI、错误清单与「不能这么说」边界。
+- 完成 Qwen3-4B LoRA（600 train / 20 dev / 60 test），test 1.0000 为构造模板饱和；模型卡 `docs/model_card_support_lora_4b.md`。
+- 811 passed；证据矩阵扩到 25 行，待补 3 项。
+
 ## [1.7.5] - 2026-11-14
 
 - 题录库支持标签（最多 8 个、24 字符）与重复合并：DOI / 题名+年份分组，人工确认后合并；JSON 主存储、SQLite sidecar schema 2 向后兼容迁移。

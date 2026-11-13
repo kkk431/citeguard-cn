@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 127,
+  "paths_checked": 130,
   "missing": [],
   "rows": [
     {
@@ -456,6 +456,26 @@
     {
       "evidence": "E78",
       "path": "docs/evidence/shots/phase-51-library-dupes-1.7.5.png",
+      "exists": true
+    },
+    {
+      "evidence": "E79",
+      "path": "data/experiments/support_matrix.json",
+      "exists": true
+    },
+    {
+      "evidence": "E79",
+      "path": "docs/model_matrix.md",
+      "exists": true
+    },
+    {
+      "evidence": "E79",
+      "path": "docs/model_card_support_lora_4b.md",
+      "exists": true
+    },
+    {
+      "evidence": "E79",
+      "path": "docs/model_matrix.md",
       "exists": true
     }
   ],

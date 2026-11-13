@@ -35,6 +35,7 @@ nav:
   - 性能: performance.md
   - 数据集: dataset_release.md
   - 开源模型: models.md
+  - 模型对比矩阵: model_matrix.md
   - 许可与依赖: licenses.md
   - 路线图: plan_national.md
 markdown_extensions:

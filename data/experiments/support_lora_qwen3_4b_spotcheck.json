@@ -1,0 +1,67 @@
+{
+ "source": "data/experiments/support_lora_qwen3_4b_adapter_test.json",
+ "sampling": "stratified by gold label, first rows per label, 10 total",
+ "all_correct": true,
+ "items": [
+  {
+   "id": "cs-0007",
+   "gold": "support",
+   "pred": "support",
+   "raw": "{\"label\": \"support\", \"confidence\": 0.8, \"reason\": \"SFT adapter verdict\", \"evidence_quote\": \"\"}"
+  },
+  {
+   "id": "cs-0001",
+   "gold": "partial",
+   "pred": "partial",
+   "raw": "{\"label\": \"partial\", \"confidence\": 0.8, \"reason\": \"SFT adapter verdict\", \"evidence_quote\": \"\"}"
+  },
+  {
+   "id": "cs-0008",
+   "gold": "contradict",
+   "pred": "contradict",
+   "raw": "{\"label\": \"contradict\", \"confidence\": 0.8, \"reason\": \"SFT adapter verdict\", \"evidence_quote\": \"\"}"
+  },
+  {
+   "id": "cs-0005",
+   "gold": "no_evidence",
+   "pred": "no_evidence",
+   "raw": "{\"label\": \"no_evidence\", \"confidence\": 0.8, \"reason\": \"SFT adapter verdict\", \"evidence_quote\": \"\"}"
+  },
+  {
+   "id": "cs-0014",
+   "gold": "support",
+   "pred": "support",
+   "raw": "{\"label\": \"support\", \"confidence\": 0.8, \"reason\": \"SFT adapter verdict\", \"evidence_quote\": \"\"}"
+  },
+  {
+   "id": "cs-0004",
+   "gold": "partial",
+   "pred": "partial",
+   "raw": "{\"label\": \"partial\", \"confidence\": 0.8, \"reason\": \"SFT adapter verdict\", \"evidence_quote\": \"\"}"
+  },
+  {
+   "id": "cs-0028",
+   "gold": "contradict",
+   "pred": "contradict",
+   "raw": "{\"label\": \"contradict\", \"confidence\": 0.8, \"reason\": \"SFT adapter verdict\", \"evidence_quote\": \"\"}"
+  },
+  {
+   "id": "cs-0010",
+   "gold": "no_evidence",
+   "pred": "no_evidence",
+   "raw": "{\"label\": \"no_evidence\", \"confidence\": 0.8, \"reason\": \"SFT adapter verdict\", \"evidence_quote\": \"\"}"
+  },
+  {
+   "id": "cs-0017",
+   "gold": "support",
+   "pred": "support",
+   "raw": "{\"label\": \"support\", \"confidence\": 0.8, \"reason\": \"SFT adapter verdict\", \"evidence_quote\": \"\"}"
+  },
+  {
+   "id": "cs-0006",
+   "gold": "partial",
+   "pred": "partial",
+   "raw": "{\"label\": \"partial\", \"confidence\": 0.8, \"reason\": \"SFT adapter verdict\", \"evidence_quote\": \"\"}"
+  }
+ ]
+}

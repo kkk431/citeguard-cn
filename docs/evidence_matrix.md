@@ -15,6 +15,7 @@
 | 解析 | 真实论文参考文献切分 | 529 条 / clean 1.0000 | 22 篇 | `data/experiments/parse_real.json` | `PYTHONPATH=src python scripts/eval_parse_real.py` | —<br>clean = 标题/年份/作者可解析的比例；非语义正确率 |
 | 解析 | 第五次预注册盲测（3 篇新 PDF） | qwen3 73 条 100.0% / deepseek_r1 92 条 96.7% / mixtral 35 条 100.0% | 3 篇，协议先于运行固定 | `data/experiments/blind_test5.json` | `见 docs/blind_test_results.md §14` | —<br>健康率是启发式题名检查，不是语义正确率；不可重选样本 |
 | 模型 | Qwen3-1.7B LoRA 支持度判定 | test macro-F1 0.9721 / acc 0.9667；基座 0.4935 | 60 条 test（train 80） | `data/experiments/support_lora_qwen3_1.7b.json` | `PYTHONPATH=src python scripts/eval_support_adapter.py` | —<br>构造标签；训练/测试同构造管线，衡量格式与映射学习，不是开放世界泛化 |
+| 模型 | Qwen3-4B LoRA 支持度判定 | test macro-F1 1.0000 / acc 1.0000（95% CI 1.0000–1.0000） | 60 条 test（train 600） | `data/experiments/support_matrix.json` | `PYTHONPATH=src python scripts/build_support_matrix.py` | —<br>构造标签；adapter 132 MB；满分是构造模板饱和，不代表开放世界能力 |
 | 图表 | ChartCheck 400 零样本 | macro-F1 0.7628 / acc 0.6950 | 400 条英文图表结论 | `data/experiments/chartcheck_val400_v3.json` | `PYTHONPATH=src python scripts/eval_chartcheck.py --prompt v3 --sample 400` | docs/evidence/shots/phase-46-benchmark-1.7.1.png<br>外部数据，零样本；只看结论与图是否一致 |
 | 图表 | 真实论文图表小样本 | acc 1.0000（支持召回 1.0000，矛盾召回 1.0000） | 10 条断言（样本小） | `data/experiments/figure_real26_8b_v3.json` | `PYTHONPATH=src python scripts/eval_figure_prompt.py` | —<br>平均 2.25 s/条；只作小样本复测 |
 | 扫描件 | 扫描版 PDF OCR 后解析 | 23/24 条参考文献 | 7 页，150 dpi | `data/experiments/ocr_scan_real.json` | `PYTHONPATH=src python scripts/eval_ocr_scanned.py --input <pdf>` | —<br>42.5 s；字段覆盖 {'title': 23, 'authors': 23, 'year': 23, 'venue': 19, 'doi': 0} |
@@ -35,7 +36,6 @@
 | 类别 | 项目 | 当前状态 | 证据位置 |
 |---|---|---|---|
 | 人审 | 100 条三人盲标 | 包已生成，κ 待回收；不得把构造标签写作人审金标 | `dist/CiteGuard-CN_盲标包_100条_发给标注者.zip` |
-| 模型 | Qwen3-4B LoRA | 训练/评测进行中，结果未出；出结果前不写 F1 | `t3` |
 | CiteMap | 60 格人工核对 | 只有 10 条人工示例，60 格核对未完成 | `t4` |
 | Live | 真实页面 30 条句子 hit@3 | 浏览器扩展 v2 未做 | `B2` |
 
@@ -43,4 +43,4 @@
 - 「构造标签」指标签由构造规则决定，不是人工语义标注；不能写成人工金标准。
 - 「Unverified」是没核到，不是判假；「Major」才是指控。
 - 外部数据集（ChartCheck/SciFact/T2Retrieval）只用于对照，不能与构造集混算。
-- 人审与 4B 结果未回收前，本表保持 pending，不用预测值占位。
+- 人审与 CiteMap/Live 核对未完成前，本表保持 pending，不用预测值占位。

@@ -1,0 +1,165 @@
+{
+ "model": "/data1/GYX/citeguard/models/Qwen3-4B",
+ "model_size": "4b",
+ "train": 600,
+ "dev": {
+  "macro_f1": 1.0,
+  "accuracy": 1.0,
+  "confusion": [
+   [
+    8,
+    0,
+    0,
+    0
+   ],
+   [
+    0,
+    5,
+    0,
+    0
+   ],
+   [
+    0,
+    0,
+    4,
+    0
+   ],
+   [
+    0,
+    0,
+    0,
+    3
+   ]
+  ],
+  "per_class": {
+   "support": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+   },
+   "partial": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+   },
+   "contradict": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+   },
+   "no_evidence": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+   }
+  },
+  "n": 20
+ },
+ "test": {
+  "macro_f1": 1.0,
+  "accuracy": 1.0,
+  "confusion": [
+   [
+    24,
+    0,
+    0,
+    0
+   ],
+   [
+    0,
+    15,
+    0,
+    0
+   ],
+   [
+    0,
+    0,
+    9,
+    0
+   ],
+   [
+    0,
+    0,
+    0,
+    12
+   ]
+  ],
+  "per_class": {
+   "support": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+   },
+   "partial": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+   },
+   "contradict": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+   },
+   "no_evidence": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+   }
+  },
+  "n": 60
+ },
+ "epochs": 3.0,
+ "base": {
+  "macro_f1": 0.6208,
+  "accuracy": 0.7,
+  "confusion": [
+   [
+    24,
+    0,
+    0,
+    0
+   ],
+   [
+    10,
+    4,
+    0,
+    1
+   ],
+   [
+    7,
+    0,
+    2,
+    0
+   ],
+   [
+    0,
+    0,
+    0,
+    12
+   ]
+  ],
+  "per_class": {
+   "support": {
+    "precision": 0.5854,
+    "recall": 1.0,
+    "f1": 0.7385
+   },
+   "partial": {
+    "precision": 1.0,
+    "recall": 0.2667,
+    "f1": 0.4211
+   },
+   "contradict": {
+    "precision": 1.0,
+    "recall": 0.2222,
+    "f1": 0.3636
+   },
+   "no_evidence": {
+    "precision": 0.9231,
+    "recall": 1.0,
+    "f1": 0.96
+   }
+  },
+  "n": 60
+ }
+}

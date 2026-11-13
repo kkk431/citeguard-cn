@@ -1,0 +1,120 @@
+{
+  "dataset": "ClaimSupport-CN / A3 SFT expansion",
+  "version": "a3",
+  "built_at": "2026-11-13T16:37:16+00:00",
+  "script": "scripts/build_sft_expand.py",
+  "seed": 20261114,
+  "n": 380,
+  "counts": {
+    "support": 150,
+    "partial": 105,
+    "contradict": 50,
+    "no_evidence": 75
+  },
+  "counts_requested": {
+    "support": 150,
+    "partial": 105,
+    "contradict": 50,
+    "no_evidence": 75
+  },
+  "construction_rules": "inherited from scripts/build_claimsupport.py (unchanged)",
+  "antonym_pairs": 29,
+  "self_check": {
+    "items": 380,
+    "failed": 0
+  },
+  "disjoint_from": [
+    "data/claimsupport_cn/claimsupport_cn.jsonl",
+    "data/claimsupport_cn/claimsupport_cn_ext.jsonl",
+    "data/claimsupport_cn/claimsupport_cn_v2.jsonl"
+  ],
+  "source_works": {
+    "unique": 455,
+    "from_prior_cache": 186,
+    "from_new_pages": 549,
+    "overlap_with_existing_300": 0,
+    "existing_300_works": 349
+  },
+  "source_pages": {
+    "prior_pages_fetched": 4,
+    "a3_pages_fetched": 21
+  },
+  "cache": {
+    "path": "data/sft/openalex_sources_a3.json",
+    "sha256": "3dc44ee27b1ef6d7740346541714a6d723298eae8d3ca75f94a9b1115db24770",
+    "works": 594
+  },
+  "sha256": "4cc3d8e8d513a14b9e8be3061ed5aa945db75a6d8c2edc6969eff972897568a2",
+  "labels": [
+    "support",
+    "partial",
+    "contradict",
+    "no_evidence"
+  ],
+  "spot_check": [
+    {
+      "id": "a3-0001",
+      "label": "support",
+      "claim": "分析加速康复外科理念在泌尿外科腹腔镜围手术期护理中的应用效果。",
+      "evidence": "分析加速康复外科理念在泌尿外科腹腔镜围手术期护理中的应用效果。选取该院泌尿外科收治行腹腔镜手术的80例患者，采用随机数字表法分为对照组和观察组，每组40例。",
+      "claim_openalex_id": "https://openalex.org/W4312274806",
+      "evidence_openalex_id": "https://openalex.org/W4312274806"
+    },
+    {
+      "id": "a3-0002",
+      "label": "support",
+      "claim": "职业教育人才培养要以“培养高素质劳动者和技术技能人才”为目标，这就要求教育要创新人才培养模式。",
+      "evidence": "职业教育人才培养要以“培养高素质劳动者和技术技能人才”为目标，这就要求教育要创新人才培养模式。以互联网技术为依托的线上线下混合教学模式受到教师和学生的青睐，这种教学模式有机整合线上丰富教学资源和线下课堂实践互动，帮助教师从资源提供者向资源选择者角色转型，鼓励学生探究性自主学习、广泛参与实践教学环节，培养学生独立辩证思维及团队协作精神。",
+      "claim_openalex_id": "https://openalex.org/W4235406084",
+      "evidence_openalex_id": "https://openalex.org/W4235406084"
+    },
+    {
+      "id": "a3-0003",
+      "label": "contradict",
+      "claim": "个湖泊河流的冻融记录得出，在百年尺度上，随着平均气温的降低 (1.2°C)，北半球河、湖冰冻结日期平均延后 5.8 d，消融日期平均提前 6.5 d。",
+      "evidence": "个湖泊河流的冻融记录得出，在百年尺度上，随着平均气温的升高 (1.2°C)，北半球河、湖冰冻结日期平均延后 5.8 d，消融日期平均提前 6.5 d。",
+      "claim_openalex_id": "https://openalex.org/W4231324467",
+      "evidence_openalex_id": "https://openalex.org/W4231324467"
+    },
+    {
+      "id": "a3-0004",
+      "label": "no_evidence",
+      "claim": "恶性肿瘤已经成为严重威胁我国人民健康的重要疾病。",
+      "evidence": "光学相干层析成像技术是一种高分辨率、高信噪比的非接触式三维成像技术，在视网膜成像等领域具有重要的应用价值与意义。可见光光学相干层析成像技术采用波长更短的光源，相比于采用传统的近红外波段光源具有独特的成像优势——可以达到亚微米级的轴向分辨率，具有更高的视网膜层间对比度，可以检测视网膜血管的血氧饱和度——对多种疾病的早期诊断、治疗和深入研究具有重要意义。",
+      "claim_openalex_id": "https://openalex.org/W4252053810",
+      "evidence_openalex_id": "https://openalex.org/W4402015097"
+    },
+    {
+      "id": "a3-0005",
+      "label": "no_evidence",
+      "claim": "人工智能技术的快速发展为英语翻译领域带来革命性变革，同时也引发诸多伦理问题。",
+      "evidence": "机器人工程专业如何培养创新型人才以满足新质生产力的要求，是目前各工科高校亟待解决的问题之一。",
+      "claim_openalex_id": "https://openalex.org/W4411653197",
+      "evidence_openalex_id": "https://openalex.org/W4412679959"
+    }
+  ],
+  "fetch_log": [
+    "[sources] cached unused pool: {'works': 186, 'partial_capable': 63, 'contradict_capable': 0}",
+    "[sources] page 5: +4 works, unused pool {'works': 190, 'partial_capable': 66, 'contradict_capable': 1}",
+    "[sources] page 6: +4 works, unused pool {'works': 194, 'partial_capable': 68, 'contradict_capable': 2}",
+    "[sources] page 7: +21 works, unused pool {'works': 215, 'partial_capable': 79, 'contradict_capable': 12}",
+    "[sources] page 8: +48 works, unused pool {'works': 261, 'partial_capable': 107, 'contradict_capable': 20}",
+    "[sources] page 9: +83 works, unused pool {'works': 340, 'partial_capable': 153, 'contradict_capable': 26}",
+    "[sources] page 10: +94 works, unused pool {'works': 423, 'partial_capable': 203, 'contradict_capable': 40}",
+    "[sources] page 11: +119 works, unused pool {'works': 536, 'partial_capable': 266, 'contradict_capable': 59}",
+    "[sources] page 12: +45 works, unused pool {'works': 579, 'partial_capable': 296, 'contradict_capable': 68}",
+    "[sources] page 13: +4 works, unused pool {'works': 583, 'partial_capable': 298, 'contradict_capable': 68}",
+    "[sources] page 14: +4 works, unused pool {'works': 587, 'partial_capable': 299, 'contradict_capable': 69}",
+    "[sources] page 15: +7 works, unused pool {'works': 593, 'partial_capable': 303, 'contradict_capable': 70}",
+    "[sources] page 16: +10 works, unused pool {'works': 603, 'partial_capable': 307, 'contradict_capable': 72}",
+    "[sources] page 17: +23 works, unused pool {'works': 623, 'partial_capable': 319, 'contradict_capable': 77}",
+    "[sources] page 18: +31 works, unused pool {'works': 650, 'partial_capable': 332, 'contradict_capable': 83}",
+    "[sources] page 19: +36 works, unused pool {'works': 677, 'partial_capable': 342, 'contradict_capable': 91}",
+    "[sources] page 20: +25 works, unused pool {'works': 701, 'partial_capable': 355, 'contradict_capable': 95}",
+    "[sources] page 21: +36 works, unused pool {'works': 735, 'partial_capable': 376, 'contradict_capable': 100}",
+    "[build] unused pool=735 (prior cache=186, new pages=549)",
+    "[sources] cached unused pool: {'works': 735, 'partial_capable': 376, 'contradict_capable': 100}",
+    "[sources] cached pool is sufficient; no network fetch needed"
+  ],
+  "note": "Labels are construction-based, not human-annotated."
+}

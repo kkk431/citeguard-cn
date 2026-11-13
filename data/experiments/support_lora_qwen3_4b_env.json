@@ -1,0 +1,92 @@
+{
+ "collected_at": "2026-11-13T17:19:07+00:00",
+ "container": {
+  "in_docker": false,
+  "hostname": "4-gpu",
+  "image_hint": ""
+ },
+ "os": "Linux-5.19.0-46-generic-x86_64-with-glibc2.35",
+ "cpu_count": 80,
+ "python": "3.9.25",
+ "packages": {
+  "torch": "2.6.0+cu124",
+  "transformers": "4.57.6",
+  "peft": "0.15.1",
+  "accelerate": "1.10.1",
+  "bitsandbytes": "0.48.2",
+  "datasets": "4.5.0"
+ },
+ "cuda": "<no nvcc>",
+ "gpu": {
+  "nvidia_smi": "0, NVIDIA GeForce RTX 4090, 24564 MiB, 535.129.03\n1, NVIDIA GeForce RTX 4090, 24564 MiB, 535.129.03\n2, NVIDIA GeForce RTX 4090, 24564 MiB, 535.129.03\n3, NVIDIA GeForce RTX 4090, 24564 MiB, 535.129.03",
+  "visible_devices": ""
+ },
+ "model": {
+  "dir": "/data1/GYX/citeguard/models/Qwen3-4B",
+  "bytes": 8060944414,
+  "hf_endpoint": ""
+ },
+ "train": {
+  "launcher": "/data1/GYX/citeguard/a3b/scripts/train_4b.sh",
+  "seed_arg": 20261114,
+  "trainable_params": "33,030,144 / 4,055,498,240 (0.8145%)",
+  "trainable_params_raw": {
+   "trainable": 33030144,
+   "total": 4055498240,
+   "percent": 0.8145
+  },
+  "log": "/data1/GYX/citeguard/a3b/logs/train_4b.log",
+  "log_bytes": 30486,
+  "train_runtime_sec": 955.6651,
+  "train_loss_mean": 0.016857423160141074,
+  "loss_curve": [
+   0.4259,
+   0.2002,
+   0.0173,
+   0.0018,
+   0.0002,
+   0.0446,
+   0.0025,
+   0.0003,
+   0.0,
+   0.0004,
+   0.0,
+   0.0,
+   0.0008,
+   0.0,
+   0.0617,
+   0.0004,
+   0.001,
+   0.0003,
+   0.0001,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0006,
+   0.0002,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "loss_curve_first": "0.4259",
+  "loss_curve_last": "0.0"
+ }
+}

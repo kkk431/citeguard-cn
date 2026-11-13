@@ -1,0 +1,383 @@
+{
+ "generated_at": "2026-11-14",
+ "dataset": "ClaimSupport-CN (constructed)",
+ "labels": [
+  "support",
+  "partial",
+  "contradict",
+  "no_evidence"
+ ],
+ "n_note": "n=60 rows are the same held-out constructed test split; hosted row is n=300 and not directly comparable",
+ "systems": [
+  {
+   "id": "hosted-deepseek-v10",
+   "label": "DeepSeek（产品同路径）",
+   "n": 300,
+   "source": "data/experiments/release300.json",
+   "prompt": "support_prompt_v10 + audit v3",
+   "note": "300 条合并集，不是本表 n=60 的同口径；只作参考行",
+   "macro_f1": 0.9841,
+   "accuracy": 0.9833,
+   "ci95": {
+    "macro_f1": [
+     0.9671,
+     0.9972
+    ],
+    "accuracy": [
+     0.9667,
+     0.9967
+    ]
+   },
+   "errors": [
+    {
+     "id": "c2-0048",
+     "gold": "contradict",
+     "pred": "partial"
+    },
+    {
+     "id": "c2-0103",
+     "gold": "no_evidence",
+     "pred": "partial"
+    },
+    {
+     "id": "cs-0001",
+     "gold": "partial",
+     "pred": "support"
+    },
+    {
+     "id": "cs-0027",
+     "gold": "support",
+     "pred": "partial"
+    },
+    {
+     "id": "cs-0056",
+     "gold": "partial",
+     "pred": "support"
+    }
+   ]
+  },
+  {
+   "id": "qwen3-14b-v10",
+   "label": "Qwen3-14B bf16",
+   "n": 60,
+   "source": "data/experiments/support_local_qwen3_14b_v10_test.json",
+   "prompt": "support_prompt_v10 + audit v2",
+   "note": "本地 14B bf16，v10 提示词",
+   "macro_f1": 0.9574,
+   "accuracy": 0.95,
+   "ci95": {
+    "macro_f1": [
+     0.8974,
+     1.0
+    ],
+    "accuracy": [
+     0.8833,
+     1.0
+    ]
+   },
+   "errors": [
+    {
+     "id": "cs-0001",
+     "gold": "partial",
+     "pred": "support"
+    },
+    {
+     "id": "cs-0027",
+     "gold": "support",
+     "pred": "no_evidence"
+    },
+    {
+     "id": "cs-0044",
+     "gold": "support",
+     "pred": "partial"
+    }
+   ]
+  },
+  {
+   "id": "qwen3-14b-4bit-v10",
+   "label": "Qwen3-14B 4-bit",
+   "n": 60,
+   "source": "data/experiments/support_local_qwen3_14b_4bit_test.json",
+   "prompt": "support_prompt_v10 + audit v2",
+   "note": "NF4 4-bit，v10 提示词",
+   "macro_f1": 0.9588,
+   "accuracy": 0.95,
+   "ci95": {
+    "macro_f1": [
+     0.8993,
+     1.0
+    ],
+    "accuracy": [
+     0.8833,
+     1.0
+    ]
+   },
+   "errors": [
+    {
+     "id": "cs-0001",
+     "gold": "partial",
+     "pred": "support"
+    },
+    {
+     "id": "cs-0027",
+     "gold": "support",
+     "pred": "partial"
+    },
+    {
+     "id": "cs-0049",
+     "gold": "partial",
+     "pred": "support"
+    }
+   ]
+  },
+  {
+   "id": "qwen3-8b-v10",
+   "label": "Qwen3-8B bf16",
+   "n": 60,
+   "source": "data/experiments/support_local_qwen3_8b_v10_test.json",
+   "prompt": "support_prompt_v10 + audit v2",
+   "note": "本地 8B bf16，v10 提示词",
+   "macro_f1": 0.8515,
+   "accuracy": 0.8333,
+   "ci95": {
+    "macro_f1": [
+     0.7497,
+     0.9325
+    ],
+    "accuracy": [
+     0.7167,
+     0.9333
+    ]
+   },
+   "errors": [
+    {
+     "id": "cs-0001",
+     "gold": "partial",
+     "pred": "support"
+    },
+    {
+     "id": "cs-0007",
+     "gold": "support",
+     "pred": "partial"
+    },
+    {
+     "id": "cs-0009",
+     "gold": "partial",
+     "pred": "no_evidence"
+    },
+    {
+     "id": "cs-0014",
+     "gold": "support",
+     "pred": "partial"
+    },
+    {
+     "id": "cs-0024",
+     "gold": "support",
+     "pred": "partial"
+    },
+    {
+     "id": "cs-0027",
+     "gold": "support",
+     "pred": "no_evidence"
+    },
+    {
+     "id": "cs-0031",
+     "gold": "partial",
+     "pred": "support"
+    },
+    {
+     "id": "cs-0037",
+     "gold": "partial",
+     "pred": "support"
+    },
+    {
+     "id": "cs-0049",
+     "gold": "partial",
+     "pred": "support"
+    },
+    {
+     "id": "cs-0065",
+     "gold": "partial",
+     "pred": "support"
+    }
+   ]
+  },
+  {
+   "id": "qwen3-1.7b-base",
+   "label": "Qwen3-1.7B 基座（零样本）",
+   "n": 60,
+   "source": "data/experiments/support_lora_qwen3_1.7b.json",
+   "prompt": "SFT 同款短提示词",
+   "note": "未微调基座，同测试集",
+   "macro_f1": 0.4935,
+   "accuracy": 0.4833,
+   "ci95": null,
+   "errors": null
+  },
+  {
+   "id": "qwen3-1.7b-lora",
+   "label": "Qwen3-1.7B + LoRA",
+   "n": 60,
+   "source": "data/experiments/support_lora_qwen3_1.7b_test_predictions.json",
+   "prompt": "SFT 短提示词（产品路径 shim）",
+   "note": "adapter 69.8 MB；训练 80 条（ext60+dev20）",
+   "macro_f1": 0.9721,
+   "accuracy": 0.9667,
+   "ci95": {
+    "macro_f1": [
+     0.9262,
+     1.0
+    ],
+    "accuracy": [
+     0.9167,
+     1.0
+    ]
+   },
+   "errors": [
+    {
+     "id": "cs-0001",
+     "gold": "partial",
+     "pred": "support"
+    },
+    {
+     "id": "cs-0034",
+     "gold": "partial",
+     "pred": "support"
+    }
+   ]
+  },
+  {
+   "id": "qwen3-4b-base",
+   "label": "Qwen3-4B 基座（零样本）",
+   "n": 60,
+   "source": "data/experiments/support_lora_qwen3_4b_base_test.json",
+   "prompt": "SFT 同款短提示词",
+   "note": "未微调基座，同测试集",
+   "macro_f1": 0.6208,
+   "accuracy": 0.7,
+   "ci95": {
+    "macro_f1": [
+     0.4812,
+     0.7486
+    ],
+    "accuracy": [
+     0.5833,
+     0.8167
+    ]
+   },
+   "errors": [
+    {
+     "id": "cs-0001",
+     "gold": "partial",
+     "pred": "support"
+    },
+    {
+     "id": "cs-0006",
+     "gold": "partial",
+     "pred": "support"
+    },
+    {
+     "id": "cs-0008",
+     "gold": "contradict",
+     "pred": "support"
+    },
+    {
+     "id": "cs-0025",
+     "gold": "partial",
+     "pred": "support"
+    },
+    {
+     "id": "cs-0028",
+     "gold": "contradict",
+     "pred": "support"
+    },
+    {
+     "id": "cs-0031",
+     "gold": "partial",
+     "pred": "support"
+    },
+    {
+     "id": "cs-0034",
+     "gold": "partial",
+     "pred": "support"
+    },
+    {
+     "id": "cs-0037",
+     "gold": "partial",
+     "pred": "support"
+    },
+    {
+     "id": "cs-0040",
+     "gold": "contradict",
+     "pred": "support"
+    },
+    {
+     "id": "cs-0049",
+     "gold": "partial",
+     "pred": "support"
+    },
+    {
+     "id": "cs-0050",
+     "gold": "partial",
+     "pred": "support"
+    },
+    {
+     "id": "cs-0061",
+     "gold": "partial",
+     "pred": "support"
+    },
+    {
+     "id": "cs-0063",
+     "gold": "contradict",
+     "pred": "support"
+    },
+    {
+     "id": "cs-0065",
+     "gold": "partial",
+     "pred": "support"
+    },
+    {
+     "id": "cs-0072",
+     "gold": "partial",
+     "pred": "no_evidence"
+    },
+    {
+     "id": "cs-0083",
+     "gold": "contradict",
+     "pred": "support"
+    },
+    {
+     "id": "cs-0084",
+     "gold": "contradict",
+     "pred": "support"
+    },
+    {
+     "id": "cs-0085",
+     "gold": "contradict",
+     "pred": "support"
+    }
+   ]
+  },
+  {
+   "id": "qwen3-4b-lora",
+   "label": "Qwen3-4B + LoRA",
+   "n": 60,
+   "source": "data/experiments/support_lora_qwen3_4b_test_predictions.json",
+   "prompt": "SFT 短提示词（产品路径 shim）",
+   "note": "adapter 132 MB；训练 600 条；test 满分是构造模板饱和，不代表 4B 能力上限",
+   "macro_f1": 1.0,
+   "accuracy": 1.0,
+   "ci95": {
+    "macro_f1": [
+     1.0,
+     1.0
+    ],
+    "accuracy": [
+     1.0,
+     1.0
+    ]
+   },
+   "errors": []
+  }
+ ]
+}

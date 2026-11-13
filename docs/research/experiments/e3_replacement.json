@@ -1,0 +1,89 @@
+{
+  "experiment": "E3",
+  "n": {
+    "queries": 438,
+    "pool": 477,
+    "papers": 21
+  },
+  "dataset": {
+    "name": "CiteGuard-CN replacement eval (citation context -> cited reference)",
+    "source_file": "data/experiments/replacement_eval_dataset.json",
+    "builder": "scripts/build_replacement_eval.py",
+    "corpus": "data/real_corpus/ 22 OA PDFs (20 Chinese journals + 2 English)",
+    "boundary": "Ground truth is the cited reference; candidate pool is the 22-paper corpus. This measures context-to-reference retrieval, not whether the reference actually supports the claim.",
+    "license_note": "22 篇 OA PDF 仅本地评测、不再分发；见 docs/licenses.md"
+  },
+  "methods": {
+    "title": {
+      "metrics": {
+        "n": 438,
+        "recall@1": 0.1712,
+        "recall@3": 0.2329,
+        "recall@5": 0.2763,
+        "mrr": 0.2245
+      },
+      "source": "reproduced this run"
+    },
+    "bm25": {
+      "metrics": {
+        "n": 438,
+        "recall@1": 0.1872,
+        "recall@3": 0.258,
+        "recall@5": 0.29,
+        "mrr": 0.2428
+      },
+      "source": "reproduced this run",
+      "tokenizer": "latin/digit >=2 + CJK char bigrams, k1=1.5 b=0.75"
+    },
+    "bge": {
+      "metrics": {
+        "n": 438,
+        "recall@1": 0.1986,
+        "recall@3": 0.3219,
+        "recall@5": 0.3973,
+        "mrr": 0.2948
+      },
+      "source": "recorded in data/experiments/replacement_eval.json",
+      "rerun": false,
+      "why_not_rerun": "CITEGUARD_EMBED_ENDPOINT 未配置，BGE 服务当前未开"
+    }
+  },
+  "reproduction": {
+    "title": "exact match vs recorded file (all four metrics identical)",
+    "bm25": "exact match vs recorded file (all four metrics identical)",
+    "bge": "not run in this environment",
+    "command": "PYTHONPATH=src python scripts/eval_replacement.py --methods title,bm25"
+  },
+  "deltas": {
+    "bge_minus_bm25": {
+      "recall@1": 0.0114,
+      "recall@3": 0.0639,
+      "recall@5": 0.1073,
+      "mrr": 0.052
+    },
+    "bge_minus_title": {
+      "recall@1": 0.0274,
+      "recall@3": 0.089,
+      "recall@5": 0.121,
+      "mrr": 0.0703
+    },
+    "bm25_minus_title": {
+      "recall@1": 0.016,
+      "recall@3": 0.0251,
+      "recall@5": 0.0137,
+      "mrr": 0.0183
+    }
+  },
+  "kill": {
+    "metric": "recall@3",
+    "threshold": 0.02,
+    "reference": "BGE-M3 R@3 0.3219 vs BM25 R@3 0.2580",
+    "semantic_gain_over_bm25": 0.0639,
+    "triggered": false,
+    "new_reranker_tested": false,
+    "note": "现有 BGE-M3 语义路径相对 BM25 的 +0.0639 超过 +0.02，kill 未触发；但本次未引入新重排器，不能据此 adopt 新组件。"
+  },
+  "decision": "adopt",
+  "decision_detail": "adopt：现有 BGE-M3 语义检索在本域 438 查询上 R@3 0.3219，比 BM25 高 +0.0639（> kill 阈值 +0.02），说明语义检索路线有效，维持现有实现；hold：不新增重排器（本次没有新方法可测），且 BGE 数字为 2026-11-13 记录值、本次未能复跑。提醒：绝对 R@3 仅 0.32，替换候选 top-3 约 1/3 命中，CiteMap 不得承诺高命中率。",
+  "reproducibility_note": "BGE 复跑需 CITEGUARD_EMBED_ENDPOINT；title/BM25 已在本次运行中完全复现。"
+}

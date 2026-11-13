@@ -163,6 +163,21 @@ def rows():
         "screenshot": "",
     })
 
+    d = load("data/experiments/support_matrix.json")
+    sysm = {s["id"]: s for s in d["systems"]}
+    q = sysm["qwen3-4b-lora"]
+    lo, hi = q["ci95"]["macro_f1"]
+    out.append({
+        "category": "模型",
+        "claim": "Qwen3-4B LoRA 支持度判定",
+        "value": f"test macro-F1 {f4(q['macro_f1'])} / acc {f4(q['accuracy'])}（95% CI {f4(lo)}–{f4(hi)}）",
+        "n": "60 条 test（train 600）",
+        "artifact": "data/experiments/support_matrix.json",
+        "command": "PYTHONPATH=src python scripts/build_support_matrix.py",
+        "note": "构造标签；adapter 132 MB；满分是构造模板饱和，不代表开放世界能力",
+        "screenshot": "",
+    })
+
     d = load("data/experiments/chartcheck_val400_v3.json")
     out.append({
         "category": "图表",
@@ -346,7 +361,6 @@ def rows():
 
 PENDING = [
     ("人审", "100 条三人盲标", "包已生成，κ 待回收；不得把构造标签写作人审金标", "dist/CiteGuard-CN_盲标包_100条_发给标注者.zip"),
-    ("模型", "Qwen3-4B LoRA", "训练/评测进行中，结果未出；出结果前不写 F1", "t3"),
     ("CiteMap", "60 格人工核对", "只有 10 条人工示例，60 格核对未完成", "t4"),
     ("Live", "真实页面 30 条句子 hit@3", "浏览器扩展 v2 未做", "B2"),
 ]
@@ -395,7 +409,7 @@ def build() -> tuple[str, dict]:
         "- 「构造标签」指标签由构造规则决定，不是人工语义标注；不能写成人工金标准。",
         "- 「Unverified」是没核到，不是判假；「Major」才是指控。",
         "- 外部数据集（ChartCheck/SciFact/T2Retrieval）只用于对照，不能与构造集混算。",
-        "- 人审与 4B 结果未回收前，本表保持 pending，不用预测值占位。",
+        "- 人审与 CiteMap/Live 核对未完成前，本表保持 pending，不用预测值占位。",
         "",
     ]
     md = "\n".join(lines)

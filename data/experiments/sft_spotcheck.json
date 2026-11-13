@@ -1,0 +1,688 @@
+{
+  "generated_at": "2026-11-13T16:37:42+00:00",
+  "seed": 20261114,
+  "n": 20,
+  "note": "Deterministic sample (seed above); messages use the same system prompt and user template as scripts/train_support_lora.py.",
+  "items": [
+    {
+      "id": "a3-0037",
+      "split": "train",
+      "label": "support",
+      "construction": "support:core_sentence",
+      "claim": "快速变化的社会将给人类的文化、心理和行为带来怎样的影响?",
+      "evidence": "快速变化的社会将给人类的文化、心理和行为带来怎样的影响?应本刊主编邀请，中国科学院心理研究所蔡华俭研究员对心理学视野下的针对中国社会变化的相关研究进行了全面回顾和整理。",
+      "claim_source": {
+        "openalex_id": "https://openalex.org/W3089125693",
+        "title": "半个多世纪来中国人的心理与行为变化——心理学视野下的研究",
+        "doi": "10.3724/sp.j.1042.2020.01599",
+        "year": 2020
+      },
+      "evidence_source": {
+        "openalex_id": "https://openalex.org/W3089125693",
+        "title": "半个多世纪来中国人的心理与行为变化——心理学视野下的研究",
+        "doi": "10.3724/sp.j.1042.2020.01599",
+        "year": 2020
+      },
+      "messages": [
+        {
+          "role": "system",
+          "content": "你是学术引文核验员。判断【证据片段】是否支持【引用句】，四选一：support（完全支持）、partial（部分支持）、contradict（矛盾）、no_evidence（证据不足）。只输出 JSON：{\"label\": \"...\"}。"
+        },
+        {
+          "role": "user",
+          "content": "【引用句】快速变化的社会将给人类的文化、心理和行为带来怎样的影响?\n【证据片段】快速变化的社会将给人类的文化、心理和行为带来怎样的影响?应本刊主编邀请，中国科学院心理研究所蔡华俭研究员对心理学视野下的针对中国社会变化的相关研究进行了全面回顾和整理。"
+        },
+        {
+          "role": "assistant",
+          "content": "{\"label\": \"support\"}"
+        }
+      ]
+    },
+    {
+      "id": "a3-0045",
+      "split": "train",
+      "label": "no_evidence",
+      "construction": "no_evidence:cross_paper_disjoint_topic",
+      "claim": "心血管疾病是中国城乡居民死亡的首要原因。",
+      "evidence": "健康领域的跨期决策关系着个体和国民的健康和福祉。目前学界对该领域的研究主要停留在参考传统金钱领域的相关理论模型和方法的阶段，但健康跨期决策具有领域特异性，沿袭金钱领域理论模型和方法，导致该领域在研究方法和结果上存在较大的不一致性。",
+      "claim_source": {
+        "openalex_id": "https://openalex.org/W4399758146",
+        "title": "[Chinese guidelines for the diagnosis and management of patients with chronic coronary syndrome].",
+        "doi": "10.3760/cma.j.cn112148-20240325-00168",
+        "year": 2024
+      },
+      "evidence_source": {
+        "openalex_id": "https://openalex.org/W3088806337",
+        "title": "健康领域的跨期决策与健康行为",
+        "doi": "10.3724/sp.j.1042.2020.01926",
+        "year": 2020
+      },
+      "messages": [
+        {
+          "role": "system",
+          "content": "你是学术引文核验员。判断【证据片段】是否支持【引用句】，四选一：support（完全支持）、partial（部分支持）、contradict（矛盾）、no_evidence（证据不足）。只输出 JSON：{\"label\": \"...\"}。"
+        },
+        {
+          "role": "user",
+          "content": "【引用句】心血管疾病是中国城乡居民死亡的首要原因。\n【证据片段】健康领域的跨期决策关系着个体和国民的健康和福祉。目前学界对该领域的研究主要停留在参考传统金钱领域的相关理论模型和方法的阶段，但健康跨期决策具有领域特异性，沿袭金钱领域理论模型和方法，导致该领域在研究方法和结果上存在较大的不一致性。"
+        },
+        {
+          "role": "assistant",
+          "content": "{\"label\": \"no_evidence\"}"
+        }
+      ]
+    },
+    {
+      "id": "a3-0148",
+      "split": "train",
+      "label": "support",
+      "construction": "support:core_sentence",
+      "claim": "在新质生产力迅猛发展的背景下，高职院校的思想政治教育面临着前所未有的挑战与机遇。",
+      "evidence": "在新质生产力迅猛发展的背景下，高职院校的思想政治教育面临着前所未有的挑战与机遇。新质生产力以创新为核心，融合数字化、智能化技术，重塑了教育的理念与实践路径。",
+      "claim_source": {
+        "openalex_id": "https://openalex.org/W4415952946",
+        "title": "新质生产力赋能高职学生思想政治教育创新路径研究",
+        "doi": "10.70693/rwsk.v1i10.1516",
+        "year": 2025
+      },
+      "evidence_source": {
+        "openalex_id": "https://openalex.org/W4415952946",
+        "title": "新质生产力赋能高职学生思想政治教育创新路径研究",
+        "doi": "10.70693/rwsk.v1i10.1516",
+        "year": 2025
+      },
+      "messages": [
+        {
+          "role": "system",
+          "content": "你是学术引文核验员。判断【证据片段】是否支持【引用句】，四选一：support（完全支持）、partial（部分支持）、contradict（矛盾）、no_evidence（证据不足）。只输出 JSON：{\"label\": \"...\"}。"
+        },
+        {
+          "role": "user",
+          "content": "【引用句】在新质生产力迅猛发展的背景下，高职院校的思想政治教育面临着前所未有的挑战与机遇。\n【证据片段】在新质生产力迅猛发展的背景下，高职院校的思想政治教育面临着前所未有的挑战与机遇。新质生产力以创新为核心，融合数字化、智能化技术，重塑了教育的理念与实践路径。"
+        },
+        {
+          "role": "assistant",
+          "content": "{\"label\": \"support\"}"
+        }
+      ]
+    },
+    {
+      "id": "a3-0223",
+      "split": "train",
+      "label": "no_evidence",
+      "construction": "no_evidence:cross_paper_disjoint_topic",
+      "claim": "厚朴作为一种中草药，具有抗菌、平泻、平喘等多种功效，尤其在预防龋病方面具有显著意义。",
+      "evidence": "新工科建设背景下，开展高分子材料与工程专业创新人才培养模式的研究与探索，对提升应用型工科专业人才培育水平与质量有较大的现实意义。本文基于OBE理念，提出构建“科教融汇、产教融合、德技耦合、科创融通”的高分子材料与工程专业创新人才培养模式，探究融通教学-科研-双创-思政的创新人才培养实施的有效策略。",
+      "claim_source": {
+        "openalex_id": "https://openalex.org/W4237881452",
+        "title": "厚朴防治龋病的研究进展",
+        "doi": "10.26549/yzlcyxzz.v3i4.4409",
+        "year": 2020
+      },
+      "evidence_source": {
+        "openalex_id": "https://openalex.org/W4412770796",
+        "title": "新工科背景下高分子材料与工程专业创新人才培养模式的改革与探索",
+        "doi": "10.61369/etr.10573",
+        "year": 2025
+      },
+      "messages": [
+        {
+          "role": "system",
+          "content": "你是学术引文核验员。判断【证据片段】是否支持【引用句】，四选一：support（完全支持）、partial（部分支持）、contradict（矛盾）、no_evidence（证据不足）。只输出 JSON：{\"label\": \"...\"}。"
+        },
+        {
+          "role": "user",
+          "content": "【引用句】厚朴作为一种中草药，具有抗菌、平泻、平喘等多种功效，尤其在预防龋病方面具有显著意义。\n【证据片段】新工科建设背景下，开展高分子材料与工程专业创新人才培养模式的研究与探索，对提升应用型工科专业人才培育水平与质量有较大的现实意义。本文基于OBE理念，提出构建“科教融汇、产教融合、德技耦合、科创融通”的高分子材料与工程专业创新人才培养模式，探究融通教学-科研-双创-思政的创新人才培养实施的有效策略。"
+        },
+        {
+          "role": "assistant",
+          "content": "{\"label\": \"no_evidence\"}"
+        }
+      ]
+    },
+    {
+      "id": "a3-0302",
+      "split": "train",
+      "label": "contradict",
+      "construction": "contradict:antonym 提升->降低",
+      "claim": "随着数字经济的快速发展，青岛市乡村旅游得到了显著的降低。",
+      "evidence": "随着数字经济的快速发展，青岛市乡村旅游得到了显著的提升。",
+      "claim_source": {
+        "openalex_id": "https://openalex.org/W4412771901",
+        "title": "数字经济赋能青岛乡村旅游发展路径研究",
+        "doi": "10.61369/etr.8912",
+        "year": 2024
+      },
+      "evidence_source": {
+        "openalex_id": "https://openalex.org/W4412771901",
+        "title": "数字经济赋能青岛乡村旅游发展路径研究",
+        "doi": "10.61369/etr.8912",
+        "year": 2024
+      },
+      "messages": [
+        {
+          "role": "system",
+          "content": "你是学术引文核验员。判断【证据片段】是否支持【引用句】，四选一：support（完全支持）、partial（部分支持）、contradict（矛盾）、no_evidence（证据不足）。只输出 JSON：{\"label\": \"...\"}。"
+        },
+        {
+          "role": "user",
+          "content": "【引用句】随着数字经济的快速发展，青岛市乡村旅游得到了显著的降低。\n【证据片段】随着数字经济的快速发展，青岛市乡村旅游得到了显著的提升。"
+        },
+        {
+          "role": "assistant",
+          "content": "{\"label\": \"contradict\"}"
+        }
+      ]
+    },
+    {
+      "id": "a3-0349",
+      "split": "train",
+      "label": "support",
+      "construction": "support:core_sentence",
+      "claim": "本文通过系统性文献综述，探讨生成式人工智能对学习的影响，重点关注其在提升学习动机、学习效率和学习成果评估方面的潜力。",
+      "evidence": "本文通过系统性文献综述，探讨生成式人工智能对学习的影响，重点关注其在提升学习动机、学习效率和学习成果评估方面的潜力。研究基于CiteSpace分析工具对相关文献进行计量分析，揭示了生成式人工智能在教育领域的研究热点、趋势以及面临的挑战。",
+      "claim_source": {
+        "openalex_id": "https://openalex.org/W4412906004",
+        "title": "生成式人工智能技术对学习的影响研究",
+        "doi": "10.61369/edtr.2025020013",
+        "year": 2025
+      },
+      "evidence_source": {
+        "openalex_id": "https://openalex.org/W4412906004",
+        "title": "生成式人工智能技术对学习的影响研究",
+        "doi": "10.61369/edtr.2025020013",
+        "year": 2025
+      },
+      "messages": [
+        {
+          "role": "system",
+          "content": "你是学术引文核验员。判断【证据片段】是否支持【引用句】，四选一：support（完全支持）、partial（部分支持）、contradict（矛盾）、no_evidence（证据不足）。只输出 JSON：{\"label\": \"...\"}。"
+        },
+        {
+          "role": "user",
+          "content": "【引用句】本文通过系统性文献综述，探讨生成式人工智能对学习的影响，重点关注其在提升学习动机、学习效率和学习成果评估方面的潜力。\n【证据片段】本文通过系统性文献综述，探讨生成式人工智能对学习的影响，重点关注其在提升学习动机、学习效率和学习成果评估方面的潜力。研究基于CiteSpace分析工具对相关文献进行计量分析，揭示了生成式人工智能在教育领域的研究热点、趋势以及面临的挑战。"
+        },
+        {
+          "role": "assistant",
+          "content": "{\"label\": \"support\"}"
+        }
+      ]
+    },
+    {
+      "id": "c2-0004",
+      "split": "train",
+      "label": "partial",
+      "construction": "partial:evidence_is_one_assertion_clause",
+      "claim": "随着多材料激光增材制造科学与技术的不断进步，一体化制备极端使役性能的大物性差异材料与元件成为可能。",
+      "evidence": "一体化制备极端使役性能的大物性差异材料与元件成为可能。",
+      "claim_source": {
+        "openalex_id": "https://openalex.org/W4392665442",
+        "title": "大物性差异多材料激光增材制造界面研究进展(特邀)",
+        "doi": "10.3788/cjl231414",
+        "year": 2024
+      },
+      "evidence_source": {
+        "openalex_id": "https://openalex.org/W4392665442",
+        "title": "大物性差异多材料激光增材制造界面研究进展(特邀)",
+        "doi": "10.3788/cjl231414",
+        "year": 2024
+      },
+      "messages": [
+        {
+          "role": "system",
+          "content": "你是学术引文核验员。判断【证据片段】是否支持【引用句】，四选一：support（完全支持）、partial（部分支持）、contradict（矛盾）、no_evidence（证据不足）。只输出 JSON：{\"label\": \"...\"}。"
+        },
+        {
+          "role": "user",
+          "content": "【引用句】随着多材料激光增材制造科学与技术的不断进步，一体化制备极端使役性能的大物性差异材料与元件成为可能。\n【证据片段】一体化制备极端使役性能的大物性差异材料与元件成为可能。"
+        },
+        {
+          "role": "assistant",
+          "content": "{\"label\": \"partial\"}"
+        }
+      ]
+    },
+    {
+      "id": "c2-0006",
+      "split": "train",
+      "label": "partial",
+      "construction": "partial:evidence_is_one_assertion_clause",
+      "claim": "随着中国国民经济发展迈入新时代，民营经济作为中国社会主义市场经济的重要组成部分，也迎来了新的挑战和转型。",
+      "evidence": "民营经济作为中国社会主义市场经济的重要组成部分。",
+      "claim_source": {
+        "openalex_id": "https://openalex.org/W4250501434",
+        "title": "赤峰民营经济高质量发展研究",
+        "doi": "10.36012/emr.v2i3.1775",
+        "year": 2020
+      },
+      "evidence_source": {
+        "openalex_id": "https://openalex.org/W4250501434",
+        "title": "赤峰民营经济高质量发展研究",
+        "doi": "10.36012/emr.v2i3.1775",
+        "year": 2020
+      },
+      "messages": [
+        {
+          "role": "system",
+          "content": "你是学术引文核验员。判断【证据片段】是否支持【引用句】，四选一：support（完全支持）、partial（部分支持）、contradict（矛盾）、no_evidence（证据不足）。只输出 JSON：{\"label\": \"...\"}。"
+        },
+        {
+          "role": "user",
+          "content": "【引用句】随着中国国民经济发展迈入新时代，民营经济作为中国社会主义市场经济的重要组成部分，也迎来了新的挑战和转型。\n【证据片段】民营经济作为中国社会主义市场经济的重要组成部分。"
+        },
+        {
+          "role": "assistant",
+          "content": "{\"label\": \"partial\"}"
+        }
+      ]
+    },
+    {
+      "id": "c2-0048",
+      "split": "train",
+      "label": "contradict",
+      "construction": "contradict:antonym 增强->削弱",
+      "claim": "随着传感器技术的不断发展，三维点云被广泛应用于自动驾驶、机器人、遥感、文物修复、削弱现实、虚拟现实等领域的视觉任务中。",
+      "evidence": "随着传感器技术的不断发展，三维点云被广泛应用于自动驾驶、机器人、遥感、文物修复、增强现实、虚拟现实等领域的视觉任务中。",
+      "claim_source": {
+        "openalex_id": "https://openalex.org/W4395055411",
+        "title": "基于深度学习的三维点云处理方法研究进展",
+        "doi": "10.3788/cjl230924",
+        "year": 2024
+      },
+      "evidence_source": {
+        "openalex_id": "https://openalex.org/W4395055411",
+        "title": "基于深度学习的三维点云处理方法研究进展",
+        "doi": "10.3788/cjl230924",
+        "year": 2024
+      },
+      "messages": [
+        {
+          "role": "system",
+          "content": "你是学术引文核验员。判断【证据片段】是否支持【引用句】，四选一：support（完全支持）、partial（部分支持）、contradict（矛盾）、no_evidence（证据不足）。只输出 JSON：{\"label\": \"...\"}。"
+        },
+        {
+          "role": "user",
+          "content": "【引用句】随着传感器技术的不断发展，三维点云被广泛应用于自动驾驶、机器人、遥感、文物修复、削弱现实、虚拟现实等领域的视觉任务中。\n【证据片段】随着传感器技术的不断发展，三维点云被广泛应用于自动驾驶、机器人、遥感、文物修复、增强现实、虚拟现实等领域的视觉任务中。"
+        },
+        {
+          "role": "assistant",
+          "content": "{\"label\": \"contradict\"}"
+        }
+      ]
+    },
+    {
+      "id": "c2-0049",
+      "split": "train",
+      "label": "partial",
+      "construction": "partial:evidence_is_one_assertion_clause",
+      "claim": "针对光学遥感图像目标分布密集、尺度变化范围较大及小目标特征信息过少等造成目标检测精度不高、泛化能力差等问题，本文提出了一种增强小目标特征的多尺度神经网络(ESF-MNet)。",
+      "evidence": "本文提出了一种增强小目标特征的多尺度神经网络(ESF-MNet)。",
+      "claim_source": {
+        "openalex_id": "https://openalex.org/W4395046552",
+        "title": "增强小目标特征的多尺度光学遥感图像目标检测",
+        "doi": "10.3788/aos231676",
+        "year": 2024
+      },
+      "evidence_source": {
+        "openalex_id": "https://openalex.org/W4395046552",
+        "title": "增强小目标特征的多尺度光学遥感图像目标检测",
+        "doi": "10.3788/aos231676",
+        "year": 2024
+      },
+      "messages": [
+        {
+          "role": "system",
+          "content": "你是学术引文核验员。判断【证据片段】是否支持【引用句】，四选一：support（完全支持）、partial（部分支持）、contradict（矛盾）、no_evidence（证据不足）。只输出 JSON：{\"label\": \"...\"}。"
+        },
+        {
+          "role": "user",
+          "content": "【引用句】针对光学遥感图像目标分布密集、尺度变化范围较大及小目标特征信息过少等造成目标检测精度不高、泛化能力差等问题，本文提出了一种增强小目标特征的多尺度神经网络(ESF-MNet)。\n【证据片段】本文提出了一种增强小目标特征的多尺度神经网络(ESF-MNet)。"
+        },
+        {
+          "role": "assistant",
+          "content": "{\"label\": \"partial\"}"
+        }
+      ]
+    },
+    {
+      "id": "cs-0062",
+      "split": "dev",
+      "label": "support",
+      "construction": "support:core_sentence",
+      "claim": "类风湿关节炎属于一种慢性侵蚀性关节炎，基本的症状属于全身性免疫病。",
+      "evidence": "类风湿关节炎属于一种慢性侵蚀性关节炎，基本的症状属于全身性免疫病。由于使用西医的方式治疗风湿性关节炎有一定的局限。",
+      "claim_source": {
+        "openalex_id": "https://openalex.org/W4232930047",
+        "title": "中医护理技术在类风湿关节炎中的应用进展研究",
+        "doi": "10.32629/bmtr.v2i1.404",
+        "year": 2020
+      },
+      "evidence_source": {
+        "openalex_id": "https://openalex.org/W4232930047",
+        "title": "中医护理技术在类风湿关节炎中的应用进展研究",
+        "doi": "10.32629/bmtr.v2i1.404",
+        "year": 2020
+      },
+      "messages": [
+        {
+          "role": "system",
+          "content": "你是学术引文核验员。判断【证据片段】是否支持【引用句】，四选一：support（完全支持）、partial（部分支持）、contradict（矛盾）、no_evidence（证据不足）。只输出 JSON：{\"label\": \"...\"}。"
+        },
+        {
+          "role": "user",
+          "content": "【引用句】类风湿关节炎属于一种慢性侵蚀性关节炎，基本的症状属于全身性免疫病。\n【证据片段】类风湿关节炎属于一种慢性侵蚀性关节炎，基本的症状属于全身性免疫病。由于使用西医的方式治疗风湿性关节炎有一定的局限。"
+        },
+        {
+          "role": "assistant",
+          "content": "{\"label\": \"support\"}"
+        }
+      ]
+    },
+    {
+      "id": "cs-0067",
+      "split": "dev",
+      "label": "partial",
+      "construction": "partial:evidence_is_one_assertion_clause",
+      "claim": "基于“乡村振兴”战略背景下，宁夏民间美术作为中国独特的区域性民间美术，受到社会潮流发展的影响，给民间美术带来极大的冲击，从而阻碍了宁夏民间美术的发展。",
+      "evidence": "宁夏民间美术作为中国独特的区域性民间美术。",
+      "claim_source": {
+        "openalex_id": "https://openalex.org/W4252442999",
+        "title": "“乡村振兴”背景下宁夏民间美术的发展与创新研究",
+        "doi": "10.26549/whyscx.v3i6.6048",
+        "year": 2020
+      },
+      "evidence_source": {
+        "openalex_id": "https://openalex.org/W4252442999",
+        "title": "“乡村振兴”背景下宁夏民间美术的发展与创新研究",
+        "doi": "10.26549/whyscx.v3i6.6048",
+        "year": 2020
+      },
+      "messages": [
+        {
+          "role": "system",
+          "content": "你是学术引文核验员。判断【证据片段】是否支持【引用句】，四选一：support（完全支持）、partial（部分支持）、contradict（矛盾）、no_evidence（证据不足）。只输出 JSON：{\"label\": \"...\"}。"
+        },
+        {
+          "role": "user",
+          "content": "【引用句】基于“乡村振兴”战略背景下，宁夏民间美术作为中国独特的区域性民间美术，受到社会潮流发展的影响，给民间美术带来极大的冲击，从而阻碍了宁夏民间美术的发展。\n【证据片段】宁夏民间美术作为中国独特的区域性民间美术。"
+        },
+        {
+          "role": "assistant",
+          "content": "{\"label\": \"partial\"}"
+        }
+      ]
+    },
+    {
+      "id": "cs-0076",
+      "split": "dev",
+      "label": "no_evidence",
+      "construction": "no_evidence:cross_paper_disjoint_topic",
+      "claim": "数学在各个学习阶段都是十分重要的一门学科，小学数学教学大纲明确指出，必须重视培养学生的逻辑思维能力。",
+      "evidence": "乡村治理是国家治理的基石，而积分治理是推动乡村治理的创新实践。为深入推进乡村治理创新发展，采用典型案例的多维比较法，分析不同地区积分制赋能乡村治理的一般运行逻辑。",
+      "claim_source": {
+        "openalex_id": "https://openalex.org/W4251863282",
+        "title": "论小学数学教学中学生逻辑思维能力的培养",
+        "doi": "10.26549/jxffcxysj.v3i14.5978",
+        "year": 2020
+      },
+      "evidence_source": {
+        "openalex_id": "https://openalex.org/W4411653565",
+        "title": "农村积分制赋能基层治理的运行逻辑与路径优化——基于三个典型案例的分析",
+        "doi": "10.54254/3050-2160/2025.24379",
+        "year": 2025
+      },
+      "messages": [
+        {
+          "role": "system",
+          "content": "你是学术引文核验员。判断【证据片段】是否支持【引用句】，四选一：support（完全支持）、partial（部分支持）、contradict（矛盾）、no_evidence（证据不足）。只输出 JSON：{\"label\": \"...\"}。"
+        },
+        {
+          "role": "user",
+          "content": "【引用句】数学在各个学习阶段都是十分重要的一门学科，小学数学教学大纲明确指出，必须重视培养学生的逻辑思维能力。\n【证据片段】乡村治理是国家治理的基石，而积分治理是推动乡村治理的创新实践。为深入推进乡村治理创新发展，采用典型案例的多维比较法，分析不同地区积分制赋能乡村治理的一般运行逻辑。"
+        },
+        {
+          "role": "assistant",
+          "content": "{\"label\": \"no_evidence\"}"
+        }
+      ]
+    },
+    {
+      "id": "cs-0095",
+      "split": "dev",
+      "label": "contradict",
+      "construction": "contradict:antonym 促进->抑制",
+      "claim": "采用中西医结合的护理干预可以非常有效地对糖尿病患者的血糖进行控制，更好地抑制了患者的康复。",
+      "evidence": "采用中西医结合的护理干预可以非常有效地对糖尿病患者的血糖进行控制，更好地促进了患者的康复。",
+      "claim_source": {
+        "openalex_id": "https://openalex.org/W4206636511",
+        "title": "中西医结合护理干预对糖尿病患者血糖控制效果的影响",
+        "doi": "10.36012/pmr.v2i1.1344",
+        "year": 2020
+      },
+      "evidence_source": {
+        "openalex_id": "https://openalex.org/W4206636511",
+        "title": "中西医结合护理干预对糖尿病患者血糖控制效果的影响",
+        "doi": "10.36012/pmr.v2i1.1344",
+        "year": 2020
+      },
+      "messages": [
+        {
+          "role": "system",
+          "content": "你是学术引文核验员。判断【证据片段】是否支持【引用句】，四选一：support（完全支持）、partial（部分支持）、contradict（矛盾）、no_evidence（证据不足）。只输出 JSON：{\"label\": \"...\"}。"
+        },
+        {
+          "role": "user",
+          "content": "【引用句】采用中西医结合的护理干预可以非常有效地对糖尿病患者的血糖进行控制，更好地抑制了患者的康复。\n【证据片段】采用中西医结合的护理干预可以非常有效地对糖尿病患者的血糖进行控制，更好地促进了患者的康复。"
+        },
+        {
+          "role": "assistant",
+          "content": "{\"label\": \"contradict\"}"
+        }
+      ]
+    },
+    {
+      "id": "cs-0099",
+      "split": "dev",
+      "label": "support",
+      "construction": "support:core_sentence",
+      "claim": "探讨和分析血清降钙素原在重症感染患者临床治疗中的应用效果。",
+      "evidence": "探讨和分析血清降钙素原在重症感染患者临床治疗中的应用效果。选取2020年1月到12月间在该院ICU接受治疗的70例重症感染患者为对象展开此次研究。",
+      "claim_source": {
+        "openalex_id": "https://openalex.org/W4246670881",
+        "title": "血清降钙素原在重症感染患者临床治疗中的应用效果研究",
+        "doi": "10.26549/yzlcyxzz.v4i4.7065",
+        "year": 2021
+      },
+      "evidence_source": {
+        "openalex_id": "https://openalex.org/W4246670881",
+        "title": "血清降钙素原在重症感染患者临床治疗中的应用效果研究",
+        "doi": "10.26549/yzlcyxzz.v4i4.7065",
+        "year": 2021
+      },
+      "messages": [
+        {
+          "role": "system",
+          "content": "你是学术引文核验员。判断【证据片段】是否支持【引用句】，四选一：support（完全支持）、partial（部分支持）、contradict（矛盾）、no_evidence（证据不足）。只输出 JSON：{\"label\": \"...\"}。"
+        },
+        {
+          "role": "user",
+          "content": "【引用句】探讨和分析血清降钙素原在重症感染患者临床治疗中的应用效果。\n【证据片段】探讨和分析血清降钙素原在重症感染患者临床治疗中的应用效果。选取2020年1月到12月间在该院ICU接受治疗的70例重症感染患者为对象展开此次研究。"
+        },
+        {
+          "role": "assistant",
+          "content": "{\"label\": \"support\"}"
+        }
+      ]
+    },
+    {
+      "id": "cs-0031",
+      "split": "test",
+      "label": "partial",
+      "construction": "partial:evidence_is_one_assertion_clause",
+      "claim": "与象材料的 P_1 , F_1 , P_2，和 F_2 人口, Akaike 的信息标准( AIC )被用来识别影响量的特点的主要基因，并且当主要基因存在时，主要基因和多基因和他们的遗传变量的基因效果通过分离分析被估计。",
+      "evidence": "Akaike 的信息标准( AIC )被用来识别影响量的特点的主要基因。",
+      "claim_source": {
+        "openalex_id": "https://openalex.org/W3148919407",
+        "title": "Identification and Genetic Analysis of Fertility Restoration Ability in Dongxiang Wild Rice (Oryza rufipogon)",
+        "doi": "",
+        "year": 2008
+      },
+      "evidence_source": {
+        "openalex_id": "https://openalex.org/W3148919407",
+        "title": "Identification and Genetic Analysis of Fertility Restoration Ability in Dongxiang Wild Rice (Oryza rufipogon)",
+        "doi": "",
+        "year": 2008
+      },
+      "messages": [
+        {
+          "role": "system",
+          "content": "你是学术引文核验员。判断【证据片段】是否支持【引用句】，四选一：support（完全支持）、partial（部分支持）、contradict（矛盾）、no_evidence（证据不足）。只输出 JSON：{\"label\": \"...\"}。"
+        },
+        {
+          "role": "user",
+          "content": "【引用句】与象材料的 P_1 , F_1 , P_2，和 F_2 人口, Akaike 的信息标准( AIC )被用来识别影响量的特点的主要基因，并且当主要基因存在时，主要基因和多基因和他们的遗传变量的基因效果通过分离分析被估计。\n【证据片段】Akaike 的信息标准( AIC )被用来识别影响量的特点的主要基因。"
+        },
+        {
+          "role": "assistant",
+          "content": "{\"label\": \"partial\"}"
+        }
+      ]
+    },
+    {
+      "id": "cs-0040",
+      "split": "test",
+      "label": "contradict",
+      "construction": "contradict:antonym 有效->无效",
+      "claim": "在当前教育领域发展过程中，基于新课程改革工作要求以及新课程教育教学工作理念，重点关注无效性的思维模式，并且将有效性教学思维理念和当下的实际教学内容进行结合，充分摆脱了过去传统教学工作过程中存在的单一化的缺点。",
+      "evidence": "在当前教育领域发展过程中，基于新课程改革工作要求以及新课程教育教学工作理念，重点关注有效性的思维模式，并且将有效性教学思维理念和当下的实际教学内容进行结合，充分摆脱了过去传统教学工作过程中存在的单一化的缺点。",
+      "claim_source": {
+        "openalex_id": "https://openalex.org/W4233039361",
+        "title": "新课程理念下高中语文教学的有效性解析",
+        "doi": "10.26549/jxffcxysj.v4i1.6375",
+        "year": 2021
+      },
+      "evidence_source": {
+        "openalex_id": "https://openalex.org/W4233039361",
+        "title": "新课程理念下高中语文教学的有效性解析",
+        "doi": "10.26549/jxffcxysj.v4i1.6375",
+        "year": 2021
+      },
+      "messages": [
+        {
+          "role": "system",
+          "content": "你是学术引文核验员。判断【证据片段】是否支持【引用句】，四选一：support（完全支持）、partial（部分支持）、contradict（矛盾）、no_evidence（证据不足）。只输出 JSON：{\"label\": \"...\"}。"
+        },
+        {
+          "role": "user",
+          "content": "【引用句】在当前教育领域发展过程中，基于新课程改革工作要求以及新课程教育教学工作理念，重点关注无效性的思维模式，并且将有效性教学思维理念和当下的实际教学内容进行结合，充分摆脱了过去传统教学工作过程中存在的单一化的缺点。\n【证据片段】在当前教育领域发展过程中，基于新课程改革工作要求以及新课程教育教学工作理念，重点关注有效性的思维模式，并且将有效性教学思维理念和当下的实际教学内容进行结合，充分摆脱了过去传统教学工作过程中存在的单一化的缺点。"
+        },
+        {
+          "role": "assistant",
+          "content": "{\"label\": \"contradict\"}"
+        }
+      ]
+    },
+    {
+      "id": "cs-0047",
+      "split": "test",
+      "label": "support",
+      "construction": "support:core_sentence",
+      "claim": "在光学相干层析血流造影(OCTA)系统的实际应用中，高质量数据的采集受到多种因素的干扰，如屈光调节、扫描区域移动、动态成像过程中受试对象眼睛状态波动等。",
+      "evidence": "在光学相干层析血流造影(OCTA)系统的实际应用中，高质量数据的采集受到多种因素的干扰，如屈光调节、扫描区域移动、动态成像过程中受试对象眼睛状态波动等。笔者构建了一种基于图像处理单元(GPU)的OCTA数据实时处理框架，使用C++和CUDA开发系统软件，实现了逆信噪比-复值退相关光学相干层析血流造影(ID-OCTA)的实时信号处理与图像显示，线处理速度达到了365 kHz。",
+      "claim_source": {
+        "openalex_id": "https://openalex.org/W4397012066",
+        "title": "基于GPU高速并行计算实现逆信噪比‐复值退相关OCTA实时成像",
+        "doi": "10.3788/cjl231299",
+        "year": 2024
+      },
+      "evidence_source": {
+        "openalex_id": "https://openalex.org/W4397012066",
+        "title": "基于GPU高速并行计算实现逆信噪比‐复值退相关OCTA实时成像",
+        "doi": "10.3788/cjl231299",
+        "year": 2024
+      },
+      "messages": [
+        {
+          "role": "system",
+          "content": "你是学术引文核验员。判断【证据片段】是否支持【引用句】，四选一：support（完全支持）、partial（部分支持）、contradict（矛盾）、no_evidence（证据不足）。只输出 JSON：{\"label\": \"...\"}。"
+        },
+        {
+          "role": "user",
+          "content": "【引用句】在光学相干层析血流造影(OCTA)系统的实际应用中，高质量数据的采集受到多种因素的干扰，如屈光调节、扫描区域移动、动态成像过程中受试对象眼睛状态波动等。\n【证据片段】在光学相干层析血流造影(OCTA)系统的实际应用中，高质量数据的采集受到多种因素的干扰，如屈光调节、扫描区域移动、动态成像过程中受试对象眼睛状态波动等。笔者构建了一种基于图像处理单元(GPU)的OCTA数据实时处理框架，使用C++和CUDA开发系统软件，实现了逆信噪比-复值退相关光学相干层析血流造影(ID-OCTA)的实时信号处理与图像显示，线处理速度达到了365 kHz。"
+        },
+        {
+          "role": "assistant",
+          "content": "{\"label\": \"support\"}"
+        }
+      ]
+    },
+    {
+      "id": "cs-0058",
+      "split": "test",
+      "label": "no_evidence",
+      "construction": "no_evidence:cross_paper_disjoint_topic",
+      "claim": "高速发展的信息化时代,“互联网+”、ICT 技术等信息技术高水平发展，引发了各学科教学的巨大变革。",
+      "evidence": "传统太赫兹多功能超表面器件只适用于对圆极化波或线极化波进行单独操控，应用场景受到局限。针对这一问题，提出一种全向双功能太赫兹超表面用于对圆极化和线极化波进行操控。",
+      "claim_source": {
+        "openalex_id": "https://openalex.org/W4205659922",
+        "title": "基于人工智能平台的初中英语听说混合教学模式研究",
+        "doi": "10.36012/sde.v3i2.2938",
+        "year": 2021
+      },
+      "evidence_source": {
+        "openalex_id": "https://openalex.org/W4392665141",
+        "title": "全向双功能太赫兹超表面器件",
+        "doi": "10.3788/aos230993",
+        "year": 2024
+      },
+      "messages": [
+        {
+          "role": "system",
+          "content": "你是学术引文核验员。判断【证据片段】是否支持【引用句】，四选一：support（完全支持）、partial（部分支持）、contradict（矛盾）、no_evidence（证据不足）。只输出 JSON：{\"label\": \"...\"}。"
+        },
+        {
+          "role": "user",
+          "content": "【引用句】高速发展的信息化时代,“互联网+”、ICT 技术等信息技术高水平发展，引发了各学科教学的巨大变革。\n【证据片段】传统太赫兹多功能超表面器件只适用于对圆极化波或线极化波进行单独操控，应用场景受到局限。针对这一问题，提出一种全向双功能太赫兹超表面用于对圆极化和线极化波进行操控。"
+        },
+        {
+          "role": "assistant",
+          "content": "{\"label\": \"no_evidence\"}"
+        }
+      ]
+    },
+    {
+      "id": "cs-0094",
+      "split": "test",
+      "label": "support",
+      "construction": "support:core_sentence",
+      "claim": "为了解辽宁红色文化资源融入高校思政课教学的现状，随机抽取辽宁十所不同类型高校的学生进行问卷调查。",
+      "evidence": "为了解辽宁红色文化资源融入高校思政课教学的现状，随机抽取辽宁十所不同类型高校的学生进行问卷调查。结果显示，学生对辽宁红色文化资源有一定的了解，但是了解得不够全面和深入，思政课教师在理论授课中多以“灌输式”将辽宁红色文化资源融入课程，融入的内容枯燥且形式单一，同时思政课程实践育人实效性不强。",
+      "claim_source": {
+        "openalex_id": "https://openalex.org/W4406076997",
+        "title": "辽宁红色文化资源融入高校思政课教学现状研究",
+        "doi": "10.62662/kxwxz0112015",
+        "year": 2024
+      },
+      "evidence_source": {
+        "openalex_id": "https://openalex.org/W4406076997",
+        "title": "辽宁红色文化资源融入高校思政课教学现状研究",
+        "doi": "10.62662/kxwxz0112015",
+        "year": 2024
+      },
+      "messages": [
+        {
+          "role": "system",
+          "content": "你是学术引文核验员。判断【证据片段】是否支持【引用句】，四选一：support（完全支持）、partial（部分支持）、contradict（矛盾）、no_evidence（证据不足）。只输出 JSON：{\"label\": \"...\"}。"
+        },
+        {
+          "role": "user",
+          "content": "【引用句】为了解辽宁红色文化资源融入高校思政课教学的现状，随机抽取辽宁十所不同类型高校的学生进行问卷调查。\n【证据片段】为了解辽宁红色文化资源融入高校思政课教学的现状，随机抽取辽宁十所不同类型高校的学生进行问卷调查。结果显示，学生对辽宁红色文化资源有一定的了解，但是了解得不够全面和深入，思政课教师在理论授课中多以“灌输式”将辽宁红色文化资源融入课程，融入的内容枯燥且形式单一，同时思政课程实践育人实效性不强。"
+        },
+        {
+          "role": "assistant",
+          "content": "{\"label\": \"support\"}"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,627 @@
+{
+  "generated_at": "2026-11-13T16:37:42+00:00",
+  "script": "scripts/verify_sft_splits.py",
+  "data_dir": "data/sft",
+  "raw_batches": {
+    "base": 100,
+    "ext": 60,
+    "v2": 140,
+    "a3": 380
+  },
+  "counts": {
+    "train": 600,
+    "dev": 20,
+    "test": 60
+  },
+  "labels": {
+    "train": {
+      "support": 238,
+      "partial": 165,
+      "contradict": 88,
+      "no_evidence": 109
+    },
+    "dev": {
+      "support": 8,
+      "partial": 5,
+      "contradict": 4,
+      "no_evidence": 3
+    },
+    "test": {
+      "support": 24,
+      "partial": 15,
+      "contradict": 9,
+      "no_evidence": 12
+    }
+  },
+  "lengths": {
+    "train": {
+      "claim_min": 20,
+      "claim_max": 139,
+      "evidence_max": 241
+    },
+    "dev": {
+      "claim_min": 21,
+      "claim_max": 90,
+      "evidence_max": 147
+    },
+    "test": {
+      "claim_min": 23,
+      "claim_max": 137,
+      "evidence_max": 199
+    }
+  },
+  "files": {
+    "support_train.jsonl": {
+      "bytes": 284236,
+      "sha256": "19f4eaae682a61a6d203b812fd54e0f652bdbc252521830f6055f877dfae47e7"
+    },
+    "support_dev.jsonl": {
+      "bytes": 8499,
+      "sha256": "a3ea2edb72fd98b8aea0b477c5131de9186b5a1c10823cbd76c8a61857a16bbb"
+    },
+    "support_test.jsonl": {
+      "bytes": 28826,
+      "sha256": "9f474199142fd4595b21f2b3176dc05d464a171522623b5904d1d6074ed2564e"
+    }
+  },
+  "sources": {
+    "works_per_split": {
+      "train": 709,
+      "dev": 23,
+      "test": 72
+    },
+    "works_total": 804,
+    "overlap": {
+      "train&dev": 0,
+      "train&test": 0,
+      "dev&test": 0
+    },
+    "reused": 0
+  },
+  "unchanged_vs_head": {
+    "head": "e0e44dd",
+    "dev": true,
+    "test": true
+  },
+  "rule_failures": [],
+  "live_sources": [
+    {
+      "item_id": "a3-0297",
+      "batch": "a3",
+      "label": "support",
+      "source_role": "claim_source",
+      "openalex_id": "https://openalex.org/W4253881607",
+      "http_status": 200,
+      "api_id": "https://openalex.org/W4253881607",
+      "id_match": true,
+      "title_similarity": 1.0,
+      "year_match": true,
+      "cached_doi": "10.32629/er.v3i8.3113",
+      "api_doi": "10.32629/er.v3i8.3113",
+      "doi_match": true,
+      "language": "zh",
+      "type": "article",
+      "has_abstract": true,
+      "fragment_in_abstract": true,
+      "status": "verified",
+      "ok": true
+    },
+    {
+      "item_id": "c2-0028",
+      "batch": "v2",
+      "label": "partial",
+      "source_role": "claim_source",
+      "openalex_id": "https://openalex.org/W4396925181",
+      "http_status": 200,
+      "api_id": "https://openalex.org/W4396925181",
+      "id_match": true,
+      "title_similarity": 1.0,
+      "year_match": true,
+      "cached_doi": "10.33142/jscs.v4i1.11454",
+      "api_doi": "10.33142/jscs.v4i1.11454",
+      "doi_match": true,
+      "language": "zh",
+      "type": "article",
+      "has_abstract": true,
+      "fragment_in_abstract": true,
+      "status": "verified",
+      "ok": true
+    },
+    {
+      "item_id": "a3-0226",
+      "batch": "a3",
+      "label": "contradict",
+      "source_role": "evidence_source",
+      "openalex_id": "https://openalex.org/W4393861690",
+      "http_status": 200,
+      "api_id": "https://openalex.org/W4393861690",
+      "id_match": true,
+      "title_similarity": 1.0,
+      "year_match": true,
+      "cached_doi": "10.62662/kxwxz0103013",
+      "api_doi": "10.62662/kxwxz0103013",
+      "doi_match": true,
+      "language": "zh",
+      "type": "article",
+      "has_abstract": true,
+      "fragment_in_abstract": true,
+      "status": "verified",
+      "ok": true
+    },
+    {
+      "item_id": "cx-0041",
+      "batch": "ext",
+      "label": "no_evidence",
+      "source_role": "claim_source",
+      "openalex_id": "https://openalex.org/W4386253311",
+      "http_status": 200,
+      "api_id": "https://openalex.org/W4386253311",
+      "id_match": true,
+      "title_similarity": 1.0,
+      "year_match": true,
+      "cached_doi": "10.55375/jerp.2023.3.12",
+      "api_doi": "10.55375/jerp.2023.3.12",
+      "doi_match": true,
+      "language": "zh",
+      "type": "article",
+      "has_abstract": true,
+      "fragment_in_abstract": true,
+      "status": "verified",
+      "ok": true
+    },
+    {
+      "item_id": "a3-0067",
+      "batch": "a3",
+      "label": "support",
+      "source_role": "claim_source",
+      "openalex_id": "https://openalex.org/W3152146516",
+      "http_status": 200,
+      "api_id": "https://openalex.org/W2114894403",
+      "id_match": false,
+      "title_similarity": 1.0,
+      "year_match": true,
+      "cached_doi": "",
+      "api_doi": "10.3748/wjg.14.5969",
+      "doi_match": true,
+      "language": "en",
+      "type": "review",
+      "has_abstract": true,
+      "fragment_in_abstract": false,
+      "status": "drift_metadata",
+      "ok": false
+    },
+    {
+      "item_id": "c2-0055",
+      "batch": "v2",
+      "label": "partial",
+      "source_role": "claim_source",
+      "openalex_id": "https://openalex.org/W4240771835",
+      "http_status": 200,
+      "api_id": "https://openalex.org/W4240771835",
+      "id_match": true,
+      "title_similarity": 1.0,
+      "year_match": true,
+      "cached_doi": "10.32629/bmtr.v2i2.780",
+      "api_doi": "10.32629/bmtr.v2i2.780",
+      "doi_match": true,
+      "language": "zh",
+      "type": "article",
+      "has_abstract": true,
+      "fragment_in_abstract": true,
+      "status": "verified",
+      "ok": true
+    },
+    {
+      "item_id": "a3-0321",
+      "batch": "a3",
+      "label": "contradict",
+      "source_role": "evidence_source",
+      "openalex_id": "https://openalex.org/W4395046583",
+      "http_status": 200,
+      "api_id": "https://openalex.org/W4395046583",
+      "id_match": true,
+      "title_similarity": 1.0,
+      "year_match": true,
+      "cached_doi": "10.3788/lop231112",
+      "api_doi": "10.3788/lop231112",
+      "doi_match": true,
+      "language": "zh",
+      "type": "article",
+      "has_abstract": true,
+      "fragment_in_abstract": true,
+      "status": "verified",
+      "ok": true
+    },
+    {
+      "item_id": "c2-0010",
+      "batch": "v2",
+      "label": "no_evidence",
+      "source_role": "claim_source",
+      "openalex_id": "https://openalex.org/W4235431221",
+      "http_status": 200,
+      "api_id": "https://openalex.org/W4235431221",
+      "id_match": true,
+      "title_similarity": 1.0,
+      "year_match": true,
+      "cached_doi": "10.26549/yzlcyxzz.v1i1.1373",
+      "api_doi": "10.26549/yzlcyxzz.v1i1.1373",
+      "doi_match": true,
+      "language": "zh",
+      "type": "article",
+      "has_abstract": true,
+      "fragment_in_abstract": true,
+      "status": "verified",
+      "ok": true
+    },
+    {
+      "item_id": "a3-0345",
+      "batch": "a3",
+      "label": "support",
+      "source_role": "claim_source",
+      "openalex_id": "https://openalex.org/W1582756069",
+      "http_status": 200,
+      "api_id": "https://openalex.org/W3146088224",
+      "id_match": false,
+      "title_similarity": 1.0,
+      "year_match": true,
+      "cached_doi": "",
+      "api_doi": "10.4208/jcm.v26.n3.p437",
+      "doi_match": true,
+      "language": "en",
+      "type": "article",
+      "has_abstract": true,
+      "fragment_in_abstract": false,
+      "status": "drift_metadata",
+      "ok": false
+    },
+    {
+      "item_id": "cx-0043",
+      "batch": "ext",
+      "label": "partial",
+      "source_role": "claim_source",
+      "openalex_id": "https://openalex.org/W4396701704",
+      "http_status": 200,
+      "api_id": "https://openalex.org/W4396701704",
+      "id_match": true,
+      "title_similarity": 1.0,
+      "year_match": true,
+      "cached_doi": "10.62662/kxwxz0104001",
+      "api_doi": "10.62662/kxwxz0104001",
+      "doi_match": true,
+      "language": "zh",
+      "type": "article",
+      "has_abstract": true,
+      "fragment_in_abstract": true,
+      "status": "verified",
+      "ok": true
+    },
+    {
+      "item_id": "a3-0278",
+      "batch": "a3",
+      "label": "contradict",
+      "source_role": "evidence_source",
+      "openalex_id": "https://openalex.org/W7163202941",
+      "http_status": 200,
+      "api_id": "https://openalex.org/W7163202941",
+      "id_match": true,
+      "title_similarity": 1.0,
+      "year_match": true,
+      "cached_doi": "10.32629/jief.v7i12.20301",
+      "api_doi": "10.32629/jief.v7i12.20301",
+      "doi_match": true,
+      "language": "zh",
+      "type": "article",
+      "has_abstract": true,
+      "fragment_in_abstract": true,
+      "status": "verified",
+      "ok": true
+    },
+    {
+      "item_id": "cs-0054",
+      "batch": "base",
+      "label": "no_evidence",
+      "source_role": "claim_source",
+      "openalex_id": "https://openalex.org/W3151977153",
+      "http_status": 200,
+      "api_id": "https://openalex.org/W3151977153",
+      "id_match": true,
+      "title_similarity": 1.0,
+      "year_match": true,
+      "cached_doi": "",
+      "api_doi": "",
+      "doi_match": true,
+      "language": "zh",
+      "type": "article",
+      "has_abstract": true,
+      "fragment_in_abstract": true,
+      "status": "verified",
+      "ok": true
+    },
+    {
+      "item_id": "a3-0248",
+      "batch": "a3",
+      "label": "support",
+      "source_role": "claim_source",
+      "openalex_id": "https://openalex.org/W4399141628",
+      "http_status": 200,
+      "api_id": "https://openalex.org/W4399141628",
+      "id_match": true,
+      "title_similarity": 1.0,
+      "year_match": true,
+      "cached_doi": "10.62662/kxwxz0105008",
+      "api_doi": "10.62662/kxwxz0105008",
+      "doi_match": true,
+      "language": "zh",
+      "type": "article",
+      "has_abstract": true,
+      "fragment_in_abstract": true,
+      "status": "verified",
+      "ok": true
+    },
+    {
+      "item_id": "c2-0015",
+      "batch": "v2",
+      "label": "partial",
+      "source_role": "claim_source",
+      "openalex_id": "https://openalex.org/W3146610601",
+      "http_status": 200,
+      "api_id": "https://openalex.org/W1989039845",
+      "id_match": false,
+      "title_similarity": 1.0,
+      "year_match": true,
+      "cached_doi": "",
+      "api_doi": "10.1016/s1001-0742(08)62294-9",
+      "doi_match": true,
+      "language": "en",
+      "type": "article",
+      "has_abstract": false,
+      "fragment_in_abstract": false,
+      "status": "drift_metadata",
+      "ok": false
+    },
+    {
+      "item_id": "a3-0199",
+      "batch": "a3",
+      "label": "contradict",
+      "source_role": "evidence_source",
+      "openalex_id": "https://openalex.org/W4238326959",
+      "http_status": 200,
+      "api_id": "https://openalex.org/W4238326959",
+      "id_match": true,
+      "title_similarity": 1.0,
+      "year_match": true,
+      "cached_doi": "10.36012/emr.v2i4.2247",
+      "api_doi": "10.36012/emr.v2i4.2247",
+      "doi_match": true,
+      "language": "zh",
+      "type": "article",
+      "has_abstract": true,
+      "fragment_in_abstract": true,
+      "status": "verified",
+      "ok": true
+    },
+    {
+      "item_id": "cs-0041",
+      "batch": "base",
+      "label": "no_evidence",
+      "source_role": "claim_source",
+      "openalex_id": "https://openalex.org/W4206271410",
+      "http_status": 200,
+      "api_id": "https://openalex.org/W4206271410",
+      "id_match": true,
+      "title_similarity": 1.0,
+      "year_match": true,
+      "cached_doi": "10.36012/sde.v3i2.2940",
+      "api_doi": "10.36012/sde.v3i2.2940",
+      "doi_match": true,
+      "language": "zh",
+      "type": "article",
+      "has_abstract": true,
+      "fragment_in_abstract": true,
+      "status": "verified",
+      "ok": true
+    },
+    {
+      "item_id": "a3-0023",
+      "batch": "a3",
+      "label": "support",
+      "source_role": "claim_source",
+      "openalex_id": "https://openalex.org/W4244348737",
+      "http_status": 200,
+      "api_id": "https://openalex.org/W4244348737",
+      "id_match": true,
+      "title_similarity": 1.0,
+      "year_match": true,
+      "cached_doi": "10.26549/yzlcyxzz.v1i1.1131",
+      "api_doi": "10.26549/yzlcyxzz.v1i1.1131",
+      "doi_match": true,
+      "language": "zh",
+      "type": "article",
+      "has_abstract": true,
+      "fragment_in_abstract": true,
+      "status": "verified",
+      "ok": true
+    },
+    {
+      "item_id": "c2-0004",
+      "batch": "v2",
+      "label": "partial",
+      "source_role": "claim_source",
+      "openalex_id": "https://openalex.org/W4392665442",
+      "http_status": 200,
+      "api_id": "https://openalex.org/W4392665442",
+      "id_match": true,
+      "title_similarity": 1.0,
+      "year_match": true,
+      "cached_doi": "10.3788/cjl231414",
+      "api_doi": "10.3788/cjl231414",
+      "doi_match": true,
+      "language": "zh",
+      "type": "article",
+      "has_abstract": true,
+      "fragment_in_abstract": true,
+      "status": "verified",
+      "ok": true
+    },
+    {
+      "item_id": "a3-0262",
+      "batch": "a3",
+      "label": "contradict",
+      "source_role": "evidence_source",
+      "openalex_id": "https://openalex.org/W7125176442",
+      "http_status": 200,
+      "api_id": "https://openalex.org/W7125176442",
+      "id_match": true,
+      "title_similarity": 1.0,
+      "year_match": true,
+      "cached_doi": "10.64083/sse2521114",
+      "api_doi": "10.64083/sse2521114",
+      "doi_match": true,
+      "language": "zh",
+      "type": "article",
+      "has_abstract": true,
+      "fragment_in_abstract": true,
+      "status": "verified",
+      "ok": true
+    },
+    {
+      "item_id": "c2-0007",
+      "batch": "v2",
+      "label": "no_evidence",
+      "source_role": "claim_source",
+      "openalex_id": "https://openalex.org/W4229860110",
+      "http_status": 200,
+      "api_id": "https://openalex.org/W4229860110",
+      "id_match": true,
+      "title_similarity": 1.0,
+      "year_match": true,
+      "cached_doi": "10.26549/yzlcyxzz.v3i6.5833",
+      "api_doi": "10.26549/yzlcyxzz.v3i6.5833",
+      "doi_match": true,
+      "language": "zh",
+      "type": "article",
+      "has_abstract": true,
+      "fragment_in_abstract": true,
+      "status": "verified",
+      "ok": true
+    }
+  ],
+  "checks": [
+    {
+      "id": "schema",
+      "status": "pass",
+      "detail": "680 rows checked; all conform to id/claim/evidence/label/split"
+    },
+    {
+      "id": "count_train",
+      "status": "pass",
+      "detail": "train=600 (acceptance >= 500)"
+    },
+    {
+      "id": "count_total",
+      "status": "pass",
+      "detail": "total=680 (target 500-1000)"
+    },
+    {
+      "id": "labels_present",
+      "status": "pass",
+      "detail": "train distribution {\"support\": 238, \"partial\": 165, \"contradict\": 88, \"no_evidence\": 109}"
+    },
+    {
+      "id": "ids_unique",
+      "status": "pass",
+      "detail": "680 ids; duplicates: 0"
+    },
+    {
+      "id": "ids_disjoint",
+      "status": "pass",
+      "detail": "{\"train&dev\": 0, \"train&test\": 0, \"dev&test\": 0}"
+    },
+    {
+      "id": "ids_prefix_known",
+      "status": "pass",
+      "detail": "unknown batch prefixes: 0"
+    },
+    {
+      "id": "test_is_official",
+      "status": "pass",
+      "detail": "test ids == split_seed20261024.test (60 ids), order preserved"
+    },
+    {
+      "id": "dev_is_official",
+      "status": "pass",
+      "detail": "dev ids == official dev minus the 20 rows borrowed into train"
+    },
+    {
+      "id": "unchanged_dev",
+      "status": "pass",
+      "detail": "byte-identical to git HEAD:data/sft/support_dev.jsonl (8499 B)"
+    },
+    {
+      "id": "unchanged_test",
+      "status": "pass",
+      "detail": "byte-identical to git HEAD:data/sft/support_test.jsonl (28826 B)"
+    },
+    {
+      "id": "join_ids",
+      "status": "pass",
+      "detail": "680 raw rows; unresolved SFT ids: 0"
+    },
+    {
+      "id": "join_claim",
+      "status": "pass",
+      "detail": "claim mismatches: 0"
+    },
+    {
+      "id": "join_label",
+      "status": "pass",
+      "detail": "label mismatches: 0"
+    },
+    {
+      "id": "join_evidence",
+      "status": "pass",
+      "detail": "evidence identical (0 rows at the 1800-char cap); mismatches: 0"
+    },
+    {
+      "id": "construction_rules",
+      "status": "pass",
+      "detail": "680/680 raw rows re-derive their label rule; failures: 0"
+    },
+    {
+      "id": "sources_disjoint",
+      "status": "pass",
+      "detail": "source work overlap {\"train&dev\": 0, \"train&test\": 0, \"dev&test\": 0}"
+    },
+    {
+      "id": "sources_single_use",
+      "status": "pass",
+      "detail": "804 unique works; works reused by >1 item: 0"
+    },
+    {
+      "id": "readme_numbers",
+      "status": "pass",
+      "detail": "README counts/labels/sha256 match the jsonl"
+    },
+    {
+      "id": "sys_prompt",
+      "status": "pass",
+      "detail": "spot-check system prompt matches scripts/train_support_lora.py SYS"
+    },
+    {
+      "id": "openalex_sources",
+      "status": "pass",
+      "detail": "17/20 live sources byte-level verified (same id, title, year, doi, cited fragment still in the Chinese abstract); 3 drifted upstream (15%): a3-0067 https://openalex.org/W3152146516 -> https://openalex.org/W2114894403 [drift_metadata], a3-0345 https://openalex.org/W1582756069 -> https://openalex.org/W3146088224 [drift_metadata], c2-0015 https://openalex.org/W3146610601 -> https://openalex.org/W1989039845 [drift_metadata]"
+    },
+    {
+      "id": "openalex_drift",
+      "status": "pass",
+      "detail": "3/20 sampled works changed on OpenAlex after the fetch (merge/metadata edit); cached fragments remain what the dataset was built from"
+    },
+    {
+      "id": "readme_audit_block",
+      "status": "pass",
+      "detail": "README live-source block refreshed from 20 checked sources"
+    }
+  ],
+  "verdict": "pass"
+}

@@ -1,0 +1,1271 @@
+{
+  "dataset": "mteb/T2Retrieval (HF, Apache-2.0), dev split parquet",
+  "n": {
+    "n_docs": 118605,
+    "n_queries_total": 22812,
+    "n_qrels_rows": 118932,
+    "n_queries_sampled": 200,
+    "n_gold_pairs_sampled": 1014,
+    "docs_with_text": 118602,
+    "avg_doc_tokens": 592.89
+  },
+  "sampling": {
+    "method": "uniform over queries that have qrels, without replacement",
+    "seed": 42,
+    "corpus": "full split (no doc sampling)",
+    "query_ids": [
+      "10158",
+      "10502",
+      "10684",
+      "10775",
+      "10832",
+      "10970",
+      "1131",
+      "1143",
+      "11527",
+      "11723",
+      "11796",
+      "11935",
+      "11989",
+      "12006",
+      "1204",
+      "12048",
+      "12076",
+      "12117",
+      "12194",
+      "12406",
+      "12588",
+      "12675",
+      "12856",
+      "12878",
+      "12926",
+      "1315",
+      "13152",
+      "13445",
+      "1347",
+      "13618",
+      "1365",
+      "13715",
+      "13759",
+      "13771",
+      "14087",
+      "1425",
+      "14365",
+      "14491",
+      "14508",
+      "14830",
+      "15078",
+      "15080",
+      "1526",
+      "15379",
+      "15383",
+      "15515",
+      "16190",
+      "16213",
+      "16219",
+      "16323",
+      "16460",
+      "16595",
+      "16792",
+      "1683",
+      "17",
+      "17218",
+      "17285",
+      "17382",
+      "17508",
+      "17626",
+      "17709",
+      "1780",
+      "17927",
+      "18134",
+      "18138",
+      "18201",
+      "18281",
+      "18291",
+      "1857",
+      "18680",
+      "18989",
+      "19135",
+      "19177",
+      "19199",
+      "19200",
+      "19399",
+      "19662",
+      "19750",
+      "19758",
+      "19790",
+      "19795",
+      "19805",
+      "19863",
+      "19907",
+      "19967",
+      "20032",
+      "20052",
+      "20059",
+      "20280",
+      "20350",
+      "20374",
+      "20423",
+      "20492",
+      "20548",
+      "20552",
+      "20631",
+      "21114",
+      "21129",
+      "21155",
+      "21166",
+      "21249",
+      "21316",
+      "21325",
+      "2144",
+      "2173",
+      "22163",
+      "22205",
+      "22373",
+      "22403",
+      "22440",
+      "22495",
+      "22531",
+      "2262",
+      "22661",
+      "22667",
+      "22733",
+      "22872",
+      "23519",
+      "23653",
+      "24092",
+      "24106",
+      "24174",
+      "24236",
+      "24260",
+      "24369",
+      "24595",
+      "24669",
+      "24852",
+      "24889",
+      "24910",
+      "24972",
+      "24977",
+      "2637",
+      "2757",
+      "277",
+      "2840",
+      "2857",
+      "3033",
+      "313",
+      "3133",
+      "3137",
+      "3152",
+      "3283",
+      "3488",
+      "3597",
+      "3712",
+      "3896",
+      "4101",
+      "4131",
+      "4411",
+      "4459",
+      "4631",
+      "4665",
+      "4739",
+      "4813",
+      "4872",
+      "4922",
+      "4962",
+      "4973",
+      "5018",
+      "5080",
+      "5110",
+      "5290",
+      "5321",
+      "5344",
+      "5511",
+      "5522",
+      "5778",
+      "5862",
+      "5936",
+      "5975",
+      "6115",
+      "612",
+      "6134",
+      "6226",
+      "6332",
+      "6644",
+      "6646",
+      "6663",
+      "6665",
+      "6702",
+      "7328",
+      "7454",
+      "7600",
+      "7732",
+      "7743",
+      "8082",
+      "8108",
+      "8173",
+      "8535",
+      "8578",
+      "908",
+      "913",
+      "9133",
+      "9186",
+      "9264",
+      "9544",
+      "978",
+      "9849",
+      "9870"
+    ]
+  },
+  "method": {
+    "tokenizer": "latin/digit >=2 chars + CJK character bigrams (same as scripts/eval_replacement.py tokens())",
+    "bm25": {
+      "k1": 1.5,
+      "b": 0.75,
+      "avgdl": 592.89
+    },
+    "rank": "full corpus scoring for each sampled query"
+  },
+  "results": {
+    "bm25": {
+      "n": 200,
+      "recall@1": 0.73,
+      "recall@3": 0.79,
+      "recall@5": 0.84,
+      "mrr": 0.7715
+    },
+    "random_expected": {
+      "recall@1": 4.3e-05,
+      "recall@3": 0.000128,
+      "recall@5": 0.000214,
+      "mrr": 0.000419
+    }
+  },
+  "gold_stats": {
+    "mean_gold_per_query": 5.07,
+    "max_gold_per_query": 18
+  },
+  "per_query": [
+    {
+      "query_id": "10158",
+      "n_gold": 4,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "10502",
+      "n_gold": 11,
+      "rank_first_gold": 3
+    },
+    {
+      "query_id": "10684",
+      "n_gold": 7,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "10775",
+      "n_gold": 6,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "10832",
+      "n_gold": 2,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "10970",
+      "n_gold": 9,
+      "rank_first_gold": 2
+    },
+    {
+      "query_id": "1131",
+      "n_gold": 2,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "1143",
+      "n_gold": 2,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "11527",
+      "n_gold": 4,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "11723",
+      "n_gold": 6,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "11796",
+      "n_gold": 1,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "11935",
+      "n_gold": 16,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "11989",
+      "n_gold": 1,
+      "rank_first_gold": 138
+    },
+    {
+      "query_id": "12006",
+      "n_gold": 5,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "1204",
+      "n_gold": 3,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "12048",
+      "n_gold": 3,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "12076",
+      "n_gold": 1,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "12117",
+      "n_gold": 4,
+      "rank_first_gold": 48
+    },
+    {
+      "query_id": "12194",
+      "n_gold": 6,
+      "rank_first_gold": 16
+    },
+    {
+      "query_id": "12406",
+      "n_gold": 2,
+      "rank_first_gold": 81
+    },
+    {
+      "query_id": "12588",
+      "n_gold": 1,
+      "rank_first_gold": 4
+    },
+    {
+      "query_id": "12675",
+      "n_gold": 1,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "12856",
+      "n_gold": 1,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "12878",
+      "n_gold": 6,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "12926",
+      "n_gold": 10,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "1315",
+      "n_gold": 8,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "13152",
+      "n_gold": 1,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "13445",
+      "n_gold": 1,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "1347",
+      "n_gold": 3,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "13618",
+      "n_gold": 3,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "1365",
+      "n_gold": 11,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "13715",
+      "n_gold": 4,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "13759",
+      "n_gold": 2,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "13771",
+      "n_gold": 12,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "14087",
+      "n_gold": 1,
+      "rank_first_gold": 2
+    },
+    {
+      "query_id": "1425",
+      "n_gold": 5,
+      "rank_first_gold": 11193
+    },
+    {
+      "query_id": "14365",
+      "n_gold": 4,
+      "rank_first_gold": 10
+    },
+    {
+      "query_id": "14491",
+      "n_gold": 9,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "14508",
+      "n_gold": 2,
+      "rank_first_gold": 13
+    },
+    {
+      "query_id": "14830",
+      "n_gold": 5,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "15078",
+      "n_gold": 8,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "15080",
+      "n_gold": 2,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "1526",
+      "n_gold": 5,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "15379",
+      "n_gold": 7,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "15383",
+      "n_gold": 4,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "15515",
+      "n_gold": 1,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "16190",
+      "n_gold": 3,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "16213",
+      "n_gold": 5,
+      "rank_first_gold": 63
+    },
+    {
+      "query_id": "16219",
+      "n_gold": 8,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "16323",
+      "n_gold": 3,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "16460",
+      "n_gold": 1,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "16595",
+      "n_gold": 3,
+      "rank_first_gold": 5
+    },
+    {
+      "query_id": "16792",
+      "n_gold": 16,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "1683",
+      "n_gold": 5,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "17",
+      "n_gold": 5,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "17218",
+      "n_gold": 9,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "17285",
+      "n_gold": 1,
+      "rank_first_gold": 20
+    },
+    {
+      "query_id": "17382",
+      "n_gold": 1,
+      "rank_first_gold": 25
+    },
+    {
+      "query_id": "17508",
+      "n_gold": 6,
+      "rank_first_gold": 8
+    },
+    {
+      "query_id": "17626",
+      "n_gold": 9,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "17709",
+      "n_gold": 5,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "1780",
+      "n_gold": 9,
+      "rank_first_gold": 2
+    },
+    {
+      "query_id": "17927",
+      "n_gold": 1,
+      "rank_first_gold": 69
+    },
+    {
+      "query_id": "18134",
+      "n_gold": 1,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "18138",
+      "n_gold": 11,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "18201",
+      "n_gold": 1,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "18281",
+      "n_gold": 15,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "18291",
+      "n_gold": 1,
+      "rank_first_gold": 89187
+    },
+    {
+      "query_id": "1857",
+      "n_gold": 1,
+      "rank_first_gold": 42
+    },
+    {
+      "query_id": "18680",
+      "n_gold": 2,
+      "rank_first_gold": 3
+    },
+    {
+      "query_id": "18989",
+      "n_gold": 9,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "19135",
+      "n_gold": 4,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "19177",
+      "n_gold": 1,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "19199",
+      "n_gold": 1,
+      "rank_first_gold": 61
+    },
+    {
+      "query_id": "19200",
+      "n_gold": 1,
+      "rank_first_gold": 3485
+    },
+    {
+      "query_id": "19399",
+      "n_gold": 4,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "19662",
+      "n_gold": 2,
+      "rank_first_gold": 28
+    },
+    {
+      "query_id": "19750",
+      "n_gold": 15,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "19758",
+      "n_gold": 10,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "19790",
+      "n_gold": 3,
+      "rank_first_gold": 101
+    },
+    {
+      "query_id": "19795",
+      "n_gold": 6,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "19805",
+      "n_gold": 5,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "19863",
+      "n_gold": 4,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "19907",
+      "n_gold": 5,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "19967",
+      "n_gold": 3,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "20032",
+      "n_gold": 12,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "20052",
+      "n_gold": 1,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "20059",
+      "n_gold": 3,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "20280",
+      "n_gold": 5,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "20350",
+      "n_gold": 4,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "20374",
+      "n_gold": 5,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "20423",
+      "n_gold": 1,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "20492",
+      "n_gold": 1,
+      "rank_first_gold": 71
+    },
+    {
+      "query_id": "20548",
+      "n_gold": 18,
+      "rank_first_gold": 4
+    },
+    {
+      "query_id": "20552",
+      "n_gold": 1,
+      "rank_first_gold": 101259
+    },
+    {
+      "query_id": "20631",
+      "n_gold": 3,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "21114",
+      "n_gold": 4,
+      "rank_first_gold": 2
+    },
+    {
+      "query_id": "21129",
+      "n_gold": 4,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "21155",
+      "n_gold": 4,
+      "rank_first_gold": 44
+    },
+    {
+      "query_id": "21166",
+      "n_gold": 5,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "21249",
+      "n_gold": 4,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "21316",
+      "n_gold": 10,
+      "rank_first_gold": 5
+    },
+    {
+      "query_id": "21325",
+      "n_gold": 11,
+      "rank_first_gold": 2
+    },
+    {
+      "query_id": "2144",
+      "n_gold": 1,
+      "rank_first_gold": 5
+    },
+    {
+      "query_id": "2173",
+      "n_gold": 1,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "22163",
+      "n_gold": 7,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "22205",
+      "n_gold": 9,
+      "rank_first_gold": 9
+    },
+    {
+      "query_id": "22373",
+      "n_gold": 5,
+      "rank_first_gold": 20
+    },
+    {
+      "query_id": "22403",
+      "n_gold": 6,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "22440",
+      "n_gold": 4,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "22495",
+      "n_gold": 12,
+      "rank_first_gold": 2
+    },
+    {
+      "query_id": "22531",
+      "n_gold": 4,
+      "rank_first_gold": 145
+    },
+    {
+      "query_id": "2262",
+      "n_gold": 4,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "22661",
+      "n_gold": 8,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "22667",
+      "n_gold": 10,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "22733",
+      "n_gold": 7,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "22872",
+      "n_gold": 1,
+      "rank_first_gold": 24514
+    },
+    {
+      "query_id": "23519",
+      "n_gold": 4,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "23653",
+      "n_gold": 7,
+      "rank_first_gold": 4
+    },
+    {
+      "query_id": "24092",
+      "n_gold": 5,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "24106",
+      "n_gold": 5,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "24174",
+      "n_gold": 8,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "24236",
+      "n_gold": 2,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "24260",
+      "n_gold": 9,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "24369",
+      "n_gold": 7,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "24595",
+      "n_gold": 10,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "24669",
+      "n_gold": 1,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "24852",
+      "n_gold": 9,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "24889",
+      "n_gold": 3,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "24910",
+      "n_gold": 6,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "24972",
+      "n_gold": 10,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "24977",
+      "n_gold": 3,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "2637",
+      "n_gold": 2,
+      "rank_first_gold": 17
+    },
+    {
+      "query_id": "2757",
+      "n_gold": 4,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "277",
+      "n_gold": 6,
+      "rank_first_gold": 5
+    },
+    {
+      "query_id": "2840",
+      "n_gold": 15,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "2857",
+      "n_gold": 5,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "3033",
+      "n_gold": 1,
+      "rank_first_gold": 18737
+    },
+    {
+      "query_id": "313",
+      "n_gold": 5,
+      "rank_first_gold": 3
+    },
+    {
+      "query_id": "3133",
+      "n_gold": 1,
+      "rank_first_gold": 291
+    },
+    {
+      "query_id": "3137",
+      "n_gold": 3,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "3152",
+      "n_gold": 5,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "3283",
+      "n_gold": 2,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "3488",
+      "n_gold": 9,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "3597",
+      "n_gold": 1,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "3712",
+      "n_gold": 1,
+      "rank_first_gold": 214
+    },
+    {
+      "query_id": "3896",
+      "n_gold": 16,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "4101",
+      "n_gold": 5,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "4131",
+      "n_gold": 10,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "4411",
+      "n_gold": 2,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "4459",
+      "n_gold": 4,
+      "rank_first_gold": 2
+    },
+    {
+      "query_id": "4631",
+      "n_gold": 7,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "4665",
+      "n_gold": 5,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "4739",
+      "n_gold": 1,
+      "rank_first_gold": 65451
+    },
+    {
+      "query_id": "4813",
+      "n_gold": 1,
+      "rank_first_gold": 3
+    },
+    {
+      "query_id": "4872",
+      "n_gold": 6,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "4922",
+      "n_gold": 4,
+      "rank_first_gold": 3
+    },
+    {
+      "query_id": "4962",
+      "n_gold": 2,
+      "rank_first_gold": 4
+    },
+    {
+      "query_id": "4973",
+      "n_gold": 3,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "5018",
+      "n_gold": 4,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "5080",
+      "n_gold": 1,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "5110",
+      "n_gold": 6,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "5290",
+      "n_gold": 2,
+      "rank_first_gold": 231
+    },
+    {
+      "query_id": "5321",
+      "n_gold": 5,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "5344",
+      "n_gold": 9,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "5511",
+      "n_gold": 2,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "5522",
+      "n_gold": 9,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "5778",
+      "n_gold": 10,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "5862",
+      "n_gold": 5,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "5936",
+      "n_gold": 10,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "5975",
+      "n_gold": 1,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "6115",
+      "n_gold": 7,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "612",
+      "n_gold": 6,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "6134",
+      "n_gold": 6,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "6226",
+      "n_gold": 8,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "6332",
+      "n_gold": 3,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "6644",
+      "n_gold": 1,
+      "rank_first_gold": 5
+    },
+    {
+      "query_id": "6646",
+      "n_gold": 2,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "6663",
+      "n_gold": 7,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "6665",
+      "n_gold": 5,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "6702",
+      "n_gold": 7,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "7328",
+      "n_gold": 13,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "7454",
+      "n_gold": 4,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "7600",
+      "n_gold": 8,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "7732",
+      "n_gold": 6,
+      "rank_first_gold": 18
+    },
+    {
+      "query_id": "7743",
+      "n_gold": 1,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "8082",
+      "n_gold": 8,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "8108",
+      "n_gold": 2,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "8173",
+      "n_gold": 14,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "8535",
+      "n_gold": 12,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "8578",
+      "n_gold": 3,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "908",
+      "n_gold": 2,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "913",
+      "n_gold": 6,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "9133",
+      "n_gold": 1,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "9186",
+      "n_gold": 3,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "9264",
+      "n_gold": 7,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "9544",
+      "n_gold": 1,
+      "rank_first_gold": 5
+    },
+    {
+      "query_id": "978",
+      "n_gold": 6,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "9849",
+      "n_gold": 3,
+      "rank_first_gold": 1
+    },
+    {
+      "query_id": "9870",
+      "n_gold": 1,
+      "rank_first_gold": 1
+    }
+  ],
+  "boundary": "200/22,812 queries sampled; corpus is the MTEB T2Retrieval dev split (118,605 passages), not the full T2Ranking 2M-passage corpus. BM25 is a lexical baseline, not a Chinese semantic retrieval ceiling. Passages are web QA text, not academic citations, so this only sanity-checks the retrieval harness.",
+  "experiment": "E3",
+  "license": {
+    "id": "apache-2.0",
+    "source": "https://huggingface.co/datasets/mteb/T2Retrieval",
+    "verified_via": "HF dataset card metadata (cardData.license=apache-2.0, language=cmn, human-annotated); mirror API read 2026-11-14"
+  },
+  "source_urls": [
+    "https://huggingface.co/datasets/mteb/T2Retrieval",
+    "https://leaderboard.mteb.org/tasks/T2Retrieval",
+    "https://github.com/THUIR/T2Ranking",
+    "https://arxiv.org/abs/2304.03679"
+  ],
+  "runtime": {
+    "python": "3.13.14",
+    "numpy": "2.3.4",
+    "pandas": "3.0.0",
+    "pyarrow": "26.0.0",
+    "elapsed_sec": 40.7
+  },
+  "decision": "hold",
+  "decision_detail": "可 adopt 为检索管线 smoke test（BM25 R@3 0.79 远高于随机 0.000128，Apache-2.0，157 MB，41 秒可复现）；但 hold 作为 CiteMap/替换候选的效果证据：段落是中文 web QA，不是学术引用上下文；本次未跑语义模型；且这是 MTEB 转换版 dev split（118,605 段），不是 T2Ranking 原始 2M+ 段全库，数字不可与全库榜单直接比较。"
+}

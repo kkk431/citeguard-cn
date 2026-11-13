@@ -1,6 +1,6 @@
 {
   "schema": "citeguard.evidence_matrix.v1",
-  "rows": 24,
+  "rows": 25,
   "missing": [],
   "items": [
     {
@@ -101,6 +101,16 @@
       "artifact": "data/experiments/support_lora_qwen3_1.7b.json",
       "command": "PYTHONPATH=src python scripts/eval_support_adapter.py",
       "note": "构造标签；训练/测试同构造管线，衡量格式与映射学习，不是开放世界泛化",
+      "screenshot": ""
+    },
+    {
+      "category": "模型",
+      "claim": "Qwen3-4B LoRA 支持度判定",
+      "value": "test macro-F1 1.0000 / acc 1.0000（95% CI 1.0000–1.0000）",
+      "n": "60 条 test（train 600）",
+      "artifact": "data/experiments/support_matrix.json",
+      "command": "PYTHONPATH=src python scripts/build_support_matrix.py",
+      "note": "构造标签；adapter 132 MB；满分是构造模板饱和，不代表开放世界能力",
       "screenshot": ""
     },
     {
@@ -250,12 +260,6 @@
       "item": "100 条三人盲标",
       "state": "包已生成，κ 待回收；不得把构造标签写作人审金标",
       "where": "dist/CiteGuard-CN_盲标包_100条_发给标注者.zip"
-    },
-    {
-      "category": "模型",
-      "item": "Qwen3-4B LoRA",
-      "state": "训练/评测进行中，结果未出；出结果前不写 F1",
-      "where": "t3"
     },
     {
       "category": "CiteMap",
