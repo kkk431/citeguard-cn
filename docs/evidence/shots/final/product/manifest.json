@@ -1,0 +1,122 @@
+{
+  "generated_by": "scripts/capture_final_shots.py",
+  "job": "96511af51c97",
+  "base": "http://127.0.0.1:8013",
+  "version": "1.7.13",
+  "shots": [
+    {
+      "file": "docs/evidence/shots/final/product/01-landing.png",
+      "title": "独立首页：价值主张与真实报告预览",
+      "path": "/",
+      "status": "OK"
+    },
+    {
+      "file": "docs/evidence/shots/final/product/02-workspace.png",
+      "title": "工作台：上传、最近报告与本次会检查",
+      "path": "/workspace",
+      "status": "OK"
+    },
+    {
+      "file": "docs/evidence/shots/final/product/03-support.png",
+      "title": "单句判定：四档含义与证据输入",
+      "path": "/support",
+      "status": "OK"
+    },
+    {
+      "file": "docs/evidence/shots/final/product/04-library.png",
+      "title": "题录库：标签、分页与覆盖构成",
+      "path": "/library",
+      "status": "OK"
+    },
+    {
+      "file": "docs/evidence/shots/final/product/05-discover.png",
+      "title": "文献发现：真实 OpenAlex 检索结果",
+      "path": "/discover",
+      "status": "OK"
+    },
+    {
+      "file": "docs/evidence/shots/final/product/06-citemap.png",
+      "title": "CiteMap：断言分组与人工/机器证据",
+      "path": "/citemap?topic=ai_education",
+      "status": "OK"
+    },
+    {
+      "file": "docs/evidence/shots/final/product/07-live.png",
+      "title": "Live 单句核验：判官给出支持与逐字证据",
+      "path": "/live",
+      "status": "OK"
+    },
+    {
+      "file": "docs/evidence/shots/final/product/08-report-overview.png",
+      "title": "报告总览：结论、健康画像与先修项",
+      "path": "/report/96511af51c97",
+      "status": "OK"
+    },
+    {
+      "file": "docs/evidence/shots/final/product/09-report-refs.png",
+      "title": "逐条结果与条目详情",
+      "path": "/report/96511af51c97",
+      "status": "OK"
+    },
+    {
+      "file": "docs/evidence/shots/final/product/09b-report-evidence.png",
+      "title": "证据抽屉：字段、支持度与正文引用",
+      "path": "/report/96511af51c97",
+      "status": "OK"
+    },
+    {
+      "file": "docs/evidence/shots/final/product/10-report-checks.png",
+      "title": "检查明细抽屉：来源/图表/支持度/引注",
+      "path": "/report/96511af51c97",
+      "status": "OK"
+    },
+    {
+      "file": "docs/evidence/shots/final/product/11-repair.png",
+      "title": "一键修复：逐条 before/after 与字段提示",
+      "path": "/report/96511af51c97",
+      "status": "OK"
+    },
+    {
+      "file": "docs/evidence/shots/final/product/12-history.png",
+      "title": "全部报告：按文件合并与分页",
+      "path": "/history",
+      "status": "OK"
+    },
+    {
+      "file": "docs/evidence/shots/final/product/13-benchmark.png",
+      "title": "评测：CiteBench-CN v2 与真实基线",
+      "path": "/benchmark",
+      "status": "OK"
+    },
+    {
+      "file": "docs/evidence/shots/final/product/14-models.png",
+      "title": "模型设置：云端与本地两套判官",
+      "path": "/settings/models",
+      "status": "OK"
+    },
+    {
+      "file": "docs/evidence/shots/final/product/15-about.png",
+      "title": "关于：能力边界与开源资产",
+      "path": "/about",
+      "status": "OK"
+    },
+    {
+      "file": "docs/evidence/shots/final/product/16-figure.png",
+      "title": "图表核验：上传截图或按引用句定位",
+      "path": "/figure",
+      "status": "OK"
+    },
+    {
+      "file": "docs/evidence/shots/final/product/17-compare.png",
+      "title": "多篇对比：六字段对照",
+      "path": "/compare",
+      "status": "OK"
+    },
+    {
+      "file": "docs/evidence/shots/final/product/18-batch.png",
+      "title": "批量判定：一次粘贴多条引用句",
+      "path": "/batch",
+      "status": "OK"
+    }
+  ]
+}

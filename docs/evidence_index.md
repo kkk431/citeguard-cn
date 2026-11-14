@@ -22,7 +22,7 @@
 | 扫描件 OCR **23/24 条** | `data/experiments/ocr_scan_real.json` | `PYTHONPATH=src python scripts/eval_ocr_scanned.py --input <pdf>` | 7 页扫描 PDF，题名/年份/作者 23/23 |
 | GB/T E4 严格控制漂移 **29/30** | `data/experiments/e4_format.json` | `PYTHONPATH=src python scripts/e4_format_check.py` | 30 个构造样本 |
 | 万方中文强命中 **111/184** | `data/experiments/wanfang_batch.json` | 见 `docs/chinese_sources.md` | 184 条中文题录，试用配额；非全样本 |
-| 测试 **869 passed** | `pytest -q` | `PYTHONPATH=src python -m pytest tests -q` | 本地 Python 3.13 |
+| 测试 **875 passed** | `pytest -q` | `PYTHONPATH=src python -m pytest tests -q` | 本地 Python 3.13 |
 | 交付自检 **137/137** | `scripts/verify_artifacts.py` | `PYTHONPATH=src python scripts/verify_artifacts.py` | 版本/路由/文档/数字一致性 |
 | 知网导入 **22 → 27 条，Exact** | `data/library/cnki_demo.enw`、`data/library/library.json` | `PYTHONPATH=src python -m citeguard.cli --import-library data/library/cnki_demo.enw` | 5 条机构导出题录 |
 
@@ -101,6 +101,8 @@
 | E87 | Live 判定模型配置与实测（1.7.13） | `web/static/js/live.js`、`web/templates/live.html`、`web/static/js/settings_models.js`、`data/live_eval/live_eval_holdout_judge.json`、`docs/live_eval.md` | 云端 `deepseek-chat` 与本地 Qwen3-14B（4-bit）两条判官路径均已配置；`/live` 对 STIC 72.6% 引用句返回 **支持 95%** 且证据句逐字命中；设置页显示云端为当前、本地可选。同一 30 条 held-out 配判官复跑：hit@1 0.6667 / hit@3 0.9333、P50 14.8 s，19/30 有判定，仍无人审，不能当 stance 准确率 | `docs/evidence/shots/phase-56-live-judge-1.7.13.png`、`docs/evidence/shots/phase-56-models-configured-1.7.13.png` |
 | E85 | CiteMap 断言分组布局与去重（1.7.13） | `web/static/css/citemap.css`、`web/static/js/citemap.js`、`web/app.py`、`docs/evidence_map.md` | 桌面 ≥961px：布局固定 680–920px、左右各自滚动、详情标题吸顶；详情按断言分组（断言正文/方向/人工·机器数量 → 全宽证据卡），人工卡在前、机器卡虚线在后，空分组有说明；同一断言下按归一化逐字包含（≥40 字符）合并人工/机器重复引用，AI 教育合并 7 条、医学影像 1 条，机器证据 25→18（AI），被合并的 60 格抽样仍可核对；`pytest` 869 passed | `docs/evidence/shots/phase-55-citemap-layout-1.7.13.png`、`docs/evidence/shots/phase-55-citemap-verify-row-1.7.13.png` |
 | E84 | Live 冻结 held-out 与扩展 v2 真机验收（1.7.11） | `data/live_eval/claims_holdout.jsonl`、`data/live_eval/pages_holdout.json`、`data/live_eval/live_eval_holdout_enriched.json`、`docs/research/live_holdout.md`、`scripts/verify_extension.py`、`docs/extension_v2.md` | held-out：5 篇新 arXiv HTML、30 句英文、与公开页集无重叠；补摘要后 hit@1 27/30、hit@3 30/30（30/30 是短样本上限）、P50 2.98 s、P95 16.09 s、有逐字证据 11/30；judge 未配置、四档为规则降级，不能宣称 stance 准确率；扩展 v2 在真实 Chromium 中加载，3 个公开页调用 `/api/live/check` 200，原生右键/侧边栏需手工步骤 | `docs/evidence/shots/phase-54-extension-loaded.png`, `docs/evidence/shots/phase-54-extension-example.png`, `docs/evidence/shots/phase-54-extension-live-result.png`, `docs/evidence/shots/phase-54-extension-local-live.png`, `docs/evidence/shots/phase-54-extension-python-tutorial.png`, `docs/evidence/shots/phase-54-extension-iana-example-domains.png`, `docs/evidence/shots/phase-54-extension-error.png`、`docs/research/live_holdout.md` |
+| E88 | 实验证据图（12 张） | `scripts/make_evidence_charts.py`、`docs/evidence_charts.md`、`docs/evidence/shots/final/charts/manifest.json` | 12 张 1920×1080 深色证据图；每张标注来源与 n；由仓库内实验 JSON 生成，可复现 | `docs/evidence/shots/final/charts/`（12 张） |
+| E89 | 产品最终截图（19 张） | `scripts/capture_final_shots.py`、`docs/evidence_product.md`、`docs/evidence/shots/final/product/manifest.json` | 真实实例 1.7.13、job `96511af51c97`、深色 1920×1080；19 页；支持度/图表等未跑状态如实显示 | `docs/evidence/shots/final/product/`（19 张） |
 
 自检：`python scripts/audit_evidence.py`（见 [evidence_audit.md](evidence_audit.md)）。
 

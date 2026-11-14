@@ -1,0 +1,78 @@
+{
+  "generated_by": "scripts/make_evidence_charts.py",
+  "version": "1.7.13",
+  "charts": [
+    {
+      "file": "docs/evidence/shots/final/charts/01_real_corpus_status.png",
+      "title": "同一批 409 条引用：197 条查不到 → 0",
+      "sources": "verify_real.json + library_real.json",
+      "n": "n=409/20篇"
+    },
+    {
+      "file": "docs/evidence/shots/final/charts/02_support_models.png",
+      "title": "同一套测试，8 种配置：小模型微调后追平 14B",
+      "sources": "support_matrix.json",
+      "n": "n=60"
+    },
+    {
+      "file": "docs/evidence/shots/final/charts/03_support_ablation.png",
+      "title": "同一批 100 条：0.9005 → 0.9439 → 0.9597",
+      "sources": "support_v3_vote3 + support_two_stage + 14B v10",
+      "n": "n=100"
+    },
+    {
+      "file": "docs/evidence/shots/final/charts/04_live_heldout.png",
+      "title": "页面 [n] 映射：hit@3 30/30；判官把可判定做到 19/30",
+      "sources": "live_eval_holdout(+judge).json",
+      "n": "n=30"
+    },
+    {
+      "file": "docs/evidence/shots/final/charts/05_chartcheck_confusion.png",
+      "title": "图表核验零样本：矛盾抓出 140/200，代价是 30 条误判",
+      "sources": "chartcheck_val400_v3.json",
+      "n": "n=400"
+    },
+    {
+      "file": "docs/evidence/shots/final/charts/06_scifact_compare.png",
+      "title": "同一 300 条 SciFact：0.8224 vs 0.7646",
+      "sources": "scifact support + refchecker",
+      "n": "n=300"
+    },
+    {
+      "file": "docs/evidence/shots/final/charts/07_chinese_coverage.png",
+      "title": "中文可确认率：12.4% → 65.2%（强匹配）",
+      "sources": "chinese_sources + wanfang_batch",
+      "n": "n=210/409"
+    },
+    {
+      "file": "docs/evidence/shots/final/charts/08_health_grades.png",
+      "title": "22 篇真实论文的健康画像：一半落在 C",
+      "sources": "health_real.json",
+      "n": "n=22"
+    },
+    {
+      "file": "docs/evidence/shots/final/charts/09_citemap_auto.png",
+      "title": "CiteMap：摘要级机器抽取覆盖 25/30 篇",
+      "sources": "citemap_auto_eval.json",
+      "n": "n=30/10"
+    },
+    {
+      "file": "docs/evidence/shots/final/charts/10_citebench_v2.png",
+      "title": "CiteBench-CN v2：3 类 100%，但 90 条 Unknown",
+      "sources": "v2_results.json",
+      "n": "n=453"
+    },
+    {
+      "file": "docs/evidence/shots/final/charts/11_citation_context.png",
+      "title": "引注抽取覆盖 21/22 篇；只有 60% 参考文献被正文引用",
+      "sources": "citation_anchor_real.json",
+      "n": "n=22/543"
+    },
+    {
+      "file": "docs/evidence/shots/final/charts/12_retraction_doi.png",
+      "title": "撤稿 100/100；题名-A + DOI-B 没有一条 Exact",
+      "sources": "retraction_eval + doi_swap_eval",
+      "n": "n=200/99"
+    }
+  ]
+}

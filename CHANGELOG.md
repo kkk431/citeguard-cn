@@ -1,3 +1,13 @@
+## [1.7.14] - 2026-11-14
+
+### Evidence
+- 新增 `docs/evidence_charts.md`：12 张由实验 JSON 生成的深色证据图（脚本 `scripts/make_evidence_charts.py`）。
+- 新增 `docs/evidence_product.md`：19 张真实运行实例的产品截图（脚本 `scripts/capture_final_shots.py`，job `96511af51c97`）。
+- 修复证据抽屉深色主题对比度与长字段换行，截图可读；`evidence_index` 增 E88/E89。
+
+### Changed
+- 测试 875 项；文档站导航增加实验证据图与产品截图。
+
 ## [1.7.13] - 2026-11-14
 
 - CiteMap 详情改为**按断言分组**：每条断言先显示正文/方向/人工与机器证据数量，再渲染全宽证据卡；不再把证据塞进两列窄卡，也不留空列。机器证据是同一组里的虚线条目，人工示例在前。

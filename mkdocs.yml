@@ -37,6 +37,8 @@ nav:
   - 外部基线: baselines.md
   - 题录库标签: library_tags.md
   - 证据索引: evidence_index.md
+  - 实验证据图: evidence_charts.md
+  - 产品截图: evidence_product.md
   - 性能: performance.md
   - 数据集: dataset_release.md
   - 开源模型: models.md

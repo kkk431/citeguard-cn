@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 162,
+  "paths_checked": 165,
   "missing": [],
   "rows": [
     {
@@ -205,11 +205,6 @@
     },
     {
       "evidence": "E87",
-      "path": "data/judge_models.json",
-      "exists": true
-    },
-    {
-      "evidence": "E87",
       "path": "data/live_eval/live_eval_holdout_judge.json",
       "exists": true
     },
@@ -301,6 +296,26 @@
     {
       "evidence": "E84",
       "path": "docs/research/live_holdout.md",
+      "exists": true
+    },
+    {
+      "evidence": "E88",
+      "path": "docs/evidence_charts.md",
+      "exists": true
+    },
+    {
+      "evidence": "E88",
+      "path": "docs/evidence/shots/final/charts/manifest.json",
+      "exists": true
+    },
+    {
+      "evidence": "E89",
+      "path": "docs/evidence_product.md",
+      "exists": true
+    },
+    {
+      "evidence": "E89",
+      "path": "docs/evidence/shots/final/product/manifest.json",
       "exists": true
     },
     {
@@ -679,6 +694,6 @@
       "exists": true
     }
   ],
-  "shots_registered": 79,
+  "shots_registered": 80,
   "shots_unregistered": []
 }
