@@ -1,7 +1,9 @@
 {
   "schema": "citeguard.evidence_matrix.v1",
-  "rows": 35,
-  "missing": [],
+  "rows": 36,
+  "missing": [
+    "—"
+  ],
   "items": [
     {
       "category": "基准",
@@ -282,6 +284,16 @@
       "command": "PYTHONPATH=src python scripts/eval_live.py --claims data/live_eval/claims_public.jsonl --pages data/live_eval/pages_public.json --out data/live_eval/live_eval_holdout_judge.json",
       "note": "判官输出不是人工金标；19/30 有判定，P50 14.8 s 不适合在线逐句；hit@3 低于无判官 run，差异未定位，两 run 不混算",
       "screenshot": "docs/evidence/shots/phase-56-live-judge-1.7.13.png"
+    },
+    {
+      "category": "Live",
+      "claim": "冻结 held-out 30 句（fast 档，只判 top-1）",
+      "value": "hit@3 0.9333 (28/30) / hit@1 0.6667；有判定 14/30，P50 11.5 s",
+      "n": "30 句英文 / 5 篇新 arXiv HTML；空缓存冷启动，deepseek-chat 判官",
+      "artifact": "data/live_eval/live_eval_holdout_fast_cold.json",
+      "command": "CITEGUARD_CACHE_DIR=$(mktemp -d) PYTHONPATH=src python scripts/eval_live.py --claims data/live_eval/claims_public.jsonl --pages data/live_eval/pages_public.json --mode fast --out data/live_eval/live_eval_holdout_fast_cold.json",
+      "note": "冷缓存实测；P50 较 full 降约 22.6%，P95 26.7 s 受网络长尾影响，不宣称更稳",
+      "screenshot": "—"
     },
     {
       "category": "Live",

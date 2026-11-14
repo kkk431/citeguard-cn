@@ -396,6 +396,20 @@ def rows():
         "screenshot": "docs/evidence/shots/phase-56-live-judge-1.7.13.png",
     })
 
+    fast = load("data/live_eval/live_eval_holdout_fast_cold.json")
+    f3 = round(fast["hit@3"] * fast["n"])
+    fjudged = fast["label_counts"].get("support", 0) + fast["label_counts"].get("partial", 0)
+    out.append({
+        "category": "Live",
+        "claim": "冻结 held-out 30 句（fast 档，只判 top-1）",
+        "value": f"hit@3 {fast['hit@3']:.4f} ({f3}/{fast['n']}) / hit@1 {fast['hit@1']:.4f}；有判定 {fjudged}/{fast['n']}，P50 {fast['p50_ms']/1000:.1f} s",
+        "n": "30 句英文 / 5 篇新 arXiv HTML；空缓存冷启动，deepseek-chat 判官",
+        "artifact": "data/live_eval/live_eval_holdout_fast_cold.json",
+        "command": "CITEGUARD_CACHE_DIR=$(mktemp -d) PYTHONPATH=src python scripts/eval_live.py --claims data/live_eval/claims_public.jsonl --pages data/live_eval/pages_public.json --mode fast --out data/live_eval/live_eval_holdout_fast_cold.json",
+        "note": "冷缓存实测；P50 较 full 降约 22.6%，P95 26.7 s 受网络长尾影响，不宣称更稳",
+        "screenshot": "",
+    })
+
     cross = load("data/live_eval/live_eval_crosslingual.json")
     out.append({
         "category": "Live",
