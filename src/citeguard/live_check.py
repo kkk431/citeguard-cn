@@ -35,6 +35,7 @@ import sys
 import threading
 import time
 from collections import OrderedDict
+from concurrent.futures import ThreadPoolExecutor
 from datetime import date
 from html.parser import HTMLParser
 from pathlib import Path
@@ -346,14 +347,14 @@ def _normalise_judge(result: dict) -> dict:
     }
 
 
-def _judge_verdicts(claim: str, candidates: list[Candidate], limit: int = 3) -> dict[int, dict]:
+def _judge_verdicts(claim: str, candidates: list[Candidate], limit: int = 3, audit: bool = True, timeout: float | None = None) -> dict[int, dict]:
     verdicts: dict[int, dict] = {}
     checked = 0
     for candidate in candidates:
         if not (candidate.abstract or "").strip():
             continue
         try:
-            result = support.judge_support(claim, candidate.abstract, title=candidate.title, doi=candidate.doi)
+            result = support.judge_support(claim, candidate.abstract, title=candidate.title, doi=candidate.doi, audit=audit, timeout=timeout)
         except Exception:  # noqa: BLE001 - model transport failure falls back
             result = None
         if result:
@@ -1207,14 +1208,67 @@ def _enrich_page_reference(candidate: Candidate) -> None:
 
 
 def _enrich_page_references(candidates: list[Candidate]) -> list[Candidate]:
-    """Best-effort abstract enrichment for marker-mapped bibliography entries."""
-    for candidate in candidates or []:
-        if candidate.source == "page-reference":
-            try:
-                _enrich_page_reference(candidate)
-            except Exception:  # noqa: BLE001 - never fail Live for enrichment
-                continue
+    """Best-effort abstract enrichment for marker-mapped bibliography entries.
+
+    A selected sentence can carry several markers (``[3, 7, 12]``).  Resolving
+    the three bibliography entries one by one made a warm page cache pointless:
+    the network tail was three sequential DOI/title lookups.  Run them together
+    and keep input order; failures stay silent and candidate-only.
+    """
+    pending = [c for c in candidates or [] if c.source == "page-reference"]
+    if not pending:
+        return candidates
+
+    def enrich(candidate: Candidate) -> None:
+        try:
+            _enrich_page_reference(candidate)
+        except Exception:  # noqa: BLE001 - never fail Live for enrichment
+            return
+
+    workers = min(4, len(pending))
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        list(pool.map(enrich, pending))
     return candidates
+
+
+def prewarm_page(page_url: str = "", page_title: str = "") -> dict:
+    """Fetch and cache everything Live can prepare before the first sentence.
+
+    The expensive part of a cold Live request is not the judge: it is the first
+    fetch/parse of an arXiv HTML bibliography plus the OpenAlex reference list.
+    A browser extension can call this when the side panel opens, so that the
+    user's first selected sentence starts from a warm page cache.
+    """
+    started = time.monotonic()
+    html_url = _page_html_url(page_url)
+    references: dict[int, dict[str, Any]] = {}
+    if html_url:
+        try:
+            references = _load_bibliography(html_url)
+        except Exception:  # noqa: BLE001 - prewarm is best effort
+            references = {}
+    work = None
+    if page_url or page_title:
+        try:
+            work = _page_work(page_url, page_title)
+        except Exception:  # noqa: BLE001
+            work = None
+    referenced: list[Candidate] = []
+    if work:
+        try:
+            referenced = _referenced_candidates(work)
+        except Exception:  # noqa: BLE001
+            referenced = []
+    elapsed_ms = int((time.monotonic() - started) * 1000)
+    return {
+        "ok": True,
+        "supported": bool(html_url or work),
+        "html_url": html_url,
+        "references": len(references),
+        "page_work": bool(work),
+        "referenced": len(referenced),
+        "elapsed_ms": elapsed_ms,
+    }
 
 
 def check_claim(claim: str, page_url: str = "", page_title: str = "", mode: str = "full") -> dict:
@@ -1348,7 +1402,14 @@ def check_claim(claim: str, page_url: str = "", page_title: str = "", mode: str 
         judge_available = False
     judge_limit = 1 if mode == "fast" else 3
     if judge_available:
-        verdicts = _judge_verdicts(claim, ranked, limit=judge_limit)
+        fast = mode == "fast"
+        verdicts = _judge_verdicts(
+            claim,
+            ranked,
+            limit=judge_limit,
+            audit=not fast,
+            timeout=config.LIVE_JUDGE_TIMEOUT if fast else None,
+        )
         if verdicts:
             return _judged_result(claim, ranked, scores, verdicts, mode=mode)
         # A configured endpoint can still fail over the network.  Degrade

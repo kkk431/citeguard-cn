@@ -1083,3 +1083,31 @@ def test_live_check_rejects_empty_or_oversized_claim(plain_client):
     assert plain_client.post("/api/live/check", json={"claim": "x" * 501}).status_code == 400
     assert plain_client.post("/api/live/check", json={"claim": "ok", "page_url": "u" * 2049}).status_code == 400
     assert plain_client.post("/api/live/check", json={"claim": "ok", "mode": "turbo"}).status_code == 400
+
+
+def test_live_prewarm_requires_a_page_and_returns_cache_hint(plain_client, monkeypatch):
+    from citeguard import live_check as live_mod
+
+    monkeypatch.setattr(
+        live_mod,
+        "prewarm_page",
+        lambda page_url="", page_title="": {
+            "ok": True,
+            "supported": True,
+            "html_url": page_url,
+            "references": 12,
+            "page_work": True,
+            "referenced": 5,
+            "elapsed_ms": 3,
+        },
+    )
+    assert plain_client.post("/api/live/prewarm", json={}).status_code == 400
+    r = plain_client.post(
+        "/api/live/prewarm",
+        json={"page_url": "https://arxiv.org/html/2305.20050", "page_title": "t"},
+    )
+    assert r.status_code == 200
+    body = r.json()
+    assert body["ok"] is True
+    assert body["references"] == 12
+    assert body["page_work"] is True

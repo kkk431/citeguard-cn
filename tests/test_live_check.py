@@ -169,7 +169,7 @@ def test_judge_path_keeps_grounded_quote(monkeypatch):
     monkeypatch.setattr(
         live_check.support,
         "judge_support",
-        lambda claim, abstract, title="", doi="": {
+        lambda claim, abstract, title="", doi="", audit=True, **kwargs: {
             "label": "support",
             "confidence": 0.91,
             "reason": "摘要直接报告了学习收益",
@@ -195,8 +195,8 @@ def test_fast_mode_judges_only_the_top_candidate(monkeypatch):
     )
     calls = []
 
-    def fake_judge(claim, abstract, title="", doi=""):
-        calls.append(doi)
+    def fake_judge(claim, abstract, title="", doi="", audit=True, **kwargs):
+        calls.append({"doi": doi, "audit": audit, "timeout": kwargs.get("timeout")})
         return {
             "label": "support",
             "confidence": 0.9,
@@ -211,22 +211,26 @@ def test_fast_mode_judges_only_the_top_candidate(monkeypatch):
     assert fast["judge_mode"] == "fast"
     assert fast["judge_calls"] == 1
     assert len(calls) == 1
+    assert calls[0]["audit"] is False
+    assert calls[0]["timeout"] == live_check.config.LIVE_JUDGE_TIMEOUT
 
     calls.clear()
     full = live_check.check_claim("AI tutoring improves learning outcomes", mode="full")
     assert full["judge_mode"] == "full"
     assert full["judge_calls"] == 2
     assert len(calls) == 2
+    assert calls[0]["audit"] is True
+    assert calls[0]["timeout"] is None
 
 
-
+def test_ungrounded_quote_is_not_attached(monkeypatch):
     abstract = "Intelligent tutoring systems improve student learning outcomes in higher education."
     _patch_searches(monkeypatch, openalex=[_candidate("Tutoring and outcomes", abstract)])
     monkeypatch.setattr(live_check.support, "judge_available", lambda: True)
     monkeypatch.setattr(
         live_check.support,
         "judge_support",
-        lambda claim, abstract, title="", doi="": {
+        lambda claim, abstract, title="", doi="", audit=True, **kwargs: {
             "label": "support",
             "confidence": 0.9,
             "reason": "模型称有证据",
@@ -712,3 +716,19 @@ def test_page_reference_ranking_prefers_title_over_long_abstract(monkeypatch):
     assert lc._page_candidate_score(terms, numbers, title_match) > lc._page_candidate_score(
         terms, numbers, abstract_match
     )
+
+
+def test_prewarm_page_reports_bibliography_count(monkeypatch):
+    import citeguard.live_check as live
+
+    monkeypatch.setattr(live, "_page_html_url", lambda url: "https://arxiv.org/html/2305.20050")
+    monkeypatch.setattr(live, "_load_bibliography", lambda url: {1: {"title": "A"}, 2: {"title": "B"}})
+    monkeypatch.setattr(live, "_page_work", lambda url, title="": None)
+    monkeypatch.setattr(live, "_referenced_candidates", lambda work: [])
+
+    out = live.prewarm_page("https://arxiv.org/abs/2305.20050", "")
+    assert out["ok"] is True
+    assert out["supported"] is True
+    assert out["references"] == 2
+    assert out["page_work"] is False
+    assert out["elapsed_ms"] >= 0

@@ -64,8 +64,9 @@ PYTHONPATH=src CITEGUARD_OFFLINE=1 python -m citeguard.live_check --claim "任�
 
 ### 2.0 两档速度
 
-在线默认 `mode=fast`：只对第一条**有摘要**的候选调用判定模型，命中排序不变，
-冷缓存 P50 约 11.5 s（见 `docs/live_eval.md` §5.6）；`mode=full` 判前 3 条，
+在线默认 `mode=fast`：只对第一条**有摘要**的候选调用判定模型，命中排序不变；
+同一 held-out 集页面热缓存时 P50 约 3.13 s、P95 4.50 s，冷启动 P50 10.52 s
+（见 `docs/live_eval.md` §5.5–5.6）；`mode=full` 判前 3 条并做覆盖审计，热缓存 P50 约 9.68 s。
 更接近最佳候选但更慢。两档都只读候选摘要，不读全文，也不会把模型推断说成人工核对。
 
 ### 2.1 `POST /api/live/check`
@@ -174,6 +175,13 @@ def api_live_check(req: LiveCheckRequest):
 若项目统一错误体是 `{"ok": false, "code": ..., "error": ...}`，请用异常处理器包一层；
 不要改变 `check_claim` 的 200 响应结构，扩展依赖 `label`/`confidence`/`reason`/
 `evidence`/`candidates` 五个字段。
+
+
+### 2.1 页面预热（可选）
+
+`POST /api/live/prewarm` 接受 `page_url` / `page_title`，只对 arXiv HTML 白名单页面抓取并解析参考文献，把首次抓取的几秒从“选中句请求”前移到“打开面板/页面时”。返回 `references`、`page_work`、`referenced`、`elapsed_ms`；失败静默为空缓存，不影响后续核验。
+
+扩展可以在侧边栏打开时先调用预热；不调用时功能不变，只是首句更慢。预热是**缓存加速**，不改变判定模型与四档口径。
 
 ## 3. 扩展 v2
 

@@ -382,31 +382,45 @@ def rows():
         "screenshot": "docs/extension_v2.md",
     })
 
-    judge = load("data/live_eval/live_eval_holdout_judge.json")
-    j3 = round(judge["hit@3"] * judge["n"])
-    judged = judge["label_counts"].get("support", 0) + judge["label_counts"].get("partial", 0)
+    pub_judge = load("data/live_eval/live_eval_holdout_judge.json")
+    pj3 = round(pub_judge["hit@3"] * pub_judge["n"])
+    pj_judged = pub_judge["label_counts"].get("support", 0) + pub_judge["label_counts"].get("partial", 0)
     out.append({
         "category": "Live",
-        "claim": "冻结 held-out 30 句（配云端判官）",
-        "value": f"hit@3 {judge['hit@3']:.4f} ({j3}/{judge['n']}) / hit@1 {judge['hit@1']:.4f}；有判定 {judged}/{judge['n']}，P50 {judge['p50_ms']/1000:.1f} s",
-        "n": "30 句英文 / 5 篇新 arXiv HTML；deepseek-chat 判官",
+        "claim": "公开页 30 句（配云端判官，full）",
+        "value": f"hit@3 {pub_judge['hit@3']:.4f} ({pj3}/{pub_judge['n']}) / hit@1 {pub_judge['hit@1']:.4f}；有判定 {pj_judged}/{pub_judge['n']}，P50 {pub_judge['p50_ms']/1000:.2f} s",
+        "n": "30 句英文 / 5 篇 arXiv HTML（pub-*）；deepseek-chat 判官；空缓存冷启动",
         "artifact": "data/live_eval/live_eval_holdout_judge.json",
-        "command": "PYTHONPATH=src python scripts/eval_live.py --claims data/live_eval/claims_public.jsonl --pages data/live_eval/pages_public.json --out data/live_eval/live_eval_holdout_judge.json",
-        "note": "判官输出不是人工金标；19/30 有判定，P50 14.8 s 不适合在线逐句；hit@3 低于无判官 run，差异未定位，两 run 不混算",
+        "command": "CITEGUARD_CACHE_DIR=$(mktemp -d) PYTHONPATH=src python scripts/eval_live.py --claims data/live_eval/claims_public.jsonl --pages data/live_eval/pages_public.json --mode full --out data/live_eval/live_eval_holdout_judge.json",
+        "note": "文件名为历史遗留；记录 id 是 pub-*，属公开页集，不是冻结 held-out。判官输出不是人工金标；P50 14.8 s 不适合在线逐句",
         "screenshot": "docs/evidence/shots/phase-56-live-judge-1.7.13.png",
     })
 
-    fast = load("data/live_eval/live_eval_holdout_fast_cold.json")
-    f3 = round(fast["hit@3"] * fast["n"])
-    fjudged = fast["label_counts"].get("support", 0) + fast["label_counts"].get("partial", 0)
+    hold_judge = load("data/live_eval/live_eval_holdout_judge_v2.json")
+    hj3 = round(hold_judge["hit@3"] * hold_judge["n"])
+    hv = hold_judge["label_counts"]
     out.append({
         "category": "Live",
-        "claim": "冻结 held-out 30 句（fast 档，只判 top-1）",
-        "value": f"hit@3 {fast['hit@3']:.4f} ({f3}/{fast['n']}) / hit@1 {fast['hit@1']:.4f}；有判定 {fjudged}/{fast['n']}，P50 {fast['p50_ms']/1000:.1f} s",
-        "n": "30 句英文 / 5 篇新 arXiv HTML；空缓存冷启动，deepseek-chat 判官",
-        "artifact": "data/live_eval/live_eval_holdout_fast_cold.json",
-        "command": "CITEGUARD_CACHE_DIR=$(mktemp -d) PYTHONPATH=src python scripts/eval_live.py --claims data/live_eval/claims_public.jsonl --pages data/live_eval/pages_public.json --mode fast --out data/live_eval/live_eval_holdout_fast_cold.json",
-        "note": "冷缓存实测；P50 较 full 降约 22.6%，P95 26.7 s 受网络长尾影响，不宣称更稳",
+        "claim": "冻结 held-out 30 句（配云端判官，full，页面热缓存）",
+        "value": f"hit@3 {hold_judge['hit@3']:.4f} ({hj3}/{hold_judge['n']}) / hit@1 {hold_judge['hit@1']:.4f}；P50 {hold_judge['p50_ms']/1000:.2f} s；四档 {hv.get('support',0)}/{hv.get('partial',0)}/{hv.get('contradict',0)}/{hv.get('no_evidence',0)}",
+        "n": "30 句英文 / 5 篇新 arXiv HTML（hld-*）；deepseek-chat；页面缓存热",
+        "artifact": "data/live_eval/live_eval_holdout_judge_v2.json",
+        "command": "PYTHONPATH=src python scripts/eval_live.py --claims data/live_eval/claims_holdout.jsonl --pages data/live_eval/pages_holdout.json --mode full --out data/live_eval/live_eval_holdout_judge_v2.json",
+        "note": "判官不是人工金标；full 对前 3 候选判官 + 覆盖审计，适合后台而非在线逐句",
+        "screenshot": "docs/evidence/shots/phase-56-live-judge-1.7.13.png",
+    })
+
+    fast_warm = load("data/live_eval/live_eval_holdout_fast_warm.json")
+    fw3 = round(fast_warm["hit@3"] * fast_warm["n"])
+    fwv = fast_warm["label_counts"]
+    out.append({
+        "category": "Live",
+        "claim": "冻结 held-out 30 句（fast 档，页面热缓存）",
+        "value": f"hit@3 {fast_warm['hit@3']:.4f} ({fw3}/{fast_warm['n']}) / hit@1 {fast_warm['hit@1']:.4f}；P50 {fast_warm['p50_ms']/1000:.2f} s / P95 {fast_warm['p95_ms']/1000:.2f} s；四档 {fwv.get('support',0)}/{fwv.get('partial',0)}/{fwv.get('contradict',0)}/{fwv.get('no_evidence',0)}",
+        "n": "30 句英文 / 5 篇新 arXiv HTML（hld-*）；deepseek-chat；页面缓存热；fast 只判 top-1 且跳过审计",
+        "artifact": "data/live_eval/live_eval_holdout_fast_warm.json",
+        "command": "PYTHONPATH=src python scripts/eval_live.py --claims data/live_eval/claims_holdout.jsonl --pages data/live_eval/pages_holdout.json --mode fast --out data/live_eval/live_eval_holdout_fast_warm.json",
+        "note": "冷启动同集 P50 10.52 s（live_eval_holdout_fast_noaudit.json）；frozen 集命中 0.90/1.00，判官只改四档标签，不是人工金标",
         "screenshot": "",
     })
 

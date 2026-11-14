@@ -232,13 +232,14 @@ def judge_available() -> bool:
     return bool(key or os.environ.get("CITEGUARD_JUDGE_BASE_URL"))
 
 
-def _cache_path(claim: str, abstract: str):
+def _cache_path(claim: str, abstract: str, audit: bool = True):
     base, model, _key = judge_endpoint()
     # The cached value is the *final* verdict (after the coverage audit), so the
     # audit style must be part of the key; otherwise switching v1<->v2 keeps
     # serving verdicts produced by the old audit prompt.
     audit_tag = _audit_style() if config.SUPPORT_AUDIT else "off"
-    h = hashlib.md5((base + "||" + model + "||" + audit_tag + "||" + _EVIDENCE_MODE + "||" + claim + "||" + abstract).encode("utf-8")).hexdigest()
+    scope = "" if audit else "||fast-no-audit"
+    h = hashlib.md5((base + "||" + model + "||" + audit_tag + "||" + _EVIDENCE_MODE + scope + "||" + claim + "||" + abstract).encode("utf-8")).hexdigest()
     d = config.CACHE_DIR / "support" / f"v{PROMPT_VERSION}"
     d.mkdir(parents=True, exist_ok=True)
     return d / f"{h}.json"
@@ -288,7 +289,7 @@ def _audit_cache_path(claim: str, abstract: str):
     return d / f"audit-{style}-{h}.json"
 
 
-def _chat_json(prompt: str, user: str, max_tokens: int = 400) -> Optional[dict]:
+def _chat_json(prompt: str, user: str, max_tokens: int = 400, timeout: float = 60) -> Optional[dict]:
     """One judge call that returns the first JSON object in the reply."""
     base, model, key = judge_endpoint()
     headers = {"Content-Type": "application/json"}
@@ -306,7 +307,7 @@ def _chat_json(prompt: str, user: str, max_tokens: int = 400) -> Optional[dict]:
             "temperature": 0,
             "max_tokens": max_tokens,
         },
-        timeout=60,
+        timeout=timeout,
     )
     if resp.status_code != 200:
         return None
@@ -397,7 +398,7 @@ def _select_evidence_window(claim: str, text: str, limit: int = 1800) -> str:
     return window[:limit]
 
 
-def judge_support(claim: str, abstract: str, title: str = "", doi: str = "") -> Optional[dict]:
+def judge_support(claim: str, abstract: str, title: str = "", doi: str = "", audit: bool = True, timeout: float | None = None) -> Optional[dict]:
     """Return a 4-way support verdict, or None when the judge is unavailable.
 
     Stage 1 asks for the verdict with an evidence quote. Stage 2 audits every
@@ -417,7 +418,7 @@ def judge_support(claim: str, abstract: str, title: str = "", doi: str = "") -> 
     if not judge_available():
         return None
 
-    cp = _cache_path(claim, abstract)
+    cp = _cache_path(claim, abstract, audit)
     if cp.exists():
         try:
             return json.loads(cp.read_text(encoding="utf-8"))
@@ -429,7 +430,7 @@ def judge_support(claim: str, abstract: str, title: str = "", doi: str = "") -> 
     # when removed), so it is intentionally left out here.
     user = f"【引用句】{claim}\n【证据片段】{_select_evidence_window(claim, abstract)}"
     try:
-        parsed = _chat_json(PROMPT, user)
+        parsed = _chat_json(PROMPT, user, timeout=timeout or 60)
         if parsed is None:
             return None
         label = parsed.get("label", "no_evidence")
@@ -442,15 +443,15 @@ def judge_support(claim: str, abstract: str, title: str = "", doi: str = "") -> 
             # v2 asks for evidence_quote; keep reading the v1 key for compatibility.
             "evidence": parsed.get("evidence_quote") or parsed.get("evidence", ""),
         }
-        if label == "support" and config.SUPPORT_AUDIT:
-            audit = _audit_support(claim, abstract)
-            if audit:
+        if label == "support" and config.SUPPORT_AUDIT and audit:
+            audited = _audit_support(claim, abstract)
+            if audited:
                 out["audit"] = {
-                    "fully_covered": audit.get("fully_covered"),
-                    "missing": [str(x) for x in (audit.get("missing") or []) if x][:5],
-                    "style": audit.get("style") or _audit_style(),
+                    "fully_covered": audited.get("fully_covered"),
+                    "missing": [str(x) for x in (audited.get("missing") or []) if x][:5],
+                    "style": audited.get("style") or _audit_style(),
                 }
-                if audit.get("fully_covered") is False:
+                if audited.get("fully_covered") is False:
                     out["label"] = "partial"
                     missing = out["audit"]["missing"]
                     out["reason"] = (out["reason"] or "") + "；覆盖审计：证据未完整覆盖引用句" + (

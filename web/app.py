@@ -102,7 +102,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.7.15", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.7.16", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 
@@ -2663,6 +2663,15 @@ async def support_batch(request: Request):
     return {"ok": True, "count": len(results), "items": results}
 
 
+_LIVE_PREWARM_BODY = {
+    "type": "object",
+    "properties": {
+        "page_url": {"type": "string", "maxLength": 2048},
+        "page_title": {"type": "string", "maxLength": 300},
+    },
+}
+
+
 _LIVE_CHECK_BODY = {
     "type": "object",
     "required": ["claim"],
@@ -2673,6 +2682,28 @@ _LIVE_CHECK_BODY = {
         "mode": {"type": "string", "enum": ["fast", "full"], "default": "fast"},
     },
 }
+
+
+@app.post(
+    "/api/live/prewarm",
+    openapi_extra={"requestBody": {"required": True, "content": {"application/json": {"schema": _LIVE_PREWARM_BODY}}}},
+)
+async def live_prewarm(request: Request):
+    """Warm the page cache before the user selects a sentence."""
+    try:
+        payload = await request.json()
+    except Exception:
+        raise HTTPException(status_code=400, detail="请求体必须是 JSON")
+    page_url = str(payload.get("page_url") or "").strip()
+    page_title = str(payload.get("page_title") or "").strip()
+    if not page_url and not page_title:
+        raise HTTPException(status_code=400, detail="page_url 和 page_title 至少提供一个")
+    if len(page_url) > 2048 or len(page_title) > 300:
+        raise HTTPException(status_code=400, detail="page_url 或 page_title 过长")
+    from citeguard import live_check as live_mod
+
+    result = live_mod.prewarm_page(page_url=page_url, page_title=page_title)
+    return result
 
 
 @app.post(

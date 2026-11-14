@@ -126,3 +126,6 @@ FIGURE_PROMPT_STYLE = os.environ.get("CITEGUARD_FIGURE_PROMPT", "2").strip().low
 # 文档：https://ai.wfdata.com/api-detail?id=17 ；鉴权头 X-App-Key，必须 HTTPS。
 WANFANG_BASE = os.environ.get("WANFANG_BASE", "https://api.wfdata.com").rstrip("/")
 WANFANG_APP_KEY = os.environ.get("WANFANG_APP_KEY", "").strip()
+
+# Live must answer while the reader is still looking at the sentence.
+LIVE_JUDGE_TIMEOUT = float(os.environ.get("CITEGUARD_LIVE_JUDGE_TIMEOUT", "8"))

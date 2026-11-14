@@ -235,63 +235,37 @@ PYTHONPATH=src python scripts/eval_live.py \
 三套数据的任务难度与分母含义不同，**不能相加、不能互相替代**；跨语言集的 0/30 不能用来否定公开页集/held-out 的分数，反之也不行。
 
 
-### 5.5 配置判定模型后的 held-out 复测（2026-11-14）
+### 5.5 判官与数据集口径（2026-11-15 修正）
 
-本机同时配置了两条判官路径：`hosted-deepseek`（`https://api.deepseek.com`，`deepseek-chat`）与本地
-`local-qwen3-14b`（lmh GPU3，4-bit 量化，按需启动）。使用云端判官对同一份 30 条 held-out 复跑：
+> **修正说明**：2026-11-14 的 §5.5 把 `live_eval_holdout_judge.json` 当作 held-out 集的判官结果，但该文件的记录 id 实际是 `pub-*`（公开页集），不是 `hld-*`。因此“held-out 无判官 30/30 vs 判官 0.9333”的对比**混用了两套数据**，已作废，不再引用。
 
-```bash
-PYTHONPATH=src python scripts/eval_live.py \
-  --claims data/live_eval/claims_public.jsonl \
-  --pages data/live_eval/pages_public.json \
-  --out data/live_eval/live_eval_holdout_judge.json
-```
+本机同时配置了两条判官路径：`hosted-deepseek`（`https://api.deepseek.com`，`deepseek-chat`）与本地 `local-qwen3-14b`（lmh GPU3，4-bit 量化，按需启动）。下面的表只使用**同一份 held-out 数据**（`claims_holdout.jsonl` + `pages_holdout.json`，30 句 / 5 页 / 30 个 DOI）和同一套 `check_claim`；`full` 判前 3 个有摘要候选，`fast` 只判 top-1 且跳过覆盖审计。
 
-| 配置 | n | hit@1 | hit@3 | P50 | P95 | 四档 |
-| --- | --- | --- | --- | --- | --- | --- |
-| 无判官（规则降级，t18） | 30 | 0.9000 | 1.0000 | 2.98 s | 16.09 s | 2 / 9 / 0 / 19 |
-| 云端 `deepseek-chat`（本次） | 30 | **0.6667** | **0.9333** | **14.81 s** | 24.60 s | **1 / 18 / 0 / 11** |
+| 运行 | 数据集 | 缓存 | n | hit@1 | hit@3 | P50 | P95 | support/partial/contradict/no_evidence |
+|---|---|---|---|---:|---:|---:|---:|---:|---|
+| 无判官（规则降级，t18） | held-out | 页面热 | 30 | 0.9000 | 1.0000 | 2.98 s | 16.09 s | 2 / 9 / 0 / 19 |
+| `fast`（top-1，无审计） | held-out | **冷** | 30 | 0.9000 | 1.0000 | 10.52 s | 28.45 s | 2 / 16 / 0 / 12 |
+| `fast`（top-1，无审计） | held-out | **热** | 30 | 0.9000 | 1.0000 | **3.13 s** | **4.50 s** | 1 / 12 / 0 / 17 |
+| `full`（前 3，含审计） | held-out | 页面热 | 30 | 0.9000 | 1.0000 | 9.68 s | 12.14 s | 2 / 16 / 0 / 12 |
 
-边界与解释：
+结论边界：
 
-- 判官可用后，19/30 条给出了 `support`/`partial` 判定（无判官时主要是 `no_evidence`），说明判定链路已工作；
-  但这仍不是 stance 准确率：没有人工逐条核对。
-- 候选命中比无判官 run 低（hit@3 28/30 vs 30/30），差异来自候选顺序/网络返回波动，未定位到单一原因，
-  不把两次 run 混算、也不据此宣称判官降低命中率。
-- P50 14.8 s 来自对前 3 个有摘要候选的逐条判官调用，**不适合在线逐句**；在线入口目前仍以“候选+证据”
-  为主，判官仅作辅助。
-- 产品内 `/live` 用同一接口实测“STIC 72.6%”句：支持 95%、逐字证据句命中；截图
-  `docs/evidence/shots/phase-56-live-judge-1.7.13.png`。
+- 命中（hit@1/hit@3）在无判官、fast、full 三种运行里一致，都是 **0.90 / 1.00**；判官不改变“找没找到源头”，只改变四档标签。
+- 冷启动的 10.5 s 主要花在首次抓取/解析 arXiv HTML 与补摘要；同一页面后续选中句走缓存，fast 的 P50 降到 **3.13 s**。
+- `full` 会对前 3 个候选各调一次判官并做覆盖审计，热缓存 P50 9.68 s，仍不适合在线逐句，适合后台/整篇。
+- 30/30 是 5 页小样本、单一 arXiv HTML 页型；不能外推为开放网页承诺。
 
-### 5.6 fast / full 两档判官（2026-11-15）
+### 5.6 fast / full 与在线使用
 
-在线接口新增 `mode`：`fast` 最多只判 1 条有摘要候选，`full` 沿用原来的前 3 条。
-同一条 held-out 数据、同一判官，使用**空缓存目录**各跑一次（`CITEGUARD_CACHE_DIR`
-指向新目录），避免把缓存命中误当延迟：
+| 入口 | 判官调用 | 适用 |
+|---|---|---|
+| `mode=fast`（默认） | 只判 top-1，跳过覆盖审计 | 阅读器侧边栏，追求首句响应 |
+| `mode=full` | 前 3 个候选 + 覆盖审计 | 后台核验、少量高价值句子 |
 
-```bash
-CITEGUARD_CACHE_DIR=out/cache_live_fast_cold \
-PYTHONPATH=src python scripts/eval_live.py \
-  --claims data/live_eval/claims_public.jsonl \
-  --pages data/live_eval/pages_public.json \
-  --mode fast \
-  --out data/live_eval/live_eval_holdout_fast_cold.json
-```
+`POST /api/live/prewarm` 可在用户打开面板时预取页面参考文献（只接受 arXiv HTML 白名单），把首次页面抓取从句子请求里前移；实测单篇 456 条参考文献的页面预热约 3.8–4.9 s。预热后同一句的 fast 路径仍受判官与摘要补全影响，不能承诺亚秒级。
 
-| 配置 | n | hit@1 | hit@3 | P50 | P95 | 四档 |
-| --- | --- | --- | --- | --- | --- | --- |
-| `full`（前 3 条，§5.5） | 30 | 0.6667 | 0.9333 | 14.81 s | 24.60 s | 1 / 18 / 0 / 11 |
-| `fast`（最多 1 条，冷缓存） | 30 | 0.6667 | **0.9333** | **11.46 s** | 26.72 s | 0 / 14 / 0 / 16 |
+**在线口径**：可以说“热页面 + fast 的 P50 约 3 秒、P95 约 4.5 秒；冷启动 10 秒级，扩展/页面先预热”；不能说“实时逐句判定”或“stance 准确率”。
 
-边界：
-
-- fast 的 P50 比 full 低约 22.6%，但**仍不是亚秒级**：瓶颈是单次判官调用（约 6 s）
-  加页面/引用检索；P95 反而更高，是网络长尾，不据此宣称“更快更稳”。
-- fast 只判一条，标签分布更偏 `no_evidence`（16 vs 11），不能与 full 的标签表混算；
-  hit@1/hit@3 相同，说明这 30 条里前 3 条判官并没有改变命中排序。
-- 热缓存下重复请求可到 <100 ms，但这是缓存效应；对外只说冷缓存数字。
-- 产品默认 `fast`；需要更完整的判定时传 `mode=full`。这不是“人工金标”，
-  stance 准确率仍未测。
 
 ## 6. 结论与建议（决策）
 

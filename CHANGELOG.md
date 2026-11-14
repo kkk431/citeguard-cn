@@ -1,16 +1,28 @@
+## [1.7.16] - 2026-11-15
+
+### Added
+- `POST /api/live/prewarm`：在用户选中句子前预取 arXiv HTML 参考文献，减少首句冷启动等待；只做缓存，不判定。
+- Live fast 档跳过 Stage-2 覆盖审计，并使用独立的判官缓存键；判官调用加 8 s 上限，超时明确降级为本地规则。
+- 页面标记参考文献的摘要补全改为并行（最多 4 路），同一句带多个 `[n]` 时不再串行等待。
+
+### Fixed
+- 更正 Live 评测数据集口径：1.7.15 中标注为 held-out 的 `hit@3 0.9333 / P50 14.81 s` 实际来自公开页集（`pub-*`），不是冻结 held-out；冻结 held-out 使用 `hld-*` 数据重新跑。
+- 冻结 held-out（30 句/5 页、同一判官）：页面热缓存 + fast `hit@1 0.90 / hit@3 1.00`、P50 **3.13 s**、P95 4.50 s；full 热缓存 P50 **9.68 s**；冷启动 fast P50 10.52 s。命中在三种运行中一致，判官只改变四档标签。
+- README / `docs/live_eval.md` §5.5–5.6 / `docs/live.md` 同步修正；old 公开页判官结果保留但明确标注数据集。
+
 ## [1.7.15] - 2026-11-15
 
 ### Added
 - Live 在线接口新增 `mode=fast|full`（默认 `fast`）：fast 最多只判 1 条有摘要候选，
-  full 判前 3 条；返回 `judge_mode`/`judge_calls`。held-out 30 句冷缓存复测：
-  fast hit@3 0.9333 / P50 11.46 s，full hit@3 0.9333 / P50 14.81 s；P95 受网络长尾影响，
+  full 判前 3 条；返回 `judge_mode`/`judge_calls`。公开页集（pub-*）30 句冷缓存复测：
+  fast hit@3 0.9333 / P50 11.46 s，full hit@3 0.9333 / P50 14.81 s（该行不是 held-out；1.7.16 已更正）；P95 受网络长尾影响，
   不宣称“更快更稳”（`docs/live_eval.md` §5.6、`data/live_eval/live_eval_holdout_fast_cold.json`）。
 - `docs/sbom.json`（CycloneDX 1.5）与 `scripts/make_sbom.py --check`，列出 10 个核心依赖
   的版本/许可证；`tests/test_sbom.py` 防止版本漂移。
 - `CITEGUARD_CACHE_DIR` 可指定缓存目录，用于冷/热缓存对照评测。
 
 ### Changed
-- 878 项 pytest；README/Live API 文档/导航同步。
+- 881 项 pytest；README/Live API 文档/导航同步。
 
 ## [1.7.14] - 2026-11-14
 
