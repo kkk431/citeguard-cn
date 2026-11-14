@@ -1,3 +1,11 @@
+## [1.7.19] - 2026-11-15
+
+- 新增 MCP stdio 服务 `integration/mcp/citeguard_mcp.py`（零依赖、JSON-RPC 2.0、3 个工具），17 项协议/透传测试；文档写明客户端实际加载未验证。
+- 新增 `docs/scenarios.md`：四类真实任务（论文初稿 / 审稿单句 / 领域综述 / 格式修复）的输入、真实数字、截图与复现命令，并映射评分表；明确不是用户调研。
+- 新增机制消融矩阵 `data/experiments/ablation_matrix.json` + `docs/research/ablation_matrix.md`（12 行同集对照、6 项评分缺口），第 13 张证据图；修正 Live 评测图的数据集口径。
+- 新增 `CITATION.cff`、`CONTRIBUTING.md`；README 加三条产品线与 MCP 接入入口。
+- 908 tests。
+
 ## [1.7.18] - 2026-11-15
 
 - `/live` 页面在填写「页面标题 / URL」后 900 ms 自动调用 `/api/live/prewarm`，切换输入会取消上一次请求；状态行显示「页面已预热 · 参考文献 N 条」，失败静默为「预热失败（不影响核验）」。扩展仍保持打开侧栏自动预热。

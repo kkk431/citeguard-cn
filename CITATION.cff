@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "如果 CiteGuard-CN 或它的评测数据帮到了你的研究/产品，请引用这个仓库。"
+title: "CiteGuard-CN: 中文引文核验工作台"
+abstract: "面向中文论文的引文证据基础设施：解析参考文献与正文引用句，核验真实性、引用支持度与 GB/T 7714-2025 格式，并给出可复核的证据与修复建议。包含 CiteBench-CN v2 基准、ClaimSupport-CN 数据集、Live 单句核验与 CiteMap 证据地图。"
+type: software
+license: Apache-2.0
+repository-code: "https://github.com/kkk431/citeguard-cn"
+url: "https://github.com/kkk431/citeguard-cn"
+version: "1.7.18"
+date-released: "2026-11-15"
+keywords:
+  - citation verification
+  - chinese nlp
+  - reference checking
+  - gbt7714
+  - open source
+authors:
+  - name: "CiteGuard-CN contributors"

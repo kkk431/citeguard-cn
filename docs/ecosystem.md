@@ -13,6 +13,7 @@ CiteGuard-CN 的核心是「一条引用 → 四层证据」的报告，但同�
 | 浏览器扩展 | `extension/` | 本地加载可用，未上架商店 |
 | Word 任务窗格 | `word-addin/`、`/word/taskpane` | **预览版；未在真实 Word 客户端加载测试** |
 | Docker | `docker/Dockerfile` | 构建成功、容器 health 通过；镜像不含模型/密钥 |
+| MCP stdio 服务 | `integration/mcp/citeguard_mcp.py` | 单测 17 项通过（Python 3.11/3.13）；Claude Desktop/Cursor 实际加载未验证 |
 
 ## 最小示例
 

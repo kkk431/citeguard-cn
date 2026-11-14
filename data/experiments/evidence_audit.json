@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 170,
+  "paths_checked": 176,
   "missing": [],
   "rows": [
     {
@@ -195,12 +195,12 @@
     },
     {
       "evidence": "E86",
-      "path": "docs/evidence/logs/docker-1.7.18-health.txt",
+      "path": "docs/evidence/logs/docker-1.7.19-health.txt",
       "exists": true
     },
     {
       "evidence": "E86",
-      "path": "docs/evidence/logs/docker-1.7.18-health.txt",
+      "path": "docs/evidence/logs/docker-1.7.19-health.txt",
       "exists": true
     },
     {
@@ -331,6 +331,41 @@
     {
       "evidence": "E90",
       "path": "docs/evidence/shots/phase-57-live-two-phase-result-1.7.17.png",
+      "exists": true
+    },
+    {
+      "evidence": "E93",
+      "path": "data/experiments/ablation_matrix.json",
+      "exists": true
+    },
+    {
+      "evidence": "E93",
+      "path": "docs/research/ablation_matrix.md",
+      "exists": true
+    },
+    {
+      "evidence": "E93",
+      "path": "docs/evidence/shots/final/charts/13-ablation.png",
+      "exists": true
+    },
+    {
+      "evidence": "E92",
+      "path": "docs/scenarios.md",
+      "exists": true
+    },
+    {
+      "evidence": "E92",
+      "path": "docs/evidence/shots/phase-59-scenarios-1.7.18.png",
+      "exists": true
+    },
+    {
+      "evidence": "E94",
+      "path": "docs/mcp.md",
+      "exists": true
+    },
+    {
+      "evidence": "E94",
+      "path": "docs/mcp.md",
       "exists": true
     },
     {
@@ -714,6 +749,6 @@
       "exists": true
     }
   ],
-  "shots_registered": 83,
+  "shots_registered": 85,
   "shots_unregistered": []
 }

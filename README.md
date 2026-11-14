@@ -1,10 +1,16 @@
 # 引证卫士 CiteGuard-CN
 
-> **v1.7.18** · 2026-11-15 · Apache-2.0
+> **v1.7.19** · 2026-11-15 · Apache-2.0
+
+[![ci](https://github.com/kkk431/citeguard-cn/actions/workflows/ci.yml/badge.svg)](https://github.com/kkk431/citeguard-cn/actions/workflows/ci.yml)
+[![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](requirements.txt)
 
 > 给中文论文做一次「引文体检」：**引文是否真实存在、引用是否支持正文那句话、格式是否符合 GB/T 7714-2025**。每条结论都带证据链接。
 
 CiteGuard-CN 是一个开源的中文引文核验工作台，面向毕业论文、课程论文与期刊投稿场景。它把「中文引文解析 → 多源元数据核验 → 引用支持度判定 → 新国标规则检查」串成一条可复现的流水线，并附带一个 500 条的中文评测基准 **CiteBench-CN v2**。
+
+使用场景与可复现证据（四类真实任务，含截图与命令）：[docs/scenarios.md](docs/scenarios.md)。
 
 支持的输入：**PDF**（文字层优先；扫描件可自动 OCR）、**Word（.docx）**（含放在表格里的参考文献表）、**纯文本 / Markdown**。旧版 `.doc` 请先另存为 `.docx` 或 PDF。每份报告都会记录文字来源（PDF 文字层 / OCR / Word / 文本），OCR 生成的报告会显著提示复核。
 
@@ -15,6 +21,16 @@ pip install -r requirements-ocr.txt   # rapidocr-onnxruntime + pypdfium2，CPU �
 ```
 
 > 实测（7 页纯图片 PDF，150 dpi）：OCR 后仍能解析出 **23/24 条**参考文献，题名/年份覆盖 23/23、作者 23/23；7 页约 43 s（CPU，含模型加载）。扫描版 PDF 的 OCR 噪声（`[J]`→`[]`、断行、DOI 丢失）会在解析层标注，不臆造字段；报告页与 Markdown / HTML 导出还会写明「文字来源：OCR 识别（扫描件） · 页数 · 字符数」，提醒用户 OCR 错字会传递到核验结论。复现：`PYTHONPATH=src python scripts/eval_ocr_scanned.py --input <paper.pdf>`。
+
+## 三条产品线：Check / Map / Live
+
+| 产品线 | 入口 | 解决什么 |
+|---|---|---|
+| **Check** | `/workspace`、`/report` | 上传整篇论文，逐条核验真实性、支持度、GB/T 格式，输出证据报告与修复建议 |
+| **Map** | `/citemap` | 按主题看「论文—断言—证据—方法/样本—缺口」，人工示例与机器抽取分层标注 |
+| **Live** | `/live`、浏览器扩展 | 划一句正文，先给候选来源，再给四档判定与逐字证据；支持页面参考文献 `[n]` 映射与预热 |
+
+三条线共用同一套解析、检索、判官与证据模型；模型可换、离线可降级、每条结论都回到可核对的 JSON。
 
 ## 它做什么
 
@@ -215,6 +231,7 @@ Content-Type: application/json
 配套的接入面（都在仓库里，可按需选用）：
 
 - **Python 客户端**：`citeguard.client.CiteGuardClient`，零依赖，支持 `health()` / `check_support()` / `check_support_batch()`；命令行 `python -m citeguard.client --claim "…" --evidence "…"`。
+- **MCP 服务**：`integration/mcp/citeguard_mcp.py` 是一个零依赖 stdio 服务，把 `citeguard_health` / `citeguard_check_support` / `citeguard_live_check` 暴露给 Claude Desktop、Cursor 等 MCP 客户端；配置与边界见 [docs/mcp.md](docs/mcp.md)。
 - **任务进度 SSE**：`GET /api/jobs/{id}/events` 推送 `{status, progress, stage}`，`done/error` 时自动结束；页面优先用 SSE，连不上时自动回退轮询，脚本可直接消费事件流。
 - **Word 任务窗格（预览版）**：`word-addin/manifest.xml` + `/word/taskpane`，选中句子后核验；**未在真实 Word 客户端验证**，README 已写明边界。
 - **Docker**：`docker/Dockerfile` 构建后容器 health 通过；不把模型/密钥打进镜像。
@@ -412,15 +429,15 @@ PYTHONPATH=src python3 scripts/enrich_library_abstracts.py
 
 ## 复现与发布
 
-- 版本：**v1.7.18**；变更见 `CHANGELOG.md`，发布说明见 `docs/release_notes_v1.0.md`
-- 单元测试：`PYTHONPATH=src python -m pytest tests -q`（891 项）
+- 版本：**v1.7.19**；变更见 `CHANGELOG.md`，发布说明见 `docs/release_notes_v1.0.md`
+- 单元测试：`PYTHONPATH=src python -m pytest tests -q`（908 项）
 - 主评测复现：`PYTHONPATH=src python scripts/reproduce_all.py`；每个对外数字的 JSON/命令/样本量见 `docs/evidence_index.md`
 - 文档站：`pip install -r requirements-docs.txt && mkdocs serve`
 - 数据集包：`dist/CiteGuard-CN_ClaimSupport-CN-300_v1.0.zip`（CC-BY-4.0，构造标签）
 - HuggingFace 数据集：<https://huggingface.co/datasets/dfdafs/claimsupport-cn-300>（300 条，构造标签，非人审）
 - HuggingFace 适配器：<https://huggingface.co/models/dfdafs/citeguard-support-lora-qwen3-1.7b>（Qwen3-1.7B LoRA，Apache-2.0）
 - HuggingFace 适配器（4B）：<https://huggingface.co/dfdafs/citeguard-support-lora-qwen3-4b>（Qwen3-4B LoRA，Apache-2.0；构造测试集饱和，见模型卡）
-- Docker：`docker compose -f docker/docker-compose.yml up --build`；`citeguard-cn:1.0.12` 已构建并通过 `/api/health`（E49）
+- Docker：`docker compose -f docker/docker-compose.yml up --build`；`citeguard-cn:1.7.19` 已构建并通过 `/api/health`（E86）
 
 ## 参考与致谢
 

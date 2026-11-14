@@ -1,4 +1,4 @@
-# 实验证据图（12 张）
+# 实验证据图（13 张）
 
 > 全部由 `scripts/make_evidence_charts.py` 从仓库内实验 JSON 生成，深色 1920×1080，标题即结论，页脚标注来源与样本量。不是手绘示意图；改动数据后重跑脚本即可复现。
 
@@ -9,7 +9,7 @@
 | 01 | ![01](evidence/shots/final/charts/01_real_corpus_status.png) | 同一批 409 条引用：197 条查不到 → 0 | verify_real.json + library_real.json；n=409/20篇 |
 | 02 | ![02](evidence/shots/final/charts/02_support_models.png) | 同一套测试，8 种配置：小模型微调后追平 14B | support_matrix.json；n=60 |
 | 03 | ![03](evidence/shots/final/charts/03_support_ablation.png) | 同一批 100 条：0.9005 → 0.9439 → 0.9597 | support_v3_vote3 + support_two_stage + 14B v10；n=100 |
-| 04 | ![04](evidence/shots/final/charts/04_live_heldout.png) | 页面 [n] 映射：hit@3 30/30；判官把可判定做到 19/30 | live_eval_holdout(+judge).json；n=30 |
+| 04 | ![04](evidence/shots/final/charts/04_live_heldout.png) | 页面 [n] 映射：hit@3 30/30；判官只改四档（有判定 0.37→0.43→0.60），不改命中 | live_eval_holdout_enriched + fast_warm + judge_v2；n=30 |
 | 05 | ![05](evidence/shots/final/charts/05_chartcheck_confusion.png) | 图表核验零样本：矛盾抓出 140/200，代价是 30 条误判 | chartcheck_val400_v3.json；n=400 |
 | 06 | ![06](evidence/shots/final/charts/06_scifact_compare.png) | 同一 300 条 SciFact：0.8224 vs 0.7646 | scifact support + refchecker；n=300 |
 | 07 | ![07](evidence/shots/final/charts/07_chinese_coverage.png) | 中文可确认率：12.4% → 65.2%（强匹配） | chinese_sources + wanfang_batch；n=210/409 |
@@ -18,6 +18,7 @@
 | 10 | ![10](evidence/shots/final/charts/10_citebench_v2.png) | CiteBench-CN v2：3 类 100%，但 90 条 Unknown | v2_results.json；n=453 |
 | 11 | ![11](evidence/shots/final/charts/11_citation_context.png) | 引注抽取覆盖 21/22 篇；只有 60% 参考文献被正文引用 | citation_anchor_real.json；n=22/543 |
 | 12 | ![12](evidence/shots/final/charts/12_retraction_doi.png) | 撤稿 100/100；题名-A + DOI-B 没有一条 Exact | retraction_eval + doi_swap_eval；n=200/99 |
+| 13 | ![13](evidence/shots/final/charts/13-ablation.png) | 机制开/关：本地库、排序、预热、判官各自改变了什么 | ablation_matrix.json；M01 n=409，M02/M04/M05 n=30 |
 
 ## 使用边界
 

@@ -17,8 +17,10 @@ nav:
   - 首页: index.md
   - 状态总表 v1.3.4: status_v1.3.4.md
   - 部署与运行: deployment.md
+  - 使用场景: scenarios.md
   - API 与 Python SDK: api.md
   - 生态集成: ecosystem.md
+  - MCP 服务: mcp.md
   - 存储与索引: storage.md
   - 评测与证据: experiments.md
   - 引用健康画像: health.md
@@ -35,6 +37,7 @@ nav:
   - 撤稿与勘误检查: retraction.md
   - 替换建议: replacement.md
   - 证据矩阵: evidence_matrix.md
+  - 机制消融: research/ablation_matrix.md
   - 外部基线: baselines.md
   - 题录库标签: library_tags.md
   - 证据索引: evidence_index.md

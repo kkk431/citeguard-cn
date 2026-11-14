@@ -198,25 +198,31 @@ def chart_support_ablation():
 # 04 live held-out
 # ---------------------------------------------------------------------------
 def chart_live_heldout():
-    base = load("data/live_eval/live_eval_holdout.json")
-    judge = load("data/live_eval/live_eval_holdout_judge.json")
-    groups = ["无判官（只映射）", "判官（云端 DeepSeek）"]
-    hit1 = [base["hit@1"], judge["hit@1"]]
-    hit3 = [base["hit@3"], judge["hit@3"]]
-    judged = [7 / 30, 19 / 30]
-    fig, ax = frame("页面 [n] 映射：hit@3 30/30；判官把可判定做到 19/30", "30 条英文正文句 / 5 篇 2026 arXiv HTML；判官延迟 P50 14.8s，只适合后台")
+    base = load("data/live_eval/live_eval_holdout_enriched.json")
+    fast = load("data/live_eval/live_eval_holdout_fast_warm.json")
+    full = load("data/live_eval/live_eval_holdout_judge_v2.json")
+    groups = ["无判官", "fast（热）", "full（热）"]
+    hit1 = [base["hit@1"], fast["hit@1"], full["hit@1"]]
+    hit3 = [base["hit@3"], fast["hit@3"], full["hit@3"]]
+    judged = [sum(base["label_counts"].get(k, 0) for k in ("support", "partial", "contradict")) / 30,
+              sum(fast["label_counts"].get(k, 0) for k in ("support", "partial", "contradict")) / 30,
+              sum(full["label_counts"].get(k, 0) for k in ("support", "partial", "contradict")) / 30]
+    fig, ax = frame("页面 [n] 映射：hit@3 30/30；判官改的是四档，不是命中",
+                    "30 条英文正文句 / 5 篇 2026 arXiv HTML；P50：无判官 2.98s · fast 3.13s · full 9.68s")
     x = range(len(groups))
     ax.bar([i - 0.23 for i in x], hit1, width=0.21, color=CYAN, label="hit@1")
     ax.bar(list(x), hit3, width=0.21, color=MINT, label="hit@3")
     ax.bar([i + 0.23 for i in x], judged, width=0.21, color=AMBER, label="有判定（非 no_evidence）")
     ax.set_xticks(list(x), groups)
     ax.set_ylim(0, 1.08)
-    ax.legend(frameon=False, ncol=3, loc="upper center", fontsize=11)
+    ax.legend(frameon=False, ncol=3, loc="upper center", bbox_to_anchor=(0.5, -0.14), fontsize=11)
+    fig.subplots_adjust(bottom=0.23)
     for i in x:
         for off, v in ((-0.23, hit1[i]), (0, hit3[i]), (0.23, judged[i])):
             ax.text(i + off, v + 0.02, f"{v:.2f}", ha="center", fontsize=11, color=INK)
-    footer(fig, "live_eval_holdout.json + live_eval_holdout_judge.json", "n=30 句 / 5 页")
-    save(fig, "04_live_heldout", "页面 [n] 映射：hit@3 30/30；判官把可判定做到 19/30", "live_eval_holdout(+judge).json", "n=30")
+    footer(fig, "live_eval_holdout_enriched + fast_warm + judge_v2.json", "n=30 句 / 5 页；同一冻结 held-out")
+    save(fig, "04_live_heldout", "页面 [n] 映射：hit@3 30/30；判官改的是四档，不是命中",
+         "live_eval_holdout_enriched/fast_warm/judge_v2.json", "n=30")
 
 
 # ---------------------------------------------------------------------------
@@ -381,6 +387,82 @@ def chart_retraction():
     save(fig, "12_retraction_doi", "撤稿 100/100；题名-A + DOI-B 没有一条 Exact", "retraction_eval + doi_swap_eval", "n=200/99")
 
 
+# ---------------------------------------------------------------------------
+# 13 mechanism ablation
+# ---------------------------------------------------------------------------
+def chart_ablation():
+    d = load("data/experiments/ablation_matrix.json")
+    rows = {r["id"]: r for r in d["rows"]}
+    m1, m2, m5, m4 = rows["M01"], rows["M02"], rows["M05"], rows["M04"]
+    fig, axes = plt.subplots(2, 2, figsize=(12.8, 7.2))
+    fig.subplots_adjust(left=0.07, right=0.975, top=0.80, bottom=0.12, hspace=0.62, wspace=0.30)
+    fig.text(0.055, 0.935, "四处接线，各自改变了什么", fontsize=27, fontweight="bold", color=INK, va="top")
+    fig.text(0.055, 0.868, "同一数据集上的开/关对照；不是把不同集拼成一条曲线", fontsize=14, color=MUTED, va="top")
+
+    ax = axes[0][0]
+    labels = ["仅在线", "接本地库"]
+    exact = [m1["values"]["control"]["exact"], m1["values"]["treatment"]["exact"]]
+    minor = [m1["values"]["control"]["minor"], m1["values"]["treatment"]["minor"]]
+    unv = [m1["values"]["control"]["unverified"], m1["values"]["treatment"]["unverified"]]
+    ax.bar(labels, exact, color=MINT, label="Exact")
+    ax.bar(labels, minor, bottom=exact, color=CYAN, label="Minor")
+    ax.bar(labels, unv, bottom=[a + b for a, b in zip(exact, minor)], color=STEEL, label="Unverified")
+    for i, (e, mi, u) in enumerate(zip(exact, minor, unv)):
+        ax.text(i, e / 2, str(e), ha="center", va="center", color=BG, fontsize=14, fontweight="bold")
+        if u:
+            ax.text(i, e + mi + u / 2, str(u), ha="center", va="center", color=INK, fontsize=11)
+    ax.set_title("① 本地题录库：409 条真实引用", loc="left", fontsize=14, color=INK, pad=8)
+    ax.set_ylabel("条数")
+    ax.legend(frameon=False, fontsize=9, loc="upper left", ncol=3, bbox_to_anchor=(0, 1.0))
+    ax.set_ylim(0, 430)
+
+    ax = axes[0][1]
+    vals = [m2["values"]["control"]["hit_at_3_count"], m2["values"]["treatment"]["hit_at_3_count"]]
+    bars = ax.bar(["1.7.8", "1.7.9"], vals, color=[STEEL, MINT], width=0.55)
+    for b, v in zip(bars, vals):
+        ax.text(b.get_x() + b.get_width() / 2, v + 0.5, f"{v}/30", ha="center", color=INK, fontweight="bold")
+    ax.set_ylim(0, 33)
+    ax.set_title("② 公开页排序：hit@3（同 30 句）", loc="left", fontsize=14, color=INK, pad=8)
+
+    ax = axes[1][0]
+    vals = [m5["values"]["control"]["p50_ms"] / 1000, m5["values"]["treatment"]["p50_ms"] / 1000]
+    bars = ax.bar(["冷启动", "热缓存"], vals, color=[AMBER, MINT], width=0.55)
+    for b, v in zip(bars, vals):
+        ax.text(b.get_x() + b.get_width() / 2, v + 0.15, f"{v:.2f}s", ha="center", color=INK, fontweight="bold")
+    ax.set_ylim(0, 12)
+    ax.set_ylabel("P50（秒）")
+    ax.set_title("③ 页面预热：held-out 30 句", loc="left", fontsize=14, color=INK, pad=8)
+
+    ax = axes[1][1]
+    off = [m4["values"]["control"]["labels"]["no_evidence"], m4["values"]["control"]["labels"]["partial"]]
+    on = [m4["values"]["treatment"]["labels"]["no_evidence"], m4["values"]["treatment"]["labels"]["partial"]]
+    x = [0, 1]
+    ax.bar([i - 0.18 for i in x], off, width=0.34, color=STEEL, label="判官关")
+    ax.bar([i + 0.18 for i in x], on, width=0.34, color=MINT, label="判官开")
+    for i, (a, b) in enumerate(zip(off, on)):
+        ax.text(i - 0.18, a + 0.5, str(a), ha="center", color=INK, fontsize=11)
+        ax.text(i + 0.18, b + 0.5, str(b), ha="center", color=INK, fontsize=11)
+    ax.set_xticks(x, ["no_evidence", "partial"])
+    ax.set_ylim(0, 28)
+    ax.set_title("④ 判官：四档分布变化（同 30 句）", loc="left", fontsize=14, color=INK, pad=8)
+    ax.legend(frameon=False, fontsize=9, loc="upper right")
+
+    for row in axes:
+        for ax in row:
+            ax.set_facecolor(BG)
+            ax.grid(axis="y", color=GRID, linewidth=0.8, alpha=0.8)
+            ax.set_axisbelow(True)
+            for side in ("top", "right"):
+                ax.spines[side].set_visible(False)
+            ax.tick_params(colors=MUTED, labelsize=10)
+
+    fig.text(0.055, 0.035, "来源：data/experiments/ablation_matrix.json（M01/M02/M04/M05，逐项回查原 JSON）", fontsize=9.5, color=MUTED)
+    fig.text(0.055, 0.012, "CiteGuard-CN · 机制消融 · 同集对照，未混算不同数据集", fontsize=9.5, color=STEEL)
+    fig.text(0.975, 0.035, "M01 n=409 · M02/M04/M05 n=30", fontsize=10, color=MUTED, ha="right")
+    save(fig, "13-ablation", "机制消融：本地库 / 排序 / 预热 / 判官", "data/experiments/ablation_matrix.json", "M01 n=409；M02/M04/M05 n=30")
+
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     chart_status()
@@ -395,9 +477,10 @@ def main() -> None:
     chart_citebench()
     chart_citation()
     chart_retraction()
+    chart_ablation()
     manifest = {
         "generated_by": "scripts/make_evidence_charts.py",
-        "version": "1.7.13",
+        "version": "1.7.18",
         "charts": MANIFEST,
     }
     (OUT / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

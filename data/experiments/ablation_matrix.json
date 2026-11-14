@@ -1,0 +1,265 @@
+{
+  "generated_at": "2026-11-15",
+  "scope": "只引用仓库已有 JSON 的同集对照；不跑新实验、不改产品代码。行内 control/treatment 与 n 均来自 source 列出的 JSON。",
+  "rows": [
+    {
+      "id": "M01",
+      "mechanism": "本地题录库匹配（library_real）",
+      "control": "仅在线核验（verify_real，无本地题录库）",
+      "treatment": "在线核验 + 本地题录库匹配（library_real）",
+      "metric": "Exact 条数 / 确定判定率（Exact+Minor 占比）",
+      "n": 409,
+      "values": {
+        "control": {"exact": 125, "minor": 87, "unverified": 197, "definite": 212, "definite_rate": 0.5183},
+        "treatment": {"exact": 405, "minor": 4, "unverified": 0, "definite": 409, "definite_rate": 1.0}
+      },
+      "source": ["data/experiments/verify_real.json", "data/experiments/library_real.json"],
+      "comparable": true,
+      "conclusion": "同一 20 篇/409 条真实参考文献上，确定判定从 212/409（51.83%）提升到 409/409（100%），Exact 从 125 提升到 405；两文件是独立运行，非逐条配对。",
+      "note": "两个 JSON 的 refs=409、papers=20 相同；definite_rate 为本文按状态计数推导（(Exact+Minor)/refs），JSON 内无此字段。"
+    },
+    {
+      "id": "M02",
+      "mechanism": "公开页候选排序（标题覆盖优先）",
+      "control": "1.7.8：未加标题优先排序的公开页运行",
+      "treatment": "1.7.9：标题覆盖 0.85 + 数字匹配 0.15 的排序",
+      "metric": "hit@3（同一公开页 30 句）",
+      "n": 30,
+      "values": {
+        "control": {"hit@1": 0.4667, "hit@3": 0.6, "hit_at_3_count": 18},
+        "treatment": {"hit@1": 0.5667, "hit@3": 0.7, "hit_at_3_count": 21}
+      },
+      "source": ["data/live_eval/live_eval_public.json"],
+      "source_git": "git show e7383de:data/live_eval/live_eval_public.json",
+      "comparable": true,
+      "conclusion": "同一 30 句上 hit@3 从 18/30 提升到 21/30、hit@1 从 14/30 提升到 17/30；排序规则是在这一集上选定的，属开发集结果，需 held-out 或其他公开页复核。",
+      "note": "control 数字取自 git 提交 e7383de 中的旧 live_eval_public.json（工作区已被 1.7.9 结果覆盖）；generated_at 分别为 2026-11-14T02:18:27+08:00（旧）与 2026-11-14T02:29:56+08:00（新）。"
+    },
+    {
+      "id": "M03",
+      "mechanism": "Live fast / full 两档",
+      "control": "fast（judge_mode=fast，判 1 条候选，页面热缓存）",
+      "treatment": "full（judge_mode=full，判前 3 条候选，页面热缓存）",
+      "metric": "hit@3 / P50",
+      "n": 30,
+      "values": {
+        "control": {"hit@1": 0.9, "hit@3": 1.0, "p50_ms": 3130.9, "p95_ms": 4502.4, "labels": {"support": 1, "partial": 12, "contradict": 0, "no_evidence": 17}},
+        "treatment": {"hit@1": 0.9, "hit@3": 1.0, "p50_ms": 9677.6, "p95_ms": 12140.2, "labels": {"support": 2, "partial": 16, "contradict": 0, "no_evidence": 12}}
+      },
+      "source": ["data/live_eval/live_eval_holdout_fast_warm.json", "data/live_eval/live_eval_holdout_judge_v2.json"],
+      "comparable": true,
+      "conclusion": "同一 held-out 30 句命中一致（hit@3 1.00）；full 的 P50 是 fast 的 3.09 倍（9.68 s vs 3.13 s），只改变四档标签分布，不改变命中。",
+      "note": "两者均记录为页面热缓存；full 多判 2 条候选但未带来 hit 提升。"
+    },
+    {
+      "id": "M04",
+      "mechanism": "判官调用 on/off（规则降级）",
+      "control": "nojudge：判定模型不可用，回退本地规则（judge_mode=full）",
+      "treatment": "judge_v2：判定模型可用（judge_mode=full）",
+      "metric": "hit@3 / 四档分布 / P50",
+      "n": 30,
+      "values": {
+        "control": {"hit@3": 1.0, "p50_ms": 7939.9, "labels": {"support": 1, "partial": 4, "contradict": 0, "no_evidence": 25}},
+        "treatment": {"hit@3": 1.0, "p50_ms": 9677.6, "labels": {"support": 2, "partial": 16, "contradict": 0, "no_evidence": 12}}
+      },
+      "source": ["data/live_eval/live_eval_holdout_nojudge.json", "data/live_eval/live_eval_holdout_judge_v2.json"],
+      "comparable": true,
+      "conclusion": "同一 held-out 30 句命中不变；开判官把 no_evidence 从 25 降到 12、partial 从 4 升到 16，P50 增加约 1.74 s。",
+      "note": "标签变化只说明规则/判官口径差异，无人工 stance 金标，不能据此宣称判断更准确。"
+    },
+    {
+      "id": "M05",
+      "mechanism": "页面参考文献进程缓存 / 预热",
+      "control": "冷启动（无页面缓存，fast）",
+      "treatment": "热缓存（同进程已解析页面，fast）",
+      "metric": "P50 / P95（同一 held-out 30 句）",
+      "n": 30,
+      "values": {
+        "control": {"p50_ms": 10518.6, "p95_ms": 28450.4, "mean_ms": 12916.7, "hit@3": 1.0},
+        "treatment": {"p50_ms": 3130.9, "p95_ms": 4502.4, "mean_ms": 3099.7, "hit@3": 1.0}
+      },
+      "source": ["data/live_eval/live_eval_holdout_fast_noaudit.json", "data/live_eval/live_eval_holdout_fast_warm.json"],
+      "comparable": true,
+      "conclusion": "冷启动 P50 10.52 s 降到热缓存 3.13 s（−70.2%），hit@3 不变；P95 受网络长尾影响，不在材料里承诺稳定延迟。",
+      "note": "冷启动文件名为 fast_noaudit，与 fast_warm 同为 fast 模式；页面解析缓存命中与否是主要差异。"
+    },
+    {
+      "id": "M06",
+      "mechanism": "中文 claim 英文检索 + arXiv DOI 摘要回填（v2 → v3 冷启动）",
+      "control": "v2 冷启动（1.7.17 路径）",
+      "treatment": "v3 冷启动（1.7.18 路径）",
+      "metric": "hit@3 / P50 / P95（同一 held-out 30 句）",
+      "n": 30,
+      "values": {
+        "control": {"hit@1": 0.9, "hit@3": 1.0, "p50_ms": 10518.6, "p95_ms": 28450.4, "judged": 15},
+        "treatment": {"hit@1": 0.9, "hit@3": 1.0, "p50_ms": 10118.8, "p95_ms": 19627.1, "judged": 15}
+      },
+      "source": ["data/live_eval/live_eval_holdout_fast_noaudit.json", "data/live_eval/live_eval_holdout_fast_v3.json"],
+      "comparable": true,
+      "conclusion": "v3 无命中增益（hit@3 均 1.00，hit@1 均 0.90）；P50 10.52 s → 10.12 s（−3.8%），属波动范围，不宣称提速。",
+      "note": "两文件均冷启动、均 15 句有判定；CHANGELOG 1.7.17/1.7.18 记录同口径，并明确差别在判官波动。"
+    },
+    {
+      "id": "M07",
+      "mechanism": "Qwen3-1.7B 基座 vs LoRA 适配器",
+      "control": "Qwen3-1.7B 基座（零样本）",
+      "treatment": "Qwen3-1.7B + Support LoRA（r=16）",
+      "metric": "macro-F1 / accuracy（同一 test60）",
+      "n": 60,
+      "values": {
+        "control": {"macro_f1": 0.4935, "accuracy": 0.4833},
+        "treatment": {"macro_f1": 0.9721, "accuracy": 0.9667}
+      },
+      "source": ["data/experiments/support_matrix.json", "data/experiments/support_lora_qwen3_1.7b.json"],
+      "comparable": true,
+      "conclusion": "同一构造 test60 上 macro-F1 从 0.4935 提升到 0.9721；但标签由规则构造、无人工作为金标、单次固定 seed，结论限于该测试集。",
+      "note": "honest_notes：test 与训练扩展集同一构造管线，无人工标签。"
+    },
+    {
+      "id": "M08",
+      "mechanism": "Qwen3-4B 基座 vs LoRA 适配器（构造模板饱和）",
+      "control": "Qwen3-4B 基座（零样本）",
+      "treatment": "Qwen3-4B + Support LoRA",
+      "metric": "macro-F1 / accuracy（同一 test60）",
+      "n": 60,
+      "values": {
+        "control": {"macro_f1": 0.6208, "accuracy": 0.7},
+        "treatment": {"macro_f1": 1.0, "accuracy": 1.0}
+      },
+      "source": ["data/experiments/support_matrix.json", "data/experiments/support_lora_qwen3_4b_base_test.json", "data/experiments/support_lora_qwen3_4b_adapter_test.json"],
+      "comparable": true,
+      "conclusion": "4B LoRA 在 test60 上 60/60 全对，属**构造模板饱和**，不能解读为 4B 比 14B 强，也不能作为泛化能力结论。",
+      "note": "docs/model_card_support_lora_4b.md:72 明确要求一起读饱和说明；两个 JSON 使用同一 data 路径 support_test.jsonl（endpoint 8101/8102）。"
+    },
+    {
+      "id": "M09",
+      "mechanism": "Qwen3-14B bf16 vs 4-bit 量化",
+      "control": "Qwen3-14B bf16（同一 prompt v10 + audit v2）",
+      "treatment": "Qwen3-14B NF4 4-bit（同一 prompt v10 + audit v2）",
+      "metric": "macro-F1 / accuracy（ClaimSupport-CN 全集 100 条）",
+      "n": 100,
+      "values": {
+        "control": {"macro_f1": 0.9744, "accuracy": 0.97},
+        "treatment": {"macro_f1": 0.9754, "accuracy": 0.97}
+      },
+      "source": ["data/experiments/support_local_qwen3_14b_product_all.json", "data/experiments/support_local_qwen3_14b_4bit_all.json"],
+      "comparable": true,
+      "conclusion": "同一 100 条、同一 prompt（sha256 fe9d721c…）、同一 audit v2 下，4-bit 与 bf16 的 macro-F1 差 0.001、accuracy 相同；只能说明该构造集上量化未掉点，不能宣称 4-bit 更优。",
+      "note": "两 JSON 的 n 均为 100，split=all；标签为构造标签，无人工复核。"
+    },
+    {
+      "id": "M10",
+      "mechanism": "页面引用列表 [n] → 参考文献映射",
+      "control": "无同集关闭映射的运行",
+      "treatment": "开启 [n] 映射（t14 后产品）",
+      "metric": "hit@3（同集 on/off）",
+      "n": 0,
+      "values": {},
+      "source": [],
+      "comparable": false,
+      "conclusion": "未做/不可比：工作区没有“关闭 [n] 映射”的同集 JSON。跨集参考：t13 公开页 30 句在 1.7.8/1.7.9 为 18/30→21/30，但那是另一套数据且同时改了排序规则，不能归因于 [n] 映射。",
+      "note": "要做同集对照，需要在冻结的 held-out 30 句上增加“关映射”开关跑一次；当前不改产品代码，故记为不可比。"
+    },
+    {
+      "id": "M11",
+      "mechanism": "修复/替换候选检索方式",
+      "control": "title 基线（题名重叠）",
+      "treatment": "BM25 / BGE-M3 嵌入检索",
+      "metric": "R@3 / MRR（同一 438 queries、477 候选池）",
+      "n": 438,
+      "values": {
+        "control": {"recall@3": 0.2329, "mrr": 0.2245},
+        "treatment_bm25": {"recall@3": 0.258, "mrr": 0.2428},
+        "treatment_bge": {"recall@3": 0.3219, "mrr": 0.2948}
+      },
+      "source": ["data/experiments/replacement_eval.json"],
+      "comparable": true,
+      "conclusion": "BGE-M3 的 R@3 比 BM25 高 0.0639、比 title 高 0.0890；但绝对 R@3 仍只有 0.3219，且该指标是“上下文→被引文献”检索，不等于被引文献支持该句。",
+      "note": "边界见 JSON 的 boundary 字段；R@1 分别为 title 0.1712 / bm25 0.1872 / bge 0.1986。"
+    },
+    {
+      "id": "M12",
+      "mechanism": "覆盖审计（audit）on/off",
+      "control": "无单独关闭审计的同集运行",
+      "treatment": "fast 跳过 Stage-2 覆盖审计、full 含审计",
+      "metric": "hit@3 / P50",
+      "n": 0,
+      "values": {},
+      "source": [],
+      "comparable": false,
+      "conclusion": "未做/不可比：fast 与 full 同时改变判官候选数（1 vs 3），没有“仅审计开关”的同集 JSON；不能把 fast/full 的延迟差归因于审计。",
+      "note": "相关运行见 data/live_eval/live_eval_holdout_fast_warm.json 与 judge_v2.json，但差异不单一。"
+    }
+  ],
+  "scoring_gaps": [
+    {
+      "section": "问题场景（15 分）",
+      "current_evidence": [
+        {"source": "data/experiments/real_mutation_eval.json", "fact": "200 处构造突变检测 197 处（0.985）；基线 40 条 Exact 28（0.70）"},
+        {"source": "data/experiments/retraction_eval.json", "fact": "retracted 100/100、control 100/100、false_positive_rate 0.0（标注源与检查源同为 OpenAlex）"},
+        {"source": "data/experiments/doi_swap_eval.json", "fact": "99 对 swap：0 条 Exact、98 条标记 DOI 不一致"},
+        {"source": "data/experiments/e4_format.json", "fact": "100 条真实中文参考文献：类型码 100/100，必备字段完整 300/305（98.36%）"},
+        {"source": "data/experiments/replacement_eval.json", "fact": "BGE-M3 R@3 0.3219（438 queries）"}
+      ],
+      "gap": "八类引用问题没有统一的端到端人工金标；现有数字来自构造突变/构造标签，未做独立人工盲标。",
+      "next_verifiable": "抽 100 条真实中文参考文献做双人盲标，输出八类混淆矩阵；构造标签与人工标签分表报告。",
+      "human_blind_audit_done": false
+    },
+    {
+      "section": "创新（20 分）",
+      "current_evidence": [
+        {"source": "data/experiments/library_real.json", "fact": "同 409 条真实参考文献 Exact 125→405、确定判定 100%"},
+        {"source": "data/live_eval/live_eval_holdout_enriched.json", "fact": "held-out 30 句 hit@3 30/30；摘要回填后逐字证据 7（下界）→11"},
+        {"source": "data/experiments/citemap_auto_eval.json", "fact": "30 篇中 25 篇有自动证据；10 条人工配对覆盖 6 条（0.6），stance 一致 3/3（仅 10 条）"},
+        {"source": "data/experiments/e7_manual_verdicts.json", "fact": "12 条人工逐条判定（单人、非盲）"}
+      ],
+      "gap": "缺与同类系统的同集外部对比；CiteMap 人工配对仅 10 条；[n] 映射无同集 on/off；e7 人工判定是单人非盲。",
+      "next_verifiable": "30 篇 CiteMap 全量人工审计 + 第二人复核；冻结 held-out 上关 [n] 映射跑一次同集对照。",
+      "human_blind_audit_done": false
+    },
+    {
+      "section": "AI + 开源（20 分）",
+      "current_evidence": [
+        {"source": "data/experiments/support_matrix.json", "fact": "n=60：1.7B LoRA 0.9721、4B LoRA 1.0（饱和）、14B bf16 0.9574、14B 4-bit 0.9588；hosted n=300 0.9841 不同口径"},
+        {"source": "data/experiments/support_calibration.json", "fact": "ClaimSupport-100：acc 0.95、ECE 0.0265"},
+        {"source": "data/experiments/support_local_qwen3_14b_product_all.json", "fact": "14B 全集 100 条 macro-F1 0.9744"}
+      ],
+      "gap": "4B 饱和限制演示价值；无第三方复现记录；hosted 0.9841 是 n=300，不能与 n=60 同表比较。",
+      "next_verifiable": "按模型卡在 test60 上由第二人复跑 LoRA adapter，记录命令、耗时、分数；发布复现脚本与输出 JSON。",
+      "human_blind_audit_done": false
+    },
+    {
+      "section": "完成度（25 分）",
+      "current_evidence": [
+        {"source": "data/experiments/e2e_offline_1.3.2.json", "fact": "端到端检查全部 ok（health/job/report/exports/evidence_bundle）"},
+        {"source": "data/experiments/stress_1000.json", "fact": "1000 条参考文献：解析 0.118 s、冷跑 0.718 s、热跑 0.159 s、峰值 5.2 MB"},
+        {"source": "data/experiments/frontend_audit.json", "fact": "页面无横向溢出、控件有名称、无控制台错误"},
+        {"source": "data/experiments/evidence_audit.json", "fact": "172 个证据路径，missing 为空"}
+      ],
+      "gap": "891 个测试只有 CHANGELOG 记录，没有 CI/JSON 归档；完整度评分仍含人工判断。",
+      "next_verifiable": "把 pytest 的数量/耗时/退出码归档为 JSON；在干净环境复跑 e2e 并记录版本号。",
+      "human_blind_audit_done": false
+    },
+    {
+      "section": "开放成果（15 分）",
+      "current_evidence": [
+        {"source": "data/experiments/support_matrix.json", "fact": "本地模型族与数据口径在同一 JSON 内注明，hosted 行明确标注不可比"},
+        {"source": "data/experiments/replacement_eval.json", "fact": "候选池、queries、边界写入 dataset/boundary 字段"},
+        {"source": "data/live_eval/live_eval_public.json", "fact": "公开页 30 句的命中/延迟与数据口径"}
+      ],
+      "gap": "Live 公开页集只有 30 句/5 页；无人 stance 金标；正式数据卡（样本、许可、偏差）未写。",
+      "next_verifiable": "发布数据卡；把 held-out 扩到 ≥60 句并保持同协议；公开人工复核结果。",
+      "human_blind_audit_done": false
+    },
+    {
+      "section": "材料（5 分）",
+      "current_evidence": [
+        {"source": "data/experiments/evidence_audit.json", "fact": "172 个证据索引路径全部存在"},
+        {"source": "data/experiments/frontend_audit.json", "fact": "页面级检查全部 ok，可用于截图说明"}
+      ],
+      "gap": "材料多为截图/文档，缺少“评分项→JSON 证据→截图编号”的机器校验映射；视频/PPT 无 JSON。",
+      "next_verifiable": "为每个评分项挂 1 个 JSON 证据 + 1 个证据编号，自动校验存在性与数字一致性。",
+      "human_blind_audit_done": false
+    }
+  ]
+}

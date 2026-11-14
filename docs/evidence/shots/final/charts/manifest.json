@@ -1,6 +1,6 @@
 {
   "generated_by": "scripts/make_evidence_charts.py",
-  "version": "1.7.13",
+  "version": "1.7.18",
   "charts": [
     {
       "file": "docs/evidence/shots/final/charts/01_real_corpus_status.png",
@@ -22,8 +22,8 @@
     },
     {
       "file": "docs/evidence/shots/final/charts/04_live_heldout.png",
-      "title": "页面 [n] 映射：hit@3 30/30；判官把可判定做到 19/30",
-      "sources": "live_eval_holdout(+judge).json",
+      "title": "页面 [n] 映射：hit@3 30/30；判官改的是四档，不是命中",
+      "sources": "live_eval_holdout_enriched/fast_warm/judge_v2.json",
       "n": "n=30"
     },
     {
@@ -73,6 +73,12 @@
       "title": "撤稿 100/100；题名-A + DOI-B 没有一条 Exact",
       "sources": "retraction_eval + doi_swap_eval",
       "n": "n=200/99"
+    },
+    {
+      "file": "docs/evidence/shots/final/charts/13-ablation.png",
+      "title": "机制消融：本地库 / 排序 / 预热 / 判官",
+      "sources": "data/experiments/ablation_matrix.json",
+      "n": "M01 n=409；M02/M04/M05 n=30"
     }
   ]
 }
