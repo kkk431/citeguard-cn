@@ -1,0 +1,6 @@
+﻿image=citeguard-cn:1.7.18
+container=cg-health-1718
+port=18086
+health={"ok":true,"version":"1.7.18","offline":true}
+engine=29.9.2
+date=2026-11-15T02:40:00+08:00

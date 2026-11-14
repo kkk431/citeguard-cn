@@ -44,6 +44,7 @@ CORE_IDS = [
     "live-quote",
     "live-candidate-count",
     "live-candidates",
+    "live-prewarm-status",
 ]
 
 
@@ -174,6 +175,7 @@ def test_js_contract_and_safety() -> None:
     assert "claim: claim" in js
     assert "page_title: pageTitle" in js
     assert "page_url: pageUrl" in js
+    assert "/api/live/prewarm" in js
     assert "textContent" in js
     assert "innerHTML" not in js
     assert "event.ctrlKey || event.metaKey" in js

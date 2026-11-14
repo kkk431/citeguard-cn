@@ -208,6 +208,21 @@
   border-color: var(--accent);
 }
 
+.live-prewarm {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.live-prewarm:empty {
+  display: none;
+}
+
+.live-prewarm.is-ok {
+  color: var(--accent);
+}
+
 .live-actions {
   display: flex;
   align-items: center;

@@ -193,7 +193,7 @@ def api_live_check(req: LiveCheckRequest):
 
 ### 2.1 页面预热（可选）
 
-`POST /api/live/prewarm` 接受 `page_url` / `page_title`，只对 arXiv HTML 白名单页面抓取并解析参考文献，把首次抓取的几秒从“选中句请求”前移到“打开面板/页面时”。扩展 `v2` 在右键菜单/工具栏打开侧栏时会自动调用它（12 s 上限，失败静默），用户手动调用也可以。返回 `references`、`page_work`、`referenced`、`elapsed_ms`；失败静默为空缓存，不影响后续核验。
+`POST /api/live/prewarm` 接受 `page_url` / `page_title`，只对 arXiv HTML 白名单页面抓取并解析参考文献，把首次抓取的几秒从“选中句请求”前移到“打开面板/页面时”。产品内 `/live` 在页面标题或 URL 输入后 900 ms 自动调用一次（切换/清空会取消）；扩展 `v2` 在右键菜单/工具栏打开侧栏时也会自动调用（12 s 上限，失败静默），用户手动调用也可以。返回 `references`、`page_work`、`referenced`、`elapsed_ms`；失败静默为空缓存，不影响后续核验。
 
 扩展可以在侧边栏打开时先调用预热；不调用时功能不变，只是首句更慢。预热是**缓存加速**，不改变判定模型与四档口径。
 

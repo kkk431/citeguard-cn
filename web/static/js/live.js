@@ -2,6 +2,7 @@
   "use strict";
 
   const API = "/api/live/check";
+  const PREWARM_API = "/api/live/prewarm";
   const MAX_CANDIDATES = 5;
   const MAX_CLAIM = 500;
 
@@ -31,7 +32,8 @@
     evidenceTitle: document.getElementById("live-evidence-title"),
     quote: document.getElementById("live-quote"),
     candidateCount: document.getElementById("live-candidate-count"),
-    candidates: document.getElementById("live-candidates")
+    candidates: document.getElementById("live-candidates"),
+    prewarm: document.getElementById("live-prewarm-status")
   };
 
   if (!els.claim || !els.btn || !els.result || !els.output) return;
@@ -51,7 +53,9 @@
 
   const state = {
     requestId: 0,
-    last: null
+    last: null,
+    prewarmTimer: 0,
+    prewarmAbort: null
   };
 
   function el(tag, className, text) {
@@ -277,6 +281,52 @@
     setView("output");
   }
 
+  function setPrewarm(text, ok) {
+    if (!els.prewarm) return;
+    els.prewarm.textContent = text;
+    els.prewarm.classList.toggle("is-ok", Boolean(ok));
+  }
+
+  async function prewarmPageNow() {
+    const pageTitle = String((els.pageTitle && els.pageTitle.value) || "").trim();
+    const pageUrl = String((els.pageUrl && els.pageUrl.value) || "").trim();
+    if (!pageUrl && !pageTitle) {
+      setPrewarm("");
+      return;
+    }
+    if (state.prewarmAbort) state.prewarmAbort.abort();
+    const controller = new AbortController();
+    state.prewarmAbort = controller;
+    setPrewarm("正在预热页面引用…", false);
+    try {
+      const response = await fetch(PREWARM_API, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ page_url: pageUrl, page_title: pageTitle }),
+        signal: controller.signal
+      });
+      let body = null;
+      try {
+        body = await response.json();
+      } catch (_err) {
+        body = null;
+      }
+      if (!response.ok || !body || body.ok === false) {
+        throw new Error((body && body.detail) || "预热失败");
+      }
+      const count = typeof body.references === "number" ? body.references : 0;
+      setPrewarm(count ? `页面已预热 · 参考文献 ${count} 条` : "页面已预热（未发现参考文献）", true);
+    } catch (err) {
+      if (err && err.name === "AbortError") return;
+      setPrewarm("预热失败（不影响核验）", false);
+    }
+  }
+
+  function schedulePrewarm() {
+    window.clearTimeout(state.prewarmTimer);
+    state.prewarmTimer = window.setTimeout(prewarmPageNow, 900);
+  }
+
   async function runCheck() {
     const claim = String(els.claim.value || "").trim();
     if (!claim) {
@@ -350,6 +400,8 @@
   }
 
   els.claim.addEventListener("input", updateCount);
+  if (els.pageTitle) els.pageTitle.addEventListener("input", schedulePrewarm);
+  if (els.pageUrl) els.pageUrl.addEventListener("input", schedulePrewarm);
   els.claim.addEventListener("keydown", function (event) {
     if (event.key === "Enter" && (event.ctrlKey || event.metaKey)) {
       event.preventDefault();
@@ -373,6 +425,7 @@
       if (els.pageTitle) els.pageTitle.value = pageTitle;
       if (els.pageUrl) els.pageUrl.value = button.getAttribute("data-page-url") || "";
       updateCount();
+      schedulePrewarm();
       els.claim.focus();
     });
   });
