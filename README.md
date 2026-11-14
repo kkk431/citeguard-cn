@@ -228,15 +228,16 @@ Content-Type: application/json
 
 ### CiteGuard Live（划一句，查摘要）
 
-`POST /api/live/check` + **`/live` 产品内试用页** + **`extension/v2/`（MV3 侧边栏）**：
+`POST /api/live/check` + **`/live` 产品内单句核验页** + **`extension/v2/`（MV3 侧边栏）**：
 给一个选中句（可选页面标题/URL），系统识别当前论文后优先从其 OpenAlex
 `referenced_works` 取候选，再退到 OpenAlex/Crossref 检索；返回四档、置信度、
 逐字证据句与最多 5 条候选。对 **arXiv HTML** 页面，正文 `[n]` 会映射到页内参考文献
 （只抓 arxiv.org / ar5iv，5s/2MB/缓存），并按 DOI/题名补摘要；补不到摘要时只给
 `no_evidence`，不编证据。`no_evidence` 只表示“摘要里找不到依据”，不当成“造假”。
 接口契约与边界见 `docs/live.md`；30 句评测见 `docs/live_eval.md`——公开页集
-hit@3 21/30，冻结 held-out 集 30/30，但跨语言集 0/30，且 held-out 只有 11/30
-有逐字证据、判定模型未配置，不能宣称 stance 准确率。
+hit@3 21/30，冻结 held-out 集无判官 30/30、配云端判官后 28/30；跨语言集 0/30。
+判定模型可选云端 DeepSeek 或本地 Qwen3-14B（本机均已配置）；配判官后 held-out
+19/30 给出判定，但 P50 14.8 s，在线仍以候选+证据为主，不宣称 stance 准确率。
 
 ## 目录
 

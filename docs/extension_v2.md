@@ -139,7 +139,7 @@ console 错误是故意把 endpoint 指向禁止端口 9 触发的：
 ### 4.2 本地 `/live`：仅 runtime 消息触发真实 API
 
 - 页面：`http://127.0.0.1:8013/live`
-- 标题：`Live 试用 · 划一句查摘要 · 引证卫士 CiteGuard`
+- 标题：`Live 单句核验 · 划一句查摘要 · 引证卫士 CiteGuard`
 - 选区 claim（146 字）：
 
   > 把网页或论文里的一句断言贴进来。CiteGuard 会去 OpenAlex / Crossref 取候选论文的公开摘要，
@@ -152,7 +152,7 @@ console 错误是故意把 endpoint 指向禁止端口 9 触发的：
   {
     "claim": "把网页或论文里的一句断言贴进来。CiteGuard 会去 OpenAlex / Crossref 取候选论文的公开摘要， 给出「支持 / 部分支持 / 矛盾 / 无证据」四档判断，并把支持或反驳这句话的原文句逐字标出来。 不用安装浏览器扩展，也能把「划一句 → 检索候选 → 四档判定」走完。",
     "page_url": "http://127.0.0.1:8013/live",
-    "page_title": "Live 试用 · 划一句查摘要 · 引证卫士 CiteGuard"
+    "page_title": "Live 单句核验 · 划一句查摘要 · 引证卫士 CiteGuard"
   }
   ```
 

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Live 试用 · 划一句查摘要 · 引证卫士 CiteGuard{% endblock %}
+{% block title %}Live 单句核验 · 划一句查摘要 · 引证卫士 CiteGuard{% endblock %}
 {% block content %}
 {# base.html has no head block, so the page-level stylesheet is loaded here. #}
 <link rel="stylesheet" href="/static/css/live.css?v={{ request.app.version }}">
@@ -8,14 +8,14 @@
   ('compare', '/compare', '多篇对比', '横向看几篇论文'),
   ('discover', '/discover', '文献发现', '按主题找候选'),
   ('citemap', '/citemap', 'CiteMap', '证据地图'),
-  ('live', '/live', 'Live 试用', '划一句查摘要')
+  ('live', '/live', 'Live 单句核验', '划一句查摘要')
 ] %}
 {% set section_tab = 'live' %}
 {% include "_section_tabs.html" %}
 
 <div class="live-page">
   <section class="wrap live-hero">
-    <div class="live-kicker">CiteGuard Live · 产品内试用</div>
+    <div class="live-kicker">CiteGuard Live · 摘要级单句核验</div>
     <h1 class="live-title">划一句，看看它有没有摘要依据</h1>
     <p class="live-lede">
       把网页或论文里的一句断言贴进来。CiteGuard 会去 OpenAlex / Crossref 取候选论文的公开摘要，
@@ -164,5 +164,5 @@
 </div>
 {% endblock %}
 {% block scripts %}
-<script src="/static/js/live.js?v={{ request.app.version }}"></script>
+<script src="/static/js/live.js?v={{ request.app.version }}-live2"></script>
 {% endblock %}

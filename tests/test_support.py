@@ -5,6 +5,14 @@ import json
 
 import pytest
 
+from citeguard import model_registry as _model_registry
+
+
+@pytest.fixture(autouse=True)
+def _no_active_registry(monkeypatch):
+    """Tests below drive endpoints via env; ignore the user's saved model registry."""
+    monkeypatch.setattr(_model_registry, "active_model", lambda: None)
+
 from citeguard import config
 from citeguard import support as sp
 from citeguard.reference_parser import InTextCitation, Reference, parse_intext_citations

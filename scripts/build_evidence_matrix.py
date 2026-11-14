@@ -382,6 +382,20 @@ def rows():
         "screenshot": "docs/extension_v2.md",
     })
 
+    judge = load("data/live_eval/live_eval_holdout_judge.json")
+    j3 = round(judge["hit@3"] * judge["n"])
+    judged = judge["label_counts"].get("support", 0) + judge["label_counts"].get("partial", 0)
+    out.append({
+        "category": "Live",
+        "claim": "冻结 held-out 30 句（配云端判官）",
+        "value": f"hit@3 {judge['hit@3']:.4f} ({j3}/{judge['n']}) / hit@1 {judge['hit@1']:.4f}；有判定 {judged}/{judge['n']}，P50 {judge['p50_ms']/1000:.1f} s",
+        "n": "30 句英文 / 5 篇新 arXiv HTML；deepseek-chat 判官",
+        "artifact": "data/live_eval/live_eval_holdout_judge.json",
+        "command": "PYTHONPATH=src python scripts/eval_live.py --claims data/live_eval/claims_public.jsonl --pages data/live_eval/pages_public.json --out data/live_eval/live_eval_holdout_judge.json",
+        "note": "判官输出不是人工金标；19/30 有判定，P50 14.8 s 不适合在线逐句；hit@3 低于无判官 run，差异未定位，两 run 不混算",
+        "screenshot": "docs/evidence/shots/phase-56-live-judge-1.7.13.png",
+    })
+
     cross = load("data/live_eval/live_eval_crosslingual.json")
     out.append({
         "category": "Live",

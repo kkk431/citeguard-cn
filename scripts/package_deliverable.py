@@ -67,6 +67,17 @@ EXCLUDE_DIR_PATHS = {
 }
 
 # File-name globs never shipped.
+# Runtime/private state never shipped (job history, saved judge endpoints, user library).
+EXCLUDE_FILE_PATHS = {
+    "data/history.db",
+    "data/judge_models.json",
+    "data/library/library.json",
+    "data/library/library.json.sqlite3",
+    "data/library/library.json.bak",
+    "data/feedback/feedback.jsonl",
+    "data/evidence_map/verification_state.json",
+}
+
 EXCLUDE_FILE_GLOBS = (
     ".env",
     ".env.*",
@@ -95,7 +106,7 @@ def should_exclude(rel_path: str) -> bool:
     parts = rel_path.split("/")
     if any(part in EXCLUDE_DIR_NAMES for part in parts):
         return True
-    if rel_path in EXCLUDE_DIR_PATHS:
+    if rel_path in EXCLUDE_DIR_PATHS or rel_path in EXCLUDE_FILE_PATHS:
         return True
     if any(rel_path.startswith(d + "/") for d in EXCLUDE_DIR_PATHS):
         return True

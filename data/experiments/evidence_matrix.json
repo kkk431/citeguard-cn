@@ -1,6 +1,6 @@
 {
   "schema": "citeguard.evidence_matrix.v1",
-  "rows": 34,
+  "rows": 35,
   "missing": [],
   "items": [
     {
@@ -272,6 +272,16 @@
       "command": "PYTHONPATH=src python scripts/eval_live.py --claims data/live_eval/claims_holdout.jsonl --pages data/live_eval/pages_holdout.json --out data/live_eval/live_eval_holdout_enriched.json",
       "note": "t18：命中已近饱和；证据 11/30，判定模型未配置、四档为规则降级；样本仅 5 页，不能外推开放网页",
       "screenshot": "docs/extension_v2.md"
+    },
+    {
+      "category": "Live",
+      "claim": "冻结 held-out 30 句（配云端判官）",
+      "value": "hit@3 0.9333 (28/30) / hit@1 0.6667；有判定 19/30，P50 14.8 s",
+      "n": "30 句英文 / 5 篇新 arXiv HTML；deepseek-chat 判官",
+      "artifact": "data/live_eval/live_eval_holdout_judge.json",
+      "command": "PYTHONPATH=src python scripts/eval_live.py --claims data/live_eval/claims_public.jsonl --pages data/live_eval/pages_public.json --out data/live_eval/live_eval_holdout_judge.json",
+      "note": "判官输出不是人工金标；19/30 有判定，P50 14.8 s 不适合在线逐句；hit@3 低于无判官 run，差异未定位，两 run 不混算",
+      "screenshot": "docs/evidence/shots/phase-56-live-judge-1.7.13.png"
     },
     {
       "category": "Live",

@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 158,
+  "paths_checked": 162,
   "missing": [],
   "rows": [
     {
@@ -201,6 +201,31 @@
     {
       "evidence": "E86",
       "path": "docs/evidence/logs/docker-1.7.13-health.txt",
+      "exists": true
+    },
+    {
+      "evidence": "E87",
+      "path": "data/judge_models.json",
+      "exists": true
+    },
+    {
+      "evidence": "E87",
+      "path": "data/live_eval/live_eval_holdout_judge.json",
+      "exists": true
+    },
+    {
+      "evidence": "E87",
+      "path": "docs/live_eval.md",
+      "exists": true
+    },
+    {
+      "evidence": "E87",
+      "path": "docs/evidence/shots/phase-56-live-judge-1.7.13.png",
+      "exists": true
+    },
+    {
+      "evidence": "E87",
+      "path": "docs/evidence/shots/phase-56-models-configured-1.7.13.png",
       "exists": true
     },
     {
@@ -654,6 +679,6 @@
       "exists": true
     }
   ],
-  "shots_registered": 77,
+  "shots_registered": 79,
   "shots_unregistered": []
 }

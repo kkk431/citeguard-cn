@@ -251,7 +251,7 @@ CiteMap 语料构建阶段的 Crossref / doi.org 校验（2026-11）。`/api/liv
 `web/static/js/live.js` 与 `web/static/css/live.css`。
 
 - 入口：`GET /live`，页面 `active="live"`；工具组 tabs 为
-  图表核验 / 多篇对比 / 文献发现 / CiteMap / Live 试用。
+  图表核验 / 多篇对比 / 文献发现 / CiteMap / Live 单句核验。
 - 交互：输入一句话（1–500 字）→ 可展开填写页面标题/URL（可选）→ 点「核验这句」
   或按 `Ctrl/⌘ + Enter` → `POST /api/live/check`，请求体字段为
   `{"claim": ..., "page_title": ..., "page_url": ...}`。

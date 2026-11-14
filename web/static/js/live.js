@@ -349,6 +349,7 @@
       const pageTitle = button.getAttribute("data-page-title") || "";
       els.claim.value = claim;
       if (els.pageTitle) els.pageTitle.value = pageTitle;
+      if (els.pageUrl) els.pageUrl.value = button.getAttribute("data-page-url") || "";
       updateCount();
       els.claim.focus();
     });

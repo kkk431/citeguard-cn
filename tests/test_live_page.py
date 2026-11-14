@@ -75,7 +75,7 @@ def test_route_serves_live_page(client) -> None:
     assert "live-claim" in html
     assert "live-result" in html
     assert "section-tabs" in html
-    assert "Live 试用" in html
+    assert "Live 单句核验" in html
     assert 'aria-current="page"' in html
 
 
@@ -91,7 +91,7 @@ def test_template_extends_base_layout() -> None:
     assert html.lstrip().lower().startswith("<!doctype html>")
     assert 'class="rail"' in html
     assert '<main id="main">' in html
-    assert "<title>Live 试用" in html
+    assert "<title>Live 单句核验" in html
     assert "引证卫士 CiteGuard" in html
 
 
@@ -112,7 +112,7 @@ def test_section_tabs_are_tool_group() -> None:
     assert "多篇对比" in html
     assert "文献发现" in html
     assert "CiteMap" in html
-    assert "Live 试用" in html
+    assert "Live 单句核验" in html
     assert html.count('class="section-tab on"') == 1
 
 

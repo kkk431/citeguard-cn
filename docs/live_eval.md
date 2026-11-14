@@ -2,7 +2,7 @@
 
 > 三套互不混算的 Live 评测数据：**跨语言集**（30 条真实中文引用句，上下文页与被引来源无关）暴露“中文句子 → 英文文献”的检索边界；**公开页集**（30 条英文句子确实出现在 5 篇 arXiv HTML 页面上，`[n]` 与页内参考文献一一对应）检验页面参考文献优先路径；**冻结 held-out 集**（5 篇新的 2026 arXiv HTML、30 条英文句，与公开页集无重叠）用于检验同一机制在未见页面上的泛化。三套都评测 `check_claim`，都**没有 stance 金标**。
 >
-> **重要**：本机未配置判定模型（`judge_available()=False`），held-out 集的四档标签来自**本地规则降级**，不能当作语义理解或 stance 准确率；页面引用命中（hit@1/hit@3）与“是否有逐字证据”是两件不同的事。
+> **重要**：本文含两种判官状态。早期三套评测在**未配置判定模型**时跑，四档标签来自本地规则降级，不能当作语义理解或 stance 准确率；2026-11-14 已在本机配置云端 DeepSeek（`deepseek-chat`）与本地 Qwen3-14B 两条路径，并用判官复跑 held-out（见 §5.4）。判官输出仍是模型判定，不是人工金标。页面引用命中（hit@1/hit@3）与“是否有逐字证据”是两件不同的事。
 
 - 跨语言集：`data/live_eval/pages.json`（5 页）、`data/live_eval/claims.jsonl`（30 句）→ `data/live_eval/live_eval.json`
 - 公开页集：`data/live_eval/pages_public.json`（5 页）、`data/live_eval/claims_public.jsonl`（30 句）→ `data/live_eval/live_eval_public.json`
@@ -234,6 +234,35 @@ PYTHONPATH=src python scripts/eval_live.py \
 
 三套数据的任务难度与分母含义不同，**不能相加、不能互相替代**；跨语言集的 0/30 不能用来否定公开页集/held-out 的分数，反之也不行。
 
+
+### 5.5 配置判定模型后的 held-out 复测（2026-11-14）
+
+本机同时配置了两条判官路径：`hosted-deepseek`（`https://api.deepseek.com`，`deepseek-chat`）与本地
+`local-qwen3-14b`（lmh GPU3，4-bit 量化，按需启动）。使用云端判官对同一份 30 条 held-out 复跑：
+
+```bash
+PYTHONPATH=src python scripts/eval_live.py \
+  --claims data/live_eval/claims_public.jsonl \
+  --pages data/live_eval/pages_public.json \
+  --out data/live_eval/live_eval_holdout_judge.json
+```
+
+| 配置 | n | hit@1 | hit@3 | P50 | P95 | 四档 |
+| --- | --- | --- | --- | --- | --- | --- |
+| 无判官（规则降级，t18） | 30 | 0.9000 | 1.0000 | 2.98 s | 16.09 s | 2 / 9 / 0 / 19 |
+| 云端 `deepseek-chat`（本次） | 30 | **0.6667** | **0.9333** | **14.81 s** | 24.60 s | **1 / 18 / 0 / 11** |
+
+边界与解释：
+
+- 判官可用后，19/30 条给出了 `support`/`partial` 判定（无判官时主要是 `no_evidence`），说明判定链路已工作；
+  但这仍不是 stance 准确率：没有人工逐条核对。
+- 候选命中比无判官 run 低（hit@3 28/30 vs 30/30），差异来自候选顺序/网络返回波动，未定位到单一原因，
+  不把两次 run 混算、也不据此宣称判官降低命中率。
+- P50 14.8 s 来自对前 3 个有摘要候选的逐条判官调用，**不适合在线逐句**；在线入口目前仍以“候选+证据”
+  为主，判官仅作辅助。
+- 产品内 `/live` 用同一接口实测“STIC 72.6%”句：支持 95%、逐字证据句命中；截图
+  `docs/evidence/shots/phase-56-live-judge-1.7.13.png`。
+
 ## 6. 结论与建议（决策）
 
 | 项 | 决策 | 理由 |
@@ -246,7 +275,7 @@ PYTHONPATH=src python scripts/eval_live.py \
 | 页面引用列表优先（页面有 `[n]` 的 arXiv HTML） | **adopt** | t14/t17/t18：识别 `[n]`、映射 `ol.ltx_bibliography`、补摘要；失败静默回退 |
 | 候选打分 / 截断策略 | **建议下一轮实验** | 正确文献已在页面候选池内，瓶颈是 `_candidate_score` 词面匹配与 `MAX_CANDIDATES=5` 截断 |
 | 双语查询扩展 / 标题补全 | **建议下一轮实验** | 预期把中文句子的 hit@3 从 0 拉起来，且不改判断器 |
-| 判定模型（LLM judge） | **hold** | 本机未配 API key，规则兜底；held-out 四档不能当 stance 准确率 |
+| 判定模型（LLM judge） | **adopt（谨慎）** | 本机已配云端 DeepSeek 与本地 Qwen3-14B；held-out 19/30 有判定，但 P50 14.8 s，且无人审，不能当 stance 准确率 |
 
 ## 7. 复现
 
@@ -298,6 +327,7 @@ python -m pytest tests/test_live_eval.py -q        # 13 例，离线
 | `data/live_eval/claims_holdout.jsonl` | 冻结 held-out 集 30 条英文正文句（每句带页内 `[n]` 与 DOI） |
 | `data/live_eval/live_eval_holdout.json` | t15：仅页面引用映射的 held-out 评测结果 |
 | `data/live_eval/live_eval_holdout_enriched.json` | t18：补 OpenAlex/Crossref 摘要后的 held-out 评测结果（含与 t15 对照、25 条有摘要子集） |
+| `data/live_eval/live_eval_holdout_judge.json` | 2026-11-14 配云端判官后的同集复跑（hit@1 0.6667、hit@3 0.9333、P50 14.8 s） |
 | `docs/research/live_holdout.md` | radar 的 held-out 设计与完整残差分析（300 行） |
 | `scripts/eval_live.py` | 校验 + 评测脚本；`--claims/--pages/--out` 切换数据集，`--check` 只校验数据 |
 | `tests/test_live_eval.py` | 13 个离线单测（跨语言/公开页两套数据校验、命中/未命中/空候选/异常、fake checker） |
