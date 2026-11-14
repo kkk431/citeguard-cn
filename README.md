@@ -1,6 +1,6 @@
 # 引证卫士 CiteGuard-CN
 
-> **v1.7.11** · 2026-11-14 · Apache-2.0
+> **v1.7.12** · 2026-11-14 · Apache-2.0
 
 > 给中文论文做一次「引文体检」：**引文是否真实存在、引用是否支持正文那句话、格式是否符合 GB/T 7714-2025**。每条结论都带证据链接。
 
@@ -124,7 +124,7 @@ no_evidence    [  0,   0,   0,  20 ]
 
 **支持度模型矩阵**：8 种同口径配置（Qwen3-1.7B LoRA / 4B LoRA / 8B / 14B / 14B 4-bit / 基座）在 ClaimSupport-CN test 60 上的 macro-F1、bootstrap 95% CI 与错误清单；4B 满分明确标注为构造模板饱和。[`docs/model_matrix.md`](docs/model_matrix.md)
 
-**CiteMap 证据地图**：2 个主题 × 15 篇开放论文，把「哪条断言、哪条证据、什么立场、研究方法与样本、还缺什么」放在同一页。当前同时展示 10 条人工示例与 **42 条摘要级机器抽取**（覆盖 25/30 篇，逐字引用不合格 0）；机器结果单独标注 `auto:abstract-only`、`verified=false`，并附 60 格人工核对入口，不冒充全量结论。
+**CiteMap 证据地图**：2 个主题 × 15 篇开放论文，把「哪条断言、哪条证据、什么立场、研究方法与样本、还缺什么」放在同一页。当前同时展示 10 条人工示例与 **42 条摘要级机器抽取**（覆盖 25/30 篇，逐字引用不合格 0）；机器结果单独标注 `auto:abstract-only`、`verified=false`，并附 60 格人工核对入口，不冒充全量结论。1.7.12 把桌面布局改成**固定高度两栏**（左右各自滚动、论文标题吸顶），并把同一断言下人工示例与机器证据的**重复引用合并**（AI 教育 7 条、医学影像 1 条，机器证据相应去重）。
 
 ## 快速开始
 
@@ -408,7 +408,7 @@ PYTHONPATH=src python3 scripts/enrich_library_abstracts.py
 
 ## 复现与发布
 
-- 版本：**v1.7.11**；变更见 `CHANGELOG.md`，发布说明见 `docs/release_notes_v1.0.md`
+- 版本：**v1.7.12**；变更见 `CHANGELOG.md`，发布说明见 `docs/release_notes_v1.0.md`
 - 单元测试：`PYTHONPATH=src python -m pytest tests -q`（869 项）
 - 主评测复现：`PYTHONPATH=src python scripts/reproduce_all.py`；每个对外数字的 JSON/命令/样本量见 `docs/evidence_index.md`
 - 文档站：`pip install -r requirements-docs.txt && mkdocs serve`

@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 155,
+  "paths_checked": 156,
   "missing": [],
   "rows": [
     {
@@ -191,6 +191,16 @@
     {
       "evidence": "E83",
       "path": "docs/evidence/shots/phase-52-citemap-auto-1.7.11.png",
+      "exists": true
+    },
+    {
+      "evidence": "E85",
+      "path": "docs/evidence_map.md",
+      "exists": true
+    },
+    {
+      "evidence": "E85",
+      "path": "docs/evidence/shots/phase-55-citemap-layout-1.7.12.png",
       "exists": true
     },
     {
@@ -629,6 +639,6 @@
       "exists": true
     }
   ],
-  "shots_registered": 75,
+  "shots_registered": 76,
   "shots_unregistered": []
 }

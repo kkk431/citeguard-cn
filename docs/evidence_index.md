@@ -22,7 +22,7 @@
 | 扫描件 OCR **23/24 条** | `data/experiments/ocr_scan_real.json` | `PYTHONPATH=src python scripts/eval_ocr_scanned.py --input <pdf>` | 7 页扫描 PDF，题名/年份/作者 23/23 |
 | GB/T E4 严格控制漂移 **29/30** | `data/experiments/e4_format.json` | `PYTHONPATH=src python scripts/e4_format_check.py` | 30 个构造样本 |
 | 万方中文强命中 **111/184** | `data/experiments/wanfang_batch.json` | 见 `docs/chinese_sources.md` | 184 条中文题录，试用配额；非全样本 |
-| 测试 **808 passed** | `pytest -q` | `PYTHONPATH=src python -m pytest tests -q` | 本地 Python 3.13 |
+| 测试 **869 passed** | `pytest -q` | `PYTHONPATH=src python -m pytest tests -q` | 本地 Python 3.13 |
 | 交付自检 **137/137** | `scripts/verify_artifacts.py` | `PYTHONPATH=src python scripts/verify_artifacts.py` | 版本/路由/文档/数字一致性 |
 | 知网导入 **22 → 27 条，Exact** | `data/library/cnki_demo.enw`、`data/library/library.json` | `PYTHONPATH=src python -m citeguard.cli --import-library data/library/cnki_demo.enw` | 5 条机构导出题录 |
 
@@ -97,6 +97,7 @@
 
 
 | E83 | CiteMap 摘要级机器抽取 + 60 格核对（1.7.11） | `data/evidence_map/abstracts.json`、`data/evidence_map/extractions_auto/`、`data/experiments/citemap_auto_eval.json`、`data/evidence_map/verification_packet.json`、`scripts/fetch_citemap_abstracts.py`、`scripts/extract_citemap_auto.py`、`scripts/eval_citemap_auto.py`、`scripts/build_citemap_verification.py`、`web/app.py`（`/api/citemap/*/verify`）、`web/static/js/citemap.js`、`docs/evidence_map.md` | 两主题 42 条机器证据、覆盖 25/30 篇、逐字引用不合格 0；10 条人工示例覆盖 6 条、这 6 条 stance 一致 6/6（只在这 10 对上算，不是全量准确率）；60 格核对 UI 可记录 ok/issue/skip，但**未点击、不得写成已验证** | `docs/evidence/shots/phase-52-citemap-auto-1.7.11.png` |
+| E85 | CiteMap 固定高度布局与去重（1.7.12） | `web/static/css/citemap.css`、`web/static/js/citemap.js`、`web/app.py`、`docs/evidence_map.md` | 桌面 ≥961px：布局固定 560–800px、左右各自滚动、详情标题吸顶、证据区两列、切换论文回顶；同一断言下按归一化逐字包含（≥40 字符）合并人工/机器重复引用，AI 教育合并 7 条、医学影像 1 条，机器证据 25→18（AI），被合并的 60 格抽样仍可核对；`pytest` 869 passed | `docs/evidence/shots/phase-55-citemap-layout-1.7.12.png` |
 | E84 | Live 冻结 held-out 与扩展 v2 真机验收（1.7.11） | `data/live_eval/claims_holdout.jsonl`、`data/live_eval/pages_holdout.json`、`data/live_eval/live_eval_holdout_enriched.json`、`docs/research/live_holdout.md`、`scripts/verify_extension.py`、`docs/extension_v2.md` | held-out：5 篇新 arXiv HTML、30 句英文、与公开页集无重叠；补摘要后 hit@1 27/30、hit@3 30/30（30/30 是短样本上限）、P50 2.98 s、P95 16.09 s、有逐字证据 11/30；judge 未配置、四档为规则降级，不能宣称 stance 准确率；扩展 v2 在真实 Chromium 中加载，3 个公开页调用 `/api/live/check` 200，原生右键/侧边栏需手工步骤 | `docs/evidence/shots/phase-54-extension-loaded.png`, `docs/evidence/shots/phase-54-extension-example.png`, `docs/evidence/shots/phase-54-extension-live-result.png`, `docs/evidence/shots/phase-54-extension-local-live.png`, `docs/evidence/shots/phase-54-extension-python-tutorial.png`, `docs/evidence/shots/phase-54-extension-iana-example-domains.png`, `docs/evidence/shots/phase-54-extension-error.png`、`docs/research/live_holdout.md` |
 
 自检：`python scripts/audit_evidence.py`（见 [evidence_audit.md](evidence_audit.md)）。

@@ -348,6 +348,48 @@
     return autoForTopic().filter(function (ev) { return ev && ev.paper_id === paperId; });
   }
 
+  function normQuote(value) {
+    return String(value || "").normalize("NFKC").toLowerCase().replace(/\s+/g, "");
+  }
+
+  function sameQuote(left, right) {
+    const a = normQuote(left);
+    const b = normQuote(right);
+    if (!a || !b) return false;
+    if (a === b) return true;
+    const shorter = a.length <= b.length ? a : b;
+    const longer = a.length <= b.length ? b : a;
+    return shorter.length >= 40 && longer.indexOf(shorter) !== -1;
+  }
+
+  function autoMatchesHuman(autoEv, humanEv) {
+    return Boolean(autoEv && humanEv)
+      && autoEv.claim_id === humanEv.claim_id
+      && sameQuote(autoEv.quote, humanEv.quote);
+  }
+
+  function autoDuplicatesForPaper(paperId) {
+    const human = evidenceForPaper(paperId);
+    return autoForPaper(paperId).filter(function (autoEv) {
+      return human.some(function (humanEv) { return autoMatchesHuman(autoEv, humanEv); });
+    });
+  }
+
+  function autoUniqueForPaper(paperId) {
+    const human = evidenceForPaper(paperId);
+    return autoForPaper(paperId).filter(function (autoEv) {
+      return !human.some(function (humanEv) { return autoMatchesHuman(autoEv, humanEv); });
+    });
+  }
+
+  function autoUniqueForTopic() {
+    return autoForTopic().filter(function (autoEv) {
+      return !evidenceForPaper(autoEv.paper_id).some(function (humanEv) {
+        return autoMatchesHuman(autoEv, humanEv);
+      });
+    });
+  }
+
   function cellsForPaper(paperId) {
     const cells = state.payload && Array.isArray(state.payload.verification_cells)
       ? state.payload.verification_cells
@@ -381,7 +423,11 @@
     addStat("篇论文", numberOr(counts.papers, papers.length));
     addStat("条断言", numberOr(counts.claims, claims.length));
     addStat("条示例证据", numberOr(counts.evidence, evidence.length));
-    addStat("条机器证据", autoForTopic().length);
+    addStat("条机器证据", autoUniqueForTopic().length);
+    const mergedTotal = papers.reduce(function (total, paper) {
+      return total + autoDuplicatesForPaper(paper.paper_id).length;
+    }, 0);
+    if (mergedTotal) addStat("已合并重合", mergedTotal);
     addStat("个证据缺口", numberOr(counts.gaps, gaps.length));
 
     const summary = payload.verification && payload.verification.summary;
@@ -429,7 +475,8 @@
       if (paper.cn_affiliated) tags.append(makeTag("中国机构参与", "ctm-tag--cn"));
       if (paper.license) tags.append(makeTag(paper.license, "ctm-tag--license"));
       if (paper.is_oa) tags.append(makeTag("OA", "ctm-tag--oa"));
-      const autoCount = autoForPaper(paper.paper_id).length;
+      const autoCount = autoUniqueForPaper(paper.paper_id).length;
+      const autoMerged = autoDuplicatesForPaper(paper.paper_id).length;
       if (autoCount) tags.append(makeTag("机器证据 " + autoCount, "ctm-tag--auto"));
       const cells = cellsForPaper(paper.paper_id);
       if (cells.length) {
@@ -522,6 +569,10 @@
 
   function renderDetail(paper) {
     const body = els.detailBody;
+    if (state.detailPaper !== paper.paper_id && els.detail) {
+      els.detail.scrollTop = 0;
+    }
+    state.detailPaper = paper.paper_id;
     body.replaceChildren();
 
     const evidence = evidenceForPaper(paper.paper_id);
@@ -589,7 +640,11 @@
       const section = make("section", "ctm-evidence-section");
       section.append(make("h3", "", "断言与证据"));
       evidence.forEach(function (ev) {
-        section.append(renderEvidence(ev, claimById(ev.claim_id)));
+        const duplicate = autoDuplicatesForPaper(paper.paper_id).find(function (autoEv) {
+          return autoMatchesHuman(autoEv, ev);
+        });
+        const cell = duplicate ? cellForEvidence(duplicate.evidence_id) : null;
+        section.append(renderEvidence(ev, claimById(ev.claim_id), cell));
       });
       body.append(section);
     }
@@ -614,7 +669,7 @@
     return Object.prototype.hasOwnProperty.call(SEVERITY_LABELS, severity) ? severity : "medium";
   }
 
-  function renderEvidence(ev, claim) {
+  function renderEvidence(ev, claim, cell) {
     const card = make("article", "ctm-evidence");
     const top = make("div", "ctm-evidence-top");
     const stance = normalizeStance(ev.stance);
@@ -669,12 +724,14 @@
     }
 
     if (ev.notes) card.append(make("p", "ctm-evidence-note", ev.notes));
+    if (cell) card.append(renderVerifyRow(cell));
     return card;
   }
 
   function renderAutoSection(paper) {
     const cells = cellsForPaper(paper.paper_id);
-    const allAuto = autoForPaper(paper.paper_id);
+    const allAuto = autoUniqueForPaper(paper.paper_id);
+    const mergedAuto = autoDuplicatesForPaper(paper.paper_id).length;
     const auto = state.verifyMode
       ? allAuto.filter(function (ev) { return Boolean(cellForEvidence(ev.evidence_id)); })
       : allAuto;
@@ -684,7 +741,9 @@
     const section = make("section", "ctm-evidence-section ctm-auto-section");
     const head = make("div", "ctm-auto-head");
     head.append(make("h3", "", "机器抽取 · 仅摘要"));
-    head.append(make("span", "ctm-auto-note", "由模型从摘要抽取，尚未逐条人工核对；引用为逐字摘录。"));
+    head.append(make("span", "ctm-auto-note",
+      "由模型从摘要抽取，尚未逐条人工核对；引用为逐字摘录。" +
+      (mergedAuto ? " 与人工示例重合 " + mergedAuto + " 条，已合并到人工卡片。" : "")));
     section.append(head);
 
     auto.forEach(function (ev) {
