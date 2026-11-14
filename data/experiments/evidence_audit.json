@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 157,
+  "paths_checked": 158,
   "missing": [],
   "rows": [
     {
@@ -195,12 +195,12 @@
     },
     {
       "evidence": "E86",
-      "path": "docs/evidence/logs/docker-1.7.12-health.txt",
+      "path": "docs/evidence/logs/docker-1.7.13-health.txt",
       "exists": true
     },
     {
       "evidence": "E86",
-      "path": "docs/evidence/logs/docker-1.7.12-health.txt",
+      "path": "docs/evidence/logs/docker-1.7.13-health.txt",
       "exists": true
     },
     {
@@ -210,7 +210,12 @@
     },
     {
       "evidence": "E85",
-      "path": "docs/evidence/shots/phase-55-citemap-layout-1.7.12.png",
+      "path": "docs/evidence/shots/phase-55-citemap-layout-1.7.13.png",
+      "exists": true
+    },
+    {
+      "evidence": "E85",
+      "path": "docs/evidence/shots/phase-55-citemap-verify-row-1.7.13.png",
       "exists": true
     },
     {
@@ -649,6 +654,6 @@
       "exists": true
     }
   ],
-  "shots_registered": 76,
+  "shots_registered": 77,
   "shots_unregistered": []
 }

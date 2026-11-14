@@ -67,3 +67,7 @@ collapsed, and j/k/`/` targeted the hidden list when the overview tab was active
 
 结果：**54/54 通过**（含首页、CiteMap、报告 j/Enter/Esc/`/` 与 Ctrl+K）；产物 `data/experiments/frontend_audit.json`。
 
+
+## 1.7.13 巡检修正
+
+CiteMap 的「论文信息与链接」改为默认折叠的 `<details>` 后，`a[href]` 在折叠状态下没有布局盒，原脚本把它们误判为“无可访问名”。1.7.13 给检查加了 `getClientRects().length > 0` 可见性过滤，closed details 内的控件不再参与；复跑 **54/54 通过**。

@@ -48,6 +48,7 @@ def main() -> int:
                page.evaluate("document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1"))
             ck(f"{name}_has_h1", page.locator("h1").count() > 0)
             unnamed = page.evaluate("""() => [...document.querySelectorAll('button,a[href]')]
+              .filter(e => e.getClientRects().length > 0)
               .filter(e => !((e.getAttribute('aria-label') || e.title || e.innerText || '').trim())).length""")
             ck(f"{name}_all_controls_named", unnamed == 0, unnamed)
             ck(f"{name}_no_console_errors", not errors, errors[:3])

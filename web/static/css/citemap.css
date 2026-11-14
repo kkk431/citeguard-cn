@@ -1171,3 +1171,123 @@ body.theme-light .ctm-cell-tag { color: #075e72; }
     margin-top: 4px;
   }
 }
+
+/* 1.7.12b：详情按断言分组，卡片占满可用宽度，不再塞进两列窄缝 */
+.ctm-layout {
+  height: clamp(680px, calc(100vh - 220px), 920px);
+  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-columns: 300px minmax(0, 1fr);
+}
+.ctm-detail {
+  padding: 0 28px 40px;
+}
+.ctm-detail-head {
+  padding: 18px 28px 14px;
+}
+.ctm-detail-title {
+  font-size: clamp(1.12rem, 1.55vw, 1.38rem);
+  line-height: 1.34;
+}
+.ctm-detail-meta {
+  margin-top: 8px;
+  font-size: 0.86rem;
+}
+.ctm-detail-more {
+  margin-top: 10px;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.ctm-detail-more summary {
+  width: fit-content;
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+.ctm-detail-more summary:hover {
+  color: var(--accent);
+}
+.ctm-detail-more .ctm-detail-tags {
+  margin-top: 10px;
+}
+.ctm-detail-more .ctm-detail-links {
+  margin-top: 8px;
+}
+.ctm-claim-section {
+  margin-top: 20px;
+}
+.ctm-claim-section-head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+.ctm-claim-section-head h3 {
+  margin: 0;
+  font-size: 1.02rem;
+  letter-spacing: 0.01em;
+}
+.ctm-claim-section-note {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+.ctm-claim-group {
+  margin-top: 14px;
+  padding: 18px 20px 20px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+}
+.ctm-claim-group-head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 6px 12px;
+  align-items: start;
+  padding-bottom: 12px;
+  border-bottom: 1px dashed var(--line);
+}
+.ctm-claim-group-id {
+  display: inline-flex;
+  align-items: center;
+  height: 24px;
+  padding: 0 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 180, 58, 0.45);
+  background: rgba(255, 180, 58, 0.12);
+  color: var(--gold);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+.ctm-claim-group-text {
+  margin: 0;
+  color: var(--ink);
+  font-size: 0.98rem;
+  line-height: 1.65;
+}
+.ctm-claim-group-facts {
+  grid-column: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  color: var(--muted);
+  font-size: 0.76rem;
+}
+.ctm-claim-group .ctm-evidence {
+  margin: 14px 0 0;
+  padding: 16px 18px;
+}
+.ctm-claim-group .ctm-quote-text {
+  font-size: 0.92rem;
+  line-height: 1.72;
+}
+.ctm-claim-group .ctm-evidence--auto {
+  background: var(--surface-2);
+  border-style: dashed;
+}
+.ctm-claim-group .ctm-claim {
+  display: none;
+}
+.ctm-claim-group .ctm-facts-grid {
+  margin-top: 12px;
+}

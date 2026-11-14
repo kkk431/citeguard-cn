@@ -1,0 +1,1 @@
+﻿health={"ok":true,"version":"1.7.13","offline":true,"supported":[".doc",".docx",".md",".pdf",".txt"]}

@@ -576,9 +576,13 @@
     body.replaceChildren();
 
     const evidence = evidenceForPaper(paper.paper_id);
+    const autoAll = autoUniqueForPaper(paper.paper_id);
+    const merged = autoDuplicatesForPaper(paper.paper_id).length;
     const head = make("header", "ctm-detail-head");
     const titleRow = make("div", "ctm-detail-title-row");
-    titleRow.append(make("h2", "ctm-detail-title", paper.title || "（无标题）"));
+    const title = make("h2", "ctm-detail-title", paper.title || "（无标题）");
+    title.title = paper.title || "";
+    titleRow.append(title);
     if (evidence.length) {
       titleRow.append(makeTag("证据 " + evidence.length + " 条", "ctm-detail-count"));
     }
@@ -599,7 +603,6 @@
     if (paper.oa_status) tags.append(makeTag("OA 状态 " + paper.oa_status, "ctm-tag--oa"));
     if (paper.fulltext_available) tags.append(makeTag("可获取全文", "ctm-tag--fulltext"));
     if (Number(paper.cited_by) > 0) tags.append(makeTag("被引 " + paper.cited_by, "ctm-tag--cite"));
-    if (tags.childElementCount) head.append(tags);
 
     const links = make("div", "ctm-detail-links");
     if (paper.doi) {
@@ -629,34 +632,103 @@
       link.rel = "noopener noreferrer";
       links.append(link);
     }
-    if (links.childElementCount) head.append(links);
+
+    if (tags.childElementCount || links.childElementCount) {
+      const more = document.createElement("details");
+      more.className = "ctm-detail-more";
+      const summary = document.createElement("summary");
+      summary.textContent = "论文信息与链接";
+      more.append(summary);
+      if (tags.childElementCount) more.append(tags);
+      if (links.childElementCount) more.append(links);
+      head.append(more);
+    }
     body.append(head);
 
     if (paper.notes) body.append(make("p", "ctm-paper-note", paper.notes));
 
-    if (!evidence.length) {
-      body.append(make("p", "ctm-detail-empty-note", "该论文暂无人工示例证据；本页只展示清单元数据。"));
+    const groups = claimGroupsForPaper(paper, evidence, autoAll);
+    if (!groups.length) {
+      body.append(make("p", "ctm-detail-empty-note", "该论文暂无证据或抽样核对格。"));
     } else {
-      const section = make("section", "ctm-evidence-section");
-      section.append(make("h3", "", "断言与证据"));
-      evidence.forEach(function (ev) {
-        const duplicate = autoDuplicatesForPaper(paper.paper_id).find(function (autoEv) {
-          return autoMatchesHuman(autoEv, ev);
-        });
-        const cell = duplicate ? cellForEvidence(duplicate.evidence_id) : null;
-        section.append(renderEvidence(ev, claimById(ev.claim_id), cell));
-      });
+      const section = make("section", "ctm-claim-section");
+      const sectionHead = make("div", "ctm-claim-section-head");
+      sectionHead.append(make("h3", "", "断言与证据"));
+      const parts = [];
+      if (evidence.length) parts.push("人工示例 " + evidence.length);
+      if (autoAll.length) parts.push("机器抽取 " + autoAll.length);
+      sectionHead.append(make("span", "ctm-claim-section-note",
+        "按断言分组" + (parts.length ? " · " + parts.join(" · ") : "") +
+        (merged ? " · 已合并重合 " + merged + " 条" : "")));
+      section.append(sectionHead);
+      groups.forEach(function (group) { section.append(renderClaimGroup(group)); });
       body.append(section);
     }
 
-    const autoSection = renderAutoSection(paper);
-    if (autoSection) body.append(autoSection);
+    body.append(renderGaps(groups.map(function (group) { return group.claimId; })));
+  }
 
-    const relatedClaims = [];
-    evidence.forEach(function (ev) {
-      if (ev.claim_id && relatedClaims.indexOf(ev.claim_id) === -1) relatedClaims.push(ev.claim_id);
+  function claimGroupsForPaper(paper, evidence, auto) {
+    const claims = Array.isArray(state.payload.claims) ? state.payload.claims : [];
+    const order = [];
+    const map = Object.create(null);
+    function slot(claimId) {
+      const id = String(claimId || "");
+      if (!map[id]) {
+        map[id] = { claim: null, humans: [], autos: [], cells: [] };
+        order.push(id);
+      }
+      return map[id];
+    }
+    claims.forEach(function (claim) { slot(claim.claim_id).claim = claim; });
+    evidence.forEach(function (ev) { slot(ev.claim_id).humans.push(ev); });
+    auto.forEach(function (ev) { slot(ev.claim_id).autos.push(ev); });
+    cellsForPaper(paper.paper_id).forEach(function (cell) { slot(cell.claim_id).cells.push(cell); });
+    return order.map(function (id) {
+      const group = map[id];
+      group.claimId = id;
+      return group;
+    }).filter(function (group) {
+      return group.claim || group.humans.length || group.autos.length || group.cells.length;
     });
-    body.append(renderGaps(relatedClaims));
+  }
+
+  function renderClaimGroup(group) {
+    const wrap = make("section", "ctm-claim-group");
+    const claim = group.claim || { claim_id: group.claimId, text: "", direction: "" };
+    const top = make("header", "ctm-claim-group-head");
+    top.append(make("span", "ctm-claim-group-id", String(claim.claim_id || group.claimId).toUpperCase()));
+    top.append(make("p", "ctm-claim-group-text", claim.text || "该断言未在主题中登记说明。"));
+    const facts = make("div", "ctm-claim-group-facts");
+    if (claim.direction) {
+      facts.append(make("span", "ctm-claim-group-dir",
+        "方向：" + (DIRECTION_LABELS[claim.direction] || claim.direction)));
+    }
+    if (group.humans.length) facts.append(make("span", "", "人工证据 " + group.humans.length));
+    if (group.autos.length) facts.append(make("span", "", "机器证据 " + group.autos.length));
+    if (facts.childElementCount) top.append(facts);
+    wrap.append(top);
+
+    if (group.humans.length) {
+      group.humans.forEach(function (ev) {
+        const duplicate = group.autos.find(function (autoEv) { return autoMatchesHuman(autoEv, ev); });
+        const cell = duplicate ? cellForEvidence(duplicate.evidence_id) : null;
+        wrap.append(renderEvidence(ev, null, cell, false));
+      });
+    }
+    if (group.autos.length) {
+      group.autos.forEach(function (ev) {
+        wrap.append(renderAutoEvidence(ev, null, cellForEvidence(ev.evidence_id)));
+      });
+    }
+    const noEvidence = group.cells.filter(function (cell) { return !cell.evidence_id; });
+    noEvidence.forEach(function (cell) {
+      wrap.append(renderNoEvidenceCell(cell, null));
+    });
+    if (!group.humans.length && !group.autos.length && !noEvidence.length) {
+      wrap.append(make("p", "ctm-muted ctm-claim-empty", "这条断言目前没有人工或机器证据，也没有抽到核对格。"));
+    }
+    return wrap;
   }
 
   function normalizeStance(value) {
@@ -669,7 +741,7 @@
     return Object.prototype.hasOwnProperty.call(SEVERITY_LABELS, severity) ? severity : "medium";
   }
 
-  function renderEvidence(ev, claim, cell) {
+  function renderEvidence(ev, claim, cell, showClaim) {
     const card = make("article", "ctm-evidence");
     const top = make("div", "ctm-evidence-top");
     const stance = normalizeStance(ev.stance);
@@ -686,7 +758,7 @@
     if (ev.evidence_id) top.append(make("span", "ctm-evidence-id", ev.evidence_id));
     card.append(top);
 
-    if (claim) {
+    if (showClaim !== false && claim) {
       const claimBox = make("div", "ctm-claim");
       claimBox.append(make("span", "ctm-claim-label", "对应断言 · " + claim.claim_id));
       claimBox.append(make("p", "ctm-claim-text", claim.text || ""));
@@ -694,7 +766,7 @@
         claimBox.append(make("span", "ctm-claim-dir", "断言方向：" + (DIRECTION_LABELS[claim.direction] || claim.direction)));
       }
       card.append(claimBox);
-    } else if (ev.claim_id) {
+    } else if (showClaim !== false && ev.claim_id) {
       card.append(make("p", "ctm-muted", "对应断言 " + ev.claim_id + " 未在本主题登记。"));
     }
 
@@ -726,33 +798,6 @@
     if (ev.notes) card.append(make("p", "ctm-evidence-note", ev.notes));
     if (cell) card.append(renderVerifyRow(cell));
     return card;
-  }
-
-  function renderAutoSection(paper) {
-    const cells = cellsForPaper(paper.paper_id);
-    const allAuto = autoUniqueForPaper(paper.paper_id);
-    const mergedAuto = autoDuplicatesForPaper(paper.paper_id).length;
-    const auto = state.verifyMode
-      ? allAuto.filter(function (ev) { return Boolean(cellForEvidence(ev.evidence_id)); })
-      : allAuto;
-    const emptyCells = cells.filter(function (cell) { return !cell.evidence_id; });
-    if (!auto.length && !emptyCells.length) return null;
-
-    const section = make("section", "ctm-evidence-section ctm-auto-section");
-    const head = make("div", "ctm-auto-head");
-    head.append(make("h3", "", "机器抽取 · 仅摘要"));
-    head.append(make("span", "ctm-auto-note",
-      "由模型从摘要抽取，尚未逐条人工核对；引用为逐字摘录。" +
-      (mergedAuto ? " 与人工示例重合 " + mergedAuto + " 条，已合并到人工卡片。" : "")));
-    section.append(head);
-
-    auto.forEach(function (ev) {
-      section.append(renderAutoEvidence(ev, claimById(ev.claim_id), cellForEvidence(ev.evidence_id)));
-    });
-    emptyCells.forEach(function (cell) {
-      section.append(renderNoEvidenceCell(cell, claimById(cell.claim_id)));
-    });
-    return section;
   }
 
   function renderAutoEvidence(ev, claim, cell) {
