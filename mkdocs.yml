@@ -18,6 +18,7 @@ nav:
   - 状态总表 v1.3.4: status_v1.3.4.md
   - 部署与运行: deployment.md
   - 使用场景: scenarios.md
+  - 问题普遍性: problem_evidence.md
   - API 与 Python SDK: api.md
   - 生态集成: ecosystem.md
   - MCP 服务: mcp.md

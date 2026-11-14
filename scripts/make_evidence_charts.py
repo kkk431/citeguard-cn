@@ -462,6 +462,82 @@ def chart_ablation():
     save(fig, "13-ablation", "机制消融：本地库 / 排序 / 预热 / 判官", "data/experiments/ablation_matrix.json", "M01 n=409；M02/M04/M05 n=30")
 
 
+# ---------------------------------------------------------------------------
+# 14 real-corpus problem prevalence
+# ---------------------------------------------------------------------------
+def chart_prevalence():
+    d = load("data/experiments/corpus_prevalence.json")
+    n_refs = d["references"]
+    n_papers = d["papers"]
+    fig, axes = plt.subplots(2, 2, figsize=(12.8, 7.2))
+    fig.subplots_adjust(left=0.08, right=0.975, top=0.80, bottom=0.12, hspace=0.62, wspace=0.34)
+    fig.text(0.055, 0.935, "22 篇真实中文论文：问题不是个例", fontsize=27, fontweight="bold", color=INK, va="top")
+    fig.text(0.055, 0.868, "每篇取最新一次分析；描述性统计，不是准确率，也不是人工审计", fontsize=14, color=MUTED, va="top")
+
+    ax = axes[0][0]
+    missing = d["missing_field_refs"]
+    labels = ["缺 DOI", "缺页码", "缺期刊/会议", "缺年份"]
+    keys = ["doi", "pages", "venue", "year"]
+    vals = [missing[k]["ratio"] for k in keys]
+    bars = ax.bar(labels, vals, color=[AMBER, CYAN, MINT, STEEL], width=0.6)
+    for b, v in zip(bars, vals):
+        ax.text(b.get_x() + b.get_width() / 2, v + 0.02, f"{v:.1%}", ha="center", color=INK, fontweight="bold", fontsize=14)
+    ax.set_ylim(0, 0.85)
+    ax.set_ylabel("占全部引文比例")
+    ax.set_title("① 题录字段缺失", loc="left", fontsize=14, color=INK, pad=8)
+
+    ax = axes[0][1]
+    cs = d["chinese_status"]
+    seg = [cs.get("Exact", 0), cs.get("Minor", 0), cs.get("Unverified", 0), cs.get("Unknown", 0)]
+    names = ["Exact", "Minor", "Unverified", "Unknown"]
+    colors = [MINT, CYAN, AMBER, STEEL]
+    left = 0
+    for v, name, color in zip(seg, names, colors):
+        ax.barh([0], [v], left=left, color=color, height=0.42, label=name)
+        if v:
+            ax.text(left + v / 2, 0, str(v), ha="center", va="center", color=BG if name in ("Exact", "Minor") else INK, fontsize=12, fontweight="bold")
+        left += v
+    ax.set_yticks([])
+    ax.set_xlim(0, d["chinese_refs"])
+    ax.set_title(f"② 中文引文 {d["chinese_refs"]} 条：未解决 {d["chinese_unresolved"]} 条", loc="left", fontsize=14, color=INK, pad=8)
+    ax.legend(frameon=False, fontsize=9, ncol=4, loc="upper center", bbox_to_anchor=(0.5, -0.22))
+
+    ax = axes[1][0]
+    uncited = d["uncited_refs"]
+    cited = n_refs - uncited
+    bars = ax.bar(["正文有引用", "正文未引用"], [cited, uncited], color=[MINT, AMBER], width=0.55)
+    for b, v in zip(bars, [cited, uncited]):
+        ax.text(b.get_x() + b.get_width() / 2, v + 8, f"{v}（{v/n_refs:.0%}）", ha="center", color=INK, fontweight="bold", fontsize=12)
+    ax.set_ylim(0, max(cited, uncited) * 1.25)
+    ax.set_title("③ 正文引用覆盖：40% 参考文献未被引用", loc="left", fontsize=14, color=INK, pad=8)
+
+    ax = axes[1][1]
+    top = d["issue_fields_top"][:4]
+    zh = {"volume": "缺卷", "pages": "缺页码", "doi": "缺 DOI", "authors": "作者不完整"}
+    labels = [zh.get(t[0], t[0]) for t in top]
+    vals = [t[1] for t in top]
+    bars = ax.barh(labels, vals, color=[AMBER, CYAN, MINT, STEEL], height=0.58)
+    for b, v in zip(bars, vals):
+        ax.text(b.get_width() + 6, b.get_y() + b.get_height() / 2, str(v), va="center", color=INK, fontweight="bold")
+    ax.invert_yaxis()
+    ax.set_xlim(0, max(vals) * 1.2)
+    ax.set_title("④ GB/T 规则命中（次）", loc="left", fontsize=14, color=INK, pad=8)
+
+    for row in axes:
+        for ax in row:
+            ax.set_facecolor(BG)
+            ax.grid(axis="y", color=GRID, linewidth=0.8, alpha=0.8)
+            ax.set_axisbelow(True)
+            for side in ("top", "right"):
+                ax.spines[side].set_visible(False)
+            ax.tick_params(colors=MUTED, labelsize=10)
+
+    fig.text(0.055, 0.035, "来源：data/experiments/corpus_prevalence.json（最新报告/论文；规则命中可多条/篇）", fontsize=9.5, color=MUTED)
+    fig.text(0.055, 0.012, "CiteGuard-CN · 真实语料问题普遍性 · 描述性统计", fontsize=9.5, color=STEEL)
+    fig.text(0.975, 0.035, f"n={n_papers} 篇 / {n_refs} 条", fontsize=10, color=MUTED, ha="right")
+    save(fig, "14-prevalence", "真实中文论文的引文问题普遍性", "data/experiments/corpus_prevalence.json", f"n={n_papers}/{n_refs}")
+
+
 
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
@@ -478,9 +554,10 @@ def main() -> None:
     chart_citation()
     chart_retraction()
     chart_ablation()
+    chart_prevalence()
     manifest = {
         "generated_by": "scripts/make_evidence_charts.py",
-        "version": "1.7.18",
+        "version": "1.7.20",
         "charts": MANIFEST,
     }
     (OUT / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

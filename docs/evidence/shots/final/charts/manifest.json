@@ -1,6 +1,6 @@
 {
   "generated_by": "scripts/make_evidence_charts.py",
-  "version": "1.7.18",
+  "version": "1.7.20",
   "charts": [
     {
       "file": "docs/evidence/shots/final/charts/01_real_corpus_status.png",
@@ -79,6 +79,12 @@
       "title": "机制消融：本地库 / 排序 / 预热 / 判官",
       "sources": "data/experiments/ablation_matrix.json",
       "n": "M01 n=409；M02/M04/M05 n=30"
+    },
+    {
+      "file": "docs/evidence/shots/final/charts/14-prevalence.png",
+      "title": "真实中文论文的引文问题普遍性",
+      "sources": "data/experiments/corpus_prevalence.json",
+      "n": "n=22/524"
     }
   ]
 }

@@ -1,4 +1,4 @@
-# 实验证据图（13 张）
+# 实验证据图（14 张）
 
 > 全部由 `scripts/make_evidence_charts.py` 从仓库内实验 JSON 生成，深色 1920×1080，标题即结论，页脚标注来源与样本量。不是手绘示意图；改动数据后重跑脚本即可复现。
 
@@ -19,6 +19,7 @@
 | 11 | ![11](evidence/shots/final/charts/11_citation_context.png) | 引注抽取覆盖 21/22 篇；只有 60% 参考文献被正文引用 | citation_anchor_real.json；n=22/543 |
 | 12 | ![12](evidence/shots/final/charts/12_retraction_doi.png) | 撤稿 100/100；题名-A + DOI-B 没有一条 Exact | retraction_eval + doi_swap_eval；n=200/99 |
 | 13 | ![13](evidence/shots/final/charts/13-ablation.png) | 机制开/关：本地库、排序、预热、判官各自改变了什么 | ablation_matrix.json；M01 n=409，M02/M04/M05 n=30 |
+| 14 | ![14](evidence/shots/final/charts/14-prevalence.png) | 22 篇真实中文论文：71.2% 缺 DOI、39.9% 未被正文引用 | corpus_prevalence.json；n=22/524 |
 
 ## 使用边界
 
@@ -27,3 +28,4 @@
 - 支持度矩阵中 4B LoRA 的 1.0000 来自构造模板饱和（60/60），不能写成“4B 强于 14B”；正文和答辩都要带这句边界。
 - Live 的 no-judge 与 judge 两套结果分开画；judge 跑的是同一 held-out，但输出不是人工金标。
 - CiteMap 机器抽取只读摘要，`verified=false`；60 格人工核对未完成，不得把机器结果画成人工核对。
+

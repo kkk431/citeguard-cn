@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 176,
+  "paths_checked": 180,
   "missing": [],
   "rows": [
     {
@@ -747,8 +747,28 @@
       "evidence": "E82",
       "path": "docs/baselines.md",
       "exists": true
+    },
+    {
+      "evidence": "E95",
+      "path": "data/experiments/corpus_prevalence.json",
+      "exists": true
+    },
+    {
+      "evidence": "E95",
+      "path": "docs/problem_evidence.md",
+      "exists": true
+    },
+    {
+      "evidence": "E95",
+      "path": "docs/evidence/shots/final/charts/14-prevalence.png",
+      "exists": true
+    },
+    {
+      "evidence": "E95",
+      "path": "docs/evidence/shots/phase-60-problem-prevalence-1.7.20.png",
+      "exists": true
     }
   ],
-  "shots_registered": 85,
+  "shots_registered": 87,
   "shots_unregistered": []
 }

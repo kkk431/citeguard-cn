@@ -1,12 +1,14 @@
 # 引证卫士 CiteGuard-CN
 
-> **v1.7.19** · 2026-11-15 · Apache-2.0
+> **v1.7.20** · 2026-11-15 · Apache-2.0
 
 [![ci](https://github.com/kkk431/citeguard-cn/actions/workflows/ci.yml/badge.svg)](https://github.com/kkk431/citeguard-cn/actions/workflows/ci.yml)
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](requirements.txt)
 
 > 给中文论文做一次「引文体检」：**引文是否真实存在、引用是否支持正文那句话、格式是否符合 GB/T 7714-2025**。每条结论都带证据链接。
+
+在 22 篇真实中文论文的 524 条参考文献中，71.2% 缺 DOI、33.8% 缺页码、39.9% 未被正文引用；217 条中文引文有 197 条无法只靠免费开放源完成核验（描述性统计，见 `docs/problem_evidence.md`）。
 
 CiteGuard-CN 是一个开源的中文引文核验工作台，面向毕业论文、课程论文与期刊投稿场景。它把「中文引文解析 → 多源元数据核验 → 引用支持度判定 → 新国标规则检查」串成一条可复现的流水线，并附带一个 500 条的中文评测基准 **CiteBench-CN v2**。
 
@@ -429,7 +431,7 @@ PYTHONPATH=src python3 scripts/enrich_library_abstracts.py
 
 ## 复现与发布
 
-- 版本：**v1.7.19**；变更见 `CHANGELOG.md`，发布说明见 `docs/release_notes_v1.0.md`
+- 版本：**v1.7.20**；变更见 `CHANGELOG.md`，发布说明见 `docs/release_notes_v1.0.md`
 - 单元测试：`PYTHONPATH=src python -m pytest tests -q`（908 项）
 - 主评测复现：`PYTHONPATH=src python scripts/reproduce_all.py`；每个对外数字的 JSON/命令/样本量见 `docs/evidence_index.md`
 - 文档站：`pip install -r requirements-docs.txt && mkdocs serve`
@@ -437,7 +439,7 @@ PYTHONPATH=src python3 scripts/enrich_library_abstracts.py
 - HuggingFace 数据集：<https://huggingface.co/datasets/dfdafs/claimsupport-cn-300>（300 条，构造标签，非人审）
 - HuggingFace 适配器：<https://huggingface.co/models/dfdafs/citeguard-support-lora-qwen3-1.7b>（Qwen3-1.7B LoRA，Apache-2.0）
 - HuggingFace 适配器（4B）：<https://huggingface.co/dfdafs/citeguard-support-lora-qwen3-4b>（Qwen3-4B LoRA，Apache-2.0；构造测试集饱和，见模型卡）
-- Docker：`docker compose -f docker/docker-compose.yml up --build`；`citeguard-cn:1.7.19` 已构建并通过 `/api/health`（E86）
+- Docker：`docker compose -f docker/docker-compose.yml up --build`；`citeguard-cn:1.7.20` 已构建并通过 `/api/health`（E86）
 
 ## 参考与致谢
 

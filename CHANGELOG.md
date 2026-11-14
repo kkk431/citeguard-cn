@@ -1,3 +1,10 @@
+## [1.7.20] - 2026-11-15
+
+- 新增真实语料问题普遍性分析 `scripts/analyze_corpus_prevalence.py`：按原始文件名取每篇 PDF 最新报告，统计 22 篇 / 524 条引文的字段缺失、GB/T 规则命中、中文未解决与正文未引用；原始 JSON `data/experiments/corpus_prevalence.json`。
+- 新增 `docs/problem_evidence.md` 与第 14 张证据图 `14-prevalence.png`：71.2% 缺 DOI、33.8% 缺页码、39.9% 未被正文引用、217 条中文引文未解决 197 条；明确是描述性统计，不是随机抽样/人工审计。
+- 技术报告 1.1 节补该统计；README/证据索引/E95 同步。`docs/evidence_charts.md` 更新为 14 张。
+- 908 tests。
+
 ## [1.7.19] - 2026-11-15
 
 - 新增 MCP stdio 服务 `integration/mcp/citeguard_mcp.py`（零依赖、JSON-RPC 2.0、3 个工具），17 项协议/透传测试；文档写明客户端实际加载未验证。

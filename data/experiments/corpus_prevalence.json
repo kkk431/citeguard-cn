@@ -1,0 +1,114 @@
+{
+  "papers": 22,
+  "references": 524,
+  "papers_with_format_issue": 22,
+  "refs_with_format_issue": 524,
+  "refs_with_format_issue_ratio": 1.0,
+  "papers_with_format_issue_ratio": 1.0,
+  "issue_levels": {
+    "warning": 1107,
+    "info": 324,
+    "error": 106
+  },
+  "issue_fields_top": [
+    [
+      "volume",
+      540
+    ],
+    [
+      "pages",
+      394
+    ],
+    [
+      "doi",
+      338
+    ],
+    [
+      "authors",
+      150
+    ],
+    [
+      "place",
+      41
+    ],
+    [
+      "access_date",
+      27
+    ],
+    [
+      "online",
+      23
+    ],
+    [
+      "punctuation",
+      16
+    ],
+    [
+      "publisher",
+      7
+    ],
+    [
+      "standard_no",
+      1
+    ]
+  ],
+  "missing_field_refs": {
+    "doi": {
+      "count": 373,
+      "ratio": 0.7118
+    },
+    "pages": {
+      "count": 177,
+      "ratio": 0.3378
+    },
+    "venue": {
+      "count": 91,
+      "ratio": 0.1737
+    },
+    "year": {
+      "count": 18,
+      "ratio": 0.0344
+    }
+  },
+  "verify_status": {
+    "Exact": 148,
+    "Minor": 138,
+    "Unverified": 154,
+    "Major": 9,
+    "Unknown": 75
+  },
+  "chinese_refs": 217,
+  "chinese_status": {
+    "Exact": 9,
+    "Unverified": 126,
+    "Minor": 11,
+    "Unknown": 71
+  },
+  "chinese_unresolved": 197,
+  "uncited_refs": 209,
+  "note": "Descriptive only: newest completed report per input PDF; format issues counted by the GB/T rule engine; unresolved includes Unverified/Unknown; no human labels.",
+  "files": [
+    "96511af51c97.pdf",
+    "c566fbc0bc4b.pdf",
+    "cf6cff1df4c8.pdf",
+    "8308ec33eec1.pdf",
+    "1e6945fd523a.pdf",
+    "7e2a867651da.pdf",
+    "bcbb1bc9f6ca.pdf",
+    "5e81727f233b.pdf",
+    "8d3d4d9ed377.pdf",
+    "1807414af2c7.pdf",
+    "77aa3c8e28ae.pdf",
+    "f3480ce2ab27.pdf",
+    "42b469060fa4.pdf",
+    "aed73c1360dc.pdf",
+    "6a254a674173.pdf",
+    "b686fd0a4806.pdf",
+    "f6a8c51eda35.pdf",
+    "aa81fde1322a.pdf",
+    "9c1184873186.pdf",
+    "a80d8963179a.pdf",
+    "b12710e4d7f4.pdf",
+    "cded207eef8c.pdf"
+  ]
+}
