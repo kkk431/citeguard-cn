@@ -11,6 +11,58 @@
 
 const MENU_ID = "citeguard-live-check";
 const REQUEST_KEY = "cg_live_request";
+const ENDPOINT_KEY = "cg_live_endpoint";
+const DEFAULT_ENDPOINT = "http://127.0.0.1:8013";
+
+function liveBase(raw) {
+  let value = String(raw || "").trim() || DEFAULT_ENDPOINT;
+  try {
+    const url = new URL(value);
+    if (url.protocol !== "http:" && url.protocol !== "https:") {
+      return DEFAULT_ENDPOINT;
+    }
+    let path = url.pathname.replace(/\/+$/, "");
+    if (path.endsWith("/api/live/check")) {
+      path = path.slice(0, -"/api/live/check".length).replace(/\/+$/, "");
+    }
+    return `${url.origin}${path}`;
+  } catch (error) {
+    return DEFAULT_ENDPOINT;
+  }
+}
+
+/* Start the expensive arXiv HTML / OpenAlex reference fetch while the side
+ * panel is still opening.  The first selected sentence then starts from a warm
+ * page cache.  Failures are silent: Live still works without prewarming. */
+async function prewarmPage(tab) {
+  if (!tab || !tab.url) {
+    return;
+  }
+  let base = DEFAULT_ENDPOINT;
+  try {
+    const stored = await chrome.storage.local.get(ENDPOINT_KEY);
+    base = liveBase(stored[ENDPOINT_KEY]);
+  } catch (error) {
+    /* storage is optional */
+  }
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 12000);
+  try {
+    await fetch(`${base}/api/live/prewarm`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        page_url: String(tab.url || "").slice(0, 2048),
+        page_title: String(tab.title || "").slice(0, 300),
+      }),
+      signal: controller.signal,
+    });
+  } catch (error) {
+    /* prewarm is best effort */
+  } finally {
+    clearTimeout(timer);
+  }
+}
 
 function installMenu() {
   chrome.contextMenus.removeAll(() => {
@@ -99,6 +151,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   // sidePanel.open must run in the user-gesture task; do not wait for storage
   // first. The panel reads the request from storage / the broadcast below.
   const opening = openSidePanel(tabId);
+  void prewarmPage(tab);
   try {
     await chrome.storage.local.set({ [REQUEST_KEY]: request });
   } catch (error) {
@@ -110,5 +163,6 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
 
 chrome.action.onClicked.addListener(async (tab) => {
   const tabId = tab && typeof tab.id === "number" ? tab.id : undefined;
+  void prewarmPage(tab);
   await openSidePanel(tabId);
 });

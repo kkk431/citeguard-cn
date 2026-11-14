@@ -337,3 +337,10 @@ python -m pytest tests/test_live_eval.py -q        # 13 例，离线
 | `scripts/eval_live.py` | 校验 + 评测脚本；`--claims/--pages/--out` 切换数据集，`--check` 只校验数据 |
 | `tests/test_live_eval.py` | 13 个离线单测（跨语言/公开页两套数据校验、命中/未命中/空候选/异常、fake checker） |
 | `docs/live_eval.md` | 本文件 |
+
+
+## 5.7 两段返回冒烟（非评测）
+
+2026-11-15 在 2305.20050 页面用 `[2]` 引用做冷启动冒烟：`phase=retrieve` 2.27 s 返回 5 条候选（`pending=true`），`phase=judge` 2.90 s 返回 `no_evidence`、`judge_mode=fast`、`judge_calls=1`。这是单例 UI/接口冒烟，不构成准确率或延迟分布结论；批量延迟仍以 §5.5–5.6 的 30 句结果为准。
+
+截图：`docs/evidence/shots/phase-57-live-two-phase-pending-1.7.17.png`（0.7 s 时「判定中…」+ 候选已显示）、`…-result-1.7.17.png`（3.5 s 最终支持 90% + 逐字证据句）。这两张是真实页面截图，不是为截图注入延迟。

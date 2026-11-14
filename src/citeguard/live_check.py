@@ -48,6 +48,7 @@ from . import config, support
 from .metadata_verify import (
     Candidate,
     _cached_json,
+    _cached_text,
     _reconstruct_abstract,
     search_crossref,
     search_openalex,
@@ -292,8 +293,19 @@ def _candidate_payload(candidate: Candidate, score: float, verdict: Optional[dic
     return item
 
 
+def _has_cjk(text: str) -> bool:
+    return bool(re.search(r"[\u4e00-\u9fff]", text or ""))
+
+
 def _search_candidates(query: str, page_title: str = "") -> tuple[list[Candidate], list[str]]:
-    """Query both metadata adapters; never let a transport error escape."""
+    """Query both metadata adapters; never let a transport error escape.
+
+    A Chinese claim is first searched as-is.  If the model is configured, a
+    translated English query is added as a second retrieval pass: OpenAlex
+    ranks Chinese-language works highly for a Chinese query, and the cited
+    English source can never be recalled from that candidate pool.  Translation
+    is a retrieval aid only; the verdict still comes from the abstracts.
+    """
     found: list[Candidate] = []
     errors: list[str] = []
     for search in (search_openalex, search_crossref):
@@ -301,6 +313,16 @@ def _search_candidates(query: str, page_title: str = "") -> tuple[list[Candidate
             found.extend(search(query, limit=MAX_CANDIDATES) or [])
         except Exception as exc:  # noqa: BLE001 - Live must degrade, not 500
             errors.append(f"{getattr(search, '__name__', 'search')}: {exc}")
+    if _has_cjk(query):
+        try:
+            translated = support.translate_query(query)
+        except Exception:  # noqa: BLE001
+            translated = ""
+        if translated:
+            try:
+                found.extend(search_openalex(translated, limit=MAX_CANDIDATES) or [])
+            except Exception as exc:  # noqa: BLE001
+                errors.append(f"search_openalex(translated): {exc}")
     if not found and page_title and _norm_title(page_title) != _norm_title(query):
         try:
             found.extend(search_openalex(page_title, limit=MAX_CANDIDATES) or [])
@@ -1115,11 +1137,11 @@ def _page_reference_candidates(claim: str, page_url: str) -> list[Candidate]:
     return candidates
 
 
-def _openalex_abstract_by_doi(doi: str) -> str:
-    """Look up one DOI in OpenAlex and return its reconstructed abstract."""
+def _openalex_work_by_doi(doi: str) -> Optional[dict]:
+    """Return the OpenAlex work for a DOI, or ``None`` on any failure."""
     doi = _strip_doi_prefix(doi)
     if not doi:
-        return ""
+        return None
     encoded = quote(f"https://doi.org/{doi}", safe=":/")
     try:
         data = _cached_json(
@@ -1127,10 +1149,47 @@ def _openalex_abstract_by_doi(doi: str) -> str:
             {"select": _ABSTRACT_SELECT, "mailto": config.OPENALEX_MAILTO},
         )
     except Exception:  # noqa: BLE001 - abstract enrichment is best effort
-        return ""
+        return None
+    return data if isinstance(data, dict) else None
+
+
+def _openalex_abstract_by_doi(doi: str) -> str:
+    """Look up one DOI in OpenAlex and return its reconstructed abstract."""
+    data = _openalex_work_by_doi(doi)
     if isinstance(data, dict):
         return _reconstruct_abstract(data.get("abstract_inverted_index"))
     return ""
+
+
+def _arxiv_abstract_by_doi(doi: str) -> str:
+    """Return an arXiv abstract when the DOI is an arXiv DOI.
+
+    Many CS bibliography entries carry ``10.48550/arXiv.XXXX`` rather than a
+    publisher DOI.  OpenAlex sometimes has no abstract for these; the arXiv API
+    almost always does.  The lookup is cached and fails silently.
+    """
+    match = re.match(r"^10\.48550/arxiv\.(.+)$", _strip_doi_prefix(doi).lower())
+    if not match:
+        return ""
+    arxiv_id = match.group(1).strip()
+    if not re.match(r"^\d{4}\.\d{4,5}(v\d+)?$|^[a-z.-]+/\d{7}(v\d+)?$", arxiv_id):
+        return ""
+    try:
+        text = _cached_text(
+            "https://export.arxiv.org/api/query",
+            {"id_list": arxiv_id, "max_results": 1},
+        )
+    except Exception:  # noqa: BLE001 - enrichment is best effort
+        return ""
+    if not text:
+        return ""
+    entry = re.search(r"<entry>(.*?)</entry>", text, re.S)
+    if not entry:
+        return ""
+    summary = re.search(r"<summary>(.*?)</summary>", entry.group(1), re.S)
+    if not summary:
+        return ""
+    return _clean_text(re.sub(r"\s+", " ", summary.group(1)))
 
 
 def _best_reference_hit(
@@ -1185,13 +1244,27 @@ def _enrich_page_reference(candidate: Candidate) -> None:
     if (candidate.abstract or "").strip():
         return
     if candidate.doi:
+        source = "openalex"
         try:
-            abstract = _openalex_abstract_by_doi(candidate.doi)
+            work = _openalex_work_by_doi(candidate.doi)
         except Exception:  # noqa: BLE001
-            abstract = ""
+            work = None
+        abstract = ""
+        if isinstance(work, dict):
+            work_title = str(work.get("title") or "")
+            # A bibliography DOI can be stale or mis-parsed.  Never attach an
+            # abstract from a work whose title contradicts the reference title.
+            if not work_title or title_sim(candidate.title, work_title) >= 0.7:
+                abstract = _reconstruct_abstract(work.get("abstract_inverted_index"))
+        if not abstract:
+            try:
+                abstract = _arxiv_abstract_by_doi(candidate.doi)
+                source = "arxiv"
+            except Exception:  # noqa: BLE001
+                abstract = ""
         if abstract:
             candidate.abstract = abstract
-            candidate.raw["abstract_from"] = "openalex"
+            candidate.raw["abstract_from"] = source
             return
     if not candidate.title:
         return
@@ -1271,7 +1344,7 @@ def prewarm_page(page_url: str = "", page_title: str = "") -> dict:
     }
 
 
-def check_claim(claim: str, page_url: str = "", page_title: str = "", mode: str = "full") -> dict:
+def check_claim(claim: str, page_url: str = "", page_title: str = "", mode: str = "full", phase: str = "full") -> dict:
     """Check one selected sentence against candidate abstracts.
 
     Parameters
@@ -1282,6 +1355,11 @@ def check_claim(claim: str, page_url: str = "", page_title: str = "", mode: str 
     mode:
         ``"fast"`` judges only the top-ranked abstract (one model call);
         ``"full"`` judges up to three (better best-of-three, but ~3x slower).
+    phase:
+        ``"retrieve"`` returns the candidate list immediately, without calling
+        the judge model.  The caller can show the sources at once and then call
+        again with ``phase="judge"`` for the verdict (the page/abstract cache
+        makes the second call cheap).  ``"full"`` is the old one-shot path.
 
     page_url, page_title:
         Optional context from the browser tab.  A DOI/arXiv URL is resolved to
@@ -1386,6 +1464,23 @@ def check_claim(claim: str, page_url: str = "", page_title: str = "", mode: str 
         )
     ranked = merged[:MAX_CANDIDATES]
     scores = {id(candidate): _candidate_score(claim_terms, claim_numbers, candidate) for candidate in ranked}
+
+    if phase == "retrieve":
+        has_abstract = any((candidate.abstract or "").strip() for candidate in ranked)
+        if has_abstract:
+            reason = f"已找到 {len(ranked)} 条候选文献，正在判定…"
+        else:
+            reason = "检索到候选文献，但摘要字段为空，无法做摘要级判断" + _page_suffix(page_url)
+        out = _make_result(
+            "no_evidence",
+            0.0,
+            reason,
+            None,
+            [_candidate_payload(c, scores[id(c)]) for c in ranked],
+        )
+        out["phase"] = "retrieve"
+        out["pending"] = has_abstract
+        return out
 
     if not any((candidate.abstract or "").strip() for candidate in ranked):
         return _make_result(

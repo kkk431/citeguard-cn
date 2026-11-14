@@ -65,3 +65,7 @@ v1 仍保留在 `extension/`，不影响旧版使用。
 - JS 语法：`node --check extension/v2/background.js && node --check extension/v2/sidepanel.js && node --check extension/v2/options.js`
 - 服务端单测：`pytest tests/test_live_check.py -q`
 - 无模型/无网络时，服务应返回 `no_evidence` 并给出人话原因，而不是报错或编造来源。
+
+## Prewarm
+
+打开侧边栏时，后台脚本会调用 `POST /api/live/prewarm` 预取当前 arXiv HTML 的参考文献（12 s 上限、失败静默）。它只缓存页面，不判定；接口地址仍取 `chrome.storage.local` 的 `cg_live_endpoint`。

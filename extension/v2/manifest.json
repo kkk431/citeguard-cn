@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "CiteGuard Live · 划词核验",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "选中网页中的一句话，调用本地 CiteGuard Live 服务，对照开放论文摘要返回支持/部分支持/矛盾/无证据四档与可核对证据句。",
   "minimum_chrome_version": "116",
   "permissions": [

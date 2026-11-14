@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 166,
+  "paths_checked": 169,
   "missing": [],
   "rows": [
     {
@@ -316,6 +316,21 @@
     {
       "evidence": "E89",
       "path": "docs/evidence/shots/final/product/manifest.json",
+      "exists": true
+    },
+    {
+      "evidence": "E90",
+      "path": "docs/live.md",
+      "exists": true
+    },
+    {
+      "evidence": "E90",
+      "path": "docs/evidence/shots/phase-57-live-two-phase-pending-1.7.17.png",
+      "exists": true
+    },
+    {
+      "evidence": "E90",
+      "path": "docs/evidence/shots/phase-57-live-two-phase-result-1.7.17.png",
       "exists": true
     },
     {
@@ -694,6 +709,6 @@
       "exists": true
     }
   ],
-  "shots_registered": 80,
+  "shots_registered": 82,
   "shots_unregistered": []
 }

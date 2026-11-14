@@ -264,6 +264,19 @@
     setView("error");
   }
 
+  function renderPending(data) {
+    els.label.className = "live-badge";
+    els.label.textContent = "判定中…";
+    els.label.setAttribute("title", "已找到候选文献，正在判定");
+    els.confidenceText.textContent = "置信度 —";
+    els.bar.style.width = "0%";
+    els.meter.setAttribute("aria-valuenow", "0");
+    els.reason.textContent = (data && data.reason) || "已找到候选文献，正在判定…";
+    renderEvidence(null);
+    renderCandidates(data && data.candidates);
+    setView("output");
+  }
+
   async function runCheck() {
     const claim = String(els.claim.value || "").trim();
     if (!claim) {
@@ -283,37 +296,46 @@
     const requestId = ++state.requestId;
     setView("loading");
 
-    try {
+    async function postLive(phase) {
       const response = await fetch(API, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           claim: claim,
           page_title: pageTitle,
-          page_url: pageUrl
+          page_url: pageUrl,
+          mode: "fast",
+          phase: phase
         })
       });
-
       let body = null;
       try {
         body = await response.json();
       } catch (_err) {
         body = null;
       }
-      if (requestId !== state.requestId) return;
-
-      if (!response.ok) {
+      if (!response.ok || (body && body.ok === false)) {
         throw new Error(errorMessage(body, response.status));
       }
-      if (body && body.ok === false) {
-        throw new Error(errorMessage(body, response.status));
-      }
-
       const data = body && body.result && typeof body.result === "object" ? body.result : body;
       if (!data || typeof data !== "object" || typeof data.label !== "string") {
         throw new Error("接口返回格式不正确：缺少 label。请确认本地服务版本。");
       }
-      renderResult(data);
+      return data;
+    }
+
+    try {
+      // Two-phase: show sources immediately; the verdict follows.
+      const retrieval = await postLive("retrieve");
+      if (requestId !== state.requestId) return;
+      if (retrieval.pending) {
+        renderPending(retrieval);
+        const final = await postLive("judge");
+        if (requestId !== state.requestId) return;
+        renderResult(final);
+      } else {
+        renderResult(retrieval);
+      }
     } catch (err) {
       if (requestId !== state.requestId) return;
       const message = err && err.message ? err.message : "网络请求失败，请确认本地服务已启动后重试。";

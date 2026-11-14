@@ -1052,11 +1052,12 @@ def test_live_check_endpoint_returns_contract(plain_client, monkeypatch):
 
     seen = {}
 
-    def fake(claim, page_url="", page_title="", mode="fast"):
+    def fake(claim, page_url="", page_title="", mode="fast", phase="full"):
         seen["claim"] = claim
         seen["page_url"] = page_url
         seen["page_title"] = page_title
         seen["mode"] = mode
+        seen["phase"] = phase
         return {
             "label": "support",
             "confidence": 0.91,
@@ -1075,7 +1076,24 @@ def test_live_check_endpoint_returns_contract(plain_client, monkeypatch):
     assert body["ok"] is True
     assert body["label"] == "support"
     assert body["confidence"] == 0.91
-    assert seen == {"claim": "深度学习提高了准确率。", "page_url": "https://arxiv.org/abs/1", "page_title": "标题", "mode": "fast"}
+    assert seen == {"claim": "深度学习提高了准确率。", "page_url": "https://arxiv.org/abs/1", "page_title": "标题", "mode": "fast", "phase": "full"}
+
+
+def test_live_check_endpoint_passes_retrieve_phase(plain_client, monkeypatch):
+    from citeguard import live_check as live_mod
+
+    seen = {}
+
+    def fake(claim, page_url="", page_title="", mode="fast", phase="full"):
+        seen["phase"] = phase
+        return {"label": "no_evidence", "confidence": 0.0, "reason": "候选已返回", "candidates": [], "phase": "retrieve", "pending": False}
+
+    monkeypatch.setattr(live_mod, "check_claim", fake)
+    r = plain_client.post("/api/live/check", json={"claim": "一句话", "phase": "retrieve"})
+    assert r.status_code == 200
+    assert r.json()["phase"] == "retrieve"
+    assert seen["phase"] == "retrieve"
+    assert plain_client.post("/api/live/check", json={"claim": "一句话", "phase": "nope"}).status_code == 400
 
 
 def test_live_check_rejects_empty_or_oversized_claim(plain_client):

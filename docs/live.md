@@ -69,6 +69,10 @@ PYTHONPATH=src CITEGUARD_OFFLINE=1 python -m citeguard.live_check --claim "任�
 （见 `docs/live_eval.md` §5.5–5.6）；`mode=full` 判前 3 条并做覆盖审计，热缓存 P50 约 9.68 s。
 更接近最佳候选但更慢。两档都只读候选摘要，不读全文，也不会把模型推断说成人工核对。
 
+在线页面和扩展默认走**两段返回**：先 `phase=retrieve` 拿候选（真实冷启动约 2.3 s），
+前端立即显示「判定中…」；再 `phase=judge` 取四档结论（约 2.9 s）。全量耗时没有变少，
+但用户不必空白等待。
+
 ### 2.1 `POST /api/live/check`
 
 请求：
@@ -78,7 +82,8 @@ PYTHONPATH=src CITEGUARD_OFFLINE=1 python -m citeguard.live_check --claim "任�
   "claim": "AI tutoring improves student learning outcomes",
   "page_url": "https://example.org/article",
   "page_title": "Example article",
-  "mode": "fast"
+  "mode": "fast",
+  "phase": "retrieve"
 }
 ```
 
@@ -88,6 +93,15 @@ PYTHONPATH=src CITEGUARD_OFFLINE=1 python -m citeguard.live_check --claim "任�
 | `page_url` | 否 | string | ≤2048；用于识别当前论文（DOI/arXiv）并优先取其 `referenced_works`；不抓取网页正文 |
 | `page_title` | 否 | string | ≤300；claim 过短时作为检索兜底，也用于从页面标题反查当前论文 |
 | `mode` | 否 | string | `fast`（默认，最多 1 条判官调用）或 `full`（前 3 条，质量优先但更慢）；其他值 400 |
+| `phase` | 否 | string | `retrieve`（只返回候选与 `pending`，不判）、`judge`（重新检索后判定）、`full`（默认，一次返回）；其他值 400 |
+
+`phase=retrieve` 成功 `200` 时返回候选并把 `label` 置为占位：
+
+```json
+{"label":"no_evidence","confidence":0,"reason":"已找到 5 条候选文献，正在判定…","candidates":[…],"phase":"retrieve","pending":true}
+```
+
+无任何候选/摘要时 `pending=false`。`phase=judge` 与 `phase=full` 返回最终四档。
 
 成功 `200`：
 
@@ -179,7 +193,7 @@ def api_live_check(req: LiveCheckRequest):
 
 ### 2.1 页面预热（可选）
 
-`POST /api/live/prewarm` 接受 `page_url` / `page_title`，只对 arXiv HTML 白名单页面抓取并解析参考文献，把首次抓取的几秒从“选中句请求”前移到“打开面板/页面时”。返回 `references`、`page_work`、`referenced`、`elapsed_ms`；失败静默为空缓存，不影响后续核验。
+`POST /api/live/prewarm` 接受 `page_url` / `page_title`，只对 arXiv HTML 白名单页面抓取并解析参考文献，把首次抓取的几秒从“选中句请求”前移到“打开面板/页面时”。扩展 `v2` 在右键菜单/工具栏打开侧栏时会自动调用它（12 s 上限，失败静默），用户手动调用也可以。返回 `references`、`page_work`、`referenced`、`elapsed_ms`；失败静默为空缓存，不影响后续核验。
 
 扩展可以在侧边栏打开时先调用预热；不调用时功能不变，只是首句更慢。预热是**缓存加速**，不改变判定模型与四档口径。
 

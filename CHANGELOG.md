@@ -1,3 +1,11 @@
+## [1.7.17] - 2026-11-15
+
+- Live 两段返回：`POST /api/live/check` 新增 `phase=retrieve|judge|full`；页面与扩展先显示候选，再显示四档，避免整段空白等待。冷启动实测 retrieve 2.27 s、judge 2.90 s。
+- 扩展 v2 打开侧栏时自动调用 `/api/live/prewarm`（12 s 上限、失败静默）。
+- 中文 claim 追加一次英文 OpenAlex 检索（判官模型翻译，失败静默）；翻译只用于找候选，不当证据。
+- arXiv DOI 回填摘要；OpenAlex 摘要与引文标题相似度 <0.7 时拒绝，修掉张冠李戴。
+- `docs/live.md`、`docs/api.md`、README 同步两段契约与边界；889 tests。
+
 ## [1.7.16] - 2026-11-15
 
 ### Added

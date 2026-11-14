@@ -252,6 +252,18 @@ function renderCandidates(candidates) {
   }
 }
 
+function renderPending(data) {
+  const badge = $("label-badge");
+  badge.textContent = "判定中…";
+  badge.className = "badge";
+  badge.title = "已找到候选文献，正在调用判定模型";
+  $("confidence").textContent = "置信度 —";
+  $("reason").textContent = String(data.reason || "已找到候选文献，正在判定…");
+  renderEvidence(null);
+  renderCandidates(data.candidates);
+  setState("state-result");
+}
+
 function renderResult(data) {
   const label = LABELS[data.label] ? data.label : "no_evidence";
   setBadge(label);
@@ -302,18 +314,19 @@ async function runCheck(rawClaim) {
 
   const controller = new AbortController();
   inFlight = controller;
-  const timer = setTimeout(() => controller.abort(), 15000);
+  const timer = setTimeout(() => controller.abort(), 30000);
   const payload = {
     claim,
     page_url: (currentRequest && currentRequest.pageUrl) || "",
     page_title: (currentRequest && currentRequest.pageTitle) || "",
+    mode: "fast",
   };
 
-  try {
+  async function postCheck(body) {
     const response = await fetch(apiUrl(currentEndpoint), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
+      body: JSON.stringify(body),
       signal: controller.signal,
     });
     const text = await response.text();
@@ -329,14 +342,26 @@ async function runCheck(rawClaim) {
     if (!data || typeof data !== "object" || !LABELS[data.label]) {
       throw new Error("本地服务返回的数据缺少有效的 label 字段。");
     }
-    renderResult(data);
+    return data;
+  }
+
+  try {
+    // Two-phase: show the sources immediately, then fill in the verdict.
+    const retrieval = await postCheck({ ...payload, phase: "retrieve" });
+    if (retrieval.pending) {
+      renderPending(retrieval);
+      const final = await postCheck({ ...payload, phase: "judge" });
+      renderResult(final);
+    } else {
+      renderResult(retrieval);
+    }
   } catch (error) {
     if (inFlight !== controller) {
       // A newer check superseded this one; its UI owns the panel now.
       return;
     }
     if (error && error.name === "AbortError") {
-      showError("请求超时（15 秒）。请确认本地服务已启动，或在“设置”里检查地址。", "");
+      showError("请求超时（30 秒）。请确认本地服务已启动，或在“设置”里检查地址。", "");
     } else if (error instanceof TypeError) {
       showError(
         `无法连接本地服务（${currentEndpoint}）。请确认服务已启动，并在“设置”里检查地址。`,

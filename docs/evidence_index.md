@@ -22,7 +22,7 @@
 | 扫描件 OCR **23/24 条** | `data/experiments/ocr_scan_real.json` | `PYTHONPATH=src python scripts/eval_ocr_scanned.py --input <pdf>` | 7 页扫描 PDF，题名/年份/作者 23/23 |
 | GB/T E4 严格控制漂移 **29/30** | `data/experiments/e4_format.json` | `PYTHONPATH=src python scripts/e4_format_check.py` | 30 个构造样本 |
 | 万方中文强命中 **111/184** | `data/experiments/wanfang_batch.json` | 见 `docs/chinese_sources.md` | 184 条中文题录，试用配额；非全样本 |
-| 测试 **881 passed** | `pytest -q` | `PYTHONPATH=src python -m pytest tests -q` | 本地 Python 3.13 |
+| 测试 **889 passed** | `pytest -q` | `PYTHONPATH=src python -m pytest tests -q` | 本地 Python 3.13 |
 | SBOM **10 个核心依赖** | `docs/sbom.json`、`scripts/make_sbom.py`、`tests/test_sbom.py` | `PYTHONPATH=src python scripts/make_sbom.py --check` | CycloneDX 1.5；版本与 `web/app.py` 一致 |
 | 交付自检 **137/137** | `scripts/verify_artifacts.py` | `PYTHONPATH=src python scripts/verify_artifacts.py` | 版本/路由/文档/数字一致性 |
 | 知网导入 **22 → 27 条，Exact** | `data/library/cnki_demo.enw`、`data/library/library.json` | `PYTHONPATH=src python -m citeguard.cli --import-library data/library/cnki_demo.enw` | 5 条机构导出题录 |
@@ -104,6 +104,8 @@
 | E84 | Live 冻结 held-out 与扩展 v2 真机验收（1.7.11） | `data/live_eval/claims_holdout.jsonl`、`data/live_eval/pages_holdout.json`、`data/live_eval/live_eval_holdout_enriched.json`、`docs/research/live_holdout.md`、`scripts/verify_extension.py`、`docs/extension_v2.md` | held-out：5 篇新 arXiv HTML、30 句英文、与公开页集无重叠；补摘要后 hit@1 27/30、hit@3 30/30（30/30 是短样本上限）、P50 2.98 s、P95 16.09 s、有逐字证据 11/30；judge 未配置、四档为规则降级，不能宣称 stance 准确率；扩展 v2 在真实 Chromium 中加载，3 个公开页调用 `/api/live/check` 200，原生右键/侧边栏需手工步骤 | `docs/evidence/shots/phase-54-extension-loaded.png`, `docs/evidence/shots/phase-54-extension-example.png`, `docs/evidence/shots/phase-54-extension-live-result.png`, `docs/evidence/shots/phase-54-extension-local-live.png`, `docs/evidence/shots/phase-54-extension-python-tutorial.png`, `docs/evidence/shots/phase-54-extension-iana-example-domains.png`, `docs/evidence/shots/phase-54-extension-error.png`、`docs/research/live_holdout.md` |
 | E88 | 实验证据图（12 张） | `scripts/make_evidence_charts.py`、`docs/evidence_charts.md`、`docs/evidence/shots/final/charts/manifest.json` | 12 张 1920×1080 深色证据图；每张标注来源与 n；由仓库内实验 JSON 生成，可复现 | `docs/evidence/shots/final/charts/`（12 张） |
 | E89 | 产品最终截图（19 张） | `scripts/capture_final_shots.py`、`docs/evidence_product.md`、`docs/evidence/shots/final/product/manifest.json` | 真实实例 1.7.13、job `96511af51c97`、深色 1920×1080；19 页；支持度/图表等未跑状态如实显示 | `docs/evidence/shots/final/product/`（19 张） |
+| E90 | Live 两段返回（1.7.17） | `src/citeguard/live_check.py`（`phase`）、`web/static/js/live.js`、`extension/v2/`、`tests/test_live_check.py`、`tests/test_web.py`、`docs/live.md` | `phase=retrieve` 先返回 5 条候选（`pending=true`），页面 0.7 s 显示「判定中…」；`phase=judge` 3.5 s 内出四档（本次 support 90% + 逐字证据句）。冷启动 retrieve 2.27 s / judge 2.90 s；同一单例，不构成批量分布 | `docs/evidence/shots/phase-57-live-two-phase-pending-1.7.17.png`、`docs/evidence/shots/phase-57-live-two-phase-result-1.7.17.png` |
+
 
 自检：`python scripts/audit_evidence.py`（见 [evidence_audit.md](evidence_audit.md)）。
 

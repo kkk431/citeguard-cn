@@ -68,7 +68,7 @@ def live_defaults(monkeypatch):
 @pytest.fixture(autouse=True)
 def offline_reference_enrichment(monkeypatch):
     """Keep every test offline unless it explicitly supplies an abstract."""
-    monkeypatch.setattr(live_check, "_openalex_abstract_by_doi", lambda doi: "")
+    monkeypatch.setattr(live_check, "_openalex_work_by_doi", lambda doi: None)
     monkeypatch.setattr(live_check, "search_openalex", lambda title, limit=5: [])
     monkeypatch.setattr(live_check, "search_crossref", lambda title, limit=5: [])
     live_check._clear_bibliography_cache()
@@ -494,6 +494,37 @@ def test_citation_marker_maps_page_bibliography(monkeypatch, isolated_cache):
     assert "page-reference" not in [item["source"] for item in result["candidates"][1:]]
 
 
+def test_retrieve_phase_returns_sources_without_calling_judge(monkeypatch, isolated_cache):
+    abstract = "Retrieval augmented generation improves factual accuracy in question answering."
+    monkeypatch.setattr(live_check, "_fetch_page_html", lambda url: _bibliography_html())
+    monkeypatch.setattr(live_check, "_page_work", lambda page_url, page_title="": None)
+    monkeypatch.setattr(
+        live_check,
+        "_openalex_work_by_doi",
+        lambda doi: {
+            "title": "Second Paper Title",
+            "abstract_inverted_index": {word: [i] for i, word in enumerate(abstract.split())},
+        },
+    )
+    _patch_searches(monkeypatch)
+
+    def _judge_must_not_run(*args, **kwargs):
+        raise AssertionError("phase=retrieve must not call the judge")
+
+    monkeypatch.setattr(live_check.support, "judge_support", _judge_must_not_run)
+    result = live_check.check_claim(
+        "Retrieval augmented generation improves factual accuracy [2].",
+        page_url="https://arxiv.org/html/2401.00001",
+        phase="retrieve",
+    )
+
+    assert result["phase"] == "retrieve"
+    assert result["pending"] is True
+    assert result["evidence"] is None
+    assert result["candidates"][0]["source"] == "page-reference"
+    assert result["candidates"][0]["has_abstract"] is True
+
+
 def test_citation_marker_ignores_non_whitelisted_host(monkeypatch):
     calls = []
 
@@ -597,7 +628,12 @@ def test_page_reference_abstract_enriched_from_openalex(monkeypatch, isolated_ca
     )
     monkeypatch.setattr(live_check, "_page_work", lambda page_url, page_title="": None)
     monkeypatch.setattr(
-        live_check, "_openalex_abstract_by_doi", lambda doi: abstract
+        live_check,
+        "_openalex_work_by_doi",
+        lambda doi: {
+            "title": "Second Paper Title",
+            "abstract_inverted_index": {word: [i] for i, word in enumerate(abstract.split())},
+        },
     )
     _patch_searches(monkeypatch)
 
@@ -616,13 +652,28 @@ def test_page_reference_abstract_enriched_from_openalex(monkeypatch, isolated_ca
     assert result["evidence"]["title"] == "Second Paper Title"
 
 
+def test_arxiv_abstract_by_doi_parses_atom(monkeypatch):
+    monkeypatch.setattr(
+        live_check,
+        "_cached_text",
+        lambda url, params=None: (
+            "<feed><entry><summary>An arXiv abstract about retrieval.</summary></entry></feed>"
+        ),
+    )
+    assert (
+        live_check._arxiv_abstract_by_doi("10.48550/arXiv.2401.00001")
+        == "An arXiv abstract about retrieval."
+    )
+    assert live_check._arxiv_abstract_by_doi("10.1000/not-arxiv") == ""
+
+
 def test_page_reference_abstract_enriched_from_crossref_title(monkeypatch, isolated_cache):
     abstract = "Retrieval augmented generation improves factual accuracy in question answering."
     monkeypatch.setattr(
         live_check, "_fetch_page_html", lambda url: _bibliography_html()
     )
     monkeypatch.setattr(live_check, "_page_work", lambda page_url, page_title="": None)
-    monkeypatch.setattr(live_check, "_openalex_abstract_by_doi", lambda doi: "")
+    monkeypatch.setattr(live_check, "_openalex_work_by_doi", lambda doi: None)
     monkeypatch.setattr(live_check, "search_openalex", lambda title, limit=5: [])
     _patch_searches(monkeypatch)
     monkeypatch.setattr(
@@ -648,6 +699,8 @@ def test_page_reference_without_abstract_stays_no_evidence(monkeypatch, isolated
     monkeypatch.setattr(
         live_check, "_fetch_page_html", lambda url: _bibliography_html()
     )
+    monkeypatch.setattr(live_check, "_openalex_work_by_doi", lambda doi: None)
+    monkeypatch.setattr(live_check, "_arxiv_abstract_by_doi", lambda doi: "")
     monkeypatch.setattr(live_check, "_page_work", lambda page_url, page_title="": None)
     _patch_searches(monkeypatch)
 
@@ -716,6 +769,22 @@ def test_page_reference_ranking_prefers_title_over_long_abstract(monkeypatch):
     assert lc._page_candidate_score(terms, numbers, title_match) > lc._page_candidate_score(
         terms, numbers, abstract_match
     )
+
+
+def test_chinese_query_adds_translated_retrieval(monkeypatch):
+    queries = []
+    monkeypatch.setattr(
+        live_check, "search_openalex", lambda query, limit=5: queries.append(query) or []
+    )
+    monkeypatch.setattr(live_check, "search_crossref", lambda query, limit=5: [])
+    monkeypatch.setattr(
+        support, "translate_query", lambda text: "attention improves diagnostic accuracy"
+    )
+
+    live_check._search_candidates("注意力机制提升了诊断准确率")
+
+    assert "注意力机制提升了诊断准确率" in queries
+    assert "attention improves diagnostic accuracy" in queries
 
 
 def test_prewarm_page_reports_bibliography_count(monkeypatch):

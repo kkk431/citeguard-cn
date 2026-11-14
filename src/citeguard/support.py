@@ -289,6 +289,40 @@ def _audit_cache_path(claim: str, abstract: str):
     return d / f"audit-{style}-{h}.json"
 
 
+_TRANSLATE_PROMPT = """把用户给出的中文引文句子翻译成适合检索英文学术文献的英文查询。
+只输出 JSON：{"translation": "..."}。保留专有名词、数字、单位、方法名；
+不要解释，不要添加原文没有的结论。若原文已经是英文，原样返回。"""
+
+_TRANSLATION_CACHE: dict[str, str] = {}
+
+
+def translate_query(text: str, timeout: float = 8.0) -> str:
+    """Translate a Chinese claim into an English literature query.
+
+    This is only a retrieval aid: the verdict is still made from candidate
+    abstracts.  A missing model / network failure returns an empty string, so
+    Live falls back to the original query.
+    """
+    source = str(text or "").strip()
+    if not source:
+        return ""
+    if source in _TRANSLATION_CACHE:
+        return _TRANSLATION_CACHE[source]
+    if not judge_available():
+        return ""
+    try:
+        result = _chat_json(_TRANSLATE_PROMPT, source[:800], max_tokens=220, timeout=timeout)
+    except Exception:  # noqa: BLE001 - retrieval must not fail on translation
+        return ""
+    if not isinstance(result, dict):
+        return ""
+    translated = str(result.get("translation") or "").strip()
+    if translated and translated != source and len(translated) <= 600:
+        _TRANSLATION_CACHE[source] = translated
+        return translated
+    return ""
+
+
 def _chat_json(prompt: str, user: str, max_tokens: int = 400, timeout: float = 60) -> Optional[dict]:
     """One judge call that returns the first JSON object in the reply."""
     base, model, key = judge_endpoint()
