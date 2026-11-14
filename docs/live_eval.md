@@ -263,6 +263,36 @@ PYTHONPATH=src python scripts/eval_live.py \
 - 产品内 `/live` 用同一接口实测“STIC 72.6%”句：支持 95%、逐字证据句命中；截图
   `docs/evidence/shots/phase-56-live-judge-1.7.13.png`。
 
+### 5.6 fast / full 两档判官（2026-11-15）
+
+在线接口新增 `mode`：`fast` 最多只判 1 条有摘要候选，`full` 沿用原来的前 3 条。
+同一条 held-out 数据、同一判官，使用**空缓存目录**各跑一次（`CITEGUARD_CACHE_DIR`
+指向新目录），避免把缓存命中误当延迟：
+
+```bash
+CITEGUARD_CACHE_DIR=out/cache_live_fast_cold \
+PYTHONPATH=src python scripts/eval_live.py \
+  --claims data/live_eval/claims_public.jsonl \
+  --pages data/live_eval/pages_public.json \
+  --mode fast \
+  --out data/live_eval/live_eval_holdout_fast_cold.json
+```
+
+| 配置 | n | hit@1 | hit@3 | P50 | P95 | 四档 |
+| --- | --- | --- | --- | --- | --- | --- |
+| `full`（前 3 条，§5.5） | 30 | 0.6667 | 0.9333 | 14.81 s | 24.60 s | 1 / 18 / 0 / 11 |
+| `fast`（最多 1 条，冷缓存） | 30 | 0.6667 | **0.9333** | **11.46 s** | 26.72 s | 0 / 14 / 0 / 16 |
+
+边界：
+
+- fast 的 P50 比 full 低约 22.6%，但**仍不是亚秒级**：瓶颈是单次判官调用（约 6 s）
+  加页面/引用检索；P95 反而更高，是网络长尾，不据此宣称“更快更稳”。
+- fast 只判一条，标签分布更偏 `no_evidence`（16 vs 11），不能与 full 的标签表混算；
+  hit@1/hit@3 相同，说明这 30 条里前 3 条判官并没有改变命中排序。
+- 热缓存下重复请求可到 <100 ms，但这是缓存效应；对外只说冷缓存数字。
+- 产品默认 `fast`；需要更完整的判定时传 `mode=full`。这不是“人工金标”，
+  stance 准确率仍未测。
+
 ## 6. 结论与建议（决策）
 
 | 项 | 决策 | 理由 |
@@ -328,6 +358,7 @@ python -m pytest tests/test_live_eval.py -q        # 13 例，离线
 | `data/live_eval/live_eval_holdout.json` | t15：仅页面引用映射的 held-out 评测结果 |
 | `data/live_eval/live_eval_holdout_enriched.json` | t18：补 OpenAlex/Crossref 摘要后的 held-out 评测结果（含与 t15 对照、25 条有摘要子集） |
 | `data/live_eval/live_eval_holdout_judge.json` | 2026-11-14 配云端判官后的同集复跑（hit@1 0.6667、hit@3 0.9333、P50 14.8 s） |
+| `data/live_eval/live_eval_holdout_fast_cold.json` | 2026-11-15 fast 档、空缓存复跑（P50 11.46 s、hit@3 0.9333） |
 | `docs/research/live_holdout.md` | radar 的 held-out 设计与完整残差分析（300 行） |
 | `scripts/eval_live.py` | 校验 + 评测脚本；`--claims/--pages/--out` 切换数据集，`--check` 只校验数据 |
 | `tests/test_live_eval.py` | 13 个离线单测（跨语言/公开页两套数据校验、命中/未命中/空候选/异常、fake checker） |

@@ -346,7 +346,7 @@ def _normalise_judge(result: dict) -> dict:
     }
 
 
-def _judge_verdicts(claim: str, candidates: list[Candidate]) -> dict[int, dict]:
+def _judge_verdicts(claim: str, candidates: list[Candidate], limit: int = 3) -> dict[int, dict]:
     verdicts: dict[int, dict] = {}
     checked = 0
     for candidate in candidates:
@@ -359,7 +359,7 @@ def _judge_verdicts(claim: str, candidates: list[Candidate]) -> dict[int, dict]:
         if result:
             verdicts[id(candidate)] = _normalise_judge(result)
         checked += 1
-        if checked >= 3:
+        if checked >= max(1, limit):
             break
     return verdicts
 
@@ -385,6 +385,7 @@ def _judged_result(
     candidates: list[Candidate],
     scores: dict[int, float],
     verdicts: dict[int, dict],
+    mode: str = "full",
 ) -> dict:
     best_candidate, best = _pick_judged(candidates, verdicts)
     if best_candidate is None or best is None:
@@ -393,13 +394,16 @@ def _judged_result(
     confidence = best["confidence"]
     reason = best["reason"] or "判定模型未给出理由"
     if label == "no_evidence":
-        return _make_result(
+        out = _make_result(
             "no_evidence",
             min(confidence, 0.4),
             reason,
             None,
             [_candidate_payload(c, scores[id(c)], verdicts.get(id(c))) for c in candidates],
         )
+        out["judge_mode"] = mode
+        out["judge_calls"] = len(verdicts)
+        return out
 
     quote = _ground_quote(best["quote"], best_candidate.abstract)
     evidence = None
@@ -415,13 +419,16 @@ def _judged_result(
             reason += "；判定模型给出的证据句未能在摘要中逐字核对，已不附证据"
         else:
             reason += "；判定模型未给出可核对的证据句，已不附证据"
-    return _make_result(
+    out = _make_result(
         label,
         confidence,
         reason,
         evidence,
         [_candidate_payload(c, scores[id(c)], verdicts.get(id(c))) for c in candidates],
     )
+    out["judge_mode"] = mode
+    out["judge_calls"] = len(verdicts)
+    return out
 
 
 def _heuristic_hit(claim: str, candidates: list[Candidate]) -> Optional[dict]:
@@ -1210,7 +1217,7 @@ def _enrich_page_references(candidates: list[Candidate]) -> list[Candidate]:
     return candidates
 
 
-def check_claim(claim: str, page_url: str = "", page_title: str = "") -> dict:
+def check_claim(claim: str, page_url: str = "", page_title: str = "", mode: str = "full") -> dict:
     """Check one selected sentence against candidate abstracts.
 
     Parameters
@@ -1218,6 +1225,10 @@ def check_claim(claim: str, page_url: str = "", page_title: str = "") -> dict:
     claim:
         The sentence highlighted by the reader.  Leading/trailing whitespace is
         stripped; the first ``MAX_CLAIM_CHARS`` characters are used.
+    mode:
+        ``"fast"`` judges only the top-ranked abstract (one model call);
+        ``"full"`` judges up to three (better best-of-three, but ~3x slower).
+
     page_url, page_title:
         Optional context from the browser tab.  A DOI/arXiv URL is resolved to
         an OpenAlex work and its reference list is tried first; the title is
@@ -1335,10 +1346,11 @@ def check_claim(claim: str, page_url: str = "", page_title: str = "") -> dict:
         judge_available = bool(support.judge_available())
     except Exception:  # noqa: BLE001
         judge_available = False
+    judge_limit = 1 if mode == "fast" else 3
     if judge_available:
-        verdicts = _judge_verdicts(claim, ranked)
+        verdicts = _judge_verdicts(claim, ranked, limit=judge_limit)
         if verdicts:
-            return _judged_result(claim, ranked, scores, verdicts)
+            return _judged_result(claim, ranked, scores, verdicts, mode=mode)
         # A configured endpoint can still fail over the network.  Degrade
         # explicitly instead of returning an empty "support" by accident.
         result = _heuristic_result(claim, ranked, scores)

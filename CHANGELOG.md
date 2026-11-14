@@ -1,3 +1,17 @@
+## [1.7.15] - 2026-11-15
+
+### Added
+- Live 在线接口新增 `mode=fast|full`（默认 `fast`）：fast 最多只判 1 条有摘要候选，
+  full 判前 3 条；返回 `judge_mode`/`judge_calls`。held-out 30 句冷缓存复测：
+  fast hit@3 0.9333 / P50 11.46 s，full hit@3 0.9333 / P50 14.81 s；P95 受网络长尾影响，
+  不宣称“更快更稳”（`docs/live_eval.md` §5.6、`data/live_eval/live_eval_holdout_fast_cold.json`）。
+- `docs/sbom.json`（CycloneDX 1.5）与 `scripts/make_sbom.py --check`，列出 10 个核心依赖
+  的版本/许可证；`tests/test_sbom.py` 防止版本漂移。
+- `CITEGUARD_CACHE_DIR` 可指定缓存目录，用于冷/热缓存对照评测。
+
+### Changed
+- 878 项 pytest；README/Live API 文档/导航同步。
+
 ## [1.7.14] - 2026-11-14
 
 ### Evidence

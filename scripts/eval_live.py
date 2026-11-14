@@ -346,7 +346,7 @@ def load_checker() -> tuple[Optional[Callable[..., dict]], str]:
     return check_claim, ""
 
 
-def run(claims: list[dict], pages: list[dict], checker: Callable[..., dict], k: int = K) -> dict:
+def run(claims: list[dict], pages: list[dict], checker: Callable[..., dict], k: int = K, mode: str = "full") -> dict:
     page_by_id = {str(page["id"]): page for page in pages}
     page_by_url = {str(page.get("url") or ""): page for page in pages}
     records: list[dict] = []
@@ -367,6 +367,7 @@ def run(claims: list[dict], pages: list[dict], checker: Callable[..., dict], k: 
                 str(claim["sentence"]),
                 page_url=str(page.get("url") or ""),
                 page_title=str(page.get("title") or ""),
+                mode=mode,
             )
             elapsed_ms = round((time.perf_counter() - started) * 1000, 1)
         except Exception as exc:  # noqa: BLE001 - 单条失败不中断整批
@@ -452,6 +453,7 @@ def main(argv: Optional[list[str]] = None) -> int:
     parser.add_argument("--out", type=Path, default=DEFAULT_OUT)
     parser.add_argument("--check", action="store_true", help="只校验 pages/claims 完整性")
     parser.add_argument("--limit", type=int, default=0, help="只跑前 N 条（预览用）")
+    parser.add_argument("--mode", choices=("fast", "full"), default="full", help="fast 只判 top-1，full 判前 3 条")
     args = parser.parse_args(argv)
 
     pages_path = args.pages if args.pages else args.data_dir / "pages.json"
@@ -487,7 +489,8 @@ def main(argv: Optional[list[str]] = None) -> int:
 
     if args.limit > 0:
         claims = claims[: args.limit]
-    result = run(claims, pages, checker)
+    result = run(claims, pages, checker, mode=args.mode)
+    result["judge_mode"] = args.mode
     result["data"] = {"pages": _rel(pages_path), "claims": _rel(claims_path)}
     result["checker"] = "citeguard.live_check.check_claim"
     args.out.parent.mkdir(parents=True, exist_ok=True)

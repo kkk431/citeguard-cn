@@ -1052,10 +1052,11 @@ def test_live_check_endpoint_returns_contract(plain_client, monkeypatch):
 
     seen = {}
 
-    def fake(claim, page_url="", page_title=""):
+    def fake(claim, page_url="", page_title="", mode="fast"):
         seen["claim"] = claim
         seen["page_url"] = page_url
         seen["page_title"] = page_title
+        seen["mode"] = mode
         return {
             "label": "support",
             "confidence": 0.91,
@@ -1074,10 +1075,11 @@ def test_live_check_endpoint_returns_contract(plain_client, monkeypatch):
     assert body["ok"] is True
     assert body["label"] == "support"
     assert body["confidence"] == 0.91
-    assert seen == {"claim": "深度学习提高了准确率。", "page_url": "https://arxiv.org/abs/1", "page_title": "标题"}
+    assert seen == {"claim": "深度学习提高了准确率。", "page_url": "https://arxiv.org/abs/1", "page_title": "标题", "mode": "fast"}
 
 
 def test_live_check_rejects_empty_or_oversized_claim(plain_client):
     assert plain_client.post("/api/live/check", json={"claim": "   "}).status_code == 400
     assert plain_client.post("/api/live/check", json={"claim": "x" * 501}).status_code == 400
     assert plain_client.post("/api/live/check", json={"claim": "ok", "page_url": "u" * 2049}).status_code == 400
+    assert plain_client.post("/api/live/check", json={"claim": "ok", "mode": "turbo"}).status_code == 400

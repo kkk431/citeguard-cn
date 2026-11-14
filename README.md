@@ -1,6 +1,6 @@
 # 引证卫士 CiteGuard-CN
 
-> **v1.7.14** · 2026-11-14 · Apache-2.0
+> **v1.7.15** · 2026-11-15 · Apache-2.0
 
 > 给中文论文做一次「引文体检」：**引文是否真实存在、引用是否支持正文那句话、格式是否符合 GB/T 7714-2025**。每条结论都带证据链接。
 
@@ -235,9 +235,9 @@ Content-Type: application/json
 （只抓 arxiv.org / ar5iv，5s/2MB/缓存），并按 DOI/题名补摘要；补不到摘要时只给
 `no_evidence`，不编证据。`no_evidence` 只表示“摘要里找不到依据”，不当成“造假”。
 接口契约与边界见 `docs/live.md`；30 句评测见 `docs/live_eval.md`——公开页集
-hit@3 21/30，冻结 held-out 集无判官 30/30、配云端判官后 28/30；跨语言集 0/30。
-判定模型可选云端 DeepSeek 或本地 Qwen3-14B（本机均已配置）；配判官后 held-out
-19/30 给出判定，但 P50 14.8 s，在线仍以候选+证据为主，不宣称 stance 准确率。
+判定模型可选云端 DeepSeek 或本地 Qwen3-14B（本机均已配置）；`mode=fast` 最多只判 1 条
+有摘要候选，冷缓存 P50 **11.46 s**（`full` 14.81 s），两者 hit@3 同为 **0.9333**；仍不宣称 stance 准确率。
+接口与边界见 `docs/live.md`，数字见 `docs/live_eval.md` §5.6。
 
 ## 目录
 
@@ -260,6 +260,8 @@ citeguard/
 ```
 
 ## 数据与许可证
+
+核心依赖的 CycloneDX SBOM 见 `docs/sbom.json`（`python scripts/make_sbom.py --check` 校验）。
 
 | 资源 | 用途 | 许可证 |
 |---|---|---|
@@ -409,8 +411,8 @@ PYTHONPATH=src python3 scripts/enrich_library_abstracts.py
 
 ## 复现与发布
 
-- 版本：**v1.7.14**；变更见 `CHANGELOG.md`，发布说明见 `docs/release_notes_v1.0.md`
-- 单元测试：`PYTHONPATH=src python -m pytest tests -q`（875 项）
+- 版本：**v1.7.15**；变更见 `CHANGELOG.md`，发布说明见 `docs/release_notes_v1.0.md`
+- 单元测试：`PYTHONPATH=src python -m pytest tests -q`（878 项）
 - 主评测复现：`PYTHONPATH=src python scripts/reproduce_all.py`；每个对外数字的 JSON/命令/样本量见 `docs/evidence_index.md`
 - 文档站：`pip install -r requirements-docs.txt && mkdocs serve`
 - 数据集包：`dist/CiteGuard-CN_ClaimSupport-CN-300_v1.0.zip`（CC-BY-4.0，构造标签）

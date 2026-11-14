@@ -9,7 +9,7 @@ from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DATA_DIR = PROJECT_ROOT / "data"
-CACHE_DIR = DATA_DIR / "cache"
+CACHE_DIR = Path(os.environ.get("CITEGUARD_CACHE_DIR", str(DATA_DIR / "cache")))
 OUT_DIR = PROJECT_ROOT / "out"
 for _d in (DATA_DIR, CACHE_DIR, OUT_DIR):
     _d.mkdir(parents=True, exist_ok=True)

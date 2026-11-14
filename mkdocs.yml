@@ -44,6 +44,7 @@ nav:
   - 开源模型: models.md
   - 模型对比矩阵: model_matrix.md
   - 许可与依赖: licenses.md
+  - 软件物料清单: sbom.md
   - 路线图: plan_national.md
 markdown_extensions:
   - tables

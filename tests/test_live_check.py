@@ -183,7 +183,43 @@ def test_judge_path_keeps_grounded_quote(monkeypatch):
     assert result["evidence"]["title"] == "Tutoring and outcomes"
 
 
-def test_fabricated_judge_quote_is_dropped(monkeypatch):
+def test_fast_mode_judges_only_the_top_candidate(monkeypatch):
+    abstract_a = "Intelligent tutoring systems improve student learning outcomes in higher education."
+    abstract_b = "A different study finds no effect of tutoring on exam scores."
+    _patch_searches(
+        monkeypatch,
+        openalex=[
+            _candidate("Tutoring and outcomes", abstract_a, doi="10.1000/a"),
+            _candidate("A null result", abstract_b, doi="10.1000/b"),
+        ],
+    )
+    calls = []
+
+    def fake_judge(claim, abstract, title="", doi=""):
+        calls.append(doi)
+        return {
+            "label": "support",
+            "confidence": 0.9,
+            "reason": "test",
+            "evidence": abstract_a,
+        }
+
+    monkeypatch.setattr(live_check.support, "judge_available", lambda: True)
+    monkeypatch.setattr(live_check.support, "judge_support", fake_judge)
+
+    fast = live_check.check_claim("AI tutoring improves learning outcomes", mode="fast")
+    assert fast["judge_mode"] == "fast"
+    assert fast["judge_calls"] == 1
+    assert len(calls) == 1
+
+    calls.clear()
+    full = live_check.check_claim("AI tutoring improves learning outcomes", mode="full")
+    assert full["judge_mode"] == "full"
+    assert full["judge_calls"] == 2
+    assert len(calls) == 2
+
+
+
     abstract = "Intelligent tutoring systems improve student learning outcomes in higher education."
     _patch_searches(monkeypatch, openalex=[_candidate("Tutoring and outcomes", abstract)])
     monkeypatch.setattr(live_check.support, "judge_available", lambda: True)

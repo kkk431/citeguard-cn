@@ -47,7 +47,7 @@ def make_result(label="support", candidates=None, confidence=0.9):
 
 
 def fake_checker(candidates=None, label="support"):
-    def _check(claim, page_url="", page_title=""):
+    def _check(claim, page_url="", page_title="", mode="full"):
         return make_result(label=label, candidates=candidates or [])
 
     return _check
@@ -85,7 +85,7 @@ def test_empty_candidates_are_counted_but_not_a_failure():
 
 
 def test_checker_exception_is_recorded_as_failure():
-    def boom(claim, page_url="", page_title=""):
+    def boom(claim, page_url="", page_title="", mode="full"):
         raise RuntimeError("network down")
 
     result = eval_live.run([make_claim()], [make_page()], boom)

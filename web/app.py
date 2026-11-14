@@ -102,7 +102,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.7.14", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.7.15", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 
@@ -2670,6 +2670,7 @@ _LIVE_CHECK_BODY = {
         "claim": {"type": "string", "minLength": 1, "maxLength": 500},
         "page_url": {"type": "string", "maxLength": 2048},
         "page_title": {"type": "string", "maxLength": 300},
+        "mode": {"type": "string", "enum": ["fast", "full"], "default": "fast"},
     },
 }
 
@@ -2687,6 +2688,9 @@ async def live_check(request: Request):
     claim = str(payload.get("claim") or "").strip()
     page_url = str(payload.get("page_url") or "").strip()
     page_title = str(payload.get("page_title") or "").strip()
+    mode = str(payload.get("mode") or "fast").strip().lower()
+    if mode not in {"fast", "full"}:
+        raise HTTPException(status_code=400, detail="mode 只能是 fast 或 full")
     if not claim:
         raise HTTPException(status_code=400, detail="claim 不能为空")
     if len(claim) > 500:
@@ -2697,7 +2701,7 @@ async def live_check(request: Request):
         raise HTTPException(status_code=400, detail="page_title 最长 300 字符")
     from citeguard import live_check as live_mod
 
-    result = live_mod.check_claim(claim, page_url=page_url, page_title=page_title)
+    result = live_mod.check_claim(claim, page_url=page_url, page_title=page_title, mode=mode)
     return {"ok": True, **result}
 
 
