@@ -384,14 +384,29 @@ def run_api_case(
     write_storage: bool = True,
 ) -> dict[str, Any]:
     record: dict[str, Any] = {"request": request, "status": None, "payload": None, "response": None}
+    responses: list[Any] = []
+
+    def _collect(response: Any) -> None:
+        if "/api/live/check" in response.url and response.request.method == "POST":
+            responses.append(response)
+
+    panel.on("response", _collect)
     try:
-        with panel.expect_response(
-            lambda response: "/api/live/check" in response.url
-            and response.request.method == "POST",
+        record["handoff"] = trigger_request(worker, request, write_storage=write_storage)
+        panel.wait_for_function(
+            """() => {
+              const result = document.getElementById("state-result");
+              const error = document.getElementById("state-error");
+              return Boolean((result && !result.hidden) || (error && !error.hidden));
+            }""",
             timeout=timeout_ms,
-        ) as response_info:
-            record["handoff"] = trigger_request(worker, request, write_storage=write_storage)
-        response = response_info.value
+        )
+        # Two-phase live: retrieve response first, judge response last. Always
+        # validate the final response against the rendered panel.
+        panel.wait_for_timeout(300)
+        if not responses:
+            raise RuntimeError("no /api/live/check response observed")
+        response = responses[-1]
         record["status"] = response.status
         record["request_url"] = response.url
         try:
@@ -402,16 +417,10 @@ def run_api_case(
             record["response"] = response.json()
         except Exception as exc:  # noqa: BLE001 - a non-JSON body is a finding
             record["response_error"] = f"{type(exc).__name__}: {exc}"
-        panel.wait_for_function(
-            """() => {
-              const result = document.getElementById("state-result");
-              const error = document.getElementById("state-error");
-              return Boolean((result && !result.hidden) || (error && !error.hidden));
-            }""",
-            timeout=15_000,
-        )
     except Exception as exc:  # noqa: BLE001 - the caller records a failed check
         record["exception"] = f"{type(exc).__name__}: {exc}"
+    finally:
+        panel.remove_listener("response", _collect)
     record["dom"] = read_panel(panel)
     if screenshot is not None:
         panel.screenshot(path=str(screenshot), full_page=True)
@@ -613,7 +622,7 @@ def main(argv: list[str] | None = None) -> int:
             for key in ("manifest_version", "name", "version", "minimum_chrome_version")
         }
         check("manifest_version 为 3", manifest.get("manifest_version") == 3)
-        check("扩展版本为 0.2.0", manifest.get("version") == "0.2.0")
+        check("扩展版本为 0.2.1", manifest.get("version") == "0.2.1")
         check(
             "manifest 声明 side panel",
             (manifest.get("side_panel") or {}).get("default_path") == "sidepanel.html",
