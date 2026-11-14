@@ -2,6 +2,15 @@
 {% block title %}CiteMap · 证据地图 · 引证卫士 CiteGuard{% endblock %}
 {% block content %}
 <link rel="stylesheet" href="/static/css/citemap.css?v={{ request.app.version }}">
+{% set section_tabs = [
+  ('figure', '/figure', '图表核验', '图中结论是否成立'),
+  ('compare', '/compare', '多篇对比', '横向看几篇论文'),
+  ('discover', '/discover', '文献发现', '按主题找候选'),
+  ('citemap', '/citemap', 'CiteMap', '证据地图'),
+  ('live', '/live', 'Live 试用', '划一句查摘要')
+] %}
+{% set section_tab = 'citemap' %}
+{% include "_section_tabs.html" %}
 {% set initial_topic = current_topic or (payload.topic.topic_id if payload and payload.topic else (topics[0].topic_id if topics else '')) %}
 {% set switch_topics = topics if topics else [
   {'topic_id': 'ai_education', 'name_zh': 'AI 教育'},
