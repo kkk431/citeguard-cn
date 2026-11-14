@@ -2,7 +2,8 @@
 
 - CiteMap 桌面布局改为固定高度两栏：`.ctm-layout` 560–800px（视口自适应），左侧论文清单与右侧详情**各自滚动**，详情标题吸顶，证据/机器抽取区在宽屏两列排布；切换论文时详情回到顶部。解决“右侧无限拉长、左右不均、要滚到底”的问题。
 - 人工示例与机器证据去重：同一断言下，把归一化后逐字包含（≥40 字符）的机器引用合并到人工卡片，机器区只列未重复证据；主题统计新增“已合并重合”。AI 教育合并 7 条、医学影像 1 条，机器证据从 25 条去重为 18 条；被合并的 60 格抽样仍挂在人工卡片上，核对入口不丢失。
-- 版本 1.7.12；`pytest` 869 passed；证据 E85、截图 `docs/evidence/shots/phase-55-citemap-layout-1.7.12.png`。
+- Docker：`citeguard-cn:1.7.12` 构建成功，容器 `-p 18084:8000 -e CITEGUARD_OFFLINE=1` health `{"ok":true,"version":"1.7.12","offline":true}`（日志 `docs/evidence/logs/docker-1.7.12-health.txt`）。
+- 版本 1.7.12；`pytest` 869 passed；证据 E85、E86、截图 `docs/evidence/shots/phase-55-citemap-layout-1.7.12.png`。
 
 ## [1.7.11] - 2026-11-14
 

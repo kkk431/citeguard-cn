@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 156,
+  "paths_checked": 157,
   "missing": [],
   "rows": [
     {
@@ -191,6 +191,16 @@
     {
       "evidence": "E83",
       "path": "docs/evidence/shots/phase-52-citemap-auto-1.7.11.png",
+      "exists": true
+    },
+    {
+      "evidence": "E86",
+      "path": "docs/evidence/logs/docker-1.7.12-health.txt",
+      "exists": true
+    },
+    {
+      "evidence": "E86",
+      "path": "docs/evidence/logs/docker-1.7.12-health.txt",
       "exists": true
     },
     {

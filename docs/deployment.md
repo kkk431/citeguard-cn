@@ -299,12 +299,12 @@ ssh -L 18000:127.0.0.1:8000 jxy-2
 本机 Docker Desktop（engine 29.9.2）已实际构建并跑通：
 
 ```bash
-docker build -f docker/Dockerfile -t citeguard-cn:1.7.8 .
+docker build -f docker/Dockerfile -t citeguard-cn:1.7.12 .
 docker run -d --rm --name cg-test -p 8020:8000 \
-  -v "$PWD/data/real_corpus:/samples:ro" citeguard-cn:1.7.8
+  -v "$PWD/data/real_corpus:/samples:ro" citeguard-cn:1.7.12
 ```
 
-- `/api/health` 返回 `{"ok":true,"version":"1.7.8"}`，容器状态 healthy；
+- `/api/health` 返回 `{"ok":true,"version":"1.7.12"}`，容器状态 healthy；
 - 通过容器内接口上传真实论文 `hanspub_152575.pdf`，得到 15 条引用
   （6 Exact / 8 Minor / 0 Major / 1 Unknown，Unknown 是外部源当时抖动，重跑可能变 Exact）；
 - 镜像内不含任何 API Key；不挂 Key 时支持度显示 `not_checked`，核验与格式检查仍可用。
@@ -313,13 +313,13 @@ docker run -d --rm --name cg-test -p 8020:8000 \
 
 ```bash
 cd citeguard
-docker build -f docker/Dockerfile -t citeguard-cn:1.7.8 .
+docker build -f docker/Dockerfile -t citeguard-cn:1.7.12 .
 
 docker run --rm -p 127.0.0.1:8000:8000 \
   -e DEEPSEEK_API_KEY="${DEEPSEEK_API_KEY:-}" \
   -v "$PWD/data/jobs:/app/data/jobs" \
   -v "$PWD/data/cache:/app/data/cache" \
-  citeguard-cn:1.7.8
+  citeguard-cn:1.7.12
 ```
 
 镜像内固定 `PYTHONPATH=/app/src`，启动命令：
@@ -355,7 +355,7 @@ docker compose -f docker/docker-compose.yml logs -f citeguard
 
 ```bash
 # 有网机器
-docker save citeguard-cn:1.7.8 | gzip > citeguard-cn-0.9.17.tar.gz
+docker save citeguard-cn:1.7.12 | gzip > citeguard-cn-0.9.17.tar.gz
 # 目标机器
 docker load < citeguard-cn-0.9.17.tar.gz
 ```
