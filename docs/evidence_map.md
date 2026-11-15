@@ -428,3 +428,13 @@ payload = em.topic_payload("ai_education")  # JSON-ready dict，供 Web 层直�
 - 机器断言是论文摘要中的一个结果句，**只表示论文报告过该句**，不是跨论文综合，也不代表支持任何人工主断言。
 - 复现：`python scripts/fill_citemap_machine.py`（幂等，会先移除旧的 `<topic>_mNNN` / `<topic>_emNNN` 层，再补齐无人工证据的论文）。
 - 校验：`tests/test_citemap_machine_layer.py` 断言 30 篇全覆盖、机器层字段合法、人工证据未被改写。
+
+## 全文证据层（1.7.30）
+
+1.7.29 的离线全文核验（21 条原子断言 × 21 篇可获取 OA 全文）已作为**独立机器层**接入产品：
+
+- 数据：`data/evidence_map/extractions_fulltext/{topic}.json`，由 `scripts/build_citemap_fulltext_layer.py` 从 `citemap_atomic_fulltext_v2.json` 生成；
+- 只保留 `full` / `partial` 且逐字引用命中的证据；同一原子断言优先显示全文证据，未被全文覆盖时才回退摘要级原子层；
+- 卡片标注「全文证据 · 逐字引用 · 未人审」，`verified=false`，与人工示例严格分层；
+- 105 格人工对照：有全文且人工判正确的 7 格中，支持证据召回 6/7、完整支持 5/7；这是小样本，不能当普适准确率。
+

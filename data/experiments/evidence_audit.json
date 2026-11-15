@@ -1,8 +1,13 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 204,
+  "paths_checked": 205,
   "missing": [],
   "rows": [
+    {
+      "evidence": "E103",
+      "path": "docs/evidence/shots/phase-64-citemap-fulltext-layer-1.7.30.png",
+      "exists": true
+    },
     {
       "evidence": "E102",
       "path": "data/experiments/citemap_atomic_fulltext.json",
@@ -909,6 +914,6 @@
       "exists": true
     }
   ],
-  "shots_registered": 95,
+  "shots_registered": 96,
   "shots_unregistered": []
 }

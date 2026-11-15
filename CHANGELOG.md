@@ -1,5 +1,12 @@
 ## [1.7.28] - 2026-11-15
 
+## [1.7.30] - 2026-11-15
+
+### Added
+
+- CiteMap 全文证据层：把 1.7.29 的离线全文核验结果（full/partial）作为独立机器层接入产品，与摘要级原子层分层展示；同一原子断言优先显示全文证据，卡片标注「全文证据 · 逐字引用 · 未人审」，不冒充人工核对。
+- `scripts/build_citemap_fulltext_layer.py` 生成 `data/evidence_map/extractions_fulltext/{topic}.json`；API 合并、前端统计与标签同步。
+
 ## [1.7.29] - 2026-11-15
 
 - CiteMap full-text verification: candidate retrieval top-6 -> top-12; the Chinese-to-English query now requests 6-12 keywords including synonyms/evaluation terms (still retrieval-only, never evidence); the judge accepts "comparable to / better than the clinician" and numeric non-inferiority as `full` when the claim asks for specialist-level performance.

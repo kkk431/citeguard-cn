@@ -102,7 +102,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.7.29", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.7.30", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 
@@ -2072,10 +2072,38 @@ def _citemap_dir() -> Path:
     return config.DATA_DIR / "evidence_map"
 
 
+def _citemap_fulltext_evidence(topic_id: str) -> list[dict]:
+    """Full-text verified atomic evidence, kept separate from abstract-only."""
+    path = _citemap_dir() / "extractions_fulltext" / f"{topic_id}.json"
+    if not path.exists():
+        return []
+    data = _read_json_file(path) or {}
+    atomic_doc = _read_json_file(_citemap_dir() / "claims_atomic.json") or {}
+    atomic_topic = (atomic_doc.get("topics") or {}).get(topic_id) or {}
+    texts = {
+        item.get("atomic_id"): item.get("text", "")
+        for item in (atomic_topic.get("claims") or [])
+    }
+    out: list[dict] = []
+    for item in data.get("evidence") or []:
+        atomic_id = item.get("atomic_id") or item.get("claim_id")
+        parent = item.get("parent_claim_id") or item.get("claim_id")
+        row = dict(item)
+        row["atomic"] = True
+        row["atomic_claim_id"] = atomic_id
+        row["parent_claim_id"] = parent
+        row["claim_id"] = parent
+        row["claim"] = texts.get(atomic_id, "")
+        row["fulltext"] = True
+        out.append(row)
+    return out
+
+
 def _citemap_auto(topic_id: str) -> list[dict]:
+    fulltext = _citemap_fulltext_evidence(topic_id)
     path = _citemap_auto_path(topic_id)
     if path is None:
-        return []
+        return fulltext
     data = _read_json_file(path) or {}
     evidence = list(data.get("evidence") or [])
     if path.parent.name == "extractions_atomic":
@@ -2095,7 +2123,14 @@ def _citemap_auto(topic_id: str) -> list[dict]:
             item["parent_claim_id"] = item.get("parent_claim_id") or item.get("claim_id")
             item["claim_id"] = item.get("parent_claim_id")
             item["claim"] = texts.get(atomic_id, item.get("claim", ""))
-    return evidence
+    # Full-text evidence wins over the abstract-only row for the same atomic
+    # claim; the latter is kept only when no full-text verification exists.
+    covered = {(row.get("paper_id"), row.get("atomic_claim_id")) for row in fulltext}
+    merged = fulltext + [
+        row for row in evidence
+        if (row.get("paper_id"), row.get("atomic_claim_id") or row.get("atomic_id") or row.get("claim_id")) not in covered
+    ]
+    return merged
 
 
 def _citemap_auto_path(topic_id: str) -> Path | None:
@@ -2119,11 +2154,18 @@ def _citemap_machine_layer(topic_id: str) -> dict:
 
 def _citemap_auto_meta(topic_id: str) -> dict:
     path = _citemap_auto_path(topic_id)
-    if path is None:
+    fulltext = _citemap_fulltext_evidence(topic_id)
+    if path is None and not fulltext:
         return {"layer": "none", "count": 0, "note": "暂无机抽取结果"}
-    data = _read_json_file(path) or {}
-    layer = path.parent.name
-    if layer == "extractions_atomic":
+    layer = path.parent.name if path is not None else "none"
+    if fulltext:
+        layer = "extractions_fulltext" if layer == "none" else f"extractions_fulltext+{layer}"
+        note = (
+            "全文核验证据：把原子断言拿到可获取的 OA 全文里逐句检索，只保留"
+            "full/partial 且逐字引用命中的句子；同一原子断言优先显示全文证据。"
+            "仍是机器结果，未经人工核对。"
+        )
+    elif layer == "extractions_atomic":
         note = (
             "原子证据：复合断言先拆成可单句核对的原子命题，再逐条抽取并由独立复核确认；"
             "引文只对应某一条原子命题，不代表支持整条主断言。仍是机器结果，未经人工核对。"
@@ -2135,7 +2177,11 @@ def _citemap_auto_meta(topic_id: str) -> dict:
         )
     else:
         note = "机器候选：相关句子，未经严格复核；不能当作已验证。"
-    return {"layer": layer, "count": len(data.get("evidence") or []), "note": note}
+    if fulltext:
+        count = len(_citemap_auto(topic_id))
+    else:
+        count = len((_read_json_file(path) or {}).get("evidence") or []) if path else 0
+    return {"layer": layer, "count": count, "note": note}
 
 
 def _citemap_packet() -> list[dict]:

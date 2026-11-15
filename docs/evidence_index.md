@@ -22,11 +22,12 @@
 | 扫描件 OCR **23/24 条** | `data/experiments/ocr_scan_real.json` | `PYTHONPATH=src python scripts/eval_ocr_scanned.py --input <pdf>` | 7 页扫描 PDF，题名/年份/作者 23/23 |
 | GB/T E4 严格控制漂移 **29/30** | `data/experiments/e4_format.json` | `PYTHONPATH=src python scripts/e4_format_check.py` | 30 个构造样本 |
 | 万方中文强命中 **111/184** | `data/experiments/wanfang_batch.json` | 见 `docs/chinese_sources.md` | 184 条中文题录，试用配额；非全样本 |
-| 测试 **938 passed** | `pytest -q` | `PYTHONPATH=src python -m pytest tests -q` | 本地 Python 3.13 |
+| 测试 **939 passed** | `pytest -q` | `PYTHONPATH=src python -m pytest tests -q` | 本地 Python 3.13 |
 | SBOM **10 个核心依赖** | `docs/sbom.json`、`scripts/make_sbom.py`、`tests/test_sbom.py` | `PYTHONPATH=src python scripts/make_sbom.py --check` | CycloneDX 1.5；版本与 `web/app.py` 一致 |
 | 交付自检 **137/137** | `scripts/verify_artifacts.py` | `PYTHONPATH=src python scripts/verify_artifacts.py` | 版本/路由/文档/数字一致性 |
 | 知网导入 **22 → 27 条，Exact** | `data/library/cnki_demo.enw`、`data/library/library.json` | `PYTHONPATH=src python -m citeguard.cli --import-library data/library/cnki_demo.enw` | 5 条机构导出题录 |
 | Live 中文无页面检索 hit@3 **0 → 2/30** | `data/live_eval/live_eval_crosslingual_nopage.json`、`scripts/eval_live_crosslingual_nopage.py` | `PYTHONPATH=src python scripts/eval_live_crosslingual_nopage.py --mode fast` | 30 条真实中文引用句、去掉页面上下文；整句翻译 0/30，改 3–8 个英文检索关键词后 2/30；边缘路径诊断，不宣称跨语言检索已解决 |
+| E103 | CiteMap 全文证据层接入产品（1.7.30） | `scripts/build_citemap_fulltext_layer.py`、`data/evidence_map/extractions_fulltext/`、`tests/test_citemap_fulltext_layer.py`、`web/app.py`（`_citemap_fulltext_evidence`/`_citemap_auto`）、`web/static/js/citemap.js` | 1.7.29 的全文核验（full 7 / partial 13）作为独立机器层显示：同一原子断言优先全文证据，未被全文覆盖才回退摘要原子层；卡片标「全文证据 · 逐字引用 · 未人审」，`verified=false`；人工层不变。 | `docs/evidence/shots/phase-64-citemap-fulltext-layer-1.7.30.png` |
 | E102 | Europe PMC 全文回退与 21 篇全文评测（1.7.29） | `scripts/fetch_citemap_fulltext.py`（`europepmc_text`/`jats_text`）、`tests/test_citemap_fulltext_fetch.py`、`data/experiments/citemap_atomic_fulltext.json`、`data/experiments/citemap_atomic_fulltext_summary.json`、`docs/citemap_atomic_fulltext.md` | 出版社 PDF 被拦时按 DOI 查 Europe PMC `fullTextXML`，全文覆盖 8→21/30；21 条原子断言 × 21 篇全文 = 213 组合，full 7 / partial 13 / none 193；人工正例（有全文）3/7 命中；不是全量准确率。 |
 
 

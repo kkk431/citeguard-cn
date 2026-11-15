@@ -70,7 +70,12 @@
 
   function autoLabel() {
     const layer = state.payload && state.payload.auto_meta ? state.payload.auto_meta.layer : "";
+    if (layer.indexOf("extractions_fulltext") === 0) return "全文证据";
     return layer === "extractions_atomic" ? "原子证据" : "机器候选";
+  }
+
+  function isFulltextEvidence(ev) {
+    return !!(ev && ev.fulltext);
   }
 
   const state = {
@@ -435,10 +440,12 @@
     const humanEvidence = evidence.filter(function (ev) { return !isMachineEvidence(ev); });
     const machineEvidence = evidence.filter(isMachineEvidence);
     const autoUniq = autoUniqueForTopic();
-    const atomicAuto = autoUniq.filter(function (ev) { return ev && ev.atomic; });
+    const fulltextAuto = autoUniq.filter(isFulltextEvidence);
+    const atomicAuto = autoUniq.filter(function (ev) { return ev && ev.atomic && !isFulltextEvidence(ev); });
     const otherAuto = autoUniq.filter(function (ev) { return !(ev && ev.atomic); });
     const atomicCount = atomicAuto.length + humanEvidence.filter(function (ev) { return ev && ev.atomic; }).length;
     if (humanEvidence.length) addStat("条人工示例", humanEvidence.length);
+    if (fulltextAuto.length) addStat("条全文证据", fulltextAuto.length);
     if (atomicCount) addStat("条原子证据", atomicCount);
     if (machineEvidence.length) addStat("条论文自述", machineEvidence.length);
     if (otherAuto.length) addStat("条机器候选", otherAuto.length);
@@ -838,7 +845,9 @@
         make(
           "p",
           "ctm-evidence-note",
-          "这是论文摘要中的结论句，不是对上方人工断言的证据；机器层未人审，不能当作断言成立依据。"
+          isFulltextEvidence(ev)
+            ? "这是对原子断言的全文逐句核验，引用逐字命中；机器结果未人审，不能当作人工金标。"
+            : "这是论文摘要中的结论句，不是对上方人工断言的证据；机器层未人审，不能当作断言成立依据。"
         )
       );
     }
@@ -852,9 +861,11 @@
     const top = make("div", "ctm-evidence-top");
     const stance = normalizeStance(ev.stance);
     top.append(makeTag(STANCE_LABELS[stance], "ctm-stance ctm-stance--" + stance));
-    const autoTag = ev.atomic
-      ? "原子证据 · 仅摘要 · 未人审"
-      : (isMachineEvidence(ev) ? "论文自述结论 · 仅摘要 · 未人审" : autoLabel() + " · 仅摘要 · 未人审");
+    const autoTag = isFulltextEvidence(ev)
+      ? "全文证据 · 逐字引用 · 未人审"
+      : (ev.atomic
+        ? "原子证据 · 仅摘要 · 未人审"
+        : (isMachineEvidence(ev) ? "论文自述结论 · 仅摘要 · 未人审" : autoLabel() + " · 仅摘要 · 未人审"));
     top.append(makeTag(autoTag, "ctm-extractor ctm-extractor--auto"));
     if (cell) top.append(makeTag("抽样格", "ctm-cell-tag"));
     top.append(renderConfidence(ev.confidence));
