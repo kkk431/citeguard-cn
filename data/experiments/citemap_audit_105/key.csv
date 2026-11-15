@@ -1,0 +1,106 @@
+﻿cell_id,topic_id,paper_id,claim_id,cell_kind,machine_stance,machine_confidence,evidence_id,evidence_quote,sampled_60,full_grid_105
+full-ai_education-edu-001-edu-c1,ai_education,edu-001,edu-c1,机器证据,support,0.8,,"The findings validate seven out of the eleven proposed hypotheses, underscoring the influential role of ECM constructs, particularly ""Confirmation"" and ""Satisfaction,"" outweighing the impact of UTAUT constructs on users' behavior.",,1
+full-ai_education-edu-001-edu-c2,ai_education,edu-001,edu-c2,无机器证据,,,,,,1
+full-ai_education-edu-001-edu-c3,ai_education,edu-001,edu-c3,无机器证据,,,,,,1
+full-ai_education-edu-001-edu-c4,ai_education,edu-001,edu-c4,无机器证据,,,,,,1
+full-ai_education-edu-002-edu-c1,ai_education,edu-002,edu-c1,机器证据,support,0.9,,AI literacy and SRL significantly and positively predict students' writing performance,,1
+full-ai_education-edu-002-edu-c2,ai_education,edu-002,edu-c2,无机器证据,,,,,,1
+full-ai_education-edu-002-edu-c3,ai_education,edu-002,edu-c3,无机器证据,,,,,,1
+full-ai_education-edu-002-edu-c4,ai_education,edu-002,edu-c4,无机器证据,,,,,,1
+full-ai_education-edu-003-edu-c1,ai_education,edu-003,edu-c1,无机器证据,,,,,,1
+full-ai_education-edu-003-edu-c2,ai_education,edu-003,edu-c2,无机器证据,,,,,,1
+full-ai_education-edu-003-edu-c3,ai_education,edu-003,edu-c3,无机器证据,,,,,,1
+full-ai_education-edu-003-edu-c4,ai_education,edu-003,edu-c4,无机器证据,,,,,,1
+full-ai_education-edu-004-edu-c1,ai_education,edu-004,edu-c1,无机器证据,,,,,,1
+full-ai_education-edu-004-edu-c2,ai_education,edu-004,edu-c2,无机器证据,,,,,,1
+full-ai_education-edu-004-edu-c3,ai_education,edu-004,edu-c3,无机器证据,,,,,,1
+full-ai_education-edu-004-edu-c4,ai_education,edu-004,edu-c4,无机器证据,,,,,,1
+full-ai_education-edu-005-edu-c1,ai_education,edu-005,edu-c1,机器证据,support,0.8,,"AI literacy (i.e., students' AI ethics, evaluation, and awareness) positively affect their attitudes, subjective norms, and perceived behavioral control",,1
+full-ai_education-edu-005-edu-c2,ai_education,edu-005,edu-c2,无机器证据,,,,,,1
+full-ai_education-edu-005-edu-c3,ai_education,edu-005,edu-c3,无机器证据,,,,,,1
+full-ai_education-edu-005-edu-c4,ai_education,edu-005,edu-c4,机器证据,support,0.6,,Gender and regional differences moderate the key relationships.,,1
+full-ai_education-edu-006-edu-c1,ai_education,edu-006,edu-c1,无机器证据,,,,,,1
+full-ai_education-edu-006-edu-c2,ai_education,edu-006,edu-c2,机器证据,support,0.8,,Extensive experiments are conducted over a series of real datasets showing that our proposal accurately captures students' knowledge states.,,1
+full-ai_education-edu-006-edu-c3,ai_education,edu-006,edu-c3,无机器证据,,,,,,1
+full-ai_education-edu-006-edu-c4,ai_education,edu-006,edu-c4,无机器证据,,,,,,1
+full-ai_education-edu-007-edu-c1,ai_education,edu-007,edu-c1,机器证据,support,0.7,,students’ perceptions of AI utilization at a leading Chinese university,,1
+full-ai_education-edu-007-edu-c2,ai_education,edu-007,edu-c2,无机器证据,,,,,,1
+full-ai_education-edu-007-edu-c3,ai_education,edu-007,edu-c3,机器证据,contradict,0.8,,noted its limitations in complex problem-solving,,1
+full-ai_education-edu-007-edu-c4,ai_education,edu-007,edu-c4,无机器证据,,,,,,1
+full-ai_education-edu-008-edu-c1,ai_education,edu-008,edu-c1,无机器证据,,,,,,1
+full-ai_education-edu-008-edu-c2,ai_education,edu-008,edu-c2,无机器证据,,,,,,1
+full-ai_education-edu-008-edu-c3,ai_education,edu-008,edu-c3,机器证据,contradict,0.6,,"the study finds that effort expectancy (EE), facilitating conditions (FC), and price value (PV) significantly influence teachers' actual usage behaviour (UB).",,1
+full-ai_education-edu-008-edu-c4,ai_education,edu-008,edu-c4,无机器证据,,,,,,1
+full-ai_education-edu-009-edu-c1,ai_education,edu-009,edu-c1,无机器证据,,,,,,1
+full-ai_education-edu-009-edu-c2,ai_education,edu-009,edu-c2,无机器证据,,,,,,1
+full-ai_education-edu-009-edu-c3,ai_education,edu-009,edu-c3,无机器证据,,,,,,1
+full-ai_education-edu-009-edu-c4,ai_education,edu-009,edu-c4,机器证据,support,0.8,,"female students demonstrate lower levels of AI learning attitude, AI literacy, and AI career interest compared to their male counterparts",,1
+full-ai_education-edu-010-edu-c1,ai_education,edu-010,edu-c1,无机器证据,,,,,,1
+full-ai_education-edu-010-edu-c2,ai_education,edu-010,edu-c2,无机器证据,,,,,,1
+full-ai_education-edu-010-edu-c3,ai_education,edu-010,edu-c3,无机器证据,,,,,,1
+full-ai_education-edu-010-edu-c4,ai_education,edu-010,edu-c4,机器证据,support,0.8,,AI education policies may inadvertently perpetuate existing inequities,,1
+full-ai_education-edu-011-edu-c1,ai_education,edu-011,edu-c1,无机器证据,,,,,,1
+full-ai_education-edu-011-edu-c2,ai_education,edu-011,edu-c2,机器证据,support,0.8,,"because the systems leverage machine learning and adaptability, curriculum and content has been customized and personalized in line with students' needs, which has fostered uptake and retention, thereby improving learners experience and overall quality of learning.",,1
+full-ai_education-edu-011-edu-c3,ai_education,edu-011,edu-c3,机器证据,contradict,0.5,,"On the other hand, because the systems leverage machine learning and adaptability, curriculum and content has been customized and personalized in line with students' needs, which has fostered uptake and retention, thereby improving learners experience and overall quality of learning.",,1
+full-ai_education-edu-011-edu-c4,ai_education,edu-011,edu-c4,无机器证据,,,,,,1
+full-ai_education-edu-012-edu-c1,ai_education,edu-012,edu-c1,机器证据,support,0.8,,A survey of 399 undergraduate and postgraduate students from various disciplines in Hong Kong revealed a generally positive attitude towards GenAI in teaching and learning.,,1
+full-ai_education-edu-012-edu-c2,ai_education,edu-012,edu-c2,无机器证据,,,,,,1
+full-ai_education-edu-012-edu-c3,ai_education,edu-012,edu-c3,机器证据,contradict,0.6,,"However, concerns about accuracy, privacy, ethical issues, and the impact on personal development, career prospects, and societal values were also expressed.",,1
+full-ai_education-edu-012-edu-c4,ai_education,edu-012,edu-c4,无机器证据,,,,,,1
+full-ai_education-edu-013-edu-c1,ai_education,edu-013,edu-c1,无机器证据,,,,,,1
+full-ai_education-edu-013-edu-c2,ai_education,edu-013,edu-c2,无机器证据,,,,,,1
+full-ai_education-edu-013-edu-c3,ai_education,edu-013,edu-c3,机器证据,contradict,0.5,,"The framework fosters a nuanced understanding of the implications of AI integration in academic settings, ensuring that stakeholders are aware of their responsibilities and can take appropriate actions accordingly",,1
+full-ai_education-edu-013-edu-c4,ai_education,edu-013,edu-c4,无机器证据,,,,,,1
+full-ai_education-edu-014-edu-c1,ai_education,edu-014,edu-c1,无机器证据,,,,,,1
+full-ai_education-edu-014-edu-c2,ai_education,edu-014,edu-c2,无机器证据,,,,,,1
+full-ai_education-edu-014-edu-c3,ai_education,edu-014,edu-c3,无机器证据,,,,,,1
+full-ai_education-edu-014-edu-c4,ai_education,edu-014,edu-c4,无机器证据,,,,,,1
+full-ai_education-edu-015-edu-c1,ai_education,edu-015,edu-c1,无机器证据,,,,,,1
+full-ai_education-edu-015-edu-c2,ai_education,edu-015,edu-c2,无机器证据,,,,,,1
+full-ai_education-edu-015-edu-c3,ai_education,edu-015,edu-c3,无机器证据,,,,,,1
+full-ai_education-edu-015-edu-c4,ai_education,edu-015,edu-c4,无机器证据,,,,,,1
+full-medical_imaging-med-001-med-c1,medical_imaging,med-001,med-c1,机器证据,support,0.8,,"The experimental results show the significant performance boost by the SDAE-based CADx algorithm over the two conventional methods, suggesting that deep learning techniques can potentially change the design paradigm of the CADx systems without the need of explicit design and selection of problem-oriented features.",,1
+full-medical_imaging-med-001-med-c2,medical_imaging,med-001,med-c2,无机器证据,,,,,,1
+full-medical_imaging-med-001-med-c3,medical_imaging,med-001,med-c3,无机器证据,,,,,,1
+full-medical_imaging-med-002-med-c1,medical_imaging,med-002,med-c1,机器证据,support,0.9,,comparable with the diagnostic level of doctors' consensus (70.8%),,1
+full-medical_imaging-med-002-med-c2,medical_imaging,med-002,med-c2,无机器证据,,,,,,1
+full-medical_imaging-med-002-med-c3,medical_imaging,med-002,med-c3,无机器证据,,,,,,1
+full-medical_imaging-med-003-med-c1,medical_imaging,med-003,med-c1,机器证据,support,0.9,,"In manual selection group, ResNet50 presented higher diagnostic efficiency in diagnosis of in vivo VRF teeth than VGG19, DensenNet169 and radiologist with 2 years of experience.",,1
+full-medical_imaging-med-003-med-c2,medical_imaging,med-003,med-c2,无机器证据,,,,,,1
+full-medical_imaging-med-003-med-c3,medical_imaging,med-003,med-c3,无机器证据,,,,,,1
+full-medical_imaging-med-004-med-c1,medical_imaging,med-004,med-c1,机器证据,support,0.8,,"With the assistance of our proposed DL model, radiologists got better performance in the detection of AIS lesions on NCCT.",,1
+full-medical_imaging-med-004-med-c2,medical_imaging,med-004,med-c2,无机器证据,,,,,,1
+full-medical_imaging-med-004-med-c3,medical_imaging,med-004,med-c3,无机器证据,,,,,,1
+full-medical_imaging-med-005-med-c1,medical_imaging,med-005,med-c1,机器证据,support,0.8,,the proposed approach would be able to serve as a valuable tool for assisting dermatologists in the early detection of melanoma,,1
+full-medical_imaging-med-005-med-c2,medical_imaging,med-005,med-c2,无机器证据,,,,,,1
+full-medical_imaging-med-005-med-c3,medical_imaging,med-005,med-c3,无机器证据,,,,,,1
+full-medical_imaging-med-006-med-c1,medical_imaging,med-006,med-c1,机器证据,support,0.8,,Stone detection rates of ULD-HIR and ULD-DLR images were 93.1% (121/130) and 95.4% (124/130).,,1
+full-medical_imaging-med-006-med-c2,medical_imaging,med-006,med-c2,无机器证据,,,,,,1
+full-medical_imaging-med-006-med-c3,medical_imaging,med-006,med-c3,无机器证据,,,,,,1
+full-medical_imaging-med-007-med-c1,medical_imaging,med-007,med-c1,机器证据,support,0.9,,It outperformed radiologists with an area under the curve of 0.894.,,1
+full-medical_imaging-med-007-med-c2,medical_imaging,med-007,med-c2,无机器证据,,,,,,1
+full-medical_imaging-med-007-med-c3,medical_imaging,med-007,med-c3,无机器证据,,,,,,1
+full-medical_imaging-med-008-med-c1,medical_imaging,med-008,med-c1,机器证据,support,0.8,,"Deep learning models based on PET/CT imaging can effectively detect, segment, and classify hypermetabolic lung lesions, and identify suspicious adjacent lesions.",,1
+full-medical_imaging-med-008-med-c2,medical_imaging,med-008,med-c2,无机器证据,,,,,,1
+full-medical_imaging-med-008-med-c3,medical_imaging,med-008,med-c3,无机器证据,,,,,,1
+full-medical_imaging-med-009-med-c1,medical_imaging,med-009,med-c1,无机器证据,,,,,,1
+full-medical_imaging-med-009-med-c2,medical_imaging,med-009,med-c2,无机器证据,,,,,,1
+full-medical_imaging-med-009-med-c3,medical_imaging,med-009,med-c3,无机器证据,,,,,,1
+full-medical_imaging-med-010-med-c1,medical_imaging,med-010,med-c1,机器证据,support,0.8,,"The experimental results in this paper showed that in the last round of testing, the accuracy of ResNet model including deconvolution structure reached 95.2%. The area under curve (AUC) value of the working characteristics of the subject is 0.987. The sensitivity was 99.66%, and the specificity was 88.61%.",,1
+full-medical_imaging-med-010-med-c2,medical_imaging,med-010,med-c2,无机器证据,,,,,,1
+full-medical_imaging-med-010-med-c3,medical_imaging,med-010,med-c3,无机器证据,,,,,,1
+full-medical_imaging-med-011-med-c1,medical_imaging,med-011,med-c1,无机器证据,,,,,,1
+full-medical_imaging-med-011-med-c2,medical_imaging,med-011,med-c2,机器证据,support,0.8,,"Question AI translation in oncologic imaging remains constrained by limitations in rigorous validation, actionable interpretability, standardization, governance, and workflow integration.",,1
+full-medical_imaging-med-011-med-c3,medical_imaging,med-011,med-c3,机器证据,contradict,0.5,,Findings Eighty-one Chinese experts reached consensus on 30 clinically practical statements covering AI applications from early detection to deployment.,,1
+full-medical_imaging-med-012-med-c1,medical_imaging,med-012,med-c1,机器证据,support,0.9,,LiLNet achieves an accuracy (ACC) of 94.7% and an area under the curve (AUC) of 97.2% for benign and malignant tumors.,,1
+full-medical_imaging-med-012-med-c2,medical_imaging,med-012,med-c2,无机器证据,,,,,,1
+full-medical_imaging-med-012-med-c3,medical_imaging,med-012,med-c3,无机器证据,,,,,,1
+full-medical_imaging-med-013-med-c1,medical_imaging,med-013,med-c1,机器证据,support,0.9,,Deep learning significantly surpassed radiomics models and radiologist assessments,,1
+full-medical_imaging-med-013-med-c2,medical_imaging,med-013,med-c2,无机器证据,,,,,,1
+full-medical_imaging-med-013-med-c3,medical_imaging,med-013,med-c3,无机器证据,,,,,,1
+full-medical_imaging-med-014-med-c1,medical_imaging,med-014,med-c1,无机器证据,,,,,,1
+full-medical_imaging-med-014-med-c2,medical_imaging,med-014,med-c2,无机器证据,,,,,,1
+full-medical_imaging-med-014-med-c3,medical_imaging,med-014,med-c3,机器证据,contradict,0.6,,"The majority (85.9%) was approved by the FDA with a 510(k) clearance, while 8 (12.5%) received de novo pathway clearance and one (1.6%) premarket approval (PMA) clearance.",,1
+full-medical_imaging-med-015-med-c1,medical_imaging,med-015,med-c1,机器证据,support,0.9,,standard AI deep learning models can be trained to predict race from medical images with high performance across multiple imaging modalities,,1
+full-medical_imaging-med-015-med-c2,medical_imaging,med-015,med-c2,机器证据,support,0.8,,"this detection is not due to proxies or imaging-related surrogate covariates for race (eg, performance of possible confounders: body-mass index [AUC 0·55], disease distribution [0·61], and breast density [0·61])",,1
+full-medical_imaging-med-015-med-c3,medical_imaging,med-015,med-c3,无机器证据,,,,,,1

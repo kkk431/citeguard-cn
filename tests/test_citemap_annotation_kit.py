@@ -11,12 +11,39 @@ sys.path.insert(0, str(ROOT / "scripts"))
 from score_citemap_single_qc import score  # noqa: E402
 
 
+def _run(script: str, *args: str) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(
+        [sys.executable, str(ROOT / "scripts" / script), *args],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+    )
+
+
 def test_build_annotation_kit(tmp_path: Path) -> None:
+    # dist/ is a build artifact and is not in a clean checkout.  Rebuild the
+    # 105-cell grid from committed data into the test's own directory first.
+    grid_dir = tmp_path / "grid"
+    grid_proc = _run(
+        "build_citemap_audit_csv.py",
+        "--data-dir",
+        str(ROOT / "data" / "evidence_map"),
+        "--out",
+        str(grid_dir),
+    )
+    assert grid_proc.returncode == 0, grid_proc.stderr
+    grid_csv = grid_dir / "full_grid_105_optional.csv"
+    assert len(list(csv.DictReader(grid_csv.open(encoding="utf-8-sig")))) == 105
+
     out = tmp_path / "kit"
     proc = subprocess.run(
         [
             sys.executable,
             str(ROOT / "scripts" / "build_citemap_annotation_kit.py"),
+            "--grid-csv",
+            str(grid_csv),
             "--out",
             str(out),
         ],

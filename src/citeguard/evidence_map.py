@@ -1180,7 +1180,9 @@ def _graph_aux_paths(base: Path) -> tuple[Path, Path]:
     data_dir = base.parent
     repo_root = data_dir.parent
     merged = data_dir / "experiments" / "citemap_audit_105" / "merged.csv"
-    key = repo_root / "dist" / "citemap_audit_full" / "_organizer_only_key.csv"
+    # Keep the machine-cell key in data/, not dist/: dist/ is a build artifact,
+    # so a clean checkout used to fall back to "no machine evidence".
+    key = data_dir / "experiments" / "citemap_audit_105" / "key.csv"
     return merged, key
 
 
@@ -1248,7 +1250,12 @@ def _edge_kind(stance: str, level: str) -> str:
 def _audit_index(base: Path) -> tuple[dict[str, dict[str, str]], dict[str, dict[str, str]]]:
     merged_path, key_path = _graph_aux_paths(base)
     merged = {row.get("cell_id", ""): row for row in _read_csv(merged_path)}
-    key = {row.get("cell_id", ""): row for row in _read_csv(key_path)}
+    # The organizer key lives under dist/ (a build artifact).  A clean checkout
+    # does not have it, so fall back to the committed merged grid, which carries
+    # cell_kind/machine_stance as well.  Without this fallback every machine cell
+    # becomes "none" only on CI, making the graph contract depend on local files.
+    key_rows = _read_csv(key_path) if key_path.is_file() else list(merged.values())
+    key = {row.get("cell_id", ""): row for row in key_rows}
     return merged, key
 
 
@@ -1279,7 +1286,11 @@ def _graph_cells(
                 by_cell.get(cell_id, []),
                 key=lambda item: str(item.get("evidence_id") or ""),
             )
-            machine = bool(key_row and key_row.get("cell_kind") == "机器证据")
+            machine = bool(
+                key_row
+                and key_row.get("cell_kind") == "机器证据"
+                and key_row.get("evidence_quote")
+            )
             majority = audit.get("majority", "") if audit else ""
             if records:
                 category = "fulltext"
