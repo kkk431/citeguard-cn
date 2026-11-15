@@ -11,7 +11,7 @@ OpenAlex / Crossref 的候选文献，只读摘要片段，返回四档标签、
 ## 1. 模块
 
 - 实现：`src/citeguard/live_check.py`（标准库 + 项目内 `metadata_verify` / `support`）。
-- 纯函数：`check_claim(claim, page_url="", page_title="", mode="full") -> dict`；`mode=fast` 最多判 1 条有摘要候选，`full` 判前 3 条。
+- 纯函数：`check_claim(claim, page_url="", page_title="", mode="full") -> dict`；`mode=fast` 只判排序第一的候选（无摘要时直接返回证据不足，不向后取候选），`full` 判前 3 条。
 - 无模型也可用：未配置判定模型时，使用本地规则（关键词/数字覆盖 + 方向线索）兜底，
   `reason` 会明确写“使用本地规则兜底”。
 - 离线可降级：`CITEGUARD_OFFLINE=1` 时不检索外部文献，返回 `no_evidence`，
@@ -64,7 +64,7 @@ PYTHONPATH=src CITEGUARD_OFFLINE=1 python -m citeguard.live_check --claim "任�
 
 ### 2.0 两档速度
 
-在线默认 `mode=fast`：只对第一条**有摘要**的候选调用判定模型，命中排序不变；
+在线默认 `mode=fast`：只对排序第一的候选调用判定模型；若它没有可引用摘要，返回「证据不足」而不是拿第 2、3 条凑数，命中排序不变；
 同一 held-out 集页面热缓存时 P50 约 3.13 s、P95 4.50 s，冷启动 P50 10.52 s
 （见 `docs/live_eval.md` §5.5–5.6）；`mode=full` 判前 3 条并做覆盖审计，热缓存 P50 约 9.68 s。
 更接近最佳候选但更慢。两档都只读候选摘要，不读全文，也不会把模型推断说成人工核对。
@@ -92,7 +92,7 @@ PYTHONPATH=src CITEGUARD_OFFLINE=1 python -m citeguard.live_check --claim "任�
 | `claim` | 是 | string | 去空白后 1–500 字；非空；超长返回 400 |
 | `page_url` | 否 | string | ≤2048；用于识别当前论文（DOI/arXiv）并优先取其 `referenced_works`；不抓取网页正文 |
 | `page_title` | 否 | string | ≤300；claim 过短时作为检索兜底，也用于从页面标题反查当前论文 |
-| `mode` | 否 | string | `fast`（默认，最多 1 条判官调用）或 `full`（前 3 条，质量优先但更慢）；其他值 400 |
+| `mode` | 否 | string | `fast`（默认，只判 top-1，最多 1 条判官调用）或 `full`（前 3 条，质量优先但更慢）；其他值 400 |
 | `phase` | 否 | string | `retrieve`（只返回候选与 `pending`，不判）、`judge`（重新检索后判定）、`full`（默认，一次返回）；其他值 400 |
 
 `phase=retrieve` 成功 `200` 时返回候选并把 `label` 置为占位：

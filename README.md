@@ -1,6 +1,6 @@
 # 引证卫士 CiteGuard-CN
 
-> **v1.7.21** · 2026-11-15 · Apache-2.0
+> **v1.7.22** · 2026-11-15 · Apache-2.0
 
 [![ci](https://github.com/kkk431/citeguard-cn/actions/workflows/ci.yml/badge.svg)](https://github.com/kkk431/citeguard-cn/actions/workflows/ci.yml)
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
@@ -259,7 +259,9 @@ Content-Type: application/json
 判定模型可选云端 DeepSeek 或本地 Qwen3-14B（本机均已配置）；`mode=fast` 最多只判 1 条候选并跳过覆盖审计。
 页面与扩展默认**两段返回**：先 `phase=retrieve` 显示候选，再 `phase=judge` 出四档，避免空白等待；页面里填写标题/URL 后自动预热（900 ms 防抖），扩展打开时也会自动预热 arXiv 页面参考文献。
 中文 claim 会额外做一次英文检索（失败静默）；arXiv DOI 可回填摘要，标题相似度 <0.7 的 OpenAlex 摘要会被拒绝，防止张冠李戴。
-冻结 held-out 集（30 句/5 页）命中 hit@1 **0.90** / hit@3 **1.00**；页面热缓存 + fast 的 P50 **3.13 s**、P95 4.50 s，冷启动 P50 10.52 s（首次抓取/补摘要）；full 热缓存 P50 9.68 s，仍不适合在线逐句。判官输出不是人工金标，不宣称 stance 准确率。
+冻结 held-out 集（30 句/5 页）命中 hit@1 **0.90** / hit@3 **1.00**；页面热缓存 + fast 的 P50 **3.13 s**、P95 4.50 s，冷启动 P50 10.52 s（首次抓取/补摘要）；full 热缓存 P50 9.68 s，仍不适合在线逐句。`fast` 只判排序第一的候选：top-1 没有可引用摘要时直接返回「证据不足」，不拿第 2、3 条凑数。
+
+无页面上下文的中文检索是边缘路径：把中文句翻成 3–8 个英文检索关键词后，30 条真实中文引用句的 hit@3 从 **0/30 到 2/30**（`live_eval_crosslingual_nopage.json`），只作诊断，不宣称跨语言检索已解决。判官输出不是人工金标，不宣称 stance 准确率。
 
 ## 目录
 
@@ -433,8 +435,8 @@ PYTHONPATH=src python3 scripts/enrich_library_abstracts.py
 
 ## 复现与发布
 
-- 版本：**v1.7.21**；变更见 `CHANGELOG.md`，发布说明见 `docs/release_notes_v1.0.md`
-- 单元测试：`PYTHONPATH=src python -m pytest tests -q`（911 项）
+- 版本：**v1.7.22**；变更见 `CHANGELOG.md`，发布说明见 `docs/release_notes_v1.0.md`
+- 单元测试：`PYTHONPATH=src python -m pytest tests -q`（912 项）
 - 主评测复现：`PYTHONPATH=src python scripts/reproduce_all.py`；每个对外数字的 JSON/命令/样本量见 `docs/evidence_index.md`
 - 文档站：`pip install -r requirements-docs.txt && mkdocs serve`
 - 数据集包：`dist/CiteGuard-CN_ClaimSupport-CN-300_v1.0.zip`（CC-BY-4.0，构造标签）

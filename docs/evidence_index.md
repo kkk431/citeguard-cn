@@ -22,10 +22,11 @@
 | 扫描件 OCR **23/24 条** | `data/experiments/ocr_scan_real.json` | `PYTHONPATH=src python scripts/eval_ocr_scanned.py --input <pdf>` | 7 页扫描 PDF，题名/年份/作者 23/23 |
 | GB/T E4 严格控制漂移 **29/30** | `data/experiments/e4_format.json` | `PYTHONPATH=src python scripts/e4_format_check.py` | 30 个构造样本 |
 | 万方中文强命中 **111/184** | `data/experiments/wanfang_batch.json` | 见 `docs/chinese_sources.md` | 184 条中文题录，试用配额；非全样本 |
-| 测试 **911 passed** | `pytest -q` | `PYTHONPATH=src python -m pytest tests -q` | 本地 Python 3.13 |
+| 测试 **912 passed** | `pytest -q` | `PYTHONPATH=src python -m pytest tests -q` | 本地 Python 3.13 |
 | SBOM **10 个核心依赖** | `docs/sbom.json`、`scripts/make_sbom.py`、`tests/test_sbom.py` | `PYTHONPATH=src python scripts/make_sbom.py --check` | CycloneDX 1.5；版本与 `web/app.py` 一致 |
 | 交付自检 **137/137** | `scripts/verify_artifacts.py` | `PYTHONPATH=src python scripts/verify_artifacts.py` | 版本/路由/文档/数字一致性 |
 | 知网导入 **22 → 27 条，Exact** | `data/library/cnki_demo.enw`、`data/library/library.json` | `PYTHONPATH=src python -m citeguard.cli --import-library data/library/cnki_demo.enw` | 5 条机构导出题录 |
+| Live 中文无页面检索 hit@3 **0 → 2/30** | `data/live_eval/live_eval_crosslingual_nopage.json`、`scripts/eval_live_crosslingual_nopage.py` | `PYTHONPATH=src python scripts/eval_live_crosslingual_nopage.py --mode fast` | 30 条真实中文引用句、去掉页面上下文；整句翻译 0/30，改 3–8 个英文检索关键词后 2/30；边缘路径诊断，不宣称跨语言检索已解决 |
 
 ## 截图登记
 

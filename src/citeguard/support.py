@@ -289,9 +289,10 @@ def _audit_cache_path(claim: str, abstract: str):
     return d / f"audit-{style}-{h}.json"
 
 
-_TRANSLATE_PROMPT = """把用户给出的中文引文句子翻译成适合检索英文学术文献的英文查询。
-只输出 JSON：{"translation": "..."}。保留专有名词、数字、单位、方法名；
-不要解释，不要添加原文没有的结论。若原文已经是英文，原样返回。"""
+_TRANSLATE_PROMPT = """把用户给出的中文引文句子转换成适合检索英文学术文献的英文关键词。
+只输出 JSON：{"translation": "..."}；JSON 的值必须是 3–8 个英文关键词/短语（空格分隔），
+不要整句翻译，不要解释，不要编造原文没有的方法或结论；保留专有名词、数字、单位、方法名。
+若原文已经是英文，抽取其中 3–8 个关键词返回。"""
 
 _TRANSLATION_CACHE: dict[str, str] = {}
 

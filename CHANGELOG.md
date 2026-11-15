@@ -1,3 +1,9 @@
+## [1.7.22] - 2026-11-15
+
+- Live `fast` 判定收紧：只判排序第一的候选；若 top-1 没有可引用摘要，直接返回「证据不足」，不再用第 2、3 条有摘要候选凑判定。
+- 中文查询检索从整句翻译改为 3–8 个英文检索关键词（`support._TRANSLATE_PROMPT`），新增无页面上下文的 30 条真实中文引用句诊断：hit@3 0/30 → 2/30（`live_eval_crosslingual_nopage.json`），只作诊断，不宣称跨语言检索已解决。
+- 新增 `scripts/eval_live_crosslingual_nopage.py`、fast top-1 回归测试；`docs/live.md`/`docs/live_eval.md` 记录新口径与边界。
+
 ## [1.7.21] - 2026-11-15
 
 - 100 条三人独立盲标完成：Fleiss κ 0.981，2 条 2:1 分歧、无平票；产品对多数票 99/100，macro-F1 0.988，Cohen κ 0.986（Wilson 95% CI 94.55%–99.82%）。

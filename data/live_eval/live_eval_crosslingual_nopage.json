@@ -1,0 +1,629 @@
+{
+  "generated_at": "2026-11-15T11:55:20+08:00",
+  "dataset": "claims.jsonl (30 Chinese sentences, no page context)",
+  "k": 3,
+  "mode": "fast",
+  "note": "Machine translation is enabled/disabled; this is retrieval only, not stance accuracy.",
+  "with_translation": {
+    "translated": true,
+    "n": 30,
+    "hit@1": 0.0667,
+    "hit@3": 0.0667,
+    "p50_ms": 6246.9,
+    "p95_ms": 9464.5,
+    "errors": 0,
+    "records": [
+      {
+        "id": "live-001",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 5004.5,
+        "error": null
+      },
+      {
+        "id": "live-002",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 6069.1,
+        "error": null
+      },
+      {
+        "id": "live-003",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 6510.9,
+        "error": null
+      },
+      {
+        "id": "live-004",
+        "label": "contradict",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 7731.8,
+        "error": null
+      },
+      {
+        "id": "live-005",
+        "label": "partial",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 7881.6,
+        "error": null
+      },
+      {
+        "id": "live-006",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 6215.5,
+        "error": null
+      },
+      {
+        "id": "live-007",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": 4,
+        "latency_ms": 5005.0,
+        "error": null
+      },
+      {
+        "id": "live-008",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": 4,
+        "latency_ms": 5354.1,
+        "error": null
+      },
+      {
+        "id": "live-009",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 4068.9,
+        "error": null
+      },
+      {
+        "id": "live-010",
+        "label": "partial",
+        "n_candidates": 5,
+        "hit@1": true,
+        "hit@3": true,
+        "first_hit_rank": 1,
+        "latency_ms": 7561.3,
+        "error": null
+      },
+      {
+        "id": "live-011",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 5816.0,
+        "error": null
+      },
+      {
+        "id": "live-012",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 6825.9,
+        "error": null
+      },
+      {
+        "id": "live-013",
+        "label": "partial",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 5273.6,
+        "error": null
+      },
+      {
+        "id": "live-014",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 4653.3,
+        "error": null
+      },
+      {
+        "id": "live-015",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 4975.9,
+        "error": null
+      },
+      {
+        "id": "live-016",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 3931.9,
+        "error": null
+      },
+      {
+        "id": "live-017",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 9223.8,
+        "error": null
+      },
+      {
+        "id": "live-018",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 4651.7,
+        "error": null
+      },
+      {
+        "id": "live-019",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 7107.6,
+        "error": null
+      },
+      {
+        "id": "live-020",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 10856.2,
+        "error": null
+      },
+      {
+        "id": "live-021",
+        "label": "support",
+        "n_candidates": 5,
+        "hit@1": true,
+        "hit@3": true,
+        "first_hit_rank": 1,
+        "latency_ms": 9661.4,
+        "error": null
+      },
+      {
+        "id": "live-022",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 7015.5,
+        "error": null
+      },
+      {
+        "id": "live-023",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 6425.2,
+        "error": null
+      },
+      {
+        "id": "live-024",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 6615.7,
+        "error": null
+      },
+      {
+        "id": "live-025",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 6331.4,
+        "error": null
+      },
+      {
+        "id": "live-026",
+        "label": "partial",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 5731.1,
+        "error": null
+      },
+      {
+        "id": "live-027",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 6278.4,
+        "error": null
+      },
+      {
+        "id": "live-028",
+        "label": "partial",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 4541.4,
+        "error": null
+      },
+      {
+        "id": "live-029",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 5546.9,
+        "error": null
+      },
+      {
+        "id": "live-030",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 6726.9,
+        "error": null
+      }
+    ]
+  },
+  "without_translation": {
+    "translated": false,
+    "n": 30,
+    "hit@1": 0.0,
+    "hit@3": 0.0,
+    "p50_ms": 14.5,
+    "p95_ms": 21.2,
+    "errors": 0,
+    "records": [
+      {
+        "id": "live-001",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 16.6,
+        "error": null
+      },
+      {
+        "id": "live-002",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 16.2,
+        "error": null
+      },
+      {
+        "id": "live-003",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 15.8,
+        "error": null
+      },
+      {
+        "id": "live-004",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 3.5,
+        "error": null
+      },
+      {
+        "id": "live-005",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 3.8,
+        "error": null
+      },
+      {
+        "id": "live-006",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 15.9,
+        "error": null
+      },
+      {
+        "id": "live-007",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 15.5,
+        "error": null
+      },
+      {
+        "id": "live-008",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 14.4,
+        "error": null
+      },
+      {
+        "id": "live-009",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 14.7,
+        "error": null
+      },
+      {
+        "id": "live-010",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 3.4,
+        "error": null
+      },
+      {
+        "id": "live-011",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 13.1,
+        "error": null
+      },
+      {
+        "id": "live-012",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 21.2,
+        "error": null
+      },
+      {
+        "id": "live-013",
+        "label": "partial",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 14.7,
+        "error": null
+      },
+      {
+        "id": "live-014",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 3.3,
+        "error": null
+      },
+      {
+        "id": "live-015",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 17.0,
+        "error": null
+      },
+      {
+        "id": "live-016",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 21.1,
+        "error": null
+      },
+      {
+        "id": "live-017",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 24.4,
+        "error": null
+      },
+      {
+        "id": "live-018",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 12.6,
+        "error": null
+      },
+      {
+        "id": "live-019",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 13.0,
+        "error": null
+      },
+      {
+        "id": "live-020",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 3.3,
+        "error": null
+      },
+      {
+        "id": "live-021",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 3.2,
+        "error": null
+      },
+      {
+        "id": "live-022",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 14.6,
+        "error": null
+      },
+      {
+        "id": "live-023",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 3.5,
+        "error": null
+      },
+      {
+        "id": "live-024",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 11.1,
+        "error": null
+      },
+      {
+        "id": "live-025",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 14.9,
+        "error": null
+      },
+      {
+        "id": "live-026",
+        "label": "partial",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 14.4,
+        "error": null
+      },
+      {
+        "id": "live-027",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 13.3,
+        "error": null
+      },
+      {
+        "id": "live-028",
+        "label": "partial",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 15.3,
+        "error": null
+      },
+      {
+        "id": "live-029",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 14.2,
+        "error": null
+      },
+      {
+        "id": "live-030",
+        "label": "no_evidence",
+        "n_candidates": 5,
+        "hit@1": false,
+        "hit@3": false,
+        "first_hit_rank": null,
+        "latency_ms": 17.7,
+        "error": null
+      }
+    ]
+  }
+}

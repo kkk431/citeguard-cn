@@ -223,6 +223,32 @@ def test_fast_mode_judges_only_the_top_candidate(monkeypatch):
     assert calls[0]["timeout"] is None
 
 
+def test_fast_mode_does_not_skip_past_an_abstractless_top_candidate(monkeypatch):
+    abstract = "Intelligent tutoring systems improve student learning outcomes in higher education."
+    top = _candidate("Tutoring and outcomes", "", doi="10.1000/top")
+    second = _candidate("A second study", abstract, doi="10.1000/second")
+    monkeypatch.setattr(
+        live_check, "_page_reference_candidates", lambda claim, page_url: [top, second]
+    )
+    monkeypatch.setattr(live_check, "_enrich_page_references", lambda candidates: candidates)
+    monkeypatch.setattr(live_check, "_page_work", lambda *args, **kwargs: None)
+    _patch_searches(monkeypatch, openalex=[], crossref=[])
+    calls = []
+
+    def fake_judge(*args, **kwargs):  # noqa: ANN002, ANN003
+        calls.append(args)
+        return {"label": "support", "confidence": 0.9, "reason": "should not run"}
+
+    monkeypatch.setattr(live_check.support, "judge_available", lambda: True)
+    monkeypatch.setattr(live_check.support, "judge_support", fake_judge)
+
+    result = live_check.check_claim("AI tutoring improves learning outcomes", mode="fast")
+
+    assert calls == []
+    assert result["label"] == "no_evidence"
+    assert "没有可引用摘要" in result["reason"]
+
+
 def test_ungrounded_quote_is_not_attached(monkeypatch):
     abstract = "Intelligent tutoring systems improve student learning outcomes in higher education."
     _patch_searches(monkeypatch, openalex=[_candidate("Tutoring and outcomes", abstract)])

@@ -1498,9 +1498,22 @@ def check_claim(claim: str, page_url: str = "", page_title: str = "", mode: str 
     judge_limit = 1 if mode == "fast" else 3
     if judge_available:
         fast = mode == "fast"
+        judge_candidates = ranked[:1] if fast else ranked
+        if fast and not (judge_candidates[0].abstract or "").strip():
+            # Fast mode is "judge the best source only".  Falling through to a
+            # lower-ranked abstract would silently change the cited source just
+            # to obtain a verdict, which is worse than an honest no_evidence.
+            return _make_result(
+                "no_evidence",
+                0.0,
+                "fast 模式只判定排序第一的候选，而它没有可引用摘要；"
+                "可切换 full 模式查看后续候选" + _page_suffix(page_url),
+                None,
+                [_candidate_payload(c, scores[id(c)]) for c in ranked],
+            )
         verdicts = _judge_verdicts(
             claim,
-            ranked,
+            judge_candidates,
             limit=judge_limit,
             audit=not fast,
             timeout=config.LIVE_JUDGE_TIMEOUT if fast else None,
