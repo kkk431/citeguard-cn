@@ -806,11 +806,28 @@ def test_chinese_query_adds_translated_retrieval(monkeypatch):
     monkeypatch.setattr(
         support, "translate_query", lambda text: "attention improves diagnostic accuracy"
     )
+    monkeypatch.setattr(live_check.config, "LIVE_TRANSLATE", True)
 
     live_check._search_candidates("注意力机制提升了诊断准确率")
 
     assert "注意力机制提升了诊断准确率" in queries
     assert "attention improves diagnostic accuracy" in queries
+
+
+def test_chinese_translation_is_opt_in(monkeypatch):
+    queries = []
+    monkeypatch.setattr(
+        live_check, "search_openalex", lambda query, limit=5: queries.append(query) or []
+    )
+    monkeypatch.setattr(live_check, "search_crossref", lambda query, limit=5: [])
+    monkeypatch.setattr(
+        support, "translate_query", lambda text: "attention improves diagnostic accuracy"
+    )
+    monkeypatch.setattr(live_check.config, "LIVE_TRANSLATE", False)
+
+    live_check._search_candidates("注意力机制提升了诊断准确率")
+
+    assert queries == ["注意力机制提升了诊断准确率"]
 
 
 def test_prewarm_page_reports_bibliography_count(monkeypatch):

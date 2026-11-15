@@ -129,3 +129,12 @@ WANFANG_APP_KEY = os.environ.get("WANFANG_APP_KEY", "").strip()
 
 # Live must answer while the reader is still looking at the sentence.
 LIVE_JUDGE_TIMEOUT = float(os.environ.get("CITEGUARD_LIVE_JUDGE_TIMEOUT", "8"))
+# Cross-lingual keyword translation costs one extra model call (~seconds) for a
+# small, measured retrieval gain.  It is opt-in so the default Chinese path does
+# not silently pay for it.
+LIVE_TRANSLATE = os.environ.get("CITEGUARD_LIVE_TRANSLATE", "0").strip().lower() not in {
+    "0",
+    "false",
+    "no",
+    "off",
+}

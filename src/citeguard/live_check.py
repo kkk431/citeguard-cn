@@ -313,7 +313,7 @@ def _search_candidates(query: str, page_title: str = "") -> tuple[list[Candidate
             found.extend(search(query, limit=MAX_CANDIDATES) or [])
         except Exception as exc:  # noqa: BLE001 - Live must degrade, not 500
             errors.append(f"{getattr(search, '__name__', 'search')}: {exc}")
-    if _has_cjk(query):
+    if _has_cjk(query) and config.LIVE_TRANSLATE:
         try:
             translated = support.translate_query(query)
         except Exception:  # noqa: BLE001

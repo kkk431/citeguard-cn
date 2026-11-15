@@ -11,7 +11,7 @@ OpenAlex / Crossref 的候选文献，只读摘要片段，返回四档标签、
 ## 1. 模块
 
 - 实现：`src/citeguard/live_check.py`（标准库 + 项目内 `metadata_verify` / `support`）。
-- 纯函数：`check_claim(claim, page_url="", page_title="", mode="full") -> dict`；`mode=fast` 只判排序第一的候选（无摘要时直接返回证据不足，不向后取候选），`full` 判前 3 条。
+- 纯函数：`check_claim(claim, page_url="", page_title="", mode="full") -> dict`；中文查询的英文关键词扩展默认关闭；需要跨语言检索实验时设置 `CITEGUARD_LIVE_TRANSLATE=1`（多一次模型调用）。`mode=fast` 只判排序第一的候选（无摘要时直接返回证据不足，不向后取候选），`full` 判前 3 条。
 - 无模型也可用：未配置判定模型时，使用本地规则（关键词/数字覆盖 + 方向线索）兜底，
   `reason` 会明确写“使用本地规则兜底”。
 - 离线可降级：`CITEGUARD_OFFLINE=1` 时不检索外部文献，返回 `no_evidence`，
