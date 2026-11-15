@@ -1,33 +1,43 @@
 {
-  "generated_at": "2026-11-15T21:21:19",
+  "generated_at": "2026-11-15T21:50:01",
   "data_source": "OpenAlex OA full texts fetched by scripts/fetch_citemap_fulltext.py",
   "claim_source": "data/evidence_map/claims_atomic.json (21 atomic claims; not human-ratified)",
-  "boundary": "Only 8/30 papers have local OA full text; 87 claim-paper pairs are not a human-labelled accuracy set.",
-  "pairs": 87,
+  "fulltext_papers": 21,
+  "fulltext_total": 30,
+  "boundary": "Only 21/30 papers have local OA full text; 213 claim-paper pairs are not a human-labelled accuracy set.",
+  "pairs": 213,
   "verdicts": {
-    "claims": 87,
-    "full": 2,
-    "partial": 5,
-    "none": 80,
+    "claims": 213,
+    "full": 5,
+    "partial": 8,
+    "none": 200,
     "error": 0,
-    "full_rate": 0.023,
-    "any_support_rate": 0.0805
+    "full_rate": 0.0235,
+    "any_support_rate": 0.061
   },
   "by_topic": {
     "ai_education": {
       "full": 1,
       "partial": 5,
-      "none": 54,
+      "none": 90,
       "error": 0
     },
     "medical_imaging": {
-      "full": 1,
-      "partial": 0,
-      "none": 26,
+      "full": 4,
+      "partial": 3,
+      "none": 110,
       "error": 0
     }
   },
   "audited_positive_with_fulltext": [
+    {
+      "paper_id": "edu-002",
+      "claim_id": "edu-c1",
+      "audited_positive": true,
+      "fulltext_hit": false,
+      "atomic_id": "",
+      "quote": ""
+    },
     {
       "paper_id": "edu-010",
       "claim_id": "edu-c4",
@@ -37,15 +47,47 @@
       "quote": "Instead, it reveals how techno-optimism masks structural inequities, aligning with the theory of maximally maintained inequality (MMI)."
     },
     {
+      "paper_id": "med-002",
+      "claim_id": "med-c1",
+      "audited_positive": true,
+      "fulltext_hit": true,
+      "atomic_id": "med-c1-a1",
+      "quote": "In conclusion, our proposed deep learning model can differentiate HCC, ICC and metastasis through using deep CNN and gated RNN to integrate multimodal input of multi-phase CECT images and clinical features, with promising performance comparable with experienced doctors and good generalization ability on different centers."
+    },
+    {
+      "paper_id": "med-003",
+      "claim_id": "med-c1",
+      "audited_positive": true,
+      "fulltext_hit": false,
+      "atomic_id": "",
+      "quote": ""
+    },
+    {
       "paper_id": "med-007",
       "claim_id": "med-c1",
       "audited_positive": true,
       "fulltext_hit": true,
       "atomic_id": "med-c1-a1",
       "quote": "It can be found that the area under the corresponding curves of A-ResNet50-W (in orange) is larger than that of the other three radiologists, which intuitively indicates that the classification method proposed in this paper has better diagnostic performance for LNMs on CT images than that of radiologists."
+    },
+    {
+      "paper_id": "med-011",
+      "claim_id": "med-c2",
+      "audited_positive": true,
+      "fulltext_hit": false,
+      "atomic_id": "",
+      "quote": ""
+    },
+    {
+      "paper_id": "med-013",
+      "claim_id": "med-c1",
+      "audited_positive": true,
+      "fulltext_hit": false,
+      "atomic_id": "",
+      "quote": ""
     }
   ],
-  "audited_positive_with_fulltext_recall": 1.0,
-  "full_verdict_precision_on_audited": 1.0,
+  "audited_positive_with_fulltext_recall": 0.4286,
+  "full_verdict_precision_on_audited": 0.6,
   "note": "Full verdicts not covered by a human-positive cell are not claimed as correct; they remain unlabelled candidates."
 }

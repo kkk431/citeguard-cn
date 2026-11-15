@@ -19,7 +19,6 @@ FG = "#e8f3ef"
 MUTED = "#8aa6a0"
 MINT = "#3ce6b4"
 AMBER = "#ffb43a"
-CYAN = "#6fe7ff"
 RED = "#ff6b7a"
 
 
@@ -44,29 +43,35 @@ def main() -> int:
     data = json.loads(SUMMARY.read_text(encoding="utf-8"))
     plt.rcParams["font.family"] = font()
     fig, axes = plt.subplots(2, 2, figsize=(16, 9), dpi=120, facecolor=BG)
-    fig.subplots_adjust(left=0.07, right=0.97, top=0.86, bottom=0.16, hspace=0.5, wspace=0.18)
+    fig.subplots_adjust(left=0.07, right=0.97, top=0.84, bottom=0.15, hspace=0.55, wspace=0.2)
+
+    pairs = int(data["pairs"])
+    papers = int(data["fulltext_papers"])
+    total = int(data["fulltext_total"])
+    verdicts = data["verdicts"]
+
     fig.text(0.07, 0.94, "全文逐句核验：高精度、低覆盖，比“凑证据”诚实", color=FG, fontsize=23, weight="bold")
     fig.text(
         0.07,
-        0.905,
-        "21 条原子断言 × 8 篇可获取全文的 OA 论文；只判 full/partial/none，引用必须逐字命中",
+        0.895,
+        f"{pairs} 个「原子断言 × 论文」组合 · {papers}/{total} 篇有本地全文；只判 full / partial / none，引用必须逐字命中",
         color=MUTED,
         fontsize=12,
     )
 
-    verdicts = data["verdicts"]
     ax = axes[0][0]
-    style(ax, "87 个「断言 × 论文」组合的真实判定")
+    style(ax, f"{pairs} 个「断言 × 论文」组合的真实判定")
     labels = ["完整支持", "部分支持", "无证据"]
     values = [verdicts["full"], verdicts["partial"], verdicts["none"]]
     bars = ax.bar(labels, values, color=[MINT, AMBER, "#33505c"], width=0.55)
     for bar, value in zip(bars, values):
-        ax.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 1, str(value), ha="center", color=FG, fontsize=13)
-    ax.set_ylim(0, max(values) * 1.2)
-    ax.text(0.0, -0.36, "覆盖率 2.3%；其余是“没有证据”，不是隐藏", transform=ax.transAxes, color=MUTED, fontsize=11)
+        ax.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + max(1, pairs * 0.01), str(value), ha="center", color=FG, fontsize=13)
+    ax.set_ylim(0, max(values) * 1.18)
+    coverage = 100.0 * (values[0] + values[1]) / max(1, pairs)
+    ax.text(0.0, -0.36, f"任何支持率 {coverage:.1f}%；其余是“没有证据”，不是隐藏", transform=ax.transAxes, color=MUTED, fontsize=11)
 
     ax = axes[0][1]
-    style(ax, "人工 105 格中“有全文且判对”的证据格")
+    style(ax, "人工 105 格中「有全文且判对」的证据格")
     audits = data["audited_positive_with_fulltext"]
     hits = sum(1 for item in audits if item["fulltext_hit"])
     bars = ax.bar(["命中", "漏掉"], [hits, len(audits) - hits], color=[MINT, RED], width=0.5)
@@ -76,24 +81,24 @@ def main() -> int:
     ax.text(0.0, -0.36, f"小样本 {hits}/{len(audits)}；不是全量准确率", transform=ax.transAxes, color=MUTED, fontsize=11)
 
     ax = axes[1][0]
-    style(ax, "按主题拆分：教育 60 组合，医学 27 组合")
-    topics = list(data["by_topic"].items())
+    style(ax, "按主题拆分：教育 / 医学")
     names = {"ai_education": "AI 教育", "medical_imaging": "医学影像"}
+    topics = list(data["by_topic"].items())
     bottoms = [0, 0]
     for key, color, label in (("full", MINT, "完整"), ("partial", AMBER, "部分"), ("none", "#33505c", "无证据")):
         vals = [bucket.get(key, 0) for _, bucket in topics]
         ax.bar([names.get(name, name) for name, _ in topics], vals, bottom=bottoms, color=color, width=0.5, label=label)
         bottoms = [a + b for a, b in zip(bottoms, vals)]
     ax.legend(facecolor=BG, edgecolor="#29404b", labelcolor=FG, fontsize=10)
-    ax.text(0.0, -0.36, "无证据是正常结果：论文可能没研究该断言", transform=ax.transAxes, color=MUTED, fontsize=11)
+    ax.text(0.0, -0.36, "无证据是正常结果：论文可能没有研究该断言", transform=ax.transAxes, color=MUTED, fontsize=11)
 
     ax = axes[1][1]
     style(ax, "方法边界（答辩时必须一起说）")
     ax.axis("off")
     lines = [
-        ("有全文", "8 / 30 篇；其余出版社 403 或跳转失败"),
-        ("完整支持", f"{verdicts['full']} / 87 组合（2.3%）"),
-        ("人工正例", "2 / 2 命中（样本极小）"),
+        ("有全文", f"{papers} / {total} 篇；其余出版社 403 或跳转失败"),
+        ("完整支持", f"{verdicts['full']} / {pairs} 组合（{100*verdicts['full']/max(1,pairs):.1f}%）"),
+        ("人工正例", f"{hits} / {len(audits)} 命中（样本极小）"),
         ("引用校验", "逐字不命中 → 直接丢弃"),
         ("未人审", "机器 full 不等于人工金标"),
     ]

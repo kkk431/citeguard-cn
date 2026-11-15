@@ -14,26 +14,27 @@ def load() -> dict:
 
 def test_fulltext_evaluation_is_not_overclaimed() -> None:
     data = load()
-    assert data["pairs"] == 87
+    assert data["pairs"] == 213
     verdicts = data["verdicts"]
-    assert verdicts["full"] == 2
-    assert verdicts["partial"] == 5
-    assert verdicts["none"] == 80
+    assert verdicts["full"] == 5
+    assert verdicts["partial"] == 8
+    assert verdicts["none"] == 200
     assert verdicts["error"] == 0
-    assert verdicts["full_rate"] == 0.023
-    assert "8/30" in data["boundary"]
+    assert verdicts["full_rate"] == 0.0235
+    assert "21/30" in data["boundary"]
 
 
 def test_audited_positive_cross_check() -> None:
     data = load()
     audits = data["audited_positive_with_fulltext"]
-    assert len(audits) == 2
-    assert all(item["audited_positive"] and item["fulltext_hit"] for item in audits)
-    assert data["audited_positive_with_fulltext_recall"] == 1.0
+    assert len(audits) == 7
+    hits = [item for item in audits if item["fulltext_hit"]]
+    assert len(hits) == 3
+    assert all(item["quote"] for item in hits)
+    assert data["audited_positive_with_fulltext_recall"] == 0.4286
     # The denominator is tiny; the precision field is a sanity check, not a
-    # population estimate.
-    assert data["full_verdict_precision_on_audited"] == 1.0
-    assert all(item["quote"] for item in audits)
+    # population estimate. Two of the five full verdicts have no human label.
+    assert data["full_verdict_precision_on_audited"] == 0.6
 
 
 def test_chart_exists() -> None:

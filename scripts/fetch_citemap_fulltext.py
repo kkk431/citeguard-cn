@@ -9,6 +9,7 @@ from __future__ import annotations
 import argparse
 import json
 import time
+import xml.etree.ElementTree as ET
 from pathlib import Path
 
 import requests
@@ -46,6 +47,69 @@ def download(url: str, target: Path, timeout: float = 45.0) -> bool:
         return False
 
 
+def _local(tag: str) -> str:
+    return tag.rsplit("}", 1)[-1]
+
+
+def jats_text(xml_bytes: bytes) -> str:
+    root = ET.fromstring(xml_bytes)
+    parent = {child: node for node in root.iter() for child in node}
+    parts: list[str] = []
+    seen: set[str] = set()
+    for node in root.iter():
+        name = _local(node.tag)
+        if name == "ref-list":
+            continue
+        if name not in {"article-title", "title", "p", "caption"}:
+            continue
+        ancestor = parent.get(node)
+        skip = False
+        while ancestor is not None:
+            if _local(ancestor.tag) in {"ref-list", "back"}:
+                skip = True
+                break
+            ancestor = parent.get(ancestor)
+        if skip:
+            continue
+        text = " ".join("".join(node.itertext()).split())
+        if len(text) < 20 or text in seen:
+            continue
+        seen.add(text)
+        parts.append(text)
+    return "\n".join(parts)
+
+
+def europepmc_text(doi: str) -> tuple[str, str] | None:
+    if not doi:
+        return None
+    try:
+        resp = requests.get(
+            "https://www.ebi.ac.uk/europepmc/webservices/rest/search",
+            params={"query": f'DOI:"{doi}"', "format": "json", "pageSize": 1},
+            timeout=30,
+        )
+        if resp.status_code != 200:
+            return None
+        rows = resp.json().get("resultList", {}).get("result", [])
+        if not rows:
+            return None
+        pmcid = rows[0].get("pmcid") or ""
+        if not pmcid:
+            return None
+        full = requests.get(
+            f"https://www.ebi.ac.uk/europepmc/webservices/rest/{pmcid}/fullTextXML",
+            timeout=45,
+        )
+        if full.status_code != 200 or len(full.content) < 5000:
+            return None
+        text = jats_text(full.content)
+        if len(text) < 2000:
+            return None
+        return text, pmcid
+    except Exception:
+        return None
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--topic", action="append", choices=TOPICS)
@@ -72,9 +136,26 @@ def main() -> int:
             tmp = outdir / f"_{pid}.pdf"
             ok = download(url, tmp)
             if not ok:
-                manifest[pid] = {"status": "download_failed", "url": url, "topic": topic}
                 if tmp.exists():
                     tmp.unlink(missing_ok=True)
+                fallback = europepmc_text(paper.get("doi") or "")
+                if fallback:
+                    text, pmcid = fallback
+                    text_path.write_text(text, encoding="utf-8")
+                    manifest[pid] = {
+                        "status": "ok",
+                        "source": "europepmc",
+                        "pmcid": pmcid,
+                        "doi": paper.get("doi") or "",
+                        "url": f"https://europepmc.org/articles/{pmcid}",
+                        "topic": topic,
+                        "chars": len(text),
+                        "fetched_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
+                    }
+                    print(f"[ok:pmc] {pid} {pmcid} {len(text)} chars")
+                    time.sleep(0.4)
+                    continue
+                manifest[pid] = {"status": "download_failed", "url": url, "topic": topic}
                 print(f"[fail] {pid} {url[:80]}")
                 time.sleep(0.8)
                 continue

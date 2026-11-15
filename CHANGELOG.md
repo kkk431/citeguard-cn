@@ -1,3 +1,9 @@
+## [1.7.28] - 2026-11-15
+
+- CiteMap full-text coverage: when a publisher PDF is blocked, resolve the DOI through Europe PMC and parse its JATS `fullTextXML`; coverage rises from 8/30 to 21/30 papers.
+- Re-ran the 21 atomic claims against 21 full texts: 213 claim-paper pairs, 5 full / 8 partial / 200 none. On the 105-cell human audit, 3 of the 7 human-positive cells with local full text are recovered (3/7, small sample); 5 `full` verdicts include 2 unlabelled candidates, not called correct.
+- Added `tests/test_citemap_fulltext_fetch.py` (JATS text extraction, Europe PMC response handling, no-PMCID fallback); version 1.7.28.
+
 ## [1.7.27] - 2026-11-15
 
 ### Added

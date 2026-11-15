@@ -52,7 +52,12 @@ def main() -> int:
         "generated_at": payload.get("generated_at"),
         "data_source": payload.get("data_source"),
         "claim_source": payload.get("claim_source"),
-        "boundary": "Only 8/30 papers have local OA full text; 87 claim-paper pairs are not a human-labelled accuracy set.",
+        "fulltext_papers": len(fulltext_papers),
+        "fulltext_total": 30,
+        "boundary": (
+            f"Only {len(fulltext_papers)}/30 papers have local OA full text; "
+            f"{len(results)} claim-paper pairs are not a human-labelled accuracy set."
+        ),
         "pairs": len(results),
         "verdicts": payload.get("summary"),
         "by_topic": by_topic,

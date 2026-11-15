@@ -32,6 +32,6 @@
 
 
 
-## 16. 全文原子证据核验（1.7.27）
+## 16. 全文原子证据核验（1.7.28）
 
-`16-fulltext-atomic.png`：21 条原子断言 × 8 篇全文 = 87 组合；完整支持 2、部分支持 5、无证据 80；人工正例（有全文）2/2 命中。来源 `data/experiments/citemap_atomic_fulltext_summary.json`，复现 `scripts/eval_citemap_atomic_fulltext.py` + `scripts/summarize_citemap_atomic_fulltext.py`。
+`16-fulltext-atomic.png`：21 条原子断言 × 21 篇全文 = 213 组合；完整支持 5、部分支持 8、无证据 200；人工正例（有全文）3/7 命中。来源 `data/experiments/citemap_atomic_fulltext_summary.json`，复现 `scripts/eval_citemap_atomic_fulltext.py` + `scripts/summarize_citemap_atomic_fulltext.py`。
