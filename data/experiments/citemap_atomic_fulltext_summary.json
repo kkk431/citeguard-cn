@@ -1,31 +1,31 @@
 {
-  "generated_at": "2026-11-15T21:50:01",
+  "generated_at": "2026-11-15T22:16:16",
   "data_source": "OpenAlex OA full texts fetched by scripts/fetch_citemap_fulltext.py",
   "claim_source": "data/evidence_map/claims_atomic.json (21 atomic claims; not human-ratified)",
+  "result_file": "data/experiments/citemap_atomic_fulltext_v2.json",
   "fulltext_papers": 21,
   "fulltext_total": 30,
-  "boundary": "Only 21/30 papers have local OA full text; 213 claim-paper pairs are not a human-labelled accuracy set.",
   "pairs": 213,
   "verdicts": {
     "claims": 213,
-    "full": 5,
-    "partial": 8,
-    "none": 200,
+    "full": 7,
+    "partial": 13,
+    "none": 193,
     "error": 0,
-    "full_rate": 0.0235,
-    "any_support_rate": 0.061
+    "full_rate": 0.0329,
+    "any_support_rate": 0.0939
   },
   "by_topic": {
     "ai_education": {
-      "full": 1,
-      "partial": 5,
-      "none": 90,
+      "full": 3,
+      "partial": 6,
+      "none": 87,
       "error": 0
     },
     "medical_imaging": {
       "full": 4,
-      "partial": 3,
-      "none": 110,
+      "partial": 7,
+      "none": 106,
       "error": 0
     }
   },
@@ -33,61 +33,73 @@
     {
       "paper_id": "edu-002",
       "claim_id": "edu-c1",
-      "audited_positive": true,
+      "best_verdict": "none",
       "fulltext_hit": false,
+      "support_hit": false,
       "atomic_id": "",
       "quote": ""
     },
     {
       "paper_id": "edu-010",
       "claim_id": "edu-c4",
-      "audited_positive": true,
+      "best_verdict": "full",
       "fulltext_hit": true,
-      "atomic_id": "edu-c4-a3",
-      "quote": "Instead, it reveals how techno-optimism masks structural inequities, aligning with the theory of maximally maintained inequality (MMI)."
+      "support_hit": true,
+      "atomic_id": "edu-c4-a1",
+      "quote": "The findings unveil four interconnected layers of inequality: policy-driven infrastructure disparities favouring elite urban schools, regional stratification exacerbating urban-rural divides under standardised policies, intergenerational transmission of cultural and economic capital reinforcing educational privilege, and individual disparities in AI literacy widening the “new digital divide”."
     },
     {
       "paper_id": "med-002",
       "claim_id": "med-c1",
-      "audited_positive": true,
+      "best_verdict": "full",
       "fulltext_hit": true,
+      "support_hit": true,
       "atomic_id": "med-c1-a1",
       "quote": "In conclusion, our proposed deep learning model can differentiate HCC, ICC and metastasis through using deep CNN and gated RNN to integrate multimodal input of multi-phase CECT images and clinical features, with promising performance comparable with experienced doctors and good generalization ability on different centers."
     },
     {
       "paper_id": "med-003",
       "claim_id": "med-c1",
-      "audited_positive": true,
-      "fulltext_hit": false,
-      "atomic_id": "",
-      "quote": ""
+      "best_verdict": "full",
+      "fulltext_hit": true,
+      "support_hit": true,
+      "atomic_id": "med-c1-a1",
+      "quote": "The accuracy, sensitivity, specificity and AUC was 97.8%, 97.0%, 98.5%, and 0.99, the radiologist presented accuracy, sensitivity, and specificity as 95.3%, 96.4 and 94.2%."
     },
     {
       "paper_id": "med-007",
       "claim_id": "med-c1",
-      "audited_positive": true,
+      "best_verdict": "full",
       "fulltext_hit": true,
+      "support_hit": true,
       "atomic_id": "med-c1-a1",
       "quote": "It can be found that the area under the corresponding curves of A-ResNet50-W (in orange) is larger than that of the other three radiologists, which intuitively indicates that the classification method proposed in this paper has better diagnostic performance for LNMs on CT images than that of radiologists."
     },
     {
       "paper_id": "med-011",
       "claim_id": "med-c2",
-      "audited_positive": true,
+      "best_verdict": "partial",
       "fulltext_hit": false,
+      "support_hit": true,
       "atomic_id": "",
       "quote": ""
     },
     {
       "paper_id": "med-013",
       "claim_id": "med-c1",
-      "audited_positive": true,
-      "fulltext_hit": false,
-      "atomic_id": "",
-      "quote": ""
+      "best_verdict": "full",
+      "fulltext_hit": true,
+      "support_hit": true,
+      "atomic_id": "med-c1-a1",
+      "quote": "As shown in Tables 4, 5, and 6, in contrast, the diagnostic accuracy of human readers—with or without access to clinical background information—was only 0.6933 and 0.6133, respectively, with F1-scores of 0.6230 and 0.5397, both notably lower than those of the deep learning models."
     }
   ],
-  "audited_positive_with_fulltext_recall": 0.4286,
-  "full_verdict_precision_on_audited": 0.6,
-  "note": "Full verdicts not covered by a human-positive cell are not claimed as correct; they remain unlabelled candidates."
+  "audited_positive_n": 7,
+  "audited_positive_full_hits": 5,
+  "audited_positive_support_hits": 6,
+  "audited_positive_full_recall": 0.7143,
+  "audited_positive_support_recall": 0.8571,
+  "full_verdict_precision_on_audited": 1.0,
+  "boundary": "Only 21/30 papers have local OA full text; 7 audited-positive cells overlap those papers. Support recall counts full+partial; full recall counts only full. Neither is a full human-labelled accuracy set.",
+  "note": "Full verdicts not covered by a human-positive cell are not claimed as correct."
 }

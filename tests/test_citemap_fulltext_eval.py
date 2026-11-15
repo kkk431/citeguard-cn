@@ -16,11 +16,12 @@ def test_fulltext_evaluation_is_not_overclaimed() -> None:
     data = load()
     assert data["pairs"] == 213
     verdicts = data["verdicts"]
-    assert verdicts["full"] == 5
-    assert verdicts["partial"] == 8
-    assert verdicts["none"] == 200
+    assert verdicts["full"] == 7
+    assert verdicts["partial"] == 13
+    assert verdicts["none"] == 193
     assert verdicts["error"] == 0
-    assert verdicts["full_rate"] == 0.0235
+    assert verdicts["full_rate"] == 0.0329
+    assert verdicts["any_support_rate"] == 0.0939
     assert "21/30" in data["boundary"]
 
 
@@ -28,13 +29,18 @@ def test_audited_positive_cross_check() -> None:
     data = load()
     audits = data["audited_positive_with_fulltext"]
     assert len(audits) == 7
-    hits = [item for item in audits if item["fulltext_hit"]]
-    assert len(hits) == 3
-    assert all(item["quote"] for item in hits)
-    assert data["audited_positive_with_fulltext_recall"] == 0.4286
-    # The denominator is tiny; the precision field is a sanity check, not a
-    # population estimate. Two of the five full verdicts have no human label.
-    assert data["full_verdict_precision_on_audited"] == 0.6
+    full_hits = [item for item in audits if item["fulltext_hit"]]
+    support_hits = [item for item in audits if item["support_hit"]]
+    assert len(full_hits) == 5
+    assert len(support_hits) == 6
+    assert all(item["quote"] for item in full_hits)
+    assert data["audited_positive_n"] == 7
+    assert data["audited_positive_full_recall"] == 0.7143
+    assert data["audited_positive_support_recall"] == 0.8571
+    # All seven full verdicts map back to one of the seven audited-positive
+    # cells (some cells have multiple atomic claims). This is a tiny,
+    # descriptive cross-check, not a population precision estimate.
+    assert data["full_verdict_precision_on_audited"] == 1.0
 
 
 def test_chart_exists() -> None:

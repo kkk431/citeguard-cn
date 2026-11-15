@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 203,
+  "paths_checked": 204,
   "missing": [],
   "rows": [
     {
@@ -890,7 +890,7 @@
     },
     {
       "evidence": "E101",
-      "path": "data/experiments/citemap_atomic_fulltext.json",
+      "path": "data/experiments/citemap_atomic_fulltext_v2.json",
       "exists": true
     },
     {

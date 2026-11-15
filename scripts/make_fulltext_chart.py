@@ -20,6 +20,7 @@ MUTED = "#8aa6a0"
 MINT = "#3ce6b4"
 AMBER = "#ffb43a"
 RED = "#ff6b7a"
+CYAN = "#5fd7ff"
 
 
 def font() -> str:
@@ -50,7 +51,7 @@ def main() -> int:
     total = int(data["fulltext_total"])
     verdicts = data["verdicts"]
 
-    fig.text(0.07, 0.94, "全文逐句核验：高精度、低覆盖，比“凑证据”诚实", color=FG, fontsize=23, weight="bold")
+    fig.text(0.07, 0.94, "全文逐句核验：人工正例召回 6/7，完整支持 5/7", color=FG, fontsize=23, weight="bold")
     fig.text(
         0.07,
         0.895,
@@ -73,12 +74,14 @@ def main() -> int:
     ax = axes[0][1]
     style(ax, "人工 105 格中「有全文且判对」的证据格")
     audits = data["audited_positive_with_fulltext"]
-    hits = sum(1 for item in audits if item["fulltext_hit"])
-    bars = ax.bar(["命中", "漏掉"], [hits, len(audits) - hits], color=[MINT, RED], width=0.5)
-    for bar, value in zip(bars, [hits, len(audits) - hits]):
-        ax.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 0.05, str(value), ha="center", color=FG, fontsize=14)
-    ax.set_ylim(0, max(3, len(audits) + 1))
-    ax.text(0.0, -0.36, f"小样本 {hits}/{len(audits)}；不是全量准确率", transform=ax.transAxes, color=MUTED, fontsize=11)
+    full_hits = int(data.get("audited_positive_full_hits", sum(1 for item in audits if item["fulltext_hit"])))
+    support_hits = int(data.get("audited_positive_support_hits", sum(1 for item in audits if item.get("support_hit"))))
+    n = len(audits)
+    ax.bar(["完整+部分", "仅完整", "漏掉"], [support_hits, full_hits, n - support_hits], color=[MINT, CYAN, RED], width=0.55)
+    for x, value in zip(range(3), [support_hits, full_hits, n - support_hits]):
+        ax.text(x, value + 0.05, str(value), ha="center", color=FG, fontsize=14)
+    ax.set_ylim(0, max(3, n + 1))
+    ax.text(0.0, -0.36, f"小样本 n={n}；支持证据召回 {support_hits}/{n}，完整支持 {full_hits}/{n}", transform=ax.transAxes, color=MUTED, fontsize=11)
 
     ax = axes[1][0]
     style(ax, "按主题拆分：教育 / 医学")
@@ -98,7 +101,7 @@ def main() -> int:
     lines = [
         ("有全文", f"{papers} / {total} 篇；其余出版社 403 或跳转失败"),
         ("完整支持", f"{verdicts['full']} / {pairs} 组合（{100*verdicts['full']/max(1,pairs):.1f}%）"),
-        ("人工正例", f"{hits} / {len(audits)} 命中（样本极小）"),
+        ("人工正例", f"支持证据 {support_hits}/{n}；完整 {full_hits}/{n}"),
         ("引用校验", "逐字不命中 → 直接丢弃"),
         ("未人审", "机器 full 不等于人工金标"),
     ]

@@ -290,9 +290,11 @@ def _audit_cache_path(claim: str, abstract: str):
 
 
 _TRANSLATE_PROMPT = """把用户给出的中文引文句子转换成适合检索英文学术文献的英文关键词。
-只输出 JSON：{"translation": "..."}；JSON 的值必须是 3–8 个英文关键词/短语（空格分隔），
+只输出 JSON：{"translation": "..."}；JSON 的值必须是 6–12 个英文关键词/短语（空格分隔），
 不要整句翻译，不要解释，不要编造原文没有的方法或结论；保留专有名词、数字、单位、方法名。
-若原文已经是英文，抽取其中 3–8 个关键词返回。"""
+除直译外，补上同义词和该断言常用的评价词（例如临床断言补 radiologist clinician expert accuracy AUC；
+教育断言补 student learning outcome well-being）；只用于检索，不得当作证据。
+若原文已经是英文，抽取其中 6–12 个关键词返回。"""
 
 _TRANSLATION_CACHE: dict[str, str] = {}
 

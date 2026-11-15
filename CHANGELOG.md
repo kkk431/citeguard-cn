@@ -1,5 +1,12 @@
 ## [1.7.28] - 2026-11-15
 
+## [1.7.29] - 2026-11-15
+
+- CiteMap full-text verification: candidate retrieval top-6 -> top-12; the Chinese-to-English query now requests 6-12 keywords including synonyms/evaluation terms (still retrieval-only, never evidence); the judge accepts "comparable to / better than the clinician" and numeric non-inferiority as `full` when the claim asks for specialist-level performance.
+- Re-ran 21 atomic claims x 21 full texts: 213 pairs, **7 full / 13 partial / 193 none / 0 error**. Among the 105-cell human audit, the 7 audited-positive cells with local full text now have **support recall 6/7 (85.7%)** and **full recall 5/7 (71.4%)**, up from 2/7 and 3/7 before; all 7 full verdicts map to audited-positive cells. Small sample, not a population accuracy.
+- Updated `tests/test_citemap_fulltext_eval.py` to the new expected numbers; version 1.7.29.
+
+
 - CiteMap full-text coverage: when a publisher PDF is blocked, resolve the DOI through Europe PMC and parse its JATS `fullTextXML`; coverage rises from 8/30 to 21/30 papers.
 - Re-ran the 21 atomic claims against 21 full texts: 213 claim-paper pairs, 5 full / 8 partial / 200 none. On the 105-cell human audit, 3 of the 7 human-positive cells with local full text are recovered (3/7, small sample); 5 `full` verdicts include 2 unlabelled candidates, not called correct.
 - Added `tests/test_citemap_fulltext_fetch.py` (JATS text extraction, Europe PMC response handling, no-PMCID fallback); version 1.7.28.
