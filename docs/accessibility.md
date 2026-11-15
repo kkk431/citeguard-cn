@@ -71,3 +71,13 @@ collapsed, and j/k/`/` targeted the hidden list when the overview tab was active
 ## 1.7.13 巡检修正
 
 CiteMap 的「论文信息与链接」改为默认折叠的 `<details>` 后，`a[href]` 在折叠状态下没有布局盒，原脚本把它们误判为“无可访问名”。1.7.13 给检查加了 `getClientRects().length > 0` 可见性过滤，closed details 内的控件不再参与；复跑 **54/54 通过**。
+
+## 1.7.33 全站巡检（58/58）
+
+Live 页面加入「检查页面引用」按钮、结果状态与列表后，巡检页数从 12 增至 13。重跑：
+
+```powershell
+python scripts/audit_frontend.py http://127.0.0.1:8013
+```
+
+结果：**58/58 通过**（每页无横向溢出、有 `h1`、控件可访问名齐全、无 console error；报告页键盘与 Ctrl+K 仍通过）。新增按钮有可见文本、输入框有 `<label for>`、状态行 `aria-live="polite"`，没有额外 ARIA 补丁。

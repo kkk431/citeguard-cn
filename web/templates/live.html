@@ -60,7 +60,15 @@
                  placeholder="例如：AI in Education: A Review">
           <label for="live-page-url">页面 URL</label>
           <input id="live-page-url" type="url" maxlength="2048" autocomplete="off"
-                 placeholder="https://example.org/article（只作为上下文，不抓取）">
+                 placeholder="https://arxiv.org/html/...（arXiv / PMC / Wikipedia 可读取）">
+        </div>
+        <div class="live-page-probe">
+          <button id="live-page-probe-btn" type="button" class="btn ghost">检查页面引用</button>
+          <span id="live-page-probe-status" class="live-page-probe-status" role="status" aria-live="polite">只读取 arXiv / PMC / Wikipedia 的公开 HTML 页，不读全文、不判真伪</span>
+        </div>
+        <div id="live-page-probe-result" class="live-page-probe-result" aria-live="polite" hidden>
+          <p id="live-page-probe-summary" class="live-page-probe-summary"></p>
+          <ol id="live-page-probe-list" class="live-page-probe-list"></ol>
         </div>
         <p class="live-prewarm" id="live-prewarm-status" aria-live="polite"></p>
       </details>

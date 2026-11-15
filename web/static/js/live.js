@@ -3,6 +3,7 @@
 
   const API = "/api/live/check";
   const PREWARM_API = "/api/live/prewarm";
+  const PAGE_API = "/api/live/page";
   const MAX_CANDIDATES = 5;
   const MAX_CLAIM = 500;
 
@@ -33,7 +34,12 @@
     quote: document.getElementById("live-quote"),
     candidateCount: document.getElementById("live-candidate-count"),
     candidates: document.getElementById("live-candidates"),
-    prewarm: document.getElementById("live-prewarm-status")
+    prewarm: document.getElementById("live-prewarm-status"),
+    probeBtn: document.getElementById("live-page-probe-btn"),
+    probeStatus: document.getElementById("live-page-probe-status"),
+    probeResult: document.getElementById("live-page-probe-result"),
+    probeSummary: document.getElementById("live-page-probe-summary"),
+    probeList: document.getElementById("live-page-probe-list")
   };
 
   if (!els.claim || !els.btn || !els.result || !els.output) return;
@@ -327,6 +333,73 @@
     state.prewarmTimer = window.setTimeout(prewarmPageNow, 900);
   }
 
+  function setProbeStatus(text, ok) {
+    if (!els.probeStatus) return;
+    els.probeStatus.textContent = text;
+    els.probeStatus.classList.toggle("is-ok", Boolean(ok));
+    els.probeStatus.classList.toggle("is-bad", !ok && Boolean(text));
+  }
+
+  function renderProbe(data) {
+    if (!els.probeResult || !els.probeSummary || !els.probeList) return;
+    const total = Number(data.markers_total) || 0;
+    const mapped = Number(data.markers_mapped) || 0;
+    const ratio = Math.round((Number(data.mapped_ratio) || 0) * 100);
+    const title = data.page_title ? `「${String(data.page_title).slice(0, 80)}」` : "该页面";
+    if (total === 0) {
+      els.probeSummary.textContent =
+        `${title}：没有识别到引用标记或参考文献列表。页面可能不是学术页，或使用了脚本渲染。`;
+    } else {
+      els.probeSummary.textContent =
+        `${title}：识别 ${Number(data.reference_count) || 0} 条参考文献、${total} 个引用标记，` +
+        `映射 ${mapped}/${total}（${ratio}%）。只做定位，不判真伪。`;
+    }
+    els.probeList.replaceChildren();
+    (data.sample || []).forEach(function (ref) {
+      const item = document.createElement("li");
+      const titleText = document.createElement("span");
+      titleText.textContent = `[${ref.index}] ${String(ref.title || "（无题名）").slice(0, 120)}`;
+      item.append(titleText);
+      if (ref.doi) {
+        const doi = document.createElement("code");
+        doi.textContent = String(ref.doi);
+        item.append(document.createTextNode(" · "));
+        item.append(doi);
+      }
+      els.probeList.append(item);
+    });
+    els.probeResult.hidden = false;
+  }
+
+  async function probePage() {
+    if (!els.probeBtn || !els.pageUrl) return;
+    const pageUrl = els.pageUrl.value.trim();
+    if (!pageUrl) {
+      setProbeStatus("先填页面 URL，再检查页面引用。", false);
+      return;
+    }
+    els.probeBtn.disabled = true;
+    setProbeStatus("正在读取页面引用列表…", false);
+    try {
+      const response = await fetch(PAGE_API, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ page_url: pageUrl })
+      });
+      const data = await response.json().catch(function () { return {}; });
+      if (!response.ok) {
+        throw new Error(data.detail || "页面读取失败");
+      }
+      renderProbe(data);
+      setProbeStatus("页面引用已读取；核验时可直接使用正文里的 [n] 标记。", true);
+    } catch (error) {
+      if (els.probeResult) els.probeResult.hidden = true;
+      setProbeStatus(error && error.message ? error.message : "页面读取失败", false);
+    } finally {
+      els.probeBtn.disabled = false;
+    }
+  }
+
   async function runCheck() {
     const claim = String(els.claim.value || "").trim();
     if (!claim) {
@@ -402,6 +475,7 @@
   els.claim.addEventListener("input", updateCount);
   if (els.pageTitle) els.pageTitle.addEventListener("input", schedulePrewarm);
   if (els.pageUrl) els.pageUrl.addEventListener("input", schedulePrewarm);
+  if (els.probeBtn) els.probeBtn.addEventListener("click", probePage);
   els.claim.addEventListener("keydown", function (event) {
     if (event.key === "Enter" && (event.ctrlKey || event.metaKey)) {
       event.preventDefault();

@@ -9,6 +9,7 @@ CiteGuard-CN 的核心是「一条引用 → 四层证据」的报告，但同�
 | 批量核验 API | `POST /api/support/batch`（≤50，4 路并发） | 单测 + 冒烟 |
 | 图表核验 API | `POST /api/figure-check` | 7B/8B/3B 实测见 docs/figure_check.md |
 | 任务进度 SSE | `GET /api/jobs/{id}/events` | 单测（事件格式、终止、404） |
+| Live 页面引用预检 | `POST /api/live/page` | 真实 arXiv 页 54 条文献 / 78 标记 78/78 映射；单测 4 例 |
 | Python 客户端 | `src/citeguard/client.py` | 4 个单测 + 对真实服务冒烟 |
 | 浏览器扩展 | `extension/` | 本地加载可用，未上架商店 |
 | Word 任务窗格 | `word-addin/`、`/word/taskpane` | **预览版；未在真实 Word 客户端加载测试** |

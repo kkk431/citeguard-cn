@@ -16,6 +16,7 @@ PAGES = [
     ("/library", "library"),
     ("/discover", "discover"),
     ("/citemap", "citemap"),
+    ("/live", "live"),
     ("/compare", "compare"),
     ("/figure", "figure"),
     ("/batch", "batch"),

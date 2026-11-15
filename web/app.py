@@ -102,7 +102,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.7.32", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.7.33", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 
@@ -2886,6 +2886,82 @@ async def live_prewarm(request: Request):
 
     result = live_mod.prewarm_page(page_url=page_url, page_title=page_title)
     return result
+
+
+_LIVE_PAGE_HOSTS = (
+    "arxiv.org",
+    "wikipedia.org",
+    "pmc.ncbi.nlm.nih.gov",
+    "www.ncbi.nlm.nih.gov",
+)
+
+
+def _live_page_host_allowed(host: str) -> bool:
+    host = (host or "").strip().lower().rstrip(".")
+    return any(host == allowed or host.endswith("." + allowed) for allowed in _LIVE_PAGE_HOSTS)
+
+
+@app.post(
+    "/api/live/page",
+    openapi_extra={"requestBody": {"required": True, "content": {"application/json": {"schema": _LIVE_PREWARM_BODY}}}},
+)
+async def live_page_probe(request: Request):
+    """Read a public page's reference list and report ``[n]`` mapping coverage.
+
+    This is a deliberately narrow preflight: only arXiv, Wikipedia and PMC
+    hosts, no arbitrary URLs. It never returns the page body and never decides
+    whether a claim is true.
+    """
+    try:
+        payload = await request.json()
+    except Exception:
+        raise HTTPException(status_code=400, detail="请求体必须是 JSON")
+    page_url = str(payload.get("page_url") or "").strip()
+    if not page_url:
+        raise HTTPException(status_code=400, detail="page_url 不能为空")
+    if len(page_url) > 2048:
+        raise HTTPException(status_code=400, detail="page_url 最长 2048 字符")
+    from urllib.parse import urlsplit
+
+    parts = urlsplit(page_url)
+    if parts.scheme not in {"http", "https"} or not parts.hostname:
+        raise HTTPException(status_code=400, detail="page_url 必须是 http(s) 地址")
+    if not _live_page_host_allowed(parts.hostname):
+        raise HTTPException(
+            status_code=400,
+            detail="只支持 arXiv / PMC / Wikipedia 的公开 HTML 页面；其他站点请在浏览器扩展里使用",
+        )
+    from citeguard import live_page as live_page_mod
+
+    try:
+        html = live_page_mod.fetch_html(page_url, allowed_hosts=_LIVE_PAGE_HOSTS)
+        model = live_page_mod.build_page_model(html, page_url=page_url)
+    except Exception as exc:  # network / parser failures are user-visible, not 500s
+        raise HTTPException(status_code=502, detail=f"页面读取失败：{exc}")
+    references = list(model.get("references") or [])
+    sample = [
+        {
+            "index": ref.get("index"),
+            "title": str(ref.get("title") or "")[:240],
+            "doi": ref.get("doi") or "",
+            "url": ref.get("url") or "",
+        }
+        for ref in references[:8]
+    ]
+    return {
+        "ok": True,
+        "page_url": page_url,
+        "page_title": model.get("page_title") or "",
+        "extractor": model.get("extractor") or {},
+        "reference_count": model.get("reference_count") or 0,
+        "markers_total": model.get("markers_total") or 0,
+        "markers_mapped": model.get("markers_mapped") or 0,
+        "mapped_ratio": model.get("mapped_ratio") or 0.0,
+        "unique_markers": model.get("unique_markers") or 0,
+        "unique_mapped": model.get("unique_mapped") or 0,
+        "unmapped_markers": model.get("unmapped_markers") or [],
+        "sample": sample,
+    }
 
 
 @app.post(

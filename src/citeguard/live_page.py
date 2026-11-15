@@ -48,17 +48,45 @@ _DOI_TRAILING = ".,;:)]}>，。；、"
 # ---------------------------------------------------------------------------
 
 
-def fetch_html(url: str, timeout: float = DEFAULT_TIMEOUT, max_bytes: int = MAX_HTML_BYTES) -> str:
+def _host_allowed(host: str, allowed_hosts: tuple[str, ...]) -> bool:
+    host = (host or "").strip().lower().rstrip(".")
+    return any(host == allowed or host.endswith("." + allowed) for allowed in allowed_hosts)
+
+
+class _AllowedRedirectHandler(urllib.request.HTTPRedirectHandler):
+    """Follow redirects only when the final host is still allow-listed."""
+
+    def __init__(self, allowed_hosts: tuple[str, ...]):
+        super().__init__()
+        self.allowed_hosts = allowed_hosts
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        parsed = urllib.parse.urlsplit(str(newurl or ""))
+        if parsed.scheme not in {"http", "https"} or not parsed.hostname:
+            raise RuntimeError(f"重定向到不支持的地址：{newurl!r}")
+        if not _host_allowed(parsed.hostname, self.allowed_hosts):
+            raise RuntimeError(f"重定向到非白名单站点：{parsed.hostname}")
+        return super().redirect_request(req, fp, code, msg, headers, newurl)
+
+
+def fetch_html(
+    url: str,
+    timeout: float = DEFAULT_TIMEOUT,
+    max_bytes: int = MAX_HTML_BYTES,
+    allowed_hosts: tuple[str, ...] | None = None,
+) -> str:
     """Fetch one public HTML page with a browser-like UA and a hard byte cap.
 
-    The spike only reads public pages.  Errors are turned into ``RuntimeError``
-    with a short message so the script can record a failed page instead of a
-    traceback.
+    The spike only reads public pages.  When ``allowed_hosts`` is provided the
+    initial URL and every redirect hop are checked against it (the Live preflight
+    uses this to avoid turning an allow-listed URL into an SSRF pivot).
     """
 
     parsed = urllib.parse.urlsplit(str(url or "").strip())
     if parsed.scheme not in {"http", "https"} or not parsed.netloc:
         raise RuntimeError(f"只支持 http(s) 页面：{url!r}")
+    if allowed_hosts and (not parsed.hostname or not _host_allowed(parsed.hostname, allowed_hosts)):
+        raise RuntimeError(f"不在允许的页面白名单内：{parsed.hostname or url}")
     request = urllib.request.Request(
         url,
         headers={
@@ -67,8 +95,13 @@ def fetch_html(url: str, timeout: float = DEFAULT_TIMEOUT, max_bytes: int = MAX_
             "Accept-Language": "en-US,en;q=0.9,zh-CN;q=0.8",
         },
     )
+    opener = (
+        urllib.request.build_opener(_AllowedRedirectHandler(tuple(allowed_hosts)))
+        if allowed_hosts
+        else urllib.request.build_opener()
+    )
     try:
-        with urllib.request.urlopen(request, timeout=timeout) as response:
+        with opener.open(request, timeout=timeout) as response:
             raw = response.read(max_bytes + 1)
             charset = response.headers.get_content_charset() or "utf-8"
     except urllib.error.HTTPError as exc:

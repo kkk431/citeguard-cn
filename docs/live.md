@@ -164,7 +164,39 @@ PYTHONPATH=src CITEGUARD_OFFLINE=1 python -m citeguard.live_check --claim "任�
 - 扩展从 `chrome-extension://` 页面用 host permission 访问 `127.0.0.1`；Chrome
   扩展侧通常不需要服务端 CORS。若同时允许普通网页调用，才需要 CORS 配置。
 
-### 2.2 路由接入示例（队长实现，勿放进本模块）
+### 2.2 `POST /api/live/page`（页面引用预检）
+
+在「补充页面标题 / URL」里填 arXiv / PMC / Wikipedia 的公开 HTML 页，点「检查页面引用」：
+
+```json
+{"page_url": "https://arxiv.org/html/2611.07772"}
+```
+
+返回（不返回正文）：
+
+```json
+{
+  "ok": true,
+  "page_url": "https://arxiv.org/html/2611.07772",
+  "page_title": "…",
+  "extractor": {"name": "readability-lxml", "version": "0.9", "license": "Apache-2.0", "mode": "readability-lxml"},
+  "reference_count": 54,
+  "markers_total": 78,
+  "markers_mapped": 78,
+  "mapped_ratio": 1.0,
+  "unique_markers": 54,
+  "unique_mapped": 54,
+  "unmapped_markers": [],
+  "sample": [{"index": 1, "title": "…", "doi": "", "url": "…"}]
+}
+```
+
+- 只允许 `arxiv.org`、`wikipedia.org`、`pmc.ncbi.nlm.nih.gov`、`www.ncbi.nlm.nih.gov` 及其子域；其他 host 返回 400。重定向也会再次校验，不能借白名单页面跳到内网。
+- 单页最多读 2 MB；失败/解析异常返回 502，不返回 traceback。
+- 只做「文献列表 → `[n]`」定位，不判真伪；页面无参考文献时 `reference_count=0`，前端显示为「未发现参考文献」。
+- 2026-11-16 实测 arXiv `2611.07772`：54 条文献、78 个标记、78/78 映射（100%）；arXiv `2611.07772` 的 17 条引用句来源定位 17/17。
+
+### 2.3 路由接入示例（队长实现，勿放进本模块）
 
 ```python
 from fastapi import HTTPException
@@ -191,7 +223,7 @@ def api_live_check(req: LiveCheckRequest):
 `evidence`/`candidates` 五个字段。
 
 
-### 2.1 页面预热（可选）
+### 2.4 页面预热（可选）
 
 `POST /api/live/prewarm` 接受 `page_url` / `page_title`，只对 arXiv HTML 白名单页面抓取并解析参考文献，把首次抓取的几秒从“选中句请求”前移到“打开面板/页面时”。产品内 `/live` 在页面标题或 URL 输入后 900 ms 自动调用一次（切换/清空会取消）；扩展 `v2` 在右键菜单/工具栏打开侧栏时也会自动调用（12 s 上限，失败静默），用户手动调用也可以。返回 `references`、`page_work`、`referenced`、`elapsed_ms`；失败静默为空缓存，不影响后续核验。
 

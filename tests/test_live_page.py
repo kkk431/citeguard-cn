@@ -327,3 +327,40 @@ def test_reference_matches_doi_and_title(live_page) -> None:
     )
     assert live_page.reference_matches(reference, "", "Conducting realistic experiments in software engineering")
     assert not live_page.reference_matches(reference, "", "A completely different study")
+
+def test_live_page_api_reads_allowlisted_page(client, monkeypatch) -> None:
+    from citeguard import live_page
+
+    monkeypatch.setattr(live_page, "fetch_html", lambda url, **kwargs: GENERIC_REFERENCES_HTML)
+    resp = client.post("/api/live/page", json={"page_url": "https://arxiv.org/html/2401.00001"})
+    assert resp.status_code == 200
+    data = resp.json()
+    assert data["ok"] is True
+    assert data["reference_count"] == 3
+    assert data["markers_total"] >= 2
+    assert data["markers_mapped"] >= 2
+    assert data["mapped_ratio"] == 1.0
+    assert len(data["sample"]) >= 1
+    assert "body_text" not in data
+
+
+def test_live_page_api_rejects_other_hosts(client) -> None:
+    resp = client.post("/api/live/page", json={"page_url": "https://example.com/article"})
+    assert resp.status_code == 400
+    assert "arXiv" in resp.json()["detail"]
+
+
+def test_live_page_api_requires_url(client) -> None:
+    resp = client.post("/api/live/page", json={})
+    assert resp.status_code == 400
+
+
+def test_redirect_guard_blocks_non_allowlisted_host(live_page) -> None:
+    handler = live_page._AllowedRedirectHandler(("arxiv.org",))
+    request = __import__("urllib.request", fromlist=["Request"]).Request("https://arxiv.org/html/1")
+    try:
+        handler.redirect_request(request, None, 302, "Found", {}, "http://127.0.0.1/latest/meta-data")
+    except RuntimeError as exc:
+        assert "非白名单" in str(exc)
+    else:
+        raise AssertionError("redirect to a private host must be rejected")

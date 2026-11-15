@@ -11,6 +11,7 @@
 | POST | `/api/support/batch` | 批量版本，最多 50 条，4 路并发 |
 | POST | `/api/live/prewarm` | 预热 arXiv HTML 页面参考文献（`page_url`/`page_title`），返回 references/elapsed_ms；只做缓存，不判定 |
 | POST | `/api/live/check` | CiteGuard Live：给一个选中句（+可选页面标题/URL、`mode=fast|full`），检索 OpenAlex/Crossref 候选摘要并判定四档；返回 `label/confidence/reason/evidence/candidates`，不读全文 |
+| POST | `/api/live/page` | 页面引用预检：只读 arXiv/PMC/Wikipedia HTML，返回文献数、`[n]` 标记映射率与 8 条样例；不返回正文、不判真伪 |
 | POST | `/api/feedback` | 判错反馈：本地 JSONL 队列（任务号/条目号/原判/正确标签/备注），不上传 |
 | POST | `/api/figure-check` | 图表核验（图片 + 每行一条 claim，最多 5 条） |
 | GET | `/word/taskpane` | Word 任务窗格页面（预览版） |

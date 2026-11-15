@@ -13,6 +13,8 @@
 | 组件 | 版本约束 | 许可证 | 用途 |
 |---|---|---|---|
 | requests | >=2.31 | Apache-2.0 | HTTP 客户端 |
+| readability-lxml | >=0.9 | Apache-2.0 | Live 页面正文/参考文献抽取 |
+| lxml | >=6.0 | BSD-3-Clause | HTML 解析（readability 依赖） |
 | rapidfuzz | >=3.0 | MIT | 标题相似度 |
 | pypdf | >=5.0 | BSD-3-Clause | PDF 文本读取 |
 | pdfplumber | >=0.11 | MIT | PDF 文本 + 坐标 |

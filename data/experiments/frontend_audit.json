@@ -103,6 +103,26 @@
       "detail": []
     },
     {
+      "name": "live_no_horizontal_overflow_1280",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "live_has_h1",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "live_all_controls_named",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "live_no_console_errors",
+      "ok": true,
+      "detail": []
+    },
+    {
       "name": "compare_no_horizontal_overflow_1280",
       "ok": true,
       "detail": ""

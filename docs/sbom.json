@@ -3,11 +3,11 @@
   "specVersion": "1.5",
   "version": 1,
   "metadata": {
-    "timestamp": "2026-11-15T17:56:51Z",
+    "timestamp": "2026-11-15T18:31:30Z",
     "component": {
       "type": "application",
       "name": "citeguard-cn",
-      "version": "1.7.32",
+      "version": "1.7.33",
       "licenses": [
         {
           "license": {
@@ -19,7 +19,7 @@
     "tools": [
       {
         "name": "make_sbom.py",
-        "version": "1.7.32"
+        "version": "1.7.33"
       }
     ]
   },
@@ -124,6 +124,19 @@
         {
           "license": {
             "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "readability-lxml",
+      "version": "0.9",
+      "purl": "pkg:pypi/readability-lxml@0.9",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
           }
         }
       ]
