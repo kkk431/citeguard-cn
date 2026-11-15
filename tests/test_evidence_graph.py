@@ -187,13 +187,12 @@ def test_known_machine_correct_cells_are_abstract_only_when_present(
     graphs: dict[str, dict],
 ) -> None:
     key = (
-        DEFAULT_DATA_DIR.parents[1]
-        / "dist"
-        / "citemap_audit_full"
-        / "_organizer_only_key.csv"
+        DEFAULT_DATA_DIR
+        / "experiments"
+        / "citemap_audit_105"
+        / "key.csv"
     )
-    if not key.is_file():
-        pytest.skip("105-cell organizer key is not present in this checkout")
+    assert key.is_file(), "the 105-cell organizer key must be committed"
     total_abstract = sum(
         g["summary"]["cells_abstract_only"] for g in graphs.values()
     )
