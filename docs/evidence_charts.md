@@ -1,4 +1,4 @@
-# 实验证据图（15 张）
+# 实验证据图（16 张）
 
 > 全部由 `scripts/make_evidence_charts.py` 从仓库内实验 JSON 生成，深色 1920×1080，标题即结论，页脚标注来源与样本量。不是手绘示意图；改动数据后重跑脚本即可复现。
 
@@ -30,3 +30,8 @@
 - Live 的 no-judge 与 judge 两套结果分开画；judge 跑的是同一 held-out，但输出不是人工金标。
 - CiteMap 机器抽取只读摘要，`verified=false`；60 格人工核对未完成，不得把机器结果画成人工核对。
 
+
+
+## 16. 全文原子证据核验（1.7.27）
+
+`16-fulltext-atomic.png`：21 条原子断言 × 8 篇全文 = 87 组合；完整支持 2、部分支持 5、无证据 80；人工正例（有全文）2/2 命中。来源 `data/experiments/citemap_atomic_fulltext_summary.json`，复现 `scripts/eval_citemap_atomic_fulltext.py` + `scripts/summarize_citemap_atomic_fulltext.py`。

@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 199,
+  "paths_checked": 203,
   "missing": [],
   "rows": [
     {
@@ -872,8 +872,28 @@
       "evidence": "E100",
       "path": "docs/evidence/shots/phase-63-citemap-self-finding-1.7.26.png",
       "exists": true
+    },
+    {
+      "evidence": "E101",
+      "path": "data/experiments/citemap_atomic_fulltext.json",
+      "exists": true
+    },
+    {
+      "evidence": "E101",
+      "path": "data/experiments/citemap_atomic_fulltext_summary.json",
+      "exists": true
+    },
+    {
+      "evidence": "E101",
+      "path": "docs/citemap_atomic_fulltext.md",
+      "exists": true
+    },
+    {
+      "evidence": "E101",
+      "path": "docs/evidence/shots/final/charts/16-fulltext-atomic.png",
+      "exists": true
     }
   ],
-  "shots_registered": 94,
+  "shots_registered": 95,
   "shots_unregistered": []
 }

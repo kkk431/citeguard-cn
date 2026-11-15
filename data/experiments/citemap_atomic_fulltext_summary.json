@@ -1,0 +1,51 @@
+{
+  "generated_at": "2026-11-15T21:21:19",
+  "data_source": "OpenAlex OA full texts fetched by scripts/fetch_citemap_fulltext.py",
+  "claim_source": "data/evidence_map/claims_atomic.json (21 atomic claims; not human-ratified)",
+  "boundary": "Only 8/30 papers have local OA full text; 87 claim-paper pairs are not a human-labelled accuracy set.",
+  "pairs": 87,
+  "verdicts": {
+    "claims": 87,
+    "full": 2,
+    "partial": 5,
+    "none": 80,
+    "error": 0,
+    "full_rate": 0.023,
+    "any_support_rate": 0.0805
+  },
+  "by_topic": {
+    "ai_education": {
+      "full": 1,
+      "partial": 5,
+      "none": 54,
+      "error": 0
+    },
+    "medical_imaging": {
+      "full": 1,
+      "partial": 0,
+      "none": 26,
+      "error": 0
+    }
+  },
+  "audited_positive_with_fulltext": [
+    {
+      "paper_id": "edu-010",
+      "claim_id": "edu-c4",
+      "audited_positive": true,
+      "fulltext_hit": true,
+      "atomic_id": "edu-c4-a3",
+      "quote": "Instead, it reveals how techno-optimism masks structural inequities, aligning with the theory of maximally maintained inequality (MMI)."
+    },
+    {
+      "paper_id": "med-007",
+      "claim_id": "med-c1",
+      "audited_positive": true,
+      "fulltext_hit": true,
+      "atomic_id": "med-c1-a1",
+      "quote": "It can be found that the area under the corresponding curves of A-ResNet50-W (in orange) is larger than that of the other three radiologists, which intuitively indicates that the classification method proposed in this paper has better diagnostic performance for LNMs on CT images than that of radiologists."
+    }
+  ],
+  "audited_positive_with_fulltext_recall": 1.0,
+  "full_verdict_precision_on_audited": 1.0,
+  "note": "Full verdicts not covered by a human-positive cell are not claimed as correct; they remain unlabelled candidates."
+}

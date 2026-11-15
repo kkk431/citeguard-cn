@@ -1,3 +1,16 @@
+## [1.7.27] - 2026-11-15
+
+### Added
+
+- Generic sentence-level evidence verifier (`src/citeguard/citemap_verify.py`): atomic claim × full-text sentence, judge returns `full/partial/none` with a verbatim quote; hallucinated quotes are discarded/downgraded.
+- Full-text evaluation for 8/30 OA papers: 21 atomic claims × 8 full texts = 87 pairs. **2 full / 5 partial / 80 none / 0 error**; among the 105 human-audited cells, the 2 positive cells whose papers have local full text are **2/2** recovered. Coverage is only 2.3%; machine `full` remains un-human-reviewed.
+- Evidence chart 16 (`docs/evidence/shots/final/charts/16-fulltext-atomic.png`), docs page and E101.
+
+### Notes
+
+- No domain-specific vocabularies or per-domain prompts; Chinese claims use one translation for retrieval only, never as evidence.
+- The 8/30 full-text limit is real; closed papers stay `none` rather than being guessed.
+
 ## [1.7.26] - 2026-11-15
 
 - 新增 CiteMap 证据门禁实验：宽松门禁精确率 63.6%/召回 87.5%，要求完整支持整条复合断言时 0/31；据此放弃“单句摘要支持复合断言”的展示方式。
