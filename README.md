@@ -1,6 +1,6 @@
 # 引证卫士 CiteGuard-CN
 
-> **v1.7.25** · 2026-11-15 · Apache-2.0
+> **v1.7.26** · 2026-11-15 · Apache-2.0
 
 [![ci](https://github.com/kkk431/citeguard-cn/actions/workflows/ci.yml/badge.svg)](https://github.com/kkk431/citeguard-cn/actions/workflows/ci.yml)
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
@@ -144,7 +144,7 @@ no_evidence    [  0,   0,   0,  20 ]
 
 **支持度模型矩阵**：8 种同口径配置（Qwen3-1.7B LoRA / 4B LoRA / 8B / 14B / 14B 4-bit / 基座）在 ClaimSupport-CN test 60 上的 macro-F1、bootstrap 95% CI 与错误清单；4B 满分明确标注为构造模板饱和。[`docs/model_matrix.md`](docs/model_matrix.md)
 
-**CiteMap 证据地图**：2 个主题 × 15 篇开放论文，并可**输入主题或 DOI 现场生成**新地图。固定示例同时展示 10 条人工示例、20 条独立机器层（30/30 篇每篇至少一张卡）与 9 条原子证据；机器层单独标注 `machine:abstract-finding`、`verified=false`，不进入人工层，也不冒充全量结论。1.7.13 把桌面布局改成**固定高度两栏**（680–920px，左右各自滚动、论文标题吸顶），详情按**断言分组**：每条断言先给断言正文与方向，再铺人工/机器证据全宽卡片；同一断言下重复的机器引用合并到人工卡（AI 教育 7 条、医学影像 1 条，机器证据 25→18）。
+**CiteMap 证据地图**：2 个主题 × 15 篇开放论文，并可**输入主题或 DOI 现场生成**新地图。固定示例同时展示 10 条人工示例、9 条原子证据与 20 条**论文自述结论**（30/30 篇每篇至少一张卡）。论文自述结论只是摘要里的结论句，**不是对人工断言的证据**；原子证据只对应原子断言，均标 `verified=false`，不进入人工层，也不冒充全量结论。1.7.13 把桌面布局改成**固定高度两栏**（680–920px，左右各自滚动、论文标题吸顶），详情按**断言分组**：每条断言先给断言正文与方向，再铺人工/机器证据全宽卡片；同一断言下重复的机器引用合并到人工卡（AI 教育 7 条、医学影像 1 条，机器证据 25→18）。
 
 ## 快速开始
 
@@ -435,8 +435,8 @@ PYTHONPATH=src python3 scripts/enrich_library_abstracts.py
 
 ## 复现与发布
 
-- 版本：**v1.7.25**；变更见 `CHANGELOG.md`，发布说明见 `docs/release_notes_v1.0.md`
-- 单元测试：`PYTHONPATH=src python -m pytest tests -q`（925 项）
+- 版本：**v1.7.26**；变更见 `CHANGELOG.md`，发布说明见 `docs/release_notes_v1.0.md`
+- 单元测试：`PYTHONPATH=src python -m pytest tests -q`（927 项）
 - 主评测复现：`PYTHONPATH=src python scripts/reproduce_all.py`；每个对外数字的 JSON/命令/样本量见 `docs/evidence_index.md`
 - 文档站：`pip install -r requirements-docs.txt && mkdocs serve`
 - 数据集包：`dist/CiteGuard-CN_ClaimSupport-CN-300_v1.0.zip`（CC-BY-4.0，构造标签）

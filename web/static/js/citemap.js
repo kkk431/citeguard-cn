@@ -435,10 +435,13 @@
     const humanEvidence = evidence.filter(function (ev) { return !isMachineEvidence(ev); });
     const machineEvidence = evidence.filter(isMachineEvidence);
     const autoUniq = autoUniqueForTopic();
+    const atomicAuto = autoUniq.filter(function (ev) { return ev && ev.atomic; });
+    const otherAuto = autoUniq.filter(function (ev) { return !(ev && ev.atomic); });
+    const atomicCount = atomicAuto.length + humanEvidence.filter(function (ev) { return ev && ev.atomic; }).length;
     if (humanEvidence.length) addStat("条人工示例", humanEvidence.length);
-    if (machineEvidence.length || autoUniq.length) {
-      addStat("条机器证据", machineEvidence.length + autoUniq.length);
-    }
+    if (atomicCount) addStat("条原子证据", atomicCount);
+    if (machineEvidence.length) addStat("条论文自述", machineEvidence.length);
+    if (otherAuto.length) addStat("条机器候选", otherAuto.length);
     const mergedTotal = papers.reduce(function (total, paper) {
       return total + autoDuplicatesForPaper(paper.paper_id).length;
     }, 0);
@@ -830,6 +833,15 @@
       card.append(make("p", "ctm-muted", "未提供结构化方法 / 样本字段。"));
     }
 
+    if (isMachineEvidence(ev)) {
+      card.append(
+        make(
+          "p",
+          "ctm-evidence-note",
+          "这是论文摘要中的结论句，不是对上方人工断言的证据；机器层未人审，不能当作断言成立依据。"
+        )
+      );
+    }
     if (ev.notes) card.append(make("p", "ctm-evidence-note", ev.notes));
     if (cell) card.append(renderVerifyRow(cell));
     return card;
@@ -842,7 +854,7 @@
     top.append(makeTag(STANCE_LABELS[stance], "ctm-stance ctm-stance--" + stance));
     const autoTag = ev.atomic
       ? "原子证据 · 仅摘要 · 未人审"
-      : (isMachineEvidence(ev) ? "机器候选 · 仅摘要 · 未人审" : autoLabel() + " · 仅摘要 · 未人审");
+      : (isMachineEvidence(ev) ? "论文自述结论 · 仅摘要 · 未人审" : autoLabel() + " · 仅摘要 · 未人审");
     top.append(makeTag(autoTag, "ctm-extractor ctm-extractor--auto"));
     if (cell) top.append(makeTag("抽样格", "ctm-cell-tag"));
     top.append(renderConfidence(ev.confidence));
