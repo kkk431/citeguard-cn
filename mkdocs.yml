@@ -36,6 +36,7 @@ nav:
   - CiteMap 证据门禁: citemap_gate.md
   - CiteMap 全文逐句核验: citemap_atomic_fulltext.md
   - CiteMap 人工核对: citemap_audit.md
+  - CiteMap 单人核对标准: citemap_annotation_rubric.md
   - CiteMap 105 格结果: citemap_audit_result.md
   - 长列表与检查明细: ui_patterns.md
   - 修复闭环: repair_loop.md

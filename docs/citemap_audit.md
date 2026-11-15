@@ -6,6 +6,12 @@ CiteMap 的机器抽取结果已在 105 格上完成三人人工核对，结果�
 这份文档说明如何用 CSV 完成 CiteMap 核对：**默认 60 格分层抽样**，冲国一建议直接做 **105 格全量**。
 以及如何计算一致率、κ 和证据精确率。
 
+> 如果标注人少，可采用「单人主标 + 20% 双盲复核」：先用
+> `scripts/build_citemap_annotation_kit.py` 生成 `main_105.csv` 与 `qc_21.csv`，
+> 标准见 `citemap_annotation_rubric.md`，填完用
+> `scripts/score_citemap_single_qc.py` 在 21 格重叠上报告一致率/Cohen κ。
+> 对外只能写“单人主标 + 20% 双盲复核”，不能写成三人金标。
+
 ## 1. 生成核对包
 
 ```bash
