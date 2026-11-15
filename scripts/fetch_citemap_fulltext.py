@@ -8,6 +8,8 @@ from __future__ import annotations
 
 import argparse
 import json
+import html
+import re
 import time
 import xml.etree.ElementTree as ET
 from pathlib import Path
@@ -110,6 +112,55 @@ def europepmc_text(doi: str) -> tuple[str, str] | None:
         return None
 
 
+def _strip_html(value: str) -> str:
+    value = re.sub(r"(?is)<(script|style).*?</\1>", " ", value)
+    value = re.sub(r"(?is)<[^>]+>", " ", value)
+    return " ".join(html.unescape(value).split())
+
+
+def pmc_html_text(pmcid: str) -> tuple[str, str] | None:
+    """PMC landing pages are sometimes readable when the REST fullTextXML is 500."""
+    if not pmcid:
+        return None
+    url = f"https://pmc.ncbi.nlm.nih.gov/articles/{pmcid}/"
+    try:
+        resp = requests.get(url, headers={"User-Agent": UA}, timeout=45)
+        if resp.status_code != 200 or len(resp.content) < 10_000:
+            return None
+        paragraphs = re.findall(r"(?is)<p[^>]*>(.*?)</p>", resp.text)
+        text = "\n".join(t for t in (_strip_html(p) for p in paragraphs) if len(t) >= 40)
+        if len(text) < 2000:
+            return None
+        return text, url
+    except Exception:
+        return None
+
+
+def arxiv_pdf_url(doi: str) -> str:
+    """Return an arXiv PDF for a DOI when OpenAlex knows an arXiv version."""
+    if not doi:
+        return ""
+    try:
+        resp = requests.get(
+            "https://api.openalex.org/works/doi:" + requests.utils.quote(doi, safe=""),
+            headers={"User-Agent": UA},
+            timeout=30,
+        )
+        if resp.status_code != 200:
+            return ""
+        for loc in resp.json().get("locations") or []:
+            for key in ("pdf_url", "landing_page_url"):
+                url = loc.get(key) or ""
+                if "arxiv.org/" in url:
+                    ident = url.rstrip("/").rsplit("/", 1)[-1]
+                    ident = ident.removesuffix(".pdf")
+                    if ident:
+                        return f"https://arxiv.org/pdf/{ident}"
+    except Exception:
+        return ""
+    return ""
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--topic", action="append", choices=TOPICS)
@@ -153,6 +204,35 @@ def main() -> int:
                         "fetched_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
                     }
                     print(f"[ok:pmc] {pid} {pmcid} {len(text)} chars")
+                    time.sleep(0.4)
+                    continue
+                # Publisher PDF blocked: try the arXiv version, then PMC HTML.
+                ax = arxiv_pdf_url(paper.get("doi") or "")
+                if ax and download(ax, tmp):
+                    try:
+                        text = extract_text(tmp)
+                    except Exception:
+                        text = ""
+                    tmp.unlink(missing_ok=True)
+                    if len(text.strip()) >= 2000:
+                        text_path.write_text(text, encoding="utf-8")
+                        manifest[pid] = {"status": "ok", "source": "arxiv", "url": ax, "topic": topic, "chars": len(text), "fetched_at": time.strftime("%Y-%m-%dT%H:%M:%S")}
+                        print(f"[ok:arxiv] {pid} {ax} {len(text)} chars")
+                        time.sleep(0.4)
+                        continue
+                pmcid = ""
+                try:
+                    q = requests.get("https://www.ebi.ac.uk/europepmc/webservices/rest/search", params={"query": f'DOI:"{paper.get("doi") or ""}"', "format": "json", "pageSize": 1}, timeout=30).json()
+                    rows = q.get("resultList", {}).get("result", [])
+                    pmcid = rows[0].get("pmcid") or "" if rows else ""
+                except Exception:
+                    pmcid = ""
+                pmc = pmc_html_text(pmcid)
+                if pmc:
+                    text, url2 = pmc
+                    text_path.write_text(text, encoding="utf-8")
+                    manifest[pid] = {"status": "ok", "source": "pmc_html", "pmcid": pmcid, "doi": paper.get("doi") or "", "url": url2, "topic": topic, "chars": len(text), "fetched_at": time.strftime("%Y-%m-%dT%H:%M:%S")}
+                    print(f"[ok:pmc-html] {pid} {pmcid} {len(text)} chars")
                     time.sleep(0.4)
                     continue
                 manifest[pid] = {"status": "download_failed", "url": url, "topic": topic}

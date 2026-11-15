@@ -1,11 +1,31 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 205,
+  "paths_checked": 208,
   "missing": [],
   "rows": [
     {
       "evidence": "E103",
       "path": "docs/evidence/shots/phase-64-citemap-fulltext-layer-1.7.30.png",
+      "exists": true
+    },
+    {
+      "evidence": "E104",
+      "path": "data/experiments/citemap_atomic_fulltext_v3.json",
+      "exists": true
+    },
+    {
+      "evidence": "E104",
+      "path": "data/experiments/citemap_atomic_fulltext_v3_summary.json",
+      "exists": true
+    },
+    {
+      "evidence": "E104",
+      "path": "docs/citemap_atomic_fulltext.md",
+      "exists": true
+    },
+    {
+      "evidence": "E104",
+      "path": "docs/evidence/shots/phase-65-citemap-fulltext-25-1.7.31.png",
       "exists": true
     },
     {
@@ -914,6 +934,6 @@
       "exists": true
     }
   ],
-  "shots_registered": 96,
+  "shots_registered": 97,
   "shots_unregistered": []
 }

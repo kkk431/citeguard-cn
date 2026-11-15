@@ -3,7 +3,7 @@
   "topic_id": "medical_imaging",
   "extractor": "fulltext:atomic-v2",
   "extracted_at": "2026-11-15",
-  "protocol": "21 atomic claims x local OA full texts; full/partial only; quote must match a candidate sentence.",
+  "protocol": "21 atomic claims x 25 local OA full texts; full/partial only; quote must match a candidate sentence.",
   "evidence": [
     {
       "evidence_id": "ft-medical-imaging-med-002-med-c1-a1",
@@ -19,7 +19,7 @@
       "extracted_by": "fulltext:atomic-v2",
       "verified": false,
       "fulltext_verdict": "full",
-      "notes": "该句直接断言深度学习模型在CT影像诊断任务上的表现与经验丰富的医生相当，完整支持断言语义。"
+      "notes": "该句直接断言模型在CT影像诊断任务上性能与经验丰富的医生相当，完整支持断言语义。"
     },
     {
       "evidence_id": "ft-medical-imaging-med-003-med-c1-a1",
@@ -35,7 +35,7 @@
       "extracted_by": "fulltext:atomic-v2",
       "verified": false,
       "fulltext_verdict": "full",
-      "notes": "原文直接给出模型准确率97.8%高于放射科医生95.3%，支持模型达到或超过医生水平。"
+      "notes": "原文直接给出模型准确率97.8%高于放射科医生95.3%，符合模型不低于医生数值的full判定标准。"
     },
     {
       "evidence_id": "ft-medical-imaging-med-004-med-c1-a1",
@@ -83,7 +83,7 @@
       "extracted_by": "fulltext:atomic-v2",
       "verified": false,
       "fulltext_verdict": "partial",
-      "notes": "该句仅泛泛支持AI辅助影像解读的诊断性能与常规专家工作流程相当，未明确限定CT影像诊断任务或深度学习模型，只支持断言的一部分。"
+      "notes": "该句仅泛泛支持AI辅助影像解读的诊断表现可与传统专家工作流程相当，未明确限定CT影像诊断任务或深度学习模型，故只部分支持断言。"
     },
     {
       "evidence_id": "ft-medical-imaging-med-013-med-c1-a1",
@@ -93,29 +93,13 @@
       "paper_id": "med-013",
       "stance": "support",
       "summary": "全文逐句核验为 full；原子断言：深度学习在CT影像诊断任务上可达到或接近专科医生水平。",
-      "quote": "As shown in Tables 4, 5, and 6, in contrast, the diagnostic accuracy of human readers—with or without access to clinical background information—was only 0.6933 and 0.6133, respectively, with F1-scores of 0.6230 and 0.5397, both notably lower than those of the deep learning models.",
+      "quote": "Deep learning significantly surpassed radiomics models and radiologist assessments",
       "locator": "Full text · 逐句检索",
       "confidence": 0.9,
       "extracted_by": "fulltext:atomic-v2",
       "verified": false,
       "fulltext_verdict": "full",
-      "notes": "原文直接比较了深度学习模型与人类读者（放射科医生）的诊断准确率，模型数值高于人类读者，符合断言中达到或接近专科医生水平的语义。"
-    },
-    {
-      "evidence_id": "ft-medical-imaging-med-011-med-c1-a3",
-      "claim_id": "med-c1",
-      "parent_claim_id": "med-c1",
-      "atomic_id": "med-c1-a3",
-      "paper_id": "med-011",
-      "stance": "support",
-      "summary": "全文逐句核验为 partial；原子断言：深度学习在超声影像诊断任务上可达到或接近专科医生水平。",
-      "quote": "Multicenter studies have shown that the DL model ThyNet may differentiate benign from malignant thyroid nodules on ultrasound, and may help reduce unnecessary biopsies without compromising diagnostic accuracy [17].",
-      "locator": "Full text · 逐句检索",
-      "confidence": 0.65,
-      "extracted_by": "fulltext:atomic-v2",
-      "verified": false,
-      "fulltext_verdict": "partial",
-      "notes": "该句仅说明深度学习模型在超声上可区分甲状腺结节良恶性并减少不必要活检，未直接断言其达到或接近专科医生水平。"
+      "notes": "原文直接断言深度学习显著超过放射科医生评估，符合达到或接近专科医生水平的语义。"
     },
     {
       "evidence_id": "ft-medical-imaging-med-011-med-c2-a1",
@@ -131,7 +115,7 @@
       "extracted_by": "fulltext:atomic-v2",
       "verified": false,
       "fulltext_verdict": "partial",
-      "notes": "该句仅指出外部测试中性能下降的问题，暗示外部验证不足，但未直接断言现有研究的外部验证证据不足。"
+      "notes": "该句仅指出外部测试中性能下降的过拟合问题，间接暗示外部验证挑战，但未直接断言现有研究外部验证证据不足。"
     },
     {
       "evidence_id": "ft-medical-imaging-med-011-med-c2-a2",
@@ -147,23 +131,7 @@
       "extracted_by": "fulltext:atomic-v2",
       "verified": false,
       "fulltext_verdict": "partial",
-      "notes": "该句仅指出肿瘤影像数据集存在选择偏倚及机构、人口学等不平衡，属于公平性证据不足的部分支持，未直接断言现有医学影像AI研究整体公平性证据不足。"
-    },
-    {
-      "evidence_id": "ft-medical-imaging-med-008-med-c2-a3",
-      "claim_id": "med-c2",
-      "parent_claim_id": "med-c2",
-      "atomic_id": "med-c2-a3",
-      "paper_id": "med-008",
-      "stance": "support",
-      "summary": "全文逐句核验为 partial；原子断言：医学影像 AI 模型在不同机构间的泛化风险被低估。",
-      "quote": "Though the performance of our model suggests that it’s also capable of adapting to external data, it may not be always feasible or useful to design these entities in other centres.",
-      "locator": "Full text · 逐句检索",
-      "confidence": 0.65,
-      "extracted_by": "fulltext:atomic-v2",
-      "verified": false,
-      "fulltext_verdict": "partial",
-      "notes": "该句仅暗示跨机构部署存在可行性问题，未直接断言泛化风险被低估。"
+      "notes": "该句仅指出数据集存在偏倚/不平衡问题，间接暗示公平性证据不足，但未直接断言现有医学影像AI研究的公平性证据不足。"
     },
     {
       "evidence_id": "ft-medical-imaging-med-011-med-c2-a3",
@@ -179,7 +147,39 @@
       "extracted_by": "fulltext:atomic-v2",
       "verified": false,
       "fulltext_verdict": "partial",
-      "notes": "候选句指出过拟合导致外部测试性能下降，支持泛化风险存在，但未直接断言该风险被低估。"
+      "notes": "候选句[9]仅说明过拟合导致外部测试性能下降，未直接断言泛化风险被低估。"
+    },
+    {
+      "evidence_id": "ft-medical-imaging-med-015-med-c2-a3",
+      "claim_id": "med-c2",
+      "parent_claim_id": "med-c2",
+      "atomic_id": "med-c2-a3",
+      "paper_id": "med-015",
+      "stance": "support",
+      "summary": "全文逐句核验为 partial；原子断言：医学影像 AI 模型在不同机构间的泛化风险被低估。",
+      "quote": "Our work confirms that model discriminatory performance for racial identity recognition generalises across multiple different clinical environments, medical imaging modalities, and patient populations, suggesting that these models are not relying on hospital process variables or local idiosyncratic differences in how imaging studies are performed for patients with different racial identities.",
+      "locator": "Full text · 逐句检索",
+      "confidence": 0.65,
+      "extracted_by": "fulltext:atomic-v2",
+      "verified": false,
+      "fulltext_verdict": "partial",
+      "notes": "原文仅说明模型在不同机构间泛化良好，并未断言泛化风险被低估。"
+    },
+    {
+      "evidence_id": "ft-medical-imaging-med-015-med-c2-a4",
+      "claim_id": "med-c2",
+      "parent_claim_id": "med-c2",
+      "atomic_id": "med-c2-a4",
+      "paper_id": "med-015",
+      "stance": "support",
+      "summary": "全文逐句核验为 partial；原子断言：医学影像 AI 模型在不同人群间的公平性风险被低估。",
+      "quote": "This creates an enormous risk for all model deployments in medical imaging: if an AI model relied on its ability to detect racial identity to make medical decisions, but in doing so misclassified all Black patients, clinical radiologists (who do not typically have access to racial demographic information) would not be able to tell.",
+      "locator": "Full text · 逐句检索",
+      "confidence": 0.65,
+      "extracted_by": "fulltext:atomic-v2",
+      "verified": false,
+      "fulltext_verdict": "partial",
+      "notes": "该句仅指出模型部署存在巨大风险且放射科医生无法察觉，但未直接断言公平性风险被低估。"
     }
   ]
 }

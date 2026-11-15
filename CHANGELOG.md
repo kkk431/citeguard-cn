@@ -1,3 +1,12 @@
+## [1.7.31] - 2026-11-15
+
+### Changed
+
+- Expanded CiteMap full-text coverage from 21/30 to **25/30** papers: when a publisher PDF is blocked, resolve the DOI through OpenAlex locations to an arXiv PDF, and fall back to the PMC HTML page before giving up.
+- Re-ran the 21 atomic claims against the 25 full texts: **258 claim-paper pairs, 10 full / 15 partial / 233 none / 0 error**. Among the 7 audited-positive cells with local full text, full support is 5/7 and any support (full+partial) is 6/7.
+- Rebuilt the product full-text evidence layer from the new run: **24 quoted evidence items** (13 education + 11 medical). Verdicts without a verbatim quote are excluded rather than shown as evidence.
+- Regenerated evidence chart 16 and updated the CiteMap docs; no human-verification claim is added.
+
 ## [1.7.28] - 2026-11-15
 
 ## [1.7.30] - 2026-11-15

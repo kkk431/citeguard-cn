@@ -29,7 +29,10 @@ if _ENV_PATH.exists():
         _line = _line.strip()
         if _line and not _line.startswith("#") and "=" in _line:
             _k, _v = _line.split("=", 1)
-            os.environ.setdefault(_k.strip(), _v.strip().strip('"').strip("'"))
+            _k = _k.strip()
+            _v = _v.strip().strip('"').strip("'")
+            if not os.environ.get(_k):
+                os.environ[_k] = _v
 
 from citeguard import citemap_verify  # noqa: E402
 
@@ -48,7 +51,10 @@ def load_env() -> None:
         if not line or line.startswith("#") or "=" not in line:
             continue
         key, value = line.split("=", 1)
-        os.environ.setdefault(key.strip(), value.strip().strip('"').strip("'"))
+        key = key.strip()
+        value = value.strip().strip('"').strip("'")
+        if not os.environ.get(key):
+            os.environ[key] = value
 
 
 def load_json(path: Path) -> dict:

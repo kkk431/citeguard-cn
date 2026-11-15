@@ -1,0 +1,105 @@
+{
+  "generated_at": "2026-11-15T23:14:51",
+  "data_source": "OpenAlex OA full texts fetched by scripts/fetch_citemap_fulltext.py",
+  "claim_source": "data/evidence_map/claims_atomic.json (21 atomic claims; not human-ratified)",
+  "result_file": "data/experiments/citemap_atomic_fulltext_v3.json",
+  "fulltext_papers": 25,
+  "fulltext_total": 30,
+  "pairs": 258,
+  "verdicts": {
+    "claims": 258,
+    "full": 10,
+    "partial": 15,
+    "none": 233,
+    "error": 0,
+    "full_rate": 0.0388,
+    "any_support_rate": 0.0969
+  },
+  "by_topic": {
+    "ai_education": {
+      "full": 6,
+      "partial": 8,
+      "none": 118,
+      "error": 0
+    },
+    "medical_imaging": {
+      "full": 4,
+      "partial": 7,
+      "none": 115,
+      "error": 0
+    }
+  },
+  "audited_positive_with_fulltext": [
+    {
+      "paper_id": "edu-002",
+      "claim_id": "edu-c1",
+      "best_verdict": "none",
+      "fulltext_hit": false,
+      "support_hit": false,
+      "atomic_id": "",
+      "quote": ""
+    },
+    {
+      "paper_id": "edu-010",
+      "claim_id": "edu-c4",
+      "best_verdict": "full",
+      "fulltext_hit": true,
+      "support_hit": true,
+      "atomic_id": "edu-c4-a1",
+      "quote": "Although educational technologisation reforms have increased rural students’ access opportunities in absolute terms, they have failed to change the relative proportion of resource distribution and instead widened the capability gap between urban and rural students through the establishment of technological thresholds."
+    },
+    {
+      "paper_id": "med-002",
+      "claim_id": "med-c1",
+      "best_verdict": "full",
+      "fulltext_hit": true,
+      "support_hit": true,
+      "atomic_id": "med-c1-a1",
+      "quote": "In conclusion, our proposed deep learning model can differentiate HCC, ICC and metastasis through using deep CNN and gated RNN to integrate multimodal input of multi-phase CECT images and clinical features, with promising performance comparable with experienced doctors and good generalization ability on different centers."
+    },
+    {
+      "paper_id": "med-003",
+      "claim_id": "med-c1",
+      "best_verdict": "full",
+      "fulltext_hit": true,
+      "support_hit": true,
+      "atomic_id": "med-c1-a1",
+      "quote": "The accuracy, sensitivity, specificity and AUC was 97.8%, 97.0%, 98.5%, and 0.99, the radiologist presented accuracy, sensitivity, and specificity as 95.3%, 96.4 and 94.2%."
+    },
+    {
+      "paper_id": "med-007",
+      "claim_id": "med-c1",
+      "best_verdict": "full",
+      "fulltext_hit": true,
+      "support_hit": true,
+      "atomic_id": "med-c1-a1",
+      "quote": "It can be found that the area under the corresponding curves of A-ResNet50-W (in orange) is larger than that of the other three radiologists, which intuitively indicates that the classification method proposed in this paper has better diagnostic performance for LNMs on CT images than that of radiologists."
+    },
+    {
+      "paper_id": "med-011",
+      "claim_id": "med-c2",
+      "best_verdict": "partial",
+      "fulltext_hit": false,
+      "support_hit": true,
+      "atomic_id": "",
+      "quote": ""
+    },
+    {
+      "paper_id": "med-013",
+      "claim_id": "med-c1",
+      "best_verdict": "full",
+      "fulltext_hit": true,
+      "support_hit": true,
+      "atomic_id": "med-c1-a1",
+      "quote": "Deep learning significantly surpassed radiomics models and radiologist assessments"
+    }
+  ],
+  "audited_positive_n": 7,
+  "audited_positive_full_hits": 5,
+  "audited_positive_support_hits": 6,
+  "audited_positive_full_recall": 0.7143,
+  "audited_positive_support_recall": 0.8571,
+  "full_verdict_precision_on_audited": 0.7,
+  "boundary": "Only 25/30 papers have local OA full text; 7 audited-positive cells overlap those papers. Support recall counts full+partial; full recall counts only full. Neither is a full human-labelled accuracy set.",
+  "note": "Full verdicts not covered by a human-positive cell are not claimed as correct."
+}

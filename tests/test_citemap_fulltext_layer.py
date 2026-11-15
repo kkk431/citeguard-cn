@@ -23,5 +23,9 @@ def test_fulltext_layer_is_machine_only_and_quoted() -> None:
             assert item["locator"]
             assert item["paper_id"]
             assert item["atomic_id"]
-    assert total == 20
+    assert total == 24
     assert len(ids) == total
+    ai = json.loads((LAYER / "ai_education.json").read_text(encoding="utf-8"))
+    med = json.loads((LAYER / "medical_imaging.json").read_text(encoding="utf-8"))
+    assert len(ai["evidence"]) == 13
+    assert len(med["evidence"]) == 11

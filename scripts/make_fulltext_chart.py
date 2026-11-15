@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt  # noqa: E402
 from matplotlib import font_manager  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
-SUMMARY = ROOT / "data" / "experiments" / "citemap_atomic_fulltext_summary.json"
+SUMMARY = ROOT / "data" / "experiments" / "citemap_atomic_fulltext_v3_summary.json"
 OUT = ROOT / "docs" / "evidence" / "shots" / "final" / "charts" / "16-fulltext-atomic.png"
 
 BG = "#07131f"
@@ -112,7 +112,7 @@ def main() -> int:
     fig.text(
         0.07,
         0.02,
-        "来源：data/experiments/citemap_atomic_fulltext_summary.json · 复现：scripts/eval_citemap_atomic_fulltext.py + summarize_citemap_atomic_fulltext.py",
+        "来源：data/experiments/citemap_atomic_fulltext_v3_summary.json · 复现：scripts/eval_citemap_atomic_fulltext.py + summarize_citemap_atomic_fulltext.py",
         color=MUTED,
         fontsize=9,
     )

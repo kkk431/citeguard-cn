@@ -16,11 +16,11 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-RESULTS = ROOT / "data" / "experiments" / "citemap_atomic_fulltext_v2.json"
+RESULTS = ROOT / "data" / "experiments" / "citemap_atomic_fulltext_v3.json"
 FALLBACK = ROOT / "data" / "experiments" / "citemap_atomic_fulltext.json"
 MERGED = ROOT / "data" / "experiments" / "citemap_audit_105" / "merged.csv"
 FULLTEXT = ROOT / "data" / "cache" / "citemap_fulltext"
-OUT = ROOT / "data" / "experiments" / "citemap_atomic_fulltext_summary.json"
+OUT = ROOT / "data" / "experiments" / "citemap_atomic_fulltext_v3_summary.json"
 
 _RANK = {"full": 3, "partial": 2, "none": 1, "error": 0}
 

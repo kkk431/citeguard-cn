@@ -12,7 +12,7 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-RESULTS = ROOT / "data" / "experiments" / "citemap_atomic_fulltext_v2.json"
+RESULTS = ROOT / "data" / "experiments" / "citemap_atomic_fulltext_v3.json"
 ATOMIC = ROOT / "data" / "evidence_map" / "claims_atomic.json"
 OUT_DIR = ROOT / "data" / "evidence_map" / "extractions_fulltext"
 TOPICS = ("ai_education", "medical_imaging")
@@ -36,6 +36,9 @@ def main() -> int:
             atomic_id = item.get("atomic_id") or ""
             paper_id = item.get("paper_id")
             if not atomic_id or not paper_id or atomic_id not in claims:
+                continue
+            if not (item.get("evidence") or "").strip():
+                # A verdict without a verbatim quote is a lead, not evidence.
                 continue
             key = (paper_id, atomic_id)
             if key in seen:
@@ -63,7 +66,7 @@ def main() -> int:
             "topic_id": topic,
             "extractor": "fulltext:atomic-v2",
             "extracted_at": "2026-11-15",
-            "protocol": "21 atomic claims x local OA full texts; full/partial only; quote must match a candidate sentence.",
+            "protocol": "21 atomic claims x 25 local OA full texts; full/partial only; quote must match a candidate sentence.",
             "evidence": evidence,
         }
         (OUT_DIR / f"{topic}.json").write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")

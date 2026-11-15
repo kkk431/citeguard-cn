@@ -3,8 +3,40 @@
   "topic_id": "ai_education",
   "extractor": "fulltext:atomic-v2",
   "extracted_at": "2026-11-15",
-  "protocol": "21 atomic claims x local OA full texts; full/partial only; quote must match a candidate sentence.",
+  "protocol": "21 atomic claims x 25 local OA full texts; full/partial only; quote must match a candidate sentence.",
   "evidence": [
+    {
+      "evidence_id": "ft-ai-education-edu-001-edu-c1-a1",
+      "claim_id": "edu-c1",
+      "parent_claim_id": "edu-c1",
+      "atomic_id": "edu-c1-a1",
+      "paper_id": "edu-001",
+      "stance": "support",
+      "summary": "全文逐句核验为 partial；原子断言：生成式 AI 工具在中国高校学生中的接受度较高。",
+      "quote": "Conversely, constructs such as “Confirmation” and “Satisfaction” from the ECM model demonstrated better efficacy in assessing the technological acceptance levels among Chinese graduate students, particularly their perceptions of AI Chatbots.",
+      "locator": "Full text · 逐句检索",
+      "confidence": 0.65,
+      "extracted_by": "fulltext:atomic-v2",
+      "verified": false,
+      "fulltext_verdict": "partial",
+      "notes": "该句仅提及ECM构念在评估中国研究生技术接受水平方面更有效，未直接断言生成式AI工具在中国高校学生中接受度较高。"
+    },
+    {
+      "evidence_id": "ft-ai-education-edu-012-edu-c1-a1",
+      "claim_id": "edu-c1",
+      "parent_claim_id": "edu-c1",
+      "atomic_id": "edu-c1-a1",
+      "paper_id": "edu-012",
+      "stance": "support",
+      "summary": "全文逐句核验为 partial；原子断言：生成式 AI 工具在中国高校学生中的接受度较高。",
+      "quote": "Overall, the findings suggest that students have a positive attitude toward GenAI technologies.",
+      "locator": "Full text · 逐句检索",
+      "confidence": 0.65,
+      "extracted_by": "fulltext:atomic-v2",
+      "verified": false,
+      "fulltext_verdict": "partial",
+      "notes": "原文仅表明学生对GenAI持积极态度，但研究对象是香港高校学生，并非明确为中国高校学生，且未直接断言接受度较高。"
+    },
     {
       "evidence_id": "ft-ai-education-edu-014-edu-c1-a1",
       "claim_id": "edu-c1",
@@ -19,7 +51,7 @@
       "extracted_by": "fulltext:atomic-v2",
       "verified": false,
       "fulltext_verdict": "partial",
-      "notes": "候选句仅表明学生比教师更开放/更积极，未直接断言中国高校学生整体接受度较高，且未涉及中国样本。"
+      "notes": "原文仅表明学生持开放态度且比教师略积极，未直接断言中国高校学生接受度较高，且研究地点为香港高校。"
     },
     {
       "evidence_id": "ft-ai-education-edu-014-edu-c1-a2",
@@ -29,13 +61,45 @@
       "paper_id": "edu-014",
       "stance": "support",
       "summary": "全文逐句核验为 partial；原子断言：生成式 AI 工具在中国高校学生中的自评收益较高。",
-      "quote": "From the findings, students were found to have a higher mean score (M=3.86, SD=1.008) than teachers (M=3.61, SD=1.183), suggesting that students are more open to integrating generative AI technologies into their learning practices compared to teachers (t=2.238, df=215.111, p=.026).",
+      "quote": "Similarly, students (M=3.47, SD=.979) were found to have a higher mean score than teachers (M=3.29, SD=1.115) in relation to academic performance, suggesting that students are more optimistic about the potential of generative AI technologies to improve their overall academic performance (t=1.792, df=507, p=.074).",
       "locator": "Full text · 逐句检索",
       "confidence": 0.65,
       "extracted_by": "fulltext:atomic-v2",
       "verified": false,
       "fulltext_verdict": "partial",
-      "notes": "候选句仅支持学生比教师更开放/更积极，未直接断言学生自评收益较高，且研究地点为香港而非中国高校整体。"
+      "notes": "候选句仅支持学生在学术表现维度上自评均值较高，未覆盖断言中‘中国高校学生’及整体‘自评收益较高’的完整语义。"
+    },
+    {
+      "evidence_id": "ft-ai-education-edu-004-edu-c2-a1",
+      "claim_id": "edu-c2",
+      "parent_claim_id": "edu-c2",
+      "atomic_id": "edu-c2-a1",
+      "paper_id": "edu-004",
+      "stance": "support",
+      "summary": "全文逐句核验为 full；原子断言：智能导师系统能在真实教学数据上提升学习表现预测的准确性。",
+      "quote": "Experiments on two real-world datasets and a sim- ulation dataset show that our method has higher accuracy in predicting learners’ performances compared with the state-of-the-art models, and can provide valuable educational interpretability for applications such as precise learning resource recom- mendation and personalized learning tutoring in intelligent tutoring systems.",
+      "locator": "Full text · 逐句检索",
+      "confidence": 0.9,
+      "extracted_by": "fulltext:atomic-v2",
+      "verified": false,
+      "fulltext_verdict": "full",
+      "notes": "该句直接断言在真实数据集上预测学习者表现的准确率高于现有最优模型，完整支持断言语义。"
+    },
+    {
+      "evidence_id": "ft-ai-education-edu-004-edu-c2-a2",
+      "claim_id": "edu-c2",
+      "parent_claim_id": "edu-c2",
+      "atomic_id": "edu-c2-a2",
+      "paper_id": "edu-004",
+      "stance": "support",
+      "summary": "全文逐句核验为 full；原子断言：智能导师系统能在真实教学数据上提升学习表现预测的可解释性。",
+      "quote": "Experiments on two real-world datasets and a sim- ulation dataset show that our method has higher accuracy in predicting learners’ performances compared with the state-of-the-art models, and can provide valuable educational interpretability for applications such as precise learning resource recom- mendation and personalized learning tutoring in intelligent tutoring systems.",
+      "locator": "Full text · 逐句检索",
+      "confidence": 0.9,
+      "extracted_by": "fulltext:atomic-v2",
+      "verified": false,
+      "fulltext_verdict": "full",
+      "notes": "该句直接断言在真实数据集上预测学习表现并提供可解释性，与断言语义完整对应。"
     },
     {
       "evidence_id": "ft-ai-education-edu-006-edu-c2-a3",
@@ -51,39 +115,23 @@
       "extracted_by": "fulltext:atomic-v2",
       "verified": false,
       "fulltext_verdict": "partial",
-      "notes": "该句支持深度学习知识追踪提升表现预测，但未明确限定在真实教学数据上，仅部分支持断言。"
+      "notes": "该句仅泛泛声称深度知识追踪在预测未来任务表现上有大幅提升，未明确限定在真实教学数据上，也未直接对应断言中的学习诊断模型，故只部分支持。"
     },
     {
-      "evidence_id": "ft-ai-education-edu-014-edu-c3-a1",
-      "claim_id": "edu-c3",
-      "parent_claim_id": "edu-c3",
-      "atomic_id": "edu-c3-a1",
-      "paper_id": "edu-014",
+      "evidence_id": "ft-ai-education-edu-004-edu-c2-a4",
+      "claim_id": "edu-c2",
+      "parent_claim_id": "edu-c2",
+      "atomic_id": "edu-c2-a4",
+      "paper_id": "edu-004",
       "stance": "support",
-      "summary": "全文逐句核验为 partial；原子断言：生成式 AI 将在高等教育中取代教师的核心教学职能。",
-      "quote": "This paper explores the potential of artificial intelligence (AI) in higher education, specifically its capacity to replace or assist human teachers.",
+      "summary": "全文逐句核验为 full；原子断言：学习诊断模型能在真实教学数据上提升学习表现预测的可解释性。",
+      "quote": "Experiments on two real-world datasets and a sim- ulation dataset show that our method has higher accuracy in predicting learners’ performances compared with the state-of-the-art models, and can provide valuable educational interpretability for applications such as precise learning resource recom- mendation and personalized learning tutoring in intelligent tutoring systems.",
       "locator": "Full text · 逐句检索",
-      "confidence": 0.65,
+      "confidence": 0.9,
       "extracted_by": "fulltext:atomic-v2",
       "verified": false,
-      "fulltext_verdict": "partial",
-      "notes": "原文仅提出AI取代或辅助教师的可能性，未直接断言生成式AI将在高等教育中取代教师的核心教学职能。"
-    },
-    {
-      "evidence_id": "ft-ai-education-edu-005-edu-c4-a1",
-      "claim_id": "edu-c4",
-      "parent_claim_id": "edu-c4",
-      "atomic_id": "edu-c4-a1",
-      "paper_id": "edu-005",
-      "stance": "support",
-      "summary": "全文逐句核验为 partial；原子断言：AI 教育的收益在城乡之间分布不均。",
-      "quote": "These differences highlight the need for regionally adaptive policies and targeted support measures (e.g., mentorship programs or specialized learning resources) for female students or students from less digitally developed regions.",
-      "locator": "Full text · 逐句检索",
-      "confidence": 0.65,
-      "extracted_by": "fulltext:atomic-v2",
-      "verified": false,
-      "fulltext_verdict": "partial",
-      "notes": "候选句仅暗示地区间存在差异并需针对性支持，未直接断言AI教育收益在城乡之间分布不均。"
+      "fulltext_verdict": "full",
+      "notes": "该句直接断言在真实数据集上预测表现更优且提供教育可解释性，完整支持断言语义。"
     },
     {
       "evidence_id": "ft-ai-education-edu-010-edu-c4-a1",
@@ -93,29 +141,13 @@
       "paper_id": "edu-010",
       "stance": "support",
       "summary": "全文逐句核验为 full；原子断言：AI 教育的收益在城乡之间分布不均。",
-      "quote": "The findings unveil four interconnected layers of inequality: policy-driven infrastructure disparities favouring elite urban schools, regional stratification exacerbating urban-rural divides under standardised policies, intergenerational transmission of cultural and economic capital reinforcing educational privilege, and individual disparities in AI literacy widening the “new digital divide”.",
+      "quote": "Although educational technologisation reforms have increased rural students’ access opportunities in absolute terms, they have failed to change the relative proportion of resource distribution and instead widened the capability gap between urban and rural students through the establishment of technological thresholds.",
       "locator": "Full text · 逐句检索",
       "confidence": 0.9,
       "extracted_by": "fulltext:atomic-v2",
       "verified": false,
       "fulltext_verdict": "full",
-      "notes": "该句直接断言AI教育存在城乡差异（urban-rural divides），与断言语义一致。"
-    },
-    {
-      "evidence_id": "ft-ai-education-edu-005-edu-c4-a2",
-      "claim_id": "edu-c4",
-      "parent_claim_id": "edu-c4",
-      "atomic_id": "edu-c4-a2",
-      "paper_id": "edu-005",
-      "stance": "support",
-      "summary": "全文逐句核验为 partial；原子断言：AI 教育的收益在校际之间分布不均。",
-      "quote": "However, there was an uneven distribution, with Central China representing 68.19%, while Southern and Northern China accounted for only 1.69% and 2.09%, respectively (Table 2).",
-      "locator": "Full text · 逐句检索",
-      "confidence": 0.65,
-      "extracted_by": "fulltext:atomic-v2",
-      "verified": false,
-      "fulltext_verdict": "partial",
-      "notes": "该句仅说明样本在地理上分布不均，未直接断言AI教育收益在校际间分布不均。"
+      "notes": "该句直接断言AI教育技术改革未能改变资源分配相对比例，反而扩大了城乡学生能力差距，完整支持城乡收益分布不均的语义。"
     },
     {
       "evidence_id": "ft-ai-education-edu-010-edu-c4-a2",
@@ -131,7 +163,7 @@
       "extracted_by": "fulltext:atomic-v2",
       "verified": false,
       "fulltext_verdict": "full",
-      "notes": "该句直接断言AI教育存在多层不平等，包括校际（精英城市学校与其他学校）的基础设施差异，完整支持“收益在校际之间分布不均”。"
+      "notes": "该句直接断言AI教育存在多层不平等，包括校际基础设施差异和城乡分化，完整支持“收益在校际之间分布不均”。"
     },
     {
       "evidence_id": "ft-ai-education-edu-010-edu-c4-a3",
@@ -147,7 +179,39 @@
       "extracted_by": "fulltext:atomic-v2",
       "verified": false,
       "fulltext_verdict": "full",
-      "notes": "该句直接断言技术乐观主义掩盖了结构性不平等，与原子断言语义完全一致。"
+      "notes": "候选句[4]直接断言技术乐观掩盖结构性不平等，与原子断言语义完全一致。"
+    },
+    {
+      "evidence_id": "ft-ai-education-edu-012-edu-c4-a3",
+      "claim_id": "edu-c4",
+      "parent_claim_id": "edu-c4",
+      "atomic_id": "edu-c4-a3",
+      "paper_id": "edu-012",
+      "stance": "support",
+      "summary": "全文逐句核验为 partial；原子断言：技术乐观叙事掩盖了结构性不平等。",
+      "quote": "Some participants were worried that “AI could misalign with our human values and becomes a danger to us.” For example, it may contribute to social injustice and inequality, as some participants noted, “it may widen the gap between the rich and the poor” and “also be unfair to those students who don’t use it.”",
+      "locator": "Full text · 逐句检索",
+      "confidence": 0.65,
+      "extracted_by": "fulltext:atomic-v2",
+      "verified": false,
+      "fulltext_verdict": "partial",
+      "notes": "候选句仅提及部分参与者担忧AI可能加剧贫富差距和不公平，支持了不平等相关部分，但未涉及技术乐观叙事是否掩盖这些不平等。"
+    },
+    {
+      "evidence_id": "ft-ai-education-edu-014-edu-c4-a3",
+      "claim_id": "edu-c4",
+      "parent_claim_id": "edu-c4",
+      "atomic_id": "edu-c4-a3",
+      "paper_id": "edu-014",
+      "stance": "support",
+      "summary": "全文逐句核验为 partial；原子断言：技术乐观叙事掩盖了结构性不平等。",
+      "quote": "Some of the notable concerns include the dubious technical capacity and reliability of algorithms (Celik, Dindar, Muukkonen & Järvelä, 2022), the necessary human input or training from human operators in order for AI to function properly (Wilson & Daugherty, 2018), inequality and prejudice issues arising from reliance on AI (Wogu, Misra, Olu-Owolabi, Assibong, & Udoh, 2018), and the comparative disadvantage of AI in holistic and visionary thinking (Jarrahi, 2018).",
+      "locator": "Full text · 逐句检索",
+      "confidence": 0.65,
+      "extracted_by": "fulltext:atomic-v2",
+      "verified": false,
+      "fulltext_verdict": "partial",
+      "notes": "该句仅提及对AI依赖带来的不平等与偏见问题，支持断言中'结构性不平等'的部分，但未涉及'技术乐观叙事掩盖'这一核心语义。"
     }
   ]
 }
