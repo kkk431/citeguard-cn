@@ -22,7 +22,7 @@
 | 扫描件 OCR **23/24 条** | `data/experiments/ocr_scan_real.json` | `PYTHONPATH=src python scripts/eval_ocr_scanned.py --input <pdf>` | 7 页扫描 PDF，题名/年份/作者 23/23 |
 | GB/T E4 严格控制漂移 **29/30** | `data/experiments/e4_format.json` | `PYTHONPATH=src python scripts/e4_format_check.py` | 30 个构造样本 |
 | 万方中文强命中 **111/184** | `data/experiments/wanfang_batch.json` | 见 `docs/chinese_sources.md` | 184 条中文题录，试用配额；非全样本 |
-| 测试 **941 passed** | `pytest -q` | `PYTHONPATH=src python -m pytest tests -q` | 本地 Python 3.13 |
+| 测试 **960 passed** | `pytest -q` | `PYTHONPATH=src python -m pytest tests -q` | 本地 Python 3.13 |
 | SBOM **10 个核心依赖** | `docs/sbom.json`、`scripts/make_sbom.py`、`tests/test_sbom.py` | `PYTHONPATH=src python scripts/make_sbom.py --check` | CycloneDX 1.5；版本与 `web/app.py` 一致 |
 | 交付自检 **137/137** | `scripts/verify_artifacts.py` | `PYTHONPATH=src python scripts/verify_artifacts.py` | 版本/路由/文档/数字一致性 |
 | 知网导入 **22 → 27 条，Exact** | `data/library/cnki_demo.enw`、`data/library/library.json` | `PYTHONPATH=src python -m citeguard.cli --import-library data/library/cnki_demo.enw` | 5 条机构导出题录 |
@@ -164,4 +164,4 @@
 | E99 | CiteMap 动态生成与独立机器层（1.7.25） | `src/citeguard/citemap_builder.py`、`scripts/fill_citemap_machine.py`、`data/evidence_map/dynamic/`、`data/evidence_map/extractions_machine/`、`web/app.py`（`/api/citemap/generate`） | 输入主题或 5–20 个 DOI 生成 `dyn_<hash>` 地图；真实跑出 12/12/5 篇三个主题；固定示例 30/30 篇有卡，人工 10 条不变、机器层 20 条单独存放；机器层标 `machine:abstract-finding`、`verified=false`，不进人工层。测试 935 项 | `docs/evidence/shots/phase-62-citemap-generate-1.7.25.png`、`docs/evidence/shots/phase-62-citemap-dynamic-1.7.25.png`、`docs/evidence/shots/phase-62-citemap-machine-layer-1.7.25.png` |
 | E100 | CiteMap 证据门禁与“论文自述”拆分（1.7.26） | `scripts/gate_citemap_evidence.py`、`data/experiments/citemap_gate_v2.json`、`data/experiments/citemap_gate_v3.json`、`docs/citemap_gate.md` | 宽松门禁保留 11/31、人工判正确 7 → 精确率 63.6%/召回 87.5%；要求完整支持整条复合断言时 **0/31**，人工判“正确”的 8 条也全是部分支持。据此产品不再把单句摘要叫“机器证据”：论文摘要句改标「论文自述结论」，原子证据单独计数。 | `docs/evidence/shots/phase-63-citemap-self-finding-1.7.26.png` |
 | E101 | CiteMap 原子断言 × 全文逐句核验（1.7.29） | `src/citeguard/citemap_verify.py`、`scripts/eval_citemap_atomic_fulltext.py`、`scripts/summarize_citemap_atomic_fulltext.py`、`data/experiments/citemap_atomic_fulltext_v2.json`、`data/experiments/citemap_atomic_fulltext_summary.json`、`docs/citemap_atomic_fulltext.md` | 21 条原子断言 × 21 篇可获取全文 = 213 组合；完整支持 7、部分支持 13、无证据 193、错误 0；105 格中“有全文且人工判正确”的 7 个证据格：支持证据 6/7、完整支持 5/7；小样本，不宣称通用准确率 | `docs/evidence/shots/final/charts/16-fulltext-atomic.png` |
-
+| E105 | CiteMap 证据图（1.7.32） | `web/templates/citemap.html`、`web/static/js/citemap_graph.js`、`web/static/css/citemap_graph.css`、`tests/test_citemap_page.py` | 断言→论文→证据三栏图：全文实线 / 摘要虚线 / 抽样未发现点线；医学影像实测 13 断言 / 15 论文 / 全文 8 / 摘要 13 / 抽样未发现 11，共 32 条关系；详情在图下方，不遮挡论文列；浅深色均可读。 | `docs/evidence/shots/phase-66-citemap-graph-1.7.32.png`、`docs/evidence/shots/phase-66-citemap-graph-light-1.7.32.png` |

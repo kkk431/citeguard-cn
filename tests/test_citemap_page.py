@@ -20,6 +20,8 @@ STATIC_DIR = PROJECT_ROOT / "web" / "static"
 TEMPLATE_PATH = TEMPLATES_DIR / "citemap.html"
 JS_PATH = STATIC_DIR / "js" / "citemap.js"
 CSS_PATH = STATIC_DIR / "css" / "citemap.css"
+GRAPH_JS_PATH = STATIC_DIR / "js" / "citemap_graph.js"
+GRAPH_CSS_PATH = STATIC_DIR / "css" / "citemap_graph.css"
 
 CORE_IDS = [
     "citemap-app",
@@ -42,6 +44,11 @@ CORE_IDS = [
     "ctm-detail-body",
     "ctm-verify-toggle",
     "ctm-verify-count",
+    "ctm-graph-toggle",
+    "ctm-graph-panel",
+    "ctm-graph-svg",
+    "ctm-graph-detail",
+    "ctm-graph-detail-body",
 ]
 
 
@@ -130,6 +137,8 @@ def test_template_states_are_present() -> None:
     assert re.search(r'id="ctm-empty"[^>]*\bhidden\b', html)
     assert re.search(r'id="ctm-layout"[^>]*\bhidden\b', html)
     assert re.search(r'id="ctm-detail-body"[^>]*\bhidden\b', html)
+    assert re.search(r'id="ctm-graph-panel"[^>]*\bhidden\b', html)
+    assert re.search(r'id="ctm-graph-detail"[^>]*\bhidden\b', html)
     assert 'id="ctm-loading"' in html
     assert 'id="ctm-retry"' in html
     assert "主题加载失败" in html
@@ -138,9 +147,12 @@ def test_template_states_are_present() -> None:
 def test_template_assets_mount_after_base_scripts() -> None:
     html = _render(current_topic="ai_education")
     assert "/static/css/citemap.css?v=1.7.3" in html
+    assert "/static/css/citemap_graph.css?v=1.7.3" in html
     assert "/static/js/citemap.js?v=1.7.3" in html
+    assert "/static/js/citemap_graph.js?v=1.7.3" in html
     assert html.index("citemap.js") > html.index("/static/js/app.js")
     assert 'src="/static/js/citemap.js?v=1.7.3" defer' in html
+    assert 'src="/static/js/citemap_graph.js?v=1.7.3" defer' in html
 
 
 def test_template_ids_are_unique() -> None:
@@ -150,9 +162,35 @@ def test_template_ids_are_unique() -> None:
 
 
 def test_static_files_exist() -> None:
-    for path in (TEMPLATE_PATH, JS_PATH, CSS_PATH):
+    for path in (TEMPLATE_PATH, JS_PATH, CSS_PATH, GRAPH_JS_PATH, GRAPH_CSS_PATH):
         assert path.is_file(), path
         assert path.stat().st_size > 0, path
+
+
+def test_graph_view_contract() -> None:
+    html = _render(current_topic="medical_imaging")
+    assert 'id="ctm-graph-toggle"' in html
+    assert "证据图" in html
+    assert "全文逐字证据" in html
+    assert "摘要级证据" in html
+
+    js = GRAPH_JS_PATH.read_text(encoding="utf-8")
+    assert '"/api/citemap/" + encodeURIComponent(topicId)' in js
+    assert "auto_evidence" in js
+    assert "fulltext" in js
+    assert "ctm-edge--" in js
+    assert "innerHTML" not in js
+    assert "textContent" in js  # SVG and DOM text are set via textContent
+    assert "document.createElementNS" in js
+    assert "aria-label" in js
+    assert "Escape" in js
+
+    css = GRAPH_CSS_PATH.read_text(encoding="utf-8")
+    assert ".ctm-graph-panel" in css
+    assert ".ctm-edge--fulltext" in css
+    assert ".ctm-edge--abstract" in css
+    assert ".ctm-edge--none" in css
+    assert "grid-template-columns: minmax(0, 1fr);" in css
 
 
 def test_js_uses_citemap_api_and_url_sync() -> None:

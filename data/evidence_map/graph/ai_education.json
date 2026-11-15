@@ -1,0 +1,2883 @@
+{
+  "schema_version": "1.0",
+  "topic": {
+    "topic_id": "ai_education",
+    "name_zh": "人工智能教育",
+    "name_en": "AI in Education",
+    "question": "生成式 AI 与智能导师系统在真实教学场景中的学习成效、公平性与教师角色证据如何？",
+    "description": "聚焦中国高校与中小学场景下生成式 AI、智能导师系统的接受度、学习收益、公平性与教师角色争议；每个主题 15 篇开放获取论文，含中国机构署名研究与高被引国际对照研究。"
+  },
+  "topic_id": "ai_education",
+  "generated_at": "2026-11-14",
+  "nodes": [
+    {
+      "id": "edu-001",
+      "type": "paper",
+      "label": "AI Chatbots in Chinese higher education: adoption, perception, and influence among graduate students—an integrated analysis utilizing UTAUT and ECM models",
+      "meta": {
+        "paper_id": "edu-001",
+        "title": "AI Chatbots in Chinese higher education: adoption, perception, and influence among graduate students—an integrated analysis utilizing UTAUT and ECM models",
+        "authors": [
+          "Weiqi Tian",
+          "Jingshen Ge",
+          "Yu Zhao",
+          "Xu Zheng"
+        ],
+        "year": 2024,
+        "venue": "Frontiers in Psychology",
+        "doi": "10.3389/fpsyg.2024.1268549",
+        "openalex_id": "W4391609188",
+        "url": "https://doi.org/10.3389/fpsyg.2024.1268549",
+        "license": "cc-by",
+        "is_oa": true,
+        "fulltext_available": true,
+        "oa_url": "https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2024.1268549/pdf",
+        "oa_status": "gold",
+        "language": "en",
+        "topic_id": "ai_education",
+        "cn_affiliated": true,
+        "cited_by": 258,
+        "source": "openalex",
+        "notes": ""
+      }
+    },
+    {
+      "id": "edu-002",
+      "type": "paper",
+      "label": "Exploring How AI Literacy and Self-Regulated Learning Relate to Student Writing Performance and Well-Being in Generative AI-Supported Higher Education",
+      "meta": {
+        "paper_id": "edu-002",
+        "title": "Exploring How AI Literacy and Self-Regulated Learning Relate to Student Writing Performance and Well-Being in Generative AI-Supported Higher Education",
+        "authors": [
+          "Jiajia Shi",
+          "Weitong Liu",
+          "Ke Hu"
+        ],
+        "year": 2025,
+        "venue": "Behavioral Sciences",
+        "doi": "10.3390/bs15050705",
+        "openalex_id": "W4410539449",
+        "url": "https://doi.org/10.3390/bs15050705",
+        "license": "cc-by",
+        "is_oa": true,
+        "fulltext_available": true,
+        "oa_url": "https://www.mdpi.com/2076-328X/15/5/705/pdf?version=1747820215",
+        "oa_status": "gold",
+        "language": "en",
+        "topic_id": "ai_education",
+        "cn_affiliated": true,
+        "cited_by": 166,
+        "source": "openalex",
+        "notes": ""
+      }
+    },
+    {
+      "id": "edu-003",
+      "type": "paper",
+      "label": "Artificial intelligence education for young children: A case study of technology‐enhanced embodied learning",
+      "meta": {
+        "paper_id": "edu-003",
+        "title": "Artificial intelligence education for young children: A case study of technology‐enhanced embodied learning",
+        "authors": [
+          "Weipeng Yang",
+          "Xinyun Hu",
+          "Ibrahim H. Yeter",
+          "Jiahong Su",
+          "Yuqin Yang",
+          "John Chi‐Kin Lee"
+        ],
+        "year": 2023,
+        "venue": "Journal of Computer Assisted Learning",
+        "doi": "10.1111/jcal.12892",
+        "openalex_id": "W4387779292",
+        "url": "https://doi.org/10.1111/jcal.12892",
+        "license": "cc-by-nc-nd",
+        "is_oa": true,
+        "fulltext_available": true,
+        "oa_url": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1111/jcal.12892",
+        "oa_status": "hybrid",
+        "language": "en",
+        "topic_id": "ai_education",
+        "cn_affiliated": true,
+        "cited_by": 139,
+        "source": "openalex",
+        "notes": ""
+      }
+    },
+    {
+      "id": "edu-004",
+      "type": "paper",
+      "label": "A Unified Interpretable Intelligent Learning Diagnosis Framework for Learning Performance Prediction in Intelligent Tutoring Systems",
+      "meta": {
+        "paper_id": "edu-004",
+        "title": "A Unified Interpretable Intelligent Learning Diagnosis Framework for Learning Performance Prediction in Intelligent Tutoring Systems",
+        "authors": [
+          "Zhifeng Wang",
+          "Wenxing Yan",
+          "Chunyan Zeng",
+          "Yuan Tian",
+          "Shi Dong"
+        ],
+        "year": 2023,
+        "venue": "International Journal of Intelligent Systems",
+        "doi": "10.1155/2023/4468025",
+        "openalex_id": "W4321365943",
+        "url": "https://doi.org/10.1155/2023/4468025",
+        "license": "cc-by",
+        "is_oa": true,
+        "fulltext_available": true,
+        "oa_url": "https://downloads.hindawi.com/journals/ijis/2023/4468025.pdf",
+        "oa_status": "hybrid",
+        "language": "en",
+        "topic_id": "ai_education",
+        "cn_affiliated": true,
+        "cited_by": 57,
+        "source": "openalex",
+        "notes": ""
+      }
+    },
+    {
+      "id": "edu-005",
+      "type": "paper",
+      "label": "Integrating AI Literacy with the TPB-TAM Framework to Explore Chinese University Students’ Adoption of Generative AI",
+      "meta": {
+        "paper_id": "edu-005",
+        "title": "Integrating AI Literacy with the TPB-TAM Framework to Explore Chinese University Students’ Adoption of Generative AI",
+        "authors": [
+          "Xiaoxuan Zhang",
+          "Xiaoling Hu",
+          "Yinguang Sun",
+          "Lu Li",
+          "Shiyi Deng",
+          "Xiaowen Chen"
+        ],
+        "year": 2025,
+        "venue": "Behavioral Sciences",
+        "doi": "10.3390/bs15101398",
+        "openalex_id": "W4415266901",
+        "url": "https://doi.org/10.3390/bs15101398",
+        "license": "cc-by",
+        "is_oa": true,
+        "fulltext_available": true,
+        "oa_url": "https://www.mdpi.com/2076-328X/15/10/1398/pdf?version=1760681095",
+        "oa_status": "gold",
+        "language": "en",
+        "topic_id": "ai_education",
+        "cn_affiliated": true,
+        "cited_by": 40,
+        "source": "openalex",
+        "notes": ""
+      }
+    },
+    {
+      "id": "edu-006",
+      "type": "paper",
+      "label": "Deep learning based knowledge tracing in intelligent tutoring systems",
+      "meta": {
+        "paper_id": "edu-006",
+        "title": "Deep learning based knowledge tracing in intelligent tutoring systems",
+        "authors": [
+          "Xin Zhou",
+          "Zhuoxu Zhang",
+          "Xike Xie",
+          "Jiawei Zhang"
+        ],
+        "year": 2025,
+        "venue": "Scientific Reports",
+        "doi": "10.1038/s41598-025-07422-7",
+        "openalex_id": "W4411868760",
+        "url": "https://doi.org/10.1038/s41598-025-07422-7",
+        "license": "cc-by-nc-nd",
+        "is_oa": true,
+        "fulltext_available": true,
+        "oa_url": "https://www.nature.com/articles/s41598-025-07422-7.pdf",
+        "oa_status": "gold",
+        "language": "en",
+        "topic_id": "ai_education",
+        "cn_affiliated": true,
+        "cited_by": 40,
+        "source": "openalex",
+        "notes": ""
+      }
+    },
+    {
+      "id": "edu-007",
+      "type": "paper",
+      "label": "Perceptions of AI in Higher Education: Insights from Students at a Top-Tier Chinese University",
+      "meta": {
+        "paper_id": "edu-007",
+        "title": "Perceptions of AI in Higher Education: Insights from Students at a Top-Tier Chinese University",
+        "authors": [
+          "Yi Yan",
+          "Bin Wu",
+          "Jiaqi Pi",
+          "Xiao Wen Zhang"
+        ],
+        "year": 2025,
+        "venue": "Education Sciences",
+        "doi": "10.3390/educsci15060735",
+        "openalex_id": "W4411248962",
+        "url": "https://doi.org/10.3390/educsci15060735",
+        "license": "cc-by",
+        "is_oa": true,
+        "fulltext_available": true,
+        "oa_url": "https://www.mdpi.com/2227-7102/15/6/735/pdf?version=1749707643",
+        "oa_status": "gold",
+        "language": "en",
+        "topic_id": "ai_education",
+        "cn_affiliated": true,
+        "cited_by": 33,
+        "source": "openalex",
+        "notes": ""
+      }
+    },
+    {
+      "id": "edu-008",
+      "type": "paper",
+      "label": "Factors influencing AI adoption by Chinese mathematics teachers in STEM education",
+      "meta": {
+        "paper_id": "edu-008",
+        "title": "Factors influencing AI adoption by Chinese mathematics teachers in STEM education",
+        "authors": [
+          "Du Wen",
+          "Yiming Cao",
+          "Muwen Tang",
+          "Fang Wang",
+          "Guofeng Wang"
+        ],
+        "year": 2025,
+        "venue": "Scientific Reports",
+        "doi": "10.1038/s41598-025-06476-x",
+        "openalex_id": "W4411882032",
+        "url": "https://doi.org/10.1038/s41598-025-06476-x",
+        "license": "cc-by-nc-nd",
+        "is_oa": true,
+        "fulltext_available": true,
+        "oa_url": "https://www.nature.com/articles/s41598-025-06476-x.pdf",
+        "oa_status": "gold",
+        "language": "en",
+        "topic_id": "ai_education",
+        "cn_affiliated": true,
+        "cited_by": 23,
+        "source": "openalex",
+        "notes": ""
+      }
+    },
+    {
+      "id": "edu-009",
+      "type": "paper",
+      "label": "Modeling the relationships between secondary school students’ AI learning attitude, AI literacy and AI career interest",
+      "meta": {
+        "paper_id": "edu-009",
+        "title": "Modeling the relationships between secondary school students’ AI learning attitude, AI literacy and AI career interest",
+        "authors": [
+          "Di Zhang",
+          "Hongwu Yang",
+          "Yanshan He",
+          "Weitong Guo"
+        ],
+        "year": 2025,
+        "venue": "Education and Information Technologies",
+        "doi": "10.1007/s10639-025-13715-1",
+        "openalex_id": "W4414183536",
+        "url": "https://doi.org/10.1007/s10639-025-13715-1",
+        "license": "cc-by-nc-nd",
+        "is_oa": true,
+        "fulltext_available": true,
+        "oa_url": "https://link.springer.com/content/pdf/10.1007/s10639-025-13715-1.pdf",
+        "oa_status": "hybrid",
+        "language": "en",
+        "topic_id": "ai_education",
+        "cn_affiliated": true,
+        "cited_by": 17,
+        "source": "openalex",
+        "notes": ""
+      }
+    },
+    {
+      "id": "edu-010",
+      "type": "paper",
+      "label": "Revisiting Techno-Optimism: Multidimensional Inequalities in AI Education across Urban, Suburban, and Rural Primary Schools in China",
+      "meta": {
+        "paper_id": "edu-010",
+        "title": "Revisiting Techno-Optimism: Multidimensional Inequalities in AI Education across Urban, Suburban, and Rural Primary Schools in China",
+        "authors": [
+          "Yunlai Liu",
+          "Yuwei Zhang"
+        ],
+        "year": 2025,
+        "venue": "Education as Change",
+        "doi": "10.25159/1947-9417/18869",
+        "openalex_id": "W7123340715",
+        "url": "https://doi.org/10.25159/1947-9417/18869",
+        "license": "cc-by-sa",
+        "is_oa": true,
+        "fulltext_available": true,
+        "oa_url": "https://unisapressjournals.co.za/index.php/EAC/article/download/18869/8804",
+        "oa_status": "gold",
+        "language": "en",
+        "topic_id": "ai_education",
+        "cn_affiliated": true,
+        "cited_by": 0,
+        "source": "openalex",
+        "notes": "Crossref 返回标题截断为 'Revisiting Techno-Optimism'；DOI 与许可已人工核对，全标题以 OpenAlex 记录为准。"
+      }
+    },
+    {
+      "id": "edu-011",
+      "type": "paper",
+      "label": "Artificial Intelligence in Education: A Review",
+      "meta": {
+        "paper_id": "edu-011",
+        "title": "Artificial Intelligence in Education: A Review",
+        "authors": [
+          "Lijia Chen",
+          "Pingping Chen",
+          "Zhijian Lin"
+        ],
+        "year": 2020,
+        "venue": "IEEE Access",
+        "doi": "10.1109/access.2020.2988510",
+        "openalex_id": "W3017131514",
+        "url": "https://doi.org/10.1109/access.2020.2988510",
+        "license": "cc-by",
+        "is_oa": true,
+        "fulltext_available": false,
+        "oa_url": "https://doi.org/10.1109/access.2020.2988510",
+        "oa_status": "gold",
+        "language": "en",
+        "topic_id": "ai_education",
+        "cn_affiliated": true,
+        "cited_by": 6210,
+        "source": "openalex",
+        "notes": "OpenAlex 未提供可直接下载的 PDF（oa_url 为出版社 landing page）；is_oa=true、fulltext_available=false。"
+      }
+    },
+    {
+      "id": "edu-012",
+      "type": "paper",
+      "label": "Students’ voices on generative AI: perceptions, benefits, and challenges in higher education",
+      "meta": {
+        "paper_id": "edu-012",
+        "title": "Students’ voices on generative AI: perceptions, benefits, and challenges in higher education",
+        "authors": [
+          "Cecilia Ka Yuk Chan",
+          "Wenjie Hu"
+        ],
+        "year": 2023,
+        "venue": "International Journal of Educational Technology in Higher Education",
+        "doi": "10.1186/s41239-023-00411-8",
+        "openalex_id": "W4384464487",
+        "url": "https://doi.org/10.1186/s41239-023-00411-8",
+        "license": "cc-by",
+        "is_oa": true,
+        "fulltext_available": true,
+        "oa_url": "https://educationaltechnologyjournal.springeropen.com/counter/pdf/10.1186/s41239-023-00411-8",
+        "oa_status": "diamond",
+        "language": "en",
+        "topic_id": "ai_education",
+        "cn_affiliated": false,
+        "cited_by": 4039,
+        "source": "openalex",
+        "notes": "非中国机构署名，作为高被引国际对照纳入。"
+      }
+    },
+    {
+      "id": "edu-013",
+      "type": "paper",
+      "label": "A comprehensive AI policy education framework for university teaching and learning",
+      "meta": {
+        "paper_id": "edu-013",
+        "title": "A comprehensive AI policy education framework for university teaching and learning",
+        "authors": [
+          "Cecilia Ka Yuk Chan"
+        ],
+        "year": 2023,
+        "venue": "International Journal of Educational Technology in Higher Education",
+        "doi": "10.1186/s41239-023-00408-3",
+        "openalex_id": "W4383312437",
+        "url": "https://doi.org/10.1186/s41239-023-00408-3",
+        "license": "cc-by",
+        "is_oa": true,
+        "fulltext_available": true,
+        "oa_url": "https://educationaltechnologyjournal.springeropen.com/counter/pdf/10.1186/s41239-023-00408-3",
+        "oa_status": "diamond",
+        "language": "en",
+        "topic_id": "ai_education",
+        "cn_affiliated": false,
+        "cited_by": 2555,
+        "source": "openalex",
+        "notes": "非中国机构署名，作为高被引国际对照纳入。"
+      }
+    },
+    {
+      "id": "edu-014",
+      "type": "paper",
+      "label": "Will generative AI replace teachers in higher education? A study of teacher and student perceptions",
+      "meta": {
+        "paper_id": "edu-014",
+        "title": "Will generative AI replace teachers in higher education? A study of teacher and student perceptions",
+        "authors": [
+          "Cecilia Ka Yuk Chan",
+          "Louisa H.Y. Tsi"
+        ],
+        "year": 2024,
+        "venue": "Studies In Educational Evaluation",
+        "doi": "10.1016/j.stueduc.2024.101395",
+        "openalex_id": "W4401988281",
+        "url": "https://doi.org/10.1016/j.stueduc.2024.101395",
+        "license": "cc-by-nc-sa",
+        "is_oa": true,
+        "fulltext_available": true,
+        "oa_url": "https://arxiv.org/pdf/2305.01185",
+        "oa_status": "green",
+        "language": "en",
+        "topic_id": "ai_education",
+        "cn_affiliated": false,
+        "cited_by": 843,
+        "source": "openalex",
+        "notes": "绿色 OA 版本为 arXiv:2305.01185（标题与期刊版不同）；本抽取的摘要引文取自 arXiv 版本，期刊版发表于 2024 年。 非中国机构署名，作为高被引国际对照纳入。"
+      }
+    },
+    {
+      "id": "edu-015",
+      "type": "paper",
+      "label": "Integrating Ethics and Career Futures with Technical Learning to Promote AI Literacy for Middle School Students: An Exploratory Study",
+      "meta": {
+        "paper_id": "edu-015",
+        "title": "Integrating Ethics and Career Futures with Technical Learning to Promote AI Literacy for Middle School Students: An Exploratory Study",
+        "authors": [
+          "Helen Zhang",
+          "Irene A. Lee",
+          "Safinah Ali",
+          "Daniella DiPaola",
+          "Yihong Cheng",
+          "Cynthia Breazeal"
+        ],
+        "year": 2022,
+        "venue": "International Journal of Artificial Intelligence in Education",
+        "doi": "10.1007/s40593-022-00293-3",
+        "openalex_id": "W4229441880",
+        "url": "https://doi.org/10.1007/s40593-022-00293-3",
+        "license": "cc-by-nc-nd",
+        "is_oa": true,
+        "fulltext_available": true,
+        "oa_url": "https://link.springer.com/content/pdf/10.1007/s40593-022-00293-3.pdf",
+        "oa_status": "hybrid",
+        "language": "en",
+        "topic_id": "ai_education",
+        "cn_affiliated": false,
+        "cited_by": 496,
+        "source": "openalex",
+        "notes": "非中国机构署名，作为高被引国际对照纳入。"
+      }
+    },
+    {
+      "id": "edu-c1",
+      "type": "claim",
+      "label": "生成式 AI 工具在中国高校学生中的接受度与自评收益较高，AI 素养与自我调节学习是影响收益的关键调节因素。",
+      "meta": {
+        "claim_id": "edu-c1",
+        "topic_id": "ai_education",
+        "text": "生成式 AI 工具在中国高校学生中的接受度与自评收益较高，AI 素养与自我调节学习是影响收益的关键调节因素。",
+        "population": "中国高校学生",
+        "outcome": "接受度 / 自评学习收益 / 数字福祉",
+        "direction": "positive",
+        "notes": "拆分为接受度与自评收益两个可检验部分；不包括客观考试成绩。",
+        "claim_level": "parent",
+        "parent_claim_id": "edu-c1"
+      }
+    },
+    {
+      "id": "edu-c2",
+      "type": "claim",
+      "label": "智能导师系统与学习诊断模型能在真实教学数据上提升学习表现预测的准确性与可解释性。",
+      "meta": {
+        "claim_id": "edu-c2",
+        "topic_id": "ai_education",
+        "text": "智能导师系统与学习诊断模型能在真实教学数据上提升学习表现预测的准确性与可解释性。",
+        "population": "K-12 与高校学习者",
+        "outcome": "学习表现预测 / 诊断",
+        "direction": "positive",
+        "notes": "以离线基准数据为主，尚非课堂随机对照证据。",
+        "claim_level": "parent",
+        "parent_claim_id": "edu-c2"
+      }
+    },
+    {
+      "id": "edu-c3",
+      "type": "claim",
+      "label": "生成式 AI 将在高等教育中取代教师的核心教学职能。",
+      "meta": {
+        "claim_id": "edu-c3",
+        "topic_id": "ai_education",
+        "text": "生成式 AI 将在高等教育中取代教师的核心教学职能。",
+        "population": "高校教师与学生",
+        "outcome": "教师角色",
+        "direction": "positive",
+        "notes": "用于检验“替代论”；利益相关者感知调查不等同于教学效果。",
+        "claim_level": "parent",
+        "parent_claim_id": "edu-c3"
+      }
+    },
+    {
+      "id": "edu-c4",
+      "type": "claim",
+      "label": "AI 教育的收益在城乡与校际之间分布不均，技术乐观叙事掩盖了结构性不平等。",
+      "meta": {
+        "claim_id": "edu-c4",
+        "topic_id": "ai_education",
+        "text": "AI 教育的收益在城乡与校际之间分布不均，技术乐观叙事掩盖了结构性不平等。",
+        "population": "中国中小学",
+        "outcome": "教育公平",
+        "direction": "negative",
+        "notes": "质性研究，关注政策、资源、家庭资本与个体素养四层不平等。",
+        "claim_level": "parent",
+        "parent_claim_id": "edu-c4"
+      }
+    },
+    {
+      "id": "edu-c1-a1",
+      "type": "claim",
+      "label": "生成式 AI 工具在中国高校学生中的接受度较高。",
+      "meta": {
+        "claim_id": "edu-c1-a1",
+        "atomic_id": "edu-c1-a1",
+        "parent_claim_id": "edu-c1",
+        "topic_id": "ai_education",
+        "claim_level": "atomic",
+        "source": "claims_atomic.json"
+      }
+    },
+    {
+      "id": "edu-c1-a2",
+      "type": "claim",
+      "label": "生成式 AI 工具在中国高校学生中的自评收益较高。",
+      "meta": {
+        "claim_id": "edu-c1-a2",
+        "atomic_id": "edu-c1-a2",
+        "parent_claim_id": "edu-c1",
+        "topic_id": "ai_education",
+        "claim_level": "atomic",
+        "source": "claims_atomic.json"
+      }
+    },
+    {
+      "id": "edu-c1-a3",
+      "type": "claim",
+      "label": "AI 素养是影响中国高校学生自评收益的关键调节因素。",
+      "meta": {
+        "claim_id": "edu-c1-a3",
+        "atomic_id": "edu-c1-a3",
+        "parent_claim_id": "edu-c1",
+        "topic_id": "ai_education",
+        "claim_level": "atomic",
+        "source": "claims_atomic.json"
+      }
+    },
+    {
+      "id": "edu-c1-a4",
+      "type": "claim",
+      "label": "自我调节学习是影响中国高校学生自评收益的关键调节因素。",
+      "meta": {
+        "claim_id": "edu-c1-a4",
+        "atomic_id": "edu-c1-a4",
+        "parent_claim_id": "edu-c1",
+        "topic_id": "ai_education",
+        "claim_level": "atomic",
+        "source": "claims_atomic.json"
+      }
+    },
+    {
+      "id": "edu-c2-a1",
+      "type": "claim",
+      "label": "智能导师系统能在真实教学数据上提升学习表现预测的准确性。",
+      "meta": {
+        "claim_id": "edu-c2-a1",
+        "atomic_id": "edu-c2-a1",
+        "parent_claim_id": "edu-c2",
+        "topic_id": "ai_education",
+        "claim_level": "atomic",
+        "source": "claims_atomic.json"
+      }
+    },
+    {
+      "id": "edu-c2-a2",
+      "type": "claim",
+      "label": "智能导师系统能在真实教学数据上提升学习表现预测的可解释性。",
+      "meta": {
+        "claim_id": "edu-c2-a2",
+        "atomic_id": "edu-c2-a2",
+        "parent_claim_id": "edu-c2",
+        "topic_id": "ai_education",
+        "claim_level": "atomic",
+        "source": "claims_atomic.json"
+      }
+    },
+    {
+      "id": "edu-c2-a3",
+      "type": "claim",
+      "label": "学习诊断模型能在真实教学数据上提升学习表现预测的准确性。",
+      "meta": {
+        "claim_id": "edu-c2-a3",
+        "atomic_id": "edu-c2-a3",
+        "parent_claim_id": "edu-c2",
+        "topic_id": "ai_education",
+        "claim_level": "atomic",
+        "source": "claims_atomic.json"
+      }
+    },
+    {
+      "id": "edu-c2-a4",
+      "type": "claim",
+      "label": "学习诊断模型能在真实教学数据上提升学习表现预测的可解释性。",
+      "meta": {
+        "claim_id": "edu-c2-a4",
+        "atomic_id": "edu-c2-a4",
+        "parent_claim_id": "edu-c2",
+        "topic_id": "ai_education",
+        "claim_level": "atomic",
+        "source": "claims_atomic.json"
+      }
+    },
+    {
+      "id": "edu-c3-a1",
+      "type": "claim",
+      "label": "生成式 AI 将在高等教育中取代教师的核心教学职能。",
+      "meta": {
+        "claim_id": "edu-c3-a1",
+        "atomic_id": "edu-c3-a1",
+        "parent_claim_id": "edu-c3",
+        "topic_id": "ai_education",
+        "claim_level": "atomic",
+        "source": "claims_atomic.json"
+      }
+    },
+    {
+      "id": "edu-c4-a1",
+      "type": "claim",
+      "label": "AI 教育的收益在城乡之间分布不均。",
+      "meta": {
+        "claim_id": "edu-c4-a1",
+        "atomic_id": "edu-c4-a1",
+        "parent_claim_id": "edu-c4",
+        "topic_id": "ai_education",
+        "claim_level": "atomic",
+        "source": "claims_atomic.json"
+      }
+    },
+    {
+      "id": "edu-c4-a2",
+      "type": "claim",
+      "label": "AI 教育的收益在校际之间分布不均。",
+      "meta": {
+        "claim_id": "edu-c4-a2",
+        "atomic_id": "edu-c4-a2",
+        "parent_claim_id": "edu-c4",
+        "topic_id": "ai_education",
+        "claim_level": "atomic",
+        "source": "claims_atomic.json"
+      }
+    },
+    {
+      "id": "edu-c4-a3",
+      "type": "claim",
+      "label": "技术乐观叙事掩盖了结构性不平等。",
+      "meta": {
+        "claim_id": "edu-c4-a3",
+        "atomic_id": "edu-c4-a3",
+        "parent_claim_id": "edu-c4",
+        "topic_id": "ai_education",
+        "claim_level": "atomic",
+        "source": "claims_atomic.json"
+      }
+    },
+    {
+      "id": "atom-edu-007-edu-c1-a1",
+      "type": "evidence",
+      "label": "该研究调查了中国顶尖高校学生对AI的看法，结果显示学生认为AI有用且易于使用，表明接受度较高。",
+      "meta": {
+        "evidence_id": "atom-edu-007-edu-c1-a1",
+        "paper_id": "edu-007",
+        "claim_id": "edu-c1-a1",
+        "parent_claim_id": "edu-c1",
+        "atomic_id": "edu-c1-a1",
+        "stance": "support",
+        "level": "abstract",
+        "summary": "该研究调查了中国顶尖高校学生对AI的看法，结果显示学生认为AI有用且易于使用，表明接受度较高。",
+        "quote": "Results revealed that while they viewed AI as useful for enhancing efficiency and easy to use, concerns about content accuracy, over-reliance, and ethical issues persisted.",
+        "locator": "Abstract",
+        "confidence": 0.8,
+        "verified": false,
+        "source": "auto:abstract-only:atomic-v1",
+        "fulltext_verdict": ""
+      }
+    },
+    {
+      "id": "atom-edu-010-edu-c4-a1",
+      "type": "evidence",
+      "label": "研究发现AI教育存在四层相互关联的不平等，包括区域分层加剧城乡差距，表明AI教育收益在城乡间分布不均。",
+      "meta": {
+        "evidence_id": "atom-edu-010-edu-c4-a1",
+        "paper_id": "edu-010",
+        "claim_id": "edu-c4-a1",
+        "parent_claim_id": "edu-c4",
+        "atomic_id": "edu-c4-a1",
+        "stance": "support",
+        "level": "abstract",
+        "summary": "研究发现AI教育存在四层相互关联的不平等，包括区域分层加剧城乡差距，表明AI教育收益在城乡间分布不均。",
+        "quote": "The findings unveil four interconnected layers of inequality: policy-driven infrastructure disparities favouring elite urban schools, regional stratification exacerbating urban-rural divides under standardised policies, intergenerational transmission of cultural and economic capital reinforcing educational privilege, and individual disparities in AI literacy widening the “new digital divide”.",
+        "locator": "Abstract",
+        "confidence": 0.95,
+        "verified": false,
+        "source": "auto:abstract-only:atomic-v1",
+        "fulltext_verdict": ""
+      }
+    },
+    {
+      "id": "atom-edu-010-edu-c4-a2",
+      "type": "evidence",
+      "label": "研究发现AI教育存在四层相互关联的不平等，包括偏向城市精英学校的政策驱动基础设施差异、加剧城乡分化的区域分层等，表明AI教育收益在校际/区域间分布不均。",
+      "meta": {
+        "evidence_id": "atom-edu-010-edu-c4-a2",
+        "paper_id": "edu-010",
+        "claim_id": "edu-c4-a2",
+        "parent_claim_id": "edu-c4",
+        "atomic_id": "edu-c4-a2",
+        "stance": "support",
+        "level": "abstract",
+        "summary": "研究发现AI教育存在四层相互关联的不平等，包括偏向城市精英学校的政策驱动基础设施差异、加剧城乡分化的区域分层等，表明AI教育收益在校际/区域间分布不均。",
+        "quote": "The findings unveil four interconnected layers of inequality: policy-driven infrastructure disparities favouring elite urban schools, regional stratification exacerbating urban-rural divides under standardised policies, intergenerational transmission of cultural and economic capital reinforcing educational privilege, and individual disparities in AI literacy widening the “new digital divide”.",
+        "locator": "Abstract",
+        "confidence": 0.9,
+        "verified": false,
+        "source": "auto:abstract-only:atomic-v1",
+        "fulltext_verdict": ""
+      }
+    },
+    {
+      "id": "atom-edu-010-edu-c4-a3",
+      "type": "evidence",
+      "label": "该研究挑战了技术乐观叙事，指出AI教育存在系统性不平等，揭示技术乐观掩盖了结构性不平等。",
+      "meta": {
+        "evidence_id": "atom-edu-010-edu-c4-a3",
+        "paper_id": "edu-010",
+        "claim_id": "edu-c4-a3",
+        "parent_claim_id": "edu-c4",
+        "atomic_id": "edu-c4-a3",
+        "stance": "support",
+        "level": "abstract",
+        "summary": "该研究挑战了技术乐观叙事，指出AI教育存在系统性不平等，揭示技术乐观掩盖了结构性不平等。",
+        "quote": "This study challenges the technologically optimistic narrative that artificial intelligence (AI) naturally promotes educational democratisation by delving into systemic inequalities in AI education across urban, suburban, and rural primary schools in China.",
+        "locator": "Abstract",
+        "confidence": 0.9,
+        "verified": false,
+        "source": "auto:abstract-only:atomic-v1",
+        "fulltext_verdict": ""
+      }
+    },
+    {
+      "id": "atom-edu-012-edu-c1-a1",
+      "type": "evidence",
+      "label": "香港高校学生对生成式AI在教学中持总体积极态度，表明接受度较高。",
+      "meta": {
+        "evidence_id": "atom-edu-012-edu-c1-a1",
+        "paper_id": "edu-012",
+        "claim_id": "edu-c1-a1",
+        "parent_claim_id": "edu-c1",
+        "atomic_id": "edu-c1-a1",
+        "stance": "support",
+        "level": "abstract",
+        "summary": "香港高校学生对生成式AI在教学中持总体积极态度，表明接受度较高。",
+        "quote": "A survey of 399 undergraduate and postgraduate students from various disciplines in Hong Kong revealed a generally positive attitude towards GenAI in teaching and learning.",
+        "locator": "Abstract",
+        "confidence": 0.85,
+        "verified": false,
+        "source": "auto:abstract-only:atomic-v1",
+        "fulltext_verdict": ""
+      }
+    },
+    {
+      "id": "ft-ai-education-edu-001-edu-c1-a1",
+      "type": "evidence",
+      "label": "全文逐句核验为 partial；原子断言：生成式 AI 工具在中国高校学生中的接受度较高。",
+      "meta": {
+        "evidence_id": "ft-ai-education-edu-001-edu-c1-a1",
+        "paper_id": "edu-001",
+        "claim_id": "edu-c1",
+        "parent_claim_id": "edu-c1",
+        "atomic_id": "edu-c1-a1",
+        "stance": "support",
+        "level": "fulltext",
+        "summary": "全文逐句核验为 partial；原子断言：生成式 AI 工具在中国高校学生中的接受度较高。",
+        "quote": "Conversely, constructs such as “Confirmation” and “Satisfaction” from the ECM model demonstrated better efficacy in assessing the technological acceptance levels among Chinese graduate students, particularly their perceptions of AI Chatbots.",
+        "locator": "Full text · 逐句检索",
+        "confidence": 0.65,
+        "verified": false,
+        "source": "fulltext:atomic-v2",
+        "fulltext_verdict": "partial"
+      }
+    },
+    {
+      "id": "ft-ai-education-edu-004-edu-c2-a1",
+      "type": "evidence",
+      "label": "全文逐句核验为 full；原子断言：智能导师系统能在真实教学数据上提升学习表现预测的准确性。",
+      "meta": {
+        "evidence_id": "ft-ai-education-edu-004-edu-c2-a1",
+        "paper_id": "edu-004",
+        "claim_id": "edu-c2",
+        "parent_claim_id": "edu-c2",
+        "atomic_id": "edu-c2-a1",
+        "stance": "support",
+        "level": "fulltext",
+        "summary": "全文逐句核验为 full；原子断言：智能导师系统能在真实教学数据上提升学习表现预测的准确性。",
+        "quote": "Experiments on two real-world datasets and a sim- ulation dataset show that our method has higher accuracy in predicting learners’ performances compared with the state-of-the-art models, and can provide valuable educational interpretability for applications such as precise learning resource recom- mendation and personalized learning tutoring in intelligent tutoring systems.",
+        "locator": "Full text · 逐句检索",
+        "confidence": 0.9,
+        "verified": false,
+        "source": "fulltext:atomic-v2",
+        "fulltext_verdict": "full"
+      }
+    },
+    {
+      "id": "ft-ai-education-edu-004-edu-c2-a2",
+      "type": "evidence",
+      "label": "全文逐句核验为 full；原子断言：智能导师系统能在真实教学数据上提升学习表现预测的可解释性。",
+      "meta": {
+        "evidence_id": "ft-ai-education-edu-004-edu-c2-a2",
+        "paper_id": "edu-004",
+        "claim_id": "edu-c2",
+        "parent_claim_id": "edu-c2",
+        "atomic_id": "edu-c2-a2",
+        "stance": "support",
+        "level": "fulltext",
+        "summary": "全文逐句核验为 full；原子断言：智能导师系统能在真实教学数据上提升学习表现预测的可解释性。",
+        "quote": "Experiments on two real-world datasets and a sim- ulation dataset show that our method has higher accuracy in predicting learners’ performances compared with the state-of-the-art models, and can provide valuable educational interpretability for applications such as precise learning resource recom- mendation and personalized learning tutoring in intelligent tutoring systems.",
+        "locator": "Full text · 逐句检索",
+        "confidence": 0.9,
+        "verified": false,
+        "source": "fulltext:atomic-v2",
+        "fulltext_verdict": "full"
+      }
+    },
+    {
+      "id": "ft-ai-education-edu-004-edu-c2-a4",
+      "type": "evidence",
+      "label": "全文逐句核验为 full；原子断言：学习诊断模型能在真实教学数据上提升学习表现预测的可解释性。",
+      "meta": {
+        "evidence_id": "ft-ai-education-edu-004-edu-c2-a4",
+        "paper_id": "edu-004",
+        "claim_id": "edu-c2",
+        "parent_claim_id": "edu-c2",
+        "atomic_id": "edu-c2-a4",
+        "stance": "support",
+        "level": "fulltext",
+        "summary": "全文逐句核验为 full；原子断言：学习诊断模型能在真实教学数据上提升学习表现预测的可解释性。",
+        "quote": "Experiments on two real-world datasets and a sim- ulation dataset show that our method has higher accuracy in predicting learners’ performances compared with the state-of-the-art models, and can provide valuable educational interpretability for applications such as precise learning resource recom- mendation and personalized learning tutoring in intelligent tutoring systems.",
+        "locator": "Full text · 逐句检索",
+        "confidence": 0.9,
+        "verified": false,
+        "source": "fulltext:atomic-v2",
+        "fulltext_verdict": "full"
+      }
+    },
+    {
+      "id": "ft-ai-education-edu-006-edu-c2-a3",
+      "type": "evidence",
+      "label": "全文逐句核验为 partial；原子断言：学习诊断模型能在真实教学数据上提升学习表现预测的准确性。",
+      "meta": {
+        "evidence_id": "ft-ai-education-edu-006-edu-c2-a3",
+        "paper_id": "edu-006",
+        "claim_id": "edu-c2",
+        "parent_claim_id": "edu-c2",
+        "atomic_id": "edu-c2-a3",
+        "stance": "support",
+        "level": "fulltext",
+        "summary": "全文逐句核验为 partial；原子断言：学习诊断模型能在真实教学数据上提升学习表现预测的准确性。",
+        "quote": "Recent advances in deep learning techniques, such as deep knowledge tracing, apply recurrent neural networks over students’ interaction records for knowledge state modeling and achieve great improvement in the prediction of performance on future tasks and assessment questions.",
+        "locator": "Full text · 逐句检索",
+        "confidence": 0.65,
+        "verified": false,
+        "source": "fulltext:atomic-v2",
+        "fulltext_verdict": "partial"
+      }
+    },
+    {
+      "id": "ft-ai-education-edu-010-edu-c4-a1",
+      "type": "evidence",
+      "label": "全文逐句核验为 full；原子断言：AI 教育的收益在城乡之间分布不均。",
+      "meta": {
+        "evidence_id": "ft-ai-education-edu-010-edu-c4-a1",
+        "paper_id": "edu-010",
+        "claim_id": "edu-c4",
+        "parent_claim_id": "edu-c4",
+        "atomic_id": "edu-c4-a1",
+        "stance": "support",
+        "level": "fulltext",
+        "summary": "全文逐句核验为 full；原子断言：AI 教育的收益在城乡之间分布不均。",
+        "quote": "Although educational technologisation reforms have increased rural students’ access opportunities in absolute terms, they have failed to change the relative proportion of resource distribution and instead widened the capability gap between urban and rural students through the establishment of technological thresholds.",
+        "locator": "Full text · 逐句检索",
+        "confidence": 0.9,
+        "verified": false,
+        "source": "fulltext:atomic-v2",
+        "fulltext_verdict": "full"
+      }
+    },
+    {
+      "id": "ft-ai-education-edu-010-edu-c4-a2",
+      "type": "evidence",
+      "label": "全文逐句核验为 full；原子断言：AI 教育的收益在校际之间分布不均。",
+      "meta": {
+        "evidence_id": "ft-ai-education-edu-010-edu-c4-a2",
+        "paper_id": "edu-010",
+        "claim_id": "edu-c4",
+        "parent_claim_id": "edu-c4",
+        "atomic_id": "edu-c4-a2",
+        "stance": "support",
+        "level": "fulltext",
+        "summary": "全文逐句核验为 full；原子断言：AI 教育的收益在校际之间分布不均。",
+        "quote": "The findings unveil four interconnected layers of inequality: policy-driven infrastructure disparities favouring elite urban schools, regional stratification exacerbating urban-rural divides under standardised policies, intergenerational transmission of cultural and economic capital reinforcing educational privilege, and individual disparities in AI literacy widening the “new digital divide”.",
+        "locator": "Full text · 逐句检索",
+        "confidence": 0.9,
+        "verified": false,
+        "source": "fulltext:atomic-v2",
+        "fulltext_verdict": "full"
+      }
+    },
+    {
+      "id": "ft-ai-education-edu-010-edu-c4-a3",
+      "type": "evidence",
+      "label": "全文逐句核验为 full；原子断言：技术乐观叙事掩盖了结构性不平等。",
+      "meta": {
+        "evidence_id": "ft-ai-education-edu-010-edu-c4-a3",
+        "paper_id": "edu-010",
+        "claim_id": "edu-c4",
+        "parent_claim_id": "edu-c4",
+        "atomic_id": "edu-c4-a3",
+        "stance": "support",
+        "level": "fulltext",
+        "summary": "全文逐句核验为 full；原子断言：技术乐观叙事掩盖了结构性不平等。",
+        "quote": "Instead, it reveals how techno-optimism masks structural inequities, aligning with the theory of maximally maintained inequality (MMI).",
+        "locator": "Full text · 逐句检索",
+        "confidence": 0.9,
+        "verified": false,
+        "source": "fulltext:atomic-v2",
+        "fulltext_verdict": "full"
+      }
+    },
+    {
+      "id": "ft-ai-education-edu-012-edu-c1-a1",
+      "type": "evidence",
+      "label": "全文逐句核验为 partial；原子断言：生成式 AI 工具在中国高校学生中的接受度较高。",
+      "meta": {
+        "evidence_id": "ft-ai-education-edu-012-edu-c1-a1",
+        "paper_id": "edu-012",
+        "claim_id": "edu-c1",
+        "parent_claim_id": "edu-c1",
+        "atomic_id": "edu-c1-a1",
+        "stance": "support",
+        "level": "fulltext",
+        "summary": "全文逐句核验为 partial；原子断言：生成式 AI 工具在中国高校学生中的接受度较高。",
+        "quote": "Overall, the findings suggest that students have a positive attitude toward GenAI technologies.",
+        "locator": "Full text · 逐句检索",
+        "confidence": 0.65,
+        "verified": false,
+        "source": "fulltext:atomic-v2",
+        "fulltext_verdict": "partial"
+      }
+    },
+    {
+      "id": "ft-ai-education-edu-012-edu-c4-a3",
+      "type": "evidence",
+      "label": "全文逐句核验为 partial；原子断言：技术乐观叙事掩盖了结构性不平等。",
+      "meta": {
+        "evidence_id": "ft-ai-education-edu-012-edu-c4-a3",
+        "paper_id": "edu-012",
+        "claim_id": "edu-c4",
+        "parent_claim_id": "edu-c4",
+        "atomic_id": "edu-c4-a3",
+        "stance": "support",
+        "level": "fulltext",
+        "summary": "全文逐句核验为 partial；原子断言：技术乐观叙事掩盖了结构性不平等。",
+        "quote": "Some participants were worried that “AI could misalign with our human values and becomes a danger to us.” For example, it may contribute to social injustice and inequality, as some participants noted, “it may widen the gap between the rich and the poor” and “also be unfair to those students who don’t use it.”",
+        "locator": "Full text · 逐句检索",
+        "confidence": 0.65,
+        "verified": false,
+        "source": "fulltext:atomic-v2",
+        "fulltext_verdict": "partial"
+      }
+    },
+    {
+      "id": "ft-ai-education-edu-014-edu-c1-a1",
+      "type": "evidence",
+      "label": "全文逐句核验为 partial；原子断言：生成式 AI 工具在中国高校学生中的接受度较高。",
+      "meta": {
+        "evidence_id": "ft-ai-education-edu-014-edu-c1-a1",
+        "paper_id": "edu-014",
+        "claim_id": "edu-c1",
+        "parent_claim_id": "edu-c1",
+        "atomic_id": "edu-c1-a1",
+        "stance": "support",
+        "level": "fulltext",
+        "summary": "全文逐句核验为 partial；原子断言：生成式 AI 工具在中国高校学生中的接受度较高。",
+        "quote": "Both students and teachers showed openness to integrating generative AI technologies into teaching and learning, the survey results suggest that students tend to have a slightly more positive outlook towards the integration and potential benefits of generative AI technologies in education as compared to teachers.",
+        "locator": "Full text · 逐句检索",
+        "confidence": 0.65,
+        "verified": false,
+        "source": "fulltext:atomic-v2",
+        "fulltext_verdict": "partial"
+      }
+    },
+    {
+      "id": "ft-ai-education-edu-014-edu-c1-a2",
+      "type": "evidence",
+      "label": "全文逐句核验为 partial；原子断言：生成式 AI 工具在中国高校学生中的自评收益较高。",
+      "meta": {
+        "evidence_id": "ft-ai-education-edu-014-edu-c1-a2",
+        "paper_id": "edu-014",
+        "claim_id": "edu-c1",
+        "parent_claim_id": "edu-c1",
+        "atomic_id": "edu-c1-a2",
+        "stance": "support",
+        "level": "fulltext",
+        "summary": "全文逐句核验为 partial；原子断言：生成式 AI 工具在中国高校学生中的自评收益较高。",
+        "quote": "Similarly, students (M=3.47, SD=.979) were found to have a higher mean score than teachers (M=3.29, SD=1.115) in relation to academic performance, suggesting that students are more optimistic about the potential of generative AI technologies to improve their overall academic performance (t=1.792, df=507, p=.074).",
+        "locator": "Full text · 逐句检索",
+        "confidence": 0.65,
+        "verified": false,
+        "source": "fulltext:atomic-v2",
+        "fulltext_verdict": "partial"
+      }
+    },
+    {
+      "id": "ft-ai-education-edu-014-edu-c4-a3",
+      "type": "evidence",
+      "label": "全文逐句核验为 partial；原子断言：技术乐观叙事掩盖了结构性不平等。",
+      "meta": {
+        "evidence_id": "ft-ai-education-edu-014-edu-c4-a3",
+        "paper_id": "edu-014",
+        "claim_id": "edu-c4",
+        "parent_claim_id": "edu-c4",
+        "atomic_id": "edu-c4-a3",
+        "stance": "support",
+        "level": "fulltext",
+        "summary": "全文逐句核验为 partial；原子断言：技术乐观叙事掩盖了结构性不平等。",
+        "quote": "Some of the notable concerns include the dubious technical capacity and reliability of algorithms (Celik, Dindar, Muukkonen & Järvelä, 2022), the necessary human input or training from human operators in order for AI to function properly (Wilson & Daugherty, 2018), inequality and prejudice issues arising from reliance on AI (Wogu, Misra, Olu-Owolabi, Assibong, & Udoh, 2018), and the comparative disadvantage of AI in holistic and visionary thinking (Jarrahi, 2018).",
+        "locator": "Full text · 逐句检索",
+        "confidence": 0.65,
+        "verified": false,
+        "source": "fulltext:atomic-v2",
+        "fulltext_verdict": "partial"
+      }
+    },
+    {
+      "id": "machine-cell-full-ai_education-edu-002-edu-c1",
+      "type": "evidence",
+      "label": "105 格审计中机器证据经人工多数认定为 correct；仅有摘要片段。",
+      "meta": {
+        "evidence_id": "machine-cell-full-ai_education-edu-002-edu-c1",
+        "paper_id": "edu-002",
+        "claim_id": "edu-c1",
+        "parent_claim_id": "edu-c1",
+        "atomic_id": "",
+        "stance": "support",
+        "level": "abstract",
+        "summary": "105 格审计中机器证据经人工多数认定为 correct；仅有摘要片段。",
+        "quote": "AI literacy and SRL significantly and positively predict students' writing performance",
+        "locator": "摘要候选片段",
+        "confidence": "0.9",
+        "verified": false,
+        "source": "machine-cell:audit-correct",
+        "fulltext_verdict": ""
+      }
+    },
+    {
+      "id": "machine-cell-full-ai_education-edu-007-edu-c3",
+      "type": "evidence",
+      "label": "105 格审计中机器证据经人工多数认定为 correct；仅有摘要片段。",
+      "meta": {
+        "evidence_id": "machine-cell-full-ai_education-edu-007-edu-c3",
+        "paper_id": "edu-007",
+        "claim_id": "edu-c3",
+        "parent_claim_id": "edu-c3",
+        "atomic_id": "",
+        "stance": "contradict",
+        "level": "abstract",
+        "summary": "105 格审计中机器证据经人工多数认定为 correct；仅有摘要片段。",
+        "quote": "noted its limitations in complex problem-solving",
+        "locator": "摘要候选片段",
+        "confidence": "0.8",
+        "verified": false,
+        "source": "machine-cell:audit-correct",
+        "fulltext_verdict": ""
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0001",
+      "source": "edu-007",
+      "target": "edu-c1-a1",
+      "kind": "abstract_only",
+      "level": "abstract",
+      "evidence_id": "atom-edu-007-edu-c1-a1",
+      "quote": "Results revealed that while they viewed AI as useful for enhancing efficiency and easy to use, concerns about content accuracy, over-reliance, and ethical issues persisted.",
+      "locator": "Abstract",
+      "page": "",
+      "meta": {
+        "edge_scope": "evidence",
+        "stance": "support",
+        "atomic_id": "edu-c1-a1",
+        "parent_claim_id": "edu-c1"
+      }
+    },
+    {
+      "id": "e0002",
+      "source": "edu-010",
+      "target": "edu-c4-a1",
+      "kind": "abstract_only",
+      "level": "abstract",
+      "evidence_id": "atom-edu-010-edu-c4-a1",
+      "quote": "The findings unveil four interconnected layers of inequality: policy-driven infrastructure disparities favouring elite urban schools, regional stratification exacerbating urban-rural divides under standardised policies, intergenerational transmission of cultural and economic capital reinforcing educational privilege, and individual disparities in AI literacy widening the “new digital divide”.",
+      "locator": "Abstract",
+      "page": "",
+      "meta": {
+        "edge_scope": "evidence",
+        "stance": "support",
+        "atomic_id": "edu-c4-a1",
+        "parent_claim_id": "edu-c4"
+      }
+    },
+    {
+      "id": "e0003",
+      "source": "edu-010",
+      "target": "edu-c4-a2",
+      "kind": "abstract_only",
+      "level": "abstract",
+      "evidence_id": "atom-edu-010-edu-c4-a2",
+      "quote": "The findings unveil four interconnected layers of inequality: policy-driven infrastructure disparities favouring elite urban schools, regional stratification exacerbating urban-rural divides under standardised policies, intergenerational transmission of cultural and economic capital reinforcing educational privilege, and individual disparities in AI literacy widening the “new digital divide”.",
+      "locator": "Abstract",
+      "page": "",
+      "meta": {
+        "edge_scope": "evidence",
+        "stance": "support",
+        "atomic_id": "edu-c4-a2",
+        "parent_claim_id": "edu-c4"
+      }
+    },
+    {
+      "id": "e0004",
+      "source": "edu-010",
+      "target": "edu-c4-a3",
+      "kind": "abstract_only",
+      "level": "abstract",
+      "evidence_id": "atom-edu-010-edu-c4-a3",
+      "quote": "This study challenges the technologically optimistic narrative that artificial intelligence (AI) naturally promotes educational democratisation by delving into systemic inequalities in AI education across urban, suburban, and rural primary schools in China.",
+      "locator": "Abstract",
+      "page": "",
+      "meta": {
+        "edge_scope": "evidence",
+        "stance": "support",
+        "atomic_id": "edu-c4-a3",
+        "parent_claim_id": "edu-c4"
+      }
+    },
+    {
+      "id": "e0005",
+      "source": "edu-012",
+      "target": "edu-c1-a1",
+      "kind": "abstract_only",
+      "level": "abstract",
+      "evidence_id": "atom-edu-012-edu-c1-a1",
+      "quote": "A survey of 399 undergraduate and postgraduate students from various disciplines in Hong Kong revealed a generally positive attitude towards GenAI in teaching and learning.",
+      "locator": "Abstract",
+      "page": "",
+      "meta": {
+        "edge_scope": "evidence",
+        "stance": "support",
+        "atomic_id": "edu-c1-a1",
+        "parent_claim_id": "edu-c1"
+      }
+    },
+    {
+      "id": "e0006",
+      "source": "edu-001",
+      "target": "edu-c1-a1",
+      "kind": "supports",
+      "level": "fulltext",
+      "evidence_id": "ft-ai-education-edu-001-edu-c1-a1",
+      "quote": "Conversely, constructs such as “Confirmation” and “Satisfaction” from the ECM model demonstrated better efficacy in assessing the technological acceptance levels among Chinese graduate students, particularly their perceptions of AI Chatbots.",
+      "locator": "Full text · 逐句检索",
+      "page": "",
+      "meta": {
+        "edge_scope": "evidence",
+        "stance": "support",
+        "atomic_id": "edu-c1-a1",
+        "parent_claim_id": "edu-c1"
+      }
+    },
+    {
+      "id": "e0007",
+      "source": "edu-004",
+      "target": "edu-c2-a1",
+      "kind": "supports",
+      "level": "fulltext",
+      "evidence_id": "ft-ai-education-edu-004-edu-c2-a1",
+      "quote": "Experiments on two real-world datasets and a sim- ulation dataset show that our method has higher accuracy in predicting learners’ performances compared with the state-of-the-art models, and can provide valuable educational interpretability for applications such as precise learning resource recom- mendation and personalized learning tutoring in intelligent tutoring systems.",
+      "locator": "Full text · 逐句检索",
+      "page": "",
+      "meta": {
+        "edge_scope": "evidence",
+        "stance": "support",
+        "atomic_id": "edu-c2-a1",
+        "parent_claim_id": "edu-c2"
+      }
+    },
+    {
+      "id": "e0008",
+      "source": "edu-004",
+      "target": "edu-c2-a2",
+      "kind": "supports",
+      "level": "fulltext",
+      "evidence_id": "ft-ai-education-edu-004-edu-c2-a2",
+      "quote": "Experiments on two real-world datasets and a sim- ulation dataset show that our method has higher accuracy in predicting learners’ performances compared with the state-of-the-art models, and can provide valuable educational interpretability for applications such as precise learning resource recom- mendation and personalized learning tutoring in intelligent tutoring systems.",
+      "locator": "Full text · 逐句检索",
+      "page": "",
+      "meta": {
+        "edge_scope": "evidence",
+        "stance": "support",
+        "atomic_id": "edu-c2-a2",
+        "parent_claim_id": "edu-c2"
+      }
+    },
+    {
+      "id": "e0009",
+      "source": "edu-004",
+      "target": "edu-c2-a4",
+      "kind": "supports",
+      "level": "fulltext",
+      "evidence_id": "ft-ai-education-edu-004-edu-c2-a4",
+      "quote": "Experiments on two real-world datasets and a sim- ulation dataset show that our method has higher accuracy in predicting learners’ performances compared with the state-of-the-art models, and can provide valuable educational interpretability for applications such as precise learning resource recom- mendation and personalized learning tutoring in intelligent tutoring systems.",
+      "locator": "Full text · 逐句检索",
+      "page": "",
+      "meta": {
+        "edge_scope": "evidence",
+        "stance": "support",
+        "atomic_id": "edu-c2-a4",
+        "parent_claim_id": "edu-c2"
+      }
+    },
+    {
+      "id": "e0010",
+      "source": "edu-006",
+      "target": "edu-c2-a3",
+      "kind": "supports",
+      "level": "fulltext",
+      "evidence_id": "ft-ai-education-edu-006-edu-c2-a3",
+      "quote": "Recent advances in deep learning techniques, such as deep knowledge tracing, apply recurrent neural networks over students’ interaction records for knowledge state modeling and achieve great improvement in the prediction of performance on future tasks and assessment questions.",
+      "locator": "Full text · 逐句检索",
+      "page": "",
+      "meta": {
+        "edge_scope": "evidence",
+        "stance": "support",
+        "atomic_id": "edu-c2-a3",
+        "parent_claim_id": "edu-c2"
+      }
+    },
+    {
+      "id": "e0011",
+      "source": "edu-010",
+      "target": "edu-c4-a1",
+      "kind": "supports",
+      "level": "fulltext",
+      "evidence_id": "ft-ai-education-edu-010-edu-c4-a1",
+      "quote": "Although educational technologisation reforms have increased rural students’ access opportunities in absolute terms, they have failed to change the relative proportion of resource distribution and instead widened the capability gap between urban and rural students through the establishment of technological thresholds.",
+      "locator": "Full text · 逐句检索",
+      "page": "",
+      "meta": {
+        "edge_scope": "evidence",
+        "stance": "support",
+        "atomic_id": "edu-c4-a1",
+        "parent_claim_id": "edu-c4"
+      }
+    },
+    {
+      "id": "e0012",
+      "source": "edu-010",
+      "target": "edu-c4-a2",
+      "kind": "supports",
+      "level": "fulltext",
+      "evidence_id": "ft-ai-education-edu-010-edu-c4-a2",
+      "quote": "The findings unveil four interconnected layers of inequality: policy-driven infrastructure disparities favouring elite urban schools, regional stratification exacerbating urban-rural divides under standardised policies, intergenerational transmission of cultural and economic capital reinforcing educational privilege, and individual disparities in AI literacy widening the “new digital divide”.",
+      "locator": "Full text · 逐句检索",
+      "page": "",
+      "meta": {
+        "edge_scope": "evidence",
+        "stance": "support",
+        "atomic_id": "edu-c4-a2",
+        "parent_claim_id": "edu-c4"
+      }
+    },
+    {
+      "id": "e0013",
+      "source": "edu-010",
+      "target": "edu-c4-a3",
+      "kind": "supports",
+      "level": "fulltext",
+      "evidence_id": "ft-ai-education-edu-010-edu-c4-a3",
+      "quote": "Instead, it reveals how techno-optimism masks structural inequities, aligning with the theory of maximally maintained inequality (MMI).",
+      "locator": "Full text · 逐句检索",
+      "page": "",
+      "meta": {
+        "edge_scope": "evidence",
+        "stance": "support",
+        "atomic_id": "edu-c4-a3",
+        "parent_claim_id": "edu-c4"
+      }
+    },
+    {
+      "id": "e0014",
+      "source": "edu-012",
+      "target": "edu-c1-a1",
+      "kind": "supports",
+      "level": "fulltext",
+      "evidence_id": "ft-ai-education-edu-012-edu-c1-a1",
+      "quote": "Overall, the findings suggest that students have a positive attitude toward GenAI technologies.",
+      "locator": "Full text · 逐句检索",
+      "page": "",
+      "meta": {
+        "edge_scope": "evidence",
+        "stance": "support",
+        "atomic_id": "edu-c1-a1",
+        "parent_claim_id": "edu-c1"
+      }
+    },
+    {
+      "id": "e0015",
+      "source": "edu-012",
+      "target": "edu-c4-a3",
+      "kind": "supports",
+      "level": "fulltext",
+      "evidence_id": "ft-ai-education-edu-012-edu-c4-a3",
+      "quote": "Some participants were worried that “AI could misalign with our human values and becomes a danger to us.” For example, it may contribute to social injustice and inequality, as some participants noted, “it may widen the gap between the rich and the poor” and “also be unfair to those students who don’t use it.”",
+      "locator": "Full text · 逐句检索",
+      "page": "",
+      "meta": {
+        "edge_scope": "evidence",
+        "stance": "support",
+        "atomic_id": "edu-c4-a3",
+        "parent_claim_id": "edu-c4"
+      }
+    },
+    {
+      "id": "e0016",
+      "source": "edu-014",
+      "target": "edu-c1-a1",
+      "kind": "supports",
+      "level": "fulltext",
+      "evidence_id": "ft-ai-education-edu-014-edu-c1-a1",
+      "quote": "Both students and teachers showed openness to integrating generative AI technologies into teaching and learning, the survey results suggest that students tend to have a slightly more positive outlook towards the integration and potential benefits of generative AI technologies in education as compared to teachers.",
+      "locator": "Full text · 逐句检索",
+      "page": "",
+      "meta": {
+        "edge_scope": "evidence",
+        "stance": "support",
+        "atomic_id": "edu-c1-a1",
+        "parent_claim_id": "edu-c1"
+      }
+    },
+    {
+      "id": "e0017",
+      "source": "edu-014",
+      "target": "edu-c1-a2",
+      "kind": "supports",
+      "level": "fulltext",
+      "evidence_id": "ft-ai-education-edu-014-edu-c1-a2",
+      "quote": "Similarly, students (M=3.47, SD=.979) were found to have a higher mean score than teachers (M=3.29, SD=1.115) in relation to academic performance, suggesting that students are more optimistic about the potential of generative AI technologies to improve their overall academic performance (t=1.792, df=507, p=.074).",
+      "locator": "Full text · 逐句检索",
+      "page": "",
+      "meta": {
+        "edge_scope": "evidence",
+        "stance": "support",
+        "atomic_id": "edu-c1-a2",
+        "parent_claim_id": "edu-c1"
+      }
+    },
+    {
+      "id": "e0018",
+      "source": "edu-014",
+      "target": "edu-c4-a3",
+      "kind": "supports",
+      "level": "fulltext",
+      "evidence_id": "ft-ai-education-edu-014-edu-c4-a3",
+      "quote": "Some of the notable concerns include the dubious technical capacity and reliability of algorithms (Celik, Dindar, Muukkonen & Järvelä, 2022), the necessary human input or training from human operators in order for AI to function properly (Wilson & Daugherty, 2018), inequality and prejudice issues arising from reliance on AI (Wogu, Misra, Olu-Owolabi, Assibong, & Udoh, 2018), and the comparative disadvantage of AI in holistic and visionary thinking (Jarrahi, 2018).",
+      "locator": "Full text · 逐句检索",
+      "page": "",
+      "meta": {
+        "edge_scope": "evidence",
+        "stance": "support",
+        "atomic_id": "edu-c4-a3",
+        "parent_claim_id": "edu-c4"
+      }
+    },
+    {
+      "id": "e0019",
+      "source": "edu-001",
+      "target": "edu-c1",
+      "kind": "supports",
+      "level": "fulltext",
+      "evidence_id": "ft-ai-education-edu-001-edu-c1-a1",
+      "quote": "Conversely, constructs such as “Confirmation” and “Satisfaction” from the ECM model demonstrated better efficacy in assessing the technological acceptance levels among Chinese graduate students, particularly their perceptions of AI Chatbots.",
+      "locator": "Full text · 逐句检索",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-001-edu-c1",
+        "cell_kind": "机器证据",
+        "audit_majority": "issue",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "issue",
+          "reviewer_3": "issue"
+        },
+        "machine_stance": "support",
+        "machine_confidence": "0.8",
+        "stance": "support"
+      }
+    },
+    {
+      "id": "e0020",
+      "source": "edu-001",
+      "target": "edu-c2",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-001-edu-c2",
+        "cell_kind": "无机器证据",
+        "audit_majority": "correct",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "correct",
+          "reviewer_3": "correct"
+        },
+        "machine_stance": "",
+        "machine_confidence": ""
+      }
+    },
+    {
+      "id": "e0021",
+      "source": "edu-001",
+      "target": "edu-c3",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-001-edu-c3",
+        "cell_kind": "无机器证据",
+        "audit_majority": "correct",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "correct",
+          "reviewer_3": "correct"
+        },
+        "machine_stance": "",
+        "machine_confidence": ""
+      }
+    },
+    {
+      "id": "e0022",
+      "source": "edu-001",
+      "target": "edu-c4",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-001-edu-c4",
+        "cell_kind": "无机器证据",
+        "audit_majority": "correct",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "correct",
+          "reviewer_3": "correct"
+        },
+        "machine_stance": "",
+        "machine_confidence": ""
+      }
+    },
+    {
+      "id": "e0023",
+      "source": "edu-002",
+      "target": "edu-c1",
+      "kind": "abstract_only",
+      "level": "abstract",
+      "evidence_id": "machine-cell-full-ai_education-edu-002-edu-c1",
+      "quote": "AI literacy and SRL significantly and positively predict students' writing performance",
+      "locator": "摘要候选片段",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-002-edu-c1",
+        "cell_kind": "机器证据",
+        "audit_majority": "correct",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "correct",
+          "reviewer_3": "issue"
+        },
+        "machine_stance": "support",
+        "machine_confidence": "0.9",
+        "stance": "support"
+      }
+    },
+    {
+      "id": "e0024",
+      "source": "edu-002",
+      "target": "edu-c2",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-002-edu-c2",
+        "cell_kind": "无机器证据",
+        "audit_majority": "correct",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "correct",
+          "reviewer_3": "correct"
+        },
+        "machine_stance": "",
+        "machine_confidence": ""
+      }
+    },
+    {
+      "id": "e0025",
+      "source": "edu-002",
+      "target": "edu-c3",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-002-edu-c3",
+        "cell_kind": "无机器证据",
+        "audit_majority": "correct",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "correct",
+          "reviewer_3": "correct"
+        },
+        "machine_stance": "",
+        "machine_confidence": ""
+      }
+    },
+    {
+      "id": "e0026",
+      "source": "edu-002",
+      "target": "edu-c4",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-002-edu-c4",
+        "cell_kind": "无机器证据",
+        "audit_majority": "correct",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "correct",
+          "reviewer_3": "correct"
+        },
+        "machine_stance": "",
+        "machine_confidence": ""
+      }
+    },
+    {
+      "id": "e0027",
+      "source": "edu-003",
+      "target": "edu-c1",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-003-edu-c1",
+        "cell_kind": "无机器证据",
+        "audit_majority": "correct",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "correct",
+          "reviewer_3": "correct"
+        },
+        "machine_stance": "",
+        "machine_confidence": ""
+      }
+    },
+    {
+      "id": "e0028",
+      "source": "edu-003",
+      "target": "edu-c2",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-003-edu-c2",
+        "cell_kind": "无机器证据",
+        "audit_majority": "correct",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "correct",
+          "reviewer_3": "correct"
+        },
+        "machine_stance": "",
+        "machine_confidence": ""
+      }
+    },
+    {
+      "id": "e0029",
+      "source": "edu-003",
+      "target": "edu-c3",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-003-edu-c3",
+        "cell_kind": "无机器证据",
+        "audit_majority": "correct",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "correct",
+          "reviewer_3": "correct"
+        },
+        "machine_stance": "",
+        "machine_confidence": ""
+      }
+    },
+    {
+      "id": "e0030",
+      "source": "edu-003",
+      "target": "edu-c4",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-003-edu-c4",
+        "cell_kind": "无机器证据",
+        "audit_majority": "correct",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "correct",
+          "reviewer_3": "correct"
+        },
+        "machine_stance": "",
+        "machine_confidence": ""
+      }
+    },
+    {
+      "id": "e0031",
+      "source": "edu-004",
+      "target": "edu-c1",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-004-edu-c1",
+        "cell_kind": "无机器证据",
+        "audit_majority": "correct",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "correct",
+          "reviewer_3": "correct"
+        },
+        "machine_stance": "",
+        "machine_confidence": ""
+      }
+    },
+    {
+      "id": "e0032",
+      "source": "edu-004",
+      "target": "edu-c2",
+      "kind": "supports",
+      "level": "fulltext",
+      "evidence_id": "ft-ai-education-edu-004-edu-c2-a1",
+      "quote": "Experiments on two real-world datasets and a sim- ulation dataset show that our method has higher accuracy in predicting learners’ performances compared with the state-of-the-art models, and can provide valuable educational interpretability for applications such as precise learning resource recom- mendation and personalized learning tutoring in intelligent tutoring systems.",
+      "locator": "Full text · 逐句检索",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-004-edu-c2",
+        "cell_kind": "无机器证据",
+        "audit_majority": "issue",
+        "audit_reviewers": {
+          "reviewer_1": "issue",
+          "reviewer_2": "issue",
+          "reviewer_3": "issue"
+        },
+        "machine_stance": "",
+        "machine_confidence": "",
+        "stance": "support"
+      }
+    },
+    {
+      "id": "e0033",
+      "source": "edu-004",
+      "target": "edu-c3",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-004-edu-c3",
+        "cell_kind": "无机器证据",
+        "audit_majority": "correct",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "correct",
+          "reviewer_3": "correct"
+        },
+        "machine_stance": "",
+        "machine_confidence": ""
+      }
+    },
+    {
+      "id": "e0034",
+      "source": "edu-004",
+      "target": "edu-c4",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-004-edu-c4",
+        "cell_kind": "无机器证据",
+        "audit_majority": "correct",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "correct",
+          "reviewer_3": "correct"
+        },
+        "machine_stance": "",
+        "machine_confidence": ""
+      }
+    },
+    {
+      "id": "e0035",
+      "source": "edu-005",
+      "target": "edu-c1",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-005-edu-c1",
+        "cell_kind": "机器证据",
+        "audit_majority": "issue",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "issue",
+          "reviewer_3": "issue"
+        },
+        "machine_stance": "support",
+        "machine_confidence": "0.8"
+      }
+    },
+    {
+      "id": "e0036",
+      "source": "edu-005",
+      "target": "edu-c2",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-005-edu-c2",
+        "cell_kind": "无机器证据",
+        "audit_majority": "correct",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "correct",
+          "reviewer_3": "correct"
+        },
+        "machine_stance": "",
+        "machine_confidence": ""
+      }
+    },
+    {
+      "id": "e0037",
+      "source": "edu-005",
+      "target": "edu-c3",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-005-edu-c3",
+        "cell_kind": "无机器证据",
+        "audit_majority": "correct",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "correct",
+          "reviewer_3": "correct"
+        },
+        "machine_stance": "",
+        "machine_confidence": ""
+      }
+    },
+    {
+      "id": "e0038",
+      "source": "edu-005",
+      "target": "edu-c4",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-005-edu-c4",
+        "cell_kind": "机器证据",
+        "audit_majority": "issue",
+        "audit_reviewers": {
+          "reviewer_1": "issue",
+          "reviewer_2": "issue",
+          "reviewer_3": "issue"
+        },
+        "machine_stance": "support",
+        "machine_confidence": "0.6"
+      }
+    },
+    {
+      "id": "e0039",
+      "source": "edu-006",
+      "target": "edu-c1",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-006-edu-c1",
+        "cell_kind": "无机器证据",
+        "audit_majority": "correct",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "correct",
+          "reviewer_3": "correct"
+        },
+        "machine_stance": "",
+        "machine_confidence": ""
+      }
+    },
+    {
+      "id": "e0040",
+      "source": "edu-006",
+      "target": "edu-c2",
+      "kind": "supports",
+      "level": "fulltext",
+      "evidence_id": "ft-ai-education-edu-006-edu-c2-a3",
+      "quote": "Recent advances in deep learning techniques, such as deep knowledge tracing, apply recurrent neural networks over students’ interaction records for knowledge state modeling and achieve great improvement in the prediction of performance on future tasks and assessment questions.",
+      "locator": "Full text · 逐句检索",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-006-edu-c2",
+        "cell_kind": "机器证据",
+        "audit_majority": "issue",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "issue",
+          "reviewer_3": "issue"
+        },
+        "machine_stance": "support",
+        "machine_confidence": "0.8",
+        "stance": "support"
+      }
+    },
+    {
+      "id": "e0041",
+      "source": "edu-006",
+      "target": "edu-c3",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-006-edu-c3",
+        "cell_kind": "无机器证据",
+        "audit_majority": "correct",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "correct",
+          "reviewer_3": "correct"
+        },
+        "machine_stance": "",
+        "machine_confidence": ""
+      }
+    },
+    {
+      "id": "e0042",
+      "source": "edu-006",
+      "target": "edu-c4",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-006-edu-c4",
+        "cell_kind": "无机器证据",
+        "audit_majority": "correct",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "correct",
+          "reviewer_3": "correct"
+        },
+        "machine_stance": "",
+        "machine_confidence": ""
+      }
+    },
+    {
+      "id": "e0043",
+      "source": "edu-007",
+      "target": "edu-c1",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-007-edu-c1",
+        "cell_kind": "机器证据",
+        "audit_majority": "issue",
+        "audit_reviewers": {
+          "reviewer_1": "issue",
+          "reviewer_2": "issue",
+          "reviewer_3": "issue"
+        },
+        "machine_stance": "support",
+        "machine_confidence": "0.7"
+      }
+    },
+    {
+      "id": "e0044",
+      "source": "edu-007",
+      "target": "edu-c2",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-007-edu-c2",
+        "cell_kind": "无机器证据",
+        "audit_majority": "correct",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "correct",
+          "reviewer_3": "correct"
+        },
+        "machine_stance": "",
+        "machine_confidence": ""
+      }
+    },
+    {
+      "id": "e0045",
+      "source": "edu-007",
+      "target": "edu-c3",
+      "kind": "abstract_only",
+      "level": "abstract",
+      "evidence_id": "machine-cell-full-ai_education-edu-007-edu-c3",
+      "quote": "noted its limitations in complex problem-solving",
+      "locator": "摘要候选片段",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-007-edu-c3",
+        "cell_kind": "机器证据",
+        "audit_majority": "correct",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "correct",
+          "reviewer_3": "issue"
+        },
+        "machine_stance": "contradict",
+        "machine_confidence": "0.8",
+        "stance": "contradict"
+      }
+    },
+    {
+      "id": "e0046",
+      "source": "edu-007",
+      "target": "edu-c4",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-007-edu-c4",
+        "cell_kind": "无机器证据",
+        "audit_majority": "correct",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "correct",
+          "reviewer_3": "correct"
+        },
+        "machine_stance": "",
+        "machine_confidence": ""
+      }
+    },
+    {
+      "id": "e0047",
+      "source": "edu-008",
+      "target": "edu-c1",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-008-edu-c1",
+        "cell_kind": "无机器证据",
+        "audit_majority": "correct",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "correct",
+          "reviewer_3": "correct"
+        },
+        "machine_stance": "",
+        "machine_confidence": ""
+      }
+    },
+    {
+      "id": "e0048",
+      "source": "edu-008",
+      "target": "edu-c2",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-008-edu-c2",
+        "cell_kind": "无机器证据",
+        "audit_majority": "correct",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "correct",
+          "reviewer_3": "correct"
+        },
+        "machine_stance": "",
+        "machine_confidence": ""
+      }
+    },
+    {
+      "id": "e0049",
+      "source": "edu-008",
+      "target": "edu-c3",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-008-edu-c3",
+        "cell_kind": "机器证据",
+        "audit_majority": "issue",
+        "audit_reviewers": {
+          "reviewer_1": "issue",
+          "reviewer_2": "issue",
+          "reviewer_3": "issue"
+        },
+        "machine_stance": "contradict",
+        "machine_confidence": "0.6"
+      }
+    },
+    {
+      "id": "e0050",
+      "source": "edu-008",
+      "target": "edu-c4",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-008-edu-c4",
+        "cell_kind": "无机器证据",
+        "audit_majority": "correct",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "correct",
+          "reviewer_3": "correct"
+        },
+        "machine_stance": "",
+        "machine_confidence": ""
+      }
+    },
+    {
+      "id": "e0051",
+      "source": "edu-009",
+      "target": "edu-c1",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-009-edu-c1",
+        "cell_kind": "无机器证据",
+        "audit_majority": "correct",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "correct",
+          "reviewer_3": "correct"
+        },
+        "machine_stance": "",
+        "machine_confidence": ""
+      }
+    },
+    {
+      "id": "e0052",
+      "source": "edu-009",
+      "target": "edu-c2",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-009-edu-c2",
+        "cell_kind": "无机器证据",
+        "audit_majority": "correct",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "correct",
+          "reviewer_3": "correct"
+        },
+        "machine_stance": "",
+        "machine_confidence": ""
+      }
+    },
+    {
+      "id": "e0053",
+      "source": "edu-009",
+      "target": "edu-c3",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-009-edu-c3",
+        "cell_kind": "无机器证据",
+        "audit_majority": "correct",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "correct",
+          "reviewer_3": "correct"
+        },
+        "machine_stance": "",
+        "machine_confidence": ""
+      }
+    },
+    {
+      "id": "e0054",
+      "source": "edu-009",
+      "target": "edu-c4",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-009-edu-c4",
+        "cell_kind": "机器证据",
+        "audit_majority": "issue",
+        "audit_reviewers": {
+          "reviewer_1": "issue",
+          "reviewer_2": "issue",
+          "reviewer_3": "issue"
+        },
+        "machine_stance": "support",
+        "machine_confidence": "0.8"
+      }
+    },
+    {
+      "id": "e0055",
+      "source": "edu-010",
+      "target": "edu-c1",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-010-edu-c1",
+        "cell_kind": "无机器证据",
+        "audit_majority": "correct",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "correct",
+          "reviewer_3": "correct"
+        },
+        "machine_stance": "",
+        "machine_confidence": ""
+      }
+    },
+    {
+      "id": "e0056",
+      "source": "edu-010",
+      "target": "edu-c2",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-010-edu-c2",
+        "cell_kind": "无机器证据",
+        "audit_majority": "correct",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "correct",
+          "reviewer_3": "correct"
+        },
+        "machine_stance": "",
+        "machine_confidence": ""
+      }
+    },
+    {
+      "id": "e0057",
+      "source": "edu-010",
+      "target": "edu-c3",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-010-edu-c3",
+        "cell_kind": "无机器证据",
+        "audit_majority": "correct",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "correct",
+          "reviewer_3": "correct"
+        },
+        "machine_stance": "",
+        "machine_confidence": ""
+      }
+    },
+    {
+      "id": "e0058",
+      "source": "edu-010",
+      "target": "edu-c4",
+      "kind": "supports",
+      "level": "fulltext",
+      "evidence_id": "ft-ai-education-edu-010-edu-c4-a1",
+      "quote": "Although educational technologisation reforms have increased rural students’ access opportunities in absolute terms, they have failed to change the relative proportion of resource distribution and instead widened the capability gap between urban and rural students through the establishment of technological thresholds.",
+      "locator": "Full text · 逐句检索",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-010-edu-c4",
+        "cell_kind": "机器证据",
+        "audit_majority": "correct",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "correct",
+          "reviewer_3": "correct"
+        },
+        "machine_stance": "support",
+        "machine_confidence": "0.8",
+        "stance": "support"
+      }
+    },
+    {
+      "id": "e0059",
+      "source": "edu-011",
+      "target": "edu-c1",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-011-edu-c1",
+        "cell_kind": "无机器证据",
+        "audit_majority": "correct",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "correct",
+          "reviewer_3": "correct"
+        },
+        "machine_stance": "",
+        "machine_confidence": ""
+      }
+    },
+    {
+      "id": "e0060",
+      "source": "edu-011",
+      "target": "edu-c2",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-011-edu-c2",
+        "cell_kind": "机器证据",
+        "audit_majority": "issue",
+        "audit_reviewers": {
+          "reviewer_1": "issue",
+          "reviewer_2": "issue",
+          "reviewer_3": "issue"
+        },
+        "machine_stance": "support",
+        "machine_confidence": "0.8"
+      }
+    },
+    {
+      "id": "e0061",
+      "source": "edu-011",
+      "target": "edu-c3",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-011-edu-c3",
+        "cell_kind": "机器证据",
+        "audit_majority": "issue",
+        "audit_reviewers": {
+          "reviewer_1": "issue",
+          "reviewer_2": "issue",
+          "reviewer_3": "issue"
+        },
+        "machine_stance": "contradict",
+        "machine_confidence": "0.5"
+      }
+    },
+    {
+      "id": "e0062",
+      "source": "edu-011",
+      "target": "edu-c4",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-011-edu-c4",
+        "cell_kind": "无机器证据",
+        "audit_majority": "correct",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "correct",
+          "reviewer_3": "correct"
+        },
+        "machine_stance": "",
+        "machine_confidence": ""
+      }
+    },
+    {
+      "id": "e0063",
+      "source": "edu-012",
+      "target": "edu-c1",
+      "kind": "supports",
+      "level": "fulltext",
+      "evidence_id": "ft-ai-education-edu-012-edu-c1-a1",
+      "quote": "Overall, the findings suggest that students have a positive attitude toward GenAI technologies.",
+      "locator": "Full text · 逐句检索",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-012-edu-c1",
+        "cell_kind": "机器证据",
+        "audit_majority": "issue",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "issue",
+          "reviewer_3": "issue"
+        },
+        "machine_stance": "support",
+        "machine_confidence": "0.8",
+        "stance": "support"
+      }
+    },
+    {
+      "id": "e0064",
+      "source": "edu-012",
+      "target": "edu-c2",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-012-edu-c2",
+        "cell_kind": "无机器证据",
+        "audit_majority": "correct",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "correct",
+          "reviewer_3": "correct"
+        },
+        "machine_stance": "",
+        "machine_confidence": ""
+      }
+    },
+    {
+      "id": "e0065",
+      "source": "edu-012",
+      "target": "edu-c3",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-012-edu-c3",
+        "cell_kind": "机器证据",
+        "audit_majority": "issue",
+        "audit_reviewers": {
+          "reviewer_1": "issue",
+          "reviewer_2": "issue",
+          "reviewer_3": "issue"
+        },
+        "machine_stance": "contradict",
+        "machine_confidence": "0.6"
+      }
+    },
+    {
+      "id": "e0066",
+      "source": "edu-012",
+      "target": "edu-c4",
+      "kind": "supports",
+      "level": "fulltext",
+      "evidence_id": "ft-ai-education-edu-012-edu-c4-a3",
+      "quote": "Some participants were worried that “AI could misalign with our human values and becomes a danger to us.” For example, it may contribute to social injustice and inequality, as some participants noted, “it may widen the gap between the rich and the poor” and “also be unfair to those students who don’t use it.”",
+      "locator": "Full text · 逐句检索",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-012-edu-c4",
+        "cell_kind": "无机器证据",
+        "audit_majority": "correct",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "correct",
+          "reviewer_3": "correct"
+        },
+        "machine_stance": "",
+        "machine_confidence": "",
+        "stance": "support"
+      }
+    },
+    {
+      "id": "e0067",
+      "source": "edu-013",
+      "target": "edu-c1",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-013-edu-c1",
+        "cell_kind": "无机器证据",
+        "audit_majority": "correct",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "correct",
+          "reviewer_3": "correct"
+        },
+        "machine_stance": "",
+        "machine_confidence": ""
+      }
+    },
+    {
+      "id": "e0068",
+      "source": "edu-013",
+      "target": "edu-c2",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-013-edu-c2",
+        "cell_kind": "无机器证据",
+        "audit_majority": "correct",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "correct",
+          "reviewer_3": "correct"
+        },
+        "machine_stance": "",
+        "machine_confidence": ""
+      }
+    },
+    {
+      "id": "e0069",
+      "source": "edu-013",
+      "target": "edu-c3",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-013-edu-c3",
+        "cell_kind": "机器证据",
+        "audit_majority": "issue",
+        "audit_reviewers": {
+          "reviewer_1": "issue",
+          "reviewer_2": "issue",
+          "reviewer_3": "issue"
+        },
+        "machine_stance": "contradict",
+        "machine_confidence": "0.5"
+      }
+    },
+    {
+      "id": "e0070",
+      "source": "edu-013",
+      "target": "edu-c4",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-013-edu-c4",
+        "cell_kind": "无机器证据",
+        "audit_majority": "correct",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "correct",
+          "reviewer_3": "correct"
+        },
+        "machine_stance": "",
+        "machine_confidence": ""
+      }
+    },
+    {
+      "id": "e0071",
+      "source": "edu-014",
+      "target": "edu-c1",
+      "kind": "supports",
+      "level": "fulltext",
+      "evidence_id": "ft-ai-education-edu-014-edu-c1-a1",
+      "quote": "Both students and teachers showed openness to integrating generative AI technologies into teaching and learning, the survey results suggest that students tend to have a slightly more positive outlook towards the integration and potential benefits of generative AI technologies in education as compared to teachers.",
+      "locator": "Full text · 逐句检索",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-014-edu-c1",
+        "cell_kind": "无机器证据",
+        "audit_majority": "",
+        "audit_reviewers": {},
+        "machine_stance": "",
+        "machine_confidence": "",
+        "stance": "support"
+      }
+    },
+    {
+      "id": "e0072",
+      "source": "edu-014",
+      "target": "edu-c2",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-014-edu-c2",
+        "cell_kind": "无机器证据",
+        "audit_majority": "",
+        "audit_reviewers": {},
+        "machine_stance": "",
+        "machine_confidence": ""
+      }
+    },
+    {
+      "id": "e0073",
+      "source": "edu-014",
+      "target": "edu-c3",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-014-edu-c3",
+        "cell_kind": "无机器证据",
+        "audit_majority": "",
+        "audit_reviewers": {},
+        "machine_stance": "",
+        "machine_confidence": ""
+      }
+    },
+    {
+      "id": "e0074",
+      "source": "edu-014",
+      "target": "edu-c4",
+      "kind": "supports",
+      "level": "fulltext",
+      "evidence_id": "ft-ai-education-edu-014-edu-c4-a3",
+      "quote": "Some of the notable concerns include the dubious technical capacity and reliability of algorithms (Celik, Dindar, Muukkonen & Järvelä, 2022), the necessary human input or training from human operators in order for AI to function properly (Wilson & Daugherty, 2018), inequality and prejudice issues arising from reliance on AI (Wogu, Misra, Olu-Owolabi, Assibong, & Udoh, 2018), and the comparative disadvantage of AI in holistic and visionary thinking (Jarrahi, 2018).",
+      "locator": "Full text · 逐句检索",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-014-edu-c4",
+        "cell_kind": "无机器证据",
+        "audit_majority": "",
+        "audit_reviewers": {},
+        "machine_stance": "",
+        "machine_confidence": "",
+        "stance": "support"
+      }
+    },
+    {
+      "id": "e0075",
+      "source": "edu-015",
+      "target": "edu-c1",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-015-edu-c1",
+        "cell_kind": "无机器证据",
+        "audit_majority": "correct",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "correct",
+          "reviewer_3": "correct"
+        },
+        "machine_stance": "",
+        "machine_confidence": ""
+      }
+    },
+    {
+      "id": "e0076",
+      "source": "edu-015",
+      "target": "edu-c2",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-015-edu-c2",
+        "cell_kind": "无机器证据",
+        "audit_majority": "correct",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "correct",
+          "reviewer_3": "correct"
+        },
+        "machine_stance": "",
+        "machine_confidence": ""
+      }
+    },
+    {
+      "id": "e0077",
+      "source": "edu-015",
+      "target": "edu-c3",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-015-edu-c3",
+        "cell_kind": "无机器证据",
+        "audit_majority": "correct",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "correct",
+          "reviewer_3": "correct"
+        },
+        "machine_stance": "",
+        "machine_confidence": ""
+      }
+    },
+    {
+      "id": "e0078",
+      "source": "edu-015",
+      "target": "edu-c4",
+      "kind": "none",
+      "level": "machine",
+      "evidence_id": "",
+      "quote": "",
+      "locator": "",
+      "page": "",
+      "meta": {
+        "edge_scope": "cell",
+        "cell_id": "full-ai_education-edu-015-edu-c4",
+        "cell_kind": "无机器证据",
+        "audit_majority": "correct",
+        "audit_reviewers": {
+          "reviewer_1": "correct",
+          "reviewer_2": "correct",
+          "reviewer_3": "correct"
+        },
+        "machine_stance": "",
+        "machine_confidence": ""
+      }
+    }
+  ],
+  "summary": {
+    "papers": 15,
+    "claims": 16,
+    "parent_claims": 4,
+    "atomic_claims": 12,
+    "evidence": 20,
+    "edges": 78,
+    "fulltext_edges": 21,
+    "abstract_edges": 7,
+    "machine_edges": 50,
+    "none_edges": 50,
+    "cells": 60,
+    "cells_fulltext": 8,
+    "cells_abstract_only": 2,
+    "cells_none": 50
+  },
+  "provenance": {
+    "corpus": "corpus/ai_education.json",
+    "extractions": "extractions/ai_education.json",
+    "claims_atomic": "claims_atomic.json",
+    "extractions_fulltext": "extractions_fulltext/ai_education.json",
+    "extractions_atomic": "extractions_atomic/ai_education.json",
+    "audit_grid": "data/experiments/citemap_audit_105/merged.csv",
+    "audit_key": "dist/citemap_audit_full/_organizer_only_key.csv"
+  }
+}

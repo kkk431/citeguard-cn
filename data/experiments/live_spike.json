@@ -1,0 +1,1237 @@
+{
+  "generated_at": "2026-11-16T01:45:49+08:00",
+  "spike": "t25-live-page-mapping",
+  "extractor": {
+    "name": "readability-lxml",
+    "version": "0.9",
+    "license": "Apache-2.0"
+  },
+  "summary": {
+    "pages_requested": 3,
+    "pages_ok": 3,
+    "reference_count": 95,
+    "markers_total": 146,
+    "markers_mapped": 146,
+    "mapped_ratio": 1.0,
+    "target_ratio": 0.8,
+    "target_met": true,
+    "claims_total": 17,
+    "claims_marker_mapped": 17,
+    "claims_source_located": 17,
+    "check_claim_calls": 17,
+    "check_claim_hits": 13,
+    "check_claim_errors": 0
+  },
+  "pages": [
+    {
+      "id": "arxiv-2611.07772",
+      "url": "https://arxiv.org/html/2611.07772",
+      "page_title": "Adapt the Object to the Subject: Representative Study Material for Empirical Software Engineering",
+      "extractor": {
+        "name": "readability-lxml",
+        "version": "0.9",
+        "license": "Apache-2.0",
+        "mode": "readability-lxml"
+      },
+      "text_chars": 77971,
+      "reference_count": 54,
+      "markers_total": 78,
+      "markers_mapped": 78,
+      "mapped_ratio": 1.0,
+      "samples": [
+        {
+          "marker": "[1]",
+          "references": [
+            {
+              "index": 1,
+              "title": "Conducting realistic experiments in software engineering.",
+              "doi": "",
+              "url": "https://dx.doi.org/10.1109/ISESE.2002.1166921"
+            }
+          ]
+        },
+        {
+          "marker": "[2, 3]",
+          "references": [
+            {
+              "index": 2,
+              "title": "Are students representatives of professionals in software engineering experiments?.",
+              "doi": "",
+              "url": ""
+            },
+            {
+              "index": 3,
+              "title": "Empirical software engineering experts on the use of students and professionals in experiments.",
+              "doi": "",
+              "url": ""
+            }
+          ]
+        },
+        {
+          "marker": "[4]",
+          "references": [
+            {
+              "index": 4,
+              "title": "Experimentation in Software Engineering.",
+              "doi": "",
+              "url": "https://dx.doi.org/10.1007/978-3-662-69306-3"
+            }
+          ]
+        },
+        {
+          "marker": "[5]",
+          "references": [
+            {
+              "index": 5,
+              "title": "Towards improving the external validity of software engineering experiments with transportability methods.",
+              "doi": "",
+              "url": "https://dx.doi.org/10.1145/3816483.3816573"
+            }
+          ]
+        },
+        {
+          "marker": "[6, 7, 8, 9]",
+          "references": [
+            {
+              "index": 6,
+              "title": "A comprehensive model for code readability.",
+              "doi": "",
+              "url": ""
+            },
+            {
+              "index": 7,
+              "title": "Learning a metric for code readability.",
+              "doi": "",
+              "url": ""
+            },
+            {
+              "index": 8,
+              "title": "Detecting terminological ambiguity in user stories: tool and experimentation.",
+              "doi": "",
+              "url": ""
+            },
+            {
+              "index": 9,
+              "title": "Applying bayesian data analysis for causal inference about requirements quality: a controlled experiment.",
+              "doi": "",
+              "url": "https://dx.doi.org/10.1007/s10664-024-10582-1"
+            }
+          ]
+        }
+      ],
+      "reference_preview": [
+        {
+          "index": 1,
+          "title": "Conducting realistic experiments in software engineering.",
+          "raw": "[1] D.I.K. Sjoberg, B. Anda, E. Arisholm, T. Dyba, M. Jorgensen, A. Karahasanovic, E.F. Koren, and M. Vokac (2002) Conducting realistic experiments in software engineering. In Proceedings International Symposium on Empirical Software Engineering, pp. 17–26. External Links: Document, ISBN 978-0-7695-1796-4 Cited by: §I, §II-A, §II-A, §III-C3, §V-E.",
+          "doi": "",
+          "url": "https://dx.doi.org/10.1109/ISESE.2002.1166921"
+        },
+        {
+          "index": 2,
+          "title": "Are students representatives of professionals in software engineering experiments?.",
+          "raw": "[2] I. Salman, A. T. Misirli, and N. Juristo (2015) Are students representatives of professionals in software engineering experiments?. In 2015 IEEE/ACM 37th IEEE international conference on software engineering, Vol. 1, pp. 666–676. Cited by: §I, §II-A.",
+          "doi": "",
+          "url": ""
+        },
+        {
+          "index": 3,
+          "title": "Empirical software engineering experts on the use of students and professionals in experiments.",
+          "raw": "[3] D. Falessi, N. Juristo, C. Wohlin, B. Turhan, J. Münch, A. Jedlitschka, and M. Oivo (2018) Empirical software engineering experts on the use of students and professionals in experiments. Empirical Software Engineering 23 (1), pp. 452–489. Cited by: §I, §II-A.",
+          "doi": "",
+          "url": ""
+        },
+        {
+          "index": 4,
+          "title": "Experimentation in Software Engineering.",
+          "raw": "[4] C. Wohlin, P. Runeson, M. Höst, M. C. Ohlsson, B. Regnell, and A. Wesslén (2024) Experimentation in Software Engineering. Springer Berlin Heidelberg, Berlin, Heidelberg. External Links: Document, ISBN 978-3-662-69305-6 978-3-662-69306-3 Cited by: §I, §II-A, §II-A, §II-A, §V-A, §V-A, §VI.",
+          "doi": "",
+          "url": "https://dx.doi.org/10.1007/978-3-662-69306-3"
+        },
+        {
+          "index": 5,
+          "title": "Towards improving the external validity of software engineering experiments with transportability methods.",
+          "raw": "[5] J. Frattini, R. Torkar, R. Feldt, and C. Furia (2026) Towards improving the external validity of software engineering experiments with transportability methods. In Proceedings of the 30th international conference on evaluation and assessment in software engineering, External Links: Document Cited by: §I, §II-A, §III-C3.",
+          "doi": "",
+          "url": "https://dx.doi.org/10.1145/3816483.3816573"
+        }
+      ],
+      "claims_total": 6,
+      "claims": [
+        {
+          "claim_id": "hld-261107772-01",
+          "sentence": "In general, generalizability can be improved by making studies as realistic and representative as possible considering the target population to which one wants to draw conclusions for [1].",
+          "markers": [
+            "[1]"
+          ],
+          "mapped": true,
+          "located": [
+            1
+          ],
+          "hit": true,
+          "hit_method": "title",
+          "gold_doi": "10.1109/ISESE.2002.1166921",
+          "gold_title": "Conducting realistic experiments in software engineering"
+        },
+        {
+          "claim_id": "hld-261107772-02",
+          "sentence": "Following Wohlin et al. [4], adequate validity is achieved when the experimental results hold for the target population to which the experimenters intend to generalize.",
+          "markers": [
+            "[4]"
+          ],
+          "mapped": true,
+          "located": [
+            4
+          ],
+          "hit": true,
+          "hit_method": "title",
+          "gold_doi": "10.1007/978-3-662-69306-3",
+          "gold_title": "Experimentation in Software Engineering"
+        },
+        {
+          "claim_id": "hld-261107772-03",
+          "sentence": "LLM-assisted requirements elicitation and documentation has become an active area of requirements engineering (RE) research [26].",
+          "markers": [
+            "[26]"
+          ],
+          "mapped": true,
+          "located": [
+            26
+          ],
+          "hit": true,
+          "hit_method": "title",
+          "gold_doi": "10.48550/arXiv.2509.11446",
+          "gold_title": "Large Language Models (LLMs) for Requirements Engineering (RE): A Systematic Literature Review"
+        },
+        {
+          "claim_id": "hld-261107772-04",
+          "sentence": "Krishna et al. [27] find that GPT-4-2023-09-25 and CodeLlama-34b produce software requirements specifications comparable in completeness and consistency to those of entry-level engineers.",
+          "markers": [
+            "[27]"
+          ],
+          "mapped": true,
+          "located": [
+            27
+          ],
+          "hit": true,
+          "hit_method": "title",
+          "gold_doi": "10.1109/RE59067.2024.00056",
+          "gold_title": "Using LLMs in Software Requirements Specifications: An Empirical Evaluation"
+        },
+        {
+          "claim_id": "hld-261107772-05",
+          "sentence": "Quattrocchi et al. [28] investigate user story generation across multiple LLMs and report similar coverage and stylistic quality to human authors, though with less creativity and diversity regardless of model size.",
+          "markers": [
+            "[28]"
+          ],
+          "mapped": true,
+          "located": [
+            28
+          ],
+          "hit": true,
+          "hit_method": "title",
+          "gold_doi": "10.1109/TSE.2026.3670612",
+          "gold_title": "Can LLMs Generate User Stories and Assess Their Quality?"
+        },
+        {
+          "claim_id": "hld-261107772-06",
+          "sentence": "Femmer et al. [32] investigated linguistic properties of requirements generated by gpt-4.1-2025-04-14 under varying amounts of contextual input, finding that richer context improves output quality, yet synthetic requirements remain syntactically simpler than those in public datasets.",
+          "markers": [
+            "[32]"
+          ],
+          "mapped": true,
+          "located": [
+            32
+          ],
+          "hit": true,
+          "hit_method": "title",
+          "gold_doi": "10.1109/REW66121.2025.00008",
+          "gold_title": "Description and Comparative Analysis of QuRE: A New Industrial Requirements Quality Dataset"
+        }
+      ],
+      "check_claim": [
+        {
+          "claim_id": "hld-261107772-01",
+          "ok": true,
+          "elapsed_ms": 907,
+          "label": "no_evidence",
+          "reason": "已找到 5 条候选文献，正在判定…",
+          "candidate_count": 5,
+          "hit": true,
+          "hit_method": "doi",
+          "top_candidates": [
+            {
+              "title": "Conducting realistic experiments in software engineering .",
+              "doi": "10.1109/isese.2002.1166921"
+            },
+            {
+              "title": "Representative Decision Making: Constituency Constraints on Collective Action",
+              "doi": "10.1007/978-1-4419-7430-3_10"
+            },
+            {
+              "title": "On the Generalizability of Experimental Results in Economics: With A Response To Camerer",
+              "doi": "10.3386/w19666"
+            },
+            {
+              "title": "Adapt the Object to the Subject: Representative Study Material for Empirical Software Engineering",
+              "doi": "10.48550/arxiv.2611.07772"
+            },
+            {
+              "title": "Æip: a generalized framework for the study of interactive learning",
+              "doi": "10.22215/etd/2007-06291"
+            }
+          ]
+        },
+        {
+          "claim_id": "hld-261107772-02",
+          "ok": true,
+          "elapsed_ms": 10,
+          "label": "no_evidence",
+          "reason": "已找到 5 条候选文献，正在判定…",
+          "candidate_count": 5,
+          "hit": true,
+          "hit_method": "doi",
+          "top_candidates": [
+            {
+              "title": "Experimentation in Software Engineering .",
+              "doi": "10.1007/978-3-662-69306-3"
+            },
+            {
+              "title": "Survey of Controlled Software Engineering Experiments with Focus on Subjects",
+              "doi": ""
+            },
+            {
+              "title": "A framework for experimental studies on the integration of software testing into programming education",
+              "doi": "10.11606/t.55.2019.tde-29082019-095834"
+            },
+            {
+              "title": "The supportive effect of patterns in architecture decision recovery— A controlled experiment",
+              "doi": "10.1016/j.scico.2011.11.008"
+            },
+            {
+              "title": "The Influence of Construal Fit on Entrepreneurial Behavior - An Experimental Study",
+              "doi": ""
+            }
+          ]
+        },
+        {
+          "claim_id": "hld-261107772-03",
+          "ok": true,
+          "elapsed_ms": 5,
+          "label": "no_evidence",
+          "reason": "已找到 5 条候选文献，正在判定…",
+          "candidate_count": 5,
+          "hit": true,
+          "hit_method": "doi",
+          "top_candidates": [
+            {
+              "title": "Large Language Models (LLMs) for Requirements Engineering (RE): A Systematic Literature Review .",
+              "doi": "10.48550/arxiv.2509.11446"
+            },
+            {
+              "title": "Advancing Requirements Engineering Through Generative AI: Assessing the Role of LLMs",
+              "doi": "10.1007/978-3-031-55642-5_6"
+            },
+            {
+              "title": "From Requirements to Code: Understanding Developer Practices in LLM-Assisted Software Engineering",
+              "doi": "10.1109/re63999.2025.00032"
+            },
+            {
+              "title": "Research directions for using LLM in software requirement engineering: a systematic review",
+              "doi": "10.3389/fcomp.2025.1519437"
+            },
+            {
+              "title": "Model Generation with LLMs: From Requirements to UML Sequence Diagrams",
+              "doi": "10.1109/rew61692.2024.00044"
+            }
+          ]
+        },
+        {
+          "claim_id": "hld-261107772-04",
+          "ok": true,
+          "elapsed_ms": 6,
+          "label": "no_evidence",
+          "reason": "已找到 5 条候选文献，正在判定…",
+          "candidate_count": 5,
+          "hit": true,
+          "hit_method": "doi",
+          "top_candidates": [
+            {
+              "title": "Using LLMs in Software Requirements Specifications: An Empirical Evaluation .",
+              "doi": "10.1109/re59067.2024.00056"
+            },
+            {
+              "title": "Adapt the Object to the Subject: Representative Study Material for Empirical Software Engineering",
+              "doi": "10.48550/arxiv.2611.07772"
+            },
+            {
+              "title": "A Study on the Completeness Measurement of Requirements Specifications  for Software Completion Appraisal",
+              "doi": "10.29056/jsav.2023.3.02"
+            },
+            {
+              "title": "A Framework to Identify Functional Consistency Issue between User Requirements Specifications and Software Requirements Specifications",
+              "doi": "10.1109/icnlp69856.2026.11527516"
+            },
+            {
+              "title": "An Approach towards Goal-Oriented Requirements Ontology: Consistency and Completeness Based Requirements Analysis",
+              "doi": "10.4236/jsea.2023.162003"
+            }
+          ]
+        },
+        {
+          "claim_id": "hld-261107772-05",
+          "ok": true,
+          "elapsed_ms": 5,
+          "label": "no_evidence",
+          "reason": "已找到 5 条候选文献，正在判定…",
+          "candidate_count": 5,
+          "hit": true,
+          "hit_method": "doi",
+          "top_candidates": [
+            {
+              "title": "Can LLMs Generate User Stories and Assess Their Quality? .",
+              "doi": "10.1109/tse.2026.3670612"
+            },
+            {
+              "title": "Developing a Hybrid Human-AI Framework for Test Data Generation: Balancing Coverage, Realism, and Efficiency Authors",
+              "doi": "10.2139/ssrn.5253510"
+            },
+            {
+              "title": "Same Same but Different: Finding Similar User Feedback Across Multiple Platforms and Languages",
+              "doi": "10.1109/re48521.2020.00017"
+            },
+            {
+              "title": "Evaluating user story quality with LLMs: a comparative study",
+              "doi": "10.1007/s10844-025-00939-3"
+            },
+            {
+              "title": "A multiple-population genetic algorithm for branch coverage test data generation",
+              "doi": "10.1007/s11219-010-9117-4"
+            }
+          ]
+        },
+        {
+          "claim_id": "hld-261107772-06",
+          "ok": true,
+          "elapsed_ms": 5,
+          "label": "no_evidence",
+          "reason": "已找到 5 条候选文献，正在判定…",
+          "candidate_count": 5,
+          "hit": true,
+          "hit_method": "doi",
+          "top_candidates": [
+            {
+              "title": "Description and Comparative Analysis of QuRE: A New Industrial Requirements Quality Dataset .",
+              "doi": "10.1109/rew66121.2025.00008"
+            },
+            {
+              "title": "Richer database context improves LLM-generated EHR phenotyping algorithms",
+              "doi": "10.64898/2026.10.27.26366654"
+            },
+            {
+              "title": "Input-output analysis of energy requirements",
+              "doi": "10.1016/0140-9883(79)90003-3"
+            },
+            {
+              "title": "Input–Output Finite Time Stabilization of Time-Varying Impulsive Positive Hybrid Systems under MDADT",
+              "doi": "10.3390/app7111187"
+            },
+            {
+              "title": "Input-Output Finite-Time Sliding Mode Control of Discrete Time-Varying Systems Under an Adaptive Event-Triggered Mechanism",
+              "doi": "10.1109/access.2023.3235009"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "arxiv-2610.18926",
+      "url": "https://arxiv.org/html/2610.18926",
+      "page_title": "Personalising Deformable Image Registration with Clinical Context and Deformation Guidance",
+      "extractor": {
+        "name": "readability-lxml",
+        "version": "0.9",
+        "license": "Apache-2.0",
+        "mode": "readability-lxml"
+      },
+      "text_chars": 68820,
+      "reference_count": 19,
+      "markers_total": 23,
+      "markers_mapped": 23,
+      "mapped_ratio": 1.0,
+      "samples": [
+        {
+          "marker": "[1, 2, 3]",
+          "references": [
+            {
+              "index": 1,
+              "title": "Adaptive radiotherapy for anatomical changes.",
+              "doi": "10.1016/j.semradonc.2019.02.006",
+              "url": "https://doi.org/10.1016/j.semradonc.2019.02.006"
+            },
+            {
+              "index": 2,
+              "title": "Adaptive radiation therapy (ART) strategies and technical considerations: A state of the ART review from NRG oncology.",
+              "doi": "10.1016/j.ijrobp.2020.10.021",
+              "url": "https://doi.org/10.1016/j.ijrobp.2020.10.021"
+            },
+            {
+              "index": 3,
+              "title": "Magnetic resonance linear accelerator technology and adaptive radiation therapy: An overview for clinicians.",
+              "doi": "10.3322/caac.21707",
+              "url": "https://doi.org/10.3322/caac.21707"
+            }
+          ]
+        },
+        {
+          "marker": "[4, 5]",
+          "references": [
+            {
+              "index": 4,
+              "title": "Adaptive radiation therapy.",
+              "doi": "10.1088/0031-9155/42/1/008",
+              "url": "https://doi.org/10.1088/0031-9155/42/1/008"
+            },
+            {
+              "index": 5,
+              "title": "Adaptive radiation therapy: A review of CT-based techniques.",
+              "doi": "10.1148/rycan.230011",
+              "url": "https://doi.org/10.1148/rycan.230011"
+            }
+          ]
+        },
+        {
+          "marker": "[6]",
+          "references": [
+            {
+              "index": 6,
+              "title": "VoxelMorph: A learning framework for deformable medical image registration.",
+              "doi": "10.1109/tmi.2019.2897538",
+              "url": "https://doi.org/10.1109/TMI.2019.2897538"
+            }
+          ]
+        },
+        {
+          "marker": "[7]",
+          "references": [
+            {
+              "index": 7,
+              "title": "TransMorph: Transformer for unsupervised medical image registration.",
+              "doi": "10.1016/j.media.2022.102615",
+              "url": "https://doi.org/10.1016/j.media.2022.102615"
+            }
+          ]
+        },
+        {
+          "marker": "[8]",
+          "references": [
+            {
+              "index": 8,
+              "title": "Correlation-aware coarse-to-fine MLPs for deformable medical image registration.",
+              "doi": "10.1109/cvpr52733.2024.00921",
+              "url": "https://doi.org/10.1109/CVPR52733.2024.00921"
+            }
+          ]
+        }
+      ],
+      "reference_preview": [
+        {
+          "index": 1,
+          "title": "Adaptive radiotherapy for anatomical changes.",
+          "raw": "[1] Sonke, J.-J., Aznar, M. & Rasch, C. Adaptive radiotherapy for anatomical changes. Seminars in Radiation Oncology 29, 245–257, DOI: 10.1016/j.semradonc.2019.02.006 (2019).",
+          "doi": "10.1016/j.semradonc.2019.02.006",
+          "url": "https://doi.org/10.1016/j.semradonc.2019.02.006"
+        },
+        {
+          "index": 2,
+          "title": "Adaptive radiation therapy (ART) strategies and technical considerations: A state of the ART review from NRG oncology.",
+          "raw": "[2] Glide-Hurst, C. K. et al. Adaptive radiation therapy (ART) strategies and technical considerations: A state of the ART review from NRG oncology. International Journal of Radiation Oncology Biology Physics 109, 1054–1075, DOI: 10.1016/j.ijrobp.2020.10.021 (2021).",
+          "doi": "10.1016/j.ijrobp.2020.10.021",
+          "url": "https://doi.org/10.1016/j.ijrobp.2020.10.021"
+        },
+        {
+          "index": 3,
+          "title": "Magnetic resonance linear accelerator technology and adaptive radiation therapy: An overview for clinicians.",
+          "raw": "[3] Hall, W. A. et al. Magnetic resonance linear accelerator technology and adaptive radiation therapy: An overview for clinicians. CA: A Cancer Journal for Clinicians 72, 34–56, DOI: 10.3322/caac.21707 (2022).",
+          "doi": "10.3322/caac.21707",
+          "url": "https://doi.org/10.3322/caac.21707"
+        },
+        {
+          "index": 4,
+          "title": "Adaptive radiation therapy.",
+          "raw": "[4] Yan, D., Vicini, F., Wong, J. & Martinez, A. Adaptive radiation therapy. Physics in Medicine and Biology 42, 123–132, DOI: 10.1088/0031-9155/42/1/008 (1997).",
+          "doi": "10.1088/0031-9155/42/1/008",
+          "url": "https://doi.org/10.1088/0031-9155/42/1/008"
+        },
+        {
+          "index": 5,
+          "title": "Adaptive radiation therapy: A review of CT-based techniques.",
+          "raw": "[5] Lavrova, E. et al. Adaptive radiation therapy: A review of CT-based techniques. Radiology: Imaging Cancer 5, e230011, DOI: 10.1148/rycan.230011 (2023).",
+          "doi": "10.1148/rycan.230011",
+          "url": "https://doi.org/10.1148/rycan.230011"
+        }
+      ],
+      "claims_total": 6,
+      "claims": [
+        {
+          "claim_id": "hld-261018926-01",
+          "sentence": "Tumour regression, organ filling, weight loss and other anatomical changes can alter the relationship between the planned and delivered dose [1,2,3].",
+          "markers": [
+            "[1,2,3]"
+          ],
+          "mapped": true,
+          "located": [
+            1,
+            2,
+            3
+          ],
+          "hit": true,
+          "hit_method": "doi",
+          "gold_doi": "10.1016/j.semradonc.2019.02.006",
+          "gold_title": "Functional Adaptation in Radiation Therapy"
+        },
+        {
+          "claim_id": "hld-261018926-02",
+          "sentence": "Classical optimization methods can be slow in time-sensitive workflows, whereas learning-based methods such as VoxelMorph [6], TransMorph [7], CorrMLP [8], MambaMorph [9], DiffuseMorph [10] and UniGradICON [11] primarily learn population-level image correspondence.",
+          "markers": [
+            "[6]",
+            "[7]",
+            "[8]",
+            "[9]",
+            "[10]",
+            "[11]"
+          ],
+          "mapped": true,
+          "located": [
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "hit": true,
+          "hit_method": "doi",
+          "gold_doi": "10.1109/TMI.2019.2897538",
+          "gold_title": "VoxelMorph: A Learning Framework for Deformable Medical Image Registration"
+        },
+        {
+          "claim_id": "hld-261018926-03",
+          "sentence": "Recent advances in multimodal learning [12,13,14] and sequential modelling [15] make it possible to use these complementary resources in a unified registration system.",
+          "markers": [
+            "[12,13,14]",
+            "[15]"
+          ],
+          "mapped": true,
+          "located": [
+            12,
+            13,
+            14,
+            15
+          ],
+          "hit": true,
+          "hit_method": "doi",
+          "gold_doi": "10.1609/aaai.v32i1.11671",
+          "gold_title": "FiLM: Visual Reasoning with a General Conditioning Layer"
+        },
+        {
+          "claim_id": "hld-261018926-04",
+          "sentence": "Source structure masks were obtained from available baseline or reference annotations and supplemented, when necessary, using the fixed pretrained TotalSegmentator model [17].",
+          "markers": [
+            "[17]"
+          ],
+          "mapped": true,
+          "located": [
+            17
+          ],
+          "hit": true,
+          "hit_method": "doi",
+          "gold_doi": "10.1148/ryai.230024",
+          "gold_title": "TotalSegmentator: Robust Segmentation of 104 Anatomic Structures in CT Images"
+        },
+        {
+          "claim_id": "hld-261018926-05",
+          "sentence": "The structured prompt was then encoded using a frozen BioMedBERT-large encoder [19], a BERT-based language model pretrained on large-scale biomedical text, to obtain a domain-specific semantic representation of the current registration sample.",
+          "markers": [
+            "[19]"
+          ],
+          "mapped": true,
+          "located": [
+            19
+          ],
+          "hit": true,
+          "hit_method": "doi",
+          "gold_doi": "10.1145/3458754",
+          "gold_title": "Domain-Specific Language Model Pretraining for Biomedical Natural Language Processing"
+        },
+        {
+          "claim_id": "hld-261018926-06",
+          "sentence": "TransMorph [7] uses a transformer architecture to model long-range correspondence.",
+          "markers": [
+            "[7]"
+          ],
+          "mapped": true,
+          "located": [
+            7
+          ],
+          "hit": true,
+          "hit_method": "doi",
+          "gold_doi": "10.1016/j.media.2022.102615",
+          "gold_title": "TransMorph: Transformer for unsupervised medical image registration"
+        }
+      ],
+      "check_claim": [
+        {
+          "claim_id": "hld-261018926-01",
+          "ok": true,
+          "elapsed_ms": 72,
+          "label": "no_evidence",
+          "reason": "已找到 5 条候选文献，正在判定…",
+          "candidate_count": 5,
+          "hit": true,
+          "hit_method": "doi",
+          "top_candidates": [
+            {
+              "title": "Adaptive radiotherapy for anatomical changes.",
+              "doi": "10.1016/j.semradonc.2019.02.006"
+            },
+            {
+              "title": "Adaptive radiation therapy (ART) strategies and technical considerations: A state of the ART review from NRG oncology.",
+              "doi": "10.1016/j.ijrobp.2020.10.021"
+            },
+            {
+              "title": "Magnetic resonance linear accelerator technology and adaptive radiation therapy: An overview for clinicians.",
+              "doi": "10.3322/caac.21707"
+            },
+            {
+              "title": "Adaptive Radiotherapy for Anatomical Changes",
+              "doi": "10.1016/j.semradonc.2019.02.007"
+            },
+            {
+              "title": "Assessment of spatially inhomogeneous intra-organ radiation dose response in salivary glands",
+              "doi": "10.14288/1.0343473"
+            }
+          ]
+        },
+        {
+          "claim_id": "hld-261018926-02",
+          "ok": true,
+          "elapsed_ms": 44,
+          "label": "no_evidence",
+          "reason": "已找到 5 条候选文献，正在判定…",
+          "candidate_count": 5,
+          "hit": true,
+          "hit_method": "doi",
+          "top_candidates": [
+            {
+              "title": "VoxelMorph: A learning framework for deformable medical image registration.",
+              "doi": "10.1109/tmi.2019.2897538"
+            },
+            {
+              "title": "TransMorph: Transformer for unsupervised medical image registration.",
+              "doi": "10.1016/j.media.2022.102615"
+            },
+            {
+              "title": "Correlation-aware coarse-to-fine MLPs for deformable medical image registration.",
+              "doi": "10.1109/cvpr52733.2024.00921"
+            },
+            {
+              "title": "MambaMorph: a Mamba-based framework for medical MR-CT deformable registration.",
+              "doi": "10.48550/arxiv.2401.13934"
+            },
+            {
+              "title": "DiffuseMorph: Unsupervised deformable image registration using diffusion model.",
+              "doi": "10.1007/978-3-031-20086-1_20"
+            }
+          ]
+        },
+        {
+          "claim_id": "hld-261018926-03",
+          "ok": true,
+          "elapsed_ms": 51,
+          "label": "no_evidence",
+          "reason": "已找到 5 条候选文献，正在判定…",
+          "candidate_count": 5,
+          "hit": true,
+          "hit_method": "doi",
+          "top_candidates": [
+            {
+              "title": "FiLM: Visual reasoning with a general conditioning layer.",
+              "doi": "10.1609/aaai.v32i1.11671"
+            },
+            {
+              "title": "Large language models encode clinical knowledge.",
+              "doi": "10.1038/s41586-023-06291-2"
+            },
+            {
+              "title": "Foundation models for generalist medical artificial intelligence.",
+              "doi": "10.1038/s41586-023-05881-4"
+            },
+            {
+              "title": "Learning phrase representations using RNN encoder-decoder for statistical machine translation.",
+              "doi": "10.3115/v1/d14-1179"
+            },
+            {
+              "title": "A survey on deep multimodal learning for computer vision: advances, trends, applications, and datasets",
+              "doi": "10.1007/s00371-021-02166-7"
+            }
+          ]
+        },
+        {
+          "claim_id": "hld-261018926-04",
+          "ok": true,
+          "elapsed_ms": 61,
+          "label": "no_evidence",
+          "reason": "已找到 5 条候选文献，正在判定…",
+          "candidate_count": 5,
+          "hit": true,
+          "hit_method": "doi",
+          "top_candidates": [
+            {
+              "title": "TotalSegmentator: Robust segmentation of 104 anatomic structures in CT images.",
+              "doi": "10.1148/ryai.230024"
+            },
+            {
+              "title": "Clinically aligned whole-body MRI segmentation of skeletal metastases via Supervised Anatomical Pretraining",
+              "doi": "10.1016/j.jbo.2026.100745"
+            },
+            {
+              "title": "REFORM-3D: A Representation-Centric Evaluation Framework for 3D Medical Vision Foundation Models",
+              "doi": "10.48550/arxiv.2611.10062"
+            },
+            {
+              "title": "Foundation Models Meet Medical Image Interpretation",
+              "doi": "10.34133/research.1024"
+            },
+            {
+              "title": "SegVol: Universal and Interactive Volumetric Medical Image Segmentation",
+              "doi": "10.52202/079017-3516"
+            }
+          ]
+        },
+        {
+          "claim_id": "hld-261018926-05",
+          "ok": true,
+          "elapsed_ms": 58,
+          "label": "no_evidence",
+          "reason": "已找到 5 条候选文献，正在判定…",
+          "candidate_count": 5,
+          "hit": true,
+          "hit_method": "doi",
+          "top_candidates": [
+            {
+              "title": "Domain-specific language model pretraining for biomedical natural language processing.",
+              "doi": "10.1145/3458754"
+            },
+            {
+              "title": "An explainable biomedical foundation model via large-scale concept-enhanced vision–language pretraining",
+              "doi": "10.1038/s41551-026-01764-x"
+            },
+            {
+              "title": "A Comprehensive Survey of Scientific Large Language Models and Their Applications in Scientific Discovery",
+              "doi": "10.18653/v1/2024.emnlp-main.498"
+            },
+            {
+              "title": "UniMed-CLIP: Towards a Unified Image-Text Pretraining Paradigm for Diverse Medical Imaging Modalities",
+              "doi": ""
+            },
+            {
+              "title": "A generalist biomedical vision-language model via multi-CLIP knowledge distillation",
+              "doi": "10.1038/s41467-026-74120-x"
+            }
+          ]
+        },
+        {
+          "claim_id": "hld-261018926-06",
+          "ok": true,
+          "elapsed_ms": 47,
+          "label": "no_evidence",
+          "reason": "已找到 5 条候选文献，正在判定…",
+          "candidate_count": 5,
+          "hit": true,
+          "hit_method": "doi",
+          "top_candidates": [
+            {
+              "title": "TransMorph: Transformer for unsupervised medical image registration.",
+              "doi": "10.1016/j.media.2022.102615"
+            },
+            {
+              "title": "Cycle Inverse-Consistent TransMorph: A Balanced Deep Learning Framework for Brain MRI Registration",
+              "doi": "10.48550/arxiv.2603.21760"
+            },
+            {
+              "title": "Attention-Guided TransMorph for Real-Time Tumor Tracking in Cine-MRI",
+              "doi": "10.1007/s10278-026-02091-y"
+            },
+            {
+              "title": "Transformers in medical imaging: A survey",
+              "doi": "10.1016/j.media.2023.102802"
+            },
+            {
+              "title": "Transformers in medical image analysis",
+              "doi": "10.1016/j.imed.2022.07.002"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wiki-rag",
+      "url": "https://en.wikipedia.org/wiki/Retrieval-augmented_generation",
+      "page_title": "Retrieval-augmented generation",
+      "extractor": {
+        "name": "readability-lxml",
+        "version": "0.9",
+        "license": "Apache-2.0",
+        "mode": "readability-lxml"
+      },
+      "text_chars": 17559,
+      "reference_count": 22,
+      "markers_total": 45,
+      "markers_mapped": 45,
+      "mapped_ratio": 1.0,
+      "samples": [
+        {
+          "marker": "[1]",
+          "references": [
+            {
+              "index": 1,
+              "title": "What is retrieval-augmented generation?",
+              "doi": "",
+              "url": "https://research.ibm.com/blog/retrieval-augmented-generation-RAG"
+            }
+          ]
+        },
+        {
+          "marker": "[2]",
+          "references": [
+            {
+              "index": 2,
+              "title": "Retrieval-Augmented Generation for AI-Generated Content: A Survey",
+              "doi": "10.1007/s41019-025-00335-5",
+              "url": "https://doi.org/10.1007%2Fs41019-025-00335-5"
+            }
+          ]
+        },
+        {
+          "marker": "[3]",
+          "references": [
+            {
+              "index": 3,
+              "title": "Why Google's AI Overviews gets things wrong",
+              "doi": "",
+              "url": "https://www.technologyreview.com/2024/05/31/1093019/why-are-googles-ai-overviews-results-so-bad/"
+            }
+          ]
+        },
+        {
+          "marker": "[3]",
+          "references": [
+            {
+              "index": 3,
+              "title": "Why Google's AI Overviews gets things wrong",
+              "doi": "",
+              "url": "https://www.technologyreview.com/2024/05/31/1093019/why-are-googles-ai-overviews-results-so-bad/"
+            }
+          ]
+        },
+        {
+          "marker": "[4]",
+          "references": [
+            {
+              "index": 4,
+              "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
+              "doi": "",
+              "url": "https://proceedings.neurips.cc/paper/2020/hash/6b493230205f780e1bc26945df7481e5-Abstract.html"
+            }
+          ]
+        }
+      ],
+      "reference_preview": [
+        {
+          "index": 1,
+          "title": "What is retrieval-augmented generation?",
+          "raw": "\"What is retrieval-augmented generation?\". IBM. 22 August 2023. Retrieved 7 March 2025.",
+          "doi": "",
+          "url": "https://research.ibm.com/blog/retrieval-augmented-generation-RAG"
+        },
+        {
+          "index": 2,
+          "title": "Retrieval-Augmented Generation for AI-Generated Content: A Survey",
+          "raw": "Zhao, Penghao; Zhang, Hailin; Yu, Qinhan; Wang, Zhengren; Geng, Yunteng; Fu, Fangcheng; Yang, Ling; Zhang, Wentao; Jiang, Jie; Cui, Bin (March 2026). \"Retrieval-Augmented Generation for AI-Generated Content: A Survey\". Data Science and Engineering. 11 (1): 1–29. arXiv:2402.19473. doi:10.1007/s41019-025-00335-5.",
+          "doi": "10.1007/s41019-025-00335-5",
+          "url": "https://doi.org/10.1007%2Fs41019-025-00335-5"
+        },
+        {
+          "index": 3,
+          "title": "Why Google's AI Overviews gets things wrong",
+          "raw": "\"Why Google's AI Overviews gets things wrong\". MIT Technology Review. 31 May 2024. Retrieved 7 March 2025.",
+          "doi": "",
+          "url": "https://www.technologyreview.com/2024/05/31/1093019/why-are-googles-ai-overviews-results-so-bad/"
+        },
+        {
+          "index": 4,
+          "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
+          "raw": "Lewis, Patrick; Perez, Ethan; Piktus, Aleksandra; Petroni, Fabio; Karpukhin, Vladimir; Goyal, Naman; Küttler, Heinrich; Lewis, Mike; Yih, Wen-tau; Rocktäschel, Tim; Riedel, Sebastian; Kiela, Douwe (2020). \"Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks\". Advances in Neural Information Processing Systems. 33. Curran Associates, Inc.: 9459–9474. arXiv:2005.11401.",
+          "doi": "",
+          "url": "https://proceedings.neurips.cc/paper/2020/hash/6b493230205f780e1bc26945df7481e5-Abstract.html"
+        },
+        {
+          "index": 5,
+          "title": "Can a technology called RAG keep AI models from making stuff up?",
+          "raw": "\"Can a technology called RAG keep AI models from making stuff up?\". Ars Technica. 6 June 2024. Retrieved 7 March 2025.",
+          "doi": "",
+          "url": "https://arstechnica.com/ai/2024/06/can-a-technology-called-rag-keep-ai-models-from-making-stuff-up/"
+        }
+      ],
+      "claims_total": 5,
+      "claims": [
+        {
+          "claim_id": "wiki-01",
+          "sentence": "These documents supplement information from the LLM's pre-existing training data.[3] This allows LLMs to use domain-specific and/or updated information that is not available in the training data.[3] For example, this enables LLM-based chatbots to access internal company data or generate responses based on authoritative sources.",
+          "markers": [
+            "[3]",
+            "[3]"
+          ],
+          "mapped": true,
+          "located": [
+            3,
+            3
+          ],
+          "hit": true,
+          "hit_method": "title",
+          "gold_doi": "",
+          "gold_title": "Why Google's AI Overviews gets things wrong"
+        },
+        {
+          "claim_id": "wiki-02",
+          "sentence": "The term retrieval-augmented generation (RAG) was introduced in a 2020 paper that described combining a parametric language model with a non-parametric external memory accessed through retrieval at inference time.[4] RAG and LLM limitations[edit] LLMs can provide incorrect information.",
+          "markers": [
+            "[4]"
+          ],
+          "mapped": true,
+          "located": [
+            4
+          ],
+          "hit": true,
+          "hit_method": "title",
+          "gold_doi": "",
+          "gold_title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks"
+        },
+        {
+          "claim_id": "wiki-03",
+          "sentence": "This error contributed to a $100 billion decline in Google's stock value.[5] RAG can reduce factual errors, but it does not solve all the problems.",
+          "markers": [
+            "[5]"
+          ],
+          "mapped": true,
+          "located": [
+            5
+          ],
+          "hit": true,
+          "hit_method": "title",
+          "gold_doi": "",
+          "gold_title": "Can a technology called RAG keep AI models from making stuff up?"
+        },
+        {
+          "claim_id": "wiki-04",
+          "sentence": "This approach provides the LLM with key information early in the prompt, encouraging it to prioritize the supplied data over pre-existing training knowledge.[7] Process[edit] Retrieval-augmented generation (RAG) enhances large language models (LLMs) by incorporating an information-retrieval mechanism that allows models to access and utilize additional data beyond their original training set.",
+          "markers": [
+            "[7]"
+          ],
+          "mapped": true,
+          "located": [
+            7
+          ],
+          "hit": true,
+          "hit_method": "title",
+          "gold_doi": "",
+          "gold_title": "Mitigating LLM hallucinations in text summarisation"
+        },
+        {
+          "claim_id": "wiki-05",
+          "sentence": "Various enhancements can improve the way similarities are calculated in the vector stores (databases).[9] Performance improves by optimizing how vector similarities are calculated.",
+          "markers": [
+            "[9]"
+          ],
+          "mapped": true,
+          "located": [
+            9
+          ],
+          "hit": true,
+          "hit_method": "doi",
+          "gold_doi": "10.1162/tacl_a_00369",
+          "gold_title": "Sparse, Dense, and Attentional Representations for Text Retrieval"
+        }
+      ],
+      "check_claim": [
+        {
+          "claim_id": "wiki-01",
+          "ok": true,
+          "elapsed_ms": 24,
+          "label": "no_evidence",
+          "reason": "已找到 5 条候选文献，正在判定…",
+          "candidate_count": 5,
+          "hit": false,
+          "hit_method": "none",
+          "top_candidates": [
+            {
+              "title": "Leveraging Passage Retrieval with Generative Models for Open Domain Question Answering",
+              "doi": "10.18653/v1/2021.eacl-main.74"
+            },
+            {
+              "title": "Generate-and-Retrieve: use your predictions to improve retrieval for semantic parsing",
+              "doi": "10.48550/arxiv.2209.14899"
+            },
+            {
+              "title": "Generalization through Memorization: Nearest Neighbor Language Models",
+              "doi": "10.48550/arxiv.1911.00172"
+            },
+            {
+              "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
+              "doi": "10.48550/arxiv.2005.11401"
+            },
+            {
+              "title": "Did Aristotle Use a Laptop? A Question Answering Benchmark with Implicit Reasoning Strategies",
+              "doi": "10.1162/tacl_a_00370"
+            }
+          ]
+        },
+        {
+          "claim_id": "wiki-02",
+          "ok": true,
+          "elapsed_ms": 16,
+          "label": "no_evidence",
+          "reason": "已找到 5 条候选文献，正在判定…",
+          "candidate_count": 5,
+          "hit": true,
+          "hit_method": "title",
+          "top_candidates": [
+            {
+              "title": "Generalization through Memorization: Nearest Neighbor Language Models",
+              "doi": "10.48550/arxiv.1911.00172"
+            },
+            {
+              "title": "REALM: Retrieval-Augmented Language Model Pre-Training",
+              "doi": "10.48550/arxiv.2002.08909"
+            },
+            {
+              "title": "How Much Knowledge Can You Pack Into the Parameters of a Language Model?",
+              "doi": "10.18653/v1/2020.emnlp-main.437"
+            },
+            {
+              "title": "Generate rather than Retrieve: Large Language Models are Strong Context Generators",
+              "doi": "10.48550/arxiv.2209.10063"
+            },
+            {
+              "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
+              "doi": "10.48550/arxiv.2005.11401"
+            }
+          ]
+        },
+        {
+          "claim_id": "wiki-03",
+          "ok": true,
+          "elapsed_ms": 12,
+          "label": "no_evidence",
+          "reason": "已找到 5 条候选文献，正在判定…",
+          "candidate_count": 5,
+          "hit": false,
+          "hit_method": "none",
+          "top_candidates": [
+            {
+              "title": "On Faithfulness and Factuality in Abstractive Summarization",
+              "doi": "10.18653/v1/2020.acl-main.173"
+            },
+            {
+              "title": "Type 2 Diabetes and Obesity",
+              "doi": "10.1002/0470846429.ch19"
+            },
+            {
+              "title": "ROUGE: A Package for Automatic Evaluation of Summaries",
+              "doi": ""
+            },
+            {
+              "title": "TriviaQA: A Large Scale Distantly Supervised Challenge Dataset for Reading Comprehension",
+              "doi": "10.18653/v1/p17-1147"
+            },
+            {
+              "title": "Wizard of Wikipedia: Knowledge-Powered Conversational agents",
+              "doi": "10.48550/arxiv.1811.01241"
+            }
+          ]
+        },
+        {
+          "claim_id": "wiki-04",
+          "ok": true,
+          "elapsed_ms": 15,
+          "label": "no_evidence",
+          "reason": "已找到 5 条候选文献，正在判定…",
+          "candidate_count": 5,
+          "hit": false,
+          "hit_method": "none",
+          "top_candidates": [
+            {
+              "title": "Generate rather than Retrieve: Large Language Models are Strong Context Generators",
+              "doi": "10.48550/arxiv.2209.10063"
+            },
+            {
+              "title": "Language Models as Knowledge Bases?",
+              "doi": "10.18653/v1/d19-1250"
+            },
+            {
+              "title": "Generalization through Memorization: Nearest Neighbor Language Models",
+              "doi": "10.48550/arxiv.1911.00172"
+            },
+            {
+              "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
+              "doi": "10.48550/arxiv.2005.11401"
+            },
+            {
+              "title": "Leveraging Passage Retrieval with Generative Models for Open Domain Question Answering",
+              "doi": "10.18653/v1/2021.eacl-main.74"
+            }
+          ]
+        },
+        {
+          "claim_id": "wiki-05",
+          "ok": true,
+          "elapsed_ms": 13,
+          "label": "no_evidence",
+          "reason": "已找到 5 条候选文献，正在判定…",
+          "candidate_count": 5,
+          "hit": false,
+          "hit_method": "none",
+          "top_candidates": [
+            {
+              "title": "How Can We Know What Language Models Know?",
+              "doi": "10.1162/tacl_a_00324"
+            },
+            {
+              "title": "How Much Knowledge Can You Pack Into the Parameters of a Language Model?",
+              "doi": "10.18653/v1/2020.emnlp-main.437"
+            },
+            {
+              "title": "How Can We Know When Language Models Know? On the Calibration of Language Models for Question Answering",
+              "doi": "10.1162/tacl_a_00407"
+            },
+            {
+              "title": "Self-Consistency Improves Chain of Thought Reasoning in Language Models",
+              "doi": "10.48550/arxiv.2203.11171"
+            },
+            {
+              "title": "Generate-and-Retrieve: use your predictions to improve retrieval for semantic parsing",
+              "doi": "10.48550/arxiv.2209.14899"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "failures": [],
+  "notes": [
+    "映射率 = markers_mapped / markers_total（只统计正文中的锚点/标记，参考文献列表本身不计入分母）。",
+    "claim 定位 = 该引用句的 [n] 所指页面文献是否与 gold DOI（或标题）一致；不做真伪判定。",
+    "check_claim 对照走现有 Live 检索（phase=retrieve，不调用判官）；它目前只对 arXiv HTML 建映射。"
+  ]
+}

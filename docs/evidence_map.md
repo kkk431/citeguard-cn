@@ -419,6 +419,8 @@ payload = em.topic_payload("ai_education")  # JSON-ready dict，供 Web 层直�
 | schema 校验 / manifest 唯一性 / 抽取可解析 | ✅ | `pytest tests/test_evidence_map.py -q` → 87 passed |
 | DOI 可解析（队长抽查 5 篇） | ✅（30/30 已预核验） | `verification.json`：Crossref 30/30、handle 30/30 |
 
+<a id="静态地图的机器层2026-11-15"></a>
+
 ## 静态地图的机器层（2026-11-15）
 
 固定示例的 30 篇论文现在每篇至少有一张机器卡片，人工示例层不被覆盖：
@@ -437,4 +439,15 @@ payload = em.topic_payload("ai_education")  # JSON-ready dict，供 Web 层直�
 - 只保留 `full` / `partial` 且逐字引用命中的证据；同一原子断言优先显示全文证据，未被全文覆盖时才回退摘要级原子层；
 - 卡片标注「全文证据 · 逐字引用 · 未人审」，`verified=false`，与人工示例严格分层；
 - 105 格人工对照：有全文且人工判正确的 7 格中，支持证据召回 6/7、完整支持 5/7；这是小样本，不能当普适准确率。
+
+## 证据图（1.7.32）
+
+CiteMap 页面新增「证据图」视图，把同一主题的断言 → 论文 → 证据画成一张可读的三栏图，而不是力导向毛线球：
+
+- 左栏是断言卡，右栏是论文（题名 + 年份），中间每条线表示一条证据关系；点节点或连线，图下方展开证据原文、locator、stance 与 DOI。
+- 线型区分证据层级：**全文逐字证据**（薄荷实线）、**摘要级证据**（琥珀虚线）、**未发现**（灰色点线，来自 60 格核对中无证据的格子）。
+- 数据只来自 `GET /api/citemap/{topic}` 的 `evidence`（人工示例）与 `auto_evidence`（机器层）；全文层优先，摘要层回退，不新增后端、不重新抓取。
+- 医学影像主题实测：13 条断言 / 15 篇论文 / 全文 8 / 摘要 13 / 未发现 11，共 32 条关系；浅色、深色主题都可读，详情在下方不遮挡论文列。
+- 截图：`docs/evidence/shots/phase-66-citemap-graph-1.7.32.png`（深色）、`docs/evidence/shots/phase-66-citemap-graph-light-1.7.32.png`（浅色）；测试：`tests/test_citemap_page.py` 17 项。
+- 边界：图只表达“有没有证据、哪一层”，不表达“论文整体是否可信”；机器层仍标 `verified=false`，未被人工核对。
 

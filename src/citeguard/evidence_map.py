@@ -21,6 +21,7 @@ Directory layout (relative to ``data/evidence_map/``)::
     verification.json              DOI / license verification evidence
     corpus/<topic_id>.json         one manifest per topic (papers only)
     extractions/<topic_id>.json    claims + evidence + gaps (human samples)
+    graph/<topic_id>.json          projected paper/claim/evidence graph (spike)
 
 Public API
 ----------
@@ -29,6 +30,7 @@ Public API
 ``parse_corpus`` / ``load_corpus`` / ``validate_corpus``
 ``parse_map`` / ``load_map`` / ``validate_map``
 ``list_topics`` / ``topic_payload``
+``build_graph`` / ``write_graph`` / ``validate_graph``
 ``main`` (CLI: ``python -m citeguard.evidence_map --check``)
 
 Invariants enforced here (not all can be expressed in JSON Schema):
@@ -46,6 +48,7 @@ Invariants enforced here (not all can be expressed in JSON Schema):
 from __future__ import annotations
 
 import argparse
+import csv
 import json
 import re
 import sys
@@ -85,6 +88,9 @@ __all__ = [
     "validate_map",
     "list_topics",
     "topic_payload",
+    "build_graph",
+    "write_graph",
+    "validate_graph",
     "main",
 ]
 
@@ -95,6 +101,10 @@ INDEX_FILENAME = "index.json"
 VERIFICATION_FILENAME = "verification.json"
 CORPUS_DIRNAME = "corpus"
 EXTRACTIONS_DIRNAME = "extractions"
+GRAPH_DIRNAME = "graph"
+GRAPH_NODE_TYPES: tuple[str, ...] = ("paper", "claim", "evidence")
+GRAPH_EDGE_KINDS: tuple[str, ...] = ("supports", "contradicts", "none", "abstract_only")
+GRAPH_LEVELS: tuple[str, ...] = ("fulltext", "abstract", "machine")
 
 STANCES: tuple[str, ...] = ("support", "contradict", "neutral")
 GAP_KINDS: tuple[str, ...] = ("evidence", "method", "sample", "outcome", "theory")
@@ -1152,6 +1162,716 @@ def topic_payload(
 
 
 # ---------------------------------------------------------------------------
+# Paper / claim / evidence graph projection (48h spike)
+# ---------------------------------------------------------------------------
+
+
+def _read_csv(path: Path) -> list[dict[str, str]]:
+    """Read an optional audit CSV; a missing or malformed file is not fatal."""
+    try:
+        with path.open("r", encoding="utf-8-sig", newline="") as handle:
+            return [dict(row) for row in csv.DictReader(handle)]
+    except (OSError, csv.Error, UnicodeError):
+        return []
+
+
+def _graph_aux_paths(base: Path) -> tuple[Path, Path]:
+    """Return the merged audit CSV and the optional 105-cell key."""
+    data_dir = base.parent
+    repo_root = data_dir.parent
+    merged = data_dir / "experiments" / "citemap_audit_105" / "merged.csv"
+    key = repo_root / "dist" / "citemap_audit_full" / "_organizer_only_key.csv"
+    return merged, key
+
+
+def _atomic_claims(base: Path, topic_id: str) -> list[dict[str, Any]]:
+    path = base / "claims_atomic.json"
+    if not path.is_file():
+        return []
+    data = read_json(path)
+    if not isinstance(data, MappingABC):
+        return []
+    topics = data.get("topics")
+    if not isinstance(topics, MappingABC):
+        return []
+    bucket = topics.get(topic_id)
+    if not isinstance(bucket, MappingABC):
+        return []
+    claims = bucket.get("claims")
+    if not isinstance(claims, list):
+        return []
+    return [dict(item) for item in claims if isinstance(item, MappingABC)]
+
+
+def _aux_evidence(
+    base: Path, dirname: str, topic_id: str
+) -> list[dict[str, Any]]:
+    path = base / dirname / f"{topic_id}.json"
+    if not path.is_file():
+        return []
+    data = read_json(path)
+    if not isinstance(data, MappingABC):
+        return []
+    records = data.get("evidence")
+    if not isinstance(records, list):
+        return []
+    return [dict(item) for item in records if isinstance(item, MappingABC)]
+
+
+def _evidence_level(record: Mapping[str, Any]) -> str:
+    extractor = str(record.get("extracted_by") or record.get("extractor") or "")
+    locator = str(record.get("locator") or "")
+    if (
+        record.get("fulltext_verdict")
+        or "fulltext" in extractor.lower()
+        or locator.lower().startswith("full text")
+    ):
+        return "fulltext"
+    if "machine" in extractor.lower():
+        return "machine"
+    return "abstract"
+
+
+def _stance(record: Mapping[str, Any]) -> str:
+    value = str(record.get("stance") or "neutral")
+    return value if value in STANCES else "neutral"
+
+
+def _edge_kind(stance: str, level: str) -> str:
+    if stance == "support":
+        return "supports" if level == "fulltext" else "abstract_only"
+    if stance == "contradict":
+        return "contradicts" if level == "fulltext" else "abstract_only"
+    return "abstract_only"
+
+
+def _audit_index(base: Path) -> tuple[dict[str, dict[str, str]], dict[str, dict[str, str]]]:
+    merged_path, key_path = _graph_aux_paths(base)
+    merged = {row.get("cell_id", ""): row for row in _read_csv(merged_path)}
+    key = {row.get("cell_id", ""): row for row in _read_csv(key_path)}
+    return merged, key
+
+
+def _graph_cells(
+    *,
+    base: Path,
+    topic_id: str,
+    corpus: CorpusManifest,
+    claims: list[Claim],
+    fulltext: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Build the 105 parent cells and attach any fulltext/audit annotations."""
+    merged, key = _audit_index(base)
+    by_cell: dict[str, list[dict[str, Any]]] = {}
+    for record in fulltext:
+        paper_id = str(record.get("paper_id") or "")
+        claim_id = str(record.get("parent_claim_id") or record.get("claim_id") or "")
+        cell_id = f"full-{topic_id}-{paper_id}-{claim_id}"
+        by_cell.setdefault(cell_id, []).append(record)
+
+    cells: list[dict[str, Any]] = []
+    for paper in corpus.papers:
+        for claim in claims:
+            cell_id = f"full-{topic_id}-{paper.paper_id}-{claim.claim_id}"
+            audit = merged.get(cell_id)
+            key_row = key.get(cell_id)
+            records = sorted(
+                by_cell.get(cell_id, []),
+                key=lambda item: str(item.get("evidence_id") or ""),
+            )
+            machine = bool(key_row and key_row.get("cell_kind") == "机器证据")
+            majority = audit.get("majority", "") if audit else ""
+            if records:
+                category = "fulltext"
+            elif machine and majority == "correct":
+                category = "abstract"
+            else:
+                category = "none"
+            cells.append(
+                {
+                    "cell_id": cell_id,
+                    "topic_id": topic_id,
+                    "paper_id": paper.paper_id,
+                    "claim_id": claim.claim_id,
+                    "category": category,
+                    "records": records,
+                    "audit": audit or {},
+                    "key": key_row or {},
+                    "machine": machine,
+                    "majority": majority,
+                }
+            )
+    return cells
+
+
+def _claim_node(claim: Claim, *, level: str, parent_id: str = "") -> dict[str, Any]:
+    meta = claim.to_dict()
+    meta.update(
+        {
+            "claim_level": level,
+            "parent_claim_id": parent_id or claim.claim_id,
+        }
+    )
+    return {
+        "id": claim.claim_id,
+        "type": "claim",
+        "label": claim.text,
+        "meta": meta,
+    }
+
+
+def _paper_node(paper: Paper) -> dict[str, Any]:
+    meta = paper.to_dict()
+    meta["paper_id"] = paper.paper_id
+    return {
+        "id": paper.paper_id,
+        "type": "paper",
+        "label": paper.title,
+        "meta": meta,
+    }
+
+
+def _evidence_node(record: Mapping[str, Any], *, level: str) -> dict[str, Any]:
+    evidence_id = str(record.get("evidence_id") or "")
+    quote = str(record.get("quote") or "")
+    summary = str(record.get("summary") or "")
+    meta = {
+        "evidence_id": evidence_id,
+        "paper_id": str(record.get("paper_id") or ""),
+        "claim_id": str(record.get("claim_id") or ""),
+        "parent_claim_id": str(record.get("parent_claim_id") or ""),
+        "atomic_id": str(record.get("atomic_id") or ""),
+        "stance": _stance(record),
+        "level": level,
+        "summary": summary,
+        "quote": quote,
+        "locator": str(record.get("locator") or ""),
+        "confidence": record.get("confidence", 0.5),
+        "verified": bool(record.get("verified", False)),
+        "source": str(
+            record.get("extracted_by") or record.get("extractor") or "unknown"
+        ),
+        "fulltext_verdict": str(record.get("fulltext_verdict") or ""),
+    }
+    return {
+        "id": evidence_id,
+        "type": "evidence",
+        "label": (summary or quote)[:300],
+        "meta": meta,
+    }
+
+
+def _graph_edge(
+    *,
+    source: str,
+    target: str,
+    kind: str,
+    level: str,
+    evidence_id: str = "",
+    quote: str = "",
+    locator: str = "",
+    meta: Mapping[str, Any] | None = None,
+    index: int,
+) -> dict[str, Any]:
+    return {
+        "id": f"e{index:04d}",
+        "source": source,
+        "target": target,
+        "kind": kind,
+        "level": level,
+        "evidence_id": evidence_id,
+        "quote": quote,
+        "locator": locator,
+        "page": "",
+        "meta": dict(meta or {}),
+    }
+
+
+def _graph_from_aux(
+    *,
+    corpus: CorpusManifest,
+    evidence_map: EvidenceMap,
+    atomic: list[dict[str, Any]],
+    fulltext_records: list[dict[str, Any]],
+    atomic_records: list[dict[str, Any]],
+    base: Path,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]], dict[str, Any]]:
+    """Build the static-topic graph with 105 parent cells."""
+    nodes: list[dict[str, Any]] = []
+    node_ids: set[str] = set()
+
+    def add(node: dict[str, Any]) -> None:
+        if node["id"] not in node_ids:
+            node_ids.add(node["id"])
+            nodes.append(node)
+
+    for paper in corpus.papers:
+        add(_paper_node(paper))
+
+    parent_claims = list(evidence_map.claims)
+    for claim in parent_claims:
+        add(_claim_node(claim, level="parent"))
+
+    atomic_ids: set[str] = set()
+    for item in atomic:
+        atomic_id = str(item.get("atomic_id") or "")
+        parent_id = str(item.get("parent_claim_id") or "")
+        text = str(item.get("text") or "")
+        if not atomic_id or not text:
+            continue
+        parent = next(
+            (claim for claim in parent_claims if claim.claim_id == parent_id),
+            None,
+        )
+        if parent is None:
+            continue
+        atomic_ids.add(atomic_id)
+        add(
+            {
+                "id": atomic_id,
+                "type": "claim",
+                "label": text,
+                "meta": {
+                    "claim_id": atomic_id,
+                    "atomic_id": atomic_id,
+                    "parent_claim_id": parent_id,
+                    "topic_id": corpus.topic.topic_id,
+                    "claim_level": "atomic",
+                    "source": "claims_atomic.json",
+                },
+            }
+        )
+
+    evidence_nodes: dict[str, dict[str, Any]] = {}
+
+    def add_evidence(record: Mapping[str, Any], level: str) -> str:
+        evidence_id = str(record.get("evidence_id") or "")
+        if not evidence_id:
+            return ""
+        if evidence_id not in evidence_nodes:
+            node = _evidence_node(record, level=level)
+            evidence_nodes[evidence_id] = node
+            add(node)
+        return evidence_id
+
+    edges: list[dict[str, Any]] = []
+    edge_index = 1
+
+    def add_edge(**kwargs: Any) -> None:
+        nonlocal edge_index
+        edges.append(_graph_edge(index=edge_index, **kwargs))
+        edge_index += 1
+
+    for record in sorted(
+        fulltext_records + atomic_records,
+        key=lambda item: str(item.get("evidence_id") or ""),
+    ):
+        level = _evidence_level(record)
+        evidence_id = add_evidence(record, level)
+        if not evidence_id:
+            continue
+        target = str(record.get("atomic_id") or "")
+        if target not in atomic_ids:
+            target = str(record.get("parent_claim_id") or record.get("claim_id") or "")
+        if target not in node_ids:
+            continue
+        add_edge(
+            source=str(record.get("paper_id") or ""),
+            target=target,
+            kind=_edge_kind(_stance(record), level),
+            level=level,
+            evidence_id=evidence_id,
+            quote=str(record.get("quote") or ""),
+            locator=str(record.get("locator") or ""),
+            meta={
+                "edge_scope": "evidence",
+                "stance": _stance(record),
+                "atomic_id": str(record.get("atomic_id") or ""),
+                "parent_claim_id": str(record.get("parent_claim_id") or ""),
+            },
+        )
+
+    cells = _graph_cells(
+        base=base,
+        topic_id=corpus.topic.topic_id,
+        corpus=corpus,
+        claims=parent_claims,
+        fulltext=fulltext_records,
+    )
+    for cell in cells:
+        paper_id = cell["paper_id"]
+        claim_id = cell["claim_id"]
+        category = cell["category"]
+        records = cell["records"]
+        audit = cell["audit"]
+        key_row = cell["key"]
+        meta = {
+            "edge_scope": "cell",
+            "cell_id": cell["cell_id"],
+            "cell_kind": str(key_row.get("cell_kind") or ""),
+            "audit_majority": cell["majority"],
+            "audit_reviewers": {
+                name: audit.get(name, "")
+                for name in ("reviewer_1", "reviewer_2", "reviewer_3")
+                if audit
+            },
+            "machine_stance": str(key_row.get("machine_stance") or ""),
+            "machine_confidence": str(key_row.get("machine_confidence") or ""),
+        }
+        if category == "fulltext":
+            best = sorted(
+                records,
+                key=lambda item: (
+                    {"support": 0, "contradict": 1, "neutral": 2}.get(
+                        _stance(item), 3
+                    ),
+                    str(item.get("evidence_id") or ""),
+                ),
+            )[0]
+            meta["stance"] = _stance(best)
+            evidence_id = add_evidence(best, "fulltext")
+            add_edge(
+                source=paper_id,
+                target=claim_id,
+                kind=_edge_kind(_stance(best), "fulltext"),
+                level="fulltext",
+                evidence_id=evidence_id,
+                quote=str(best.get("quote") or ""),
+                locator=str(best.get("locator") or ""),
+                meta=meta,
+            )
+        elif category == "abstract":
+            quote = str(key_row.get("evidence_quote") or "")
+            stance = str(key_row.get("machine_stance") or "support")
+            meta["stance"] = stance
+            synthetic = {
+                "evidence_id": f"machine-cell-{cell['cell_id']}",
+                "paper_id": paper_id,
+                "claim_id": claim_id,
+                "parent_claim_id": claim_id,
+                "atomic_id": "",
+                "stance": stance,
+                "summary": "105 格审计中机器证据经人工多数认定为 correct；仅有摘要片段。",
+                "quote": quote,
+                "locator": "摘要候选片段",
+                "confidence": key_row.get("machine_confidence", ""),
+                "verified": False,
+                "extractor": "machine-cell:audit-correct",
+                "fulltext_verdict": "",
+            }
+            evidence_id = add_evidence(synthetic, "abstract")
+            add_edge(
+                source=paper_id,
+                target=claim_id,
+                kind="abstract_only",
+                level="abstract",
+                evidence_id=evidence_id,
+                quote=quote,
+                locator="摘要候选片段",
+                meta=meta,
+            )
+        else:
+            add_edge(
+                source=paper_id,
+                target=claim_id,
+                kind="none",
+                level="machine",
+                evidence_id="",
+                quote="",
+                locator="",
+                meta=meta,
+            )
+
+    summary = _graph_summary(
+        papers=len(corpus.papers),
+        claim_nodes=[node for node in nodes if node["type"] == "claim"],
+        evidence_nodes=[node for node in nodes if node["type"] == "evidence"],
+        edges=edges,
+        cells=cells,
+        atomic_count=len(atomic_ids),
+        parent_count=len(parent_claims),
+    )
+    return nodes, edges, summary
+
+
+def _graph_summary(
+    *,
+    papers: int,
+    claim_nodes: list[dict[str, Any]],
+    evidence_nodes: list[dict[str, Any]],
+    edges: list[dict[str, Any]],
+    cells: list[dict[str, Any]],
+    atomic_count: int,
+    parent_count: int,
+) -> dict[str, Any]:
+    return {
+        "papers": papers,
+        "claims": len(claim_nodes),
+        "parent_claims": parent_count,
+        "atomic_claims": atomic_count,
+        "evidence": len(evidence_nodes),
+        "edges": len(edges),
+        "fulltext_edges": sum(1 for edge in edges if edge["level"] == "fulltext"),
+        "abstract_edges": sum(1 for edge in edges if edge["level"] == "abstract"),
+        "machine_edges": sum(1 for edge in edges if edge["level"] == "machine"),
+        "none_edges": sum(1 for edge in edges if edge["kind"] == "none"),
+        "cells": len(cells),
+        "cells_fulltext": sum(1 for cell in cells if cell["category"] == "fulltext"),
+        "cells_abstract_only": sum(
+            1 for cell in cells if cell["category"] == "abstract"
+        ),
+        "cells_none": sum(1 for cell in cells if cell["category"] == "none"),
+    }
+
+
+def _graph_from_base(
+    *,
+    topic: Topic,
+    corpus: CorpusManifest,
+    evidence_map: EvidenceMap,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]], dict[str, Any]]:
+    """Fallback for dynamic topics without the atomic/105-grid artefacts."""
+    nodes: list[dict[str, Any]] = []
+    node_ids: set[str] = set()
+
+    def add(node: dict[str, Any]) -> None:
+        if node["id"] not in node_ids:
+            node_ids.add(node["id"])
+            nodes.append(node)
+
+    for paper in corpus.papers:
+        add(_paper_node(paper))
+    for claim in evidence_map.claims:
+        add(_claim_node(claim, level="parent"))
+
+    evidence_nodes: list[dict[str, Any]] = []
+    edges: list[dict[str, Any]] = []
+    for index, record in enumerate(evidence_map.evidence, start=1):
+        level = _evidence_level(record.to_dict())
+        node = _evidence_node(record.to_dict(), level=level)
+        if not node["id"] or node["id"] in node_ids:
+            continue
+        add(node)
+        evidence_nodes.append(node)
+        edges.append(
+            _graph_edge(
+                index=index,
+                source=record.paper_id,
+                target=record.claim_id,
+                kind=_edge_kind(record.stance.value, level),
+                level=level,
+                evidence_id=record.evidence_id,
+                quote=record.quote,
+                locator=record.locator,
+                meta={"edge_scope": "evidence"},
+            )
+        )
+
+    summary = {
+        "papers": len(corpus.papers),
+        "claims": len(evidence_map.claims),
+        "parent_claims": len(evidence_map.claims),
+        "atomic_claims": 0,
+        "evidence": len(evidence_nodes),
+        "edges": len(edges),
+        "fulltext_edges": sum(1 for edge in edges if edge["level"] == "fulltext"),
+        "abstract_edges": sum(1 for edge in edges if edge["level"] == "abstract"),
+        "machine_edges": sum(1 for edge in edges if edge["level"] == "machine"),
+        "none_edges": sum(1 for edge in edges if edge["kind"] == "none"),
+        "cells": 0,
+        "cells_fulltext": 0,
+        "cells_abstract_only": 0,
+        "cells_none": 0,
+    }
+    return nodes, edges, summary
+
+
+def validate_graph(graph: Mapping[str, Any]) -> None:
+    """Validate the graph contract, dangling references and summary counts."""
+    if not isinstance(graph, MappingABC):
+        raise EvidenceMapError("graph 顶层必须是对象")
+    if graph.get("schema_version") != SCHEMA_VERSION:
+        raise EvidenceMapError(f"graph.schema_version 必须为 {SCHEMA_VERSION!r}")
+    nodes = graph.get("nodes")
+    edges = graph.get("edges")
+    summary = graph.get("summary")
+    if not isinstance(nodes, list) or not isinstance(edges, list):
+        raise EvidenceMapError("graph.nodes / graph.edges 必须是数组")
+    if not isinstance(summary, MappingABC):
+        raise EvidenceMapError("graph.summary 必须是对象")
+
+    node_ids: list[str] = []
+    node_types: dict[str, str] = {}
+    for position, node in enumerate(nodes):
+        if not isinstance(node, MappingABC):
+            raise EvidenceMapError(f"nodes[{position}] 必须是对象")
+        node_id = str(node.get("id") or "")
+        node_type = str(node.get("type") or "")
+        if not node_id or not isinstance(node.get("label"), str):
+            raise EvidenceMapError(f"nodes[{position}] 缺少 id/label")
+        if node_type not in GRAPH_NODE_TYPES:
+            raise EvidenceMapError(f"nodes[{position}].type 非法：{node_type!r}")
+        if not isinstance(node.get("meta"), MappingABC):
+            raise EvidenceMapError(f"nodes[{position}].meta 必须是对象")
+        node_ids.append(node_id)
+        node_types[node_id] = node_type
+    _fail_duplicates(node_ids, "graph node id")
+
+    edge_ids: list[str] = []
+    for position, edge in enumerate(edges):
+        if not isinstance(edge, MappingABC):
+            raise EvidenceMapError(f"edges[{position}] 必须是对象")
+        edge_id = str(edge.get("id") or "")
+        source = str(edge.get("source") or "")
+        target = str(edge.get("target") or "")
+        kind = str(edge.get("kind") or "")
+        level = str(edge.get("level") or "")
+        evidence_id = str(edge.get("evidence_id") or "")
+        quote = str(edge.get("quote") or "")
+        if not edge_id:
+            raise EvidenceMapError(f"edges[{position}] 缺少 id")
+        if source not in node_types:
+            raise EvidenceMapError(f"edges[{position}] source 悬空：{source!r}")
+        if target not in node_types:
+            raise EvidenceMapError(f"edges[{position}] target 悬空：{target!r}")
+        if node_types[source] != "paper":
+            raise EvidenceMapError(f"edges[{position}] source 必须是 paper")
+        if node_types[target] != "claim":
+            raise EvidenceMapError(f"edges[{position}] target 必须是 claim")
+        if kind not in GRAPH_EDGE_KINDS:
+            raise EvidenceMapError(f"edges[{position}].kind 非法：{kind!r}")
+        if level not in GRAPH_LEVELS:
+            raise EvidenceMapError(f"edges[{position}].level 非法：{level!r}")
+        if kind == "none":
+            if evidence_id or quote:
+                raise EvidenceMapError(
+                    f"edges[{position}] kind=none 不能带 evidence_id/quote"
+                )
+            if level != "machine":
+                raise EvidenceMapError(
+                    f"edges[{position}] kind=none 的 level 必须是 machine"
+                )
+        else:
+            if not evidence_id:
+                raise EvidenceMapError(f"edges[{position}] 缺少 evidence_id")
+            if node_types.get(evidence_id) != "evidence":
+                raise EvidenceMapError(
+                    f"edges[{position}] evidence_id 未指向 evidence 节点"
+                )
+            if not quote:
+                raise EvidenceMapError(f"edges[{position}] 有证据但缺少 quote")
+        if level == "fulltext" and kind not in ("supports", "contradicts", "abstract_only"):
+            raise EvidenceMapError(f"edges[{position}] fulltext 边 kind 非法")
+        if level == "abstract" and kind != "abstract_only":
+            raise EvidenceMapError(f"edges[{position}] abstract 边 kind 必须是 abstract_only")
+        edge_ids.append(edge_id)
+    _fail_duplicates(edge_ids, "graph edge id")
+
+    claim_nodes = sum(1 for node in nodes if node["type"] == "claim")
+    evidence_nodes = sum(1 for node in nodes if node["type"] == "evidence")
+    expected = {
+        "papers": sum(1 for node in nodes if node["type"] == "paper"),
+        "claims": claim_nodes,
+        "evidence": evidence_nodes,
+        "edges": len(edges),
+        "fulltext_edges": sum(1 for edge in edges if edge["level"] == "fulltext"),
+        "abstract_edges": sum(1 for edge in edges if edge["level"] == "abstract"),
+        "machine_edges": sum(1 for edge in edges if edge["level"] == "machine"),
+        "none_edges": sum(1 for edge in edges if edge["kind"] == "none"),
+    }
+    for key, value in expected.items():
+        if summary.get(key) != value:
+            raise EvidenceMapError(
+                f"graph.summary.{key}={summary.get(key)!r} 与节点/边计数 {value} 不一致"
+            )
+
+
+def build_graph(
+    topic_id: str,
+    data_dir: str | Path = DEFAULT_DATA_DIR,
+) -> dict[str, Any]:
+    """Project one topic into a paper / claim / evidence graph.
+
+    The static CiteMap topics use the 21 atomic claims and the 105-cell audit
+    grid.  A parent claim edge is emitted for every one of the 105 cells; the
+    24 fulltext and 9 abstract-only evidence records additionally produce
+    atomic-claim edges.  Edges that lack fulltext are always ``abstract_only``
+    (or ``none`` when the audit rejected the machine evidence); they are never
+    promoted to ``fulltext``.
+    """
+    base = Path(data_dir).resolve()
+    _base, _index, entries = _load_index(base)
+    entry = _topic_entry(_topic_id(topic_id, "topic_id"), base, entries)
+    corpus = load_corpus(_resolve_under(base, entry["corpus"]))
+    evidence_map = load_map(
+        _resolve_under(base, entry["extractions"]), corpus=corpus
+    )
+    atomic = _atomic_claims(base, topic_id)
+    fulltext = _aux_evidence(base, "extractions_fulltext", topic_id)
+    atomic_records = _aux_evidence(base, "extractions_atomic", topic_id)
+
+    if atomic:
+        nodes, edges, summary = _graph_from_aux(
+            corpus=corpus,
+            evidence_map=evidence_map,
+            atomic=atomic,
+            fulltext_records=fulltext,
+            atomic_records=atomic_records,
+            base=base,
+        )
+        provenance = {
+            "corpus": entry["corpus"],
+            "extractions": entry["extractions"],
+            "claims_atomic": "claims_atomic.json",
+            "extractions_fulltext": f"extractions_fulltext/{topic_id}.json",
+            "extractions_atomic": f"extractions_atomic/{topic_id}.json",
+            "audit_grid": "data/experiments/citemap_audit_105/merged.csv",
+            "audit_key": "dist/citemap_audit_full/_organizer_only_key.csv",
+        }
+    else:
+        nodes, edges, summary = _graph_from_base(
+            topic=corpus.topic,
+            corpus=corpus,
+            evidence_map=evidence_map,
+        )
+        provenance = {
+            "corpus": entry["corpus"],
+            "extractions": entry["extractions"],
+        }
+
+    graph: dict[str, Any] = {
+        "schema_version": SCHEMA_VERSION,
+        "topic": corpus.topic.to_dict(),
+        "topic_id": topic_id,
+        "generated_at": corpus.generated_at,
+        "nodes": nodes,
+        "edges": edges,
+        "summary": summary,
+        "provenance": provenance,
+    }
+    validate_graph(graph)
+    return graph
+
+
+def write_graph(
+    topic_id: str,
+    data_dir: str | Path = DEFAULT_DATA_DIR,
+    output_dir: str | Path | None = None,
+) -> Path:
+    """Write one graph JSON under ``data/evidence_map/graph/`` by default."""
+    graph = build_graph(topic_id, data_dir)
+    base = Path(data_dir).resolve()
+    target = Path(output_dir) if output_dir is not None else base / GRAPH_DIRNAME
+    target.mkdir(parents=True, exist_ok=True)
+    path = target / f"{topic_id}.json"
+    path.write_text(
+        json.dumps(graph, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    return path
+
+
+# ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
 
@@ -1177,6 +1897,17 @@ def main(argv: list[str] | None = None) -> int:
         metavar="TOPIC_ID",
         help="also print the full web payload for one topic",
     )
+    parser.add_argument(
+        "--graph",
+        action="store_true",
+        help="write graph JSON for every topic under data/evidence_map/graph/",
+    )
+    parser.add_argument(
+        "--graph-out",
+        type=Path,
+        default=None,
+        help="output directory for --graph (default: <data-dir>/graph)",
+    )
     args = parser.parse_args(argv)
 
     try:
@@ -1193,6 +1924,21 @@ def main(argv: list[str] | None = None) -> int:
         }
         if args.topic:
             result["payload"] = topic_payload(args.topic, args.data_dir)
+        if args.graph:
+            graphs: list[dict[str, Any]] = []
+            for topic in topics:
+                path = write_graph(
+                    topic["topic_id"], args.data_dir, args.graph_out
+                )
+                graph = read_json(path)
+                graphs.append(
+                    {
+                        "topic_id": topic["topic_id"],
+                        "path": str(path),
+                        "summary": graph["summary"],
+                    }
+                )
+            result["graphs"] = graphs
     except EvidenceMapError as exc:
         print(
             json.dumps({"ok": False, "error": str(exc)}, ensure_ascii=False),

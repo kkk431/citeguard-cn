@@ -312,6 +312,13 @@
       setBusy(false);
       setStatus("已加载 " + papers.length + " 篇论文", "ok");
       if (opts.syncUrl) syncUrl(topicId);
+      try {
+        document.dispatchEvent(new CustomEvent("ctm:topic", {
+          detail: { topicId: topicId, payload: state.payload }
+        }));
+      } catch (err) {
+        /* 事件只用于图视图同步，失败不影响主题浏览 */
+      }
     } catch (err) {
       if (seq !== state.requestId) return;
       showError(err && err.message ? err.message : "主题数据加载失败。");

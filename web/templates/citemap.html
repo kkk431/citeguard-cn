@@ -2,6 +2,7 @@
 {% block title %}CiteMap · 证据地图 · 引证卫士 CiteGuard{% endblock %}
 {% block content %}
 <link rel="stylesheet" href="/static/css/citemap.css?v={{ request.app.version }}-gen">
+<link rel="stylesheet" href="/static/css/citemap_graph.css?v={{ request.app.version }}">
 {% set section_tabs = [
   ('figure', '/figure', '图表核验', '图中结论是否成立'),
   ('compare', '/compare', '多篇对比', '横向看几篇论文'),
@@ -79,9 +80,39 @@
           {% endfor %}
         </div>
         <button type="button" class="btn btn-ghost" id="ctm-verify-toggle" aria-pressed="false">核对模式（60 格）</button>
+        <button type="button" class="btn btn-ghost" id="ctm-graph-toggle" aria-pressed="false">证据图</button>
         <span class="ctm-verify-count" id="ctm-verify-count" role="status" aria-live="polite"></span>
         <span class="ctm-status" id="ctm-status" role="status" aria-live="polite">正在加载主题…</span>
       </div>
+
+      <section class="ctm-graph-panel" id="ctm-graph-panel" hidden aria-label="论文、断言与证据的关系图">
+        <div class="ctm-graph-head">
+          <div>
+            <span class="ctm-overline">论文 · 断言 · 证据</span>
+            <h2>一张图看完谁支持了谁</h2>
+            <p id="ctm-graph-summary" class="ctm-graph-summary">正在准备图数据…</p>
+          </div>
+          <div class="ctm-graph-legend" aria-label="连线含义">
+            <span class="ctm-graph-key ctm-graph-key--fulltext">全文逐字证据</span>
+            <span class="ctm-graph-key ctm-graph-key--abstract">摘要级证据</span>
+            <span class="ctm-graph-key ctm-graph-key--none">未发现证据</span>
+          </div>
+        </div>
+        <div class="ctm-graph-stage">
+          <div class="ctm-graph-scroll">
+            <svg id="ctm-graph-svg" class="ctm-graph-svg" role="img"
+                 aria-label="左侧为断言，右侧为论文，连线表示证据关系"></svg>
+          </div>
+          <aside class="ctm-graph-detail" id="ctm-graph-detail" hidden aria-live="polite">
+            <button type="button" class="ctm-graph-detail-close" id="ctm-graph-detail-close" aria-label="关闭详情">×</button>
+            <div id="ctm-graph-detail-body"></div>
+          </aside>
+        </div>
+        <p class="ctm-graph-status" id="ctm-graph-status" role="status" aria-live="polite"></p>
+        <p class="ctm-graph-note">
+          连线只表示“这条证据与这条断言有关”，不表示断言成立；鼠标移到连线可看证据等级，点击节点看原文与定位。
+        </p>
+      </section>
 
       <div class="ctm-loading" id="ctm-loading" role="status" aria-label="正在加载">
         <div class="ctm-skeleton ctm-skeleton--title"></div>
@@ -139,4 +170,7 @@
   </section>
 </div>
 {% endblock %}
-{% block scripts %}<script src="/static/js/citemap.js?v={{ request.app.version }}" defer></script>{% endblock %}
+{% block scripts %}
+<script src="/static/js/citemap.js?v={{ request.app.version }}" defer></script>
+<script src="/static/js/citemap_graph.js?v={{ request.app.version }}" defer></script>
+{% endblock %}

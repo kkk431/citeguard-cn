@@ -195,3 +195,135 @@ def test_css_is_scoped_and_uses_theme_variables() -> None:
     assert ".live-page" in css
     assert "@media (max-width: 1020px)" in css
     assert "@media (max-width: 720px)" in css
+
+
+# ---------------------------------------------------------------------------
+# t25 spike：页面参考文献列表 → [n] 映射（不联网，纯函数）
+# ---------------------------------------------------------------------------
+
+ARXIV_STYLE_HTML = """<!doctype html>
+<html><head><title>Demo paper</title></head><body>
+<article class="ltx_document">
+<h1 class="ltx_title">Demo paper</h1>
+<p>Prior work studies retrieval [1]. Several systems combine modules [2, 3] and more [4–5].</p>
+<p>We follow the setup in [5].</p>
+<section class="ltx_bibliography"><h2>References</h2>
+<ol class="ltx_bibliography">
+<li class="ltx_bibitem" id="bib.bib1"><span class="ltx_tag ltx_tag_bibitem">[1]</span><span class="ltx_bibblock">A. Alpha. <i>Alpha study</i>. 2020. doi:10.1000/alpha</span></li>
+<li class="ltx_bibitem" id="bib.bib2"><span class="ltx_tag ltx_tag_bibitem">[2]</span><span class="ltx_bibblock">B. Beta. <i>Beta study</i>. 2021.</span></li>
+<li class="ltx_bibitem" id="bib.bib3"><span class="ltx_tag ltx_tag_bibitem">[3]</span><span class="ltx_bibblock">C. Gamma. <i>Gamma study</i>. 2022.</span></li>
+<li class="ltx_bibitem" id="bib.bib4"><span class="ltx_tag ltx_tag_bibitem">[4]</span><span class="ltx_bibblock">D. Delta. <i>Delta study</i>. 2023.</span></li>
+<li class="ltx_bibitem" id="bib.bib5"><span class="ltx_tag ltx_tag_bibitem">[5]</span><span class="ltx_bibblock">E. Epsilon. <i>Epsilon study</i>. 2024.</span></li>
+</ol></section>
+</article></body></html>"""
+
+GENERIC_REFERENCES_HTML = """<!doctype html>
+<html><head><title>Generic page</title></head><body>
+<article>
+<p>We cite [1], [2] and [3] in this paragraph.</p>
+<section class="references"><h2>References</h2>
+<ol>
+<li>3. Third source. doi:10.1000/third</li>
+<li>1. First source. doi:10.1000/first</li>
+<li>2. Second source. doi:10.1000/second</li>
+</ol></section>
+</article></body></html>"""
+
+NO_REFERENCES_HTML = """<!doctype html>
+<html><head><title>No references</title></head><body>
+<article><h1>No references</h1>
+<p>Claim one [1] and claim two [2] are never defined here.</p></article>
+</body></html>"""
+
+
+@pytest.fixture(scope="module")
+def live_page():
+    pytest.importorskip("readability")
+    from citeguard import live_page as module
+
+    return module
+
+
+def test_arxiv_style_page_maps_every_marker(live_page) -> None:
+    model = live_page.build_page_model(ARXIV_STYLE_HTML, "https://arxiv.org/html/demo")
+
+    assert model["reference_count"] == 5
+    assert model["markers_total"] == 4
+    assert model["markers_mapped"] == 4
+    assert model["mapped_ratio"] == 1.0
+    assert model["unmapped_markers"] == []
+    assert model["extractor"]["name"] == "readability-lxml"
+    assert model["extractor"]["license"] == "Apache-2.0"
+
+    first = model["samples"][0]
+    assert first["marker"] == "[1]"
+    assert "Alpha study" in first["references"][0]["title"]
+    assert first["references"][0]["doi"] == "10.1000/alpha"
+
+    located = live_page.locate_claim("As shown before [2].", model)
+    assert located[0]["mapped"] is True
+    assert "Beta study" in located[0]["references"][0]["title"]
+
+
+def test_page_without_reference_list_reports_unmapped(live_page) -> None:
+    model = live_page.build_page_model(NO_REFERENCES_HTML)
+
+    assert model["reference_count"] == 0
+    assert model["markers_total"] == 2
+    assert model["markers_mapped"] == 0
+    assert model["mapped_ratio"] == 0.0
+    assert model["samples"] == []
+    assert model["unmapped_markers"] == ["[1]", "[2]"]
+
+
+def test_out_of_order_labels_still_map_by_number(live_page) -> None:
+    model = live_page.build_page_model(GENERIC_REFERENCES_HTML)
+
+    assert sorted(reference["index"] for reference in model["references"]) == [1, 2, 3]
+    by_index = {reference["index"]: reference for reference in model["references"]}
+    assert "First source" in by_index[1]["title"]
+    assert "Second source" in by_index[2]["title"]
+    assert "Third source" in by_index[3]["title"]
+
+    located = live_page.locate_claim("Only the second [2] source applies.", model)
+    assert located[0]["numbers"] == [2]
+    assert located[0]["mapped"] is True
+    assert "Second source" in located[0]["references"][0]["title"]
+
+
+def test_full_width_brackets_and_lists(live_page) -> None:
+    markers = live_page.find_markers("甲［1］乙【2，3】丙［4–6］丁")
+    assert [marker["numbers"] for marker in markers] == [[1], [2, 3], [4, 5, 6]]
+
+    html = """<!doctype html><html><body><article>
+    <p>本文采用［1］与【2，3】两类方法。</p>
+    <section class="references"><ol>
+    <li>1. 文献一. 2020.</li><li>2. 文献二. 2021.</li><li>3. 文献三. 2022.</li>
+    </ol></section></article></body></html>"""
+    model = live_page.build_page_model(html)
+    assert model["markers_total"] == 2
+    assert model["markers_mapped"] == 2
+    assert model["mapped_ratio"] == 1.0
+    assert live_page.locate_claim("见【3】。", model)[0]["mapped"] is True
+
+
+def test_missing_marker_is_reported_not_raised(live_page) -> None:
+    model = live_page.build_page_model(GENERIC_REFERENCES_HTML)
+
+    located = live_page.locate_claim("A dangling marker [9].", model)
+    assert located[0]["numbers"] == [9]
+    assert located[0]["mapped"] is False
+    assert located[0]["references"] == []
+
+
+def test_reference_matches_doi_and_title(live_page) -> None:
+    reference = {"title": "Conducting realistic experiments in software engineering", "doi": ""}
+
+    assert not live_page.reference_matches(reference, "https://doi.org/10.1109/ISESE.2002.1166921", "")
+    assert live_page.reference_matches(
+        {**reference, "doi": "https://doi.org/10.1109/ISESE.2002.1166921"},
+        "10.1109/isese.2002.1166921",
+        "",
+    )
+    assert live_page.reference_matches(reference, "", "Conducting realistic experiments in software engineering")
+    assert not live_page.reference_matches(reference, "", "A completely different study")

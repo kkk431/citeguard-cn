@@ -31,6 +31,7 @@ nav:
   - Live 评测: live_eval.md
   - 扩展 v2 验收: extension_v2.md
   - Live held-out 研究: research/live_holdout.md
+  - Live 页面引用 spike: research/live_spike.md
   - CiteMap 证据地图: evidence_map.md
   - CiteMap 动态生成: citemap_dynamic.md
   - CiteMap 证据门禁: citemap_gate.md
@@ -38,6 +39,7 @@ nav:
   - CiteMap 人工核对: citemap_audit.md
   - CiteMap 单人核对标准: citemap_annotation_rubric.md
   - CiteMap 105 格结果: citemap_audit_result.md
+  - CiteMap 图契约 spike: research/citemap_graph_spike.md
   - 长列表与检查明细: ui_patterns.md
   - 修复闭环: repair_loop.md
   - 批量聚合: aggregate.md

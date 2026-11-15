@@ -1,3 +1,16 @@
+## [1.7.32] - 2026-11-16
+
+### Added
+
+- CiteMap「证据图」：把断言 → 论文 → 证据画成三栏可读图，全文逐字证据用实线、摘要级证据用虚线、抽样未发现用点线；点击节点或连线在下方展开证据原文、locator、stance 与 DOI。纯客户端渲染，不新增后端、不重新抓取，也不改变人工/机器证据分层。
+- 医学影像主题实测 13 条断言 / 15 篇论文 / 全文 8 / 摘要 13 / 抽样未发现 11，共 32 条关系；浅色与深色主题均可读，详情不遮挡论文列。
+- 新增 `docs/research/live_spike.md`、`docs/research/citemap_graph_spike.md`：Live 页面引用列表→[n] 映射（3 页，146/146）与 CiteMap 图契约（93 节点/138 边）的真实 spike 数据与边界，供后续产品化判断。
+- 补 `docs/evidence_index.md` E104 与浅/深色两张真实页面截图。
+
+### Tests
+
+- `pytest tests -q`：**960 passed**；`tests/test_citemap_page.py` 覆盖证据图按钮、图数据契约、资源挂载与安全渲染。
+
 ## [1.7.31] - 2026-11-15
 
 ### Changed

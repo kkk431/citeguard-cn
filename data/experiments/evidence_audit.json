@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 208,
+  "paths_checked": 210,
   "missing": [],
   "rows": [
     {
@@ -932,8 +932,18 @@
       "evidence": "E101",
       "path": "docs/evidence/shots/final/charts/16-fulltext-atomic.png",
       "exists": true
+    },
+    {
+      "evidence": "E105",
+      "path": "docs/evidence/shots/phase-66-citemap-graph-1.7.32.png",
+      "exists": true
+    },
+    {
+      "evidence": "E105",
+      "path": "docs/evidence/shots/phase-66-citemap-graph-light-1.7.32.png",
+      "exists": true
     }
   ],
-  "shots_registered": 97,
+  "shots_registered": 99,
   "shots_unregistered": []
 }
