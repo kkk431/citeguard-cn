@@ -1,6 +1,6 @@
 # CiteMap 人工核对（CSV）
 
-CiteMap 的机器抽取结果尚未经过人工核对。`verification=false` 和界面上的
+CiteMap 的机器抽取结果已在 105 格上完成三人人工核对，结果见 `citemap_audit_result.md`。`verification=false` 和界面上的
 “机器证据”标签都表示：证据来自摘要的机器抽取，尚未由人逐格确认。
 
 这份文档说明如何用 CSV 完成 CiteMap 核对：**默认 60 格分层抽样**，冲国一建议直接做 **105 格全量**。

@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 189,
+  "paths_checked": 192,
   "missing": [],
   "rows": [
     {
@@ -817,8 +817,28 @@
       "evidence": "E96",
       "path": "docs/evidence/shots/final/charts/15-human-audit.png",
       "exists": true
+    },
+    {
+      "evidence": "E98",
+      "path": "data/evidence_map/claims_atomic.json",
+      "exists": true
+    },
+    {
+      "evidence": "E98",
+      "path": "docs/citemap_audit_result.md",
+      "exists": true
+    },
+    {
+      "evidence": "E98",
+      "path": "docs/evidence_map.md",
+      "exists": true
+    },
+    {
+      "evidence": "E98",
+      "path": "docs/evidence/shots/phase-61-citemap-atomic-1.7.24.png",
+      "exists": true
     }
   ],
-  "shots_registered": 89,
+  "shots_registered": 90,
   "shots_unregistered": []
 }

@@ -1,0 +1,121 @@
+{
+ "schema_version": "1.0",
+ "note": "Atomic decomposition of CiteMap claims; review before using in a benchmark.",
+ "topics": {
+  "ai_education": {
+   "topic_id": "ai_education",
+   "claims": [
+    {
+     "atomic_id": "edu-c1-a1",
+     "parent_claim_id": "edu-c1",
+     "text": "生成式 AI 工具在中国高校学生中的接受度较高。"
+    },
+    {
+     "atomic_id": "edu-c1-a2",
+     "parent_claim_id": "edu-c1",
+     "text": "生成式 AI 工具在中国高校学生中的自评收益较高。"
+    },
+    {
+     "atomic_id": "edu-c1-a3",
+     "parent_claim_id": "edu-c1",
+     "text": "AI 素养是影响中国高校学生自评收益的关键调节因素。"
+    },
+    {
+     "atomic_id": "edu-c1-a4",
+     "parent_claim_id": "edu-c1",
+     "text": "自我调节学习是影响中国高校学生自评收益的关键调节因素。"
+    },
+    {
+     "atomic_id": "edu-c2-a1",
+     "parent_claim_id": "edu-c2",
+     "text": "智能导师系统能在真实教学数据上提升学习表现预测的准确性。"
+    },
+    {
+     "atomic_id": "edu-c2-a2",
+     "parent_claim_id": "edu-c2",
+     "text": "智能导师系统能在真实教学数据上提升学习表现预测的可解释性。"
+    },
+    {
+     "atomic_id": "edu-c2-a3",
+     "parent_claim_id": "edu-c2",
+     "text": "学习诊断模型能在真实教学数据上提升学习表现预测的准确性。"
+    },
+    {
+     "atomic_id": "edu-c2-a4",
+     "parent_claim_id": "edu-c2",
+     "text": "学习诊断模型能在真实教学数据上提升学习表现预测的可解释性。"
+    },
+    {
+     "atomic_id": "edu-c3-a1",
+     "parent_claim_id": "edu-c3",
+     "text": "生成式 AI 将在高等教育中取代教师的核心教学职能。"
+    },
+    {
+     "atomic_id": "edu-c4-a1",
+     "parent_claim_id": "edu-c4",
+     "text": "AI 教育的收益在城乡之间分布不均。"
+    },
+    {
+     "atomic_id": "edu-c4-a2",
+     "parent_claim_id": "edu-c4",
+     "text": "AI 教育的收益在校际之间分布不均。"
+    },
+    {
+     "atomic_id": "edu-c4-a3",
+     "parent_claim_id": "edu-c4",
+     "text": "技术乐观叙事掩盖了结构性不平等。"
+    }
+   ]
+  },
+  "medical_imaging": {
+   "topic_id": "medical_imaging",
+   "claims": [
+    {
+     "atomic_id": "med-c1-a1",
+     "parent_claim_id": "med-c1",
+     "text": "深度学习在CT影像诊断任务上可达到或接近专科医生水平。"
+    },
+    {
+     "atomic_id": "med-c1-a2",
+     "parent_claim_id": "med-c1",
+     "text": "深度学习在MRI影像诊断任务上可达到或接近专科医生水平。"
+    },
+    {
+     "atomic_id": "med-c1-a3",
+     "parent_claim_id": "med-c1",
+     "text": "深度学习在超声影像诊断任务上可达到或接近专科医生水平。"
+    },
+    {
+     "atomic_id": "med-c2-a1",
+     "parent_claim_id": "med-c2",
+     "text": "现有医学影像 AI 研究的外部验证证据不足。"
+    },
+    {
+     "atomic_id": "med-c2-a2",
+     "parent_claim_id": "med-c2",
+     "text": "现有医学影像 AI 研究的公平性证据不足。"
+    },
+    {
+     "atomic_id": "med-c2-a3",
+     "parent_claim_id": "med-c2",
+     "text": "医学影像 AI 模型在不同机构间的泛化风险被低估。"
+    },
+    {
+     "atomic_id": "med-c2-a4",
+     "parent_claim_id": "med-c2",
+     "text": "医学影像 AI 模型在不同人群间的公平性风险被低估。"
+    },
+    {
+     "atomic_id": "med-c3-a1",
+     "parent_claim_id": "med-c3",
+     "text": "中国 AI 医疗器械审批数量快速增长。"
+    },
+    {
+     "atomic_id": "med-c3-a2",
+     "parent_claim_id": "med-c3",
+     "text": "中国 AI 医疗器械的临床有效性证据已充分。"
+    }
+   ]
+  }
+ }
+}

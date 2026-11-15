@@ -1,0 +1,73 @@
+{
+ "schema_version": "1.0",
+ "topic_id": "medical_imaging",
+ "extractor": "auto:atomic-v1",
+ "extracted_at": "2026-11-15",
+ "protocol": "Atomic claims; per-claim extraction + independent verification; verified=false.",
+ "evidence": [
+  {
+   "evidence_id": "atom-med-002-med-c1-a1",
+   "atomic_id": "med-c1-a1",
+   "parent_claim_id": "med-c1",
+   "claim_id": "med-c1-a1",
+   "paper_id": "med-002",
+   "stance": "support",
+   "summary": "该研究提出的STIC深度学习模型在恶性肝脏肿瘤鉴别诊断任务上准确率为72.6%，与医生共识诊断水平（70.8%）相当，直接支持深度学习在CT影像诊断任务上可达到或接近专科医生水平的结论。",
+   "quote": "the STIC model achieved an accuracy of 72.6% on the test set, comparable with the diagnostic level of doctors' consensus (70.8%)",
+   "locator": "Abstract",
+   "method": "基于多期增强CT和临床数据的深度学习模型（STIC，结合CNN与门控RNN）",
+   "sample": "723例来自两个中心的经病理诊断为HCC、ICC或转移性肝癌的患者（测试集113例，外部测试集111例）",
+   "confidence": 0.9,
+   "verified": false,
+   "extractor": "auto:abstract-only:atomic-v1"
+  },
+  {
+   "evidence_id": "atom-med-007-med-c1-a1",
+   "atomic_id": "med-c1-a1",
+   "parent_claim_id": "med-c1",
+   "claim_id": "med-c1-a1",
+   "paper_id": "med-007",
+   "stance": "support",
+   "summary": "该研究提出的深度学习CAD方法在CT影像上诊断甲状腺癌颈部淋巴结转移，其分类性能优于放射科医生（AUC 0.894），表明深度学习可达到或超过专科医生水平。",
+   "quote": "It outperformed radiologists with an area under the curve of 0.894.",
+   "locator": "Abstract",
+   "method": "基于CT图像的深度学习计算机辅助诊断系统（改进的区域检测网络+带注意力模块的残差网络分类）",
+   "sample": "196例患者的574张轴位CT图像，共676个淋巴结（103良性，573恶性）",
+   "confidence": 0.85,
+   "verified": false,
+   "extractor": "auto:abstract-only:atomic-v1"
+  },
+  {
+   "evidence_id": "atom-med-009-med-c3-a1",
+   "atomic_id": "med-c3-a1",
+   "parent_claim_id": "med-c3",
+   "claim_id": "med-c3-a1",
+   "paper_id": "med-009",
+   "stance": "support",
+   "summary": "2020至2024年中国AI医疗器械年批准量从9件增至45件，复合年增长率49.53%，表明审批数量快速增长。",
+   "quote": "annual approvals increasing from 9 in 2020 to 45 in 2024 (a 49.53% compound annual growth rate)",
+   "locator": "Abstract",
+   "method": "回顾性分析（Drugdataexpy数据库检索与趋势分析）",
+   "sample": "2020年至2025年6月批准的154件AI医疗器械",
+   "confidence": 0.95,
+   "verified": false,
+   "extractor": "auto:abstract-only:atomic-v1"
+  },
+  {
+   "evidence_id": "atom-med-013-med-c1-a1",
+   "atomic_id": "med-c1-a1",
+   "parent_claim_id": "med-c1",
+   "claim_id": "med-c1-a1",
+   "paper_id": "med-013",
+   "stance": "support",
+   "summary": "该摘要指出深度学习模型在急性胆囊炎诊断和化脓性胆囊炎预测中显著优于放射科医生的评估，表明其性能达到或超过专科医生水平。",
+   "quote": "Deep learning significantly surpassed radiomics models and radiologist assessments, with high computational efficiency (segmentation: 10.5 ± 3.8 s, inference: 1.3 ± 0.4 s).",
+   "locator": "Abstract",
+   "method": "回顾性分析，构建深度学习模型并与放射组学模型及放射科医生评估进行比较",
+   "sample": "来自三个医疗中心的641名患者",
+   "confidence": 0.9,
+   "verified": false,
+   "extractor": "auto:abstract-only:atomic-v1"
+  }
+ ]
+}

@@ -96,6 +96,27 @@ PYTHONPATH=src python scripts/build_citemap_verification.py
 
 这不是“自动验证”：`verified` 仍为 `false`，60 格仍需真人点击；AI 预核对只能在备注中说明。
 
+## 原子断言层（2026-11-15）
+
+105 格人工核对暴露了一个方法问题：原断言是**复合命题**（如“接受度与收益较高，AI 素养和自我调节学习是关键调节因素”），摘要中的一句话往往只支持其中一部分；旧抽取把“部分相关”当成支持整条，31 个证据格只有 8 个被三人多数判为正确（25.8%）。
+
+因此增加一层**原子断言**，不更换人工示例、不改 105 格核对结论：
+
+1. **拆分**：`scripts/build_citemap_atomic_claims.py` 把 8 条主题断言拆成 **21 条原子断言**（AI 教育 12、医学影像 9），写入 `data/evidence_map/claims_atomic.json`；每条原子断言只保留一个可单句核对的主谓宾/方向。
+2. **抽取+复核**：`scripts/extract_citemap_atomic.py` 逐条原子断言抽取，并做一次独立复核；输出 `data/evidence_map/extractions_atomic/{topic}.json`，字段含 `atomic_id`、`parent_claim_id`、`stance`、逐字 `quote`，`extractor="auto:abstract-only:atomic-v1"`、`verified=false`。
+3. **结果**：两个主题共 **9 条原子证据，覆盖 7/30 篇**（AI 教育 5 条/3 篇；医学影像 4 条/4 篇），全部为 `support`，`quote` 均来自摘要。
+4. **与 105 格人工对照**（只对同一“论文 × 母断言”格）：9 条落在 **7 个有核对的格**，三人多数 **5 个正确 / 2 个有问题**（AI 教育 edu-007、edu-012 仍有争议；其中 edu-010 的 3 条原子证据同属一格）。这说明原子层能把“部分支持”讲清楚，但**不代表母断言已被证明**；2 条争议也不隐藏。
+5. **产品展示**：`GET /api/citemap/{topic}` 的 `auto_meta.layer="extractions_atomic"`，`auto_evidence` 带 `atomic=true`、`atomic_claim_id`、`claim`（原子句）；前端标签写「原子证据 · 仅摘要 · 未人审」，卡片标题写「原子断言 · <id>」，并把有证据的分组排在前面。没有原子证据时回退到严格复核层/旧候选层。
+
+复现：
+
+```bash
+PYTHONPATH=src python scripts/build_citemap_atomic_claims.py
+PYTHONPATH=src python scripts/extract_citemap_atomic.py --workers 6
+```
+
+边界：原子化本身由模型完成，拆分质量未做人工确认；只读摘要；9 条不是全量召回；不能把“原子证据存在”写成“这条复合断言成立”。105 格人工结果见 `docs/citemap_audit_result.md`（若未生成，则以 `data/experiments/citemap_audit_105/` 为准）。
+
 ## Schema 总览
 
 所有实体都是 frozen dataclass，JSON 字段名与 dataclass 字段一一对应。加载器拒绝未知字段与缺失必填字段，因此 JSON 是 schema 的**严格**表示。

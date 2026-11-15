@@ -63,6 +63,11 @@
     unclear: "不明确"
   });
 
+  function autoLabel() {
+    const layer = state.payload && state.payload.auto_meta ? state.payload.auto_meta.layer : "";
+    return layer === "extractions_atomic" ? "原子证据" : "机器候选";
+  }
+
   const state = {
     topics: [],
     topicId: "",
@@ -423,7 +428,7 @@
     addStat("篇论文", numberOr(counts.papers, papers.length));
     addStat("条断言", numberOr(counts.claims, claims.length));
     addStat("条示例证据", numberOr(counts.evidence, evidence.length));
-    addStat("条机器候选", autoUniqueForTopic().length);
+    addStat("条" + autoLabel(), autoUniqueForTopic().length);
     const mergedTotal = papers.reduce(function (total, paper) {
       return total + autoDuplicatesForPaper(paper.paper_id).length;
     }, 0);
@@ -477,7 +482,7 @@
       if (paper.is_oa) tags.append(makeTag("OA", "ctm-tag--oa"));
       const autoCount = autoUniqueForPaper(paper.paper_id).length;
       const autoMerged = autoDuplicatesForPaper(paper.paper_id).length;
-      if (autoCount) tags.append(makeTag("机器候选 " + autoCount, "ctm-tag--auto"));
+      if (autoCount) tags.append(makeTag(autoLabel() + " " + autoCount, "ctm-tag--auto"));
       const cells = cellsForPaper(paper.paper_id);
       if (cells.length) {
         const pending = cells.filter(function (cell) { return !cell.check; }).length;
@@ -656,7 +661,7 @@
       sectionHead.append(make("h3", "", "断言与证据"));
       const parts = [];
       if (evidence.length) parts.push("人工示例 " + evidence.length);
-      if (autoAll.length) parts.push("机器抽取 " + autoAll.length);
+      if (autoAll.length) parts.push(autoLabel() + " " + autoAll.length);
       sectionHead.append(make("span", "ctm-claim-section-note",
         "按断言分组" + (parts.length ? " · " + parts.join(" · ") : "") +
         (merged ? " · 已合并重合 " + merged + " 条" : "")));
@@ -684,12 +689,20 @@
     evidence.forEach(function (ev) { slot(ev.claim_id).humans.push(ev); });
     auto.forEach(function (ev) { slot(ev.claim_id).autos.push(ev); });
     cellsForPaper(paper.paper_id).forEach(function (cell) { slot(cell.claim_id).cells.push(cell); });
-    return order.map(function (id) {
+    return order.map(function (id, idx) {
       const group = map[id];
       group.claimId = id;
+      group._order = idx;
       return group;
     }).filter(function (group) {
       return group.claim || group.humans.length || group.autos.length || group.cells.length;
+    }).sort(function (a, b) {
+      // Put groups with evidence or a sampled cell first so the reader does not
+      // scroll past empty claims to reach the evidence for this paper.
+      const weight = function (group) {
+        return (group.autos.length ? 100 : 0) + (group.humans.length ? 10 : 0) + (group.cells.length ? 1 : 0);
+      };
+      return (weight(b) - weight(a)) || (a._order - b._order);
     });
   }
 
@@ -705,7 +718,7 @@
         "方向：" + (DIRECTION_LABELS[claim.direction] || claim.direction)));
     }
     if (group.humans.length) facts.append(make("span", "", "人工证据 " + group.humans.length));
-    if (group.autos.length) facts.append(make("span", "", "机器候选 " + group.autos.length));
+    if (group.autos.length) facts.append(make("span", "", autoLabel() + " " + group.autos.length));
     if (facts.childElementCount) top.append(facts);
     wrap.append(top);
 
@@ -805,7 +818,7 @@
     const top = make("div", "ctm-evidence-top");
     const stance = normalizeStance(ev.stance);
     top.append(makeTag(STANCE_LABELS[stance], "ctm-stance ctm-stance--" + stance));
-    top.append(makeTag("机器候选 · 仅摘要 · 未人审", "ctm-extractor ctm-extractor--auto"));
+    top.append(makeTag(ev.atomic ? "原子证据 · 仅摘要 · 未人审" : autoLabel() + " · 仅摘要 · 未人审", "ctm-extractor ctm-extractor--auto"));
     if (cell) top.append(makeTag("抽样格", "ctm-cell-tag"));
     top.append(renderConfidence(ev.confidence));
     card.append(top);
@@ -814,6 +827,11 @@
       const claimBox = make("div", "ctm-claim");
       claimBox.append(make("span", "ctm-claim-label", "对应断言 · " + claim.claim_id));
       claimBox.append(make("p", "ctm-claim-text", claim.text || ""));
+      card.append(claimBox);
+    } else if (ev.atomic && ev.claim) {
+      const claimBox = make("div", "ctm-claim");
+      claimBox.append(make("span", "ctm-claim-label", "原子断言 · " + ev.atomic_claim_id));
+      claimBox.append(make("p", "ctm-claim-text", ev.claim));
       card.append(claimBox);
     }
     if (ev.summary) card.append(make("p", "ctm-evidence-summary", ev.summary));

@@ -936,8 +936,14 @@ def test_citemap_routes_return_validated_payload(client):
     topic_id = body["topics"][0]["topic_id"]
     payload = client.get(f"/api/citemap/{topic_id}")
     assert payload.status_code == 200
-    assert payload.json()["topic"]["topic_id"] == topic_id
-    assert len(payload.json()["papers"]) == 15
+    body = payload.json()
+    assert body["topic"]["topic_id"] == topic_id
+    assert len(body["papers"]) == 15
+    assert body["auto_meta"]["layer"] == "extractions_atomic"
+    atomic = [item for item in body["auto_evidence"] if item.get("atomic")]
+    assert atomic, "atomic layer should expose at least one candidate"
+    assert all(item["claim_id"] == item["parent_claim_id"] for item in atomic)
+    assert all(item.get("claim") for item in atomic)
     missing = client.get("/api/citemap/not-a-topic")
     assert missing.status_code == 404
     assert missing.json()["known_topics"]

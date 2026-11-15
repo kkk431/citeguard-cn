@@ -102,7 +102,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.7.23", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.7.24", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 
@@ -2077,13 +2077,31 @@ def _citemap_auto(topic_id: str) -> list[dict]:
     if path is None:
         return []
     data = _read_json_file(path) or {}
-    return list(data.get("evidence") or [])
+    evidence = list(data.get("evidence") or [])
+    if path.parent.name == "extractions_atomic":
+        # Atomic evidence belongs to a parent claim but is checked against a
+        # narrower proposition. Keep both ids so the UI can show exactly what
+        # the quote supports instead of implying it supports the whole claim.
+        atomic_doc = _read_json_file(_citemap_dir() / "claims_atomic.json") or {}
+        atomic_topic = (atomic_doc.get("topics") or {}).get(topic_id) or {}
+        texts = {
+            item.get("atomic_id"): item.get("text", "")
+            for item in (atomic_topic.get("claims") or [])
+        }
+        for item in evidence:
+            atomic_id = item.get("atomic_id") or item.get("claim_id")
+            item["atomic"] = True
+            item["atomic_claim_id"] = atomic_id
+            item["parent_claim_id"] = item.get("parent_claim_id") or item.get("claim_id")
+            item["claim_id"] = item.get("parent_claim_id")
+            item["claim"] = texts.get(atomic_id, item.get("claim", ""))
+    return evidence
 
 
 def _citemap_auto_path(topic_id: str) -> Path | None:
-    """Prefer the strict-verifier layer; fall back to the v1 candidates."""
+    """Prefer the atomic layer, then strict verifier, then v1 candidates."""
     base = _citemap_dir()
-    for layer in ("extractions_strict", "extractions_auto"):
+    for layer in ("extractions_atomic", "extractions_strict", "extractions_auto"):
         path = base / layer / f"{topic_id}.json"
         if path.exists():
             return path
@@ -2096,12 +2114,18 @@ def _citemap_auto_meta(topic_id: str) -> dict:
         return {"layer": "none", "count": 0, "note": "暂无机抽取结果"}
     data = _read_json_file(path) or {}
     layer = path.parent.name
-    note = (
-        "严格复核候选：先抽取、再由独立复核只保留断言与引文直接对应的句子；"
-        "仍是机器结果，未经人工核对，不能当作已验证。"
-        if layer == "extractions_strict"
-        else "机器候选：相关句子，未经严格复核；不能当作已验证。"
-    )
+    if layer == "extractions_atomic":
+        note = (
+            "原子证据：复合断言先拆成可单句核对的原子命题，再逐条抽取并由独立复核确认；"
+            "引文只对应某一条原子命题，不代表支持整条主断言。仍是机器结果，未经人工核对。"
+        )
+    elif layer == "extractions_strict":
+        note = (
+            "严格复核候选：先抽取、再由独立复核只保留断言与引文直接对应的句子；"
+            "仍是机器结果，未经人工核对，不能当作已验证。"
+        )
+    else:
+        note = "机器候选：相关句子，未经严格复核；不能当作已验证。"
     return {"layer": layer, "count": len(data.get("evidence") or []), "note": note}
 
 

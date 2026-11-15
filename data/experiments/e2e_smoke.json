@@ -1,21 +1,22 @@
 {
  "base": "http://127.0.0.1:8013",
+ "input": "data\\real_corpus\\hanspub_152575.pdf",
  "pdf": "data\\real_corpus\\hanspub_152575.pdf",
- "job": "94c2214965b1",
- "version": "1.0.11",
+ "job": "6f54fd788c70",
+ "version": "1.7.24",
  "checks": [
   {
    "check": "health",
    "ok": true,
    "detail": {
-    "version": "1.0.11"
+    "version": "1.7.24"
    }
   },
   {
    "check": "job_done",
    "ok": true,
    "detail": {
-    "job": "94c2214965b1",
+    "job": "6f54fd788c70",
     "status": "done"
    }
   },

@@ -33,6 +33,7 @@ nav:
   - Live held-out 研究: research/live_holdout.md
   - CiteMap 证据地图: evidence_map.md
   - CiteMap 人工核对: citemap_audit.md
+  - CiteMap 105 格结果: citemap_audit_result.md
   - 长列表与检查明细: ui_patterns.md
   - 修复闭环: repair_loop.md
   - 批量聚合: aggregate.md

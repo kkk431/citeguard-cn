@@ -377,7 +377,7 @@
       "category": "工程",
       "claim": "端到端冒烟",
       "value": "14/14 项通过",
-      "n": "job 9e5f52c3372c，version 1.7.23",
+      "n": "job 6f54fd788c70，version 1.7.24",
       "artifact": "data/experiments/e2e_smoke.json",
       "command": "PYTHONPATH=src python scripts/e2e_smoke.py",
       "note": "含上传/报告/批注/导出/证据包/diff；不含人工判断",
