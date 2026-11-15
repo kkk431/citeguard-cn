@@ -187,7 +187,7 @@ def test_known_machine_correct_cells_are_abstract_only_when_present(
     graphs: dict[str, dict],
 ) -> None:
     key = (
-        DEFAULT_DATA_DIR
+        DEFAULT_DATA_DIR.parents[0]
         / "experiments"
         / "citemap_audit_105"
         / "key.csv"
