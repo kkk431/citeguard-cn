@@ -41,17 +41,17 @@
 | 外部基线 | ChartCheck 400 条零样本（Qwen3-VL-8B） | 三分类 macro-F1 0.7628 / acc 0.6950；二分类 0.7903 / 0.7925 | 400 条英文图表—陈述对 | `data/experiments/chartcheck_val400_v3.json` | `PYTHONPATH=src python scripts/eval_chartcheck.py --prompt v3 --sample 400` | —<br>零样本，不是中文论文图表分布；不能替代人读图 |
 | 外部基线 | BGE-M3 候选召回 | recall@1 0.8667 / MRR 0.9042 | 300 条构造集；1 正例 + 5 干扰 | `data/experiments/embeddings_recall_bge_m3_n300.json` | `PYTHONPATH=src python scripts/eval_embeddings_recall.py --n 300` | —<br>只测候选排序，不是端到端支持度准确率 |
 | 外部基线 | T2Retrieval BM25 smoke test | R@1 0.73 / R@3 0.79 / MRR 0.7715 | 200 query；固定 seed 42 | `docs/research/experiments/e3_t2retrieval.json` | `python docs/research/experiments/e3_t2retrieval.py` | —<br>通用检索 smoke test，不是产品依赖；随机期望 R@3 0.000128 |
+| 人审 | 100 条三人独立盲标 | Fleiss κ 0.98116；产品 99/100，macro-F1 0.98771，Cohen κ 0.98589 | 100 条 / 3 位匿名标注者；构造集分层抽样，非随机 | `data/experiments/human_audit_100.json` | `PYTHONPATH=src python scripts/score_human_audit_100.py --raw data/audit/human_100 --key data/audit/audit_key_100.json --dataset data/claimsupport_cn/claimsupport_cn_300.jsonl --predictions data/experiments/release300.json --out data/experiments/human_audit_100.json` | docs/evidence/shots/final/charts/15-human-audit.png<br>产品预测取自既有 release300 运行，未在这 100 条上调参；2 条标注分歧未仲裁；不能外推所有中文论文 |
 | 工程 | 端到端冒烟 | 14/14 项通过 | job 94c2214965b1，version 1.0.11 | `data/experiments/e2e_smoke.json` | `PYTHONPATH=src python scripts/e2e_smoke.py` | —<br>含上传/报告/批注/导出/证据包/diff；不含人工判断 |
 
 ## 待补 / 不宣称
 
 | 类别 | 项目 | 当前状态 | 证据位置 |
 |---|---|---|---|
-| 人审 | 100 条三人盲标 | 包已生成，κ 待回收；不得把构造标签写作人审金标 | `dist/CiteGuard-CN_盲标包_100条_发给标注者.zip` |
 | CiteMap | 60 格人工核对 | 只有 10 条人工示例，60 格核对未完成 | `t4` |
 
 说明：
 - 「构造标签」指标签由构造规则决定，不是人工语义标注；不能写成人工金标准。
 - 「Unverified」是没核到，不是判假；「Major」才是指控。
 - 外部数据集（ChartCheck/SciFact/T2Retrieval）只用于对照，不能与构造集混算。
-- 人审与 CiteMap/Live 核对未完成前，本表保持 pending，不用预测值占位。
+- 人审结果已入库（100 条 / 3 人）；CiteMap 60 格核对未完成前，该行保持 pending，不用预测值占位。

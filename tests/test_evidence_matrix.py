@@ -23,10 +23,14 @@ def test_evidence_matrix_is_current_and_complete():
     assert text.startswith("# 对外数字 → 证据矩阵")
     assert "| 类别 | 对外说法 | 值 | 样本 | 证据 | 复现 |" in text
     assert "待补 / 不宣称" in text
-    assert "100 条三人盲标" in text  # pending human audit is explicit
+    # The human audit is no longer pending: it has its own evidence row.
+    assert "100 条三人独立盲标" in text
+    assert "Fleiss κ 0.98116" in text
     assert "MISSING" not in text
 
-    # No fabricated human numbers: pending rows never carry a kappa value.
     pending = text.split("## 待补 / 不宣称", 1)[1]
+    assert "100 条三人盲标" not in pending
+    assert "CiteMap | 60 格人工核对" in pending
+    # Pending rows never carry fabricated human numbers.
     assert "κ=" not in pending
     assert "Fleiss κ" not in pending

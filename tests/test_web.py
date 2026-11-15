@@ -133,6 +133,8 @@ def test_benchmark_page_renders(plain_client):
     assert "标签质量审计" in resp.text
     assert "中文覆盖率试点" in resp.text
     assert "万方" in resp.text
+    assert "100 条三人独立盲标" in resp.text
+    assert "human-audit-100.png" in resp.text
 
 
 def test_benchmark_status_never_leaks_secrets(plain_client, monkeypatch):

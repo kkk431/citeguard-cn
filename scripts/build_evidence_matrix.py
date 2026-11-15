@@ -496,6 +496,17 @@ def rows():
         "screenshot": "",
     })
 
+    out.append({
+        "category": "人审",
+        "claim": "100 条三人独立盲标",
+        "value": "Fleiss κ 0.98116；产品 99/100，macro-F1 0.98771，Cohen κ 0.98589",
+        "n": "100 条 / 3 位匿名标注者；构造集分层抽样，非随机",
+        "artifact": "data/experiments/human_audit_100.json",
+        "command": "PYTHONPATH=src python scripts/score_human_audit_100.py --raw data/audit/human_100 --key data/audit/audit_key_100.json --dataset data/claimsupport_cn/claimsupport_cn_300.jsonl --predictions data/experiments/release300.json --out data/experiments/human_audit_100.json",
+        "note": "产品预测取自既有 release300 运行，未在这 100 条上调参；2 条标注分歧未仲裁；不能外推所有中文论文",
+        "screenshot": "docs/evidence/shots/final/charts/15-human-audit.png",
+    })
+
     d = load("data/experiments/e2e_smoke.json")
     out.append({
         "category": "工程",
@@ -512,7 +523,6 @@ def rows():
 
 
 PENDING = [
-    ("人审", "100 条三人盲标", "包已生成，κ 待回收；不得把构造标签写作人审金标", "dist/CiteGuard-CN_盲标包_100条_发给标注者.zip"),
     ("CiteMap", "60 格人工核对", "只有 10 条人工示例，60 格核对未完成", "t4"),
 ]
 
@@ -560,7 +570,7 @@ def build() -> tuple[str, dict]:
         "- 「构造标签」指标签由构造规则决定，不是人工语义标注；不能写成人工金标准。",
         "- 「Unverified」是没核到，不是判假；「Major」才是指控。",
         "- 外部数据集（ChartCheck/SciFact/T2Retrieval）只用于对照，不能与构造集混算。",
-        "- 人审与 CiteMap/Live 核对未完成前，本表保持 pending，不用预测值占位。",
+        "- 人审结果已入库（100 条 / 3 人）；CiteMap 60 格核对未完成前，该行保持 pending，不用预测值占位。",
         "",
     ]
     md = "\n".join(lines)

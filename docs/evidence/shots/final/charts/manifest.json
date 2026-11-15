@@ -85,6 +85,12 @@
       "title": "真实中文论文的引文问题普遍性",
       "sources": "data/experiments/corpus_prevalence.json",
       "n": "n=22/524"
+    },
+    {
+      "file": "docs/evidence/shots/final/charts/15-human-audit.png",
+      "title": "100 条三人盲标结果",
+      "sources": "data/experiments/human_audit_100.json",
+      "n": "n=100 / 3 人"
     }
   ]
 }

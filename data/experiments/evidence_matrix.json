@@ -1,6 +1,6 @@
 {
   "schema": "citeguard.evidence_matrix.v1",
-  "rows": 37,
+  "rows": 38,
   "missing": [],
   "items": [
     {
@@ -364,6 +364,16 @@
       "screenshot": ""
     },
     {
+      "category": "人审",
+      "claim": "100 条三人独立盲标",
+      "value": "Fleiss κ 0.98116；产品 99/100，macro-F1 0.98771，Cohen κ 0.98589",
+      "n": "100 条 / 3 位匿名标注者；构造集分层抽样，非随机",
+      "artifact": "data/experiments/human_audit_100.json",
+      "command": "PYTHONPATH=src python scripts/score_human_audit_100.py --raw data/audit/human_100 --key data/audit/audit_key_100.json --dataset data/claimsupport_cn/claimsupport_cn_300.jsonl --predictions data/experiments/release300.json --out data/experiments/human_audit_100.json",
+      "note": "产品预测取自既有 release300 运行，未在这 100 条上调参；2 条标注分歧未仲裁；不能外推所有中文论文",
+      "screenshot": "docs/evidence/shots/final/charts/15-human-audit.png"
+    },
+    {
       "category": "工程",
       "claim": "端到端冒烟",
       "value": "14/14 项通过",
@@ -375,12 +385,6 @@
     }
   ],
   "pending": [
-    {
-      "category": "人审",
-      "item": "100 条三人盲标",
-      "state": "包已生成，κ 待回收；不得把构造标签写作人审金标",
-      "where": "dist/CiteGuard-CN_盲标包_100条_发给标注者.zip"
-    },
     {
       "category": "CiteMap",
       "item": "60 格人工核对",

@@ -176,7 +176,26 @@
     </table>
   </div>
   {% endif %}
-  {% if support_audit %}
+  {% if human_audit %}
+<section class="wrap" style="padding:24px 0 0" id="human-audit">
+  <div class="section-head" style="margin-bottom:12px">
+    <h2>100 条三人独立盲标</h2>
+    <span class="hint">{{ human_audit.n }} 条 · {{ human_audit.annotators|length }} 位匿名标注者 · 覆盖 100/100</span>
+  </div>
+  <div class="metric-grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr))">
+    <div class="metric"><b>{{ '%.3f'|format(human_audit.fleiss_kappa) }}</b><span>三位标注者 Fleiss κ</span></div>
+    <div class="metric"><b>{{ '%.0f'|format(human_audit.accuracy * 100) }}/100</b><span>产品对多数票</span></div>
+    <div class="metric"><b>{{ '%.3f'|format(human_audit.macro_f1) }}</b><span>macro-F1（对多数票）</span></div>
+    <div class="metric"><b>{{ '%.3f'|format(human_audit.cohen_kappa) }}</b><span>Cohen κ（对多数票）</span></div>
+  </div>
+  <div class="chart-card" style="margin-top:14px">
+    <img src="/static/img/human-audit-100.png" alt="100 条三人盲标：标注者一致性与产品对多数票的结果" style="width:100%;max-width:960px;height:auto;border-radius:12px;display:block;margin:0 auto">
+    <p class="chart-note">来源 <code>data/experiments/human_audit_100.json</code>；产品预测取自同批 300 条的既有运行，未在这 100 条上调参。</p>
+  </div>
+  <p class="hint" style="margin:8px 0 0">三人多数票是参照，不是绝对真值；这 100 条是构造集分层抽样，不是随机样本。2 条 2:1 分歧未做第三方仲裁，唯一错误是 HS032（人工 contradict，产品 partial）。</p>
+</section>
+{% endif %}
+{% if support_audit %}
   <div class="panel" style="padding:16px 18px;margin-bottom:16px">
     <div class="section-head" style="margin-bottom:8px">
       <h3 style="font-size:15px">标签质量审计（LLM 共识，非人工金标准）</h3>

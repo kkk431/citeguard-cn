@@ -1,4 +1,4 @@
-# 实验证据图（14 张）
+# 实验证据图（15 张）
 
 > 全部由 `scripts/make_evidence_charts.py` 从仓库内实验 JSON 生成，深色 1920×1080，标题即结论，页脚标注来源与样本量。不是手绘示意图；改动数据后重跑脚本即可复现。
 
@@ -20,6 +20,7 @@
 | 12 | ![12](evidence/shots/final/charts/12_retraction_doi.png) | 撤稿 100/100；题名-A + DOI-B 没有一条 Exact | retraction_eval + doi_swap_eval；n=200/99 |
 | 13 | ![13](evidence/shots/final/charts/13-ablation.png) | 机制开/关：本地库、排序、预热、判官各自改变了什么 | ablation_matrix.json；M01 n=409，M02/M04/M05 n=30 |
 | 14 | ![14](evidence/shots/final/charts/14-prevalence.png) | 22 篇真实中文论文：71.2% 缺 DOI、39.9% 未被正文引用 | corpus_prevalence.json；n=22/524 |
+| 15 | ![15](evidence/shots/final/charts/15-human-audit.png) | 100 条三人盲标：一致性 κ 0.981；产品 99/100，macro-F1 0.988 | human_audit_100.json；n=100 / 3 人 |
 
 ## 使用边界
 

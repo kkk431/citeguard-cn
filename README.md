@@ -1,6 +1,6 @@
 # 引证卫士 CiteGuard-CN
 
-> **v1.7.20** · 2026-11-15 · Apache-2.0
+> **v1.7.21** · 2026-11-15 · Apache-2.0
 
 [![ci](https://github.com/kkk431/citeguard-cn/actions/workflows/ci.yml/badge.svg)](https://github.com/kkk431/citeguard-cn/actions/workflows/ci.yml)
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
@@ -93,7 +93,9 @@ no_evidence    [  0,   0,   0,  20 ]
 ```
 
 > **两段式判定**：第一段按证据给「支持/部分支持/矛盾/无证据」并摘出证据句；第二段只对「支持」结论做**覆盖审计**——把引用句拆成对象/条件/因果/量级等要素，证据没覆盖全部要素就降级为「部分支持」。这一步专门修掉旧版最大的错误来源（partial 被误判为 support），代价是「支持」类约 40% 的条目多一次 LLM 调用（`CITEGUARD_SUPPORT_AUDIT=0` 可关）。
-> 该数据集为程序化构造（构造规则自检 100/100，20% 抽样复核 0 失败），标签由构造决定，不是人工双标，因此不报告 κ；误差现在主要来自 support ↔ partial 的边界样本。
+> 该数据集为程序化构造（构造规则自检 100/100，20% 抽样复核 0 失败），标签由构造决定；上面的 0.9597 是构造集口径，不是人工评测。
+>
+> **人工盲标（2026-11-15）**：100 条分层样本、3 位匿名标注者独立标注，覆盖 100/100；标注者一致性 **Fleiss κ 0.981**（pairwise 0.972–0.986），2 条 2:1 分歧、无平票。产品对三人多数票 **99/100**，macro-F1 **0.988**，与多数票 Cohen κ **0.986**；Wilson 95% CI 94.55%–99.82%。唯一错误 HS032（人工判 contradict，产品判 partial）。产品预测取自既有 300 条运行，未在这 100 条上调参；这 100 条是构造集分层抽样，不是随机样本。详见 [docs/human_audit_result.md](docs/human_audit_result.md)。
 >
 > 外部验证：同一 judge 零样本迁移到英文公开基准 **SciFact**（300 条 dev claims，**未在 SciFact 上训练/微调**，四分类映射为三分类）：给定标注证据句 macro-F1 **0.8224**，给定整段摘要 **0.7939**。说明判定方法不是只在自建中文集上有效。外部同类工具同题对照（RefChecker 官方两段式 + 同一 DeepSeek-Chat，300 条）：其 macro-F1 0.765、本工作台 0.822（差距主要在矛盾类召回），口径与限制见 `docs/experiments.md` §14——这是同数据同 backbone 的协议对照，不是 SOTA 声明。
 >
@@ -431,8 +433,8 @@ PYTHONPATH=src python3 scripts/enrich_library_abstracts.py
 
 ## 复现与发布
 
-- 版本：**v1.7.20**；变更见 `CHANGELOG.md`，发布说明见 `docs/release_notes_v1.0.md`
-- 单元测试：`PYTHONPATH=src python -m pytest tests -q`（908 项）
+- 版本：**v1.7.21**；变更见 `CHANGELOG.md`，发布说明见 `docs/release_notes_v1.0.md`
+- 单元测试：`PYTHONPATH=src python -m pytest tests -q`（911 项）
 - 主评测复现：`PYTHONPATH=src python scripts/reproduce_all.py`；每个对外数字的 JSON/命令/样本量见 `docs/evidence_index.md`
 - 文档站：`pip install -r requirements-docs.txt && mkdocs serve`
 - 数据集包：`dist/CiteGuard-CN_ClaimSupport-CN-300_v1.0.zip`（CC-BY-4.0，构造标签）

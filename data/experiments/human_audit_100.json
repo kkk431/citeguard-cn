@@ -1,0 +1,110 @@
+{
+  "n_items": 100,
+  "annotators": [
+    "A",
+    "B",
+    "C"
+  ],
+  "coverage": {
+    "A": 1.0,
+    "B": 1.0,
+    "C": 1.0
+  },
+  "fleiss_kappa": 0.98116,
+  "pairwise_cohen_kappa": {
+    "A|B": 0.985882,
+    "A|C": 0.971695,
+    "B|C": 0.985882
+  },
+  "majority_counts": {
+    "support": 41,
+    "contradict": 17,
+    "partial": 26,
+    "no_evidence": 16
+  },
+  "ties": 0,
+  "disagreements": [
+    [
+      "HS021",
+      "partial",
+      "A=partial | B=partial | C=support",
+      "A: 只有“受要素结构、产业结构和政策影响”这半句，“不是独立过程”的前提断了。 | B: 证据只有受要素结构产业结构和政策影响的半句，缺农村经济发展并非独立过程的前提。 | C: 证据明确指出经济发展受到要素结构、产业结构和政策影响，这与其并非独立过程一致。"
+    ],
+    [
+      "HS034",
+      "partial",
+      "A=support | B=partial | C=partial",
+      "A: 核心那句一样，结论只是前面加了句“与疾病网络的复杂性一致”。 | B: 证据只保留联合治疗有治疗潜力一句，缺与疾病网络复杂性一致的限定。 | C: 证据支持联合治疗具有潜力，未交代其与疾病网络复杂性的对应关系。"
+    ]
+  ],
+  "constructed_key_agreement": {
+    "compared": 100,
+    "agreement": 0.99,
+    "note": "constructed key is a reference, not human ground truth"
+  },
+  "product": {
+    "mapped": 100,
+    "missing": [],
+    "accuracy": 0.99,
+    "accuracy_wilson95": [
+      0.9455124752390653,
+      0.9982326134344526
+    ],
+    "macro_f1": 0.9877072612921669,
+    "macro_f1_bootstrap95": [
+      0.9577586206896551,
+      1.0
+    ],
+    "cohen_kappa": 0.9858936380307518,
+    "confusion_labels": [
+      "support",
+      "partial",
+      "contradict",
+      "no_evidence"
+    ],
+    "confusion": [
+      [
+        41,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        26,
+        0,
+        0
+      ],
+      [
+        0,
+        1,
+        16,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        16
+      ]
+    ],
+    "mismatches": [
+      {
+        "item_id": "HS032",
+        "dataset_id": "c2-0048",
+        "human": "contradict",
+        "product": "partial"
+      }
+    ],
+    "predictions_source": "data/experiments/release300.json (same 300-item product run)"
+  },
+  "notes": "Human labels from three independent annotators (A/B/C) on the 100-item stratified blind kit; no names stored. Product predictions are the existing release300 run, not retuned on these items. Constructed key is a reference, not human ground truth.",
+  "files": {
+    "raw": [
+      "data/audit/human_100/audit_A.csv",
+      "data/audit/human_100/audit_B.csv",
+      "data/audit/human_100/audit_C.csv"
+    ],
+    "key": "data/audit/audit_key_100.json"
+  }
+}

@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 180,
+  "paths_checked": 188,
   "missing": [],
   "rows": [
     {
@@ -767,8 +767,58 @@
       "evidence": "E95",
       "path": "docs/evidence/shots/phase-60-problem-prevalence-1.7.20.png",
       "exists": true
+    },
+    {
+      "evidence": "E97",
+      "path": "web/static/img/human-audit-100.png",
+      "exists": true
+    },
+    {
+      "evidence": "E97",
+      "path": "data/experiments/human_audit_100.json",
+      "exists": true
+    },
+    {
+      "evidence": "E97",
+      "path": "docs/evidence/shots/phase-60-human-audit-benchmark-1.7.21.png",
+      "exists": true
+    },
+    {
+      "evidence": "E96",
+      "path": "data/experiments/human_audit_100.json",
+      "exists": true
+    },
+    {
+      "evidence": "E96",
+      "path": "data/audit/human_100/audit_A.csv",
+      "exists": true
+    },
+    {
+      "evidence": "E96",
+      "path": "data/audit/human_100/audit_B.csv",
+      "exists": true
+    },
+    {
+      "evidence": "E96",
+      "path": "data/audit/human_100/audit_C.csv",
+      "exists": true
+    },
+    {
+      "evidence": "E96",
+      "path": "docs/human_audit_result.md",
+      "exists": true
+    },
+    {
+      "evidence": "E96",
+      "path": "docs/evidence/shots/final/charts/15-human-audit.png",
+      "exists": true
+    },
+    {
+      "evidence": "E96",
+      "path": "docs/evidence/shots/final/charts/15-human-audit.png",
+      "exists": true
     }
   ],
-  "shots_registered": 87,
+  "shots_registered": 89,
   "shots_unregistered": []
 }

@@ -538,6 +538,73 @@ def chart_prevalence():
     save(fig, "14-prevalence", "真实中文论文的引文问题普遍性", "data/experiments/corpus_prevalence.json", f"n={n_papers}/{n_refs}")
 
 
+# ---------------------------------------------------------------------------
+# 15 human blind audit
+# ---------------------------------------------------------------------------
+def chart_human_audit():
+    d = load("data/experiments/human_audit_100.json")
+    p = d["product"]
+    labels = ["支持", "部分支持", "矛盾", "无证据"]
+    fig, axes = plt.subplots(2, 2, figsize=(12.8, 7.2))
+    fig.subplots_adjust(left=0.08, right=0.975, top=0.80, bottom=0.12, hspace=0.62, wspace=0.36)
+    fig.text(0.055, 0.935, "100 条三人盲标：产品 99/100，κ 0.981", fontsize=27, fontweight="bold", color=INK, va="top")
+    fig.text(0.055, 0.868, "三位标注者独立完成；产品来自同批 300 条的既有运行，未在这 100 条上调参", fontsize=14, color=MUTED, va="top")
+
+    ax = axes[0][0]
+    names = ["Fleiss κ", "A|B", "A|C", "B|C"]
+    vals = [d["fleiss_kappa"], d["pairwise_cohen_kappa"]["A|B"], d["pairwise_cohen_kappa"]["A|C"], d["pairwise_cohen_kappa"]["B|C"]]
+    bars = ax.bar(names, vals, color=[MINT, CYAN, STEEL, CYAN], width=0.55)
+    for b, v in zip(bars, vals):
+        ax.text(b.get_x() + b.get_width() / 2, v + 0.008, f"{v:.4f}", ha="center", color=INK, fontweight="bold", fontsize=11)
+    ax.set_ylim(0.9, 1.005)
+    ax.set_title("① 标注者一致性：100/100 覆盖，2 条分歧", loc="left", fontsize=14, color=INK, pad=8)
+
+    ax = axes[0][1]
+    conf = p["confusion"]
+    im = ax.imshow(conf, cmap="YlGn", vmin=0, vmax=max(max(r) for r in conf))
+    ax.set_xticks(range(4), labels, rotation=20)
+    ax.set_yticks(range(4), labels)
+    ax.set_xlabel("产品判定"); ax.set_ylabel("人工多数票")
+    for i in range(4):
+        for j in range(4):
+            v = conf[i][j]
+            if v:
+                ax.text(j, i, str(v), ha="center", va="center", fontsize=14, fontweight="bold", color=BG if v >= 30 else INK)
+    ax.set_title("② 产品 vs 人工：1 条矛盾被判成部分支持", loc="left", fontsize=14, color=INK, pad=8)
+
+    ax = axes[1][0]
+    acc = p["accuracy"]
+    lo, hi = p["accuracy_wilson95"]
+    ax.barh([0], [acc], color=MINT, height=0.42)
+    ax.errorbar([acc], [0], xerr=[[acc - lo], [hi - acc]], fmt="none", ecolor=AMBER, capsize=6, linewidth=2)
+    ax.text((0.9 + acc) / 2, 0, f"{acc:.1%}（99/100）", ha="center", va="center", color=BG, fontweight="bold", fontsize=14)
+    ax.set_yticks([]); ax.set_xlim(0.9, 1.005)
+    ax.set_title(f"③ 产品准确率：Wilson 95% CI {lo:.1%}–{hi:.1%}", loc="left", fontsize=14, color=INK, pad=8)
+
+    ax = axes[1][1]
+    mc = d["majority_counts"]
+    vals = [mc.get(k, 0) for k in ("support", "partial", "contradict", "no_evidence")]
+    bars = ax.bar(labels, vals, color=[MINT, CYAN, AMBER, STEEL], width=0.58)
+    for b, v in zip(bars, vals):
+        ax.text(b.get_x() + b.get_width() / 2, v + 0.8, str(v), ha="center", color=INK, fontweight="bold")
+    ax.set_ylim(0, 48)
+    ax.set_title("④ 人工多数票分布（100 条）", loc="left", fontsize=14, color=INK, pad=8)
+
+    for row in axes:
+        for ax in row:
+            ax.set_facecolor(BG)
+            ax.grid(axis="y", color=GRID, linewidth=0.8, alpha=0.8)
+            ax.set_axisbelow(True)
+            for side in ("top", "right"):
+                ax.spines[side].set_visible(False)
+            ax.tick_params(colors=MUTED, labelsize=10)
+
+    fig.text(0.055, 0.035, "来源：data/experiments/human_audit_100.json（三位标注者独立盲标，匿名 A/B/C）", fontsize=9.5, color=MUTED)
+    fig.text(0.055, 0.012, "CiteGuard-CN · 人工盲标结果 · 产品预测未用人工标签调参", fontsize=9.5, color=STEEL)
+    fig.text(0.975, 0.035, "n=100 条 / 3 人", fontsize=10, color=MUTED, ha="right")
+    save(fig, "15-human-audit", "100 条三人盲标结果", "data/experiments/human_audit_100.json", "n=100 / 3 人")
+
+
 
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
@@ -555,6 +622,7 @@ def main() -> None:
     chart_retraction()
     chart_ablation()
     chart_prevalence()
+    chart_human_audit()
     manifest = {
         "generated_by": "scripts/make_evidence_charts.py",
         "version": "1.7.20",

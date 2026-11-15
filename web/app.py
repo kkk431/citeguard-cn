@@ -102,7 +102,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.7.20", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.7.21", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 
@@ -1884,6 +1884,27 @@ def _benchmark_context() -> dict:
             }
         except Exception:
             support_audit = None
+    human_audit = None
+    human_path = exp / "human_audit_100.json"
+    if human_path.exists():
+        try:
+            h = json.loads(human_path.read_text(encoding="utf-8"))
+            hp = h.get("product") or {}
+            human_audit = {
+                "n": h.get("n_items"),
+                "annotators": h.get("annotators") or [],
+                "fleiss_kappa": h.get("fleiss_kappa"),
+                "pairwise_kappa": h.get("pairwise_cohen_kappa") or {},
+                "majority": h.get("majority_counts") or {},
+                "disagreements": len(h.get("disagreements") or []),
+                "accuracy": hp.get("accuracy"),
+                "accuracy_ci": hp.get("accuracy_wilson95"),
+                "macro_f1": hp.get("macro_f1"),
+                "cohen_kappa": hp.get("cohen_kappa"),
+                "mismatches": hp.get("mismatches") or [],
+            }
+        except Exception:
+            human_audit = None
     holdout_path = config.DATA_DIR / "claimsupport_cn" / "llm_consensus-test.json"
     if support_audit and holdout_path.exists():
         try:
@@ -1904,6 +1925,7 @@ def _benchmark_context() -> dict:
         "real": real,
         "local_models": local_models,
         "support_audit": support_audit,
+        "human_audit": human_audit,
         "status": _system_status(),
     }
 

@@ -1,3 +1,10 @@
+## [1.7.21] - 2026-11-15
+
+- 100 条三人独立盲标完成：Fleiss κ 0.981，2 条 2:1 分歧、无平票；产品对多数票 99/100，macro-F1 0.988，Cohen κ 0.986（Wilson 95% CI 94.55%–99.82%）。
+- 唯一错误 HS032（人工 contradict，产品 partial）；产品预测取自既有 release300 运行，未在这 100 条上调参。
+- 新增 `docs/human_audit_result.md`、`scripts/score_human_audit_100.py`、`tests/test_human_audit_result.py`、第 15 张证据图 `15-human-audit.png`；报告、README、证据矩阵与证据索引同步。
+- 边界：100 条来自构造集分层抽样，不是随机样本；2 条分歧未仲裁；不能外推所有中文论文，也不能替代同行评审。
+
 ## [1.7.20] - 2026-11-15
 
 - 新增真实语料问题普遍性分析 `scripts/analyze_corpus_prevalence.py`：按原始文件名取每篇 PDF 最新报告，统计 22 篇 / 524 条引文的字段缺失、GB/T 规则命中、中文未解决与正文未引用；原始 JSON `data/experiments/corpus_prevalence.json`。
