@@ -102,7 +102,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.7.24", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.7.25", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 
@@ -2108,6 +2108,15 @@ def _citemap_auto_path(topic_id: str) -> Path | None:
     return None
 
 
+def _citemap_machine_layer(topic_id: str) -> dict:
+    """Separate machine-only cards for papers without human evidence."""
+    path = _citemap_dir() / "extractions_machine" / f"{topic_id}.json"
+    if not path.exists():
+        return {"claims": [], "evidence": []}
+    data = _read_json_file(path) or {}
+    return {"claims": data.get("claims") or [], "evidence": data.get("evidence") or []}
+
+
 def _citemap_auto_meta(topic_id: str) -> dict:
     path = _citemap_auto_path(topic_id)
     if path is None:
@@ -2183,6 +2192,52 @@ def citemap_verify(topic_id: str, body: CitemapVerifyBody):
     return {"ok": True, "cell": state[body.cell_id], **_citemap_summary()}
 
 
+class CitemapGenerateBody(BaseModel):
+    topic: str
+    question: str = ""
+    query: str = ""
+    limit: int = 15
+    dois: list[str] = []
+
+
+@app.post("/api/citemap/generate")
+def citemap_generate(body: CitemapGenerateBody):
+    """Build a machine-only CiteMap topic from an OpenAlex search."""
+    from citeguard import citemap_builder
+
+    topic = (body.topic or "").strip()
+    if not topic:
+        raise HTTPException(status_code=400, detail="主题不能为空")
+    if len(topic) > 80:
+        raise HTTPException(status_code=400, detail="主题最多 80 个字符")
+    if len(body.question or "") > 600:
+        raise HTTPException(status_code=400, detail="研究问题最多 600 个字符")
+    try:
+        if body.dois:
+            if len(body.dois) > 20:
+                raise HTTPException(status_code=400, detail="一次最多 20 个 DOI")
+            result = citemap_builder.build_from_dois(
+                topic,
+                body.dois,
+                question=body.question,
+                limit=body.limit,
+                data_dir=_citemap_dir(),
+            )
+        else:
+            result = citemap_builder.build_from_topic(
+                topic,
+                question=body.question,
+                query=body.query,
+                limit=body.limit,
+                data_dir=_citemap_dir(),
+            )
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except RuntimeError as exc:
+        raise HTTPException(status_code=502, detail=str(exc)) from exc
+    return {"ok": True, **result, "machine": True}
+
+
 @app.get("/api/citemap/topics")
 def citemap_topics_api():
     """Topic summaries for CiteMap (validated from the corpus files)."""
@@ -2208,6 +2263,14 @@ def citemap_topic_api(topic_id: str):
     cells = [c for c in _citemap_packet() if c.get("topic_id") == topic_id]
     for cell in cells:
         cell["check"] = state.get(cell.get("cell_id"))
+    machine = _citemap_machine_layer(topic_id)
+    if machine["claims"] or machine["evidence"]:
+        payload["claims"] = list(payload.get("claims") or []) + machine["claims"]
+        payload["evidence"] = list(payload.get("evidence") or []) + machine["evidence"]
+        counts = payload.get("counts")
+        if isinstance(counts, dict):
+            counts["claims"] = len(payload["claims"])
+            counts["evidence"] = len(payload["evidence"])
     return {
         **payload,
         "auto_evidence": _citemap_auto(topic_id),

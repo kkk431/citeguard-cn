@@ -1,0 +1,246 @@
+{
+  "schema_version": "1.0",
+  "topic": {
+    "topic_id": "ai_education",
+    "name_zh": "人工智能教育",
+    "name_en": "AI in Education",
+    "question": "生成式 AI 与智能导师系统在真实教学场景中的学习成效、公平性与教师角色证据如何？",
+    "description": "聚焦中国高校与中小学场景下生成式 AI、智能导师系统的接受度、学习收益、公平性与教师角色争议；每个主题 15 篇开放获取论文，含中国机构署名研究与高被引国际对照研究。"
+  },
+  "claims": [
+    {
+      "claim_id": "ai_education_m001",
+      "topic_id": "ai_education",
+      "text": "The findings of this study have implications for the broader field of digital technology education, particularly in the context of early childhood education.",
+      "population": "",
+      "outcome": "",
+      "direction": "",
+      "notes": "机器生成：摘要句，未人审；仅补足该论文的一张机器卡片"
+    },
+    {
+      "claim_id": "ai_education_m002",
+      "topic_id": "ai_education",
+      "text": "This study examines Chinese university students' adoption of generative artificial intelligence (GenAI) tools by integrating the Theory of Planned Behavior (TPB), the Technology Acceptance Model (TAM), and AI literacy dimensions into a hybrid framework.",
+      "population": "",
+      "outcome": "",
+      "direction": "",
+      "notes": "机器生成：摘要句，未人审；仅补足该论文的一张机器卡片"
+    },
+    {
+      "claim_id": "ai_education_m003",
+      "topic_id": "ai_education",
+      "text": "The emergence of online education, e.g., intelligent tutoring system (ITS), complements or partially replaces conventional offline education, especially during the COVID-19 pandemic.",
+      "population": "",
+      "outcome": "",
+      "direction": "",
+      "notes": "机器生成：摘要句，未人审；仅补足该论文的一张机器卡片"
+    },
+    {
+      "claim_id": "ai_education_m004",
+      "topic_id": "ai_education",
+      "text": "These findings may offer educators, policymakers, and AI developers valuable insights to address students’ concerns and optimize learning experiences in competitive academic environments.",
+      "population": "",
+      "outcome": "",
+      "direction": "",
+      "notes": "机器生成：摘要句，未人审；仅补足该论文的一张机器卡片"
+    },
+    {
+      "claim_id": "ai_education_m005",
+      "topic_id": "ai_education",
+      "text": "Utilising structural equation modelling (SEM) on survey data collected from 503 in-service mathematics teachers across China, the findings indicate that performance expectancy (PE), hedonic motivation (HM), and price value (PV) significantly affect teachers' behavioural intention (BI).",
+      "population": "",
+      "outcome": "",
+      "direction": "",
+      "notes": "机器生成：摘要句，未人审；仅补足该论文的一张机器卡片"
+    },
+    {
+      "claim_id": "ai_education_m006",
+      "topic_id": "ai_education",
+      "text": "Given the crucial role of secondary schools in nurturing students’ interest in AI and shaping their career paths, this study sought to investigate the link between secondary school students’ attitude toward AI learning, their AI literacy, and their interest in AI careers while examining possible gender differences.",
+      "population": "",
+      "outcome": "",
+      "direction": "",
+      "notes": "机器生成：摘要句，未人审；仅补足该论文的一张机器卡片"
+    },
+    {
+      "claim_id": "ai_education_m007",
+      "topic_id": "ai_education",
+      "text": "The purpose of this study was to assess the impact of Artificial Intelligence (AI) on education.",
+      "population": "",
+      "outcome": "",
+      "direction": "",
+      "notes": "机器生成：摘要句，未人审；仅补足该论文的一张机器卡片"
+    },
+    {
+      "claim_id": "ai_education_m008",
+      "topic_id": "ai_education",
+      "text": "Abstract This study explores university students’ perceptions of generative AI (GenAI) technologies, such as ChatGPT, in higher education, focusing on familiarity, their willingness to engage, potential benefits and challenges, and effective integration.",
+      "population": "",
+      "outcome": "",
+      "direction": "",
+      "notes": "机器生成：摘要句，未人审；仅补足该论文的一张机器卡片"
+    },
+    {
+      "claim_id": "ai_education_m009",
+      "topic_id": "ai_education",
+      "text": "Abstract This study aims to develop an AI education policy for higher education by examining the perceptions and implications of text generative AI technologies.",
+      "population": "",
+      "outcome": "",
+      "direction": "",
+      "notes": "机器生成：摘要句，未人审；仅补足该论文的一张机器卡片"
+    },
+    {
+      "claim_id": "ai_education_m010",
+      "topic_id": "ai_education",
+      "text": "This study contributes to the field of AI Education by presenting a model of integrating ethics into the teaching of AI that is appropriate for middle school students.",
+      "population": "",
+      "outcome": "",
+      "direction": "",
+      "notes": "机器生成：摘要句，未人审；仅补足该论文的一张机器卡片"
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "ai_education_em001",
+      "claim_id": "ai_education_m001",
+      "paper_id": "edu-003",
+      "stance": "support",
+      "summary": "机器抽取：摘要句，仅证明论文报告过该句，不代表已支持任何主断言",
+      "quote": "The findings of this study have implications for the broader field of digital technology education, particularly in the context of early childhood education.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.3,
+      "extracted_by": "machine:abstract-finding",
+      "verified": false,
+      "notes": "自动补充；人工未核对。不要把本层当作人工金标。"
+    },
+    {
+      "evidence_id": "ai_education_em002",
+      "claim_id": "ai_education_m002",
+      "paper_id": "edu-005",
+      "stance": "support",
+      "summary": "机器抽取：摘要句，仅证明论文报告过该句，不代表已支持任何主断言",
+      "quote": "This study examines Chinese university students' adoption of generative artificial intelligence (GenAI) tools by integrating the Theory of Planned Behavior (TPB), the Technology Acceptance Model (TAM), and AI literacy dimensions into a hybrid framework.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.3,
+      "extracted_by": "machine:abstract-finding",
+      "verified": false,
+      "notes": "自动补充；人工未核对。不要把本层当作人工金标。"
+    },
+    {
+      "evidence_id": "ai_education_em003",
+      "claim_id": "ai_education_m003",
+      "paper_id": "edu-006",
+      "stance": "support",
+      "summary": "机器抽取：摘要句，仅证明论文报告过该句，不代表已支持任何主断言",
+      "quote": "The emergence of online education, e.g., intelligent tutoring system (ITS), complements or partially replaces conventional offline education, especially during the COVID-19 pandemic.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.3,
+      "extracted_by": "machine:abstract-finding",
+      "verified": false,
+      "notes": "自动补充；人工未核对。不要把本层当作人工金标。"
+    },
+    {
+      "evidence_id": "ai_education_em004",
+      "claim_id": "ai_education_m004",
+      "paper_id": "edu-007",
+      "stance": "support",
+      "summary": "机器抽取：摘要句，仅证明论文报告过该句，不代表已支持任何主断言",
+      "quote": "These findings may offer educators, policymakers, and AI developers valuable insights to address students’ concerns and optimize learning experiences in competitive academic environments.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.3,
+      "extracted_by": "machine:abstract-finding",
+      "verified": false,
+      "notes": "自动补充；人工未核对。不要把本层当作人工金标。"
+    },
+    {
+      "evidence_id": "ai_education_em005",
+      "claim_id": "ai_education_m005",
+      "paper_id": "edu-008",
+      "stance": "support",
+      "summary": "机器抽取：摘要句，仅证明论文报告过该句，不代表已支持任何主断言",
+      "quote": "Utilising structural equation modelling (SEM) on survey data collected from 503 in-service mathematics teachers across China, the findings indicate that performance expectancy (PE), hedonic motivation (HM), and price value (PV) significantly affect teachers' behavioural intention (BI).",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.3,
+      "extracted_by": "machine:abstract-finding",
+      "verified": false,
+      "notes": "自动补充；人工未核对。不要把本层当作人工金标。"
+    },
+    {
+      "evidence_id": "ai_education_em006",
+      "claim_id": "ai_education_m006",
+      "paper_id": "edu-009",
+      "stance": "support",
+      "summary": "机器抽取：摘要句，仅证明论文报告过该句，不代表已支持任何主断言",
+      "quote": "Given the crucial role of secondary schools in nurturing students’ interest in AI and shaping their career paths, this study sought to investigate the link between secondary school students’ attitude toward AI learning, their AI literacy, and their interest in AI careers while examining possible gender differences.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.3,
+      "extracted_by": "machine:abstract-finding",
+      "verified": false,
+      "notes": "自动补充；人工未核对。不要把本层当作人工金标。"
+    },
+    {
+      "evidence_id": "ai_education_em007",
+      "claim_id": "ai_education_m007",
+      "paper_id": "edu-011",
+      "stance": "support",
+      "summary": "机器抽取：摘要句，仅证明论文报告过该句，不代表已支持任何主断言",
+      "quote": "The purpose of this study was to assess the impact of Artificial Intelligence (AI) on education.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.3,
+      "extracted_by": "machine:abstract-finding",
+      "verified": false,
+      "notes": "自动补充；人工未核对。不要把本层当作人工金标。"
+    },
+    {
+      "evidence_id": "ai_education_em008",
+      "claim_id": "ai_education_m008",
+      "paper_id": "edu-012",
+      "stance": "support",
+      "summary": "机器抽取：摘要句，仅证明论文报告过该句，不代表已支持任何主断言",
+      "quote": "Abstract This study explores university students’ perceptions of generative AI (GenAI) technologies, such as ChatGPT, in higher education, focusing on familiarity, their willingness to engage, potential benefits and challenges, and effective integration.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.3,
+      "extracted_by": "machine:abstract-finding",
+      "verified": false,
+      "notes": "自动补充；人工未核对。不要把本层当作人工金标。"
+    },
+    {
+      "evidence_id": "ai_education_em009",
+      "claim_id": "ai_education_m009",
+      "paper_id": "edu-013",
+      "stance": "support",
+      "summary": "机器抽取：摘要句，仅证明论文报告过该句，不代表已支持任何主断言",
+      "quote": "Abstract This study aims to develop an AI education policy for higher education by examining the perceptions and implications of text generative AI technologies.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.3,
+      "extracted_by": "machine:abstract-finding",
+      "verified": false,
+      "notes": "自动补充；人工未核对。不要把本层当作人工金标。"
+    },
+    {
+      "evidence_id": "ai_education_em010",
+      "claim_id": "ai_education_m010",
+      "paper_id": "edu-015",
+      "stance": "support",
+      "summary": "机器抽取：摘要句，仅证明论文报告过该句，不代表已支持任何主断言",
+      "quote": "This study contributes to the field of AI Education by presenting a model of integrating ethics into the teaching of AI that is appropriate for middle school students.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.3,
+      "extracted_by": "machine:abstract-finding",
+      "verified": false,
+      "notes": "自动补充；人工未核对。不要把本层当作人工金标。"
+    }
+  ],
+  "gaps": [],
+  "protocol": "每篇没有人工证据的论文补 1 条机器摘要句；机器层未人审，不进人工层。"
+}

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}CiteMap · 证据地图 · 引证卫士 CiteGuard{% endblock %}
 {% block content %}
-<link rel="stylesheet" href="/static/css/citemap.css?v={{ request.app.version }}">
+<link rel="stylesheet" href="/static/css/citemap.css?v={{ request.app.version }}-gen">
 {% set section_tabs = [
   ('figure', '/figure', '图表核验', '图中结论是否成立'),
   ('compare', '/compare', '多篇对比', '横向看几篇论文'),
@@ -22,15 +22,33 @@
     <h1 class="ctm-title">CiteMap · 证据地图</h1>
     <p class="ctm-lede">
       把「某篇论文支持还是反驳了哪条断言」摊开给你看：先列断言，再放带立场的证据、方法与样本，
-      最后标出证据缺口。当前共 2 个主题 × 15 篇开放获取论文，含 10 条人工示例抽取；
-      它是 schema 与证据组织方式的演示，<strong>不是全量结论</strong>。
+      最后标出证据缺口。固定示例是 2 个主题 × 15 篇开放获取论文；也可以输入主题现场检索，
+      生成机器证据地图。<strong>机器层未人审</strong>，不是全量结论。
     </p>
     <div class="ctm-hero-chips" aria-label="数据规模">
-      <span class="ctm-chip">2 个主题</span>
-      <span class="ctm-chip">30 篇开放论文</span>
+      <span class="ctm-chip">固定示例 2 个主题</span>
+      <span class="ctm-chip">可生成新主题</span>
       <span class="ctm-chip">10 条人工示例</span>
-      <span class="ctm-chip">仅读摘要 · verified=false</span>
+      <span class="ctm-chip">机器层 verified=false</span>
     </div>
+
+    <form class="ctm-generate" id="ctm-generate-form">
+      <label for="ctm-generate-topic">生成一个主题地图</label>
+      <div class="ctm-generate-row">
+        <input id="ctm-generate-topic" name="topic" maxlength="80"
+               placeholder="输入研究主题，例如：生成式 AI 与教育公平" autocomplete="off">
+        <button class="btn btn-primary" id="ctm-generate-btn" type="submit">检索并生成</button>
+      </div>
+      <p class="ctm-generate-note" id="ctm-generate-status" role="status" aria-live="polite">
+        从 OpenAlex 取有摘要、有 DOI 的论文，每篇生成一条机器断言；机器层未人审，生成后可切换主题查看。
+      </p>
+      <details class="ctm-generate-dois">
+        <summary>用自己的论文：粘贴 DOI（可选，每行一个，最多 20 个）</summary>
+        <textarea id="ctm-generate-doi-list" rows="4"
+                  placeholder="例如：&#10;10.48550/arXiv.2305.20050&#10;10.1038/s41586-023-06291-2"></textarea>
+        <p class="ctm-generate-note">填了 DOI 就不再按主题检索，只从这些论文生成机器地图；缺摘要的 DOI 会被跳过。</p>
+      </details>
+    </form>
   </section>
 
   <section class="wrap ctm-body">

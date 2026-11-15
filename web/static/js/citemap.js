@@ -23,7 +23,12 @@
     detailEmpty: document.getElementById("ctm-detail-empty"),
     detailBody: document.getElementById("ctm-detail-body"),
     verifyToggle: document.getElementById("ctm-verify-toggle"),
-    verifyCount: document.getElementById("ctm-verify-count")
+    verifyCount: document.getElementById("ctm-verify-count"),
+    generateForm: document.getElementById("ctm-generate-form"),
+    generateTopic: document.getElementById("ctm-generate-topic"),
+    generateBtn: document.getElementById("ctm-generate-btn"),
+    generateStatus: document.getElementById("ctm-generate-status"),
+    generateDois: document.getElementById("ctm-generate-doi-list")
   };
 
   if (!els.paperList || !els.detailBody) return;
@@ -427,20 +432,29 @@
 
     addStat("篇论文", numberOr(counts.papers, papers.length));
     addStat("条断言", numberOr(counts.claims, claims.length));
-    addStat("条示例证据", numberOr(counts.evidence, evidence.length));
-    addStat("条" + autoLabel(), autoUniqueForTopic().length);
+    const humanEvidence = evidence.filter(function (ev) { return !isMachineEvidence(ev); });
+    const machineEvidence = evidence.filter(isMachineEvidence);
+    const autoUniq = autoUniqueForTopic();
+    if (humanEvidence.length) addStat("条人工示例", humanEvidence.length);
+    if (machineEvidence.length || autoUniq.length) {
+      addStat("条机器证据", machineEvidence.length + autoUniq.length);
+    }
     const mergedTotal = papers.reduce(function (total, paper) {
       return total + autoDuplicatesForPaper(paper.paper_id).length;
     }, 0);
     if (mergedTotal) addStat("已合并重合", mergedTotal);
     addStat("个证据缺口", numberOr(counts.gaps, gaps.length));
 
+    const cells = payload.verification_cells || [];
+    if (els.verifyToggle) els.verifyToggle.hidden = cells.length === 0;
+    if (els.verifyCount && cells.length === 0) els.verifyCount.textContent = "";
+
     const summary = payload.verification && payload.verification.summary;
     if (summary && typeof summary.crossref_ok === "number" && typeof summary.papers === "number") {
       addStat("全库 DOI 校验", summary.crossref_ok + "/" + summary.papers);
     }
     const progress = payload.verification_progress || {};
-    if (progress.packet) {
+    if (progress.packet && cells.length) {
       addStat("抽样核对", (progress.checked || 0) + "/" + progress.packet);
     }
   }
@@ -572,6 +586,10 @@
     return claims.find(function (claim) { return claim.claim_id === claimId; }) || null;
   }
 
+  function isMachineEvidence(ev) {
+    return String(ev && ev.extracted_by ? ev.extracted_by : "").indexOf("machine:") === 0;
+  }
+
   function renderDetail(paper) {
     const body = els.detailBody;
     if (state.detailPaper !== paper.paper_id && els.detail) {
@@ -580,16 +598,18 @@
     state.detailPaper = paper.paper_id;
     body.replaceChildren();
 
-    const evidence = evidenceForPaper(paper.paper_id);
-    const autoAll = autoUniqueForPaper(paper.paper_id);
+    const allEvidence = evidenceForPaper(paper.paper_id);
+    const evidence = allEvidence.filter(function (ev) { return !isMachineEvidence(ev); });
+    const machineBase = allEvidence.filter(isMachineEvidence);
+    const autoAll = autoUniqueForPaper(paper.paper_id).concat(machineBase);
     const merged = autoDuplicatesForPaper(paper.paper_id).length;
     const head = make("header", "ctm-detail-head");
     const titleRow = make("div", "ctm-detail-title-row");
     const title = make("h2", "ctm-detail-title", paper.title || "（无标题）");
     title.title = paper.title || "";
     titleRow.append(title);
-    if (evidence.length) {
-      titleRow.append(makeTag("证据 " + evidence.length + " 条", "ctm-detail-count"));
+    if (allEvidence.length) {
+      titleRow.append(makeTag("证据 " + allEvidence.length + " 条", "ctm-detail-count"));
     }
     head.append(titleRow);
 
@@ -695,7 +715,9 @@
       group._order = idx;
       return group;
     }).filter(function (group) {
-      return group.claim || group.humans.length || group.autos.length || group.cells.length;
+      // Only claims this paper actually speaks to: a shared/master claim with
+      // no evidence and no sampled cell is just noise for the reader.
+      return group.humans.length || group.autos.length || group.cells.length;
     }).sort(function (a, b) {
       // Put groups with evidence or a sampled cell first so the reader does not
       // scroll past empty claims to reach the evidence for this paper.
@@ -818,7 +840,10 @@
     const top = make("div", "ctm-evidence-top");
     const stance = normalizeStance(ev.stance);
     top.append(makeTag(STANCE_LABELS[stance], "ctm-stance ctm-stance--" + stance));
-    top.append(makeTag(ev.atomic ? "原子证据 · 仅摘要 · 未人审" : autoLabel() + " · 仅摘要 · 未人审", "ctm-extractor ctm-extractor--auto"));
+    const autoTag = ev.atomic
+      ? "原子证据 · 仅摘要 · 未人审"
+      : (isMachineEvidence(ev) ? "机器候选 · 仅摘要 · 未人审" : autoLabel() + " · 仅摘要 · 未人审");
+    top.append(makeTag(autoTag, "ctm-extractor ctm-extractor--auto"));
     if (cell) top.append(makeTag("抽样格", "ctm-cell-tag"));
     top.append(renderConfidence(ev.confidence));
     card.append(top);
@@ -1059,7 +1084,58 @@
     selectPaper((first && first.paper_id) || (papers[0] && papers[0].paper_id) || "", false);
   }
 
+  async function onGenerate(event) {
+    event.preventDefault();
+    if (!els.generateTopic || !els.generateBtn) return;
+    const topic = els.generateTopic.value.trim();
+    if (!topic) {
+      if (els.generateStatus) {
+        els.generateStatus.textContent = "先输入一个研究主题。";
+        els.generateStatus.classList.add("is-error");
+      }
+      els.generateTopic.focus();
+      return;
+    }
+    els.generateBtn.disabled = true;
+    if (els.generateStatus) {
+      els.generateStatus.textContent = "正在检索 OpenAlex 并生成机器证据地图，通常需要 5–20 秒…";
+      els.generateStatus.classList.remove("is-error");
+      els.generateStatus.classList.add("is-busy");
+    }
+    try {
+      const dois = (els.generateDois ? els.generateDois.value : "")
+        .split(/\r?\n|[,;\s]+/)
+        .map(function (line) { return line.trim(); })
+        .filter(Boolean);
+      const response = await fetch("/api/citemap/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ topic: topic, limit: 15, dois: dois.slice(0, 20) })
+      });
+      const data = await response.json().catch(function () { return {}; });
+      if (!response.ok) {
+        const detail = typeof data.detail === "string" ? data.detail : "生成失败，请换一个主题重试。";
+        throw new Error(detail);
+      }
+      if (els.generateStatus) {
+        els.generateStatus.textContent = "已生成 " + data.papers + " 篇论文 / " + data.claims + " 条机器断言，正在打开…";
+      }
+      const url = new URL(window.location.href);
+      url.searchParams.set("topic", data.topic_id);
+      window.location.assign(url.toString());
+    } catch (error) {
+      if (els.generateStatus) {
+        els.generateStatus.textContent = error && error.message ? error.message : "生成失败，请稍后重试。";
+        els.generateStatus.classList.remove("is-busy");
+        els.generateStatus.classList.add("is-error");
+      }
+    } finally {
+      els.generateBtn.disabled = false;
+    }
+  }
+
   if (els.retry) els.retry.addEventListener("click", init);
+  if (els.generateForm) els.generateForm.addEventListener("submit", onGenerate);
   els.paperList.addEventListener("click", onPaperClick);
   if (els.verifyToggle) els.verifyToggle.addEventListener("click", onVerifyToggle);
   if (els.detailBody) {

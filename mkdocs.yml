@@ -32,6 +32,7 @@ nav:
   - 扩展 v2 验收: extension_v2.md
   - Live held-out 研究: research/live_holdout.md
   - CiteMap 证据地图: evidence_map.md
+  - CiteMap 动态生成: citemap_dynamic.md
   - CiteMap 人工核对: citemap_audit.md
   - CiteMap 105 格结果: citemap_audit_result.md
   - 长列表与检查明细: ui_patterns.md

@@ -1,0 +1,142 @@
+{
+  "schema_version": "1.0",
+  "topic": {
+    "topic_id": "dyn_15a33545",
+    "name_zh": "AI 医学影像自选论文",
+    "name_en": "AI 医学影像自选论文",
+    "question": "这些论文报告了什么？",
+    "description": "用户输入主题后现场检索生成的机器证据地图；非人工抽取，未人审。"
+  },
+  "generated_at": "2026-11-15",
+  "source": "用户提供 DOI 列表（5 篇，OpenAlex 元数据/摘要）",
+  "selection": "用户提供的 DOI 列表",
+  "notes": "机器生成，未人审；仅摘要级证据，不能当作系统综述或元分析。",
+  "papers": [
+    {
+      "paper_id": "dyn-001",
+      "title": "Application of Artificial Intelligence in Medical Imaging Diagnosis",
+      "authors": [
+        "Baoming Zhang",
+        "Weili Yue",
+        "Qiang Liu",
+        "Shi‐Min Hu"
+      ],
+      "year": 2021,
+      "venue": "International Conference on Bioinformatics and Intelligent Computing (BIC)",
+      "doi": "10.1145/3448748.3448810",
+      "openalex_id": "W3137004469",
+      "url": "https://doi.org/10.1145/3448748.3448810",
+      "license": "unknown",
+      "is_oa": false,
+      "fulltext_available": false,
+      "oa_url": "",
+      "oa_status": "closed",
+      "language": "en",
+      "topic_id": "dyn_15a33545",
+      "cn_affiliated": true,
+      "cited_by": 3,
+      "source": "openalex",
+      "notes": "用户输入主题后自动检索；仅元数据与摘要，不下载全文"
+    },
+    {
+      "paper_id": "dyn-002",
+      "title": "ChatGPT in Radiology: The Advantages and Limitations of Artificial Intelligence for Medical Imaging Diagnosis",
+      "authors": [
+        "Samriddhi Srivastav",
+        "Rashi Chandrakar",
+        "Shalvi Gupta",
+        "Vaishnavi Babhulkar",
+        "Sristy Agrawal",
+        "Arpita Jaiswal",
+        "Roshan Prasad",
+        "Mayur Bhaskarrao Wanjari"
+      ],
+      "year": 2023,
+      "venue": "Cureus",
+      "doi": "10.7759/cureus.41435",
+      "openalex_id": "W4383343032",
+      "url": "https://doi.org/10.7759/cureus.41435",
+      "license": "cc-by",
+      "is_oa": true,
+      "fulltext_available": true,
+      "oa_url": "https://assets.cureus.com/uploads/review_article/pdf/156526/20230706-13055-ib41q8.pdf",
+      "oa_status": "diamond",
+      "language": "en",
+      "topic_id": "dyn_15a33545",
+      "cn_affiliated": false,
+      "cited_by": 120,
+      "source": "openalex",
+      "notes": "用户输入主题后自动检索；仅元数据与摘要，不下载全文"
+    },
+    {
+      "paper_id": "dyn-003",
+      "title": "Application of Artificial Intelligence in Medical Imaging Diagnosis",
+      "authors": [
+        "Linyi Zhang"
+      ],
+      "year": 2020,
+      "venue": "Advanced Emergency Medicine",
+      "doi": "10.18686/aem.v9i1.155",
+      "openalex_id": "W3039878743",
+      "url": "https://doi.org/10.18686/aem.v9i1.155",
+      "license": "cc-by-nc",
+      "is_oa": true,
+      "fulltext_available": true,
+      "oa_url": "http://aem.usp-pl.com/index.php/aem/article/download/155/154",
+      "oa_status": "diamond",
+      "language": "en",
+      "topic_id": "dyn_15a33545",
+      "cn_affiliated": true,
+      "cited_by": 5,
+      "source": "openalex",
+      "notes": "用户输入主题后自动检索；仅元数据与摘要，不下载全文"
+    },
+    {
+      "paper_id": "dyn-004",
+      "title": "Research on the application of artificial intelligence in medical imaging diagnosis",
+      "authors": [
+        "Yanli Zhao",
+        "Xiaomin Li"
+      ],
+      "year": 2022,
+      "venue": "2022 Global Conference on Robotics, Artificial Intelligence and Information Technology (GCRAIT)",
+      "doi": "10.1109/gcrait55928.2022.00057",
+      "openalex_id": "W4312529860",
+      "url": "https://doi.org/10.1109/gcrait55928.2022.00057",
+      "license": "unknown",
+      "is_oa": false,
+      "fulltext_available": false,
+      "oa_url": "",
+      "oa_status": "closed",
+      "language": "en",
+      "topic_id": "dyn_15a33545",
+      "cn_affiliated": true,
+      "cited_by": 7,
+      "source": "openalex",
+      "notes": "用户输入主题后自动检索；仅元数据与摘要，不下载全文"
+    },
+    {
+      "paper_id": "dyn-005",
+      "title": "Application Status and Prospect of Artificial Intelligence in Medical Image Diagnosis",
+      "authors": [
+        "Jing Wang"
+      ],
+      "year": 2024,
+      "venue": "Medical Imaging and Radiology Journal",
+      "doi": "10.26855/mirj.2024.12.001",
+      "openalex_id": "W4408513946",
+      "url": "https://doi.org/10.26855/mirj.2024.12.001",
+      "license": "cc-by",
+      "is_oa": true,
+      "fulltext_available": true,
+      "oa_url": "https://www.hillpublisher.com/UpFile/202412/20241219103738.pdf",
+      "oa_status": "hybrid",
+      "language": "en",
+      "topic_id": "dyn_15a33545",
+      "cn_affiliated": true,
+      "cited_by": 0,
+      "source": "openalex",
+      "notes": "用户输入主题后自动检索；仅元数据与摘要，不下载全文"
+    }
+  ]
+}

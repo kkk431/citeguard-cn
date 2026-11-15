@@ -1,0 +1,133 @@
+{
+  "schema_version": "1.0",
+  "topic": {
+    "topic_id": "dyn_15a33545",
+    "name_zh": "AI 医学影像自选论文",
+    "name_en": "AI 医学影像自选论文",
+    "question": "这些论文报告了什么？",
+    "description": "用户输入主题后现场检索生成的机器证据地图；非人工抽取，未人审。"
+  },
+  "extractor": "machine:abstract-finding",
+  "extracted_at": "2026-11-15",
+  "protocol": "每篇摘要选一句结果句作为机器断言；引用为该句；未做跨论文核对。",
+  "claims": [
+    {
+      "claim_id": "dyn_15a33545-c001",
+      "topic_id": "dyn_15a33545",
+      "text": "Based on this, this paper reviews and discusses the medical image diagnosis based on artificial intelligence in recent years, introduces the procedure of medical image diagnosis, the algorithms involved and the key progress, analyzes the shortcomings of the current technology, and the possible development direction in the future.",
+      "population": "",
+      "outcome": "",
+      "direction": "",
+      "notes": "机器生成：摘要中的结果句，未人审"
+    },
+    {
+      "claim_id": "dyn_15a33545-c002",
+      "topic_id": "dyn_15a33545",
+      "text": "Despite these challenges, ChatGPT has the potential to significantly impact radiology and medical imaging diagnosis.",
+      "population": "",
+      "outcome": "",
+      "direction": "",
+      "notes": "机器生成：摘要中的结果句，未人审"
+    },
+    {
+      "claim_id": "dyn_15a33545-c003",
+      "topic_id": "dyn_15a33545",
+      "text": "Artificial intelligence uses deep learning, image segmentation, neural networks and other algorithms flexibly in image recognition through learning data sets to extract features for accurate diagnosis of clinical diseases.",
+      "population": "",
+      "outcome": "",
+      "direction": "",
+      "notes": "机器生成：摘要中的结果句，未人审"
+    },
+    {
+      "claim_id": "dyn_15a33545-c004",
+      "topic_id": "dyn_15a33545",
+      "text": "This paper first expounds the research status for artificial intelligence technology in medical imaging diagnosis, and illustrates the importance of computer-aided diagnosis with examples; Secondly, the current bottlenecks in the development of computer-aided diagnosis technology are analyzed in detail from the aspects of technology, industry and application; Finally, based on the previous analysis, the paper puts fo",
+      "population": "",
+      "outcome": "",
+      "direction": "",
+      "notes": "机器生成：摘要中的结果句，未人审"
+    },
+    {
+      "claim_id": "dyn_15a33545-c005",
+      "topic_id": "dyn_15a33545",
+      "text": "Through deep learning and neural network technology, artificial intelligence can help doctors quickly and accurately identify abnormalities in X-rays, MRI and CT images, improving the efficiency and accuracy of medical image diagnosis.",
+      "population": "",
+      "outcome": "",
+      "direction": "",
+      "notes": "机器生成：摘要中的结果句，未人审"
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "dyn_15a33545-e001",
+      "claim_id": "dyn_15a33545-c001",
+      "paper_id": "dyn-001",
+      "stance": "support",
+      "summary": "机器抽取：摘要结果句，仅证明论文报告过该发现，不做跨论文综合",
+      "quote": "Based on this, this paper reviews and discusses the medical image diagnosis based on artificial intelligence in recent years, introduces the procedure of medical image diagnosis, the algorithms involved and the key progress, analyzes the shortcomings of the current technology, and the possible development direction in the future.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.35,
+      "extracted_by": "machine:abstract-finding",
+      "verified": false,
+      "notes": "自动生成；人工未核对。不要把本层当作人工金标。"
+    },
+    {
+      "evidence_id": "dyn_15a33545-e002",
+      "claim_id": "dyn_15a33545-c002",
+      "paper_id": "dyn-002",
+      "stance": "support",
+      "summary": "机器抽取：摘要结果句，仅证明论文报告过该发现，不做跨论文综合",
+      "quote": "Despite these challenges, ChatGPT has the potential to significantly impact radiology and medical imaging diagnosis.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.35,
+      "extracted_by": "machine:abstract-finding",
+      "verified": false,
+      "notes": "自动生成；人工未核对。不要把本层当作人工金标。"
+    },
+    {
+      "evidence_id": "dyn_15a33545-e003",
+      "claim_id": "dyn_15a33545-c003",
+      "paper_id": "dyn-003",
+      "stance": "support",
+      "summary": "机器抽取：摘要结果句，仅证明论文报告过该发现，不做跨论文综合",
+      "quote": "Artificial intelligence uses deep learning, image segmentation, neural networks and other algorithms flexibly in image recognition through learning data sets to extract features for accurate diagnosis of clinical diseases.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.35,
+      "extracted_by": "machine:abstract-finding",
+      "verified": false,
+      "notes": "自动生成；人工未核对。不要把本层当作人工金标。"
+    },
+    {
+      "evidence_id": "dyn_15a33545-e004",
+      "claim_id": "dyn_15a33545-c004",
+      "paper_id": "dyn-004",
+      "stance": "support",
+      "summary": "机器抽取：摘要结果句，仅证明论文报告过该发现，不做跨论文综合",
+      "quote": "This paper first expounds the research status for artificial intelligence technology in medical imaging diagnosis, and illustrates the importance of computer-aided diagnosis with examples; Secondly, the current bottlenecks in the development of computer-aided diagnosis technology are analyzed in detail from the aspects of technology, industry and application; Finally, based on the previous analysis, the paper puts fo",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.35,
+      "extracted_by": "machine:abstract-finding",
+      "verified": false,
+      "notes": "自动生成；人工未核对。不要把本层当作人工金标。"
+    },
+    {
+      "evidence_id": "dyn_15a33545-e005",
+      "claim_id": "dyn_15a33545-c005",
+      "paper_id": "dyn-005",
+      "stance": "support",
+      "summary": "机器抽取：摘要结果句，仅证明论文报告过该发现，不做跨论文综合",
+      "quote": "Through deep learning and neural network technology, artificial intelligence can help doctors quickly and accurately identify abnormalities in X-rays, MRI and CT images, improving the efficiency and accuracy of medical image diagnosis.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.35,
+      "extracted_by": "machine:abstract-finding",
+      "verified": false,
+      "notes": "自动生成；人工未核对。不要把本层当作人工金标。"
+    }
+  ],
+  "gaps": []
+}

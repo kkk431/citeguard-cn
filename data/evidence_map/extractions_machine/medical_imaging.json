@@ -1,0 +1,246 @@
+{
+  "schema_version": "1.0",
+  "topic": {
+    "topic_id": "medical_imaging",
+    "name_zh": "医学影像 AI",
+    "name_en": "AI in Medical Imaging",
+    "question": "深度学习影像诊断模型的临床性能、外部验证、公平性与监管证据如何？",
+    "description": "聚焦 CT/MRI/超声等影像任务的诊断性能、多中心外部验证、公平性风险与中国 AI 医疗器械审批；每个主题 15 篇开放获取论文，含中国机构署名研究与高被引国际对照研究。"
+  },
+  "claims": [
+    {
+      "claim_id": "medical_imaging_m001",
+      "topic_id": "medical_imaging",
+      "text": "The experimental results show the significant performance boost by the SDAE-based CADx algorithm over the two conventional methods, suggesting that deep learning techniques can potentially change the design paradigm of the CADx systems without the need of explicit design and selection of problem-oriented features.",
+      "population": "",
+      "outcome": "",
+      "direction": "",
+      "notes": "机器生成：摘要句，未人审；仅补足该论文的一张机器卡片"
+    },
+    {
+      "claim_id": "medical_imaging_m002",
+      "topic_id": "medical_imaging",
+      "text": "The accuracy, sensitivity, specificity and AUC was 97.8%, 97.0%, 98.5%, and 0.99, the radiologist presented accuracy, sensitivity, and specificity as 95.3%, 96.4 and 94.2%.",
+      "population": "",
+      "outcome": "",
+      "direction": "",
+      "notes": "机器生成：摘要句，未人审；仅补足该论文的一张机器卡片"
+    },
+    {
+      "claim_id": "medical_imaging_m003",
+      "topic_id": "medical_imaging",
+      "text": "In this paper, a hybrid deep learning approach has been proposed based on U-Net for image segmentation, Inception-ResNet-v2 for feature extraction, and the Vision Transformer model with a self-attention mechanism for refining the features for early and accurate diagnosis and classification of skin cancer.",
+      "population": "",
+      "outcome": "",
+      "direction": "",
+      "notes": "机器生成：摘要句，未人审；仅补足该论文的一张机器卡片"
+    },
+    {
+      "claim_id": "medical_imaging_m004",
+      "topic_id": "medical_imaging",
+      "text": "In this study, we evaluated the diagnostic capability, image quality, and radiation dose of abdominal ultra-low-dose CT (ULDCT) with deep learning reconstruction (DLR) for detecting renal calculi.",
+      "population": "",
+      "outcome": "",
+      "direction": "",
+      "notes": "机器生成：摘要句，未人审；仅补足该论文的一张机器卡片"
+    },
+    {
+      "claim_id": "medical_imaging_m005",
+      "topic_id": "medical_imaging",
+      "text": "Introduction: The incidence of thyroid diseases has increased in recent years, and cervical lymph node metastasis (LNM) is considered an important risk factor for locoregional recurrence.",
+      "population": "",
+      "outcome": "",
+      "direction": "",
+      "notes": "机器生成：摘要句，未人审；仅补足该论文的一张机器卡片"
+    },
+    {
+      "claim_id": "medical_imaging_m006",
+      "topic_id": "medical_imaging",
+      "text": "PURPOSE: This study aims to develop and evaluate deep learning models for the detection and classification of hypermetabolic lung lesions into four categories: benign, lung cancer, pulmonary lymphoma, and metastasis.",
+      "population": "",
+      "outcome": "",
+      "direction": "",
+      "notes": "机器生成：摘要句，未人审；仅补足该论文的一张机器卡片"
+    },
+    {
+      "claim_id": "medical_imaging_m007",
+      "topic_id": "medical_imaging",
+      "text": "At the same time, Delong test method was used to conduct AUC analysis on the three models, and the results showed that model C was more effective than model A and model B.",
+      "population": "",
+      "outcome": "",
+      "direction": "",
+      "notes": "机器生成：摘要句，未人审；仅补足该论文的一张机器卡片"
+    },
+    {
+      "claim_id": "medical_imaging_m008",
+      "topic_id": "medical_imaging",
+      "text": "Findings Eighty-one Chinese experts reached consensus on 30 clinically practical statements covering AI applications from early detection to deployment.",
+      "population": "",
+      "outcome": "",
+      "direction": "",
+      "notes": "机器生成：摘要句，未人审；仅补足该论文的一张机器卡片"
+    },
+    {
+      "claim_id": "medical_imaging_m009",
+      "topic_id": "medical_imaging",
+      "text": "Deep learning significantly surpassed radiomics models and radiologist assessments, with high computational efficiency (segmentation: 10.5 ± 3.8 s, inference: 1.3 ± 0.4 s).",
+      "population": "",
+      "outcome": "",
+      "direction": "",
+      "notes": "机器生成：摘要句，未人审；仅补足该论文的一张机器卡片"
+    },
+    {
+      "claim_id": "medical_imaging_m010",
+      "topic_id": "medical_imaging",
+      "text": "At the beginning of the artificial intelligence (AI)/machine learning (ML) era, the expectations are high, and experts foresee that AI/ML shows potential for diagnosing, managing and treating a wide variety of medical conditions.",
+      "population": "",
+      "outcome": "",
+      "direction": "",
+      "notes": "机器生成：摘要句，未人审；仅补足该论文的一张机器卡片"
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "medical_imaging_em001",
+      "claim_id": "medical_imaging_m001",
+      "paper_id": "med-001",
+      "stance": "support",
+      "summary": "机器抽取：摘要句，仅证明论文报告过该句，不代表已支持任何主断言",
+      "quote": "The experimental results show the significant performance boost by the SDAE-based CADx algorithm over the two conventional methods, suggesting that deep learning techniques can potentially change the design paradigm of the CADx systems without the need of explicit design and selection of problem-oriented features.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.3,
+      "extracted_by": "machine:abstract-finding",
+      "verified": false,
+      "notes": "自动补充；人工未核对。不要把本层当作人工金标。"
+    },
+    {
+      "evidence_id": "medical_imaging_em002",
+      "claim_id": "medical_imaging_m002",
+      "paper_id": "med-003",
+      "stance": "support",
+      "summary": "机器抽取：摘要句，仅证明论文报告过该句，不代表已支持任何主断言",
+      "quote": "The accuracy, sensitivity, specificity and AUC was 97.8%, 97.0%, 98.5%, and 0.99, the radiologist presented accuracy, sensitivity, and specificity as 95.3%, 96.4 and 94.2%.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.3,
+      "extracted_by": "machine:abstract-finding",
+      "verified": false,
+      "notes": "自动补充；人工未核对。不要把本层当作人工金标。"
+    },
+    {
+      "evidence_id": "medical_imaging_em003",
+      "claim_id": "medical_imaging_m003",
+      "paper_id": "med-005",
+      "stance": "support",
+      "summary": "机器抽取：摘要句，仅证明论文报告过该句，不代表已支持任何主断言",
+      "quote": "In this paper, a hybrid deep learning approach has been proposed based on U-Net for image segmentation, Inception-ResNet-v2 for feature extraction, and the Vision Transformer model with a self-attention mechanism for refining the features for early and accurate diagnosis and classification of skin cancer.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.3,
+      "extracted_by": "machine:abstract-finding",
+      "verified": false,
+      "notes": "自动补充；人工未核对。不要把本层当作人工金标。"
+    },
+    {
+      "evidence_id": "medical_imaging_em004",
+      "claim_id": "medical_imaging_m004",
+      "paper_id": "med-006",
+      "stance": "support",
+      "summary": "机器抽取：摘要句，仅证明论文报告过该句，不代表已支持任何主断言",
+      "quote": "In this study, we evaluated the diagnostic capability, image quality, and radiation dose of abdominal ultra-low-dose CT (ULDCT) with deep learning reconstruction (DLR) for detecting renal calculi.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.3,
+      "extracted_by": "machine:abstract-finding",
+      "verified": false,
+      "notes": "自动补充；人工未核对。不要把本层当作人工金标。"
+    },
+    {
+      "evidence_id": "medical_imaging_em005",
+      "claim_id": "medical_imaging_m005",
+      "paper_id": "med-007",
+      "stance": "support",
+      "summary": "机器抽取：摘要句，仅证明论文报告过该句，不代表已支持任何主断言",
+      "quote": "Introduction: The incidence of thyroid diseases has increased in recent years, and cervical lymph node metastasis (LNM) is considered an important risk factor for locoregional recurrence.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.3,
+      "extracted_by": "machine:abstract-finding",
+      "verified": false,
+      "notes": "自动补充；人工未核对。不要把本层当作人工金标。"
+    },
+    {
+      "evidence_id": "medical_imaging_em006",
+      "claim_id": "medical_imaging_m006",
+      "paper_id": "med-008",
+      "stance": "support",
+      "summary": "机器抽取：摘要句，仅证明论文报告过该句，不代表已支持任何主断言",
+      "quote": "PURPOSE: This study aims to develop and evaluate deep learning models for the detection and classification of hypermetabolic lung lesions into four categories: benign, lung cancer, pulmonary lymphoma, and metastasis.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.3,
+      "extracted_by": "machine:abstract-finding",
+      "verified": false,
+      "notes": "自动补充；人工未核对。不要把本层当作人工金标。"
+    },
+    {
+      "evidence_id": "medical_imaging_em007",
+      "claim_id": "medical_imaging_m007",
+      "paper_id": "med-010",
+      "stance": "support",
+      "summary": "机器抽取：摘要句，仅证明论文报告过该句，不代表已支持任何主断言",
+      "quote": "At the same time, Delong test method was used to conduct AUC analysis on the three models, and the results showed that model C was more effective than model A and model B.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.3,
+      "extracted_by": "machine:abstract-finding",
+      "verified": false,
+      "notes": "自动补充；人工未核对。不要把本层当作人工金标。"
+    },
+    {
+      "evidence_id": "medical_imaging_em008",
+      "claim_id": "medical_imaging_m008",
+      "paper_id": "med-011",
+      "stance": "support",
+      "summary": "机器抽取：摘要句，仅证明论文报告过该句，不代表已支持任何主断言",
+      "quote": "Findings Eighty-one Chinese experts reached consensus on 30 clinically practical statements covering AI applications from early detection to deployment.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.3,
+      "extracted_by": "machine:abstract-finding",
+      "verified": false,
+      "notes": "自动补充；人工未核对。不要把本层当作人工金标。"
+    },
+    {
+      "evidence_id": "medical_imaging_em009",
+      "claim_id": "medical_imaging_m009",
+      "paper_id": "med-013",
+      "stance": "support",
+      "summary": "机器抽取：摘要句，仅证明论文报告过该句，不代表已支持任何主断言",
+      "quote": "Deep learning significantly surpassed radiomics models and radiologist assessments, with high computational efficiency (segmentation: 10.5 ± 3.8 s, inference: 1.3 ± 0.4 s).",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.3,
+      "extracted_by": "machine:abstract-finding",
+      "verified": false,
+      "notes": "自动补充；人工未核对。不要把本层当作人工金标。"
+    },
+    {
+      "evidence_id": "medical_imaging_em010",
+      "claim_id": "medical_imaging_m010",
+      "paper_id": "med-014",
+      "stance": "support",
+      "summary": "机器抽取：摘要句，仅证明论文报告过该句，不代表已支持任何主断言",
+      "quote": "At the beginning of the artificial intelligence (AI)/machine learning (ML) era, the expectations are high, and experts foresee that AI/ML shows potential for diagnosing, managing and treating a wide variety of medical conditions.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.3,
+      "extracted_by": "machine:abstract-finding",
+      "verified": false,
+      "notes": "自动补充；人工未核对。不要把本层当作人工金标。"
+    }
+  ],
+  "gaps": [],
+  "protocol": "每篇没有人工证据的论文补 1 条机器摘要句；机器层未人审，不进人工层。"
+}

@@ -1,8 +1,47 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-11-14",
+  "generated_at": "2026-11-15",
   "data_dir": "data/evidence_map",
   "topics": [
+    {
+      "topic_id": "dyn_15a33545",
+      "name_zh": "AI 医学影像自选论文",
+      "name_en": "AI 医学影像自选论文",
+      "question": "这些论文报告了什么？",
+      "corpus": "dynamic/dyn_15a33545/corpus.json",
+      "extractions": "dynamic/dyn_15a33545/extractions.json",
+      "papers": 5,
+      "claims": 5,
+      "evidence": 5,
+      "gaps": 0,
+      "machine": true
+    },
+    {
+      "topic_id": "dyn_71617152",
+      "name_zh": "人工智能 医学影像",
+      "name_en": "人工智能 医学影像",
+      "question": "人工智能 医学影像 的主要证据、争议与空白是什么？",
+      "corpus": "dynamic/dyn_71617152/corpus.json",
+      "extractions": "dynamic/dyn_71617152/extractions.json",
+      "papers": 12,
+      "claims": 12,
+      "evidence": 12,
+      "gaps": 0,
+      "machine": true
+    },
+    {
+      "topic_id": "dyn_fd18b41e",
+      "name_zh": "生成式 AI 与教育公平",
+      "name_en": "生成式 AI 与教育公平",
+      "question": "生成式 AI 与教育公平 的主要证据、争议与空白是什么？",
+      "corpus": "dynamic/dyn_fd18b41e/corpus.json",
+      "extractions": "dynamic/dyn_fd18b41e/extractions.json",
+      "papers": 12,
+      "claims": 12,
+      "evidence": 12,
+      "gaps": 0,
+      "machine": true
+    },
     {
       "topic_id": "ai_education",
       "name_zh": "人工智能教育",

@@ -418,3 +418,13 @@ payload = em.topic_payload("ai_education")  # JSON-ready dict，供 Web 层直�
 | 10 条人工示例抽取 | ✅ | 每个主题 5 条，共 10 条；含 quote/locator/method/sample/confidence |
 | schema 校验 / manifest 唯一性 / 抽取可解析 | ✅ | `pytest tests/test_evidence_map.py -q` → 87 passed |
 | DOI 可解析（队长抽查 5 篇） | ✅（30/30 已预核验） | `verification.json`：Crossref 30/30、handle 30/30 |
+
+## 静态地图的机器层（2026-11-15）
+
+固定示例的 30 篇论文现在每篇至少有一张机器卡片，人工示例层不被覆盖：
+
+- 每个主题（`ai_education`、`medical_imaging`）新增 10 条机器断言 + 10 条机器证据，论文覆盖从 5/15 提升到 15/15；两主题合计 **30/30 篇有卡**。
+- `claim_id` 为 `<topic>_mNNN`，`evidence_id` 为 `<topic>_emNNN`，`extracted_by="machine:abstract-finding"`，`verified=false`；界面统一标注「机器候选 · 仅摘要 · 未人审」。
+- 机器断言是论文摘要中的一个结果句，**只表示论文报告过该句**，不是跨论文综合，也不代表支持任何人工主断言。
+- 复现：`python scripts/fill_citemap_machine.py`（幂等，会先移除旧的 `<topic>_mNNN` / `<topic>_emNNN` 层，再补齐无人工证据的论文）。
+- 校验：`tests/test_citemap_machine_layer.py` 断言 30 篇全覆盖、机器层字段合法、人工证据未被改写。

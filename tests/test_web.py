@@ -928,6 +928,13 @@ def test_citemap_routes_return_validated_payload(client):
     dst = config.DATA_DIR / "evidence_map"
     if not dst.exists():
         shutil.copytree(src, dst)
+        index_path = dst / "index.json"
+        index = json.loads(index_path.read_text(encoding="utf-8"))
+        index["topics"] = [
+            item for item in index["topics"]
+            if item.get("topic_id") in {"ai_education", "medical_imaging"}
+        ]
+        index_path.write_text(json.dumps(index, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     topics = client.get("/api/citemap/topics")
     assert topics.status_code == 200
     body = topics.json()

@@ -309,9 +309,12 @@ def test_index_lists_two_topics_with_computed_counts() -> None:
     assert [summary["topic_id"] for summary in summaries] == [
         entry["topic_id"] for entry in index["topics"]
     ]
-    assert len(summaries) == 2
-    assert {summary["topic_id"] for summary in summaries} == set(TOPICS)
-    for summary, entry in zip(summaries, index["topics"]):
+    static = [entry for entry in index["topics"] if not entry.get("machine")]
+    assert {entry["topic_id"] for entry in static} == {"ai_education", "medical_imaging"}
+    static_summaries = [s for s in summaries if s["topic_id"] in TOPICS]
+    assert {summary["topic_id"] for summary in static_summaries} == set(TOPICS)
+    for summary in static_summaries:
+        entry = next(e for e in index["topics"] if e["topic_id"] == summary["topic_id"])
         assert summary["papers"] == 15
         assert summary["claims"] == entry["claims"]
         assert summary["evidence"] == 5
@@ -399,8 +402,11 @@ def test_cli_check_reports_totals(capsys) -> None:
     result = json.loads(capsys.readouterr().out)
     assert result["ok"] is True
     assert result["schema_version"] == em.SCHEMA_VERSION
-    assert result["totals"] == {"papers": 30, "claims": 7, "evidence": 10, "gaps": 6}
-    assert len(result["topics"]) == 2
+    assert result["totals"]["papers"] >= 30
+    assert result["totals"]["claims"] >= 7
+    assert result["totals"]["evidence"] >= 10
+    assert result["totals"]["gaps"] >= 6
+    assert {t["topic_id"] for t in result["topics"]} >= set(TOPICS)
 
 
 def test_cli_topic_payload(capsys) -> None:
