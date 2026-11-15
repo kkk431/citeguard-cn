@@ -146,6 +146,12 @@ def main() -> int:
     ap.add_argument("--data-dir", default="data/evidence_map")
     ap.add_argument("--out", default="dist/citemap_audit")
     ap.add_argument("--seed", type=int, default=20261114)
+    ap.add_argument(
+        "--grid",
+        choices=["sampled", "full"],
+        default="sampled",
+        help="reviewer files use the 60-cell stratified sample (default) or the full 105-cell grid",
+    )
     args = ap.parse_args()
 
     data = Path(args.data_dir)
@@ -220,6 +226,14 @@ def main() -> int:
                 full.append(row)
     _write_csv(out / "full_grid_105_optional.csv", _shuffle(full, "FULL", args.seed))
 
+    if args.grid == "full":
+        for reviewer in REVIEWER_IDS:
+            rows = _shuffle([dict(r) for r in full], reviewer, args.seed)
+            _write_csv(out / f"reviewer_{reviewer}.csv", rows)
+        reviewer_cells = len(full)
+    else:
+        reviewer_cells = len(sampled)
+
     # ---- organizer key ------------------------------------------------------
     key_cols = [
         "cell_id",
@@ -234,28 +248,8 @@ def main() -> int:
         "sampled_60",
         "full_grid_105",
     ]
-    key_rows = []
-    for row in sampled:
-        cell = packet_by_id[row["cell_id"]]
-        key_rows.append(
-            {
-                "cell_id": row["cell_id"],
-                "topic_id": row["topic_id"],
-                "paper_id": row["paper_id"],
-                "claim_id": row["claim_id"],
-                "cell_kind": row["cell_kind"],
-                "machine_stance": row["machine_stance"],
-                "machine_confidence": row["machine_confidence"],
-                "evidence_id": cell.get("evidence_id", ""),
-                "evidence_quote": row["evidence_quote"],
-                "sampled_60": "1",
-                "full_grid_105": "0",
-            }
-        )
-    for row in full:
-        if row["cell_id"] in packet_by_id:
-            continue
-        key_rows.append(
+    if args.grid == "full":
+        key_rows = [
             {
                 "cell_id": row["cell_id"],
                 "topic_id": row["topic_id"],
@@ -266,10 +260,48 @@ def main() -> int:
                 "machine_confidence": row["machine_confidence"],
                 "evidence_id": "",
                 "evidence_quote": row["evidence_quote"],
-                "sampled_60": "0",
+                "sampled_60": "",
                 "full_grid_105": "1",
             }
-        )
+            for row in full
+        ]
+    else:
+        key_rows = []
+        for row in sampled:
+            cell = packet_by_id[row["cell_id"]]
+            key_rows.append(
+                {
+                    "cell_id": row["cell_id"],
+                    "topic_id": row["topic_id"],
+                    "paper_id": row["paper_id"],
+                    "claim_id": row["claim_id"],
+                    "cell_kind": row["cell_kind"],
+                    "machine_stance": row["machine_stance"],
+                    "machine_confidence": row["machine_confidence"],
+                    "evidence_id": cell.get("evidence_id", ""),
+                    "evidence_quote": row["evidence_quote"],
+                    "sampled_60": "1",
+                    "full_grid_105": "0",
+                }
+            )
+        for row in full:
+            if row["cell_id"] in packet_by_id:
+                continue
+            key_rows.append(
+                {
+                    "cell_id": row["cell_id"],
+                    "topic_id": row["topic_id"],
+                    "paper_id": row["paper_id"],
+                    "claim_id": row["claim_id"],
+                    "cell_kind": row["cell_kind"],
+                    "machine_stance": row["machine_stance"],
+                    "machine_confidence": row["machine_confidence"],
+                    "evidence_id": "",
+                    "evidence_quote": row["evidence_quote"],
+                    "sampled_60": "0",
+                    "full_grid_105": "1",
+                }
+            )
     with (out / "_organizer_only_key.csv").open(
         "w", encoding="utf-8-sig", newline=""
     ) as fh:
@@ -303,7 +335,7 @@ def main() -> int:
         )
 
     (out / "README_核对说明.md").write_text(
-        _instructions(len(sampled), len(full), date.today().isoformat()),
+        _instructions(reviewer_cells, len(full), date.today().isoformat(), args.grid),
         encoding="utf-8",
     )
     summary = {
@@ -323,15 +355,23 @@ def main() -> int:
     return 0
 
 
-def _instructions(sampled: int, full: int, generated: str) -> str:
+def _instructions(reviewer_cells: int, full: int, generated: str, grid: str = "sampled") -> str:
+    if grid == "full":
+        scope = f"本包是**全量 {full} 格**（2 主题 × 15 篇 × 该主题断言数），不是抽样。"
+        time_hint = f"大概 2.5–3 小时/{full} 格。可以分 2–3 次，但不要隔太多天，避免口径漂移。"
+    else:
+        scope = f"本包是 **{reviewer_cells}/{full} 格分层抽样**（约 57%），不是全量。"
+        time_hint = "大概 1.5–2 小时/60 格。可以分两次，但不要隔太多天，避免口径漂移。"
     return f"""# CiteMap 人工核对包（CSV 版）
 
 生成日期：{generated}
 
+> {scope}
+
 ## 文件
 
-- `reviewer_A.csv` / `reviewer_B.csv` / `reviewer_C.csv`：**发给核对人**。每份 {sampled} 格，顺序不同，内容相同；不需要 C 就只发 A/B。
-- `full_grid_105_optional.csv`：可选的**全量网格**（{full} 格 = 2 主题 × 15 篇 × 该主题断言数）。时间有限时不要用，优先 60 格抽样。
+- `reviewer_A.csv` / `reviewer_B.csv` / `reviewer_C.csv`：**发给核对人**。每份 {reviewer_cells} 格，顺序不同，内容相同；不需要 C 就只发 A/B。
+- `full_grid_105_optional.csv`：全量网格（{full} 格 = 2 主题 × 15 篇 × 该主题断言数）。
 - `_organizer_only_key.csv`：**只自己保留**，含机器证据、置信度、抽样标记，不要发给核对人。
 - `adjudication_sheet.csv`：两人结果不一致时的仲裁表，空白模板。
 - `manifest.json`：生成信息。
@@ -348,7 +388,7 @@ def _instructions(sampled: int, full: int, generated: str) -> str:
 4. 判定口径：
    - **机器证据格**：证据句必须能在 `paper_abstract` 中**逐字找到**；还要对得上断言、立场、方法/样本。全对才填“正确”。
    - **无机器证据格**：看摘要里是否其实存在能支持/反驳该断言的证据。确实没有 → `正确`；其实有 → `有问题` 且 issue_type 填 `断言错配`；摘要不足 → `跳过`。
-5. 大概 1.5–2 小时/60 格。可以分两次，但不要隔太多天，避免口径漂移。
+5. {time_hint}
 
 ## 回收后怎么算
 

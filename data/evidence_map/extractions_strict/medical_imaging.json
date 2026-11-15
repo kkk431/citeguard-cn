@@ -1,0 +1,39 @@
+{
+ "schema_version": "1.0",
+ "topic_id": "medical_imaging",
+ "extractor": "strict-verifier:v1",
+ "extracted_at": "2026-11-15",
+ "protocol": "v1 abstract candidates filtered by an independent strict reviewer; machine-only, verified=false.",
+ "evidence": [
+  {
+   "evidence_id": "auto-med-007-01",
+   "claim_id": "med-c1",
+   "paper_id": "med-007",
+   "stance": "support",
+   "summary": "该模型在诊断甲状腺癌颈部淋巴结转移时表现优于放射科医生。",
+   "quote": "It outperformed radiologists with an area under the curve of 0.894.",
+   "locator": "Abstract",
+   "method": "使用改进的基于区域的检测网络和具有注意力模块的残差网络进行分类。",
+   "sample": "676个淋巴结（103个良性，573个恶性）来自196名接受CT检查进行手术计划的患者。",
+   "confidence": 0.9,
+   "verified": false,
+   "extractor": "strict-verifier:v1",
+   "verifier_reason": "The quote states the deep learning method outperformed radiologists (AUC 0.894) on a CT-based lymph node metastasis classification task, which directly supports the claim that deep learning can reach or approach specialist-level performance on CT imaging diagnostic tasks."
+  },
+  {
+   "evidence_id": "auto-med-013-01",
+   "claim_id": "med-c1",
+   "paper_id": "med-013",
+   "stance": "support",
+   "summary": "深度学习模型在诊断急性胆囊炎和预测化脓性胆囊炎方面表现优于放射组学模型和放射科医生评估",
+   "quote": "Deep learning significantly surpassed radiomics models and radiologist assessments",
+   "locator": "Abstract",
+   "method": "比较深度学习模型与放射组学模型和放射科医生评估",
+   "sample": "641名来自三个医疗中心的患者",
+   "confidence": 0.9,
+   "verified": false,
+   "extractor": "strict-verifier:v1",
+   "verifier_reason": "The quote states deep learning significantly surpassed radiologist assessments in a CT diagnosis task, which directly supports the claim that deep learning can reach or approach specialist-level performance in imaging diagnosis."
+  }
+ ]
+}

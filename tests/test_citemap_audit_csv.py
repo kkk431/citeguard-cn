@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import csv
 import subprocess
@@ -43,6 +43,33 @@ def test_build_citemap_audit_csv(tmp_path: Path) -> None:
     key = list(csv.DictReader((out / "_organizer_only_key.csv").open(encoding="utf-8-sig")))
     assert len(key) == 165
     assert sum(row["sampled_60"] == "1" for row in key) == 60
+
+
+def test_build_citemap_audit_csv_full_grid(tmp_path: Path) -> None:
+    out = tmp_path / "audit_full"
+    proc = subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts" / "build_citemap_audit_csv.py"),
+            "--grid",
+            "full",
+            "--out",
+            str(out),
+        ],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+    )
+    assert proc.returncode == 0, proc.stderr
+    for reviewer in ("A", "B", "C"):
+        rows = list(csv.DictReader((out / f"reviewer_{reviewer}.csv").open(encoding="utf-8-sig")))
+        assert len(rows) == 105
+        assert all(not row["verify_verdict"] for row in rows)
+    key = list(csv.DictReader((out / "_organizer_only_key.csv").open(encoding="utf-8-sig")))
+    assert len(key) == 105
+    assert all(row["full_grid_105"] == "1" for row in key)
 
 
 def test_verdict_aliases_and_intervals() -> None:

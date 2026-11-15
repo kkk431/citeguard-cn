@@ -423,7 +423,7 @@
     addStat("篇论文", numberOr(counts.papers, papers.length));
     addStat("条断言", numberOr(counts.claims, claims.length));
     addStat("条示例证据", numberOr(counts.evidence, evidence.length));
-    addStat("条机器证据", autoUniqueForTopic().length);
+    addStat("条机器候选", autoUniqueForTopic().length);
     const mergedTotal = papers.reduce(function (total, paper) {
       return total + autoDuplicatesForPaper(paper.paper_id).length;
     }, 0);
@@ -477,7 +477,7 @@
       if (paper.is_oa) tags.append(makeTag("OA", "ctm-tag--oa"));
       const autoCount = autoUniqueForPaper(paper.paper_id).length;
       const autoMerged = autoDuplicatesForPaper(paper.paper_id).length;
-      if (autoCount) tags.append(makeTag("机器证据 " + autoCount, "ctm-tag--auto"));
+      if (autoCount) tags.append(makeTag("机器候选 " + autoCount, "ctm-tag--auto"));
       const cells = cellsForPaper(paper.paper_id);
       if (cells.length) {
         const pending = cells.filter(function (cell) { return !cell.check; }).length;
@@ -705,7 +705,7 @@
         "方向：" + (DIRECTION_LABELS[claim.direction] || claim.direction)));
     }
     if (group.humans.length) facts.append(make("span", "", "人工证据 " + group.humans.length));
-    if (group.autos.length) facts.append(make("span", "", "机器证据 " + group.autos.length));
+    if (group.autos.length) facts.append(make("span", "", "机器候选 " + group.autos.length));
     if (facts.childElementCount) top.append(facts);
     wrap.append(top);
 
@@ -805,7 +805,7 @@
     const top = make("div", "ctm-evidence-top");
     const stance = normalizeStance(ev.stance);
     top.append(makeTag(STANCE_LABELS[stance], "ctm-stance ctm-stance--" + stance));
-    top.append(makeTag("机器抽取 · 仅摘要", "ctm-extractor ctm-extractor--auto"));
+    top.append(makeTag("机器候选 · 仅摘要 · 未人审", "ctm-extractor ctm-extractor--auto"));
     if (cell) top.append(makeTag("抽样格", "ctm-cell-tag"));
     top.append(renderConfidence(ev.confidence));
     card.append(top);

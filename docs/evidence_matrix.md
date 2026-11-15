@@ -42,7 +42,7 @@
 | 外部基线 | BGE-M3 候选召回 | recall@1 0.8667 / MRR 0.9042 | 300 条构造集；1 正例 + 5 干扰 | `data/experiments/embeddings_recall_bge_m3_n300.json` | `PYTHONPATH=src python scripts/eval_embeddings_recall.py --n 300` | —<br>只测候选排序，不是端到端支持度准确率 |
 | 外部基线 | T2Retrieval BM25 smoke test | R@1 0.73 / R@3 0.79 / MRR 0.7715 | 200 query；固定 seed 42 | `docs/research/experiments/e3_t2retrieval.json` | `python docs/research/experiments/e3_t2retrieval.py` | —<br>通用检索 smoke test，不是产品依赖；随机期望 R@3 0.000128 |
 | 人审 | 100 条三人独立盲标 | Fleiss κ 0.98116；产品 99/100，macro-F1 0.98771，Cohen κ 0.98589 | 100 条 / 3 位匿名标注者；构造集分层抽样，非随机 | `data/experiments/human_audit_100.json` | `PYTHONPATH=src python scripts/score_human_audit_100.py --raw data/audit/human_100 --key data/audit/audit_key_100.json --dataset data/claimsupport_cn/claimsupport_cn_300.jsonl --predictions data/experiments/release300.json --out data/experiments/human_audit_100.json` | docs/evidence/shots/final/charts/15-human-audit.png<br>产品预测取自既有 release300 运行，未在这 100 条上调参；2 条标注分歧未仲裁；不能外推所有中文论文 |
-| 工程 | 端到端冒烟 | 14/14 项通过 | job 94c2214965b1，version 1.0.11 | `data/experiments/e2e_smoke.json` | `PYTHONPATH=src python scripts/e2e_smoke.py` | —<br>含上传/报告/批注/导出/证据包/diff；不含人工判断 |
+| 工程 | 端到端冒烟 | 14/14 项通过 | job 9e5f52c3372c，version 1.7.23 | `data/experiments/e2e_smoke.json` | `PYTHONPATH=src python scripts/e2e_smoke.py` | —<br>含上传/报告/批注/导出/证据包/diff；不含人工判断 |
 
 ## 待补 / 不宣称
 

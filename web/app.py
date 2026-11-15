@@ -2073,11 +2073,36 @@ def _citemap_dir() -> Path:
 
 
 def _citemap_auto(topic_id: str) -> list[dict]:
-    path = _citemap_dir() / "extractions_auto" / f"{topic_id}.json"
-    if not path.exists():
+    path = _citemap_auto_path(topic_id)
+    if path is None:
         return []
     data = _read_json_file(path) or {}
     return list(data.get("evidence") or [])
+
+
+def _citemap_auto_path(topic_id: str) -> Path | None:
+    """Prefer the strict-verifier layer; fall back to the v1 candidates."""
+    base = _citemap_dir()
+    for layer in ("extractions_strict", "extractions_auto"):
+        path = base / layer / f"{topic_id}.json"
+        if path.exists():
+            return path
+    return None
+
+
+def _citemap_auto_meta(topic_id: str) -> dict:
+    path = _citemap_auto_path(topic_id)
+    if path is None:
+        return {"layer": "none", "count": 0, "note": "暂无机抽取结果"}
+    data = _read_json_file(path) or {}
+    layer = path.parent.name
+    note = (
+        "严格复核候选：先抽取、再由独立复核只保留断言与引文直接对应的句子；"
+        "仍是机器结果，未经人工核对，不能当作已验证。"
+        if layer == "extractions_strict"
+        else "机器候选：相关句子，未经严格复核；不能当作已验证。"
+    )
+    return {"layer": layer, "count": len(data.get("evidence") or []), "note": note}
 
 
 def _citemap_packet() -> list[dict]:
@@ -2162,6 +2187,7 @@ def citemap_topic_api(topic_id: str):
     return {
         **payload,
         "auto_evidence": _citemap_auto(topic_id),
+        "auto_meta": _citemap_auto_meta(topic_id),
         "verification_cells": cells,
         "verification_progress": _citemap_summary(),
     }

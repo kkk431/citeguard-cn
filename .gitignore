@@ -43,3 +43,6 @@ docs/evidence/shots/captured/
 # CiteMap runtime caches / verification state
 data/evidence_map/auto_cache/
 data/evidence_map/verification_state.json
+
+data/evidence_map/auto_cache_v2/
+data/evidence_map/strict_cache/
