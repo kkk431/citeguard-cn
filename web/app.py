@@ -2410,13 +2410,20 @@ def citemap_topic_api(topic_id: str):
     }
 
 
+def _default_citemap_topic(topics: list[dict]) -> str:
+    """Prefer a curated theme over generated ``dyn_*`` topics on first load."""
+    curated = [t for t in topics if not str(t.get("topic_id", "")).startswith("dyn_")]
+    chosen = curated[0] if curated else (topics[0] if topics else {})
+    return str(chosen.get("topic_id", ""))
+
+
 @app.get("/citemap", response_class=HTMLResponse)
 def citemap_page(request: Request, topic: str = ""):
     """CiteMap topic view: claims, stance evidence, method/sample and gaps."""
     data_dir = config.DATA_DIR / "evidence_map"
     try:
         topics = evidence_map.list_topics(data_dir)
-        current = topic or (topics[0].get("topic_id") if topics else "")
+        current = topic or _default_citemap_topic(topics)
         payload = evidence_map.topic_payload(current, data_dir) if current else None
     except evidence_map.UnknownTopicError as exc:
         raise HTTPException(status_code=404, detail=str(exc))

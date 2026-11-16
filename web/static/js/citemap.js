@@ -137,6 +137,15 @@
     }
   }
 
+  function defaultTopicId() {
+    // Curated themes are the human-checked examples; generated `dyn_*`
+    // themes are supporting material and should not be the landing view.
+    const curated = state.topics.find(function (topic) {
+      return !String(topic.topic_id || "").startsWith("dyn_");
+    });
+    return (curated || state.topics[0] || {}).topic_id || "";
+  }
+
   function syncUrl(topicId) {
     try {
       const url = new URL(window.location.href);
@@ -248,7 +257,7 @@
       renderTopicSwitch();
       const requested = readTopicFromUrl() || (app.dataset.topic || "").trim();
       const known = state.topics.some(function (topic) { return topic.topic_id === requested; });
-      const topicId = known ? requested : state.topics[0].topic_id;
+      const topicId = known ? requested : defaultTopicId();
       await selectTopic(topicId, { syncUrl: true });
     } catch (err) {
       showError(err && err.message ? err.message : "主题列表加载失败。");
@@ -1097,7 +1106,7 @@
 
   function onPopState() {
     if (!state.topics.length) return;
-    const topicId = readTopicFromUrl() || state.topics[0].topic_id;
+    const topicId = readTopicFromUrl() || defaultTopicId();
     if (!topicId || topicId === state.topicId) return;
     const known = state.topics.some(function (topic) { return topic.topic_id === topicId; });
     if (!known) return;

@@ -287,3 +287,14 @@ def test_css_is_page_scoped() -> None:
     for selector in selectors:
         selector = selector.strip()
         assert selector.startswith((".citemap-", ".ctm-", "#citemap-app")), selector
+
+def test_default_topic_prefers_curated_over_generated() -> None:
+    from web.app import _default_citemap_topic
+
+    topics = [
+        {"topic_id": "dyn_15a33545"},
+        {"topic_id": "ai_education"},
+        {"topic_id": "medical_imaging"},
+    ]
+    assert _default_citemap_topic(topics) == "ai_education"
+    assert _default_citemap_topic([]) == ""
