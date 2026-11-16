@@ -1,0 +1,45 @@
+{
+  "generated_at": "2026-11-16T05:46:40+00:00",
+  "dois": [
+    "10.1038/nature14539",
+    "10.1080/14653240600855905"
+  ],
+  "summary": {
+    "checked": 2,
+    "references_sampled": 20,
+    "references_checked": 20,
+    "retracted_found": 1,
+    "indirect": 1,
+    "clean": 1,
+    "no_references": 0,
+    "error": 0,
+    "average_coverage": 1.0
+  },
+  "items": [
+    {
+      "status": "clean",
+      "sampled": 12,
+      "checked": 12,
+      "coverage": 1.0,
+      "retracted": [],
+      "title": "Deep learning",
+      "detail": "本次抽样的引用文献中未发现撤稿"
+    },
+    {
+      "status": "indirect",
+      "sampled": 8,
+      "checked": 8,
+      "coverage": 1.0,
+      "retracted": [
+        {
+          "id": "W2158048826",
+          "doi": "https://doi.org/10.1038/nature00870",
+          "title": "RETRACTED ARTICLE: Pluripotency of mesenchymal stem cells derived from adult marrow"
+        }
+      ],
+      "title": "Minimal criteria for defining multipotent mesenchymal stromal cells. The International Society for Cellular Therapy position statement",
+      "detail": "抽样的 8 条引用文献中，1 条被撤稿"
+    }
+  ],
+  "note": "只查一层间接撤稿；抽样覆盖=返回/抽样，不等于全量；OpenAlex referenced_works 覆盖不全，中文文献更弱。"
+}

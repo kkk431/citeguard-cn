@@ -1,6 +1,6 @@
 {
   "schema": "citeguard.evidence_matrix.v1",
-  "rows": 38,
+  "rows": 39,
   "missing": [],
   "items": [
     {
@@ -212,6 +212,16 @@
       "command": "PYTHONPATH=src python scripts/eval_retraction.py",
       "note": "OpenAlex 同时是样本标签与检测源，衡量一致性不是独立真值",
       "screenshot": "docs/evidence/shots/phase-F3-retraction-v1.1.4.png"
+    },
+    {
+      "category": "引用链",
+      "claim": "一层间接撤稿检查",
+      "value": "2 条 DOI 抽样 20 条参考文献；间接撤稿 1 条",
+      "n": "2 条真实 DOI；平均抽样覆盖 1.0",
+      "artifact": "data/experiments/citation_chain_smoke.json",
+      "command": "PYTHONPATH=src python scripts/eval_citation_chain.py",
+      "note": "只查一层；OpenAlex referenced_works 覆盖不全，中文更弱；抽样覆盖不等于全量",
+      "screenshot": "docs/evidence/shots/phase-68-citation-chain-1.7.34.png"
     },
     {
       "category": "健康画像",

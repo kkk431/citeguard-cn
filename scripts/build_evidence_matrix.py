@@ -305,6 +305,19 @@ def rows():
         "screenshot": "docs/evidence/shots/phase-F3-retraction-v1.1.4.png",
     })
 
+    d = load("data/experiments/citation_chain_smoke.json")
+    s = d["summary"]
+    out.append({
+        "category": "引用链",
+        "claim": "一层间接撤稿检查",
+        "value": f"{s['checked']} 条 DOI 抽样 {s['references_sampled']} 条参考文献；间接撤稿 {s['retracted_found']} 条",
+        "n": f"{s['checked']} 条真实 DOI；平均抽样覆盖 {s['average_coverage']}",
+        "artifact": "data/experiments/citation_chain_smoke.json",
+        "command": "PYTHONPATH=src python scripts/eval_citation_chain.py",
+        "note": "只查一层；OpenAlex referenced_works 覆盖不全，中文更弱；抽样覆盖不等于全量",
+        "screenshot": "docs/evidence/shots/phase-68-citation-chain-1.7.34.png",
+    })
+
     d = load("data/experiments/health_real.json")
     out.append({
         "category": "健康画像",
