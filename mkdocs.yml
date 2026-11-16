@@ -44,6 +44,7 @@ nav:
   - 修复闭环: repair_loop.md
   - 批量聚合: aggregate.md
   - 撤稿与勘误检查: retraction.md
+  - 引用链风险: citation_chain.md
   - 替换建议: replacement.md
   - 证据矩阵: evidence_matrix.md
   - 机制消融: research/ablation_matrix.md

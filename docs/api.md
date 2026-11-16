@@ -19,6 +19,7 @@
 | GET | `/api/report/{id}/triage` | 该报告的条目处理状态（待修/已修/忽略）与计数 |
 | POST | `/api/report/{id}/triage` | 设置单条状态：`{"index": 1, "state": "todo|fixed|ignored", "note": ""}` |
 | GET | `/api/jobs/{id}/events` | 任务进度的 SSE 流（`text/event-stream`，每 0.5 s 推送一条 JSON，`status` 为 done/error 时结束） |
+| GET/POST | `/api/report/{id}/citation-chain` | 引用链风险：对已匹配且带 DOI 的条目抽样参考文献，查是否间接引用了撤稿文献；GET 读缓存，POST 重新计算；只查一层并返回抽样覆盖 |
 | GET | `/api/report/{id}/page/{page}` | 页内证据：`page` / `text` / `image` / `note`（该页在分析时渲染，最多 20 页） |
 | GET | `/api/report/{id}/page/{page}.png` | 该页的 PNG 图（140 dpi，分析时生成，上传件此时已删除） |
 | GET | `/api/report/{id}/fixed` | 修订预览：逐条 `before/after/fixes/missing/safe`，只重排已解析字段，不联网补全 |

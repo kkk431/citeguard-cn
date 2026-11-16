@@ -43,6 +43,8 @@
   }
   render(report);
   loadTriage();
+  bindChain();
+  loadChain();
 
   function updateTriageCounts() {
     const el = document.getElementById("triage-counts");
@@ -640,6 +642,109 @@
     }
     el.innerHTML = "<h3>正文引注覆盖</h3>" +
       '<div class="cov-num"><b>' + cv.cited + "</b><span>/ " + cv.refs + " 条被正文引用</span></div>" + note;
+  }
+
+  function chainStatus(status) {
+    const map = {
+      indirect: ["间接撤稿", "bad"],
+      clean: ["未发现", "ok"],
+      no_references: ["无参考文献表", "unknown"],
+      error: ["未完成", "warn"],
+    };
+    return map[status] || [status || "未知", "unknown"];
+  }
+
+  function renderChain(d) {
+    const panel = document.getElementById("chain-panel");
+    const list = document.getElementById("chain-list");
+    const meta = document.getElementById("chain-meta");
+    if (!panel || !list) return;
+    if (!hasChainCandidates()) { panel.classList.add("hidden"); return; }
+    panel.classList.remove("hidden");
+    if (!d || !d.available) {
+      if (meta) meta.textContent = (d && d.reason) || "尚未检查";
+      return;
+    }
+    const s = d.summary || {};
+    if (meta) {
+      meta.textContent = "已检查 " + (s.checked || 0) + " 条引用 · 抽样 " +
+        (s.references_sampled || 0) + " 条 · 间接撤稿 " + (s.indirect || 0) + " 条";
+    }
+    const head = '<div class="chain-summary">' +
+      '<span><b>' + (s.indirect || 0) + "</b>间接撤稿</span>" +
+      '<span><b>' + (s.clean || 0) + "</b>未发现</span>" +
+      '<span><b>' + (s.no_references || 0) + "</b>无参考文献表</span>" +
+      '<span><b>' + (s.error || 0) + "</b>未完成</span>" +
+      '<span>平均抽样覆盖 ' + Math.round((s.average_coverage || 0) * 100) + "%</span>" +
+      "</div>";
+    const rows = (d.items || []).map(function (it) {
+      const pair = chainStatus(it.status);
+      const jump = it.index != null
+        ? ' <button class="cite-jump" type="button" data-chain-jump="' + it.index + '">第 ' + it.index + " 条</button>"
+        : "";
+      const retracted = (it.retracted || []).map(function (r) {
+        return "<li><b>" + esc(r.title || r.id || "") + "</b>" +
+          (r.doi ? ' <span class="mono-sm">' + esc(r.doi) + "</span>" : "") + "</li>";
+      }).join("");
+      return '<div class="chain-item">' +
+        '<div class="chain-item-head"><span class="chip ' + pair[1] + '">' + pair[0] + "</span>" +
+        "<b>第 " + esc(it.index == null ? "?" : it.index) + " 条</b>" +
+        '<span class="chain-sub">' + esc(it.title || it.doi || "") + "</span>" + jump + "</div>" +
+        '<p>' + esc(it.detail || "") + "</p>" +
+        (retracted ? "<ul>" + retracted + "</ul>" : "") +
+        "</div>";
+    }).join("");
+    list.innerHTML = head + rows;
+  }
+
+  function hasChainCandidates() {
+    const refs = ((window.__reportData || report || {}).references) || [];
+    return refs.some(function (r) {
+      const p = r.parsed || {};
+      const v = r.verify || {};
+      return p.doi && (v.status === "Exact" || v.status === "Minor");
+    });
+  }
+
+  async function loadChain() {
+    if (!hasChainCandidates()) return;
+    try {
+      const res = await fetch("/api/report/" + encodeURIComponent(jobId) + "/citation-chain");
+      if (!res.ok) return;
+      const d = await res.json();
+      renderChain(d);
+    } catch (e) {
+      /* optional panel; keep the report usable */
+    }
+  }
+
+  function bindChain() {
+    const btn = document.getElementById("btn-chain");
+    const status = document.getElementById("chain-status");
+    if (!btn || btn.__chainBound) return;
+    btn.__chainBound = true;
+    btn.addEventListener("click", async function () {
+      btn.disabled = true;
+      if (status) status.textContent = "检查中…";
+      try {
+        const res = await fetch("/api/report/" + encodeURIComponent(jobId) + "/citation-chain", { method: "POST" });
+        const d = await res.json();
+        renderChain(d);
+        if (status) status.textContent = d.available ? "已刷新" : (d.reason || "");
+      } catch (e) {
+        if (status) status.textContent = "检查失败，稍后重试";
+      } finally {
+        btn.disabled = false;
+      }
+    });
+    const list = document.getElementById("chain-list");
+    if (list && !list.__chainJump) {
+      list.__chainJump = true;
+      list.addEventListener("click", function (e) {
+        const b = e.target && e.target.closest ? e.target.closest("[data-chain-jump]") : null;
+        if (b) jumpToRef(b.getAttribute("data-chain-jump"));
+      });
+    }
   }
 
   function renderCitations(data) {

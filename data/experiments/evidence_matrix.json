@@ -236,7 +236,7 @@
     {
       "category": "CiteMap",
       "claim": "证据地图语料",
-      "value": "5 主题 / 59 篇 / 36 条断言",
+      "value": "7 主题 / 83 篇 / 44 条断言",
       "n": "2 主题 x 15 篇；10 条人工示例",
       "artifact": "data/evidence_map/index.json",
       "command": "PYTHONPATH=src python -m citeguard.evidence_map --check",

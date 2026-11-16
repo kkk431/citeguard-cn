@@ -95,6 +95,18 @@
             <div class="health-fixes" id="health-fixes"></div>
             <div class="inline-note" id="health-note"></div>
           </div>
+          <div class="panel chain-panel hidden" id="chain-panel">
+            <div class="panel-head">
+              <h3>引用链风险</h3>
+              <span class="muted" id="chain-meta"></span>
+            </div>
+            <div class="inline-note">只看已匹配条目的参考文献表：如果它引用了已撤稿文献，会在下面标出来。每篇最多抽 12 条、只查一层；“抽样覆盖”是返回条数/抽样条数，不等于整条引用链已查全。</div>
+            <div class="chain-actions">
+              <button class="btn ghost sm" type="button" id="btn-chain">检查引用链</button>
+              <span class="mono-sm" id="chain-status"></span>
+            </div>
+            <div class="chain-list" id="chain-list"></div>
+          </div>
           <div class="diff-bar">
             <button class="btn ghost sm" type="button" id="open-checks">检查明细</button>
             <button class="btn ghost sm" type="button" id="btn-diff">对比历史报告</button>

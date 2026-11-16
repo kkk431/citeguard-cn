@@ -102,7 +102,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.7.33", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.7.34", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 
@@ -853,6 +853,86 @@ def report_json(job_id: str):
     if report is None:
         raise HTTPException(status_code=404, detail="report not ready")
     return report
+
+
+def _chain_path(job_id: str) -> Path:
+    return config.DATA_DIR / "jobs" / job_id / "report.chain.json"
+
+
+def _citation_chain_targets(report: dict, limit: int = 8) -> list[dict]:
+    """Only matched references with a DOI are worth a one-hop chain check."""
+    from citeguard.retraction import normalise_doi
+
+    targets: list[dict] = []
+    for ref in report.get("references") or []:
+        parsed = ref.get("parsed") or {}
+        verify = ref.get("verify") or {}
+        doi = normalise_doi(str(parsed.get("doi") or ""))
+        if not doi or not doi.startswith("10."):
+            continue
+        if (verify.get("status") or "") not in ("Exact", "Minor"):
+            continue
+        targets.append(
+            {
+                "index": ref.get("index"),
+                "doi": doi,
+                "title": (parsed.get("title") or "").strip(),
+            }
+        )
+        if len(targets) >= limit:
+            break
+    return targets
+
+
+@app.get("/api/report/{job_id}/citation-chain")
+def citation_chain_cached(job_id: str):
+    if _load_report(job_id) is None:
+        raise HTTPException(status_code=404, detail="report not ready")
+    cached = _read_json_file(_chain_path(job_id))
+    if cached is not None:
+        return {**cached, "cached": True}
+    return {"available": False, "items": [], "reason": "尚未检查引用链"}
+
+
+@app.post("/api/report/{job_id}/citation-chain")
+def citation_chain_check(job_id: str):
+    report = _load_report(job_id)
+    if report is None:
+        raise HTTPException(status_code=404, detail="report not ready")
+    targets = _citation_chain_targets(report)
+    if not targets:
+        return {
+            "available": False,
+            "items": [],
+            "reason": "没有已匹配且带 DOI 的条目，无法检查引用链",
+        }
+
+    from citeguard.retraction import check_chain, summarize_chain
+
+    def run_one(target: dict) -> dict:
+        try:
+            result = check_chain(target["doi"], max_refs=12)
+        except Exception:
+            result = {
+                "status": "error",
+                "checked": 0,
+                "coverage": 0.0,
+                "retracted": [],
+                "title": target.get("title") or "",
+                "detail": "检查过程异常",
+            }
+        return {**target, **result}
+
+    with ThreadPoolExecutor(max_workers=min(4, len(targets))) as pool:
+        items = list(pool.map(run_one, targets))
+    data = {
+        "available": True,
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "items": items,
+        "summary": summarize_chain(items),
+    }
+    _write_json_atomic(_chain_path(job_id), data)
+    return {**data, "cached": False}
 
 
 @app.get("/api/aggregate")

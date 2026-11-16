@@ -1426,3 +1426,17 @@ body.theme-light .drawer-panel{color:var(--ink)}
 .drawer-body .drawer-row .drawer-key{flex:0 0 auto}
 .drawer-body .drawer-row span:last-child{min-width:0;text-align:right;overflow-wrap:anywhere}
 .drawer-body pre{white-space:pre-wrap;overflow-wrap:anywhere}
+
+/* Citation-chain panel: one-hop retraction lookups, kept visually secondary. */
+.chain-panel { margin: 14px 0 2px; }
+.chain-actions { display: flex; align-items: center; gap: 12px; margin: 10px 0 2px; flex-wrap: wrap; }
+.chain-list { display: grid; gap: 8px; margin-top: 10px; }
+.chain-item { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; background: var(--surface-2); }
+.chain-item-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.chain-item-head b { font-size: 15px; }
+.chain-item .chain-sub { color: var(--muted); font-size: 12px; }
+.chain-item p { margin: 6px 0 0; font-size: 13px; color: var(--muted); }
+.chain-item ul { margin: 6px 0 0; padding-left: 18px; font-size: 13px; }
+.chain-item li { margin: 2px 0; }
+.chain-summary { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 8px; font-size: 13px; }
+.chain-summary b { font-size: 18px; margin-right: 4px; }

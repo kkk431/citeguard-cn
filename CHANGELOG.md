@@ -1,3 +1,16 @@
+## [1.7.34] - 2026-11-16
+
+### Added
+
+- 报告页新增「引用链风险」：对已匹配且带 DOI 的条目，每篇最多抽样 12 条参考文献，检查是否间接引用了 OpenAlex 标记为撤稿的文献；只查一层，界面单独显示“抽样覆盖”，不把未覆盖部分说成干净。
+- `GET/POST /api/report/{id}/citation-chain`：GET 读 `report.chain.json` 缓存，POST 重新检查（4 路并发，最多 8 条被引论文）；返回 `summary` 与逐条 `items`，状态为 `indirect/clean/no_references/error`。
+- `docs/citation_chain.md`：口径、状态、真实冒烟（`10.1080/14653240600855905` → 1 条撤稿）、边界与复现。
+- 版本 1.7.34；报告页截图 `docs/evidence/shots/phase-68-citation-chain-1.7.34.png`，E107。
+
+### Tests
+
+- 新增引用链单元测试 4 例与 API 测试 3 例；`tests/test_retraction.py tests/test_citation_chain_api.py` 共 13 passed。
+
 ## [1.7.33] - 2026-11-16
 
 ### Added

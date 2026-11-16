@@ -296,7 +296,7 @@ ssh -L 18000:127.0.0.1:8000 jxy-2
 
 ### 4.0 实测状态（2026-11-10）
 
-本机 Docker Desktop（engine 29.9.2）已实际构建并跑通。**最新实测镜像是 1.7.32**；1.7.33 新增 `readability-lxml` 核心依赖（Live 页面引用预检），本机尚未重建镜像，首次构建 1.7.33 时请确认 `pip install -r requirements.txt` 能拉到该包：
+本机 Docker Desktop（engine 29.9.2）已实际构建并跑通。**最新实测镜像是 1.7.32**；1.7.34 新增 `readability-lxml` 核心依赖（Live 页面引用预检），本机尚未重建镜像，首次构建 1.7.34 时请确认 `pip install -r requirements.txt` 能拉到该包：
 
 ```bash
 docker build -f docker/Dockerfile -t citeguard-cn:1.7.32 .

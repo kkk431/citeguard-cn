@@ -38,6 +38,83 @@ def test_clean_and_error_are_distinct(monkeypatch):
     assert retraction.check_doi("10.1000/down")["status"] == "error"
 
 
+def test_chain_detects_an_indirectly_cited_retraction(monkeypatch):
+    def fake(url):
+        if "/works/doi:" in url:
+            return {
+                "title": "Citing paper",
+                "referenced_works": [
+                    "https://openalex.org/W111",
+                    "https://openalex.org/W222",
+                    "https://openalex.org/W333",
+                ],
+            }
+        return {
+            "results": [
+                {
+                    "id": "https://openalex.org/W111",
+                    "doi": "https://doi.org/10.1/old",
+                    "title": "Retracted paper",
+                    "is_retracted": True,
+                },
+                {
+                    "id": "https://openalex.org/W222",
+                    "doi": "https://doi.org/10.1/fine",
+                    "title": "Fine paper",
+                    "is_retracted": False,
+                },
+            ]
+        }
+
+    monkeypatch.setattr(retraction, "_cached_json", fake)
+    result = retraction.check_chain("10.1/citing", max_refs=5)
+    assert result["status"] == "indirect"
+    assert result["sampled"] == 3
+    assert result["checked"] == 2
+    assert result["coverage"] == 0.667  # 3 sampled, 2 returned by OpenAlex
+    assert result["retracted"][0]["title"] == "Retracted paper"
+
+
+def test_chain_is_honest_when_references_are_missing(monkeypatch):
+    monkeypatch.setattr(
+        retraction,
+        "_cached_json",
+        lambda url: {"title": "No refs", "referenced_works": []},
+    )
+    result = retraction.check_chain("10.1/norefs")
+    assert result["status"] == "no_references"
+    assert result["coverage"] == 0.0
+    assert result["retracted"] == []
+
+
+def test_chain_batch_failure_is_an_error_not_a_clean_bill(monkeypatch):
+    def fake(url):
+        if "/works/doi:" in url:
+            return {"title": "Citing paper", "referenced_works": ["W1"]}
+        return None
+
+    monkeypatch.setattr(retraction, "_cached_json", fake)
+    result = retraction.check_chain("10.1/down")
+    assert result["status"] == "error"
+    assert result["checked"] == 0
+
+
+def test_summarize_chain_counts_and_coverage():
+    summary = retraction.summarize_chain(
+        [
+            {"status": "indirect", "checked": 2, "coverage": 1.0, "retracted": [{"id": "W1"}]},
+            {"status": "clean", "checked": 1, "coverage": 0.5, "retracted": []},
+            {"status": "no_references", "checked": 0, "coverage": 0.0, "retracted": []},
+            {"status": "error", "checked": 0, "coverage": 0.0, "retracted": []},
+        ]
+    )
+    assert summary["checked"] == 4
+    assert summary["references_checked"] == 3
+    assert summary["retracted_found"] == 1
+    assert summary["indirect"] == 1
+    assert summary["average_coverage"] == 0.75
+
+
 def test_summarize_counts_statuses():
     summary = retraction.summarize(
         [
