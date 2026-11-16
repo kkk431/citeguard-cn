@@ -215,6 +215,93 @@
       "extracted_by": "boundary（人工示例）",
       "verified": false,
       "notes": "仅读摘要、未读全文；该文证明审批数量增长与路径分布，但未评估试验质量或真实世界疗效，因此只能反驳“审批增长=证据充分”的推断，置信度 0.60。"
+    },
+    {
+      "evidence_id": "med-e06",
+      "claim_id": "med-c1",
+      "paper_id": "med-003",
+      "stance": "support",
+      "summary": "CBCT 垂直根折诊断中 ResNet50 准确率 97.8%、AUC 0.99，高于放射科医师准确率 95.3%。",
+      "quote": "The accuracy, sensitivity, specificity and AUC was 97.8%, 97.0%, 98.5%, and 0.99, the radiologist presented accuracy, sensitivity, and specificity as 95.3%, 96.4 and 94.2%.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.65,
+      "extracted_by": "human:abstract-curated",
+      "verified": false,
+      "notes": "仅读摘要；单中心回顾性数据，报告的是与放射科医师对比的准确率。",
+      "sample": {
+        "sample_id": "med-s06",
+        "size": 276,
+        "unit": "teeth",
+        "population": "垂直根折与非根折牙齿",
+        "setting": "CBCT 影像",
+        "recruitment": "回顾性收集"
+      }
+    },
+    {
+      "evidence_id": "med-e07",
+      "claim_id": "med-c1",
+      "paper_id": "med-005",
+      "stance": "support",
+      "summary": "皮肤镜黑色素瘤分类在 ISIC2020 上达到 98.65% 准确率、99.20% 敏感度，作者称可辅助皮肤科医生早期检测。",
+      "quote": "Dermoscopic shots gathered by the worldwide skin imaging collaboration (ISIC2020) challenge dataset are used in the proposed research work and achieved 98.65% accuracy, 99.20% sensitivity, and 98.03% specificity, which outperforms the other existing approaches for skin cancer classification.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.55,
+      "extracted_by": "human:abstract-curated",
+      "verified": false,
+      "notes": "仅读摘要；公开挑战赛数据，非临床前瞻验证，存在数据集偏倚可能。"
+    },
+    {
+      "evidence_id": "med-e08",
+      "claim_id": "med-c2",
+      "paper_id": "med-008",
+      "stance": "support",
+      "summary": "PET/CT 肺病变模型内部 AUC 88.4%，外部测试降至 80.7% 与 66.6%，直接支持外部泛化性能下降的判断。",
+      "quote": "The localisation model achieved detection rates of 81.19%, 75.48%, and 77.59% on the internal, external test set I, and external test set II, respectively. The classification model outperformed the radiomics approach, with area-under-curves of 88.4%, 80.7%, and 66.6%, respectively.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.65,
+      "extracted_by": "human:abstract-curated",
+      "verified": false,
+      "notes": "仅读摘要；外部测试含新设备中心，支持跨机构泛化风险。",
+      "sample": {
+        "sample_id": "med-s08",
+        "size": 647,
+        "unit": "cases",
+        "population": "PET/CT 高代谢肺病变患者",
+        "setting": "5 家中心（内部+外部）",
+        "country": "CN",
+        "recruitment": "回顾性多中心"
+      }
+    },
+    {
+      "evidence_id": "med-e09",
+      "claim_id": "med-c2",
+      "paper_id": "med-011",
+      "stance": "support",
+      "summary": "中国多学科专家共识明确指出，临床转化受数据整理与标注、可解释性、泛化性与工作流整合等挑战阻碍。",
+      "quote": "However, clinical translation is hindered by challenges, data curation and annotation, model interpretability, generalizability, and integration into workflows.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.6,
+      "extracted_by": "human:abstract-curated",
+      "verified": false,
+      "notes": "仅读摘要；专家共识，非原始研究；支持外部验证/公平性证据不足的判断。"
+    },
+    {
+      "evidence_id": "med-e10",
+      "claim_id": "med-c3",
+      "paper_id": "med-014",
+      "stance": "neutral",
+      "summary": "美国 FDA 数据库统计到 64 个 AI/ML 医疗器械与算法，说明审批数量本身不等于临床有效性证据充分；该证据不直接适用于中国审批。",
+      "quote": "Cross-checking and validating all approvals, we identified 64 AI/ML based, FDA approved medical devices and algorithms.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.45,
+      "extracted_by": "human:abstract-curated",
+      "verified": false,
+      "notes": "仅读摘要；美国 FDA 数据，作为中性对照，不能支持“中国审批有效性已充分”的结论。"
     }
   ],
   "gaps": [

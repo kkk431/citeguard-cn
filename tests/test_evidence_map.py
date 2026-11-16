@@ -14,7 +14,14 @@ import pytest
 from citeguard import evidence_map as em
 
 DATA_DIR = Path(__file__).resolve().parents[1] / "data" / "evidence_map"
-TOPICS = ("ai_education", "medical_imaging")
+TOPIC_SPECS = {
+    "ai_education": {"prefix": "edu", "papers": 15, "evidence": 10},
+    "medical_imaging": {"prefix": "med", "papers": 15, "evidence": 10},
+    "ai_mental_health": {"prefix": "amh", "papers": 12, "evidence": 10},
+    "ai_climate": {"prefix": "clm", "papers": 12, "evidence": 10},
+}
+TOPICS = tuple(TOPIC_SPECS)
+VERIFIED_TOPICS = ("ai_education", "medical_imaging")
 INDEX = DATA_DIR / "index.json"
 VERIFICATION = DATA_DIR / "verification.json"
 
@@ -38,12 +45,18 @@ def topic(request) -> str:
 
 @pytest.fixture
 def corpus(topic: str) -> em.CorpusManifest:
-    return em.load_corpus(_corpus_path(topic), expected_papers=15)
+    return em.load_corpus(
+        _corpus_path(topic), expected_papers=TOPIC_SPECS[topic]["papers"]
+    )
 
 
 @pytest.fixture
 def evidence_map(topic: str, corpus: em.CorpusManifest) -> em.EvidenceMap:
-    return em.load_map(_map_path(topic), corpus=corpus, expected_evidence=5)
+    return em.load_map(
+        _map_path(topic),
+        corpus=corpus,
+        expected_evidence=TOPIC_SPECS[topic]["evidence"],
+    )
 
 
 @pytest.fixture
@@ -88,30 +101,31 @@ def test_normalize_doi_strips_resolver_prefixes() -> None:
 
 
 # ---------------------------------------------------------------------------
-# Corpus manifests (2 topics x 15 open-access papers)
+# Corpus manifests (4 topics: 2 x 15 + 2 x 12 open-access papers)
 # ---------------------------------------------------------------------------
 
 
-def test_corpus_has_fifteen_papers(topic: str, corpus: em.CorpusManifest) -> None:
-    assert len(corpus.papers) == 15
+def test_corpus_has_expected_papers(topic: str, corpus: em.CorpusManifest) -> None:
+    assert len(corpus.papers) == TOPIC_SPECS[topic]["papers"]
     assert corpus.topic.topic_id == topic
     assert corpus.topic.question.strip()
     assert corpus.topic.description.strip()
 
 
-def test_corpus_identifiers_are_unique(corpus: em.CorpusManifest) -> None:
+def test_corpus_identifiers_are_unique(topic: str, corpus: em.CorpusManifest) -> None:
+    expected = TOPIC_SPECS[topic]["papers"]
     paper_ids = [paper.paper_id for paper in corpus.papers]
     dois = [paper.doi.lower() for paper in corpus.papers]
     openalex_ids = [paper.openalex_id for paper in corpus.papers]
-    assert len(set(paper_ids)) == 15
-    assert len(set(dois)) == 15
-    assert len(set(openalex_ids)) == 15
+    assert len(set(paper_ids)) == expected
+    assert len(set(dois)) == expected
+    assert len(set(openalex_ids)) == expected
 
 
 def test_paper_ids_follow_documented_order(topic: str, corpus: em.CorpusManifest) -> None:
-    prefix = "edu" if topic == "ai_education" else "med"
+    spec = TOPIC_SPECS[topic]
     assert [paper.paper_id for paper in corpus.papers] == [
-        f"{prefix}-{index:03d}" for index in range(1, 16)
+        f"{spec['prefix']}-{index:03d}" for index in range(1, spec["papers"] + 1)
     ]
 
 
@@ -137,9 +151,13 @@ def test_every_paper_has_open_license_and_bibliographic_metadata(
 
 def test_corpus_contains_chinese_affiliated_research(topic: str, corpus: em.CorpusManifest) -> None:
     cn_papers = [paper for paper in corpus.papers if paper.cn_affiliated]
-    assert len(cn_papers) >= 8, topic
-    # Each topic also keeps non-CN high-citation contrast papers.
-    assert len(cn_papers) < 15, topic
+    if topic in VERIFIED_TOPICS:
+        assert len(cn_papers) >= 8, topic
+        # Each baseline topic also keeps non-CN high-citation contrast papers.
+        assert len(cn_papers) < len(corpus.papers), topic
+    else:
+        # The two extension topics are global evidence maps, not China-only.
+        assert all(not paper.cn_affiliated for paper in corpus.papers), topic
 
 
 def test_fulltext_flags_match_notes(corpus: em.CorpusManifest) -> None:
@@ -151,19 +169,19 @@ def test_fulltext_flags_match_notes(corpus: em.CorpusManifest) -> None:
             assert "PDF" in paper.notes, paper.paper_id
 
 
-def test_manifest_metadata_matches_index(corpus: em.CorpusManifest) -> None:
+def test_manifest_metadata_matches_index(topic: str, corpus: em.CorpusManifest) -> None:
     index = _read(INDEX)
     entry = next(item for item in index["topics"] if item["topic_id"] == corpus.topic.topic_id)
     assert entry["name_zh"] == corpus.topic.name_zh
     assert entry["name_en"] == corpus.topic.name_en
     assert entry["question"] == corpus.topic.question
-    assert entry["papers"] == 15
+    assert entry["papers"] == TOPIC_SPECS[topic]["papers"]
 
 
-def test_manifest_round_trip(corpus: em.CorpusManifest) -> None:
+def test_manifest_round_trip(topic: str, corpus: em.CorpusManifest) -> None:
     parsed = em.parse_corpus(corpus.to_dict())
     assert parsed == corpus
-    assert len(parsed.papers) == 15
+    assert len(parsed.papers) == TOPIC_SPECS[topic]["papers"]
 
 
 def test_data_directory_contains_no_pdf_files() -> None:
@@ -186,6 +204,7 @@ def test_docs_document_schema_and_web_contract() -> None:
         "confidence",
         "Gap",
         "fulltext_available",
+        "auto_evidence",
         "GET /api/citemap",
     ):
         assert needle in docs
@@ -199,11 +218,65 @@ def test_docs_document_schema_and_web_contract() -> None:
 
 def test_extraction_map_loads(topic: str, evidence_map: em.EvidenceMap) -> None:
     assert evidence_map.topic.topic_id == topic
-    assert len(evidence_map.evidence) == 5
+    assert len(evidence_map.evidence) == TOPIC_SPECS[topic]["evidence"]
+    assert len(evidence_map.auto_evidence) == (
+        0 if topic in VERIFIED_TOPICS else 2
+    )
     assert len(evidence_map.gaps) >= 3
     assert evidence_map.extracted_at
     assert evidence_map.extractor
     assert evidence_map.protocol
+
+
+def test_auto_evidence_is_separate_from_human_layer(
+    topic: str, corpus: em.CorpusManifest, evidence_map: em.EvidenceMap
+) -> None:
+    human_ids = {item.evidence_id for item in evidence_map.evidence}
+    claim_ids = {claim.claim_id for claim in evidence_map.claims}
+    paper_ids = {paper.paper_id for paper in corpus.papers}
+    assert not (human_ids & {item.evidence_id for item in evidence_map.auto_evidence})
+    if topic in VERIFIED_TOPICS:
+        assert evidence_map.auto_evidence == ()
+        return
+    assert len(evidence_map.auto_evidence) == 2
+    for item in evidence_map.auto_evidence:
+        assert item.evidence_id.startswith(f"{TOPIC_SPECS[topic]['prefix']}-auto")
+        assert item.extracted_by.startswith("auto:")
+        assert item.verified is False
+        assert item.claim_id in claim_ids
+        assert item.paper_id in paper_ids
+        assert item.stance in {em.Stance.SUPPORT, em.Stance.CONTRADICT, em.Stance.NEUTRAL}
+        assert item.evidence_id not in human_ids
+
+
+def test_auto_evidence_duplicate_human_id_is_rejected(
+    topic: str, map_dict: dict, corpus: em.CorpusManifest
+) -> None:
+    if topic in VERIFIED_TOPICS:
+        pytest.skip("baseline topics have no auto layer")
+    map_dict["auto_evidence"][0]["evidence_id"] = map_dict["evidence"][0]["evidence_id"]
+    with pytest.raises(em.EvidenceMapError, match="重复"):
+        em.parse_map(map_dict, corpus=corpus)
+
+
+def test_auto_evidence_requires_auto_extractor(
+    topic: str, map_dict: dict, corpus: em.CorpusManifest
+) -> None:
+    if topic in VERIFIED_TOPICS:
+        pytest.skip("baseline topics have no auto layer")
+    map_dict["auto_evidence"][0]["extracted_by"] = "human:curated"
+    with pytest.raises(em.EvidenceMapError, match="auto"):
+        em.parse_map(map_dict, corpus=corpus)
+
+
+def test_auto_evidence_must_not_be_verified(
+    topic: str, map_dict: dict, corpus: em.CorpusManifest
+) -> None:
+    if topic in VERIFIED_TOPICS:
+        pytest.skip("baseline topics have no auto layer")
+    map_dict["auto_evidence"][0]["verified"] = True
+    with pytest.raises(em.EvidenceMapError, match="verified"):
+        em.parse_map(map_dict, corpus=corpus)
 
 
 def test_claims_are_complete_and_supported(topic: str, evidence_map: em.EvidenceMap) -> None:
@@ -228,7 +301,7 @@ def test_evidence_fields_are_complete(corpus: em.CorpusManifest, evidence_map: e
         assert item.quote_lang == "en"
         assert 0.0 <= item.confidence <= 1.0
         assert item.extracted_by
-        assert "人工" in item.extracted_by or "boundary" in item.extracted_by
+        assert item.extracted_by.startswith(("human", "boundary"))
         assert item.verified is False
 
 
@@ -240,15 +313,15 @@ def test_quotes_are_abstract_level_and_confidence_capped(evidence_map: em.Eviden
         assert item.locator
 
 
-def test_stance_counts_cover_all_stances(evidence_map: em.EvidenceMap) -> None:
+def test_stance_counts_cover_all_stances(topic: str, evidence_map: em.EvidenceMap) -> None:
     counts = evidence_map.stance_counts()
     assert set(counts) == set(em.STANCES)
-    assert sum(counts.values()) == 5
+    assert sum(counts.values()) == TOPIC_SPECS[topic]["evidence"]
     assert counts["support"] >= 1
     assert counts["contradict"] >= 1
 
 
-def test_method_and_sample_are_consistent(evidence_map: em.EvidenceMap) -> None:
+def test_method_and_sample_are_consistent(topic: str, evidence_map: em.EvidenceMap) -> None:
     with_method = 0
     with_sample = 0
     for item in evidence_map.evidence:
@@ -263,8 +336,13 @@ def test_method_and_sample_are_consistent(evidence_map: em.EvidenceMap) -> None:
                 assert item.sample.population.strip()
                 if item.method.sample_size is not None:
                     assert item.method.sample_size == item.sample.size
-    assert with_method == 5
-    assert with_sample >= 3
+    if topic in VERIFIED_TOPICS:
+        assert with_method == 5
+        assert with_sample >= 3
+    else:
+        # The extension topics are abstract-level evidence maps only.
+        assert with_method == 0
+        assert with_sample == 0
 
 
 def test_gaps_reference_known_claims(topic: str, evidence_map: em.EvidenceMap) -> None:
@@ -287,14 +365,23 @@ def test_extraction_map_round_trip(corpus: em.CorpusManifest, evidence_map: em.E
     assert parsed == evidence_map
 
 
-def test_ten_human_extractions_across_topics() -> None:
+def test_forty_human_extractions_across_four_topics() -> None:
     evidence_ids: list[str] = []
-    for topic in TOPICS:
-        corpus = em.load_corpus(_corpus_path(topic), expected_papers=15)
-        evidence_map = em.load_map(_map_path(topic), corpus=corpus, expected_evidence=5)
+    auto_ids: list[str] = []
+    for topic, spec in TOPIC_SPECS.items():
+        corpus = em.load_corpus(
+            _corpus_path(topic), expected_papers=spec["papers"]
+        )
+        evidence_map = em.load_map(
+            _map_path(topic), corpus=corpus, expected_evidence=spec["evidence"]
+        )
         evidence_ids.extend(item.evidence_id for item in evidence_map.evidence)
-    assert len(evidence_ids) == 10
-    assert len(set(evidence_ids)) == 10
+        auto_ids.extend(item.evidence_id for item in evidence_map.auto_evidence)
+    assert len(evidence_ids) == 40
+    assert len(set(evidence_ids)) == 40
+    assert len(auto_ids) == 4
+    assert len(set(auto_ids)) == 4
+    assert not (set(evidence_ids) & set(auto_ids))
 
 
 # ---------------------------------------------------------------------------
@@ -302,7 +389,7 @@ def test_ten_human_extractions_across_topics() -> None:
 # ---------------------------------------------------------------------------
 
 
-def test_index_lists_two_topics_with_computed_counts() -> None:
+def test_index_lists_four_static_topics_with_computed_counts() -> None:
     index = _read(INDEX)
     assert index["schema_version"] == em.SCHEMA_VERSION
     summaries = em.list_topics(DATA_DIR)
@@ -310,21 +397,25 @@ def test_index_lists_two_topics_with_computed_counts() -> None:
         entry["topic_id"] for entry in index["topics"]
     ]
     static = [entry for entry in index["topics"] if not entry.get("machine")]
-    assert {entry["topic_id"] for entry in static} == {"ai_education", "medical_imaging"}
+    assert {entry["topic_id"] for entry in static} == set(TOPICS)
     static_summaries = [s for s in summaries if s["topic_id"] in TOPICS]
     assert {summary["topic_id"] for summary in static_summaries} == set(TOPICS)
     for summary in static_summaries:
+        spec = TOPIC_SPECS[summary["topic_id"]]
         entry = next(e for e in index["topics"] if e["topic_id"] == summary["topic_id"])
-        assert summary["papers"] == 15
+        assert summary["papers"] == spec["papers"]
         assert summary["claims"] == entry["claims"]
-        assert summary["evidence"] == 5
+        assert summary["evidence"] == spec["evidence"]
+        assert summary["auto_evidence"] == (0 if summary["topic_id"] in VERIFIED_TOPICS else 2)
         assert summary["gaps"] == entry["gaps"]
         assert summary["papers"] == entry["papers"]
         assert summary["stances"]["support"] >= 1
         assert summary["stances"]["contradict"] >= 1
 
 
-def test_verification_covers_every_paper(corpus: em.CorpusManifest) -> None:
+def test_verification_covers_every_paper(topic: str, corpus: em.CorpusManifest) -> None:
+    if topic not in VERIFIED_TOPICS:
+        pytest.skip("new extension topics are not in the 2026-11-14 DOI verification file")
     verification = _read(VERIFICATION)
     assert verification["schema_version"] == em.SCHEMA_VERSION
     paper_ids = {paper.paper_id for paper in corpus.papers}
@@ -365,22 +456,33 @@ def test_verification_summary_is_consistent() -> None:
 
 
 def test_topic_payload_is_json_ready(topic: str) -> None:
+    spec = TOPIC_SPECS[topic]
+    expected_auto = 0 if topic in VERIFIED_TOPICS else 2
     payload = em.topic_payload(topic, DATA_DIR)
     assert payload["schema_version"] == em.SCHEMA_VERSION
     assert payload["topic"]["topic_id"] == topic
-    assert len(payload["papers"]) == 15
-    assert len(payload["evidence"]) == 5
-    assert payload["counts"]["papers"] == 15
-    assert payload["counts"]["evidence"] == 5
-    assert sum(payload["counts"]["stances"].values()) == 5
+    assert len(payload["papers"]) == spec["papers"]
+    assert len(payload["evidence"]) == spec["evidence"]
+    assert len(payload["auto_evidence"]) == expected_auto
+    assert payload["counts"]["papers"] == spec["papers"]
+    assert payload["counts"]["evidence"] == spec["evidence"]
+    assert payload["counts"]["auto_evidence"] == expected_auto
+    assert sum(payload["counts"]["stances"].values()) == spec["evidence"]
+    assert sum(payload["counts"]["auto_stances"].values()) == expected_auto
     for claim in payload["claims"]:
         assert claim["evidence_ids"]
         assert sum(claim["stance_counts"].values()) == len(claim["evidence_ids"])
+        assert len(claim["auto_evidence_ids"]) == sum(claim["auto_stance_counts"].values())
     for item in payload["evidence"]:
         assert item["paper_id"]
         assert item["claim_id"]
         assert item["stance"] in em.STANCES
-    assert payload["verification"]["summary"]["papers"] == 30
+    for item in payload["auto_evidence"]:
+        assert item["paper_id"]
+        assert item["claim_id"]
+        assert item["extracted_by"].startswith("auto:")
+        assert item["verified"] is False
+    assert payload["verification"]["summary"]["papers"] >= 30
     json.dumps(payload, ensure_ascii=False)
 
 
@@ -402,10 +504,10 @@ def test_cli_check_reports_totals(capsys) -> None:
     result = json.loads(capsys.readouterr().out)
     assert result["ok"] is True
     assert result["schema_version"] == em.SCHEMA_VERSION
-    assert result["totals"]["papers"] >= 30
-    assert result["totals"]["claims"] >= 7
-    assert result["totals"]["evidence"] >= 10
-    assert result["totals"]["gaps"] >= 6
+    assert result["totals"]["papers"] >= 83
+    assert result["totals"]["claims"] >= 44
+    assert result["totals"]["evidence"] >= 69
+    assert result["totals"]["gaps"] >= 12
     assert {t["topic_id"] for t in result["topics"]} >= set(TOPICS)
 
 
@@ -414,7 +516,7 @@ def test_cli_topic_payload(capsys) -> None:
     result = json.loads(capsys.readouterr().out)
     assert result["ok"] is True
     assert result["payload"]["topic"]["topic_id"] == "ai_education"
-    assert result["payload"]["counts"]["evidence"] == 5
+    assert result["payload"]["counts"]["evidence"] == 10
 
 
 def test_cli_unknown_topic_exits_two(capsys) -> None:
@@ -457,7 +559,13 @@ def test_unknown_license_with_oa_is_rejected(corpus_dict: dict) -> None:
 
 
 def test_fulltext_without_oa_is_rejected(corpus_dict: dict) -> None:
-    corpus_dict["papers"][0]["is_oa"] = False
+    paper = next(
+        (item for item in corpus_dict["papers"] if item["fulltext_available"]),
+        None,
+    )
+    if paper is None:
+        pytest.skip("topic has no fulltext-available paper")
+    paper["is_oa"] = False
     with pytest.raises(em.EvidenceMapError, match="fulltext_available"):
         em.parse_corpus(corpus_dict)
 
@@ -512,7 +620,19 @@ def test_quote_without_locator_is_rejected(map_dict: dict, corpus: em.CorpusMani
 
 
 def test_sample_size_mismatch_is_rejected(map_dict: dict, corpus: em.CorpusManifest) -> None:
-    map_dict["evidence"][0]["method"]["sample_size"] += 1
+    item = next(
+        (
+            evidence
+            for evidence in map_dict["evidence"]
+            if evidence.get("method")
+            and evidence["method"].get("sample_size") is not None
+            and evidence.get("sample")
+        ),
+        None,
+    )
+    if item is None:
+        pytest.skip("topic has no method+sample pair")
+    item["method"]["sample_size"] += 1
     with pytest.raises(em.EvidenceMapError, match="不一致"):
         em.parse_map(map_dict, corpus=corpus)
 

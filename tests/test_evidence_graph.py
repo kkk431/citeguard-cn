@@ -16,7 +16,14 @@ from citeguard.evidence_map import (
     write_graph,
 )
 
-TOPICS = ("ai_education", "medical_imaging")
+TOPIC_SPECS = {
+    "ai_education": {"papers": 15},
+    "medical_imaging": {"papers": 15},
+    "ai_mental_health": {"papers": 12},
+    "ai_climate": {"papers": 12},
+}
+TOPICS = tuple(TOPIC_SPECS)
+AUDIT_TOPICS = ("ai_education", "medical_imaging")
 
 
 @pytest.fixture(scope="module")
@@ -58,11 +65,12 @@ def test_graph_has_no_dangling_references(graphs: dict[str, dict]) -> None:
 
 
 def test_graph_summary_matches_nodes_and_edges(graphs: dict[str, dict]) -> None:
-    for graph in graphs.values():
+    for topic, graph in graphs.items():
         summary = graph["summary"]
         nodes = graph["nodes"]
         edges = graph["edges"]
-        assert summary["papers"] == sum(1 for n in nodes if n["type"] == "paper") == 15
+        assert summary["papers"] == sum(1 for n in nodes if n["type"] == "paper")
+        assert summary["papers"] == TOPIC_SPECS[topic]["papers"]
         assert summary["claims"] == sum(1 for n in nodes if n["type"] == "claim")
         assert summary["evidence"] == sum(1 for n in nodes if n["type"] == "evidence")
         assert summary["edges"] == len(edges)
@@ -83,10 +91,11 @@ def test_graph_summary_matches_nodes_and_edges(graphs: dict[str, dict]) -> None:
 def test_two_topics_have_30_papers_28_claim_nodes_and_21_atomic_claims(
     graphs: dict[str, dict],
 ) -> None:
-    total_papers = sum(g["summary"]["papers"] for g in graphs.values())
-    total_claims = sum(g["summary"]["claims"] for g in graphs.values())
-    total_atomic = sum(g["summary"]["atomic_claims"] for g in graphs.values())
-    total_parent = sum(g["summary"]["parent_claims"] for g in graphs.values())
+    audit = [graphs[topic] for topic in AUDIT_TOPICS]
+    total_papers = sum(g["summary"]["papers"] for g in audit)
+    total_claims = sum(g["summary"]["claims"] for g in audit)
+    total_atomic = sum(g["summary"]["atomic_claims"] for g in audit)
+    total_parent = sum(g["summary"]["parent_claims"] for g in audit)
     assert total_papers == 30
     assert total_atomic == 21
     assert total_parent == 7
@@ -94,11 +103,19 @@ def test_two_topics_have_30_papers_28_claim_nodes_and_21_atomic_claims(
 
 
 def test_every_topic_has_fulltext_and_none_edges(graphs: dict[str, dict]) -> None:
-    for graph in graphs.values():
-        assert graph["summary"]["fulltext_edges"] > 0
-        assert graph["summary"]["none_edges"] > 0
-        levels = {edge["level"] for edge in graph["edges"]}
-        assert {"fulltext", "machine"} <= levels
+    for topic, graph in graphs.items():
+        if topic in AUDIT_TOPICS:
+            assert graph["summary"]["fulltext_edges"] > 0
+            assert graph["summary"]["none_edges"] > 0
+            levels = {edge["level"] for edge in graph["edges"]}
+            assert {"fulltext", "machine"} <= levels
+        else:
+            # Extension topics only have human abstract-level evidence; no
+            # fulltext audit grid exists for them yet.
+            assert graph["summary"]["fulltext_edges"] == 0
+            assert graph["summary"]["none_edges"] == 0
+            assert graph["summary"]["abstract_edges"] == 10
+            assert {edge["level"] for edge in graph["edges"]} == {"abstract"}
 
 
 def test_fulltext_edges_are_grounded(graphs: dict[str, dict]) -> None:
@@ -138,18 +155,19 @@ def test_none_edges_have_no_fabricated_evidence(graphs: dict[str, dict]) -> None
 
 
 def test_audit_grid_has_all_105_cells(graphs: dict[str, dict]) -> None:
-    total_cells = sum(g["summary"]["cells"] for g in graphs.values())
-    total_fulltext = sum(g["summary"]["cells_fulltext"] for g in graphs.values())
+    audit = [graphs[topic] for topic in AUDIT_TOPICS]
+    total_cells = sum(g["summary"]["cells"] for g in audit)
+    total_fulltext = sum(g["summary"]["cells_fulltext"] for g in audit)
     total_abstract = sum(
-        g["summary"]["cells_abstract_only"] for g in graphs.values()
+        g["summary"]["cells_abstract_only"] for g in audit
     )
-    total_none = sum(g["summary"]["cells_none"] for g in graphs.values())
+    total_none = sum(g["summary"]["cells_none"] for g in audit)
     assert total_cells == 105
     assert total_fulltext == 16
     assert total_abstract + total_none == 89
     assert total_none == 87
 
-    for graph in graphs.values():
+    for graph in audit:
         cell_edges = [
             edge
             for edge in graph["edges"]
@@ -168,7 +186,8 @@ def test_audit_grid_has_all_105_cells(graphs: dict[str, dict]) -> None:
 def test_machine_issue_cells_are_not_promoted_to_evidence(
     graphs: dict[str, dict],
 ) -> None:
-    for graph in graphs.values():
+    for topic in AUDIT_TOPICS:
+        graph = graphs[topic]
         for edge in graph["edges"]:
             meta = edge["meta"]
             if meta.get("audit_majority") != "issue":
@@ -194,9 +213,27 @@ def test_known_machine_correct_cells_are_abstract_only_when_present(
     )
     assert key.is_file(), "the 105-cell organizer key must be committed"
     total_abstract = sum(
-        g["summary"]["cells_abstract_only"] for g in graphs.values()
+        graphs[topic]["summary"]["cells_abstract_only"] for topic in AUDIT_TOPICS
     )
     assert total_abstract == 2
+
+
+def test_extension_topics_keep_auto_evidence_out_of_graph(
+    graphs: dict[str, dict],
+) -> None:
+    for topic in TOPICS:
+        if topic in AUDIT_TOPICS:
+            continue
+        graph = graphs[topic]
+        evidence_nodes = [
+            node for node in graph["nodes"] if node["type"] == "evidence"
+        ]
+        assert len(evidence_nodes) == 10
+        assert not any("-auto" in node["id"] for node in evidence_nodes)
+        assert all(
+            edge["level"] == "abstract" and edge["kind"] == "abstract_only"
+            for edge in graph["edges"]
+        )
 
 
 def test_write_graph_round_trips(

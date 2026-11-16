@@ -773,6 +773,7 @@ class EvidenceMap(_JsonModel):
     topic: Topic
     claims: tuple[Claim, ...]
     evidence: tuple[Evidence, ...]
+    auto_evidence: tuple[Evidence, ...] = ()
     gaps: tuple[Gap, ...] = ()
     extractor: str = ""
     extracted_at: str = ""
@@ -796,6 +797,12 @@ class EvidenceMap(_JsonModel):
     def stance_counts(self) -> dict[str, int]:
         counts = {stance: 0 for stance in STANCES}
         for item in self.evidence:
+            counts[item.stance.value] += 1
+        return counts
+
+    def auto_stance_counts(self) -> dict[str, int]:
+        counts = {stance: 0 for stance in STANCES}
+        for item in self.auto_evidence:
             counts[item.stance.value] += 1
         return counts
 
@@ -834,10 +841,11 @@ def validate_corpus(manifest: CorpusManifest, *, expected_papers: int | None = N
 def _validate_map(evidence_map: EvidenceMap) -> None:
     claim_ids = [claim.claim_id for claim in evidence_map.claims]
     evidence_ids = [item.evidence_id for item in evidence_map.evidence]
+    auto_ids = [item.evidence_id for item in evidence_map.auto_evidence]
     gap_ids = [gap.gap_id for gap in evidence_map.gaps]
 
     _fail_duplicates(claim_ids, "claim_id")
-    _fail_duplicates(evidence_ids, "evidence_id")
+    _fail_duplicates(evidence_ids + auto_ids, "evidence_id")
     _fail_duplicates(gap_ids, "gap_id")
 
     known_claims = set(claim_ids)
@@ -851,6 +859,21 @@ def _validate_map(evidence_map: EvidenceMap) -> None:
         if item.claim_id not in known_claims:
             raise EvidenceMapError(
                 f"evidence {item.evidence_id} 引用了未知 claim {item.claim_id!r}"
+            )
+
+    for item in evidence_map.auto_evidence:
+        if item.claim_id not in known_claims:
+            raise EvidenceMapError(
+                f"auto_evidence {item.evidence_id} 引用了未知 claim "
+                f"{item.claim_id!r}"
+            )
+        if not item.extracted_by.lower().startswith("auto"):
+            raise EvidenceMapError(
+                f"auto_evidence {item.evidence_id} 的 extracted_by 必须以 auto 开头"
+            )
+        if item.verified:
+            raise EvidenceMapError(
+                f"auto_evidence {item.evidence_id} 不得标记 verified=true"
             )
 
     for gap in evidence_map.gaps:
@@ -886,7 +909,7 @@ def validate_map(
                 f"主题 {evidence_map.topic.topic_id} 在 corpus 与 extractions 中的元数据不一致"
             )
         paper_ids = {paper.paper_id for paper in corpus.papers}
-        for item in evidence_map.evidence:
+        for item in evidence_map.evidence + evidence_map.auto_evidence:
             if item.paper_id not in paper_ids:
                 raise EvidenceMapError(
                     f"evidence {item.evidence_id} 引用了 corpus 中不存在的 paper "
@@ -1077,8 +1100,10 @@ def list_topics(data_dir: str | Path = DEFAULT_DATA_DIR) -> list[dict[str, Any]]
                 "papers": len(corpus.papers),
                 "claims": len(evidence_map.claims),
                 "evidence": len(evidence_map.evidence),
+                "auto_evidence": len(evidence_map.auto_evidence),
                 "gaps": len(evidence_map.gaps),
                 "stances": evidence_map.stance_counts(),
+                "auto_stances": evidence_map.auto_stance_counts(),
                 "generated_at": corpus.generated_at,
                 "corpus": entry["corpus"],
                 "extractions": entry["extractions"],
@@ -1117,12 +1142,24 @@ def topic_payload(
         related = [
             item for item in evidence_map.evidence if item.claim_id == claim.claim_id
         ]
+        auto_related = [
+            item
+            for item in evidence_map.auto_evidence
+            if item.claim_id == claim.claim_id
+        ]
         counts = {stance: 0 for stance in STANCES}
         for item in related:
             counts[item.stance.value] += 1
+        auto_counts = {stance: 0 for stance in STANCES}
+        for item in auto_related:
+            auto_counts[item.stance.value] += 1
         item = claim.to_dict()
         item["evidence_ids"] = [evidence.evidence_id for evidence in related]
+        item["auto_evidence_ids"] = [
+            evidence.evidence_id for evidence in auto_related
+        ]
         item["stance_counts"] = counts
+        item["auto_stance_counts"] = auto_counts
         claims_payload.append(item)
 
     payload: dict[str, Any] = {
@@ -1131,13 +1168,18 @@ def topic_payload(
         "papers": [paper.to_dict() for paper in corpus.papers],
         "claims": claims_payload,
         "evidence": [item.to_dict() for item in evidence_map.evidence],
+        "auto_evidence": [
+            item.to_dict() for item in evidence_map.auto_evidence
+        ],
         "gaps": [gap.to_dict() for gap in evidence_map.gaps],
         "counts": {
             "papers": len(corpus.papers),
             "claims": len(evidence_map.claims),
             "evidence": len(evidence_map.evidence),
+            "auto_evidence": len(evidence_map.auto_evidence),
             "gaps": len(evidence_map.gaps),
             "stances": evidence_map.stance_counts(),
+            "auto_stances": evidence_map.auto_stance_counts(),
         },
         "provenance": {
             "corpus": entry["corpus"],

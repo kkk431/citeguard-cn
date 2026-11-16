@@ -32,7 +32,7 @@ def test_machine_layer_is_separate_and_unverified(topic: str) -> None:
     extraction = _load(DATA / "extractions" / f"{topic}.json")
     machine = _load(DATA / "extractions_machine" / f"{topic}.json")
     assert len(machine["evidence"]) == 10
-    assert len(extraction["evidence"]) == 5
+    assert len(extraction["evidence"]) == 10
     human_ids = {e["evidence_id"] for e in extraction["evidence"]}
     machine_ids = {e["evidence_id"] for e in machine["evidence"]}
     assert not human_ids & machine_ids

@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-11-15",
+  "generated_at": "2026-11-16",
   "data_dir": "data/evidence_map",
   "topics": [
     {
@@ -51,7 +51,7 @@
       "extractions": "extractions/ai_education.json",
       "papers": 15,
       "claims": 4,
-      "evidence": 5,
+      "evidence": 10,
       "gaps": 3
     },
     {
@@ -63,7 +63,33 @@
       "extractions": "extractions/medical_imaging.json",
       "papers": 15,
       "claims": 3,
-      "evidence": 5,
+      "evidence": 10,
+      "gaps": 3
+    },
+    {
+      "topic_id": "ai_mental_health",
+      "name_zh": "AI 心理健康",
+      "name_en": "AI in Mental Health",
+      "question": "AI 聊天机器人、筛查与临床辅助工具在心理健康服务中的效果、可及性、风险与证据边界如何？",
+      "corpus": "corpus/ai_mental_health.json",
+      "extractions": "extractions/ai_mental_health.json",
+      "papers": 12,
+      "claims": 4,
+      "evidence": 10,
+      "auto_evidence": 2,
+      "gaps": 3
+    },
+    {
+      "topic_id": "ai_climate",
+      "name_zh": "AI 气候与能源",
+      "name_en": "AI for Climate and Energy",
+      "question": "机器学习在气候建模、极端天气预警、能源系统优化与减排中的应用效果、能耗代价与证据边界如何？",
+      "corpus": "corpus/ai_climate.json",
+      "extractions": "extractions/ai_climate.json",
+      "papers": 12,
+      "claims": 4,
+      "evidence": 10,
+      "auto_evidence": 2,
       "gaps": 3
     }
   ]

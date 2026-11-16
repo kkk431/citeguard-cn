@@ -1,0 +1,262 @@
+{
+  "schema_version": "1.0",
+  "topic": {
+    "topic_id": "ai_climate",
+    "name_zh": "AI 气候与能源",
+    "name_en": "AI for Climate and Energy",
+    "question": "机器学习在气候建模、极端天气预警、能源系统优化与减排中的应用效果、能耗代价与证据边界如何？",
+    "description": "聚焦 AI/ML 在可再生能源预测、能源系统优化、气候建模、极端天气预警与城市减排中的应用、能耗权衡与治理风险；12 篇开放获取论文，10 条人工摘要级证据，机器候选另存 auto_evidence。"
+  },
+  "extractor": "boundary（人工摘要级 curated）",
+  "extracted_at": "2026-11-16",
+  "protocol": "人工从 OpenAlex 摘要逐字摘录 quote（locator=Abstract），summary 为中文要点；stance 按 claim 与摘要句的关系标注；confidence 为摘要级证据强度与抽取确定性的人工判断（0–1）；verified=false 表示未核对全文。auto_evidence 仅存机器候选，不进入人工证据层。",
+  "claims": [
+    {
+      "claim_id": "clm-c1",
+      "topic_id": "ai_climate",
+      "text": "机器学习在可再生能源预测、能源系统优化与气候建模中能够提升效率与精度。",
+      "population": "能源系统与气候建模应用",
+      "outcome": "效率/预测精度",
+      "direction": "positive",
+      "notes": "人工摘要级 claim。"
+    },
+    {
+      "claim_id": "clm-c2",
+      "topic_id": "ai_climate",
+      "text": "AI 可帮助气候减缓与适应，包括极端天气预警、城市与基础设施优化。",
+      "population": "气候减缓与适应应用",
+      "outcome": "减缓/适应能力",
+      "direction": "positive",
+      "notes": "人工摘要级 claim。"
+    },
+    {
+      "claim_id": "clm-c3",
+      "topic_id": "ai_climate",
+      "text": "AI 自身训练与运行能耗可能削弱其气候收益，需权衡净减排。",
+      "population": "AI 系统全生命周期",
+      "outcome": "净减排/能耗",
+      "direction": "negative",
+      "notes": "人工摘要级 claim；关注净效应。"
+    },
+    {
+      "claim_id": "clm-c4",
+      "topic_id": "ai_climate",
+      "text": "现有证据足以证明 AI 气候应用可跨区域规模化并产生净减排。",
+      "population": "跨区域气候应用",
+      "outcome": "可迁移性/净减排",
+      "direction": "positive",
+      "notes": "对照 claim；用于检验证据是否支持强规模化结论。"
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "clm-e01",
+      "claim_id": "clm-c1",
+      "paper_id": "clm-004",
+      "stance": "support",
+      "summary": "系统综述指出 AI/ML 驱动的能源与气候变化建模在优化和预测分析方面取得显著进展。",
+      "quote": "The process of conducting a systematic review of the contemporary literature highlights significant advances in optimization and predictive analytics within energy and climate change modeling systems driven by artificial intelligence and machine learning.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.7,
+      "extracted_by": "human:abstract-curated",
+      "verified": false,
+      "notes": "仅读摘要，未读全文；人工筛选与摘要级抽取。"
+    },
+    {
+      "evidence_id": "clm-e02",
+      "claim_id": "clm-c1",
+      "paper_id": "clm-008",
+      "stance": "support",
+      "summary": "综述认为 ML 通过改进预测、预测性维护与气候建模，显著提升可再生能源系统效率、可扩展性与气候减缓。",
+      "quote": "The review found that machine learning significantly enhances renewable energy system efficiency, scalability, and climate change mitigation through improved forecasting, predictive maintenance, and climate modelling.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.65,
+      "extracted_by": "human:abstract-curated",
+      "verified": false,
+      "notes": "仅读摘要，未读全文；人工筛选与摘要级抽取。"
+    },
+    {
+      "evidence_id": "clm-e03",
+      "claim_id": "clm-c1",
+      "paper_id": "clm-010",
+      "stance": "support",
+      "summary": "美国中西部玉米产量数据表明，该半参数神经网络在留出年份预测上优于经典统计方法与全非参数神经网络。",
+      "quote": "Using data on corn yield from the US Midwest, we show that this approach outperforms both classical statistical methods and fully-nonparametric neural networks in predicting yields of years withheld during model training.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.75,
+      "extracted_by": "human:abstract-curated",
+      "verified": false,
+      "notes": "仅读摘要，未读全文；人工筛选与摘要级抽取。"
+    },
+    {
+      "evidence_id": "clm-e04",
+      "claim_id": "clm-c2",
+      "paper_id": "clm-001",
+      "stance": "support",
+      "summary": "该综述将 ML 描述为减少温室气体排放、帮助社会适应气候变化的有力工具。",
+      "quote": "Here we describe how ML can be a powerful tool in reducing greenhouse gas emissions and helping society adapt to a changing climate.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.7,
+      "extracted_by": "human:abstract-curated",
+      "verified": false,
+      "notes": "仅读摘要，未读全文；人工筛选与摘要级抽取。"
+    },
+    {
+      "evidence_id": "clm-e05",
+      "claim_id": "clm-c2",
+      "paper_id": "clm-002",
+      "stance": "support",
+      "summary": "AI 可在已发现的气候联系基础上，改进对临近天气特征（包括极端事件）的预警。",
+      "quote": "Artificial intelligence (AI) can then build on discovered climate connections to provide enhanced warnings of approaching weather features, including extreme events.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.65,
+      "extracted_by": "human:abstract-curated",
+      "verified": false,
+      "notes": "仅读摘要，未读全文；人工筛选与摘要级抽取。"
+    },
+    {
+      "evidence_id": "clm-e06",
+      "claim_id": "clm-c2",
+      "paper_id": "clm-007",
+      "stance": "support",
+      "summary": "综述认为利用 AI 技术优化绿色基础设施被视为城市应对气候变化的有力途径。",
+      "quote": "The utilisation of artificial intelligence (AI) technologies for GI optimisation is perceived as a powerful approach for cities.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.55,
+      "extracted_by": "human:abstract-curated",
+      "verified": false,
+      "notes": "仅读摘要，未读全文；人工筛选与摘要级抽取。"
+    },
+    {
+      "evidence_id": "clm-e07",
+      "claim_id": "clm-c3",
+      "paper_id": "clm-003",
+      "stance": "support",
+      "summary": "综述指出 AI 具有双重性：既促进能源优化、可再生能源整合与减碳，LLM 训练和运行也消耗大量能源，可能削弱碳中和努力。",
+      "quote": "However, their implementation has a dual character: on one hand, AI facilitates sustainable solutions, including energy optimization, renewable energy integration and carbon reduction; on the other hand, the training and operation of large language models (LLMs) entail significant energy consumption, potentially undermining carbon neutrality efforts.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.75,
+      "extracted_by": "human:abstract-curated",
+      "verified": false,
+      "notes": "仅读摘要，未读全文；人工筛选与摘要级抽取。"
+    },
+    {
+      "evidence_id": "clm-e08",
+      "claim_id": "clm-c3",
+      "paper_id": "clm-005",
+      "stance": "support",
+      "summary": "AI 发展在气候议题上带来两类问题：加剧既有社会伦理挑战，以及训练和计算密集系统排放温室气体。",
+      "quote": "However, the development of AI also raises two sets of problems when considering climate change: the possible exacerbation of social and ethical challenges already associated with AI, and the contribution to climate change of the greenhouse gases emitted by training data and computation-intensive AI systems.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.7,
+      "extracted_by": "human:abstract-curated",
+      "verified": false,
+      "notes": "仅读摘要，未读全文；人工筛选与摘要级抽取。"
+    },
+    {
+      "evidence_id": "clm-e09",
+      "claim_id": "clm-c3",
+      "paper_id": "clm-006",
+      "stance": "support",
+      "summary": "该文认为 AI 应用可能产生大量排放，但也可能在减缓与适应中发挥重要作用。",
+      "quote": "Findings AI applications may lead to substantial emissions but may also play an important role in mitigation and adaptation.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.6,
+      "extracted_by": "human:abstract-curated",
+      "verified": false,
+      "notes": "仅读摘要，未读全文；人工筛选与摘要级抽取。"
+    },
+    {
+      "evidence_id": "clm-e10",
+      "claim_id": "clm-c4",
+      "paper_id": "clm-011",
+      "stance": "contradict",
+      "summary": "系统地图警告 ML 城市气候研究受数据可得性与商业利益驱动，可能固化地理不平等并偏离高影响减排选项。",
+      "quote": "This trend may partly be driven by data availability and commercial interest, which risk perpetuating geographic inequities and diverting efforts toward less impactful mitigation options.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.7,
+      "extracted_by": "human:abstract-curated",
+      "verified": false,
+      "notes": "仅读摘要，未读全文；人工筛选与摘要级抽取。"
+    }
+  ],
+  "auto_evidence": [
+    {
+      "evidence_id": "clm-auto-01",
+      "claim_id": "clm-c1",
+      "paper_id": "clm-009",
+      "stance": "support",
+      "summary": "跨国面板分析称 AI 显著促进可再生能源发展，且通过两项稳健性检验（机器候选）。",
+      "quote": "First, artificial intelligence contributes significantly to the enhanced development of renewable energy, and this primary finding holds after two robustness tests of changing independent and dependent variables.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.35,
+      "extracted_by": "auto:abstract-rule-v1",
+      "verified": false,
+      "notes": "机器候选，未人工核验；不得混入人工证据层。"
+    },
+    {
+      "evidence_id": "clm-auto-02",
+      "claim_id": "clm-c1",
+      "paper_id": "clm-012",
+      "stance": "support",
+      "summary": "综述强调 AI 在加速太阳能/风能采用、需求侧管理与储能/配电创新中的关键作用（机器候选）。",
+      "quote": "The study identifies the pivotal role of AI in accelerating the adoption of intermittent renewable energy sources like solar and wind, managing demand-side dynamics with advanced forecasting and optimization, and enabling energy storage and distribution innovations such as vehicle-to-grid systems and hybrid energy solutions.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.3,
+      "extracted_by": "auto:abstract-rule-v1",
+      "verified": false,
+      "notes": "机器候选，未人工核验；不得混入人工证据层。"
+    }
+  ],
+  "gaps": [
+    {
+      "gap_id": "clm-g1",
+      "topic_id": "ai_climate",
+      "kind": "evidence",
+      "description": "缺少统一的净减排核算，AI 的正负气候效应难以直接相抵。",
+      "related_claim_ids": [
+        "clm-c1",
+        "clm-c3"
+      ],
+      "severity": "high",
+      "rationale": "不同研究的边界、基线和方法不一致。"
+    },
+    {
+      "gap_id": "clm-g2",
+      "topic_id": "ai_climate",
+      "kind": "method",
+      "description": "ML 预测与优化研究多缺乏跨区域、跨时段的外部验证。",
+      "related_claim_ids": [
+        "clm-c1",
+        "clm-c2"
+      ],
+      "severity": "high",
+      "rationale": "现有证据多为案例或模拟。"
+    },
+    {
+      "gap_id": "clm-g3",
+      "topic_id": "ai_climate",
+      "kind": "outcome",
+      "description": "成本、能耗与治理数据不完整，难以支持规模化部署结论。",
+      "related_claim_ids": [
+        "clm-c3",
+        "clm-c4"
+      ],
+      "severity": "medium",
+      "rationale": "需要全生命周期与部署层证据。"
+    }
+  ],
+  "notes": "人工层 10 条/主题，均为摘要级；未读全文，不声称覆盖全部文献。机器层单独存放，不参与人工证据图。"
+}

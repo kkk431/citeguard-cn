@@ -175,3 +175,13 @@ python -m pytest tests/test_evidence_graph.py -q
 ```
 
 未验证：真实前端渲染、队长抽查图数据交互、105 格 key 的长期可复现性（见风险 1）。
+
+## 9. 2026-11-16 四主题扩展
+
+t28 在原有 2 个静态主题之外新增 `ai_mental_health`、`ai_climate`（各 12 篇 OA 论文、4 条 claim、10 条人工摘要证据、2 条 `auto_evidence` 机器候选），并把机器候选与人工层分键。
+
+- 新增图产物：`data/evidence_map/graph/ai_mental_health.json`、`ai_climate.json`；每个主题 12 个 paper 节点、4 个 claim 节点、10 个 evidence 节点、10 条 `abstract_only` 边，`fulltext_edges=0`、`machine_edges=0`、`none_edges=0`、`cells=0`。
+- `auto_evidence` 不进入图：`tests/test_evidence_graph.py::test_extension_topics_keep_auto_evidence_out_of_graph` 断言 10 个 evidence 节点均非 `-auto`。
+- 旧 2 主题图仍保留 105 格审计边（40 fulltext / 11 abstract / 87 none）；新增主题没有 105 格审计，因此不生成 parent-cell 边，不能把“10 条摘要证据”误读为全文覆盖。
+- 4 个静态主题人工 evidence 合计 40 条（旧 2×10 + 新 2×10）；`auto_evidence` 合计 4 条，仅作契约样例。
+- 回归：`python -m pytest tests/test_evidence_map.py tests/test_evidence_graph.py -q` → 175 passed / 10 skipped；`--check` exit 0。

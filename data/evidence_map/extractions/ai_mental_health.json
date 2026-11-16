@@ -1,0 +1,262 @@
+{
+  "schema_version": "1.0",
+  "topic": {
+    "topic_id": "ai_mental_health",
+    "name_zh": "AI 心理健康",
+    "name_en": "AI in Mental Health",
+    "question": "AI 聊天机器人、筛查与临床辅助工具在心理健康服务中的效果、可及性、风险与证据边界如何？",
+    "description": "聚焦 AI 聊天机器人、数字心理干预、筛查与临床辅助在抑郁、焦虑等心理健康问题中的效果、可接受性、安全风险与监管证据；12 篇开放获取论文，10 条人工摘要级证据，机器候选另存 auto_evidence。"
+  },
+  "extractor": "boundary（人工摘要级 curated）",
+  "extracted_at": "2026-11-16",
+  "protocol": "人工从 OpenAlex 摘要逐字摘录 quote（locator=Abstract），summary 为中文要点；stance 按 claim 与摘要句的关系标注；confidence 为摘要级证据强度与抽取确定性的人工判断（0–1）；verified=false 表示未核对全文。auto_evidence 仅存机器候选，不进入人工证据层。",
+  "claims": [
+    {
+      "claim_id": "amh-c1",
+      "topic_id": "ai_mental_health",
+      "text": "AI 聊天机器人与数字心理干预能够显著改善抑郁、焦虑症状。",
+      "population": "使用数字心理健康服务的成人",
+      "outcome": "抑郁/焦虑症状",
+      "direction": "positive",
+      "notes": "人工摘要级 claim；不主张长期疗效。"
+    },
+    {
+      "claim_id": "amh-c2",
+      "topic_id": "ai_mental_health",
+      "text": "AI 心理健康工具在可接受性、可及性与临床辅助方面具备初步可行性。",
+      "population": "使用 AI 心理健康工具的人群",
+      "outcome": "可接受性/可及性/临床辅助",
+      "direction": "positive",
+      "notes": "人工摘要级 claim。"
+    },
+    {
+      "claim_id": "amh-c3",
+      "topic_id": "ai_mental_health",
+      "text": "AI 心理健康应用存在隐私、偏见、错误建议与安全风险，需要人工监督与部署前评估。",
+      "population": "AI 心理健康应用的使用者与部署机构",
+      "outcome": "安全/伦理风险",
+      "direction": "negative",
+      "notes": "人工摘要级 claim；风险证据而非疗效证据。"
+    },
+    {
+      "claim_id": "amh-c4",
+      "topic_id": "ai_mental_health",
+      "text": "现有证据足以支持 AI 独立替代心理治疗师。",
+      "population": "心理治疗服务提供与使用场景",
+      "outcome": "替代人工治疗师",
+      "direction": "positive",
+      "notes": "对照 claim；用于检验证据是否支持强替代结论。"
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "amh-e01",
+      "claim_id": "amh-c1",
+      "paper_id": "amh-001",
+      "stance": "support",
+      "summary": "范围综述纳入 15 项研究，认为聊天机器人对心理与情绪健康、特定心理状况及行为改变有潜在益处。",
+      "quote": "AI chatbots demonstrated potential benefits in improving mental and emotional well-being, addressing specific mental health conditions, and facilitating behavior change.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.65,
+      "extracted_by": "human:abstract-curated",
+      "verified": false,
+      "notes": "仅读摘要，未读全文；人工筛选与摘要级抽取。"
+    },
+    {
+      "evidence_id": "amh-e02",
+      "claim_id": "amh-c1",
+      "paper_id": "amh-002",
+      "stance": "support",
+      "summary": "综述称聊天机器人、移动应用与 LLM 在减轻焦虑/抑郁症状、提升参与度和结局方面显示出效果。",
+      "quote": "Tools such as AI-driven chatbots, mobile apps, and LLMs have demonstrated efficacy in reducing symptoms of anxiety and depression, improving user engagement and mental health outcomes.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.6,
+      "extracted_by": "human:abstract-curated",
+      "verified": false,
+      "notes": "仅读摘要，未读全文；人工筛选与摘要级抽取。"
+    },
+    {
+      "evidence_id": "amh-e03",
+      "claim_id": "amh-c1",
+      "paper_id": "amh-004",
+      "stance": "support",
+      "summary": "真实世界 Wysa 用户的前后测显示 PHQ-9 与 GAD-7 组均值显著改善，效应量中等。",
+      "quote": "Furthermore, users with pre-post assessments during the study period were found to have significant improvements in group means for both PHQ-9 and GAD-7 symptom scores, with a medium effect size (Cohen d=0.60-0.61).",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.7,
+      "extracted_by": "human:abstract-curated",
+      "verified": false,
+      "notes": "仅读摘要，未读全文；人工筛选与摘要级抽取。"
+    },
+    {
+      "evidence_id": "amh-e04",
+      "claim_id": "amh-c1",
+      "paper_id": "amh-009",
+      "stance": "contradict",
+      "summary": "该叙述性综述指出相关研究样本小、缺少长期随访，难以对疗效下确定结论。",
+      "quote": "However, these studies often involve small participant groups and lack long-term follow-up, making it difficult to draw definitive conclusions about their effectiveness.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.7,
+      "extracted_by": "human:abstract-curated",
+      "verified": false,
+      "notes": "仅读摘要，未读全文；人工筛选与摘要级抽取。"
+    },
+    {
+      "evidence_id": "amh-e05",
+      "claim_id": "amh-c2",
+      "paper_id": "amh-010",
+      "stance": "support",
+      "summary": "轻度至中度焦虑/抑郁参与者认为 VR 中的 AI 治疗化身可接受、有帮助且安全，并真实投入。",
+      "quote": "Speaking with an AI therapy avatar in VR was considered acceptable, helpful, and safe, with participants observed to engage genuinely with the program.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.6,
+      "extracted_by": "human:abstract-curated",
+      "verified": false,
+      "notes": "仅读摘要，未读全文；人工筛选与摘要级抽取。"
+    },
+    {
+      "evidence_id": "amh-e06",
+      "claim_id": "amh-c2",
+      "paper_id": "amh-006",
+      "stance": "support",
+      "summary": "系统综述称 AI 方法在治疗心理问题方面显示出显著正向结果。",
+      "quote": "The results obtained showed the significant positive consequences of using AI-based approaches in treating mental health issues.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.55,
+      "extracted_by": "human:abstract-curated",
+      "verified": false,
+      "notes": "仅读摘要，未读全文；人工筛选与摘要级抽取。"
+    },
+    {
+      "evidence_id": "amh-e07",
+      "claim_id": "amh-c3",
+      "paper_id": "amh-011",
+      "stance": "support",
+      "summary": "生成式 AI 虽可能推动心理健康技术进步，但给服务使用者带来安全风险。",
+      "quote": "While generative artificial intelligence (AI) may lead to technological advances in the mental health field, it poses safety risks for mental health service consumers.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.75,
+      "extracted_by": "human:abstract-curated",
+      "verified": false,
+      "notes": "仅读摘要，未读全文；人工筛选与摘要级抽取。"
+    },
+    {
+      "evidence_id": "amh-e08",
+      "claim_id": "amh-c3",
+      "paper_id": "amh-008",
+      "stance": "support",
+      "summary": "系统综述强调 AI 心理健康干预在负责任实施与影响评估中的伦理考量。",
+      "quote": "This systematic review highlights the importance of ethical considerations in the responsible implementation and impact of AI interventions for mental health and well-being.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.65,
+      "extracted_by": "human:abstract-curated",
+      "verified": false,
+      "notes": "仅读摘要，未读全文；人工筛选与摘要级抽取。"
+    },
+    {
+      "evidence_id": "amh-e09",
+      "claim_id": "amh-c3",
+      "paper_id": "amh-007",
+      "stance": "support",
+      "summary": "对 ChatGPT 生成的护理计划评估发现，输出对外行看似合理，但存在显著错误与伦理问题。",
+      "quote": "We found that the output could look reasonable to laypersons but there were significant errors and ethical issues.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.7,
+      "extracted_by": "human:abstract-curated",
+      "verified": false,
+      "notes": "仅读摘要，未读全文；人工筛选与摘要级抽取。"
+    },
+    {
+      "evidence_id": "amh-e10",
+      "claim_id": "amh-c4",
+      "paper_id": "amh-009",
+      "stance": "contradict",
+      "summary": "该文主张 AI 应补充而非替代心理治疗中的人类要素，并需处理算法偏见、伦理与人工监督问题。",
+      "quote": "We must carefully address the limitations of AI, such as algorithmic bias, ethical concerns, and the need for human oversight, to prevent future disparities and ensure that AI complements rather than replaces the essential human elements of psychotherapy.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.65,
+      "extracted_by": "human:abstract-curated",
+      "verified": false,
+      "notes": "仅读摘要，未读全文；人工筛选与摘要级抽取。"
+    }
+  ],
+  "auto_evidence": [
+    {
+      "evidence_id": "amh-auto-01",
+      "claim_id": "amh-c2",
+      "paper_id": "amh-005",
+      "stance": "support",
+      "summary": "MOST 在线社交治疗系统在多项临床研究中显示可行性（机器候选，未人工核验）。",
+      "quote": "To date, the innovative MOST system has demonstrated viability in a series of clinical research trials.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.35,
+      "extracted_by": "auto:abstract-rule-v1",
+      "verified": false,
+      "notes": "机器候选，未人工核验；不得混入人工证据层。"
+    },
+    {
+      "evidence_id": "amh-auto-02",
+      "claim_id": "amh-c1",
+      "paper_id": "amh-012",
+      "stance": "neutral",
+      "summary": "文献计量分析称 AI 与传统治疗结合时效果中等，但人群多样性与参与因素仍不清楚（机器候选）。",
+      "quote": "While AI shows moderate effectiveness when combined with traditional therapy, challenges remain, including limited population diversity and unclear factors influencing user engagement.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.3,
+      "extracted_by": "auto:abstract-rule-v1",
+      "verified": false,
+      "notes": "机器候选，未人工核验；不得混入人工证据层。"
+    }
+  ],
+  "gaps": [
+    {
+      "gap_id": "amh-g1",
+      "topic_id": "ai_mental_health",
+      "kind": "evidence",
+      "description": "缺少长期随访与严格对照试验，无法确认症状改善是否可持续。",
+      "related_claim_ids": [
+        "amh-c1",
+        "amh-c2"
+      ],
+      "severity": "high",
+      "rationale": "多数纳入研究为短期、小样本或前后测设计。"
+    },
+    {
+      "gap_id": "amh-g2",
+      "topic_id": "ai_mental_health",
+      "kind": "sample",
+      "description": "样本以自评、便利抽样和特定人群为主，跨文化/跨服务系统外推受限。",
+      "related_claim_ids": [
+        "amh-c1",
+        "amh-c2"
+      ],
+      "severity": "medium",
+      "rationale": "摘要级证据无法核验样本代表性。"
+    },
+    {
+      "gap_id": "amh-g3",
+      "topic_id": "ai_mental_health",
+      "kind": "outcome",
+      "description": "疗效多以自评量表衡量，缺少临床诊断、功能结局与伤害结局。",
+      "related_claim_ids": [
+        "amh-c1",
+        "amh-c3"
+      ],
+      "severity": "medium",
+      "rationale": "自评改善不等同于临床有效。"
+    }
+  ],
+  "notes": "人工层 10 条/主题，均为摘要级；未读全文，不声称覆盖全部文献。机器层单独存放，不参与人工证据图。"
+}

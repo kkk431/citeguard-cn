@@ -207,6 +207,103 @@
       "extracted_by": "boundary（人工示例）",
       "verified": false,
       "notes": "仅读摘要、未读全文；质性小样本、三校案例，不能外推到全国，置信度 0.66。"
+    },
+    {
+      "evidence_id": "edu-e06",
+      "claim_id": "edu-c1",
+      "paper_id": "edu-012",
+      "stance": "support",
+      "summary": "香港 399 名本硕学生调查显示，对 GenAI 用于教与学总体持积极态度，并认可个性化学习、写作与研究辅助等收益。",
+      "quote": "A survey of 399 undergraduate and postgraduate students from various disciplines in Hong Kong revealed a generally positive attitude towards GenAI in teaching and learning.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.6,
+      "extracted_by": "human:abstract-curated",
+      "verified": false,
+      "notes": "仅读摘要；自评态度与感知收益，不是客观学习成效。",
+      "sample": {
+        "sample_id": "edu-s06",
+        "size": 399,
+        "unit": "students",
+        "population": "香港高校本科生与研究生",
+        "setting": "香港多学科",
+        "country": "HK",
+        "recruitment": "问卷调查"
+      }
+    },
+    {
+      "evidence_id": "edu-e07",
+      "claim_id": "edu-c1",
+      "paper_id": "edu-007",
+      "stance": "support",
+      "summary": "中国顶尖高校 253 名学生认为 AI 有用且易用，但同时对内容准确性、过度依赖与伦理问题存有顾虑。",
+      "quote": "Results revealed that while they viewed AI as useful for enhancing efficiency and easy to use, concerns about content accuracy, over-reliance, and ethical issues persisted.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.6,
+      "extracted_by": "human:abstract-curated",
+      "verified": false,
+      "notes": "仅读摘要；感知有用性不等同客观学习收益。",
+      "sample": {
+        "sample_id": "edu-s07",
+        "size": 253,
+        "unit": "students",
+        "population": "中国顶尖高校学生",
+        "setting": "中国某顶尖高校",
+        "country": "CN",
+        "recruitment": "Likert 问卷 + 开放题"
+      }
+    },
+    {
+      "evidence_id": "edu-e08",
+      "claim_id": "edu-c2",
+      "paper_id": "edu-006",
+      "stance": "support",
+      "summary": "深度知识追踪在真实数据集上能较准确刻画学生知识状态，支持学习诊断与表现预测。",
+      "quote": "Extensive experiments are conducted over a series of real datasets showing that our proposal accurately captures students' knowledge states.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.55,
+      "extracted_by": "human:abstract-curated",
+      "verified": false,
+      "notes": "仅读摘要；摘要未给样本量，支持知识追踪精度，不等同教学效果因果。"
+    },
+    {
+      "evidence_id": "edu-e09",
+      "claim_id": "edu-c4",
+      "paper_id": "edu-007",
+      "stance": "support",
+      "summary": "机构支持显著影响 AI 采用，社交影响作用较小，提示校际资源与制度支持差异会影响收益分布。",
+      "quote": "Institutional support significantly motivated adoption, whereas social influence played a lesser role.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.5,
+      "extracted_by": "human:abstract-curated",
+      "verified": false,
+      "notes": "仅读摘要；间接支持校际差异，未直接测量城乡不平等。",
+      "sample": {
+        "sample_id": "edu-s07",
+        "size": 253,
+        "unit": "students",
+        "population": "中国顶尖高校学生",
+        "setting": "中国某顶尖高校",
+        "country": "CN",
+        "recruitment": "Likert 问卷 + 开放题"
+      }
+    },
+    {
+      "evidence_id": "edu-e10",
+      "claim_id": "edu-c3",
+      "paper_id": "edu-011",
+      "stance": "support",
+      "summary": "综述称 AI 聊天机器人可独立或与教师协同执行教学职责，作为“替代教师”论的支持方叙述。",
+      "quote": "AI initially took the form of computer and computer related technologies, transitioning to web-based and online intelligent education systems, and ultimately with the use of embedded computer systems, together with other technologies, the use of humanoid robots and web-based chatbots to perform instructors' duties and functions independently or with instructors.",
+      "quote_lang": "en",
+      "locator": "Abstract",
+      "confidence": 0.5,
+      "extracted_by": "human:abstract-curated",
+      "verified": false,
+      "notes": "仅读摘要；叙述性综述，非实证；应与 edu-e04 的矛盾证据对读。"
     }
   ],
   "gaps": [

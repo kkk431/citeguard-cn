@@ -1,0 +1,823 @@
+{
+  "schema_version": "1.0",
+  "topic": {
+    "topic_id": "ai_climate",
+    "name_zh": "AI 气候与能源",
+    "name_en": "AI for Climate and Energy",
+    "question": "机器学习在气候建模、极端天气预警、能源系统优化与减排中的应用效果、能耗代价与证据边界如何？",
+    "description": "聚焦 AI/ML 在可再生能源预测、能源系统优化、气候建模、极端天气预警与城市减排中的应用、能耗权衡与治理风险；12 篇开放获取论文，10 条人工摘要级证据，机器候选另存 auto_evidence。"
+  },
+  "topic_id": "ai_climate",
+  "generated_at": "2026-11-16",
+  "nodes": [
+    {
+      "id": "clm-001",
+      "type": "paper",
+      "label": "Tackling Climate Change with Machine Learning",
+      "meta": {
+        "paper_id": "clm-001",
+        "title": "Tackling Climate Change with Machine Learning",
+        "authors": [
+          "David Rolnick",
+          "Priya L. Donti",
+          "Lynn H. Kaack",
+          "Kelly Kochanski",
+          "Alexandre Lacoste",
+          "Kris Sankaran",
+          "Andrew Slavin Ross",
+          "Nikola Milojevic-Dupont",
+          "Natasha Jaques",
+          "Anna Waldman‐Brown",
+          "Alexandra Sasha Luccioni",
+          "Tegan Maharaj"
+        ],
+        "year": 2022,
+        "venue": "ACM Computing Surveys",
+        "doi": "10.1145/3485128",
+        "openalex_id": "W2950398529",
+        "url": "https://doi.org/10.1145/3485128",
+        "license": "cc-by",
+        "is_oa": true,
+        "fulltext_available": true,
+        "oa_url": "https://dl.acm.org/doi/pdf/10.1145/3485128",
+        "oa_status": "hybrid",
+        "language": "en",
+        "topic_id": "ai_climate",
+        "cn_affiliated": false,
+        "cited_by": 1959,
+        "source": "openalex",
+        "notes": "元数据与摘要来自 OpenAlex；开放全文链接见 oa_url，未提交 PDF。"
+      }
+    },
+    {
+      "id": "clm-002",
+      "type": "paper",
+      "label": "Machine learning and artificial intelligence to aid climate change research and preparedness",
+      "meta": {
+        "paper_id": "clm-002",
+        "title": "Machine learning and artificial intelligence to aid climate change research and preparedness",
+        "authors": [
+          "Chris Huntingford",
+          "Elizabeth S. Jeffers",
+          "Michael B. Bonsall",
+          "Hannah M. Christensen",
+          "Thomas Lees",
+          "Hui Yang"
+        ],
+        "year": 2019,
+        "venue": "Environmental Research Letters",
+        "doi": "10.1088/1748-9326/ab4e55",
+        "openalex_id": "W2990621239",
+        "url": "https://doi.org/10.1088/1748-9326/ab4e55",
+        "license": "cc-by",
+        "is_oa": true,
+        "fulltext_available": true,
+        "oa_url": "https://iopscience.iop.org/article/10.1088/1748-9326/ab4e55/pdf",
+        "oa_status": "gold",
+        "language": "en",
+        "topic_id": "ai_climate",
+        "cn_affiliated": false,
+        "cited_by": 522,
+        "source": "openalex",
+        "notes": "元数据与摘要来自 OpenAlex；开放全文链接见 oa_url，未提交 PDF。"
+      }
+    },
+    {
+      "id": "clm-003",
+      "type": "paper",
+      "label": "Challenges of Artificial Intelligence Development in the Context of Energy Consumption and Impact on Climate Change",
+      "meta": {
+        "paper_id": "clm-003",
+        "title": "Challenges of Artificial Intelligence Development in the Context of Energy Consumption and Impact on Climate Change",
+        "authors": [
+          "Sergiusz Pimenow",
+          "Olena Pimenowa",
+          "Piotr Prus"
+        ],
+        "year": 2024,
+        "venue": "Energies",
+        "doi": "10.3390/en17235965",
+        "openalex_id": "W4404760618",
+        "url": "https://doi.org/10.3390/en17235965",
+        "license": "cc-by",
+        "is_oa": true,
+        "fulltext_available": true,
+        "oa_url": "https://www.mdpi.com/1996-1073/17/23/5965/pdf?version=1732702291",
+        "oa_status": "gold",
+        "language": "en",
+        "topic_id": "ai_climate",
+        "cn_affiliated": false,
+        "cited_by": 146,
+        "source": "openalex",
+        "notes": "元数据与摘要来自 OpenAlex；开放全文链接见 oa_url，未提交 PDF。"
+      }
+    },
+    {
+      "id": "clm-004",
+      "type": "paper",
+      "label": "Advancements and future outlook of Artificial Intelligence in energy and climate change modeling",
+      "meta": {
+        "paper_id": "clm-004",
+        "title": "Advancements and future outlook of Artificial Intelligence in energy and climate change modeling",
+        "authors": [
+          "Mobolaji Shobanke",
+          "Mehul Bhatt",
+          "Ekundayo Shittu"
+        ],
+        "year": 2025,
+        "venue": "Advances in Applied Energy",
+        "doi": "10.1016/j.adapen.2025.100211",
+        "openalex_id": "W4406901397",
+        "url": "https://doi.org/10.1016/j.adapen.2025.100211",
+        "license": "cc-by-nc-nd",
+        "is_oa": true,
+        "fulltext_available": false,
+        "oa_url": "https://doi.org/10.1016/j.adapen.2025.100211",
+        "oa_status": "gold",
+        "language": "en",
+        "topic_id": "ai_climate",
+        "cn_affiliated": false,
+        "cited_by": 96,
+        "source": "openalex",
+        "notes": "元数据与摘要来自 OpenAlex；未下载或提交 PDF。"
+      }
+    },
+    {
+      "id": "clm-005",
+      "type": "paper",
+      "label": "The AI gambit: leveraging artificial intelligence to combat climate change—opportunities, challenges, and recommendations",
+      "meta": {
+        "paper_id": "clm-005",
+        "title": "The AI gambit: leveraging artificial intelligence to combat climate change—opportunities, challenges, and recommendations",
+        "authors": [
+          "Josh Cowls",
+          "Andreas Tsamados",
+          "Mariarosaria Taddeo",
+          "Luciano Floridi"
+        ],
+        "year": 2021,
+        "venue": "AI & Society",
+        "doi": "10.1007/s00146-021-01294-x",
+        "openalex_id": "W3207559276",
+        "url": "https://doi.org/10.1007/s00146-021-01294-x",
+        "license": "cc-by",
+        "is_oa": true,
+        "fulltext_available": true,
+        "oa_url": "https://link.springer.com/content/pdf/10.1007/s00146-021-01294-x.pdf",
+        "oa_status": "hybrid",
+        "language": "en",
+        "topic_id": "ai_climate",
+        "cn_affiliated": false,
+        "cited_by": 673,
+        "source": "openalex",
+        "notes": "元数据与摘要来自 OpenAlex；开放全文链接见 oa_url，未提交 PDF。"
+      }
+    },
+    {
+      "id": "clm-006",
+      "type": "paper",
+      "label": "Artificial intelligence and climate change: ethical issues",
+      "meta": {
+        "paper_id": "clm-006",
+        "title": "Artificial intelligence and climate change: ethical issues",
+        "authors": [
+          "Anders Nordgren"
+        ],
+        "year": 2022,
+        "venue": "Journal of Information Communication and Ethics in Society",
+        "doi": "10.1108/jices-11-2021-0106",
+        "openalex_id": "W4211158612",
+        "url": "https://doi.org/10.1108/jices-11-2021-0106",
+        "license": "cc-by",
+        "is_oa": true,
+        "fulltext_available": true,
+        "oa_url": "https://www.emerald.com/insight/content/doi/10.1108/JICES-11-2021-0106/full/pdf?title=artificial-intelligence-and-climate-change-ethical-issues",
+        "oa_status": "hybrid",
+        "language": "en",
+        "topic_id": "ai_climate",
+        "cn_affiliated": false,
+        "cited_by": 122,
+        "source": "openalex",
+        "notes": "元数据与摘要来自 OpenAlex；开放全文链接见 oa_url，未提交 PDF。"
+      }
+    },
+    {
+      "id": "clm-007",
+      "type": "paper",
+      "label": "Algorithmic green infrastructure optimisation: Review of artificial intelligence driven approaches for tackling climate change",
+      "meta": {
+        "paper_id": "clm-007",
+        "title": "Algorithmic green infrastructure optimisation: Review of artificial intelligence driven approaches for tackling climate change",
+        "authors": [
+          "Abdulrazzaq Shaamala",
+          "Tan Yiğitcanlar",
+          "Alireza Nili",
+          "Dan Nyandega"
+        ],
+        "year": 2024,
+        "venue": "Sustainable Cities and Society",
+        "doi": "10.1016/j.scs.2024.105182",
+        "openalex_id": "W4390646596",
+        "url": "https://doi.org/10.1016/j.scs.2024.105182",
+        "license": "cc-by",
+        "is_oa": true,
+        "fulltext_available": false,
+        "oa_url": "https://doi.org/10.1016/j.scs.2024.105182",
+        "oa_status": "hybrid",
+        "language": "en",
+        "topic_id": "ai_climate",
+        "cn_affiliated": false,
+        "cited_by": 114,
+        "source": "openalex",
+        "notes": "元数据与摘要来自 OpenAlex；未下载或提交 PDF。"
+      }
+    },
+    {
+      "id": "clm-008",
+      "type": "paper",
+      "label": "Harnessing machine learning for sustainable futures: advancements in renewable energy and climate change mitigation",
+      "meta": {
+        "paper_id": "clm-008",
+        "title": "Harnessing machine learning for sustainable futures: advancements in renewable energy and climate change mitigation",
+        "authors": [
+          "Kingsley O. Ukoba",
+          "Oluwatayo Racheal Onisuru",
+          "Tien‐Chien Jen"
+        ],
+        "year": 2024,
+        "venue": "Bulletin of the National Research Centre/Bulletin of the National Research Center",
+        "doi": "10.1186/s42269-024-01254-7",
+        "openalex_id": "W4403162989",
+        "url": "https://doi.org/10.1186/s42269-024-01254-7",
+        "license": "cc-by",
+        "is_oa": true,
+        "fulltext_available": true,
+        "oa_url": "https://bnrc.springeropen.com/counter/pdf/10.1186/s42269-024-01254-7",
+        "oa_status": "diamond",
+        "language": "en",
+        "topic_id": "ai_climate",
+        "cn_affiliated": false,
+        "cited_by": 49,
+        "source": "openalex",
+        "notes": "元数据与摘要来自 OpenAlex；开放全文链接见 oa_url，未提交 PDF。"
+      }
+    },
+    {
+      "id": "clm-009",
+      "type": "paper",
+      "label": "How does artificial intelligence promote renewable energy development? The role of climate finance",
+      "meta": {
+        "paper_id": "clm-009",
+        "title": "How does artificial intelligence promote renewable energy development? The role of climate finance",
+        "authors": [
+          "Congyu Zhao",
+          "Kangyin Y. Dong",
+          "Kun Wang",
+          "Rabindra Nepal"
+        ],
+        "year": 2024,
+        "venue": "Energy Economics",
+        "doi": "10.1016/j.eneco.2024.107493",
+        "openalex_id": "W4393098566",
+        "url": "https://doi.org/10.1016/j.eneco.2024.107493",
+        "license": "cc-by",
+        "is_oa": true,
+        "fulltext_available": false,
+        "oa_url": "https://doi.org/10.1016/j.eneco.2024.107493",
+        "oa_status": "hybrid",
+        "language": "en",
+        "topic_id": "ai_climate",
+        "cn_affiliated": false,
+        "cited_by": 192,
+        "source": "openalex",
+        "notes": "元数据与摘要来自 OpenAlex；未下载或提交 PDF。"
+      }
+    },
+    {
+      "id": "clm-010",
+      "type": "paper",
+      "label": "Machine learning methods for crop yield prediction and climate change impact assessment in agriculture",
+      "meta": {
+        "paper_id": "clm-010",
+        "title": "Machine learning methods for crop yield prediction and climate change impact assessment in agriculture",
+        "authors": [
+          "Andrew Crane‐Droesch"
+        ],
+        "year": 2018,
+        "venue": "Environmental Research Letters",
+        "doi": "10.1088/1748-9326/aae159",
+        "openalex_id": "W2891765392",
+        "url": "https://doi.org/10.1088/1748-9326/aae159",
+        "license": "cc-by",
+        "is_oa": true,
+        "fulltext_available": true,
+        "oa_url": "https://iopscience.iop.org/article/10.1088/1748-9326/aae159/pdf",
+        "oa_status": "gold",
+        "language": "en",
+        "topic_id": "ai_climate",
+        "cn_affiliated": false,
+        "cited_by": 550,
+        "source": "openalex",
+        "notes": "元数据与摘要来自 OpenAlex；开放全文链接见 oa_url，未提交 PDF。"
+      }
+    },
+    {
+      "id": "clm-011",
+      "type": "paper",
+      "label": "A systematic map of machine learning for urban climate change mitigation",
+      "meta": {
+        "paper_id": "clm-011",
+        "title": "A systematic map of machine learning for urban climate change mitigation",
+        "authors": [
+          "Marie Josefine Hintz",
+          "Nikola Milojevic-Dupont",
+          "Felix Creutzig",
+          "Tim Repke",
+          "Lynn H. Kaack"
+        ],
+        "year": 2025,
+        "venue": "Nature Cities",
+        "doi": "10.1038/s44284-025-00328-5",
+        "openalex_id": "W4414589076",
+        "url": "https://doi.org/10.1038/s44284-025-00328-5",
+        "license": "cc-by-sa",
+        "is_oa": true,
+        "fulltext_available": false,
+        "oa_url": "https://doi.org/10.1038/s44284-025-00328-5",
+        "oa_status": "hybrid",
+        "language": "en",
+        "topic_id": "ai_climate",
+        "cn_affiliated": false,
+        "cited_by": 11,
+        "source": "openalex",
+        "notes": "元数据与摘要来自 OpenAlex；未下载或提交 PDF。"
+      }
+    },
+    {
+      "id": "clm-012",
+      "type": "paper",
+      "label": "Integrating artificial intelligence in energy transition: A comprehensive review",
+      "meta": {
+        "paper_id": "clm-012",
+        "title": "Integrating artificial intelligence in energy transition: A comprehensive review",
+        "authors": [
+          "Qiang Wang",
+          "Yuanfan Li",
+          "Rongrong Li"
+        ],
+        "year": 2025,
+        "venue": "Energy Strategy Reviews",
+        "doi": "10.1016/j.esr.2024.101600",
+        "openalex_id": "W4406070501",
+        "url": "https://doi.org/10.1016/j.esr.2024.101600",
+        "license": "cc-by",
+        "is_oa": true,
+        "fulltext_available": false,
+        "oa_url": "https://doi.org/10.1016/j.esr.2024.101600",
+        "oa_status": "gold",
+        "language": "en",
+        "topic_id": "ai_climate",
+        "cn_affiliated": false,
+        "cited_by": 307,
+        "source": "openalex",
+        "notes": "元数据与摘要来自 OpenAlex；未下载或提交 PDF。"
+      }
+    },
+    {
+      "id": "clm-c1",
+      "type": "claim",
+      "label": "机器学习在可再生能源预测、能源系统优化与气候建模中能够提升效率与精度。",
+      "meta": {
+        "claim_id": "clm-c1",
+        "topic_id": "ai_climate",
+        "text": "机器学习在可再生能源预测、能源系统优化与气候建模中能够提升效率与精度。",
+        "population": "能源系统与气候建模应用",
+        "outcome": "效率/预测精度",
+        "direction": "positive",
+        "notes": "人工摘要级 claim。",
+        "claim_level": "parent",
+        "parent_claim_id": "clm-c1"
+      }
+    },
+    {
+      "id": "clm-c2",
+      "type": "claim",
+      "label": "AI 可帮助气候减缓与适应，包括极端天气预警、城市与基础设施优化。",
+      "meta": {
+        "claim_id": "clm-c2",
+        "topic_id": "ai_climate",
+        "text": "AI 可帮助气候减缓与适应，包括极端天气预警、城市与基础设施优化。",
+        "population": "气候减缓与适应应用",
+        "outcome": "减缓/适应能力",
+        "direction": "positive",
+        "notes": "人工摘要级 claim。",
+        "claim_level": "parent",
+        "parent_claim_id": "clm-c2"
+      }
+    },
+    {
+      "id": "clm-c3",
+      "type": "claim",
+      "label": "AI 自身训练与运行能耗可能削弱其气候收益，需权衡净减排。",
+      "meta": {
+        "claim_id": "clm-c3",
+        "topic_id": "ai_climate",
+        "text": "AI 自身训练与运行能耗可能削弱其气候收益，需权衡净减排。",
+        "population": "AI 系统全生命周期",
+        "outcome": "净减排/能耗",
+        "direction": "negative",
+        "notes": "人工摘要级 claim；关注净效应。",
+        "claim_level": "parent",
+        "parent_claim_id": "clm-c3"
+      }
+    },
+    {
+      "id": "clm-c4",
+      "type": "claim",
+      "label": "现有证据足以证明 AI 气候应用可跨区域规模化并产生净减排。",
+      "meta": {
+        "claim_id": "clm-c4",
+        "topic_id": "ai_climate",
+        "text": "现有证据足以证明 AI 气候应用可跨区域规模化并产生净减排。",
+        "population": "跨区域气候应用",
+        "outcome": "可迁移性/净减排",
+        "direction": "positive",
+        "notes": "对照 claim；用于检验证据是否支持强规模化结论。",
+        "claim_level": "parent",
+        "parent_claim_id": "clm-c4"
+      }
+    },
+    {
+      "id": "clm-e01",
+      "type": "evidence",
+      "label": "系统综述指出 AI/ML 驱动的能源与气候变化建模在优化和预测分析方面取得显著进展。",
+      "meta": {
+        "evidence_id": "clm-e01",
+        "paper_id": "clm-004",
+        "claim_id": "clm-c1",
+        "parent_claim_id": "",
+        "atomic_id": "",
+        "stance": "support",
+        "level": "abstract",
+        "summary": "系统综述指出 AI/ML 驱动的能源与气候变化建模在优化和预测分析方面取得显著进展。",
+        "quote": "The process of conducting a systematic review of the contemporary literature highlights significant advances in optimization and predictive analytics within energy and climate change modeling systems driven by artificial intelligence and machine learning.",
+        "locator": "Abstract",
+        "confidence": 0.7,
+        "verified": false,
+        "source": "human:abstract-curated",
+        "fulltext_verdict": ""
+      }
+    },
+    {
+      "id": "clm-e02",
+      "type": "evidence",
+      "label": "综述认为 ML 通过改进预测、预测性维护与气候建模，显著提升可再生能源系统效率、可扩展性与气候减缓。",
+      "meta": {
+        "evidence_id": "clm-e02",
+        "paper_id": "clm-008",
+        "claim_id": "clm-c1",
+        "parent_claim_id": "",
+        "atomic_id": "",
+        "stance": "support",
+        "level": "abstract",
+        "summary": "综述认为 ML 通过改进预测、预测性维护与气候建模，显著提升可再生能源系统效率、可扩展性与气候减缓。",
+        "quote": "The review found that machine learning significantly enhances renewable energy system efficiency, scalability, and climate change mitigation through improved forecasting, predictive maintenance, and climate modelling.",
+        "locator": "Abstract",
+        "confidence": 0.65,
+        "verified": false,
+        "source": "human:abstract-curated",
+        "fulltext_verdict": ""
+      }
+    },
+    {
+      "id": "clm-e03",
+      "type": "evidence",
+      "label": "美国中西部玉米产量数据表明，该半参数神经网络在留出年份预测上优于经典统计方法与全非参数神经网络。",
+      "meta": {
+        "evidence_id": "clm-e03",
+        "paper_id": "clm-010",
+        "claim_id": "clm-c1",
+        "parent_claim_id": "",
+        "atomic_id": "",
+        "stance": "support",
+        "level": "abstract",
+        "summary": "美国中西部玉米产量数据表明，该半参数神经网络在留出年份预测上优于经典统计方法与全非参数神经网络。",
+        "quote": "Using data on corn yield from the US Midwest, we show that this approach outperforms both classical statistical methods and fully-nonparametric neural networks in predicting yields of years withheld during model training.",
+        "locator": "Abstract",
+        "confidence": 0.75,
+        "verified": false,
+        "source": "human:abstract-curated",
+        "fulltext_verdict": ""
+      }
+    },
+    {
+      "id": "clm-e04",
+      "type": "evidence",
+      "label": "该综述将 ML 描述为减少温室气体排放、帮助社会适应气候变化的有力工具。",
+      "meta": {
+        "evidence_id": "clm-e04",
+        "paper_id": "clm-001",
+        "claim_id": "clm-c2",
+        "parent_claim_id": "",
+        "atomic_id": "",
+        "stance": "support",
+        "level": "abstract",
+        "summary": "该综述将 ML 描述为减少温室气体排放、帮助社会适应气候变化的有力工具。",
+        "quote": "Here we describe how ML can be a powerful tool in reducing greenhouse gas emissions and helping society adapt to a changing climate.",
+        "locator": "Abstract",
+        "confidence": 0.7,
+        "verified": false,
+        "source": "human:abstract-curated",
+        "fulltext_verdict": ""
+      }
+    },
+    {
+      "id": "clm-e05",
+      "type": "evidence",
+      "label": "AI 可在已发现的气候联系基础上，改进对临近天气特征（包括极端事件）的预警。",
+      "meta": {
+        "evidence_id": "clm-e05",
+        "paper_id": "clm-002",
+        "claim_id": "clm-c2",
+        "parent_claim_id": "",
+        "atomic_id": "",
+        "stance": "support",
+        "level": "abstract",
+        "summary": "AI 可在已发现的气候联系基础上，改进对临近天气特征（包括极端事件）的预警。",
+        "quote": "Artificial intelligence (AI) can then build on discovered climate connections to provide enhanced warnings of approaching weather features, including extreme events.",
+        "locator": "Abstract",
+        "confidence": 0.65,
+        "verified": false,
+        "source": "human:abstract-curated",
+        "fulltext_verdict": ""
+      }
+    },
+    {
+      "id": "clm-e06",
+      "type": "evidence",
+      "label": "综述认为利用 AI 技术优化绿色基础设施被视为城市应对气候变化的有力途径。",
+      "meta": {
+        "evidence_id": "clm-e06",
+        "paper_id": "clm-007",
+        "claim_id": "clm-c2",
+        "parent_claim_id": "",
+        "atomic_id": "",
+        "stance": "support",
+        "level": "abstract",
+        "summary": "综述认为利用 AI 技术优化绿色基础设施被视为城市应对气候变化的有力途径。",
+        "quote": "The utilisation of artificial intelligence (AI) technologies for GI optimisation is perceived as a powerful approach for cities.",
+        "locator": "Abstract",
+        "confidence": 0.55,
+        "verified": false,
+        "source": "human:abstract-curated",
+        "fulltext_verdict": ""
+      }
+    },
+    {
+      "id": "clm-e07",
+      "type": "evidence",
+      "label": "综述指出 AI 具有双重性：既促进能源优化、可再生能源整合与减碳，LLM 训练和运行也消耗大量能源，可能削弱碳中和努力。",
+      "meta": {
+        "evidence_id": "clm-e07",
+        "paper_id": "clm-003",
+        "claim_id": "clm-c3",
+        "parent_claim_id": "",
+        "atomic_id": "",
+        "stance": "support",
+        "level": "abstract",
+        "summary": "综述指出 AI 具有双重性：既促进能源优化、可再生能源整合与减碳，LLM 训练和运行也消耗大量能源，可能削弱碳中和努力。",
+        "quote": "However, their implementation has a dual character: on one hand, AI facilitates sustainable solutions, including energy optimization, renewable energy integration and carbon reduction; on the other hand, the training and operation of large language models (LLMs) entail significant energy consumption, potentially undermining carbon neutrality efforts.",
+        "locator": "Abstract",
+        "confidence": 0.75,
+        "verified": false,
+        "source": "human:abstract-curated",
+        "fulltext_verdict": ""
+      }
+    },
+    {
+      "id": "clm-e08",
+      "type": "evidence",
+      "label": "AI 发展在气候议题上带来两类问题：加剧既有社会伦理挑战，以及训练和计算密集系统排放温室气体。",
+      "meta": {
+        "evidence_id": "clm-e08",
+        "paper_id": "clm-005",
+        "claim_id": "clm-c3",
+        "parent_claim_id": "",
+        "atomic_id": "",
+        "stance": "support",
+        "level": "abstract",
+        "summary": "AI 发展在气候议题上带来两类问题：加剧既有社会伦理挑战，以及训练和计算密集系统排放温室气体。",
+        "quote": "However, the development of AI also raises two sets of problems when considering climate change: the possible exacerbation of social and ethical challenges already associated with AI, and the contribution to climate change of the greenhouse gases emitted by training data and computation-intensive AI systems.",
+        "locator": "Abstract",
+        "confidence": 0.7,
+        "verified": false,
+        "source": "human:abstract-curated",
+        "fulltext_verdict": ""
+      }
+    },
+    {
+      "id": "clm-e09",
+      "type": "evidence",
+      "label": "该文认为 AI 应用可能产生大量排放，但也可能在减缓与适应中发挥重要作用。",
+      "meta": {
+        "evidence_id": "clm-e09",
+        "paper_id": "clm-006",
+        "claim_id": "clm-c3",
+        "parent_claim_id": "",
+        "atomic_id": "",
+        "stance": "support",
+        "level": "abstract",
+        "summary": "该文认为 AI 应用可能产生大量排放，但也可能在减缓与适应中发挥重要作用。",
+        "quote": "Findings AI applications may lead to substantial emissions but may also play an important role in mitigation and adaptation.",
+        "locator": "Abstract",
+        "confidence": 0.6,
+        "verified": false,
+        "source": "human:abstract-curated",
+        "fulltext_verdict": ""
+      }
+    },
+    {
+      "id": "clm-e10",
+      "type": "evidence",
+      "label": "系统地图警告 ML 城市气候研究受数据可得性与商业利益驱动，可能固化地理不平等并偏离高影响减排选项。",
+      "meta": {
+        "evidence_id": "clm-e10",
+        "paper_id": "clm-011",
+        "claim_id": "clm-c4",
+        "parent_claim_id": "",
+        "atomic_id": "",
+        "stance": "contradict",
+        "level": "abstract",
+        "summary": "系统地图警告 ML 城市气候研究受数据可得性与商业利益驱动，可能固化地理不平等并偏离高影响减排选项。",
+        "quote": "This trend may partly be driven by data availability and commercial interest, which risk perpetuating geographic inequities and diverting efforts toward less impactful mitigation options.",
+        "locator": "Abstract",
+        "confidence": 0.7,
+        "verified": false,
+        "source": "human:abstract-curated",
+        "fulltext_verdict": ""
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0001",
+      "source": "clm-004",
+      "target": "clm-c1",
+      "kind": "abstract_only",
+      "level": "abstract",
+      "evidence_id": "clm-e01",
+      "quote": "The process of conducting a systematic review of the contemporary literature highlights significant advances in optimization and predictive analytics within energy and climate change modeling systems driven by artificial intelligence and machine learning.",
+      "locator": "Abstract",
+      "page": "",
+      "meta": {
+        "edge_scope": "evidence"
+      }
+    },
+    {
+      "id": "e0002",
+      "source": "clm-008",
+      "target": "clm-c1",
+      "kind": "abstract_only",
+      "level": "abstract",
+      "evidence_id": "clm-e02",
+      "quote": "The review found that machine learning significantly enhances renewable energy system efficiency, scalability, and climate change mitigation through improved forecasting, predictive maintenance, and climate modelling.",
+      "locator": "Abstract",
+      "page": "",
+      "meta": {
+        "edge_scope": "evidence"
+      }
+    },
+    {
+      "id": "e0003",
+      "source": "clm-010",
+      "target": "clm-c1",
+      "kind": "abstract_only",
+      "level": "abstract",
+      "evidence_id": "clm-e03",
+      "quote": "Using data on corn yield from the US Midwest, we show that this approach outperforms both classical statistical methods and fully-nonparametric neural networks in predicting yields of years withheld during model training.",
+      "locator": "Abstract",
+      "page": "",
+      "meta": {
+        "edge_scope": "evidence"
+      }
+    },
+    {
+      "id": "e0004",
+      "source": "clm-001",
+      "target": "clm-c2",
+      "kind": "abstract_only",
+      "level": "abstract",
+      "evidence_id": "clm-e04",
+      "quote": "Here we describe how ML can be a powerful tool in reducing greenhouse gas emissions and helping society adapt to a changing climate.",
+      "locator": "Abstract",
+      "page": "",
+      "meta": {
+        "edge_scope": "evidence"
+      }
+    },
+    {
+      "id": "e0005",
+      "source": "clm-002",
+      "target": "clm-c2",
+      "kind": "abstract_only",
+      "level": "abstract",
+      "evidence_id": "clm-e05",
+      "quote": "Artificial intelligence (AI) can then build on discovered climate connections to provide enhanced warnings of approaching weather features, including extreme events.",
+      "locator": "Abstract",
+      "page": "",
+      "meta": {
+        "edge_scope": "evidence"
+      }
+    },
+    {
+      "id": "e0006",
+      "source": "clm-007",
+      "target": "clm-c2",
+      "kind": "abstract_only",
+      "level": "abstract",
+      "evidence_id": "clm-e06",
+      "quote": "The utilisation of artificial intelligence (AI) technologies for GI optimisation is perceived as a powerful approach for cities.",
+      "locator": "Abstract",
+      "page": "",
+      "meta": {
+        "edge_scope": "evidence"
+      }
+    },
+    {
+      "id": "e0007",
+      "source": "clm-003",
+      "target": "clm-c3",
+      "kind": "abstract_only",
+      "level": "abstract",
+      "evidence_id": "clm-e07",
+      "quote": "However, their implementation has a dual character: on one hand, AI facilitates sustainable solutions, including energy optimization, renewable energy integration and carbon reduction; on the other hand, the training and operation of large language models (LLMs) entail significant energy consumption, potentially undermining carbon neutrality efforts.",
+      "locator": "Abstract",
+      "page": "",
+      "meta": {
+        "edge_scope": "evidence"
+      }
+    },
+    {
+      "id": "e0008",
+      "source": "clm-005",
+      "target": "clm-c3",
+      "kind": "abstract_only",
+      "level": "abstract",
+      "evidence_id": "clm-e08",
+      "quote": "However, the development of AI also raises two sets of problems when considering climate change: the possible exacerbation of social and ethical challenges already associated with AI, and the contribution to climate change of the greenhouse gases emitted by training data and computation-intensive AI systems.",
+      "locator": "Abstract",
+      "page": "",
+      "meta": {
+        "edge_scope": "evidence"
+      }
+    },
+    {
+      "id": "e0009",
+      "source": "clm-006",
+      "target": "clm-c3",
+      "kind": "abstract_only",
+      "level": "abstract",
+      "evidence_id": "clm-e09",
+      "quote": "Findings AI applications may lead to substantial emissions but may also play an important role in mitigation and adaptation.",
+      "locator": "Abstract",
+      "page": "",
+      "meta": {
+        "edge_scope": "evidence"
+      }
+    },
+    {
+      "id": "e0010",
+      "source": "clm-011",
+      "target": "clm-c4",
+      "kind": "abstract_only",
+      "level": "abstract",
+      "evidence_id": "clm-e10",
+      "quote": "This trend may partly be driven by data availability and commercial interest, which risk perpetuating geographic inequities and diverting efforts toward less impactful mitigation options.",
+      "locator": "Abstract",
+      "page": "",
+      "meta": {
+        "edge_scope": "evidence"
+      }
+    }
+  ],
+  "summary": {
+    "papers": 12,
+    "claims": 4,
+    "parent_claims": 4,
+    "atomic_claims": 0,
+    "evidence": 10,
+    "edges": 10,
+    "fulltext_edges": 0,
+    "abstract_edges": 10,
+    "machine_edges": 0,
+    "none_edges": 0,
+    "cells": 0,
+    "cells_fulltext": 0,
+    "cells_abstract_only": 0,
+    "cells_none": 0
+  },
+  "provenance": {
+    "corpus": "corpus/ai_climate.json",
+    "extractions": "extractions/ai_climate.json"
+  }
+}

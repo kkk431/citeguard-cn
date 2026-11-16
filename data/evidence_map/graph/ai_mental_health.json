@@ -1,0 +1,827 @@
+{
+  "schema_version": "1.0",
+  "topic": {
+    "topic_id": "ai_mental_health",
+    "name_zh": "AI 心理健康",
+    "name_en": "AI in Mental Health",
+    "question": "AI 聊天机器人、筛查与临床辅助工具在心理健康服务中的效果、可及性、风险与证据边界如何？",
+    "description": "聚焦 AI 聊天机器人、数字心理干预、筛查与临床辅助在抑郁、焦虑等心理健康问题中的效果、可接受性、安全风险与监管证据；12 篇开放获取论文，10 条人工摘要级证据，机器候选另存 auto_evidence。"
+  },
+  "topic_id": "ai_mental_health",
+  "generated_at": "2026-11-16",
+  "nodes": [
+    {
+      "id": "amh-001",
+      "type": "paper",
+      "label": "AI Chatbots for Mental Health: A Scoping Review of Effectiveness, Feasibility, and Applications",
+      "meta": {
+        "paper_id": "amh-001",
+        "title": "AI Chatbots for Mental Health: A Scoping Review of Effectiveness, Feasibility, and Applications",
+        "authors": [
+          "Mirko Casu",
+          "Sergio Triscari",
+          "Sebastiano Battiato",
+          "Luca Guarnera",
+          "Pasquale Caponnetto"
+        ],
+        "year": 2024,
+        "venue": "Applied Sciences",
+        "doi": "10.3390/app14135889",
+        "openalex_id": "W4400350337",
+        "url": "https://doi.org/10.3390/app14135889",
+        "license": "cc-by",
+        "is_oa": true,
+        "fulltext_available": false,
+        "oa_url": "https://doi.org/10.3390/app14135889",
+        "oa_status": "gold",
+        "language": "en",
+        "topic_id": "ai_mental_health",
+        "cn_affiliated": false,
+        "cited_by": 231,
+        "source": "openalex",
+        "notes": "元数据与摘要来自 OpenAlex；未下载或提交 PDF。"
+      }
+    },
+    {
+      "id": "amh-002",
+      "type": "paper",
+      "label": "An Overview of Tools and Technologies for Anxiety and Depression Management Using AI",
+      "meta": {
+        "paper_id": "amh-002",
+        "title": "An Overview of Tools and Technologies for Anxiety and Depression Management Using AI",
+        "authors": [
+          "Adrianos Pavlopoulos",
+          "Theodoros Rachiotis",
+          "Ilias G. Maglogiannis"
+        ],
+        "year": 2024,
+        "venue": "Applied Sciences",
+        "doi": "10.3390/app14199068",
+        "openalex_id": "W4403214137",
+        "url": "https://doi.org/10.3390/app14199068",
+        "license": "cc-by",
+        "is_oa": true,
+        "fulltext_available": true,
+        "oa_url": "https://www.mdpi.com/2076-3417/14/19/9068/pdf?version=1728371877",
+        "oa_status": "gold",
+        "language": "en",
+        "topic_id": "ai_mental_health",
+        "cn_affiliated": false,
+        "cited_by": 93,
+        "source": "openalex",
+        "notes": "元数据与摘要来自 OpenAlex；开放全文链接见 oa_url，未提交 PDF。"
+      }
+    },
+    {
+      "id": "amh-003",
+      "type": "paper",
+      "label": "Enhancing mental health with Artificial Intelligence: Current trends and future prospects",
+      "meta": {
+        "paper_id": "amh-003",
+        "title": "Enhancing mental health with Artificial Intelligence: Current trends and future prospects",
+        "authors": [
+          "David B. Olawade",
+          "Ojima Zechariah Wada",
+          "Aderonke Odetayo",
+          "Aanuoluwapo Clement David-Olawade",
+          "Fiyinfoluwa T. Asaolu",
+          "Judith Eberhardt"
+        ],
+        "year": 2024,
+        "venue": "Journal of Medicine Surgery and Public Health",
+        "doi": "10.1016/j.glmedi.2024.100099",
+        "openalex_id": "W4394875731",
+        "url": "https://doi.org/10.1016/j.glmedi.2024.100099",
+        "license": "cc-by",
+        "is_oa": true,
+        "fulltext_available": false,
+        "oa_url": "https://doi.org/10.1016/j.glmedi.2024.100099",
+        "oa_status": "gold",
+        "language": "en",
+        "topic_id": "ai_mental_health",
+        "cn_affiliated": false,
+        "cited_by": 675,
+        "source": "openalex",
+        "notes": "元数据与摘要来自 OpenAlex；未下载或提交 PDF。"
+      }
+    },
+    {
+      "id": "amh-004",
+      "type": "paper",
+      "label": "Understanding People With Chronic Pain Who Use a Cognitive Behavioral Therapy–Based Artificial Intelligence Mental Health App (Wysa): Mixed Methods Retrospective Observational Study",
+      "meta": {
+        "paper_id": "amh-004",
+        "title": "Understanding People With Chronic Pain Who Use a Cognitive Behavioral Therapy–Based Artificial Intelligence Mental Health App (Wysa): Mixed Methods Retrospective Observational Study",
+        "authors": [
+          "Saha Meheli",
+          "Chaitali Sinha",
+          "Madhura Kadaba"
+        ],
+        "year": 2022,
+        "venue": "JMIR Human Factors",
+        "doi": "10.2196/35671",
+        "openalex_id": "W4221028170",
+        "url": "https://doi.org/10.2196/35671",
+        "license": "cc-by",
+        "is_oa": true,
+        "fulltext_available": true,
+        "oa_url": "https://humanfactors.jmir.org/2022/2/e35671/PDF",
+        "oa_status": "gold",
+        "language": "en",
+        "topic_id": "ai_mental_health",
+        "cn_affiliated": false,
+        "cited_by": 50,
+        "source": "openalex",
+        "notes": "元数据与摘要来自 OpenAlex；开放全文链接见 oa_url，未提交 PDF。"
+      }
+    },
+    {
+      "id": "amh-005",
+      "type": "paper",
+      "label": "Artificial Intelligence-Assisted Online Social Therapy for Youth Mental Health",
+      "meta": {
+        "paper_id": "amh-005",
+        "title": "Artificial Intelligence-Assisted Online Social Therapy for Youth Mental Health",
+        "authors": [
+          "Simon D’Alfonso",
+          "Olga Santesteban‐Echarri",
+          "Simon Rice",
+          "Greg Wadley",
+          "Reeva Lederman",
+          "Christopher Miles",
+          "John Gleeson",
+          "Mario Álvarez‐Jiménez"
+        ],
+        "year": 2017,
+        "venue": "Frontiers in Psychology",
+        "doi": "10.3389/fpsyg.2017.00796",
+        "openalex_id": "W2619354375",
+        "url": "https://doi.org/10.3389/fpsyg.2017.00796",
+        "license": "cc-by",
+        "is_oa": true,
+        "fulltext_available": true,
+        "oa_url": "https://www.frontiersin.org/articles/10.3389/fpsyg.2017.00796/pdf",
+        "oa_status": "gold",
+        "language": "en",
+        "topic_id": "ai_mental_health",
+        "cn_affiliated": false,
+        "cited_by": 223,
+        "source": "openalex",
+        "notes": "元数据与摘要来自 OpenAlex；开放全文链接见 oa_url，未提交 PDF。"
+      }
+    },
+    {
+      "id": "amh-006",
+      "type": "paper",
+      "label": "Digital Mental Health: Role of Artificial Intelligence in Psychotherapy",
+      "meta": {
+        "paper_id": "amh-006",
+        "title": "Digital Mental Health: Role of Artificial Intelligence in Psychotherapy",
+        "authors": [
+          "Sandhya Bhatt"
+        ],
+        "year": 2024,
+        "venue": "Annals of Neurosciences",
+        "doi": "10.1177/09727531231221612",
+        "openalex_id": "W4395009785",
+        "url": "https://doi.org/10.1177/09727531231221612",
+        "license": "cc-by-nc",
+        "is_oa": true,
+        "fulltext_available": false,
+        "oa_url": "https://doi.org/10.1177/09727531231221612",
+        "oa_status": "gold",
+        "language": "en",
+        "topic_id": "ai_mental_health",
+        "cn_affiliated": false,
+        "cited_by": 52,
+        "source": "openalex",
+        "notes": "元数据与摘要来自 OpenAlex；未下载或提交 PDF。"
+      }
+    },
+    {
+      "id": "amh-007",
+      "type": "paper",
+      "label": "Could artificial intelligence write mental health nursing care plans?",
+      "meta": {
+        "paper_id": "amh-007",
+        "title": "Could artificial intelligence write mental health nursing care plans?",
+        "authors": [
+          "Samuel Woodnutt",
+          "Chris Allen",
+          "Jasmine Snowden",
+          "M. Flynn",
+          "Simon Hall",
+          "Paula Libberton",
+          "Francesca Purvis"
+        ],
+        "year": 2023,
+        "venue": "Journal of Psychiatric and Mental Health Nursing",
+        "doi": "10.1111/jpm.12965",
+        "openalex_id": "W4385564356",
+        "url": "https://doi.org/10.1111/jpm.12965",
+        "license": "cc-by",
+        "is_oa": true,
+        "fulltext_available": true,
+        "oa_url": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1111/jpm.12965",
+        "oa_status": "hybrid",
+        "language": "en",
+        "topic_id": "ai_mental_health",
+        "cn_affiliated": false,
+        "cited_by": 108,
+        "source": "openalex",
+        "notes": "元数据与摘要来自 OpenAlex；开放全文链接见 oa_url，未提交 PDF。"
+      }
+    },
+    {
+      "id": "amh-008",
+      "type": "paper",
+      "label": "Ethical Considerations in Artificial Intelligence Interventions for Mental Health and Well-Being: Ensuring Responsible Implementation and Impact",
+      "meta": {
+        "paper_id": "amh-008",
+        "title": "Ethical Considerations in Artificial Intelligence Interventions for Mental Health and Well-Being: Ensuring Responsible Implementation and Impact",
+        "authors": [
+          "Hamid Reza Saeidnia",
+          "Seyed Ghasem Hashemi Fotami",
+          "Brady Daniel Lund",
+          "Nasrin Ghiasi"
+        ],
+        "year": 2024,
+        "venue": "Social Sciences",
+        "doi": "10.3390/socsci13070381",
+        "openalex_id": "W4400873105",
+        "url": "https://doi.org/10.3390/socsci13070381",
+        "license": "cc-by",
+        "is_oa": true,
+        "fulltext_available": true,
+        "oa_url": "https://www.mdpi.com/2076-0760/13/7/381/pdf?version=1721793268",
+        "oa_status": "gold",
+        "language": "en",
+        "topic_id": "ai_mental_health",
+        "cn_affiliated": false,
+        "cited_by": 228,
+        "source": "openalex",
+        "notes": "元数据与摘要来自 OpenAlex；开放全文链接见 oa_url，未提交 PDF。"
+      }
+    },
+    {
+      "id": "amh-009",
+      "type": "paper",
+      "label": "Can AI replace psychotherapists? Exploring the future of mental health care",
+      "meta": {
+        "paper_id": "amh-009",
+        "title": "Can AI replace psychotherapists? Exploring the future of mental health care",
+        "authors": [
+          "Zhihui Zhang",
+          "Jing Wang"
+        ],
+        "year": 2024,
+        "venue": "Frontiers in Psychiatry",
+        "doi": "10.3389/fpsyt.2024.1444382",
+        "openalex_id": "W4403962195",
+        "url": "https://doi.org/10.3389/fpsyt.2024.1444382",
+        "license": "cc-by",
+        "is_oa": true,
+        "fulltext_available": true,
+        "oa_url": "https://www.frontiersin.org/journals/psychiatry/articles/10.3389/fpsyt.2024.1444382/pdf",
+        "oa_status": "gold",
+        "language": "en",
+        "topic_id": "ai_mental_health",
+        "cn_affiliated": false,
+        "cited_by": 127,
+        "source": "openalex",
+        "notes": "元数据与摘要来自 OpenAlex；开放全文链接见 oa_url，未提交 PDF。"
+      }
+    },
+    {
+      "id": "amh-010",
+      "type": "paper",
+      "label": "Feasibility of combining spatial computing and AI for mental health support in anxiety and depression",
+      "meta": {
+        "paper_id": "amh-010",
+        "title": "Feasibility of combining spatial computing and AI for mental health support in anxiety and depression",
+        "authors": [
+          "Brennan Mason Ross Spiegel",
+          "Omer Liran",
+          "Allistair Clark",
+          "Jamil S. Samaan",
+          "Carine Khalil",
+          "Robert A. Chernoff",
+          "Kavya Reddy",
+          "Muskaan Mehra"
+        ],
+        "year": 2024,
+        "venue": "npj Digital Medicine",
+        "doi": "10.1038/s41746-024-01011-0",
+        "openalex_id": "W4391261894",
+        "url": "https://doi.org/10.1038/s41746-024-01011-0",
+        "license": "cc-by",
+        "is_oa": true,
+        "fulltext_available": true,
+        "oa_url": "https://www.nature.com/articles/s41746-024-01011-0.pdf",
+        "oa_status": "gold",
+        "language": "en",
+        "topic_id": "ai_mental_health",
+        "cn_affiliated": false,
+        "cited_by": 75,
+        "source": "openalex",
+        "notes": "元数据与摘要来自 OpenAlex；开放全文链接见 oa_url，未提交 PDF。"
+      }
+    },
+    {
+      "id": "amh-011",
+      "type": "paper",
+      "label": "Readiness evaluation for artificial intelligence-mental health deployment and implementation (READI): A review and proposed framework.",
+      "meta": {
+        "paper_id": "amh-011",
+        "title": "Readiness evaluation for artificial intelligence-mental health deployment and implementation (READI): A review and proposed framework.",
+        "authors": [
+          "Elizabeth Cameron Stade",
+          "johannes Christopher Eichstaedt",
+          "Jane Paik Kim",
+          "Shannon Wiltsey Stirman"
+        ],
+        "year": 2025,
+        "venue": "Technology Mind and Behavior",
+        "doi": "10.1037/tmb0000163",
+        "openalex_id": "W4409767709",
+        "url": "https://doi.org/10.1037/tmb0000163",
+        "license": "cc-by-nc-nd",
+        "is_oa": true,
+        "fulltext_available": true,
+        "oa_url": "https://tmb.apaopen.org/pub/8gyddorx/download/pdf",
+        "oa_status": "gold",
+        "language": "en",
+        "topic_id": "ai_mental_health",
+        "cn_affiliated": false,
+        "cited_by": 40,
+        "source": "openalex",
+        "notes": "元数据与摘要来自 OpenAlex；开放全文链接见 oa_url，未提交 PDF。"
+      }
+    },
+    {
+      "id": "amh-012",
+      "type": "paper",
+      "label": "Artificial Intelligence and Mental Health: Bibliometric Analysis",
+      "meta": {
+        "paper_id": "amh-012",
+        "title": "Artificial Intelligence and Mental Health: Bibliometric Analysis",
+        "authors": [
+          "Ivanna Shubina",
+          "Adrian Jarema Dzido"
+        ],
+        "year": 2025,
+        "venue": "International Journal of Interactive Mobile Technologies (iJIM)",
+        "doi": "10.3991/ijim.v19i19.58041",
+        "openalex_id": "W4414887776",
+        "url": "https://doi.org/10.3991/ijim.v19i19.58041",
+        "license": "cc-by",
+        "is_oa": true,
+        "fulltext_available": true,
+        "oa_url": "https://online-journals.org/index.php/i-jim/article/download/58041/16617",
+        "oa_status": "gold",
+        "language": "en",
+        "topic_id": "ai_mental_health",
+        "cn_affiliated": false,
+        "cited_by": 8,
+        "source": "openalex",
+        "notes": "元数据与摘要来自 OpenAlex；开放全文链接见 oa_url，未提交 PDF。"
+      }
+    },
+    {
+      "id": "amh-c1",
+      "type": "claim",
+      "label": "AI 聊天机器人与数字心理干预能够显著改善抑郁、焦虑症状。",
+      "meta": {
+        "claim_id": "amh-c1",
+        "topic_id": "ai_mental_health",
+        "text": "AI 聊天机器人与数字心理干预能够显著改善抑郁、焦虑症状。",
+        "population": "使用数字心理健康服务的成人",
+        "outcome": "抑郁/焦虑症状",
+        "direction": "positive",
+        "notes": "人工摘要级 claim；不主张长期疗效。",
+        "claim_level": "parent",
+        "parent_claim_id": "amh-c1"
+      }
+    },
+    {
+      "id": "amh-c2",
+      "type": "claim",
+      "label": "AI 心理健康工具在可接受性、可及性与临床辅助方面具备初步可行性。",
+      "meta": {
+        "claim_id": "amh-c2",
+        "topic_id": "ai_mental_health",
+        "text": "AI 心理健康工具在可接受性、可及性与临床辅助方面具备初步可行性。",
+        "population": "使用 AI 心理健康工具的人群",
+        "outcome": "可接受性/可及性/临床辅助",
+        "direction": "positive",
+        "notes": "人工摘要级 claim。",
+        "claim_level": "parent",
+        "parent_claim_id": "amh-c2"
+      }
+    },
+    {
+      "id": "amh-c3",
+      "type": "claim",
+      "label": "AI 心理健康应用存在隐私、偏见、错误建议与安全风险，需要人工监督与部署前评估。",
+      "meta": {
+        "claim_id": "amh-c3",
+        "topic_id": "ai_mental_health",
+        "text": "AI 心理健康应用存在隐私、偏见、错误建议与安全风险，需要人工监督与部署前评估。",
+        "population": "AI 心理健康应用的使用者与部署机构",
+        "outcome": "安全/伦理风险",
+        "direction": "negative",
+        "notes": "人工摘要级 claim；风险证据而非疗效证据。",
+        "claim_level": "parent",
+        "parent_claim_id": "amh-c3"
+      }
+    },
+    {
+      "id": "amh-c4",
+      "type": "claim",
+      "label": "现有证据足以支持 AI 独立替代心理治疗师。",
+      "meta": {
+        "claim_id": "amh-c4",
+        "topic_id": "ai_mental_health",
+        "text": "现有证据足以支持 AI 独立替代心理治疗师。",
+        "population": "心理治疗服务提供与使用场景",
+        "outcome": "替代人工治疗师",
+        "direction": "positive",
+        "notes": "对照 claim；用于检验证据是否支持强替代结论。",
+        "claim_level": "parent",
+        "parent_claim_id": "amh-c4"
+      }
+    },
+    {
+      "id": "amh-e01",
+      "type": "evidence",
+      "label": "范围综述纳入 15 项研究，认为聊天机器人对心理与情绪健康、特定心理状况及行为改变有潜在益处。",
+      "meta": {
+        "evidence_id": "amh-e01",
+        "paper_id": "amh-001",
+        "claim_id": "amh-c1",
+        "parent_claim_id": "",
+        "atomic_id": "",
+        "stance": "support",
+        "level": "abstract",
+        "summary": "范围综述纳入 15 项研究，认为聊天机器人对心理与情绪健康、特定心理状况及行为改变有潜在益处。",
+        "quote": "AI chatbots demonstrated potential benefits in improving mental and emotional well-being, addressing specific mental health conditions, and facilitating behavior change.",
+        "locator": "Abstract",
+        "confidence": 0.65,
+        "verified": false,
+        "source": "human:abstract-curated",
+        "fulltext_verdict": ""
+      }
+    },
+    {
+      "id": "amh-e02",
+      "type": "evidence",
+      "label": "综述称聊天机器人、移动应用与 LLM 在减轻焦虑/抑郁症状、提升参与度和结局方面显示出效果。",
+      "meta": {
+        "evidence_id": "amh-e02",
+        "paper_id": "amh-002",
+        "claim_id": "amh-c1",
+        "parent_claim_id": "",
+        "atomic_id": "",
+        "stance": "support",
+        "level": "abstract",
+        "summary": "综述称聊天机器人、移动应用与 LLM 在减轻焦虑/抑郁症状、提升参与度和结局方面显示出效果。",
+        "quote": "Tools such as AI-driven chatbots, mobile apps, and LLMs have demonstrated efficacy in reducing symptoms of anxiety and depression, improving user engagement and mental health outcomes.",
+        "locator": "Abstract",
+        "confidence": 0.6,
+        "verified": false,
+        "source": "human:abstract-curated",
+        "fulltext_verdict": ""
+      }
+    },
+    {
+      "id": "amh-e03",
+      "type": "evidence",
+      "label": "真实世界 Wysa 用户的前后测显示 PHQ-9 与 GAD-7 组均值显著改善，效应量中等。",
+      "meta": {
+        "evidence_id": "amh-e03",
+        "paper_id": "amh-004",
+        "claim_id": "amh-c1",
+        "parent_claim_id": "",
+        "atomic_id": "",
+        "stance": "support",
+        "level": "abstract",
+        "summary": "真实世界 Wysa 用户的前后测显示 PHQ-9 与 GAD-7 组均值显著改善，效应量中等。",
+        "quote": "Furthermore, users with pre-post assessments during the study period were found to have significant improvements in group means for both PHQ-9 and GAD-7 symptom scores, with a medium effect size (Cohen d=0.60-0.61).",
+        "locator": "Abstract",
+        "confidence": 0.7,
+        "verified": false,
+        "source": "human:abstract-curated",
+        "fulltext_verdict": ""
+      }
+    },
+    {
+      "id": "amh-e04",
+      "type": "evidence",
+      "label": "该叙述性综述指出相关研究样本小、缺少长期随访，难以对疗效下确定结论。",
+      "meta": {
+        "evidence_id": "amh-e04",
+        "paper_id": "amh-009",
+        "claim_id": "amh-c1",
+        "parent_claim_id": "",
+        "atomic_id": "",
+        "stance": "contradict",
+        "level": "abstract",
+        "summary": "该叙述性综述指出相关研究样本小、缺少长期随访，难以对疗效下确定结论。",
+        "quote": "However, these studies often involve small participant groups and lack long-term follow-up, making it difficult to draw definitive conclusions about their effectiveness.",
+        "locator": "Abstract",
+        "confidence": 0.7,
+        "verified": false,
+        "source": "human:abstract-curated",
+        "fulltext_verdict": ""
+      }
+    },
+    {
+      "id": "amh-e05",
+      "type": "evidence",
+      "label": "轻度至中度焦虑/抑郁参与者认为 VR 中的 AI 治疗化身可接受、有帮助且安全，并真实投入。",
+      "meta": {
+        "evidence_id": "amh-e05",
+        "paper_id": "amh-010",
+        "claim_id": "amh-c2",
+        "parent_claim_id": "",
+        "atomic_id": "",
+        "stance": "support",
+        "level": "abstract",
+        "summary": "轻度至中度焦虑/抑郁参与者认为 VR 中的 AI 治疗化身可接受、有帮助且安全，并真实投入。",
+        "quote": "Speaking with an AI therapy avatar in VR was considered acceptable, helpful, and safe, with participants observed to engage genuinely with the program.",
+        "locator": "Abstract",
+        "confidence": 0.6,
+        "verified": false,
+        "source": "human:abstract-curated",
+        "fulltext_verdict": ""
+      }
+    },
+    {
+      "id": "amh-e06",
+      "type": "evidence",
+      "label": "系统综述称 AI 方法在治疗心理问题方面显示出显著正向结果。",
+      "meta": {
+        "evidence_id": "amh-e06",
+        "paper_id": "amh-006",
+        "claim_id": "amh-c2",
+        "parent_claim_id": "",
+        "atomic_id": "",
+        "stance": "support",
+        "level": "abstract",
+        "summary": "系统综述称 AI 方法在治疗心理问题方面显示出显著正向结果。",
+        "quote": "The results obtained showed the significant positive consequences of using AI-based approaches in treating mental health issues.",
+        "locator": "Abstract",
+        "confidence": 0.55,
+        "verified": false,
+        "source": "human:abstract-curated",
+        "fulltext_verdict": ""
+      }
+    },
+    {
+      "id": "amh-e07",
+      "type": "evidence",
+      "label": "生成式 AI 虽可能推动心理健康技术进步，但给服务使用者带来安全风险。",
+      "meta": {
+        "evidence_id": "amh-e07",
+        "paper_id": "amh-011",
+        "claim_id": "amh-c3",
+        "parent_claim_id": "",
+        "atomic_id": "",
+        "stance": "support",
+        "level": "abstract",
+        "summary": "生成式 AI 虽可能推动心理健康技术进步，但给服务使用者带来安全风险。",
+        "quote": "While generative artificial intelligence (AI) may lead to technological advances in the mental health field, it poses safety risks for mental health service consumers.",
+        "locator": "Abstract",
+        "confidence": 0.75,
+        "verified": false,
+        "source": "human:abstract-curated",
+        "fulltext_verdict": ""
+      }
+    },
+    {
+      "id": "amh-e08",
+      "type": "evidence",
+      "label": "系统综述强调 AI 心理健康干预在负责任实施与影响评估中的伦理考量。",
+      "meta": {
+        "evidence_id": "amh-e08",
+        "paper_id": "amh-008",
+        "claim_id": "amh-c3",
+        "parent_claim_id": "",
+        "atomic_id": "",
+        "stance": "support",
+        "level": "abstract",
+        "summary": "系统综述强调 AI 心理健康干预在负责任实施与影响评估中的伦理考量。",
+        "quote": "This systematic review highlights the importance of ethical considerations in the responsible implementation and impact of AI interventions for mental health and well-being.",
+        "locator": "Abstract",
+        "confidence": 0.65,
+        "verified": false,
+        "source": "human:abstract-curated",
+        "fulltext_verdict": ""
+      }
+    },
+    {
+      "id": "amh-e09",
+      "type": "evidence",
+      "label": "对 ChatGPT 生成的护理计划评估发现，输出对外行看似合理，但存在显著错误与伦理问题。",
+      "meta": {
+        "evidence_id": "amh-e09",
+        "paper_id": "amh-007",
+        "claim_id": "amh-c3",
+        "parent_claim_id": "",
+        "atomic_id": "",
+        "stance": "support",
+        "level": "abstract",
+        "summary": "对 ChatGPT 生成的护理计划评估发现，输出对外行看似合理，但存在显著错误与伦理问题。",
+        "quote": "We found that the output could look reasonable to laypersons but there were significant errors and ethical issues.",
+        "locator": "Abstract",
+        "confidence": 0.7,
+        "verified": false,
+        "source": "human:abstract-curated",
+        "fulltext_verdict": ""
+      }
+    },
+    {
+      "id": "amh-e10",
+      "type": "evidence",
+      "label": "该文主张 AI 应补充而非替代心理治疗中的人类要素，并需处理算法偏见、伦理与人工监督问题。",
+      "meta": {
+        "evidence_id": "amh-e10",
+        "paper_id": "amh-009",
+        "claim_id": "amh-c4",
+        "parent_claim_id": "",
+        "atomic_id": "",
+        "stance": "contradict",
+        "level": "abstract",
+        "summary": "该文主张 AI 应补充而非替代心理治疗中的人类要素，并需处理算法偏见、伦理与人工监督问题。",
+        "quote": "We must carefully address the limitations of AI, such as algorithmic bias, ethical concerns, and the need for human oversight, to prevent future disparities and ensure that AI complements rather than replaces the essential human elements of psychotherapy.",
+        "locator": "Abstract",
+        "confidence": 0.65,
+        "verified": false,
+        "source": "human:abstract-curated",
+        "fulltext_verdict": ""
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0001",
+      "source": "amh-001",
+      "target": "amh-c1",
+      "kind": "abstract_only",
+      "level": "abstract",
+      "evidence_id": "amh-e01",
+      "quote": "AI chatbots demonstrated potential benefits in improving mental and emotional well-being, addressing specific mental health conditions, and facilitating behavior change.",
+      "locator": "Abstract",
+      "page": "",
+      "meta": {
+        "edge_scope": "evidence"
+      }
+    },
+    {
+      "id": "e0002",
+      "source": "amh-002",
+      "target": "amh-c1",
+      "kind": "abstract_only",
+      "level": "abstract",
+      "evidence_id": "amh-e02",
+      "quote": "Tools such as AI-driven chatbots, mobile apps, and LLMs have demonstrated efficacy in reducing symptoms of anxiety and depression, improving user engagement and mental health outcomes.",
+      "locator": "Abstract",
+      "page": "",
+      "meta": {
+        "edge_scope": "evidence"
+      }
+    },
+    {
+      "id": "e0003",
+      "source": "amh-004",
+      "target": "amh-c1",
+      "kind": "abstract_only",
+      "level": "abstract",
+      "evidence_id": "amh-e03",
+      "quote": "Furthermore, users with pre-post assessments during the study period were found to have significant improvements in group means for both PHQ-9 and GAD-7 symptom scores, with a medium effect size (Cohen d=0.60-0.61).",
+      "locator": "Abstract",
+      "page": "",
+      "meta": {
+        "edge_scope": "evidence"
+      }
+    },
+    {
+      "id": "e0004",
+      "source": "amh-009",
+      "target": "amh-c1",
+      "kind": "abstract_only",
+      "level": "abstract",
+      "evidence_id": "amh-e04",
+      "quote": "However, these studies often involve small participant groups and lack long-term follow-up, making it difficult to draw definitive conclusions about their effectiveness.",
+      "locator": "Abstract",
+      "page": "",
+      "meta": {
+        "edge_scope": "evidence"
+      }
+    },
+    {
+      "id": "e0005",
+      "source": "amh-010",
+      "target": "amh-c2",
+      "kind": "abstract_only",
+      "level": "abstract",
+      "evidence_id": "amh-e05",
+      "quote": "Speaking with an AI therapy avatar in VR was considered acceptable, helpful, and safe, with participants observed to engage genuinely with the program.",
+      "locator": "Abstract",
+      "page": "",
+      "meta": {
+        "edge_scope": "evidence"
+      }
+    },
+    {
+      "id": "e0006",
+      "source": "amh-006",
+      "target": "amh-c2",
+      "kind": "abstract_only",
+      "level": "abstract",
+      "evidence_id": "amh-e06",
+      "quote": "The results obtained showed the significant positive consequences of using AI-based approaches in treating mental health issues.",
+      "locator": "Abstract",
+      "page": "",
+      "meta": {
+        "edge_scope": "evidence"
+      }
+    },
+    {
+      "id": "e0007",
+      "source": "amh-011",
+      "target": "amh-c3",
+      "kind": "abstract_only",
+      "level": "abstract",
+      "evidence_id": "amh-e07",
+      "quote": "While generative artificial intelligence (AI) may lead to technological advances in the mental health field, it poses safety risks for mental health service consumers.",
+      "locator": "Abstract",
+      "page": "",
+      "meta": {
+        "edge_scope": "evidence"
+      }
+    },
+    {
+      "id": "e0008",
+      "source": "amh-008",
+      "target": "amh-c3",
+      "kind": "abstract_only",
+      "level": "abstract",
+      "evidence_id": "amh-e08",
+      "quote": "This systematic review highlights the importance of ethical considerations in the responsible implementation and impact of AI interventions for mental health and well-being.",
+      "locator": "Abstract",
+      "page": "",
+      "meta": {
+        "edge_scope": "evidence"
+      }
+    },
+    {
+      "id": "e0009",
+      "source": "amh-007",
+      "target": "amh-c3",
+      "kind": "abstract_only",
+      "level": "abstract",
+      "evidence_id": "amh-e09",
+      "quote": "We found that the output could look reasonable to laypersons but there were significant errors and ethical issues.",
+      "locator": "Abstract",
+      "page": "",
+      "meta": {
+        "edge_scope": "evidence"
+      }
+    },
+    {
+      "id": "e0010",
+      "source": "amh-009",
+      "target": "amh-c4",
+      "kind": "abstract_only",
+      "level": "abstract",
+      "evidence_id": "amh-e10",
+      "quote": "We must carefully address the limitations of AI, such as algorithmic bias, ethical concerns, and the need for human oversight, to prevent future disparities and ensure that AI complements rather than replaces the essential human elements of psychotherapy.",
+      "locator": "Abstract",
+      "page": "",
+      "meta": {
+        "edge_scope": "evidence"
+      }
+    }
+  ],
+  "summary": {
+    "papers": 12,
+    "claims": 4,
+    "parent_claims": 4,
+    "atomic_claims": 0,
+    "evidence": 10,
+    "edges": 10,
+    "fulltext_edges": 0,
+    "abstract_edges": 10,
+    "machine_edges": 0,
+    "none_edges": 0,
+    "cells": 0,
+    "cells_fulltext": 0,
+    "cells_abstract_only": 0,
+    "cells_none": 0
+  },
+  "provenance": {
+    "corpus": "corpus/ai_mental_health.json",
+    "extractions": "extractions/ai_mental_health.json"
+  }
+}

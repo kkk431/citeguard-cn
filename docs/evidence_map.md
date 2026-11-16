@@ -16,7 +16,7 @@ CiteMap 把「一篇论文说了什么」从自由文本变成**可校验、可�
 ## 快速开始
 
 ```bash
-# 全量 schema 校验（两个主题）
+# 全量 schema 校验（当前 4 个静态主题 + 动态主题）
 PYTHONPATH=src python -m citeguard.evidence_map --check
 
 # 查看某一主题的统计与逐篇校验
@@ -43,29 +43,63 @@ data/evidence_map/
 ├── abstracts.json              # OpenAlex 摘要（inverted index 还原）
 ├── corpus/
 │   ├── ai_education.json       # Topic + 15 篇 Paper（manifest）
-│   └── medical_imaging.json
+│   ├── medical_imaging.json
+│   ├── ai_mental_health.json   # 2026-11-16 扩展：12 篇
+│   └── ai_climate.json         # 2026-11-16 扩展：12 篇
 ├── extractions/
 │   ├── ai_education.json       # 人工示例：4 Claim + 5 Evidence + 3 Gap
-│   └── medical_imaging.json
-├── extractions_auto/           # 机器抽取（仅摘要，见下文）
+│   ├── medical_imaging.json
+│   ├── ai_mental_health.json   # 4 Claim + 10 human Evidence + 2 auto_evidence + 3 Gap
+│   └── ai_climate.json         # 4 Claim + 10 human Evidence + 2 auto_evidence + 3 Gap
+├── extractions_auto/           # 旧机器抽取（仅摘要，见下文）
 │   ├── ai_education.json
 │   └── medical_imaging.json
 └── verification_packet.json    # 60 格人工核对抽样（每主题 30 格）
 ```
 
 - `corpus/*.json` 只存元数据与开放获取链接，**不存 PDF 全文**；测试会断言 `data/evidence_map/` 下不存在 `.pdf` 文件。
-- `extractions/*.json` 是 10 条人工示例抽取，用于校验 schema、展示抽取字段与置信度，不声称覆盖全部文献。
-- `extractions_auto/*.json` 是机器抽取结果（摘要级）；与人工示例分文件存放，避免把机器输出混入人工金标。
-- `index.json` 是唯一入口；`list_topics()` 会从 corpus/extractions 重新计算计数，索引中的计数不是可信来源，校验会交叉核对。
+- `extractions/*.json` 的 `evidence` 字段是**人工 curated 层**；4 个静态主题合计 40 条（旧 2×10 + 新 2×10），用于校验 schema、展示抽取字段与置信度，不声称覆盖全部文献。
+- `extractions_auto/*.json` 是旧的独立机器抽取文件（摘要级）。2026-11-16 起，新扩展主题把机器候选写在同文件的 **`auto_evidence`** 键，与 `evidence` 物理分离；校验要求其 `extracted_by` 以 `auto` 开头、`verified=false`，且不得与人工证据共用 ID。
+- `index.json` 是唯一入口；`list_topics()` 会从 corpus/extractions 重新计算计数（含 `auto_evidence`），索引中的计数不是可信来源，校验会交叉核对。
 
 ## 语料规模
 
-| 主题 | topic_id | 论文 | 中国机构参与 | 许可分布 | OA 状态 | 全文可直链 | Claim | Evidence | Gap |
-| --- | --- | ---: | ---: | --- | --- | ---: | ---: | ---: | ---: |
-| 人工智能教育 | `ai_education` | 15 | 11 | cc-by 8、cc-by-nc-nd 5、cc-by-sa 1、cc-by-nc-sa 1 | gold 8、hybrid 4、diamond 2、green 1 | 14 | 4 | 5 | 3 |
-| 医学影像 AI | `medical_imaging` | 15 | 13 | cc-by 12、cc-by-nc-nd 2、cc-by-nc 1 | gold 13、hybrid 1、diamond 1 | 13 | 3 | 5 | 3 |
+| 主题 | topic_id | 论文 | 中国机构参与 | 许可分布 | OA 状态 | 全文可直链 | Claim | Evidence | auto | Gap |
+| --- | --- | ---: | ---: | --- | --- | ---: | ---: | ---: | ---: | ---: |
+| 人工智能教育 | `ai_education` | 15 | 11 | cc-by 8、cc-by-nc-nd 5、cc-by-sa 1、cc-by-nc-sa 1 | gold 8、hybrid 4、diamond 2、green 1 | 14 | 4 | 5 | 0 | 3 |
+| 医学影像 AI | `medical_imaging` | 15 | 13 | cc-by 12、cc-by-nc-nd 2、cc-by-nc 1 | gold 13、hybrid 1、diamond 1 | 13 | 3 | 5 | 0 | 3 |
+| AI 心理健康 | `ai_mental_health` | 12 | 0（全球主题） | cc-by 10、cc-by-nc 1、cc-by-nc-nd 1 | gold 11、hybrid 1 | 9 | 4 | 10 | 2 | 3 |
+| AI 气候与能源 | `ai_climate` | 12 | 0（全球主题） | cc-by 10、cc-by-nc-nd 1、cc-by-sa 1 | gold 5、hybrid 6、diamond 1 | 7 | 4 | 10 | 2 | 3 |
 
-选文规则：OpenAlex `is_oa:true` + `has_doi:true` + `type:article`，优先中国机构参与、有可直链 PDF、被引较高；剔除许可为空或 `other-oa` 的记录。各主题的 `question` 与 `selection` 字段记录了检索意图，逐篇来源与 DOI 见 manifest 与 `verification.json`。
+选文规则（旧两个主题）：OpenAlex `is_oa:true` + `has_doi:true` + `type:article`，优先中国机构参与、有可直链 PDF、被引较高；剔除许可为空或 `other-oa` 的记录。新扩展主题按同一开放获取与许可门槛，但**不按中国机构筛选**，目标是补充全球证据面；`cn_affiliated` 明确为 false。各主题的 `question` 与 `selection` 字段记录了检索意图，逐篇来源与 DOI 见 manifest；旧 30 篇的 DOI 双通道校验见 `verification.json`，新 24 篇只做了 OpenAlex 元数据与 DOI 链接生成，**未列入 2026-11-14 的 DOI 核验文件**。
+
+## 4 主题人工证据扩展与机器层分离（2026-11-16）
+
+本轮的 48h 目标是把 CiteMap 从 2 个主题扩到 4 个主题，并把「人工 curated 证据」与「机器候选」在数据契约层彻底分开。旧的两个主题保留原有 5 条人工证据，并各补 5 条摘要级 curated evidence 达到 10 条；新增：
+
+| 主题 | 论文来源 | 人工证据 | 机器候选 | 覆盖边界 |
+| --- | --- | ---: | ---: | --- |
+| `ai_mental_health`（AI 心理健康） | OpenAlex，12 篇 OA 论文，全部有非空 CC 许可 | 10 条（`amh-e01..e10`），4 条断言 | `auto_evidence` 2 条（`amh-auto-01..02`） | 只读摘要；9/12 有可直链 PDF，但本轮未下载/未读全文 |
+| `ai_climate`（AI 气候与能源） | OpenAlex，12 篇 OA 论文，全部有非空 CC 许可 | 10 条（`clm-e01..e10`），4 条断言 | `auto_evidence` 2 条（`clm-auto-01..02`） | 只读摘要；7/12 有可直链 PDF，但本轮未下载/未读全文 |
+
+人工层规则：
+
+- 每条 `evidence` 都有逐字 `quote`（生成时断言 `quote in abstract`）、`locator="Abstract"`、`stance` 与 `confidence`（0.45–0.75）；`verified=false`，`notes` 明确写“仅读摘要，未读全文”。
+- 四个主题的人工证据合计 **40 条**：旧 2×10 + 新 2×10；新主题每条 4 个 claims，均至少 1 条证据，且都含至少 1 条 `contradict`（用于展示“相关/提及 ≠ 支持”）。
+- 断言不是从论文中“新造标签”：它们由现有 CiteMap 主题问题拆成可单句核对的方向性命题；对外必须写“curated sample”，不能写“系统综述”或“全量证据”。
+
+机器层规则：
+
+- `auto_evidence` 与 `evidence` 是同级但**不同键**；`parse_map` 拒绝重复 ID、拒绝 `extracted_by` 不以 `auto` 开头的记录、拒绝 `verified=true`。
+- 机器候选只用于灰色候选/召回，不进入人工计数；`GET /api/citemap/{topic}` 分别返回 `evidence` 与 `auto_evidence`，`counts` 分别统计。
+- 图构建只读 `evidence`（人工层），`auto_evidence` 不参与节点/边；测试 `test_extension_topics_keep_auto_evidence_out_of_graph` 守住这一点。
+- 本轮只给每个新主题 2 条 `auto_evidence` 作为契约样例，**没有**为新主题跑全量机器抽取，也没有为它们建立 105 格人工核对；不得把 2 条机器候选当作“已覆盖”。
+
+未完成/不可声称：
+
+- 新 24 篇没有逐篇 DOI 双通道校验（`verification.json` 仍是旧 30 篇）；manifest 的 `doi`/`url` 来自 OpenAlex，DOI 解析应在展示前抽查。
+- 新主题没有全文证据、没有 105 格人工核对、没有跨主题统计显著性；`fulltext_available` 只表示元数据里有 PDF 直链，不代表我们读过全文。
+- 新主题的 `cn_affiliated=false` 是保守标注（未逐篇核机构），不表示这些论文没有中国作者。
 
 ## 机器抽取（摘要级，2026-11-14）
 
@@ -249,7 +283,8 @@ PYTHONPATH=src python scripts/extract_citemap_atomic.py --workers 6
   "schema_version": "1.0",
   "topic": {"...与 corpus 完全一致..."},
   "claims": ["..."],
-  "evidence": ["..."],
+  "evidence": ["...人工 curated 层..."],
+  "auto_evidence": ["...机器候选，仅扩展主题使用；可为空..."],
   "gaps": ["..."],
   "extractor": "boundary（人工示例抽取）",
   "extracted_at": "2026-11-14",
@@ -286,12 +321,13 @@ PYTHONPATH=src python scripts/extract_citemap_atomic.py --workers 6
 | 0.50–0.64 | 弱 | 仅摘要、结果为自评/相关性、方向清楚但证据强度有限 |
 | < 0.50 | 存疑 | 摘要信息不足、结论模糊，仅作占位，需人工复核 |
 
-当前 10 条示例的约束：
+当前 40 条人工示例的约束：
 
-- 全部 `extracted_by = "human"`，但 `verified = false`：只核到摘要，未逐页核全文。
+- 全部 `extracted_by` 为人工标记（旧主题原有 `boundary…` 与新增 `human:abstract-curated`，新主题 `human:abstract-curated`），但 `verified = false`：只核到摘要，未逐页核全文。
 - 摘要级抽取的 `confidence` 上限为 0.75；`notes` 明确写「仅读摘要，未读全文」。
 - `quote` 必须逐字出现在 OpenAlex 摘要（或 arXiv 摘要）中；构建时有断言，测试只校验 `quote ⇒ locator` 的结构约束（不重新抓取原文）。
 - 修改 `confidence` 或 `verified` 不改变 stance；若核全文后发现方向变化，应新增/修订 evidence 并记录 `notes`，而不是静默改分。
+- `auto_evidence` 不适用本节置信度：它固定 `verified=false`，且不得被当作人工证据或“已验证”。
 
 ## Gap：证据缺口
 
@@ -307,14 +343,14 @@ PYTHONPATH=src python scripts/extract_citemap_atomic.py --workers 6
 
 严重性：`high` = 直接影响 claim 能否成立；`medium` = 限制外推但方向仍可讨论；`low` = 完备性改进。每条 gap 应尽量用 `related_claim_ids` 绑定受影响断言。
 
-当前语料共 6 条 gap：教育 3 条（evidence/high、sample/medium、outcome/medium），医学影像 3 条（evidence、method、outcome，均 high）。
+当前 4 个静态主题共 12 条 gap：旧两主题各 3 条；`ai_mental_health` 为 evidence/high、sample/medium、outcome/medium；`ai_climate` 为 evidence/high、method/high、outcome/medium。
 
 ## 许可、版权与 DOI 核验
 
-- 30 篇论文均为开放获取，`license` 无空值；仓库**不提交任何 PDF 全文**，`oa_url` 仅指向出版社/arXiv 的开放获取链接。
-- `fulltext_available=false` 表示 OpenAlex 未给出可直接下载的 PDF（只有 landing page），不代表论文不开放：`ai_education` 为 edu-011，`medical_imaging` 为 med-012、med-013。
+- 54 篇论文均为开放获取，`license` 无空值；仓库**不提交任何 PDF 全文**，`oa_url` 仅指向出版社/arXiv 的开放获取链接。
+- `fulltext_available=false` 表示 OpenAlex 未给出可直接下载的 PDF（只有 landing page），不代表论文不开放：旧主题为 `edu-011`、`med-012`、`med-013`；新主题为 `amh-001/003/006`、`clm-004/007/009/011/012`。
 - CC BY-NC-ND / CC BY-NC-SA 材料仅用于非商业研究引用；引用原文时保留出处，不衍生改写。
-- `verification.json` 记录每篇论文的双通道核验：Crossref works API（`status`、题名相似度、许可）与 doi.org handle API（`responseCode`）。
+- `verification.json` 记录旧 30 篇论文的双通道核验：Crossref works API（`status`、题名相似度、许可）与 doi.org handle API（`responseCode`）；新 24 篇未列入该文件。
 
 核验结果（2026-11-14）：
 
@@ -390,22 +426,24 @@ payload = em.topic_payload("ai_education")  # JSON-ready dict，供 Web 层直�
 - 捕获 `em.UnknownTopicError` → 404（`exc.known` 可直接作为 `known_topics`）；其余 `em.EvidenceMapError` → 500，错误信息含字段名，便于排查。
 - 数据为仓库内静态 JSON，可按需加 `Cache-Control: public, max-age=300`；`--check` 适合放在启动自检或 CI，而不是每个请求。
 - 页面不加载 PDF、不内嵌全文；quote 以文本展示并附 DOI 链接。
+- 扩展主题的 `topic_payload` 含独立的 `auto_evidence` 数组与 `counts.auto_evidence`/`counts.auto_stances`；前端应分开展示（灰色候选），不得并入人工 `evidence`。
 - 当前 `mkdocs.yml` 的 nav 未包含本页（该文件不在本任务写权限内），需要时请队长补 `- CiteMap 证据地图: evidence_map.md`。
 
 ## 新增主题
 
 1. 在 `corpus/` 与 `extractions/` 新增 `<topic_id>.json`，`Topic` 两处完全一致。
 2. 在 `index.json` 的 `topics` 中加入 `{topic_id, name_zh, name_en, question, corpus, extractions}`；路径必须是相对数据目录、且不能越界。
-3. 运行 `python -m citeguard.evidence_map --check`；计数会自动重算。
-4. 若抓取了新 DOI 核验，更新 `verification.json`（逐篇记录 + 汇总）。
-5. 跑 `pytest tests/test_evidence_map.py -q`；若新增主题改变了示例总数断言，请同步调整测试中的 `EXPECTED_TOPICS`/`EXPECTED_EVIDENCE` 常量，而不是放宽断言。
+3. 人工证据写入 `evidence`；机器候选写入独立的 `auto_evidence`（`extracted_by` 以 `auto` 开头、`verified=false`），不得混入 `evidence`。
+4. 运行 `python -m citeguard.evidence_map --check`；计数会自动重算。
+5. 若抓取了新 DOI 核验，更新 `verification.json`（逐篇记录 + 汇总）。
+6. 跑 `pytest tests/test_evidence_map.py tests/test_evidence_graph.py -q`；在 `tests/test_evidence_map.py` 的 `TOPIC_SPECS` 中加入论文/证据期望数，不要放宽全局断言。
 
 ## 设计决策与限制
 
 - **零重依赖**：只用标准库，避免为 schema 引入 pydantic；代价是校验器需手写，但可精确控制中文错误信息与严格字段检查。
 - **严格 JSON**：未知字段直接报错，防止「拼错字段名被静默忽略」；重复键由 `read_json` 拒绝，避免后值覆盖前值。
-- **人工示例而非自动抽取**：10 条 evidence 用于打通 schema → API → 页面链路并校准置信度，不冒充系统综述；自动抽取是后续 B2/Live 的工作。
-- **只读摘要**：当前 `verified=false`，`confidence ≤ 0.75`；任何对外展示应同时显示该限制，避免被误读为全文核验。
+- **人工示例而非自动抽取**：40 条人工 evidence 用于打通 schema → API → 页面链路并校准置信度，不冒充系统综述；扩展主题的 `auto_evidence` 只是契约样例，不计入人工层。
+- **只读摘要**：当前 `verified=false`，`confidence ≤ 0.75`；任何对外展示应同时显示该限制，避免被误读为全文核验。新主题未做全文层。
 - **许可保守**：不提交 PDF；NC/ND 条款在文档中显式提示，避免下游误用。
 - **不做跨主题推断**：每个主题独立索引、独立校验；跨主题共享的只有代码与协议。
 
@@ -418,6 +456,17 @@ payload = em.topic_payload("ai_education")  # JSON-ready dict，供 Web 层直�
 | 10 条人工示例抽取 | ✅ | 每个主题 5 条，共 10 条；含 quote/locator/method/sample/confidence |
 | schema 校验 / manifest 唯一性 / 抽取可解析 | ✅ | `pytest tests/test_evidence_map.py -q` → 87 passed |
 | DOI 可解析（队长抽查 5 篇） | ✅（30/30 已预核验） | `verification.json`：Crossref 30/30、handle 30/30 |
+
+## 验收对照（t28，2026-11-16）
+
+| 验收项 | 状态 | 证据 |
+| --- | --- | --- |
+| 4 个静态主题全部可校验 | ✅ | `PYTHONPATH=src python -m citeguard.evidence_map --check` exit 0；含 3 个动态主题时 totals papers 83 / claims 44 / evidence 69 / gaps 12 |
+| 每个主题 ≥10 条人工证据 | ✅ | `ai_education` 10、`medical_imaging` 10、`ai_mental_health` 10、`ai_climate` 10；合计 40 |
+| 新主题论文数 10–15 且许可非空 | ✅ | 新主题各 12 篇；`license` 均非空，`oa_url`/`fulltext_available` 来自 OpenAlex |
+| 机器层与人工层分离 | ✅ | 新主题 `auto_evidence` 各 2 条（`extracted_by=auto:…`、`verified=false`），不进入图/人工计数 |
+| 测试 | ✅ | `tests/test_evidence_map.py tests/test_evidence_graph.py` 175 passed / 10 skipped |
+| 图数据 | ✅ | `data/evidence_map/graph/` 4 个静态主题 JSON；新主题各 10 条 `abstract_only` 边、0 全文边 |
 
 <a id="静态地图的机器层2026-11-15"></a>
 
@@ -450,4 +499,5 @@ CiteMap 页面新增「证据图」视图，把同一主题的断言 → 论文 
 - 医学影像主题实测：13 条断言 / 15 篇论文 / 全文 8 / 摘要 13 / 未发现 11，共 32 条关系；浅色、深色主题都可读，详情在下方不遮挡论文列。
 - 截图：`docs/evidence/shots/phase-66-citemap-graph-1.7.32.png`（深色）、`docs/evidence/shots/phase-66-citemap-graph-light-1.7.32.png`（浅色）；测试：`tests/test_citemap_page.py` 17 项。
 - 边界：图只表达“有没有证据、哪一层”，不表达“论文整体是否可信”；机器层仍标 `verified=false`，未被人工核对。
+- 2026-11-16 的 4 主题数据契约更新：`data/evidence_map/graph/` 现同时包含旧 2 主题与 `ai_mental_health`/`ai_climate`。新主题图各 12 篇论文、4 条 claim、10 条摘要级人工证据、10 条 `abstract_only` 边，**0 条全文边、0 条机器边**；`auto_evidence` 不进入图（测试 `test_extension_topics_keep_auto_evidence_out_of_graph`）。这证明“人工层可独立出图”，不代表新主题已有全文或 105 格核对。
 
