@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 214,
+  "paths_checked": 215,
   "missing": [],
   "rows": [
     {
@@ -962,8 +962,13 @@
       "evidence": "E108",
       "path": "docs/evidence/shots/phase-69-citemap-4topics-1.7.35.png",
       "exists": true
+    },
+    {
+      "evidence": "E109",
+      "path": "docs/evidence/shots/phase-70-live-page-probe-1.7.35.png",
+      "exists": true
     }
   ],
-  "shots_registered": 102,
+  "shots_registered": 103,
   "shots_unregistered": []
 }

@@ -84,9 +84,9 @@ def test_template_renders_core_containers_and_copy() -> None:
         assert f'id="{element_id}"' in html, element_id
 
     assert "CiteMap · 证据地图" in html
-    assert "2 个主题" in html
-    assert "2 个主题 × 15 篇开放获取论文" in html
-    assert "10 条人工示例" in html
+    assert "4 个主题" in html
+    assert "4 个主题 × 12–15 篇开放获取论文" in html
+    assert "40 条人工示例" in html
     assert "不是全量结论" in html
     assert "verified=false" in html
     assert "开放获取" in html

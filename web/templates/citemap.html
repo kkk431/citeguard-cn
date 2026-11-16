@@ -23,13 +23,13 @@
     <h1 class="ctm-title">CiteMap · 证据地图</h1>
     <p class="ctm-lede">
       把「某篇论文支持还是反驳了哪条断言」摊开给你看：先列断言，再放带立场的证据、方法与样本，
-      最后标出证据缺口。固定示例是 2 个主题 × 15 篇开放获取论文；也可以输入主题现场检索，
+      最后标出证据缺口。固定示例是 4 个主题 × 12–15 篇开放获取论文；也可以输入主题现场检索，
       生成机器证据地图。<strong>机器层未人审</strong>，不是全量结论。
     </p>
     <div class="ctm-hero-chips" aria-label="数据规模">
-      <span class="ctm-chip">固定示例 2 个主题</span>
+      <span class="ctm-chip">固定示例 4 个主题</span>
       <span class="ctm-chip">可生成新主题</span>
-      <span class="ctm-chip">10 条人工示例</span>
+      <span class="ctm-chip">40 条人工示例</span>
       <span class="ctm-chip">机器层 verified=false</span>
     </div>
 
@@ -79,7 +79,7 @@
                   data-topic-id="{{ topic.topic_id }}" aria-pressed="{{ 'true' if initial_topic == topic.topic_id else 'false' }}">{{ topic.name_zh or topic.name_en or topic.topic_id }}</button>
           {% endfor %}
         </div>
-        <button type="button" class="btn btn-ghost" id="ctm-verify-toggle" aria-pressed="false">核对模式（60 格）</button>
+        <button type="button" class="btn btn-ghost" id="ctm-verify-toggle" aria-pressed="false">核对模式（105 格）</button>
         <button type="button" class="btn btn-ghost" id="ctm-graph-toggle" aria-pressed="false">证据图</button>
         <span class="ctm-verify-count" id="ctm-verify-count" role="status" aria-live="polite"></span>
         <span class="ctm-status" id="ctm-status" role="status" aria-live="polite">正在加载主题…</span>
