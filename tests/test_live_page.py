@@ -340,6 +340,8 @@ def test_live_page_api_reads_allowlisted_page(client, monkeypatch) -> None:
     assert data["markers_total"] >= 2
     assert data["markers_mapped"] >= 2
     assert data["mapped_ratio"] == 1.0
+    assert data["mapped_sources"] >= 2
+    assert data["reference_sentences"] >= 0
     assert len(data["sample"]) >= 1
     assert "body_text" not in data
 
@@ -364,3 +366,105 @@ def test_redirect_guard_blocks_non_allowlisted_host(live_page) -> None:
         assert "非白名单" in str(exc)
     else:
         raise AssertionError("redirect to a private host must be rejected")
+
+
+# ---------------------------------------------------------------------------
+# t27：PMC 锚点 / 作者年定位、锚点与纯文本去重、无法映射时不猜测
+# ---------------------------------------------------------------------------
+
+PMC_NUMERIC_HTML = """<!doctype html>
+<html><head><title>PMC numeric demo</title></head><body>
+<article>
+<p>The first review <a href="#REF1">1</a> and the second review <a href="#REF2">2</a> agree.</p>
+<p>A later paragraph cites the first review again <a href="#REF1">1</a>.</p>
+<section id="ref-list1"><ol>
+<li id="REF1">1. Sheikh H. Mission AI. 2023. doi:10.1000/ref1</li>
+<li id="REF2">2. Jeblick K. Simplified radiology reports. 2024. doi:10.1000/ref2</li>
+</ol></section>
+</article></body></html>"""
+
+PMC_AUTHOR_YEAR_HTML = """<!doctype html>
+<html><head><title>PMC author-year demo</title></head><body>
+<article>
+<p>Motivation is central <a href="#B3">Annamalai et al., 2023a</a> to this design.</p>
+<p>Later, (Ryan and Deci, 2020) frames the analysis.</p>
+<ol class="ref-list">
+<li id="B1">Ryan R. M., Deci E. L. (2020). Self-determination theory. doi:10.1000/ryan2020</li>
+<li id="B2">Bhatt S. P. (2021). Teacher development. doi:10.1000/bhatt2021</li>
+<li id="B3">Annamalai N., Eltahir M. E. (2023a). ChatGPT and self-determination theory. doi:10.1000/annamalai2023</li>
+</ol>
+</article></body></html>"""
+
+DEDUPE_HTML = """<!doctype html>
+<html><head><title>Dedupe demo</title></head><body>
+<article>
+<p>Anchored citation <a href="#bib.bib1">[1]</a> in one sentence.</p>
+<p>Plain citation [1] in another sentence.</p>
+<section class="ltx_bibliography"><ol class="ltx_bibliography">
+<li class="ltx_bibitem" id="bib.bib1"><span class="ltx_tag ltx_tag_bibitem">[1]</span><span class="ltx_bibblock">A. Alpha. <i>Alpha study</i>. 2020.</span></li>
+</ol></section>
+</article></body></html>"""
+
+
+def test_pmc_numeric_anchors_map_and_keep_marker_in_sentence(live_page) -> None:
+    model = live_page.build_page_model(PMC_NUMERIC_HTML, "https://pmc.ncbi.nlm.nih.gov/articles/PMC1/")
+
+    assert model["reference_count"] == 2
+    assert [reference["index"] for reference in model["references"]] == [1, 2]
+    assert model["markers_total"] == 3
+    assert model["markers_mapped"] == 3
+    assert model["unmapped_markers"] == []
+    assert model["reference_sentences"] >= 1
+
+    located = live_page.locate_claim("The first review [1] and the second [2].", model)
+    assert [item["numbers"] for item in located] == [[1], [2]]
+    assert all(item["mapped"] for item in located)
+
+
+def test_pmc_author_year_anchor_and_plain_text_resolve(live_page) -> None:
+    model = live_page.build_page_model(PMC_AUTHOR_YEAR_HTML, "https://pmc.ncbi.nlm.nih.gov/articles/PMC2/")
+
+    assert model["reference_count"] == 3
+    by_index = {reference["index"]: reference for reference in model["references"]}
+    assert "Ryan" in by_index[1]["raw"]
+    assert "Annamalai" in by_index[3]["raw"]
+
+    located = live_page.locate_claim(
+        "Motivation is central (Annamalai et al., 2023a) and (Ryan and Deci, 2020).",
+        model,
+    )
+    assert [item["kind"] for item in located] == ["author-year", "author-year"]
+    assert all(item["mapped"] for item in located)
+    assert "Annamalai" in located[0]["references"][0]["raw"]
+    assert "Ryan" in located[1]["references"][0]["raw"]
+
+
+def test_anchor_and_plain_marker_are_not_double_counted(live_page) -> None:
+    model = live_page.build_page_model(DEDUPE_HTML)
+
+    assert model["markers_total"] == 2
+    assert model["markers_mapped"] == 2
+    markers = [marker["text"] for marker in live_page.find_markers(model["body_text"])]
+    assert markers == ["[1]", "[1]"]
+
+
+def test_ambiguous_author_year_stays_unmapped(live_page) -> None:
+    html = """<!doctype html><html><head><title>Ambiguous</title></head><body>
+    <article><p>Cited as (Wang, 2020) without a suffix.</p>
+    <ol class="ref-list">
+    <li id="B1">Wang A. (2020a). First paper. doi:10.1000/wang-a</li>
+    <li id="B2">Wang B. (2020b). Second paper. doi:10.1000/wang-b</li>
+    </ol></article></body></html>"""
+    model = live_page.build_page_model(html)
+    located = live_page.locate_claim("Cited as (Wang, 2020).", model)
+    assert located[0]["numbers"] == []
+    assert located[0]["mapped"] is False
+    assert located[0]["references"] == []
+
+
+def test_reference_sentences_and_mapped_sources_are_reported(live_page) -> None:
+    model = live_page.build_page_model(ARXIV_STYLE_HTML, "https://arxiv.org/html/demo")
+
+    assert model["mapped_sources"] == 5
+    assert model["reference_sentences"] >= 2
+    assert model["reference_sentences"] <= len(live_page.sentence_split(model["body_text"]))

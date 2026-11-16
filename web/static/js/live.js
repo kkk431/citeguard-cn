@@ -351,7 +351,8 @@
         `${title}：没有识别到引用标记或参考文献列表。页面可能不是学术页，或使用了脚本渲染。`;
     } else {
       els.probeSummary.textContent =
-        `${title}：识别 ${Number(data.reference_count) || 0} 条参考文献、${total} 个引用标记，` +
+        `${title}：识别 ${Number(data.reference_count) || 0} 条参考文献、${total} 个引用标记` +
+        `（${Number(data.reference_sentences) || 0} 句引用句），` +
         `映射 ${mapped}/${total}（${ratio}%）。只做定位，不判真伪。`;
     }
     els.probeList.replaceChildren();

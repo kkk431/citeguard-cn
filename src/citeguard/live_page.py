@@ -40,6 +40,22 @@ _MARKER_RE = re.compile(
 )
 _DOI_RE = re.compile(r"10\.\d{4,9}/[^\s\"'<>，。；、]+", re.I)
 _TAG_LABEL_RE = re.compile(r"\d+")
+_FRAGMENT_NUMBER_RE = re.compile(r"^(?:bib\.bib|B|REF|ref|b)(\d+)$")
+_AUTHOR_YEAR_TEXT_RE = re.compile(
+    r"^(?P<first>[A-Z][A-Za-z'’\-]+)"
+    r"(?:\s+(?:et\s+al\.?|and\s+[A-Z][A-Za-z'’\-]+|&\s*[A-Z][A-Za-z'’\-]+))?"
+    r"\s*,?\s*\(?(?P<year>(?:19|20)\d{2})(?P<suffix>[a-z]?)\)?$"
+)
+_PAREN_GROUP_RE = re.compile(r"\(([^()]{3,240})\)")
+_NARRATIVE_AY_RE = re.compile(
+    r"(?P<first>[A-Z][A-Za-z'’\-]+)"
+    r"(?:\s+et\s+al\.?|\s+and\s+[A-Z][A-Za-z'’\-]+)?"
+    r"\s*\((?P<year>(?:19|20)\d{2})(?P<suffix>[a-z]?)\)"
+)
+_FIRST_SURNAME_RE = re.compile(r"^[^\w]*([A-Z][A-Za-z'’\-]+)")
+_REFERENCE_YEAR_RE = re.compile(r"\b((?:19|20)\d{2})([a-z]?)\b")
+_SENTENCE_ABBREVIATIONS = ("et al.", "e.g.", "i.e.", "vs.", "Fig.", "Figs.", "Eq.", "No.")
+_ABBREVIATION_DOT = "\u2024"
 _DOI_TRAILING = ".,;:)]}>，。；、"
 
 
@@ -192,34 +208,185 @@ def find_markers(text: str) -> list[dict[str, Any]]:
     for match in _MARKER_RE.finditer(str(text or "")):
         numbers = expand_marker(match.group("spec"))
         if numbers:
-            markers.append({"text": match.group(0), "numbers": numbers})
+            markers.append({"text": match.group(0), "numbers": numbers, "kind": "numeric"})
     return markers
 
 
-def _anchor_marker(anchor) -> dict[str, Any] | None:
+def _parse_author_year(text: str) -> dict[str, Any] | None:
+    """Parse ``"Annamalai et al., 2023a"`` / ``"Ryan and Deci (2020)"``."""
+
+    cleaned = _normalise(text).strip(" .,;:")
+    match = _AUTHOR_YEAR_TEXT_RE.match(cleaned)
+    if not match:
+        return None
+    return {
+        "authors": match.group("first"),
+        "year": int(match.group("year")),
+        "suffix": (match.group("suffix") or "").lower(),
+        "text": cleaned,
+    }
+
+
+def _reference_author_year(reference: dict[str, Any]) -> dict[str, Any] | None:
+    """Best-effort first author + publication year of one reference entry."""
+
+    raw = _normalise(reference.get("raw") or reference.get("title") or "")
+    if not raw:
+        return None
+    raw = re.sub(r"^[^A-Za-z]+", "", raw)
+    surname = _FIRST_SURNAME_RE.match(raw)
+    year = _REFERENCE_YEAR_RE.search(raw)
+    if not surname or not year:
+        return None
+    return {
+        "authors": surname.group(1),
+        "year": int(year.group(1)),
+        "suffix": (year.group(2) or "").lower(),
+    }
+
+
+def _author_year_index(references: dict[int, dict[str, Any]]) -> dict[tuple[str, int, str], list[int]]:
+    index: dict[tuple[str, int, str], list[int]] = {}
+    for number, reference in references.items():
+        parsed = _reference_author_year(reference)
+        if parsed is None:
+            continue
+        key = (parsed["authors"].lower(), parsed["year"], parsed["suffix"])
+        index.setdefault(key, []).append(number)
+    return index
+
+
+def _resolve_author_year(
+    parsed: dict[str, Any] | None,
+    references: dict[int, dict[str, Any]],
+    index: dict[tuple[str, int, str], list[int]] | None = None,
+) -> list[int]:
+    """Map one author-year citation to reference numbers, or ``[]`` if unsure."""
+
+    if not parsed or not references:
+        return []
+    index = index if index is not None else _author_year_index(references)
+    name = str(parsed["authors"]).lower()
+    year = int(parsed["year"])
+    suffix = str(parsed.get("suffix") or "").lower()
+    candidates = list(dict.fromkeys(index.get((name, year, suffix), [])))
+    if not candidates and suffix:
+        candidates = list(dict.fromkeys(index.get((name, year, ""), [])))
+    if not candidates and not suffix:
+        suffixed = [
+            number
+            for (candidate_name, candidate_year, _suffix), numbers in index.items()
+            if candidate_name == name and candidate_year == year
+            for number in numbers
+        ]
+        candidates = list(dict.fromkeys(suffixed))
+        # More than one suffixed entry (2020a / 2020b) is ambiguous: do not guess.
+        if len(candidates) > 1:
+            candidates = []
+    return [number for number in candidates if number in references]
+
+
+def find_author_year_markers(
+    text: str,
+    references: dict[int, dict[str, Any]],
+    index: dict[tuple[str, int, str], list[int]] | None = None,
+) -> list[dict[str, Any]]:
+    """Find author-year citations (parenthetical or narrative) in plain text."""
+
+    source = str(text or "")
+    index = index if index is not None else _author_year_index(references)
+    markers: list[dict[str, Any]] = []
+
+    def append_marker(parsed: dict[str, Any], surface: str, kind: str = "author-year") -> None:
+        numbers = _resolve_author_year(parsed, references, index)
+        markers.append(
+            {
+                "text": surface,
+                "numbers": numbers,
+                "kind": kind,
+                "mapped": bool(numbers) and all(number in references for number in numbers),
+                "authors": parsed["authors"],
+                "year": parsed["year"],
+                "suffix": parsed["suffix"],
+            }
+        )
+
+    for group in _PAREN_GROUP_RE.finditer(source):
+        for part in re.split(r"[;；]", group.group(1)):
+            parsed = _parse_author_year(part)
+            if parsed is not None:
+                append_marker(parsed, f"({part.strip()})")
+
+    for match in _NARRATIVE_AY_RE.finditer(source):
+        parsed = {
+            "authors": match.group("first"),
+            "year": int(match.group("year")),
+            "suffix": (match.group("suffix") or "").lower(),
+        }
+        append_marker(parsed, match.group(0), kind="author-year-narrative")
+    return markers
+
+
+def sentence_split(text: str) -> list[str]:
+    """Split article text into sentences, protecting common abbreviations."""
+
+    protected = str(text or "")
+    for abbreviation in _SENTENCE_ABBREVIATIONS:
+        protected = protected.replace(abbreviation, abbreviation.replace(".", _ABBREVIATION_DOT))
+    sentences: list[str] = []
+    for part in re.split(r"(?<=[.!?])\s+|(?<=[。！？])", protected):
+        part = part.replace(_ABBREVIATION_DOT, ".").strip()
+        if part:
+            sentences.append(part)
+    return sentences
+
+
+def _fragment_number(fragment: str) -> int | None:
+    match = _FRAGMENT_NUMBER_RE.match(str(fragment or "").strip())
+    if match is None:
+        return None
+    number = int(match.group(1))
+    return number if number > 0 else None
+
+
+def _anchor_marker(anchor, references: dict[int, dict[str, Any]]) -> dict[str, Any] | None:
     """Return a marker for an in-page citation anchor, else ``None``."""
 
     href = (anchor.get("href") or "").strip()
     if not href.startswith("#") or len(href) < 2:
         return None
     fragment = urllib.parse.unquote(href[1:])
-    lowered = fragment.lower()
-    classes = (anchor.get("class") or "").lower()
-    parent_classes = " ".join(
-        (parent.get("class") or "").lower() for parent in anchor.iterancestors() if parent is not None
-    )
-    if not (
-        "cite" in lowered
-        or "ref" in lowered
-        or "bib" in lowered
-        or "reference" in classes
-        or "ltx_ref" in classes
-        or "reference" in parent_classes
-    ):
-        return None
+    target = _fragment_number(fragment)
     text = _normalise("".join(anchor.itertext()))
-    for marker in find_markers(text):
+    if not text:
+        return None
+    bracketed = find_markers(text)
+    if bracketed:
+        marker = dict(bracketed[0])
+        if target is not None and not any(number in references for number in marker["numbers"]):
+            marker["numbers"] = [target]
         return marker
+    parsed = _parse_author_year(text)
+    if parsed is not None:
+        numbers = [target] if target is not None and target in references else _resolve_author_year(
+            parsed, references
+        )
+        return {
+            "text": text,
+            "numbers": numbers,
+            "kind": "author-year",
+            "mapped": bool(numbers) and all(number in references for number in numbers),
+            "authors": parsed["authors"],
+            "year": parsed["year"],
+            "suffix": parsed["suffix"],
+        }
+    if target is not None and re.fullmatch(r"\d{1,4}", text):
+        return {
+            "text": text,
+            "numbers": [target],
+            "kind": "numeric",
+            "mapped": target in references,
+        }
     return None
 
 
@@ -272,30 +439,83 @@ def _body_tree(tree):
 def extract_markers_from_tree(tree, references: dict[int, dict[str, Any]]) -> list[dict[str, Any]]:
     """Collect citation markers from the page body and mark mapped ones.
 
-    Anchors are preferred: LaTeXML and MediaWiki both wrap ``[n]`` in a link to
-    the reference item, which avoids mistaking intervals like ``[0,1]`` for
-    citations.  If a page has no citation anchors, fall back to plain-text
-    scanning of the body (references already removed by the caller).
+    Anchors are resolved to their target reference first, then removed from a
+    working copy so the same citation is not counted twice by the plain-text
+    scan.  Author-year citations (PMC) have no numeric anchor text, so their
+    anchor text and the remaining prose are both parsed for ``(Author, year)``.
     """
 
+    from copy import deepcopy
+
+    work = deepcopy(tree)
     markers: list[dict[str, Any]] = []
-    seen_anchors: set[int] = set()
-    for anchor in tree.xpath("//a[@href]"):
-        marker = _anchor_marker(anchor)
-        if not marker:
+    for anchor in work.xpath("//a[@href]"):
+        marker = _anchor_marker(anchor, references)
+        if marker is None:
             continue
-        key = id(anchor)
-        if key in seen_anchors:
-            continue
-        seen_anchors.add(key)
         markers.append(marker)
-    if not markers:
-        markers = find_markers(_normalise(tree.text_content()))
+        parent = anchor.getparent()
+        if parent is not None:
+            parent.remove(anchor)
+    text = _normalise(work.text_content())
+    markers.extend(find_markers(text))
+    markers.extend(find_author_year_markers(text, references))
     for marker in markers:
-        marker["mapped"] = bool(marker["numbers"]) and all(
-            number in references for number in marker["numbers"]
-        )
+        numbers = list(dict.fromkeys(marker.get("numbers") or []))
+        marker["numbers"] = numbers
+        marker["mapped"] = bool(numbers) and all(number in references for number in numbers)
     return markers
+
+
+def _annotate_citation_anchors(tree, references: dict[int, dict[str, Any]]):
+    """Return a copy where recognised anchors carry canonical citation text.
+
+    Numeric anchors become ``[n]`` so a sentence copy keeps a locatable marker;
+    author-year anchors keep their prose (wrapped in parentheses if needed) so
+    ``find_author_year_markers`` can resolve them from the sentence alone.
+    """
+
+    from copy import deepcopy
+
+    work = deepcopy(tree)
+    for anchor in work.xpath("//a[@href]"):
+        marker = _anchor_marker(anchor, references)
+        if marker is None:
+            continue
+        text = _normalise("".join(anchor.itertext()))
+        if marker.get("kind", "").startswith("author-year"):
+            if text.startswith("("):
+                replacement = text
+            elif text.endswith(")"):
+                replacement = text
+            else:
+                replacement = f"({text})"
+        else:
+            replacement = "[" + ",".join(str(number) for number in marker["numbers"]) + "]"
+        anchor.text = replacement
+        for child in list(anchor):
+            anchor.remove(child)
+    return work
+
+
+def _reference_sentences(
+    text: str,
+    references: dict[int, dict[str, Any]],
+    index: dict[tuple[str, int, str], list[int]] | None = None,
+) -> int:
+    """Count sentences that carry at least one citation mapped to a reference."""
+
+    index = index if index is not None else _author_year_index(references)
+    count = 0
+    for sentence in sentence_split(text):
+        markers = find_markers(sentence) + find_author_year_markers(sentence, references, index)
+        if any(
+            marker["numbers"]
+            and all(number in references for number in marker["numbers"])
+            for marker in markers
+        ):
+            count += 1
+    return count
 
 
 def summarise_markers(markers: list[dict[str, Any]]) -> dict[str, Any]:
@@ -313,6 +533,7 @@ def summarise_markers(markers: list[dict[str, Any]]) -> dict[str, Any]:
         "mapped_ratio": round(mapped / total, 4) if total else 0.0,
         "unique_markers": len(unique_numbers),
         "unique_mapped": len(unique_mapped),
+        "mapped_sources": len(unique_mapped),
         "unmapped_markers": [
             marker["text"] for marker in markers if not marker.get("mapped")
         ][:10],
@@ -332,8 +553,13 @@ def _reference_label(item, position: int) -> int:
         match = _TAG_LABEL_RE.search(_node_text(tag[0]))
         if match:
             return int(match.group())
-    item_id = (item.get("id") or "").lower()
-    if item_id.startswith("cite_note-"):
+    item_id = (item.get("id") or "").strip()
+    id_match = _FRAGMENT_NUMBER_RE.match(item_id)
+    if id_match:
+        # PMC uses li id="B3" / id="REF3"; the anchor href points at the same id.
+        return int(id_match.group(1))
+    lowered_id = item_id.lower()
+    if lowered_id.startswith("cite_note-"):
         # MediaWiki numbers by list order; trailing ids are not reliable when
         # the same source is cited several times.
         return position
@@ -344,6 +570,26 @@ def _reference_label(item, position: int) -> int:
         if number > 0:
             return number
     return position
+
+
+def _fallback_reference_title(raw: str) -> str:
+    """Best-effort title for PMC / generic lists that have no markup.
+
+    The raw citation is usually ``Authors (Year). Title. Venue …``; strip the
+    leading label/authors/year and stop at the venue.  When no year is present
+    (short test fixtures) the first sentence is kept unchanged.
+    """
+
+    cleaned = re.sub(r"^[\[［【]?\s*\d{1,4}\s*[\]］】.、)]?\s*", "", raw)
+    after_year = re.search(r"\((?:19|20)\d{2}[a-z]?\)\.\s+(.+)", cleaned) or re.search(
+        r"\b(?:19|20)\d{2}[a-z]?\.\s+(.+)", cleaned
+    )
+    if after_year:
+        cleaned = after_year.group(1)
+    title = re.split(r"(?<=[.!?])\s+", cleaned, maxsplit=1)[0].strip()
+    title = re.split(r";\s*pp?\.", title, maxsplit=1)[0].strip()
+    title = title.rstrip(" .;；。")
+    return (title or cleaned)[:300]
 
 
 def _reference_title(item, raw: str) -> str:
@@ -365,7 +611,7 @@ def _reference_title(item, raw: str) -> str:
         text = _node_text(italic[0])
         if text:
             return text[:300]
-    return raw[:300]
+    return _fallback_reference_title(raw)
 
 
 def _reference_url(item) -> str | None:
@@ -490,6 +736,10 @@ def build_page_model(html: str, page_url: str = "", page_title: str = "") -> dic
     body_tree = _body_tree(body_tree)
     markers = extract_markers_from_tree(body_tree, references)
     counters = summarise_markers(markers)
+    annotated_tree = _annotate_citation_anchors(body_tree, references)
+    text = _normalise(annotated_tree.text_content())
+    author_year_index = _author_year_index(references)
+    reference_sentences = _reference_sentences(text, references, author_year_index)
 
     samples: list[dict[str, Any]] = []
     for marker in markers:
@@ -521,6 +771,7 @@ def build_page_model(html: str, page_url: str = "", page_title: str = "") -> dic
         "text_chars": len(text),
         "reference_count": len(references),
         **counters,
+        "reference_sentences": reference_sentences,
         "samples": samples,
         "references": list(references.values()),
         "body_text": text,
@@ -528,23 +779,29 @@ def build_page_model(html: str, page_url: str = "", page_title: str = "") -> dic
 
 
 def locate_claim(claim: str, model: dict[str, Any]) -> list[dict[str, Any]]:
-    """Map every ``[n]`` in a claim to its page reference entry.
+    """Locate every citation in a claim on the page's reference list.
 
-    This is the "来源定位" part only: no abstract fetch and no stance judgement.
+    Handles numeric ``[n]`` markers plus author-year citations (PMC).  This is
+    the "来源定位" part only: no abstract fetch and no stance judgement.
     """
 
     references = {entry["index"]: entry for entry in model.get("references", [])}
+    index = _author_year_index(references)
+    markers = find_markers(claim) + find_author_year_markers(claim, references, index)
     located: list[dict[str, Any]] = []
-    for marker in find_markers(claim):
+    for marker in markers:
         mapped = [references[number] for number in marker["numbers"] if number in references]
-        located.append(
-            {
-                "marker": marker["text"],
-                "numbers": marker["numbers"],
-                "references": mapped,
-                "mapped": len(mapped) == len(marker["numbers"]),
-            }
-        )
+        item: dict[str, Any] = {
+            "marker": marker["text"],
+            "numbers": marker["numbers"],
+            "kind": marker.get("kind", "numeric"),
+            "references": mapped,
+            "mapped": bool(marker["numbers"]) and len(mapped) == len(marker["numbers"]),
+        }
+        if marker.get("kind", "").startswith("author-year"):
+            item["authors"] = marker.get("authors", "")
+            item["year"] = marker.get("year", 0)
+        located.append(item)
     return located
 
 

@@ -3043,6 +3043,8 @@ async def live_page_probe(request: Request):
         "mapped_ratio": model.get("mapped_ratio") or 0.0,
         "unique_markers": model.get("unique_markers") or 0,
         "unique_mapped": model.get("unique_mapped") or 0,
+        "mapped_sources": model.get("mapped_sources") or 0,
+        "reference_sentences": model.get("reference_sentences") or 0,
         "unmapped_markers": model.get("unmapped_markers") or [],
         "sample": sample,
     }

@@ -562,5 +562,120 @@ t14 的标记映射能准确找到 `[n]` 对应的参考文献，但条目本身
   整次 `check_claim` 4.33 s（其中标记 HTML 读取 0.02 s，已有磁盘缓存），
   返回 `partial`/0.461。该结果只说明补全链路可用，不代表 claim 的事实结论。
 
+## 11. 页面引用预检：arXiv / PMC / Wikipedia 与作者年定位（t27）
+
+第 9 节的映射服务于 Live `check_claim` 的 arXiv 触发条件；t27 把页面预检模块
+`citeguard.live_page` 扩展为一套独立的“页内引用体检”：给定页面 HTML，输出参考
+文献表、正文引用标记、可映射数量与引用句数量。它**只定位**「这句话引用的是页面
+参考文献表里的哪一条」，不判断该文献是否支持这句话，也不做事实核查。
+
+### 11.1 输入与输出
+
+- 输入：公开页面 HTML（arXiv HTML5 / LaTeXML、PMC 文章页、Wikipedia 条目页）。
+- 输出字段：`reference_count`、`markers_total`、`markers_mapped`、`mapped_ratio`、
+  `unique_markers`、`unique_mapped`、`mapped_sources`、`reference_sentences`、
+  `unmapped_markers`、`samples`、`references`、`body_text`。
+- 读取范围：一次 GET 公开 HTML（默认 8 s、硬上限 2 MB）；页面预检不下载或解析
+  PDF，不返回全文给客户端，不保存用户 claim。页内正文用于找引用标记与引用句，
+  这是本预检的必要输入，不等同于“读论文全文”。
+
+### 11.2 抽取与映射规则
+
+- 正文抽取：`readability-lxml 0.9`（Apache-2.0）。当摘要文本 < 1500 字符，或
+  抽取结果丢失超过 20% 的参考文献条目时，回退原始 `<body>` 并标记
+  `extractor.mode="body-fallback"`，不静默接受塌缩结果。
+- 参考文献表：
+  - arXiv：`section.ltx_bibliography` / `ol.ltx_bibliography`，条目
+    `li.ltx_bibitem`，编号取 `span.ltx_tag_bibitem`；
+  - PMC：容器 `ol.ref-list` / `section#ref-list1`，条目 `li[id="B3"]`
+    或 `li[id="REF3"]`，编号直接从 id 解析；
+  - Wikipedia：`li[id^="cite_note-"]`，按列表顺序编号。
+- 标记合并（锚点 + 纯文本去重）：
+  - 页内锚点先按 href 片段解析：`#B3` / `#REF3` / `#bib.bib3` → 第 3 条；
+    锚点文本 `[2, 3]`、`2`、`(Author, year)` 都识别；
+  - 已识别的锚点从工作副本中移除，再扫描剩余纯文本（`[n]`、全角 `［n］`、
+    `【n】`、区间、列表），因此同一条引用不会被锚点和纯文本重复计数；
+  - 作者年引用（PMC 常见）：以参考文献首作者姓氏 + 年份 + 可选后缀
+    （`2023a`）建索引；`(Ryan and Deci, 2020)` 与叙述式
+    `Ryan and Deci (2020)` 都解析。首作者/年份不唯一且无后缀时保持
+    `mapped=false`，不猜测；
+  - 数字锚点在句子副本中规范为 `[n]`（PMC 的裸 `1` 锚点也能在引用句中定位），
+    作者年锚点保留原文本；句子切分保护 `et al.`、`e.g.` 等缩写。
+- 参考文献题名：arXiv 取 `ltx_bibblock` 的第二块；PMC / 通用列表没有题名标记时，
+  按「作者 (年份). 题名. 期刊…」去掉作者、年份与后续期刊，只保留题名句，避免把
+  整条引文当作标题。题名缺失时退回原引文，不编造。
+- `reference_sentences`：正文中包含至少一个“已映射”引用标记的句子数；
+  `mapped_sources`：被至少一个已映射标记指向的不同参考文献条数。
+
+### 11.3 真实页面结果（2026-11-16，本机）
+
+运行 `python scripts/spike_live_pages.py --cache-dir "$env:TEMP\cg_live_stack" --timeout 12`：
+
+| 页面 | 数据来源 | 参考文献 | 标记 | 已映射 | 映射率 | 引用句 |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| arXiv 2611.07772 | 网络 | 54 | 97 | 97 | 1.000 | 71 |
+| arXiv 2610.18926 | 网络 | 19 | 28 | 28 | 1.000 | 16 |
+| arXiv 2610.24037 | 网络（body-fallback） | 60 | 105 | 105 | 1.000 | 73 |
+| PMC13541550 | 网络 | 61 | 93 | 93 | 1.000 | 65 |
+| PMC13198158 | 网络（body-fallback） | 36 | 83 | 83 | 1.000 | 64 |
+| Wikipedia RAG | **缓存**（运行期网络超时） | 22 | 45 | 45 | 1.000 | 28 |
+| **合计** | 6/6 页 | **252** | **451** | **451** | **1.000** | **317** |
+
+- 30 条引用句全部定位成功；其中 arXiv 15 条来自 `claims_holdout.jsonl` 的独立
+  gold DOI/标题，15 条来自页面正文抽取（gold 就是页面文献条目本身，验证“能否
+  定位”，不是独立准确率评测）。
+- `mapped_sources=246`：252 条参考文献中有 246 条被至少一个已映射标记指向；
+  剩余 6 条未被正文标记命中（可能是未被正文引用、只在图注/表格/补充材料中引用，
+  或标记未被识别），因此不计入 `mapped_sources`。
+- 未映射标记为 0；这不是“页面没有歧义”，而是这 6 页里所有识别到的标记都能
+  唯一落到参考文献表。歧义用例在测试中单独覆盖（见 11.6）。
+- 诚实边界：Wikipedia 在本机运行期连接超时（此前抓取过同页），本次用本地缓存
+  HTML，JSON 中 `source="cache"` 且保留 `fetch_error`；PMC13198158 曾返回
+  reCAPTCHA 挑战页，脚本检测“无正文/无参考文献的挑战页”后同样回退缓存。
+  这些不影响“页面 HTML 本身可解析”的结论，但说明**在线抓取不是稳定的产品
+  承诺**。
+
+### 11.4 来源定位（不判定）
+
+- `locate_claim(claim, model)` 返回每个标记的 `marker`、`numbers`、`kind`
+  （`numeric` / `author-year` / `author-year-narrative`）、`references`、`mapped`。
+- 编号在参考文献表中不存在 → `mapped=false`、`references=[]`；
+  作者年索引不唯一（如 `Wang, 2020` 同时有 `2020a`/`2020b`）→ 保持未映射，
+  不挑一个“最像的”。这是预检，不是自动判定。
+- 不输出 `support` / `contradict`；页内引用是否支持句子，仍由 Live 的摘要检索
+  与判定链路处理。
+
+### 11.5 边界与不保证
+
+- 只验证了 3 类页面。出版社页面（Nature / Springer / MDPI）在本机返回
+  Bot 挑战或 403，**不支持**；PubMed 页面是 JS shell，抽不出正文；中文真实页面
+  仍未验证（此前中文 Wikipedia 请求被 429），不宣称已覆盖。
+- 只处理 HTML；PDF、arXiv abs 页、登录墙页面不在范围内。
+- web 路由 `POST /api/live/page` 目前仍只允许 arXiv host（`web/app.py` 的
+  allow-list），t27 新增的 `reference_sentences` / `mapped_sources` 字段也尚未由
+  该路由返回；本节的页面预检是模块与 spike 能力，接入路由需要单独改 web。
+- 参考文献以普通 `<p>` 文本渲染、缺少 `li` 结构、锚点缺失且正文无括号的页面，
+  可能整体无法映射；失败时返回 0 或未映射计数，不猜测。
+- 作者年只解析单作者或 `A and B` / `A et al.` 形式；三位以上作者列表
+  （`Smith, Jones, and Lee`）不解析，保持未映射。
+- 不缓存用户 claim；页面 HTML 缓存由调用方的 `--cache-dir` 显式指定，脚本不会
+  把缓存写入仓库。
+
+### 11.6 测试与复现
+
+```
+python -m pytest tests/test_live_page.py -q
+# 27 passed（含 t27 新增：PMC 数字锚点、PMC 作者年锚点、锚点+纯文本去重、
+#  歧义作者年不猜测、reference_sentences / mapped_sources 字段）
+
+python scripts/spike_live_pages.py --cache-dir "$env:TEMP\cg_live_stack" --timeout 12
+# 输出 data/experiments/live_spike.json；网络失败时用缓存 HTML，JSON 记录
+# source=network|cache 与 fetch_error
+```
+
+测试不联网：`build_page_model` / `locate_claim` 都是纯函数，页面 HTML 用内联
+样例；真实页面脚本单独运行。抽取器许可证为 Apache-2.0（readability-lxml 0.9），
+不下载模型、不调用判官。
+
 
 
