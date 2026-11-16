@@ -864,14 +864,18 @@ def _citation_chain_targets(report: dict, limit: int = 8) -> list[dict]:
     from citeguard.retraction import normalise_doi
 
     targets: list[dict] = []
+    seen: set[str] = set()
     for ref in report.get("references") or []:
         parsed = ref.get("parsed") or {}
         verify = ref.get("verify") or {}
-        doi = normalise_doi(str(parsed.get("doi") or ""))
+        doi = normalise_doi(str(parsed.get("doi") or "")).lower()
         if not doi or not doi.startswith("10."):
             continue
         if (verify.get("status") or "") not in ("Exact", "Minor"):
             continue
+        if doi in seen:
+            continue
+        seen.add(doi)
         targets.append(
             {
                 "index": ref.get("index"),

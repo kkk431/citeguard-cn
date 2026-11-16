@@ -81,6 +81,42 @@ def test_chain_is_unavailable_without_matched_doi(client):
     assert "DOI" in body["reason"]
 
 
+def test_chain_deduplicates_repeated_dois(client, monkeypatch):
+    calls = []
+
+    def fake(doi, max_refs=12):
+        calls.append(doi)
+        return {
+            "status": "clean",
+            "checked": 1,
+            "coverage": 1.0,
+            "retracted": [],
+            "title": "Same work",
+            "detail": "ok",
+        }
+
+    monkeypatch.setattr(retraction, "check_chain", fake)
+    report = {
+        "references": [
+            {
+                "index": 1,
+                "parsed": {"title": "同一篇", "doi": "https://doi.org/10.1/same"},
+                "verify": {"status": "Exact"},
+            },
+            {
+                "index": 2,
+                "parsed": {"title": "同一篇（重复）", "doi": "10.1/SAME"},
+                "verify": {"status": "Minor"},
+            },
+        ]
+    }
+    job = config.DATA_DIR / "jobs" / "jobchain"
+    (job / "report.json").write_text(json.dumps(report, ensure_ascii=False), encoding="utf-8")
+    body = client.post("/api/report/jobchain/citation-chain").json()
+    assert calls == ["10.1/same"]
+    assert body["summary"]["checked"] == 1
+
+
 def test_chain_404_when_report_is_missing(client):
     assert client.post("/api/report/nope/citation-chain").status_code == 404
     assert client.get("/api/report/nope/citation-chain").status_code == 404
