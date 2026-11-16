@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 211,
+  "paths_checked": 214,
   "missing": [],
   "rows": [
     {
@@ -947,8 +947,23 @@
       "evidence": "E106",
       "path": "docs/evidence/shots/phase-67-live-page-probe-1.7.33.png",
       "exists": true
+    },
+    {
+      "evidence": "E107",
+      "path": "docs/citation_chain.md",
+      "exists": true
+    },
+    {
+      "evidence": "E107",
+      "path": "docs/evidence/shots/phase-68-citation-chain-1.7.34.png",
+      "exists": true
+    },
+    {
+      "evidence": "E108",
+      "path": "docs/evidence/shots/phase-69-citemap-4topics-1.7.35.png",
+      "exists": true
     }
   ],
-  "shots_registered": 100,
+  "shots_registered": 102,
   "shots_unregistered": []
 }

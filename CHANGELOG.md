@@ -1,3 +1,20 @@
+## [1.7.35] - 2026-11-16
+
+### Added
+
+- Live 页面引用预检扩展到 6 个真实页面（3 arXiv + 2 PMC + 1 Wikipedia）：参考文献 252 条、正文标记 451 个、映射 451/451（100%），并把“含引用标记的句子数”显示在页面上；只做定位，不判支持/真伪。
+- CiteMap 扩展到 4 个人工 curated 主题（ai_education / medical_imaging / ai_mental_health / ai_climate）：54 篇论文、40 条人工示例、4 条机器候选、12 个缺口；机器层独立为 `auto_evidence`，不进入人工计数与证据图。
+- CiteMap 主题按钮显示“人工/动态”来源徽章，避免把动态生成主题与人工 curated 主题混为一谈。
+
+### Tests
+
+- `pytest tests -q`：**1052 passed, 10 skipped**；`tests/test_live_page.py` 27 passed；`tests/test_citemap_page.py` 17 passed。
+- `verify_artifacts` 137/137；`audit_evidence` 214 路径 / 0 缺失 / 102 截图；`mkdocs build --strict` 通过。
+
+### Evidence
+
+- `docs/evidence/shots/phase-69-citemap-4topics-1.7.35.png`，E108。
+
 ## [1.7.34] - 2026-11-16
 
 ### Added

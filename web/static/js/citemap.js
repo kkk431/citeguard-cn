@@ -263,7 +263,11 @@
       button.type = "button";
       button.className = "ctm-topic-btn";
       button.dataset.topicId = topic.topic_id;
-      button.textContent = topicLabel(topic.topic_id);
+      const badge = document.createElement("span");
+      const dynamic = String(topic.topic_id).startsWith("dyn_");
+      badge.className = "ctm-topic-badge " + (dynamic ? "is-dynamic" : "is-curated");
+      badge.textContent = dynamic ? "动态" : "人工";
+      button.append(document.createTextNode(topicLabel(topic.topic_id)), badge);
       button.setAttribute("aria-pressed", "false");
       button.addEventListener("click", function () {
         if (topic.topic_id !== state.topicId) {

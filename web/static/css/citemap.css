@@ -1307,3 +1307,27 @@ body.theme-light .ctm-cell-tag { color: #075e72; }
 .ctm-generate-dois summary{cursor:pointer;font-size:13px;color:var(--muted)}
 .ctm-generate-dois textarea{width:100%;margin-top:8px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);padding:10px 12px;font:inherit;font-size:13px;resize:vertical}
 .ctm-generate-dois textarea:focus{outline:2px solid var(--accent);outline-offset:1px}
+
+.ctm-topic-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.ctm-topic-badge {
+  padding: 1px 6px;
+  border-radius: 999px;
+  font-size: 10px;
+  line-height: 16px;
+  letter-spacing: 0.04em;
+  border: 1px solid currentColor;
+  opacity: 0.72;
+}
+
+.ctm-topic-badge.is-curated {
+  color: var(--accent);
+}
+
+.ctm-topic-badge.is-dynamic {
+  color: var(--muted);
+}
