@@ -1,0 +1,265 @@
+{
+  "generated_at": "2026-11-16T19:40:00+08:00",
+  "task": "t30 resource cards v2",
+  "round": "shortlist approved; 3 full cards + rejects + references",
+  "environment": {
+    "python": "3.13.14",
+    "cpu": "AMD Ryzen 7 8845H 8C/16T",
+    "ram_gib": 27.8,
+    "gpu": "none (torch 2.12.1+cpu, cuda unavailable)",
+    "note": "transformers 4.57.6, huggingface-hub 0.36.2, datasets 3.6.0, sentence-transformers 3.4.1, docling 2.150.1, context-cite 0.0.4"
+  },
+  "cards": [
+    {
+      "id": "C2",
+      "name": "AlignScore",
+      "type": "factual-consistency scorer (NLI alignment)",
+      "paper": {
+        "title": "AlignScore: Evaluating Factual Consistency with a Unified Alignment Function",
+        "venue": "ACL 2023",
+        "arxiv": "https://arxiv.org/abs/2305.16739"
+      },
+      "official_impl": {
+        "repo": "https://github.com/yuh-zha/AlignScore",
+        "version": "main branch fetched 2026-11-16; no PyPI package",
+        "weights": "AlignScore-base.ckpt (1,966,965,771 B)",
+        "weights_card": "https://hf-mirror.com/yzha/AlignScore",
+        "code_public": true,
+        "weights_public": true
+      },
+      "license": "MIT",
+      "license_source": "repo LICENSE + HF weights card",
+      "integration": {
+        "module": "src/citeguard/support.py",
+        "point": "add alignment score when judge returns partial/support; local fallback when judge unavailable"
+      },
+      "gain": {
+        "baseline": "ClaimSupport-CN 100: macro-F1 0.9597 (v10 judge); judge off no_evidence 25",
+        "target": "partial->no_evidence errors -2 pt; macro-F1 >=0.85 with judge off",
+        "kill": "macro-F1 <0.85, >1 s/pair, or Chinese separation <0.5"
+      },
+      "validation": {
+        "data": "data/claimsupport_cn/v1_100.jsonl (support 40 / partial 25 / contradict 15 / no_evidence 20)",
+        "command": "see docs/research/resource_cards_v2.md S1: manual state_dict load + Inferencer.inference on (claim, evidence) pairs",
+        "samples": 100,
+        "expected_time_min": 2
+      },
+      "risks": [
+        "transformers 4.57 removed AdamW, need transformers.AdamW=torch.optim.AdamW before import",
+        "pytorch_lightning 2.6 rejects instance load_from_checkpoint; load state_dict manually",
+        "default mode needs en_core_web_sm (not installed); nli head used instead",
+        "English-trained; Chinese 0.743 is cross-lingual proxy only",
+        "checkpoint 1.83 GB; CPU 0.49 s/pair"
+      ],
+      "status": "killed_cn",
+      "smoke_result": {
+        "load_s": 7.2,
+        "per_pair_s": 0.49,
+        "en_support": 0.9983,
+        "en_contradiction": 0.0004,
+        "zh_support": 0.743,
+        "verdict": "PASS",
+        "chinese_100": {
+          "n": 100,
+          "labels": {
+            "support": 41,
+            "partial": 26,
+            "contradict": 17,
+            "no_evidence": 16
+          },
+          "mean_entailment": {
+            "support": 0.811,
+            "partial": 0.971,
+            "contradict": 0.965,
+            "no_evidence": 0.604
+          },
+          "verdict": "kill_for_chinese",
+          "reason": "contradict 的平均蕴含分 0.965 与 partial 0.971 同级，高于 support 0.811；中文矛盾被当支持",
+          "files": [
+            "data/experiments/alignscore_cn100.json",
+            "scripts/eval_alignscore_cn100.py"
+          ]
+        }
+      }
+    },
+    {
+      "id": "C1",
+      "name": "MiniCheck",
+      "type": "sentence-pair fact checker",
+      "paper": {
+        "title": "MiniCheck: Efficient Fact-Checking of LLMs on Grounding Documents",
+        "venue": "EMNLP 2024",
+        "arxiv": "https://arxiv.org/abs/2404.10774"
+      },
+      "official_impl": {
+        "repo": "https://github.com/Liyan06/MiniCheck",
+        "version": "main branch zip 1,566,723 B fetched 2026-11-16",
+        "weights": "https://hf-mirror.com/lytang/MiniCheck-DeBERTa-v3-Large",
+        "code_public": true,
+        "weights_public": true
+      },
+      "license": "Apache-2.0 (code, GitHub API); MIT (weights card)",
+      "license_source": "GitHub API license field + HF model card",
+      "integration": {
+        "module": "src/citeguard/support.py",
+        "point": "pre-filter before judge_support to reduce API calls"
+      },
+      "gain": {
+        "baseline": "ClaimSupport-CN 100: macro-F1 0.9597 (v10 judge)",
+        "target": ">=0.90 with <1 s/pair on CPU",
+        "kill": "<0.85 or >2 s/pair"
+      },
+      "validation": {
+        "data": "data/claimsupport_cn/v1_100.jsonl test60 + partial 40",
+        "command": "MiniCheck(model_name='deberta-v3-large', cache_dir='D:/Temp/citeguard_e3/ckpts'); pred/prob -> macro-F1",
+        "samples": 100,
+        "expected_time_min": 2
+      },
+      "risks": [
+        "PyPI name 'minicheck' is an unrelated formal-verification package; install from repo",
+        "DeBERTa-large weights 1.74 GB",
+        "English-only training",
+        "local load >10 min; blocked in this environment"
+      ],
+      "status": "blocked",
+      "smoke_result": {
+        "verdict": "BLOCKED",
+        "detail": "weights pytorch_model.bin 1,740,386,738 B cached; two load attempts exceeded 10 min (hf-mirror ~1 MB/s); no pred/prob produced"
+      }
+    },
+    {
+      "id": "C4",
+      "name": "Docling",
+      "type": "PDF layout / reference parser",
+      "paper": {
+        "title": "Docling Technical Report",
+        "arxiv": "https://arxiv.org/abs/2408.09869"
+      },
+      "official_impl": {
+        "repo": "https://github.com/docling-project/docling",
+        "version": "PyPI 2.150.1",
+        "model": "docling-layout-heron (171,658,996 B)",
+        "code_public": true,
+        "weights_public": true
+      },
+      "license": "MIT",
+      "license_source": "GitHub API license field",
+      "integration": {
+        "module": "src/citeguard/pdf_extract.py",
+        "point": "offline batch branch only; not in Live/interactive path"
+      },
+      "gain": {
+        "baseline": "22 real_corpus PDFs: 543 citations, key self-consistency 89.5%",
+        "target": "citations >=543, self-consistency >=90%, no Chinese mojibake",
+        "kill": ">300 s/doc, citations decrease, or mojibake"
+      },
+      "validation": {
+        "data": "data/real_corpus (3 PDFs incl. hanspub_152574.pdf, 552,528 B)",
+        "command": "DocumentConverter().convert(path).document.export_to_markdown()",
+        "samples": 3,
+        "expected_time_min": 10
+      },
+      "risks": [
+        "107.5 s/doc vs pypdf <1 s; offline only",
+        "layout model 172 MB must be pre-downloaded",
+        "OCR language coverage not verified"
+      ],
+      "status": "smoke_passed",
+      "smoke_result": {
+        "file": "data/real_corpus/hanspub_152574.pdf",
+        "seconds": 107.5,
+        "chars": 10317,
+        "chinese_ok": true,
+        "ref_section_present": true,
+        "verdict": "PASS (offline only)"
+      }
+    }
+  ],
+  "rejects": [
+    {
+      "id": "C3",
+      "name": "multilingual-e5-small",
+      "type": "multilingual retrieval embedding",
+      "license": "MIT (HF model card)",
+      "url": "https://hf-mirror.com/intfloat/multilingual-e5-small",
+      "paper": "https://arxiv.org/abs/2212.03533",
+      "status": "rejected",
+      "smoke_result": {
+        "dataset": "data/experiments/replacement_eval_dataset.json (438 queries / 477 candidates, title-only docs)",
+        "R@1": 0.1438,
+        "R@3": 0.2009,
+        "R@5": 0.2694,
+        "MRR": 0.2019,
+        "baseline_bge_m3_R@3": 0.3219,
+        "baseline_bm25_R@3": 0.258,
+        "verdict": "KILL"
+      },
+      "reason": "R@3 below BM25 baseline; retrieval quality mismatch, not a licensing issue"
+    },
+    {
+      "id": "C5",
+      "name": "MinerU",
+      "type": "Chinese PDF layout/OCR parser",
+      "license": "Apache-2.0 + additional terms (commercial thresholds: MAU 100M / monthly revenue US$20M)",
+      "url": "https://github.com/opendatalab/MinerU",
+      "paper": "https://arxiv.org/abs/2409.18839",
+      "status": "blocked",
+      "smoke_result": {
+        "verdict": "NOT_RUN",
+        "detail": "Docker daemon not running; large model downloads; no GPU"
+      },
+      "reason": "blocked by environment; not selected for a full card"
+    },
+    {
+      "id": "C6",
+      "name": "ContextCite",
+      "type": "context attribution / span localization",
+      "license": "MIT",
+      "url": "https://github.com/MadryLab/context-cite",
+      "paper": "https://arxiv.org/abs/2409.00729",
+      "status": "blocked",
+      "smoke_result": {
+        "verdict": "NOT_RUN",
+        "detail": "initialization triggers nltk punkt_tab download failure (WinError 10060); requires base LLM (no GPU, slow HF downloads)"
+      },
+      "reason": "blocked by missing nltk data and base LLM; not selected for a full card"
+    }
+  ],
+  "references": [
+    {
+      "name": "SummaC",
+      "license": "Apache-2.0",
+      "note": "English NLI aggregation; dependency huggingface-hub<=0.17.0 conflicts with transformers 4.57.6; reference only"
+    },
+    {
+      "name": "TRUE",
+      "license": "unverified",
+      "note": "NAACL 2022 factual consistency benchmark; English; reference only"
+    },
+    {
+      "name": "RAGTruth",
+      "license": "MIT",
+      "note": "~18k hallucination-annotated responses; English; evaluation reference only"
+    },
+    {
+      "name": "ALCE",
+      "license": "MIT",
+      "note": "English citation-generation evaluation (ASQA/QAMPARI/ELI5); metric reference only"
+    },
+    {
+      "name": "AttributionBench",
+      "license": "none (GitHub license=None)",
+      "note": "license unclear; rejected"
+    },
+    {
+      "name": "GROBID",
+      "license": "Apache-2.0",
+      "note": "PDF reference parsing; English/European models, no Chinese model; reference only"
+    },
+    {
+      "name": "CERMINE",
+      "license": "unverified",
+      "note": "repo Cermine/CERMINE returned 404; not used"
+    }
+  ]
+}
