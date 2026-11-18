@@ -1402,6 +1402,12 @@
       const data = await res.json();
       if (img) img.src = data.image;
       if (pre) pre.innerHTML = escPageText(data.text || "（这一页没有可提取的文字层，请看左侧页图）", quote);
+      const mark = pre && pre.querySelector("mark");
+      if (mark && pre.parentElement) {
+        const pane = pre.parentElement;
+        const top = mark.getBoundingClientRect().top - pane.getBoundingClientRect().top + pane.scrollTop;
+        pane.scrollTop = Math.max(0, top - 90);
+      }
     } catch (e) {
       if (pre) pre.innerHTML = '<span class="inline-note">这一页的页图没有保存（旧任务或非 PDF）。重新分析同一篇即可生成。</span>';
     }
