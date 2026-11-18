@@ -76,6 +76,40 @@ def test_workspace_page_renders(client):
     assert "最近报告" in resp.text
 
 
+def test_figure_check_empty_request_is_a_readable_json_error(client, monkeypatch):
+    from citeguard import figure_check
+
+    monkeypatch.setattr(figure_check, "available", lambda: True)
+    resp = client.post("/api/figure-check")
+    assert resp.status_code == 400
+    payload = resp.json()
+    assert payload["code"] == "no_input"
+    assert "图表截图" in payload["error"] and "PDF" in payload["error"]
+
+
+def test_figure_check_service_failure_is_502_with_readable_error(client, monkeypatch):
+    from citeguard import figure_check
+
+    monkeypatch.setattr(figure_check, "available", lambda: True)
+    monkeypatch.setattr(
+        figure_check,
+        "check_claims",
+        lambda *a, **k: {
+            "ok": False,
+            "items": [{"claim": "如图1所示，年度发文量逐年上升。", "ok": False, "code": "unreachable", "error": "核验服务连不上：视觉模型未启动或网络不通，请检查视觉服务后重试"}],
+        },
+    )
+    resp = client.post(
+        "/api/figure-check",
+        data={"claim": "如图1所示，年度发文量逐年上升。", "claims": "如图1所示，年度发文量逐年上升。"},
+        files={"image": ("fig.png", b"\x89PNG", "image/png")},
+    )
+    assert resp.status_code == 502
+    payload = resp.json()
+    assert payload["error"].startswith("核验服务连不上")
+    assert payload["items"][0]["ok"] is False
+
+
 def test_history_page_renders(client):
     resp = client.get("/history")
     assert resp.status_code == 200

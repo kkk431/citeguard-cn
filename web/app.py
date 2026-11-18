@@ -102,7 +102,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.7.35", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.7.36", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 
@@ -2474,6 +2474,34 @@ def figure_page(request: Request):
     )
 
 
+_FIGURE_SERVICE_CODES = {"unreachable", "http_error", "timeout"}
+
+
+def _figure_failure_text(result: dict) -> str:
+    if result.get("error"):
+        return str(result["error"])
+    for item in result.get("items") or []:
+        if not item.get("ok") and item.get("error"):
+            return str(item["error"])
+    return ""
+
+
+def _figure_payload(result: dict) -> dict:
+    if not result.get("ok") and not result.get("error"):
+        message = _figure_failure_text(result)
+        if message:
+            result["error"] = message
+    return result
+
+
+def _figure_status(result: dict) -> int:
+    if result.get("ok"):
+        return 200
+    codes = {result.get("code")}
+    codes.update(item.get("code") for item in result.get("items") or [] if not item.get("ok"))
+    return 502 if codes & _FIGURE_SERVICE_CODES else 400
+
+
 @app.post("/api/figure-check")
 def figure_check_api(
     image: UploadFile | None = File(None),
@@ -2621,7 +2649,7 @@ def figure_check_api(
             result = figure_check.check_claims(png, "image/png", cs, ctx)
             pages_used.append(pg)
             if not result.get("ok"):
-                return JSONResponse(result, status_code=400)
+                return JSONResponse(_figure_payload(result), status_code=_figure_status(result))
             for item in result.get("items") or []:
                 item["page"] = pg
                 items.append(item)
@@ -2637,11 +2665,11 @@ def figure_check_api(
         result = figure_check.check_claims(payload, image.content_type or "", claim_list, context)
         if page_no and result.get("ok"):
             result["context_source"] = f"pdf_auto:{page_no}" if auto_caption else f"pdf_page:{page_no}"
-        return JSONResponse(result, status_code=200 if result.get("ok") else 400)
+        return JSONResponse(_figure_payload(result), status_code=_figure_status(result))
     result = figure_check.check_figure(payload, image.content_type or "", claim, context)
     if page_no and result.get("ok"):
         result["context_source"] = f"pdf_auto:{page_no}" if auto_caption else f"pdf_page:{page_no}"
-    return JSONResponse(result, status_code=200 if result.get("ok") else 400)
+    return JSONResponse(_figure_payload(result), status_code=_figure_status(result))
 
 
 def _load_compare(job_id: str) -> dict | None:

@@ -1,4 +1,4 @@
-// 图表结论核验页：上传截图 + 结论 -> /api/figure-check
+﻿// 图表结论核验页：上传截图 + 结论 -> /api/figure-check
 (function () {
   const form = document.getElementById("figure-form");
   if (!form) return;
@@ -174,13 +174,42 @@
       .replace(/"/g, "&quot;");
   }
 
+  function errorText(out) {
+    const data = out.data || {};
+    if (data.error) return String(data.error);
+    if (data.detail) {
+      if (Array.isArray(data.detail)) {
+        return data.detail.map(function (x) { return x.msg || String(x); }).join("；");
+      }
+      return String(data.detail);
+    }
+    const failed = (data.items || []).filter(function (x) { return x && x.ok === false; });
+    if (failed.length && failed[0].error) return String(failed[0].error);
+    if (out.resp.status === 400) {
+      return "请求没有带上图片或论文 PDF；请重新选择文件后再试。";
+    }
+    if (out.resp.status === 503) {
+      return "图表核验服务暂时不可用，请稍后再试。";
+    }
+    return "HTTP " + out.resp.status;
+  }
+
   form.addEventListener("submit", async function (e) {
     e.preventDefault();
     const files = fileInput.files ? Array.prototype.slice.call(fileInput.files) : [];
     const rawClaim = (claimInput.value || "").trim();
     const claimLines = rawClaim.split(/\r?\n/).map(function (line) { return line.trim(); }).filter(Boolean);
     const paper = paperInput && paperInput.files && paperInput.files[0];
-    if (!files.length && !paper) { setHint("请上传图表截图，或上传论文 PDF 自动定位并渲染图/表页"); return; }
+    if (!files.length && !paper) {
+      setHint("请先选择图表截图，或选择论文 PDF 自动定位并渲染图/表页");
+      window.showToast && window.showToast("还没有选择图片或论文 PDF");
+      (fileInput || paperInput || {}).focus && (fileInput || paperInput).focus();
+      return;
+    }
+    if (paper && !paper.size) {
+      setHint("这个 PDF 是空文件，请重新选择");
+      return;
+    }
     if (!claimLines.length) { setHint("请写一条结论"); return; }
     if (claimLines.length > 5) { setHint("一次最多核验 5 条结论"); return; }
     if (claimLines.some(function (line) { return line.length < 5; })) {
@@ -222,8 +251,13 @@
           const head = '<div class="fig-batch-item"><div class="mono-sm" style="margin:10px 0 4px">' +
             escapeHtml(files[i].name) + "</div>";
           if (!out.resp.ok || !out.data.ok) {
-            blocks.push(head + '<div class="fig-error">核验失败：' +
-              escapeHtml(out.data.error || ("HTTP " + out.resp.status)) + "</div></div>");
+            if (out.data.items && out.data.items.length) {
+              blocks.push(head + '<div class="fig-error">核验未完成：' +
+                escapeHtml(errorText(out)) + "</div>" + itemsHtml(out.data) + "</div>");
+            } else {
+              blocks.push(head + '<div class="fig-error">核验失败：' +
+                escapeHtml(errorText(out)) + "</div></div>");
+            }
             continue;
           }
           blocks.push(head + (out.data.items ? itemsHtml(out.data) : verdictHtml(out.data)) + "</div>");
@@ -236,8 +270,11 @@
       const out = await post(files[0]);
       if (!out.resp.ok || !out.data.ok) {
         setHint("");
-        result.innerHTML =
-          "<div class=\"fig-error\">核验失败：" + escapeHtml(out.data.error || ("HTTP " + out.resp.status)) + "</div>";
+        if (out.data.items && out.data.items.length) {
+          result.innerHTML = "<div class=\"fig-error\">核验未完成：" + escapeHtml(errorText(out)) + "</div>" + itemsHtml(out.data);
+        } else {
+          result.innerHTML = "<div class=\"fig-error\">核验失败：" + escapeHtml(errorText(out)) + "</div>";
+        }
         result.classList.remove("hidden");
         return;
       }
@@ -253,3 +290,4 @@
     }
   });
 })();
+

@@ -136,7 +136,7 @@ def check_figure(image_bytes: bytes, mime: str, claim: str, context: str = "") -
             timeout=config.VL_TIMEOUT,
         )
     except requests.RequestException as exc:  # noqa: BLE001
-        return {"ok": False, "code": "unreachable", "error": f"核验服务不可用：{exc}"}
+        return {"ok": False, "code": "unreachable", "error": "核验服务连不上：视觉模型未启动或网络不通，请检查视觉服务后重试"}
     latency_ms = int((time.perf_counter() - started) * 1000)
     if resp.status_code >= 400:
         return {
