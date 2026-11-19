@@ -58,7 +58,7 @@
 
 - [x] v1.0.0 + CHANGELOG（1.0.0 已发布，tag `v1.0.0`）
 - [x] 文档站（mkdocs 配置 + 本地构建通过）
-- [x] HuggingFace 数据集 + adapter：<https://huggingface.co/datasets/dfdafs/claimsupport-cn-300>（5 文件）、<https://huggingface.co/models/dfdafs/citeguard-support-lora-qwen3-1.7b>（9 文件，含 adapter/训练脚本/metrics）；公开可访问。Zenodo DOI（可选）未做
+- [x] HuggingFace 数据集 + adapter：<https://huggingface.co/datasets/dfdafs/claimsupport-cn-300>（5 文件）、<https://huggingface.co/dfdafs/citeguard-support-lora-qwen3-1.7b>（9 文件，含 adapter/训练脚本/metrics）；公开可访问。Zenodo DOI（可选）未做
 - [x] Docker 镜像发布说明：2026-11-12 重置损坏的 containerd 数据目录后，`citeguard-cn:1.0.12` 构建成功（414 MB），容器 `/api/health` 返回 `1.0.12/offline=true`（E49）；同日数据盘迁到 `D:\Docker\wsl` 并留 junction（E53）
 - [x] README / 架构 / 评测 / 许可证 / 复现命令同步（README 已更新到 1.0.13 / 611 tests；`scripts/reproduce_all.py`、`docs/` 同步）
 - [x] 截图：`phase4-v1.0-docs-site-1.0.0.png`（文档站首页，E33）
