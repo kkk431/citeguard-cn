@@ -228,3 +228,18 @@ OpenAI 兼容的 `/v1/chat/completions` 调用视觉模型；`scripts/local_vl_s
   LLM 两段式工具，后者是独立的 Python 引文核验工具；上游 PR #77 提交在后者，不冒充前者的贡献。
   本地复现时只把它克隆到 `out/refchecker/`（gitignore），通过其官方 LLM 两段式流水线调用
   DeepSeek-Chat；不复制其代码进本仓库、不作为产品依赖。数值口径见 `docs/experiments.md` §14。
+
+## 9. v1.7.36 对账增补（以随报告提交的《开源及第三方资源使用清单 v1.7.36》为准）
+
+| 资源 | 版本/来源 | 许可证 | 用途 | 分发方式 |
+|---|---|---|---|---|
+| readability-lxml | 0.9.x | Apache-2.0 | Live 页面正文与参考文献列表抽取 | pip 依赖；不修改源码 |
+| lxml | 5.x/6.x | BSD-3-Clause | readability 的 HTML/XML 解析（间接依赖） | pip 依赖 |
+| python-docx | 1.x | MIT | DOCX 输入与报告生成 | pip 依赖 |
+| Europe PMC API | 开放文献 API | 开放使用条款 | CiteMap 全文证据检索 | 运行时调用；仅存短引用片段 |
+| Qwen3-VL-8B-Instruct | ModelScope 权重 | Apache-2.0 | 图表—结论核验默认视觉判官 | 权重不入库，运行时获取 |
+| Qwen3-4B + 自训 LoRA | 开源权重 + 本项目 adapter | Apache-2.0 | 4B 轻量判官/微调对照 | adapter 以 Apache-2.0 发布 |
+| Qwen3-1.7B + 自训 LoRA | 开源权重 + 本项目 adapter | Apache-2.0 | 轻量判官/教学示例 | adapter 以 Apache-2.0 发布 |
+| BGE-M3 | 可选 | MIT | 替换候选重排，默认关闭 | 不进入核心依赖 |
+
+> 说明：本表第 1 节为历史版本快照；v1.7.36 交付以 `dist/开源及第三方资源使用清单_v1.7.36.pdf`（2 页）为准。Qwen3-8B/14B/2.5-VL 的实测数字与许可证见 §3–§4；权重均不随仓库分发。

@@ -493,7 +493,7 @@ python scripts/e7_usability.py --manual-finalize data/experiments/e7_manual_verd
 - 3 条漏判均不是「把错误当正确」：其中 2 条是中国 DOI 平台落地页的记录本身缺年份/刊名（产品遵守「引用没有的字段不判偏差」），1 条是 Springer 章节记录缺作者字段、无可比对值。即**检出的天花板由索引元数据完整度决定**，不是比对逻辑写错。
 - `fabricated_noanchor`：13/13 判 Unverified（未找到匹配）。这是设计边界——没有 DOI/链接锚点的纯伪造条目，产品不指控，只提示人工核对；因此**不能**把这 13 条算成「抓假成功」。
 
-结果文件：`data/experiments/real_mutation_eval.json`；脚本：`scripts/eval_real_mutation.py`；复跑命令见 `reproduce.sh`。
+结果文件：`data/experiments/real_mutation_eval.json`；脚本：`scripts/eval_real_mutation.py`；复跑命令见 `scripts/reproduce_all.py`。
 
 ### 8.4 可用的 / 不能用的说法
 

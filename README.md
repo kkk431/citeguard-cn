@@ -270,7 +270,7 @@ Content-Type: application/json
 ```
 citeguard/
 ├── src/citeguard/        # 核心包：解析 / 核验 / 规则 / 支持度 / 报告
-├── web/                  # FastAPI + Jinja2 工作台（4 个页面）
+├── web/                  # FastAPI + Jinja2 工作台（报告/题录库/图表/CiteMap/批量/设置）
 ├── scripts/              # 评测、基线、样例、复现、自检
 ├── tests/                # pytest 用例
 ├── docker/               # Dockerfile + compose
@@ -279,7 +279,7 @@ citeguard/
 ├── docs/                 # 评测规划、真实数据实测、用户测试包、部署文档
 ├── requirements.txt      # 兼容范围
 ├── requirements.lock.txt # 锁定版本（可复现）
-├── reproduce.sh
+├── scripts/reproduce_all.py
 ├── LICENSE               # Apache-2.0
 ├── NOTICE
 └── THIRD_PARTY_NOTICES.md
@@ -302,6 +302,11 @@ citeguard/
 | pdfplumber / pdfminer.six / pypdf | PDF 文本层抽取 | MIT / BSD-3-Clause |
 | python-docx | Word（.docx）解析 | MIT |
 | rapidfuzz | 题名相似度 | MIT |
+| readability-lxml | Live 页面正文/参考文献抽取 | Apache-2.0 |
+| pypdfium2 | 页面渲染与版面回退 | BSD-3-Clause / Apache-2.0 |
+| Qwen3-VL-8B / Qwen3-14B | 图表核验 / 本地支持度判官 | Apache-2.0 |
+| Qwen3-4B + LoRA / Qwen3-1.7B + LoRA | 轻量判官 adapter | Apache-2.0 |
+| Europe PMC | 全文证据检索 | 开放使用条款 |
 
 **已集成与候选资源**：Qwen3-8B/14B、Qwen2.5-7B/3B、Qwen3-1.7B（均 Apache-2.0）已实测接入支持度判定；Qwen3-Embedding / Reranker（Apache-2.0）、bge-m3（MIT）、PaddleOCR（Apache-2.0）、Docling（MIT）仍是路线图。支持度 judge 走 OpenAI 兼容接口，切换到这些本地后端只需改 `CITEGUARD_JUDGE_BASE_URL` / `CITEGUARD_JUDGE_MODEL`。
 
@@ -315,14 +320,15 @@ citeguard/
 |---|---|---|
 | 代码仓 | 本仓库（解析器 / 核验器 / GB-T 规则引擎 / Web 工作台 / 评测脚本 / 测试） | Apache-2.0 |
 | CiteBench-CN | 250 条中文引文真实性评测集 + 数据卡 + 评测结果 | CC-BY-4.0 |
-| ClaimSupport-CN | 100 条中文引用支持度评测集 + 数据卡 + judge 结果 | CC-BY-4.0 |
+| ClaimSupport-CN | 300 条中文引用支持度评测集（100 基础 + 60 扩展 + 140 V2）+ 数据卡 + judge 结果 | CC-BY-4.0 |
+| LoRA adapters | Qwen3-1.7B/4B 支持度 adapter、训练脚本、模型卡 | Apache-2.0 |
 | 上游贡献 | **markrussinovich/refchecker**（MIT，Python 引文核验工具）PR #77：修复 BibTeX 裸值（`year = 2017`）被丢弃导致年份校验失效；**已提交，维护者 2026-10-24 关闭未合并**。注意：它与 E14 对照使用的 `amazon-science/RefChecker`（Apache-2.0，Java/LLM 两段式）是**两个同名项目**，不要混写 | [PR #77](https://github.com/markrussinovich/refchecker/pull/77) |
 
 复现（约 30 分钟，需联网取一次元数据，之后走本地缓存）：
 
 ```bash
 pip install -r requirements.lock.txt
-bash reproduce.sh                     # 构建数据集 → 评测 → 一致性校验 → 离线测试（可选 DeepSeek 基线/支持度）
+python scripts/reproduce_all.py        # 构建数据集 → 评测 → 一致性校验 → 离线测试（可选 DeepSeek 基线/支持度）
 ```
 
 > 每个对外数字对应的原始结果 JSON、生成脚本与代码快照见 [data/experiments/README.md](data/experiments/README.md)。
