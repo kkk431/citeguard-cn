@@ -419,7 +419,7 @@ def main() -> int:
         "environment": {
             "device": args.device,
             "backend": args.backend,
-            "host": "222.20.126.148 (lmh, 4x RTX 4090)",
+            "host": "127.0.0.1 (lmh, 4x RTX 4090)",
             "cpu": "host CPU (data prep only)",
             "python": sys.version.split()[0],
             "server_model_field": server_model,

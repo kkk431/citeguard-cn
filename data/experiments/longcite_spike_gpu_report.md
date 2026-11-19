@@ -8,7 +8,7 @@
 |---|---|
 | 设备 | NVIDIA GeForce RTX 4090 (CUDA_VISIBLE_DEVICES=3) |
 | 后端 | llama.cpp llama-server (CUDA 12.0, sm_89), CUDA_VISIBLE_DEVICES=3, GIN |
-| 主机 | 222.20.126.148 (lmh, 4x RTX 4090) |
+| 主机 | 127.0.0.1 (lmh, 4x RTX 4090) |
 | 模型 | zai-org/LongCite-llama3.1-8b (GGUF Q4_K_M, t29 conversion)（8.03B） |
 | 许可证 | Llama 3.1 Community License |
 | 数据集 | LongCite-45k (Apache-2.0) |

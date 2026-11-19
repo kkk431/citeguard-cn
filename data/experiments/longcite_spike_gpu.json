@@ -5,7 +5,7 @@
   "environment": {
     "device": "NVIDIA GeForce RTX 4090 (CUDA_VISIBLE_DEVICES=3)",
     "backend": "llama.cpp llama-server (CUDA 12.0, sm_89), CUDA_VISIBLE_DEVICES=3, GIN",
-    "host": "222.20.126.148 (lmh, 4x RTX 4090)",
+    "host": "127.0.0.1 (lmh, 4x RTX 4090)",
     "cpu": "host CPU (data prep only)",
     "python": "3.9.25",
     "server_model_field": "models/longcite-q4km.gguf"
@@ -1124,7 +1124,7 @@
     "gpu": {
       "name": "NVIDIA GeForce RTX 4090",
       "memory_total_mib": 24564,
-      "host": "222.20.126.148 (lmh)",
+      "host": "127.0.0.1 (lmh)",
       "visible_devices": "CUDA_VISIBLE_DEVICES=3 only"
     },
     "commands": {
