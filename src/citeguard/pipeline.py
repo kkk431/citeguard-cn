@@ -174,6 +174,75 @@ def _judge_run_config() -> dict:
         return {"base_url": "", "model": ""}
 
 
+# Bump when the report shape or analysis semantics change: the B2 result cache
+# must not replay an old report under a new analysis version.
+ANALYSIS_CACHE_VERSION = "analyze_text-v1"
+
+
+def analysis_cache_versions() -> dict:
+    """Versions that make two analysis results non-interchangeable."""
+    from .support import judge_endpoint
+
+    try:
+        base, model, _key = judge_endpoint()
+    except Exception:
+        base, model = "", ""
+    audit_style = "on:" + str(getattr(config, "SUPPORT_AUDIT_STYLE", "auto"))
+    return {
+        "analysis": ANALYSIS_CACHE_VERSION,
+        "prompt": str(PROMPT_VERSION),
+        "audit": audit_style if config.SUPPORT_AUDIT else "off",
+        "judge_base": base,
+        "judge_model": model,
+        "judge_available": bool(judge_available()),
+        "offline": bool(config.OFFLINE),
+    }
+
+
+def analyze_file_cached(file_path: str, *, options: dict | None = None, cache=None) -> dict:
+    """Analyze one file through the B2 content-addressed result cache.
+
+    The cache key covers the file's SHA-256, the analysis options and the
+    prompt/audit/judge versions, so changing any of them forces a fresh run.
+    A cached report is returned with ``cache.status='hit'``; callers must not
+    present that as a cold-start measurement.
+    """
+    from .jobs import ResultCache, result_cache_enabled, result_cache_key, sha256_file
+
+    path = Path(file_path)
+    options = dict(options or {})
+    key_options = {k: v for k, v in options.items() if k != "library"}
+    versions = analysis_cache_versions()
+    key = result_cache_key(sha256_file(path), key_options, versions)
+    cache = cache if cache is not None else ResultCache()
+    enabled = result_cache_enabled()
+    if enabled:
+        hit = cache.load(key)
+        if hit is not None:
+            report = dict(hit["report"])
+            report["cache"] = {"status": "hit", "key": key, "versions": versions}
+            return report
+    text, meta = _extract_cached(str(path))
+    report = analyze_text(
+        text,
+        path.name,
+        support_max=options.get("support_max"),
+        online=bool(options.get("online", True)),
+        use_arxiv=bool(options.get("use_arxiv", True)),
+        library=options.get("library"),
+        max_refs=int(options.get("max_refs") or 0),
+        input_meta=meta,
+        figure_checks=bool(options.get("figures") or options.get("figure_checks")),
+        pdf_path=str(path),
+    )
+    report["cache"] = {"status": "miss" if enabled else "disabled", "key": key, "versions": versions}
+    if enabled:
+        stored = dict(report)
+        stored.pop("cache", None)
+        cache.store(key, stored, {"file": path.name, "options": key_options, "versions": versions})
+    return report
+
+
 def analyze_text(
     text: str,
     source_name: str = "粘贴文本",

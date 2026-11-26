@@ -1,0 +1,214 @@
+{
+  "generated_at": "2026-11-26T23:36:59",
+  "task": "B2 result cache + rerun only failed",
+  "machine": "win32",
+  "offline": true,
+  "judge": "disabled (support_max=0, online=False)",
+  "dataset": {
+    "corpus": "data/real_corpus (local open-access PDFs)",
+    "files": [
+      {
+        "name": "hanspub_152572.pdf",
+        "bytes": 609844,
+        "sha256": "84fcf39497c834fe1a10c89177352e05513f062e265de23ad2ca74ce7bf3db4e"
+      },
+      {
+        "name": "hanspub_152573.pdf",
+        "bytes": 575927,
+        "sha256": "8c0f9455882cfda6dbc2e73defe4d97d02d685328fc287e495a09f4862d708b5"
+      },
+      {
+        "name": "hanspub_152574.pdf",
+        "bytes": 552528,
+        "sha256": "f6e744d12e07191b927c6123db6e158faa29a7ea8716c7a6a0a4fb7288b4ff38"
+      }
+    ],
+    "options": {
+      "support_max": 0,
+      "online": false,
+      "figures": false,
+      "max_refs": 40
+    },
+    "versions": {
+      "analysis": "analyze_text-v1",
+      "prompt": "10-fe9d721c",
+      "audit": "on:auto",
+      "judge_base": "https://api.deepseek.com/v1",
+      "judge_model": "deepseek-chat",
+      "judge_available": false,
+      "offline": false
+    }
+  },
+  "cold": {
+    "label": "cold: empty result cache and empty text cache",
+    "n": 3,
+    "wall_ms": 4373.8,
+    "per_item_ms": {
+      "hanspub_152572.pdf": 1859,
+      "hanspub_152573.pdf": 1343,
+      "hanspub_152574.pdf": 1141
+    },
+    "statuses": {
+      "hanspub_152572.pdf": "done",
+      "hanspub_152573.pdf": "done",
+      "hanspub_152574.pdf": "done"
+    },
+    "sources": {
+      "hanspub_152572.pdf": "processed",
+      "hanspub_152573.pdf": "processed",
+      "hanspub_152574.pdf": "processed"
+    },
+    "reports": {
+      "hanspub_152572.pdf": {
+        "references": 24,
+        "citations": 27,
+        "support_counts": null
+      },
+      "hanspub_152573.pdf": {
+        "references": 14,
+        "citations": 14,
+        "support_counts": null
+      },
+      "hanspub_152574.pdf": {
+        "references": 11,
+        "citations": 12,
+        "support_counts": null
+      }
+    },
+    "cache_status": {
+      "hanspub_152572.pdf": "miss",
+      "hanspub_152573.pdf": "miss",
+      "hanspub_152574.pdf": "miss"
+    },
+    "cache": {
+      "hits": 0,
+      "misses": 3,
+      "writes": 3,
+      "entries": 3,
+      "hit_rate": 0.0
+    },
+    "stats": {
+      "total": 3,
+      "done": 3,
+      "error": 0,
+      "pending": 0,
+      "cache_hits": 0,
+      "processed": 3,
+      "reused": 0
+    }
+  },
+  "hot": {
+    "label": "hot: same bytes/options/versions, result cache warm",
+    "n": 3,
+    "wall_ms": 67.9,
+    "per_item_ms": {
+      "hanspub_152572.pdf": 13,
+      "hanspub_152573.pdf": 14,
+      "hanspub_152574.pdf": 11
+    },
+    "sources": {
+      "hanspub_152572.pdf": "cache",
+      "hanspub_152573.pdf": "cache",
+      "hanspub_152574.pdf": "cache"
+    },
+    "stats": {
+      "total": 3,
+      "done": 3,
+      "error": 0,
+      "pending": 0,
+      "cache_hits": 3,
+      "processed": 0,
+      "reused": 0
+    },
+    "cache": {
+      "hits": 3,
+      "misses": 3,
+      "writes": 3,
+      "entries": 3,
+      "hit_rate": 0.5
+    },
+    "hit_rate_this_run": 1.0,
+    "speedup_vs_cold": 64.44,
+    "same_report_summaries": true,
+    "note": "cache reuse, NOT a cold-start speedup"
+  },
+  "retry": {
+    "label": "one injected transient failure, then retry_failed()",
+    "first_run": {
+      "wall_ms": 43.9,
+      "statuses": {
+        "hanspub_152572.pdf": "done",
+        "hanspub_152573.pdf": "error",
+        "hanspub_152574.pdf": "done"
+      },
+      "failed_ids": [
+        "item-02"
+      ],
+      "calls": [
+        "hanspub_152572.pdf",
+        "hanspub_152573.pdf",
+        "hanspub_152574.pdf"
+      ]
+    },
+    "retry_run": {
+      "wall_ms": 29.0,
+      "statuses": {
+        "hanspub_152572.pdf": "done",
+        "hanspub_152573.pdf": "done",
+        "hanspub_152574.pdf": "done"
+      },
+      "calls": [
+        "hanspub_152573.pdf"
+      ],
+      "only_failed": true,
+      "attempts": {
+        "hanspub_152572.pdf": 1,
+        "hanspub_152573.pdf": 2,
+        "hanspub_152574.pdf": 1
+      }
+    },
+    "final_stats": {
+      "total": 3,
+      "done": 3,
+      "error": 0,
+      "pending": 0,
+      "cache_hits": 0,
+      "processed": 3,
+      "reused": 0
+    }
+  },
+  "single_retry": {
+    "label": "one row action retries exactly one item",
+    "target": "hanspub_152574.pdf",
+    "first_statuses": {
+      "hanspub_152572.pdf": "done",
+      "hanspub_152573.pdf": "done",
+      "hanspub_152574.pdf": "error"
+    },
+    "calls_before": [
+      "hanspub_152572.pdf",
+      "hanspub_152573.pdf",
+      "hanspub_152574.pdf"
+    ],
+    "calls_after": [
+      "hanspub_152574.pdf"
+    ],
+    "only_target": true,
+    "attempts": {
+      "hanspub_152572.pdf": 1,
+      "hanspub_152573.pdf": 1,
+      "hanspub_152574.pdf": 2
+    },
+    "final_statuses": {
+      "hanspub_152572.pdf": "done",
+      "hanspub_152573.pdf": "done",
+      "hanspub_152574.pdf": "done"
+    }
+  },
+  "boundaries": [
+    "cold/hot timing is machine-specific and only for this machine (CPU, no GPU)",
+    "offline analysis: no online verification and no support judge; parse+rule verdicts only",
+    "the retry failure is injected once to test recovery, not a real network incident",
+    "hot numbers must not be reported as cold-start performance"
+  ]
+}
