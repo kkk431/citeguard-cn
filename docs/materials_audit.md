@@ -8,7 +8,7 @@
 | 资源清单 | v1.7.36 / 2 页 | 无不新增第三方依赖 | 可保持 |
 | 佐证材料 | v1.7.36 / 18 页 | A1/A2 证据按阶段追加 | 后续阶段统一更新 |
 | 提交目录 | 8 文件 | 报告 v1.7.45、提交说明 v1.7.45；zip 27,351,453 B / sha `d1e8c3efae4cc4461b294bd255938624faea6ad08be4b6389c90b803dbf839bc` | 已更新 |
-| GitHub | main / tag v1.7.45 | E1 commit；tag v1.7.45；CI 待确认；release latest 待更新 | 部分完成 |
+| GitHub | main / tag v1.7.45 | commit `d66c3e8`；tag v1.7.45；CI passing；release latest 已改为 v1.7.45 | 已更新 |
 | 平台字段 | 名称/简介已定 | 报告/佐证更新后字段不变 | 待确认 |
 | PPT/视频 | v1.7.35 / v1.7.36 | 用户明确不改内容 | 保持 |
 
