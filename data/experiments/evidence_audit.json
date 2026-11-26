@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 304,
+  "paths_checked": 310,
   "missing": [],
   "rows": [
     {
@@ -1412,8 +1412,38 @@
       "evidence": "E126",
       "path": "data/experiments/opt_a3_library_dashboard_ui_2026-11-27.json",
       "exists": true
+    },
+    {
+      "evidence": "E130",
+      "path": "docs/optimization/g6_h3_h4.md",
+      "exists": true
+    },
+    {
+      "evidence": "E130",
+      "path": "docs/evidence/shots/opt-G6-workspace-1440.png",
+      "exists": true
+    },
+    {
+      "evidence": "E130",
+      "path": "docs/evidence/shots/opt-G6-workspace-1920.png",
+      "exists": true
+    },
+    {
+      "evidence": "E130",
+      "path": "docs/evidence/shots/opt-G6-library-1440.png",
+      "exists": true
+    },
+    {
+      "evidence": "E130",
+      "path": "docs/evidence/shots/opt-G6-library-1920.png",
+      "exists": true
+    },
+    {
+      "evidence": "E130",
+      "path": "data/experiments/opt_g6_h3_h4_2026-11-27.json",
+      "exists": true
     }
   ],
-  "shots_registered": 163,
+  "shots_registered": 167,
   "shots_unregistered": []
 }

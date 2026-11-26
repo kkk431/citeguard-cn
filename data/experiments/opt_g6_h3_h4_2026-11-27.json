@@ -1,0 +1,60 @@
+{
+  "date": "2026-11-27",
+  "version": "1.7.49",
+  "g6": {
+    "viewports": [
+      "1280",
+      "1440",
+      "1920"
+    ],
+    "pages": [
+      "workspace",
+      "library",
+      "figure",
+      "live",
+      "citemap",
+      "benchmark"
+    ],
+    "checks": 18,
+    "passed": 18,
+    "horizontal_overflow": 0,
+    "unnamed_controls": 0,
+    "console_errors": 0,
+    "frontend_audit_1280": "58/58",
+    "contrast_pairs": 20,
+    "contrast_failed": 0,
+    "screenshots": [
+      "docs/evidence/shots/opt-G6-workspace-1440.png",
+      "docs/evidence/shots/opt-G6-workspace-1920.png",
+      "docs/evidence/shots/opt-G6-library-1440.png",
+      "docs/evidence/shots/opt-G6-library-1920.png"
+    ]
+  },
+  "h3": {
+    "tests": [
+      "test_access_token_guard",
+      "test_rate_limit_blocks_post_floods",
+      "test_redirect_guard_blocks_non_allowlisted_host"
+    ],
+    "passed": 3,
+    "access_token_default": "empty; set CITEGUARD_ACCESS_TOKEN for public demo",
+    "rate_limit_default_per_min": 120,
+    "rate_limit_scope": "POST /api/*",
+    "ssrf_guard": "scheme + host allowlist + redirect each hop",
+    "note": "local desktop deployment remains unauthenticated; public deployment needs token/limit; SSRF guard is active for page preflight"
+  },
+  "h4": {
+    "license_tests": 4,
+    "license_tests_passed": 4,
+    "core_requirements_has_agpl": false,
+    "docker_uses_core_requirements": true,
+    "optional_layout_pymupdf": "AGPL, opt-in only, not in Docker/core install",
+    "third_party_notices": "present"
+  },
+  "evidence": {
+    "full_tests": "1130 passed, 10 skipped in 91.55s",
+    "verify_artifacts": "137/137",
+    "audit_evidence_before_registration": "304 paths, 4 unregistered G6 screenshots",
+    "contrast": "20/20 groups pass"
+  }
+}

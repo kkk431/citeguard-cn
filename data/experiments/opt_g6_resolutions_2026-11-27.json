@@ -1,0 +1,138 @@
+{
+  "base": "http://127.0.0.1:8013",
+  "viewports": [
+    "1280",
+    "1440",
+    "1920"
+  ],
+  "checks": [
+    {
+      "width": "1280",
+      "page": "workspace",
+      "no_horizontal_overflow": true,
+      "all_controls_named": true,
+      "no_console_errors": true
+    },
+    {
+      "width": "1280",
+      "page": "library",
+      "no_horizontal_overflow": true,
+      "all_controls_named": true,
+      "no_console_errors": true
+    },
+    {
+      "width": "1280",
+      "page": "figure",
+      "no_horizontal_overflow": true,
+      "all_controls_named": true,
+      "no_console_errors": true
+    },
+    {
+      "width": "1280",
+      "page": "live",
+      "no_horizontal_overflow": true,
+      "all_controls_named": true,
+      "no_console_errors": true
+    },
+    {
+      "width": "1280",
+      "page": "citemap",
+      "no_horizontal_overflow": true,
+      "all_controls_named": true,
+      "no_console_errors": true
+    },
+    {
+      "width": "1280",
+      "page": "benchmark",
+      "no_horizontal_overflow": true,
+      "all_controls_named": true,
+      "no_console_errors": true
+    },
+    {
+      "width": "1440",
+      "page": "workspace",
+      "no_horizontal_overflow": true,
+      "all_controls_named": true,
+      "no_console_errors": true
+    },
+    {
+      "width": "1440",
+      "page": "library",
+      "no_horizontal_overflow": true,
+      "all_controls_named": true,
+      "no_console_errors": true
+    },
+    {
+      "width": "1440",
+      "page": "figure",
+      "no_horizontal_overflow": true,
+      "all_controls_named": true,
+      "no_console_errors": true
+    },
+    {
+      "width": "1440",
+      "page": "live",
+      "no_horizontal_overflow": true,
+      "all_controls_named": true,
+      "no_console_errors": true
+    },
+    {
+      "width": "1440",
+      "page": "citemap",
+      "no_horizontal_overflow": true,
+      "all_controls_named": true,
+      "no_console_errors": true
+    },
+    {
+      "width": "1440",
+      "page": "benchmark",
+      "no_horizontal_overflow": true,
+      "all_controls_named": true,
+      "no_console_errors": true
+    },
+    {
+      "width": "1920",
+      "page": "workspace",
+      "no_horizontal_overflow": true,
+      "all_controls_named": true,
+      "no_console_errors": true
+    },
+    {
+      "width": "1920",
+      "page": "library",
+      "no_horizontal_overflow": true,
+      "all_controls_named": true,
+      "no_console_errors": true
+    },
+    {
+      "width": "1920",
+      "page": "figure",
+      "no_horizontal_overflow": true,
+      "all_controls_named": true,
+      "no_console_errors": true
+    },
+    {
+      "width": "1920",
+      "page": "live",
+      "no_horizontal_overflow": true,
+      "all_controls_named": true,
+      "no_console_errors": true
+    },
+    {
+      "width": "1920",
+      "page": "citemap",
+      "no_horizontal_overflow": true,
+      "all_controls_named": true,
+      "no_console_errors": true
+    },
+    {
+      "width": "1920",
+      "page": "benchmark",
+      "no_horizontal_overflow": true,
+      "all_controls_named": true,
+      "no_console_errors": true
+    }
+  ],
+  "passed": true,
+  "count": 18
+}

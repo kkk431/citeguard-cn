@@ -107,6 +107,14 @@ diff 显示 resolved/still/new 计数、字段级旧→新、已解决/新增/�
 7. **Docker 镜像最近验证 1.7.36**：1.7.37–49 未重建镜像；README/报告未写“已验证 1.7.49”。
 8. **Release latest 已到 v1.7.49**，但 release 页面指向 `396c8af`；CI #415/#416 success（`396c8af`、`f1087ee`）；#414 旧提交因 SBOM 未刷新失败，已修。
 
+
+## 6. G6 / H3 / H4 收尾检查
+
+- **G6**：1280/1440/1920 三视口、6 页面（workspace/library/figure/live/citemap/benchmark）18/18 通过：无横向溢出、控件有可访问名、无 console error；1280 键盘流 58/58；深浅色 20 组对比全过（最紧 light muted/paper 4.63）。
+- **H3**：`CITEGUARD_ACCESS_TOKEN` 默认空（本地模式）；`CITEGUARD_RATE_LIMIT_PER_MIN` 默认 120，仅 POST `/api/*`；页面预检 host allowlist + 逐跳重定向校验防 SSRF；3/3 定向测试通过。边界：当前无公网实例，默认值需在公网部署时显式开启。
+- **H4**：核心 `requirements.txt` 不含 PyMuPDF/fitz，Docker 只装核心依赖；可选 PyMuPDF 标 AGPL、opt-in；`tests/test_licenses.py` 4/4 通过。
+- 证据：`data/experiments/opt_g6_h3_h4_2026-11-27.json`、`docs/optimization/g6_h3_h4.md`、E130。无产品功能/版本变化，不改 PPT/视频/佐证 PDF。
+
 ## 5. 复现命令
 
 ```bash
