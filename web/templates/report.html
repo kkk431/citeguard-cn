@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block title %}报告 · 引证卫士 CiteGuard{% endblock %}
 {% block content %}
+<link rel="stylesheet" href="/static/css/report_reader.css?v={{ request.app.version }}">
 <div class="wrap report-shell" id="report-root" data-job-id="{{ job.id }}" data-ready="{{ '1' if report else '0' }}">
   <aside class="report-rail">
     <div class="rail-card">
@@ -139,7 +140,34 @@
           <option value="ignored">忽略</option>
           <option value="none">未标记</option>
         </select>
+        <select class="select" id="severity-filter" aria-label="严重度">
+          <option value="">全部严重度</option>
+          <option value="high">严重</option>
+          <option value="medium">中等</option>
+          <option value="low">轻微</option>
+        </select>
         <span class="triage-counts" id="triage-counts"></span>
+      </div>
+
+      <div class="reader-nav" id="reader-nav" aria-label="报告阅读导航">
+        <div class="ref-minimap">
+          <div class="reader-nav-head">
+            <span class="mono-sm">条目地图 · 严重度</span>
+            <span class="reader-progress-text" id="ref-progress-text" aria-live="polite">0 / 0</span>
+          </div>
+          <div class="ref-minimap-track" id="ref-minimap-track" role="list" aria-label="按严重度显示的条目位置"></div>
+          <div class="ref-minimap-legend" id="ref-minimap-legend"></div>
+          <div class="reader-progress" aria-hidden="true"><i id="reader-progress-bar"></i></div>
+        </div>
+        <div class="reader-jumps">
+          <label class="reader-jump" for="page-jump">跳到页</label>
+          <input class="reader-jump-input" id="page-jump" type="number" min="1" step="1" inputmode="numeric" placeholder="页">
+          <button class="btn btn-sm btn-ghost" type="button" id="page-jump-go">跳页</button>
+          <label class="reader-jump" for="item-jump">跳到条目</label>
+          <input class="reader-jump-input" id="item-jump" type="number" min="1" step="1" inputmode="numeric" placeholder="序号">
+          <button class="btn btn-sm btn-ghost" type="button" id="item-jump-go">定位</button>
+        </div>
+        <div class="reader-hint mono-sm">j / k 逐条浏览 · Enter 打开详情 · 点击色块跳转</div>
       </div>
 
       <div class="ref-workbench" id="ref-workbench">
@@ -188,6 +216,12 @@
     <div class="page-viewer-head">
       <strong id="page-viewer-title">页内证据</strong>
       <span class="mono-sm" id="page-viewer-note"></span>
+      <div class="page-viewer-zoom" id="page-viewer-zoom-controls" role="group" aria-label="页图缩放">
+        <button type="button" class="pv-zoom-btn" id="page-viewer-zoom-out" aria-label="缩小页图">−</button>
+        <output class="pv-zoom-value" id="page-viewer-zoom" aria-live="polite">100%</output>
+        <button type="button" class="pv-zoom-btn" id="page-viewer-zoom-in" aria-label="放大页图">＋</button>
+        <button type="button" class="pv-zoom-btn pv-zoom-reset" id="page-viewer-zoom-reset" aria-label="恢复适应宽度">适应</button>
+      </div>
       <button type="button" class="drawer-close" id="page-viewer-close" aria-label="关闭">×</button>
     </div>
     <div class="page-viewer-body">

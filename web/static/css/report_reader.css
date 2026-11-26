@@ -1,0 +1,243 @@
+/* ============================================================
+   CiteGuard-CN · G2 报告阅读器
+   条目小地图 / 严重度筛选 / 页与条目跳转 / 页图缩放
+   独立文件，避免改动 refresh.css；只增强报告页阅读路径。
+   ============================================================ */
+
+.reader-nav {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px 16px;
+  flex: 0 0 auto;
+  margin: 8px 0 4px;
+  padding: 9px 12px 8px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+}
+
+.ref-minimap {
+  min-width: 0;
+}
+
+.reader-nav-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.reader-nav-head .mono-sm {
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.reader-progress-text {
+  color: var(--ink-2);
+  font-size: 11.5px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.ref-minimap-track {
+  display: flex;
+  align-items: stretch;
+  gap: 2px;
+  height: 16px;
+  min-width: 0;
+  overflow: hidden;
+  border-radius: 5px;
+}
+
+.ref-minimap-cell {
+  appearance: none;
+  flex: 1 1 0;
+  min-width: 3px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  background: var(--line);
+  cursor: pointer;
+  transition: transform .12s ease, opacity .12s ease, outline-color .12s ease;
+}
+
+.ref-minimap-cell.rm-high { background: var(--bad); }
+.ref-minimap-cell.rm-medium { background: var(--warn); }
+.ref-minimap-cell.rm-low { background: var(--ok); }
+
+.ref-minimap-cell:hover {
+  opacity: .82;
+  transform: scaleY(1.2);
+}
+
+.ref-minimap-cell:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.ref-minimap-cell.on {
+  outline: 2px solid var(--ink);
+  outline-offset: 1px;
+  transform: scaleY(1.28);
+}
+
+.ref-minimap-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 12px;
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.rm-key {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.rm-key i {
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+  display: inline-block;
+}
+
+.rm-key.rm-high i { background: var(--bad); }
+.rm-key.rm-medium i { background: var(--warn); }
+.rm-key.rm-low i { background: var(--ok); }
+.rm-key b { color: var(--ink-2); font-weight: 600; }
+.rm-tip { color: var(--muted); }
+
+.reader-progress {
+  height: 3px;
+  margin-top: 6px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--line);
+}
+
+.reader-progress i {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--accent);
+  transition: width .16s ease;
+}
+
+.reader-jumps {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 5px 8px;
+}
+
+.reader-jump {
+  color: var(--muted);
+  font-size: 11.5px;
+  white-space: nowrap;
+}
+
+.reader-jumps .reader-jump-input {
+  width: 58px;
+  flex: 0 0 58px;
+  min-height: 27px;
+  padding: 3px 6px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--surface-2);
+  color: var(--ink);
+  font: inherit;
+  font-size: 12px;
+  text-align: center;
+}
+
+.reader-jump-input:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.reader-hint {
+  grid-column: 1 / -1;
+  color: var(--muted);
+  font-size: 10.5px;
+  line-height: 1.5;
+}
+
+/* 页图缩放：保留 .page-viewer-image 的滚动容器，只放大 img 本身。 */
+.page-viewer-head {
+  gap: 12px;
+}
+
+.page-viewer-zoom {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin-left: auto;
+  flex: 0 0 auto;
+}
+
+.pv-zoom-btn {
+  appearance: none;
+  min-width: 25px;
+  height: 25px;
+  padding: 0 6px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--surface-2);
+  color: var(--ink-2);
+  font: inherit;
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.pv-zoom-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.pv-zoom-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.pv-zoom-reset {
+  font-size: 11px;
+  padding: 0 8px;
+}
+
+.pv-zoom-value {
+  min-width: 42px;
+  color: var(--ink-2);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+.page-viewer-image img {
+  transition: width .12s ease;
+}
+
+/* 窄屏：导航换行，避免横向溢出。 */
+@media (max-width: 900px) {
+  .reader-nav { grid-template-columns: 1fr; }
+  .reader-jumps { justify-content: flex-start; }
+  .reader-hint { grid-column: 1; }
+}
+
+@media (max-width: 640px) {
+  .reader-jumps .reader-jump { display: none; }
+  .reader-jumps .reader-jump-input { width: 52px; flex-basis: 52px; }
+}
+
+@media print {
+  .reader-nav { display: none; }
+}

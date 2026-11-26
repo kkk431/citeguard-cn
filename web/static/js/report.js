@@ -33,8 +33,14 @@
     fixed: { label: "已修", cls: "ok" },
     ignored: { label: "忽略", cls: "unknown" },
   };
-  const state = { filter: "all", q: "", sort: "index", view: "cards", needs: false, fmt: false, sup: "", triage: "", page: 1 };
+  const SEVERITY = {
+    high: { label: "严重", hint: "Major / 支持度矛盾" },
+    medium: { label: "中等", hint: "Minor / 未找到 / 部分支持" },
+    low: { label: "轻微", hint: "真实一致 / 无法核验" },
+  };
+  const state = { filter: "all", q: "", sort: "index", view: "cards", needs: false, fmt: false, sup: "", triage: "", severity: "", page: 1 };
   const PAGE_SIZE = 4;
+  let pageZoom = 1;
   var summaryTab = "verdict";
 
   if (!report) {
@@ -45,6 +51,9 @@
   loadTriage();
   bindChain();
   loadChain();
+  bindReportKeys();
+  bindReaderNav();
+  bindPageViewerZoom();
 
   function updateTriageCounts() {
     const el = document.getElementById("triage-counts");
@@ -613,17 +622,106 @@
 
   function jumpToRef(n) {
     const data = window.__reportData || {};
-    const refs = (data.references || []).slice().sort(function (a, b) { return (a.index || 0) - (b.index || 0); });
-    const idx = refs.findIndex(function (r) { return Number(r.index) === Number(n); });
-    if (idx < 0) return;
     selectSummaryTab("refs");
-    state.page = Math.floor(idx / PAGE_SIZE) + 1;
+    let items = visibleItems(data);
+    let idx = items.findIndex(function (r) { return Number(r.index) === Number(n); });
+    if (idx < 0) {
+      resetReaderFilters(data);
+      items = visibleItems(data);
+      idx = items.findIndex(function (r) { return Number(r.index) === Number(n); });
+    }
+    if (idx < 0) {
+      if (window.CiteGuard) window.CiteGuard.toast("没有找到第 " + n + " 条参考文献");
+      return;
+    }
+    jumpToItemPos(idx);
+  }
+
+  function resetReaderFilters(data) {
+    state.filter = "all";
+    state.q = "";
+    state.needs = false;
+    state.fmt = false;
+    state.sup = "";
+    state.triage = "";
+    state.severity = "";
+    const search = document.getElementById("search");
+    if (search) search.value = "";
+    const triage = document.getElementById("triage-filter");
+    if (triage) triage.value = "";
+    const severity = document.getElementById("severity-filter");
+    if (severity) severity.value = "";
+    render(data);
+  }
+
+  function jumpToItemPos(pos) {
+    const data = window.__reportData || {};
+    const items = visibleItems(data);
+    if (pos < 0 || pos >= items.length) return;
+    selectSummaryTab("refs");
+    if (document.getElementById("ref-drawer") && !document.getElementById("ref-drawer").hidden) closeRefDrawer();
+    state.view = "cards";
+    const viewSel = document.getElementById("view");
+    if (viewSel) viewSel.value = "cards";
+    state.page = Math.floor(pos / PAGE_SIZE) + 1;
     apply(data);
-    setTimeout(function () {
-      const card = document.querySelector('#ref-list .ref[data-pos="' + idx + '"]');
-      if (card) card.scrollIntoView({ block: "center" });
-      openRefDrawer(idx);
-    }, 80);
+    window.setTimeout(function () {
+      const card = document.querySelector('#ref-list .ref[data-pos="' + pos + '"]');
+      if (card) {
+        card.scrollIntoView({ block: "center" });
+        card.focus();
+        card.classList.add("kb-active");
+      }
+      openRefDrawer(pos);
+    }, 60);
+  }
+
+  function jumpToPage(value) {
+    const data = window.__reportData || {};
+    const items = visibleItems(data);
+    const pages = Math.max(1, Math.ceil(items.length / PAGE_SIZE));
+    const page = Number(value);
+    if (!Number.isFinite(page) || page < 1) return false;
+    if (document.getElementById("ref-drawer") && !document.getElementById("ref-drawer").hidden) closeRefDrawer();
+    state.view = "cards";
+    const viewSel = document.getElementById("view");
+    if (viewSel) viewSel.value = "cards";
+    state.page = Math.min(pages, Math.round(page));
+    apply(data);
+    const scroll = document.querySelector(".ref-workbench");
+    if (scroll) scroll.scrollTop = 0;
+    return true;
+  }
+
+  function moveReaderSelection(delta) {
+    const data = window.__reportData || {};
+    const items = visibleItems(data);
+    if (!items.length) return;
+    const active = document.querySelector("#ref-list .ref.kb-active");
+    const focused = document.activeElement && document.activeElement.closest
+      ? document.activeElement.closest("#ref-list .ref")
+      : null;
+    const current = focused || active;
+    let pos = current ? Number(current.dataset.pos) : -1;
+    if (Number.isNaN(pos)) pos = -1;
+    const next = pos < 0
+      ? (delta > 0 ? 0 : items.length - 1)
+      : Math.min(items.length - 1, Math.max(0, pos + delta));
+    const reopen = document.getElementById("ref-drawer") && !document.getElementById("ref-drawer").hidden;
+    if (reopen) closeRefDrawer();
+    state.view = "cards";
+    const viewSel = document.getElementById("view");
+    if (viewSel) viewSel.value = "cards";
+    state.page = Math.floor(next / PAGE_SIZE) + 1;
+    apply(data);
+    const card = document.querySelector('#ref-list .ref[data-pos="' + next + '"]');
+    if (card) {
+      document.querySelectorAll("#ref-list .ref.kb-active").forEach(function (el) { el.classList.remove("kb-active"); });
+      card.classList.add("kb-active");
+      card.focus();
+      card.scrollIntoView({ block: "nearest" });
+    }
+    if (reopen) openRefDrawer(next);
   }
 
   function renderCitationCoverage(data) {
@@ -953,7 +1051,7 @@
     chipEl.innerHTML =
       chips
         .map(function (c) {
-          return '<button class="chip' + (state.filter === c[0] && !state.needs && !state.fmt && !state.sup && !state.triage ? " on" : "") + '" data-filter="' + c[0] + '">' + c[1] + " " + c[2] + "</button>";
+          return '<button class="chip' + (state.filter === c[0] && !state.needs && !state.fmt && !state.sup && !state.triage && !state.severity ? " on" : "") + '" data-filter="' + c[0] + '">' + c[1] + " " + c[2] + "</button>";
         })
         .join("") +
       supportChips.join("") +
@@ -986,73 +1084,51 @@
     });
 
     const search = document.getElementById("search");
-    search.addEventListener("input", function () {
-      state.q = search.value.trim().toLowerCase();
-      apply(data);
-    });
-    document.getElementById("sort").addEventListener("change", function (e) {
-      state.sort = e.target.value;
-      apply(data);
-    });
-    document.getElementById("view").addEventListener("change", function (e) {
-      state.view = e.target.value;
-      apply(data);
-    });
-    const triageSel = document.getElementById("triage-filter");
-    if (triageSel) {
-      triageSel.value = state.triage;
-      triageSel.addEventListener("change", function (e) {
-        state.triage = e.target.value;
+    if (search && !search.__bound) {
+      search.__bound = true;
+      search.addEventListener("input", function () {
+        state.q = search.value.trim().toLowerCase();
         apply(data);
       });
     }
-
-    document.addEventListener("keydown", function (e) {
-      const tag = (document.activeElement && document.activeElement.tagName) || "";
-      if (e.key === "/" && document.activeElement !== search) {
-        e.preventDefault();
-        const refTab = document.querySelector('[data-summary-tab="refs"]');
-        if (refTab && document.getElementById("ref-list") && document.getElementById("ref-list").offsetParent === null) refTab.click();
-        search.focus();
-      } else if (e.key === "Escape") {
-        search.value = "";
-        state.q = "";
+    const sortSel = document.getElementById("sort");
+    if (sortSel && !sortSel.__bound) {
+      sortSel.__bound = true;
+      sortSel.addEventListener("change", function (e) {
+        state.sort = e.target.value;
         apply(data);
-      } else if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") {
-        return;
-      } else if (e.key === "f") {
-        state.needs = !state.needs;
-        state.sup = "";
-        render(data);
+      });
+    }
+    const viewSel = document.getElementById("view");
+    if (viewSel && !viewSel.__bound) {
+      viewSel.__bound = true;
+      viewSel.addEventListener("change", function (e) {
+        state.view = e.target.value;
         apply(data);
-      } else if (e.key === "t") {
-        state.view = state.view === "cards" ? "table" : "cards";
-        const viewSel = document.getElementById("view");
-        if (viewSel) viewSel.value = state.view;
-        apply(data);
-      } else if (e.key === "j" || e.key === "k") {
-        const refTab = document.querySelector('[data-summary-tab="refs"]');
-        if (refTab && document.getElementById("ref-list") && document.getElementById("ref-list").offsetParent === null) refTab.click();
-        const rows = Array.from(document.querySelectorAll("#ref-list .ref"));
-        if (!rows.length) return;
-        e.preventDefault();
-        let idx = rows.indexOf(document.activeElement);
-        if (idx < 0) idx = rows.findIndex(function (r) { return r.classList.contains("kb-active"); });
-        if (idx < 0) idx = -1;
-        rows.forEach(function (r) { r.classList.remove("kb-active"); });
-        idx = e.key === "j" ? Math.min(rows.length - 1, idx + 1) : Math.max(0, idx - 1);
-        rows[idx].classList.add("kb-active");
-        rows[idx].focus();
-      } else if (e.key === "p") {
-        window.print();
-      } else if (e.key >= "1" && e.key <= "5") {
-        const order = ["all", "Exact", "Minor", "Major", "Unverified"];
-        state.filter = order[Number(e.key) - 1];
-        state.needs = false;
-        render(data);
-        apply(data);
+      });
+    }
+    const triageSel = document.getElementById("triage-filter");
+    if (triageSel) {
+      triageSel.value = state.triage;
+      if (!triageSel.__bound) {
+        triageSel.__bound = true;
+        triageSel.addEventListener("change", function (e) {
+          state.triage = e.target.value;
+          apply(data);
+        });
       }
-    });
+    }
+    const severitySel = document.getElementById("severity-filter");
+    if (severitySel) {
+      severitySel.value = state.severity;
+      if (!severitySel.__bound) {
+        severitySel.__bound = true;
+        severitySel.addEventListener("change", function (e) {
+          state.severity = e.target.value;
+          apply(data);
+        });
+      }
+    }
 
     const copyBtn = document.getElementById("copy-suggestions");
     if (copyBtn) {
@@ -1082,7 +1158,9 @@
       });
     }
 
-    document.addEventListener("click", function (ev) {
+    if (!document.__reportClickBound) {
+      document.__reportClickBound = true;
+      document.addEventListener("click", function (ev) {
       const evBtn = ev.target && ev.target.closest ? ev.target.closest(".ref-evidence") : null;
       if (evBtn) {
         openEvidence(Number(evBtn.dataset.pos || 0));
@@ -1117,7 +1195,8 @@
           btn.disabled = false;
           window.CiteGuard.toast("加入失败，请稍后重试");
         });
-    });
+      });
+    }
 
     apply(data);
   }
@@ -1192,6 +1271,28 @@
     return entry && TRIAGE[entry.state] ? entry.state : "";
   }
 
+  function severityOf(item) {
+    const status = (item.verify && item.verify.status) || "Unknown";
+    const support = (item.support && item.support.label) || "";
+    if (status === "Major" || support === "contradict") return "high";
+    if (status === "Minor" || status === "Unverified" || support === "partial") return "medium";
+    return "low";
+  }
+
+  function visibleItems(data) {
+    const items = (data.references || []).filter(function (it) {
+      return matches(it, data);
+    });
+    if (state.sort === "risk") {
+      items.sort(function (a, b) { return riskScore(b) - riskScore(a); });
+    } else if (state.sort === "compliance") {
+      items.sort(function (a, b) { return ((a.compliance && a.compliance.score) || 0) - ((b.compliance && b.compliance.score) || 0); });
+    } else {
+      items.sort(function (a, b) { return (a.index || 0) - (b.index || 0); });
+    }
+    return items;
+  }
+
   function matches(item, data) {
     const tri = triageState(item);
     if (state.triage === "none") {
@@ -1199,6 +1300,7 @@
     } else if (state.triage) {
       if (tri !== state.triage) return false;
     }
+    if (state.severity && severityOf(item) !== state.severity) return false;
     if (state.fmt && !hasFormatError(item)) return false;
     if (state.needs && !needsAttention(item)) return false;
     if (state.sup) {
@@ -1260,17 +1362,8 @@
   }
 
   function apply(data) {
-    const items = (data.references || []).filter(function (it) {
-      return matches(it, data);
-    });
-    if (state.sort === "risk") {
-      items.sort(function (a, b) { return riskScore(b) - riskScore(a); });
-    } else if (state.sort === "compliance") {
-      items.sort(function (a, b) { return ((a.compliance && a.compliance.score) || 0) - ((b.compliance && b.compliance.score) || 0); });
-    } else {
-      items.sort(function (a, b) { return (a.index || 0) - (b.index || 0); });
-    }
-    const sig = [state.filter, state.q, state.sort, state.needs, state.fmt, state.sup, state.triage].join("|");
+    const items = visibleItems(data);
+    const sig = [state.filter, state.q, state.sort, state.needs, state.fmt, state.sup, state.triage, state.severity].join("|");
     if (sig !== state._sig) { state._sig = sig; state.page = 1; }
     const total = items.length;
     const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
@@ -1278,6 +1371,8 @@
     const start = (state.page - 1) * PAGE_SIZE;
     const pageItems = items.slice(start, start + PAGE_SIZE);
 
+    const sevSel = document.getElementById("severity-filter");
+    if (sevSel) sevSel.value = state.severity;
     document.getElementById("ref-empty").classList.toggle("hidden", total > 0);
     document.getElementById("ref-workbench").classList.toggle("hidden", state.view !== "cards" || total === 0);
     const detailEl = document.getElementById("ref-detail");
@@ -1286,12 +1381,57 @@
     }
     document.getElementById("ref-table-wrap").classList.toggle("hidden", state.view !== "table" || total === 0);
     renderPager(pages, total, state.page);
+    renderReaderNav(items, state.page, pages, start);
 
     if (state.view === "cards") {
       renderCards(pageItems, items);
     } else {
       restoreBody();
       renderTable(items);
+    }
+  }
+
+  function renderReaderNav(items, page, pages, start) {
+    const total = items.length;
+    const text = document.getElementById("ref-progress-text");
+    const bar = document.getElementById("reader-progress-bar");
+    const track = document.getElementById("ref-minimap-track");
+    const legend = document.getElementById("ref-minimap-legend");
+    if (!track) return;
+    if (text) {
+      text.textContent = total
+        ? "第 " + page + " / " + pages + " 页 · " + (start + 1) + "–" + Math.min(start + PAGE_SIZE, total) + " / " + total + " 条"
+        : "0 / 0 条";
+    }
+    if (bar) bar.style.width = (pages ? (page / pages) * 100 : 0).toFixed(1) + "%";
+    const counts = { high: 0, medium: 0, low: 0 };
+    items.forEach(function (item) { counts[severityOf(item)] += 1; });
+    const frag = document.createDocumentFragment();
+    items.forEach(function (item, pos) {
+      const sev = severityOf(item);
+      const status = STATUS[(item.verify && item.verify.status) || "Unknown"] || STATUS.Unknown;
+      const cell = document.createElement("button");
+      cell.type = "button";
+      cell.className = "ref-minimap-cell rm-" + sev + (pos >= start && pos < start + PAGE_SIZE ? " on" : "");
+      cell.dataset.pos = String(pos);
+      cell.dataset.index = String(item.index || "");
+      cell.setAttribute("role", "listitem");
+      cell.title = "[" + (item.index || "") + "] " + status.label + " · " + SEVERITY[sev].label;
+      cell.setAttribute("aria-label", "跳到第 " + (item.index || "") + " 条，" + SEVERITY[sev].label + "，" + status.label);
+      frag.appendChild(cell);
+    });
+    track.innerHTML = "";
+    track.appendChild(frag);
+    track.onclick = function (ev) {
+      const cell = ev.target.closest ? ev.target.closest(".ref-minimap-cell") : null;
+      if (!cell) return;
+      jumpToItemPos(Number(cell.dataset.pos));
+    };
+    if (legend) {
+      legend.innerHTML = ["high", "medium", "low"].map(function (key) {
+        return '<span class="rm-key rm-' + key + '" title="' + SEVERITY[key].hint + '"><i></i>' +
+          SEVERITY[key].label + " <b>" + counts[key] + "</b></span>";
+      }).join("") + (total ? '<span class="rm-tip">点击色块定位条目</span>' : "");
     }
   }
 
@@ -1394,6 +1534,7 @@
     if (title) title.textContent = "第 " + page + " 页 · 页内证据";
     if (quoteEl) quoteEl.textContent = quote ? "正文引注句：" + quote : "这一页包含正文引注。";
     if (note) note.textContent = "图像在分析时渲染，原上传件已按隐私策略删除";
+    setPageZoom(1);
     if (img) { img.removeAttribute("src"); img.alt = "第 " + page + " 页原图"; }
     if (pre) pre.textContent = "加载中…";
     try {
@@ -1417,6 +1558,107 @@
     const modal = document.getElementById("page-viewer");
     if (modal) modal.hidden = true;
     document.body.classList.remove("page-viewer-open");
+  }
+
+  function setPageZoom(next) {
+    pageZoom = Math.min(2.5, Math.max(0.5, Math.round(next * 100) / 100));
+    const img = document.getElementById("page-viewer-img");
+    const label = document.getElementById("page-viewer-zoom");
+    if (img) {
+      img.style.maxWidth = "none";
+      img.style.width = Math.round(pageZoom * 100) + "%";
+    }
+    if (label) label.textContent = Math.round(pageZoom * 100) + "%";
+  }
+
+  function bindPageViewerZoom() {
+    const zoomIn = document.getElementById("page-viewer-zoom-in");
+    const zoomOut = document.getElementById("page-viewer-zoom-out");
+    const zoomReset = document.getElementById("page-viewer-zoom-reset");
+    if (zoomIn) zoomIn.addEventListener("click", function () { setPageZoom(pageZoom + 0.25); });
+    if (zoomOut) zoomOut.addEventListener("click", function () { setPageZoom(pageZoom - 0.25); });
+    if (zoomReset) zoomReset.addEventListener("click", function () { setPageZoom(1); });
+  }
+
+  function bindReaderNav() {
+    const pageGo = document.getElementById("page-jump-go");
+    const pageInput = document.getElementById("page-jump");
+    const itemGo = document.getElementById("item-jump-go");
+    const itemInput = document.getElementById("item-jump");
+    function goPage() {
+      if (!pageInput) return;
+      if (!jumpToPage(pageInput.value)) {
+        if (window.CiteGuard) window.CiteGuard.toast("请输入有效的页码");
+        pageInput.focus();
+      }
+    }
+    function goItem() {
+      if (!itemInput) return;
+      const n = Number(itemInput.value);
+      if (!Number.isFinite(n) || n < 1) {
+        if (window.CiteGuard) window.CiteGuard.toast("请输入有效的文献序号");
+        itemInput.focus();
+        return;
+      }
+      jumpToRef(n);
+    }
+    if (pageGo) pageGo.addEventListener("click", goPage);
+    if (pageInput) pageInput.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); goPage(); } });
+    if (itemGo) itemGo.addEventListener("click", goItem);
+    if (itemInput) itemInput.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); goItem(); } });
+  }
+
+  function bindReportKeys() {
+    if (document.__reportKeysBound) return;
+    document.__reportKeysBound = true;
+    document.addEventListener("keydown", function (e) {
+      const active = document.activeElement;
+      const tag = (active && active.tagName) || "";
+      const search = document.getElementById("search");
+      const viewer = document.getElementById("page-viewer");
+      if (e.key === "/" && active !== search) {
+        e.preventDefault();
+        const refTab = document.querySelector('[data-summary-tab="refs"]');
+        if (refTab && document.getElementById("ref-list") && document.getElementById("ref-list").offsetParent === null) refTab.click();
+        if (search) search.focus();
+      } else if (e.key === "Escape") {
+        if (search) search.value = "";
+        state.q = "";
+        apply(window.__reportData || {});
+      } else if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") {
+        return;
+      } else if (viewer && !viewer.hidden && (e.key === "+" || e.key === "=")) {
+        e.preventDefault();
+        setPageZoom(pageZoom + 0.25);
+      } else if (viewer && !viewer.hidden && e.key === "-") {
+        e.preventDefault();
+        setPageZoom(pageZoom - 0.25);
+      } else if (viewer && !viewer.hidden && e.key === "0") {
+        e.preventDefault();
+        setPageZoom(1);
+      } else if (e.key === "f") {
+        state.needs = !state.needs;
+        state.sup = "";
+        render(window.__reportData || {});
+      } else if (e.key === "t") {
+        state.view = state.view === "cards" ? "table" : "cards";
+        const viewSel = document.getElementById("view");
+        if (viewSel) viewSel.value = state.view;
+        apply(window.__reportData || {});
+      } else if (e.key === "j" || e.key === "k") {
+        e.preventDefault();
+        const refTab = document.querySelector('[data-summary-tab="refs"]');
+        if (refTab && document.getElementById("ref-list") && document.getElementById("ref-list").offsetParent === null) refTab.click();
+        moveReaderSelection(e.key === "j" ? 1 : -1);
+      } else if (e.key === "p") {
+        window.print();
+      } else if (e.key >= "1" && e.key <= "5") {
+        const order = ["all", "Exact", "Minor", "Major", "Unverified"];
+        state.filter = order[Number(e.key) - 1];
+        state.needs = false;
+        render(window.__reportData || {});
+      }
+    });
   }
 
   let fixText = "";

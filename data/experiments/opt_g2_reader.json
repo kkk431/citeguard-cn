@@ -1,0 +1,98 @@
+{
+  "url": "http://127.0.0.1:8013/report/c674df27a57e",
+  "started_at": "2026-11-26T23:47:34",
+  "checks": [
+    {
+      "name": "refs tab visible",
+      "ok": true,
+      "detail": "4"
+    },
+    {
+      "name": "minimap cells",
+      "ok": true,
+      "detail": "54"
+    },
+    {
+      "name": "progress text",
+      "ok": true,
+      "detail": "第 1 / 14 页 · 1–4 / 54 条"
+    },
+    {
+      "name": "jump inputs compact",
+      "ok": true,
+      "detail": "page=58, item=58"
+    },
+    {
+      "name": "severity medium filter",
+      "ok": true,
+      "detail": "第 1 / 10 页 · 1–4 / 38 条 cells=38"
+    },
+    {
+      "name": "page jump to 2",
+      "ok": true,
+      "detail": "第 2 / 14 页 · 5–8 / 54 条"
+    },
+    {
+      "name": "item jump opens drawer",
+      "ok": true,
+      "detail": "True"
+    },
+    {
+      "name": "item jump marks card",
+      "ok": true,
+      "detail": "1"
+    },
+    {
+      "name": "j marks active item",
+      "ok": true,
+      "detail": "1"
+    },
+    {
+      "name": "page viewer opens",
+      "ok": true,
+      "detail": "cite-page-btn"
+    },
+    {
+      "name": "zoom to 150%",
+      "ok": true,
+      "detail": "150%"
+    },
+    {
+      "name": "zoom applies image width",
+      "ok": true,
+      "detail": "150%"
+    },
+    {
+      "name": "no horizontal overflow 1440",
+      "ok": true,
+      "detail": "{'doc': 1440, 'body': 1440, 'vw': 1440}"
+    },
+    {
+      "name": "no horizontal overflow 1280",
+      "ok": true,
+      "detail": "{'doc': 1280, 'body': 1280, 'vw': 1280}"
+    },
+    {
+      "name": "minimap at 1280",
+      "ok": true,
+      "detail": "54"
+    },
+    {
+      "name": "no console errors",
+      "ok": true,
+      "detail": "[]"
+    }
+  ],
+  "console": [],
+  "screenshots": [
+    "docs/evidence/shots/opt-G2-report-1440.png",
+    "docs/evidence/shots/opt-G2-refs-1440.png",
+    "docs/evidence/shots/opt-G2-filter-1440.png",
+    "docs/evidence/shots/opt-G2-jump-1440.png",
+    "docs/evidence/shots/opt-G2-zoom-1440.png",
+    "docs/evidence/shots/opt-G2-report-1280.png"
+  ],
+  "browser_version": "156.0.8078.4",
+  "finished_at": "2026-11-26T23:47:47",
+  "ok": true
+}
