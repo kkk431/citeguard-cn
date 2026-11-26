@@ -1,0 +1,22 @@
+{
+  "date": "2026-11-26",
+  "job": "d73ae2dcd2e9",
+  "base": "http://127.0.0.1:8013",
+  "rows": [
+    {
+      "viewport": "1440x1000",
+      "selected": "2",
+      "preview_meta": "共 15 条 · 可修 2 条 · 已修 0 条",
+      "verify": "修复后复检\n复检通过：已修条目未发现缺字段\n已修 2 / 15 条 · 未修 13 条 · 复检缺字段 0 项\n\n已修条目没有再发现缺字段。",
+      "undone": true
+    },
+    {
+      "viewport": "1280x900",
+      "selected": "2",
+      "preview_meta": "共 15 条 · 可修 2 条 · 已修 0 条",
+      "verify": "修复后复检\n复检通过：已修条目未发现缺字段\n已修 2 / 15 条 · 未修 13 条 · 复检缺字段 0 项\n\n已修条目没有再发现缺字段。",
+      "undone": true
+    }
+  ],
+  "assertion": "select 2 -> batch preview -> apply -> verify -> undo; no fake result"
+}

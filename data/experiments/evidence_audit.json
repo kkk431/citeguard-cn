@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 243,
+  "paths_checked": 250,
   "missing": [],
   "rows": [
     {
@@ -1107,8 +1107,43 @@
       "evidence": "E117",
       "path": "data/experiments/opt_c1_figure_states_2026-11-26.json",
       "exists": true
+    },
+    {
+      "evidence": "E118",
+      "path": "docs/evidence/shots/opt-D1-batch-select-1.7.44-1440.png",
+      "exists": true
+    },
+    {
+      "evidence": "E118",
+      "path": "docs/evidence/shots/opt-D1-batch-select-1.7.44-1280.png",
+      "exists": true
+    },
+    {
+      "evidence": "E118",
+      "path": "docs/evidence/shots/opt-D1-batch-preview-1.7.44-1440.png",
+      "exists": true
+    },
+    {
+      "evidence": "E118",
+      "path": "docs/evidence/shots/opt-D1-batch-preview-1.7.44-1280.png",
+      "exists": true
+    },
+    {
+      "evidence": "E118",
+      "path": "docs/evidence/shots/opt-D1-verify-1.7.44-1440.png",
+      "exists": true
+    },
+    {
+      "evidence": "E118",
+      "path": "docs/evidence/shots/opt-D1-verify-1.7.44-1280.png",
+      "exists": true
+    },
+    {
+      "evidence": "E118",
+      "path": "data/experiments/opt_d1_batch_repair_2026-11-26.json",
+      "exists": true
     }
   ],
-  "shots_registered": 122,
+  "shots_registered": 128,
   "shots_unregistered": []
 }

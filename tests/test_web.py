@@ -1321,3 +1321,16 @@ def test_figure_js_offers_retry_without_raw_status():
     assert "figure-retry" in src
     assert "retryHtml" in src
     assert "HTTP " not in src
+
+
+def test_report_has_batch_repair_and_verify_controls():
+    from pathlib import Path
+    root = Path(__file__).resolve().parents[1]
+    template = (root / "web" / "templates" / "report.html").read_text(encoding="utf-8")
+    script = (root / "web" / "static" / "js" / "report.js").read_text(encoding="utf-8")
+    assert 'id="btn-repair-selected"' in template
+    assert 'id="btn-repair-verify"' in template
+    assert 'id="repair-verify"' in template
+    assert "selectedPositions" in script
+    assert "renderVerify" in script
+    assert "/repair/verify" in script

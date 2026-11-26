@@ -45,6 +45,8 @@
       <div class="report-actions">
         {% if report %}
         <button class="btn btn-sm" type="button" id="btn-repair-all" hidden>一键修复全部</button>
+        <button class="btn btn-ghost btn-sm" type="button" id="btn-repair-selected" disabled>修复所选 <span class="mono-sm" id="repair-selected-count">0</span> 条</button>
+        <button class="btn btn-ghost btn-sm" type="button" id="btn-repair-verify" hidden>复检修复结果</button>
         <button class="btn btn-ghost btn-sm" type="button" id="btn-undo-repair" hidden>
           撤销修复 <span class="mono-sm" id="repair-countdown"></span>
         </button>
@@ -177,6 +179,7 @@
   </aside>
 </div>
 
+<div id="repair-verify" class="panel hidden" aria-live="polite" style="margin:12px 0"></div>
 <script id="report-data" type="application/json">{{ report|tojson if report else 'null' }}</script>
 {% endblock %}
 {% block modals %}

@@ -8,7 +8,7 @@
 | P0 | A2 | 覆盖缺口看板（按语言、缺字段、下载待补 CSV） | ✅ 1.7.38 |
 | P0 | B1 | 长任务进度/断点恢复体验 | ✅ 1.7.39 |
 | P0 | C1 | 图表预检的错误/降级状态 | ✅ 1.7.43 |
-| P1 | D1 | 修复闭环的批量与复检 | 待做 |
+| P1 | D1 | 修复闭环的批量与复检 | ✅ 1.7.44 |
 | P1 | E1 | Live/CiteMap 使用层降噪 | 待做 |
 | P1 | F1 | 解析与 GB/T 修复建议 | 待做 |
 | P1 | G1 | 前端入口/阅读器/键盘/状态 | ✅ 1.7.41 |
@@ -55,3 +55,12 @@
 - [x] 视觉服务失败时显示人话原因 + “重新核验”，保留结论与文件；不伪造结论。
 - 证据：`data/experiments/opt_c1_figure_states_2026-11-26.json`、`docs/evidence/shots/opt-C1-figure-ready-1.7.43-1440.png`、`opt-C1-figure-retry-1.7.43-1440.png`、1280 版本；E117。
 - 测试：1067 passed。
+
+
+## D1 验收
+
+- [x] 报告列表每条前可勾选；工具栏「修复所选 N 条」按选择打开批量预览。
+- [x] 批量预览显示总条数/可修/已修；应用后显示「复检修复结果」。
+- [x] `GET /api/report/{id}/repair/verify` 逐条复检已修文本，缺字段明示；不把“修过”写成“正确”。
+- 证据：`data/experiments/opt_d1_batch_repair_2026-11-26.json`、`opt-D1-batch-select/preview/verify-1.7.44-1440/1280.png`；E118。
+- 测试：1069 passed（含 verify endpoint/UI 契约）。

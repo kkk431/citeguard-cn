@@ -104,7 +104,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.7.43", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.7.44", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 
@@ -1461,6 +1461,40 @@ def repair_apply(job_id: str, body: RepairApply):
             "undo": _undo_info(job_id),
             "message": f"已修复 {len(patch['ops'])} 条，30 分钟内可撤销。",
         }
+
+
+def _repair_verify(active: dict) -> dict:
+    state = fix_mod.repair_state(active)
+    entries = []
+    missing_total = 0
+    for ref in active.get("references") or []:
+        repair = ref.get("repair") or {}
+        if repair.get("state") != "fixed":
+            continue
+        after = str(repair.get("after") or "")
+        index = ref.get("index")
+        from dataclasses import asdict
+        from citeguard.reference_parser import parse_reference
+        check = fix_mod.fix_entry(index, {"raw": after, "parsed": asdict(parse_reference(after))})
+        missing = list(check.get("missing") or [])
+        missing_total += len(missing)
+        if missing:
+            entries.append({"index": index, "after": after, "missing": missing})
+    return {
+        **state,
+        "missing_total": missing_total,
+        "entries_with_missing": entries,
+        "message": ("复检通过：已修条目未发现缺字段" if not missing_total else
+                    f"复检发现 {len(entries)} 条仍有 {missing_total} 项缺字段"),
+    }
+
+
+@app.get("/api/report/{job_id}/repair/verify")
+def repair_verify(job_id: str):
+    active = _load_active_report(job_id)
+    if active is None:
+        raise _repair_error("report_not_ready", "报告还没生成，暂时不能复检。", 404)
+    return _repair_verify(active)
 
 
 @app.post("/api/report/{job_id}/repair/undo")

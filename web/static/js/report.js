@@ -1952,6 +1952,7 @@
         return (
           '<article class="ref ' + st.cls + '" data-pos="' + pos + '" tabindex="0" role="button" aria-selected="false">' +
             '<div class="ref-row">' +
+              '<label class="ref-select-wrap" title="选择用于批量修复"><input class="ref-select" type="checkbox" data-pos="' + pos + '" data-index="' + (item.index || "") + '" aria-label="选择第 ' + (item.index || "") + ' 条"></label>' +
               '<span class="ref-idx">[' + (item.index || "") + "]</span>" +
               '<div class="ref-main">' +
                 '<div class="ref-title">' + esc(p.title || short(item.raw, 120)) + "</div>" +
@@ -1994,7 +1995,7 @@
 
     document.querySelectorAll("#ref-list .ref").forEach(function (art) {
       art.addEventListener("click", function (ev) {
-        if (ev.target.closest("button, a")) return;
+        if (ev.target.closest("button, a, input, label")) return;
         openRefDrawer(Number(art.getAttribute("data-pos") || 0));
       });
       art.addEventListener("keydown", function (ev) {
@@ -2198,6 +2199,10 @@ if (manualCsvBtn) {
   var jobId = root.getAttribute("data-job-id");
   if (!jobId) return;
   var btnAll = document.getElementById("btn-repair-all");
+  var btnSelected = document.getElementById("btn-repair-selected");
+  var selectedCount = document.getElementById("repair-selected-count");
+  var btnVerify = document.getElementById("btn-repair-verify");
+  var verifyPanel = document.getElementById("repair-verify");
   var btnUndo = document.getElementById("btn-undo-repair");
   var countdown = document.getElementById("repair-countdown");
   var modal = document.getElementById("repair-modal");
@@ -2229,6 +2234,35 @@ if (manualCsvBtn) {
     });
   }
 
+  function selectedPositions() {
+    return Array.prototype.slice.call(document.querySelectorAll("#ref-list .ref-select:checked"))
+      .map(function (el) { return Number(el.getAttribute("data-index")); })
+      .filter(function (n) { return n > 0; });
+  }
+
+  function refreshSelection() {
+    var n = selectedPositions().length;
+    if (selectedCount) selectedCount.textContent = String(n);
+    if (btnSelected) btnSelected.disabled = n === 0;
+  }
+
+  function renderVerify(data) {
+    if (!verifyPanel) return;
+    var entries = data.entries_with_missing || [];
+    var cls = entries.length ? "warn-panel" : "ok-panel";
+    var body = entries.length
+      ? '<ul class="repair-verify-list">' + entries.map(function (e) {
+          return "<li>[" + e.index + "] 仍缺：" + esc((e.missing || []).join("、")) + "</li>";
+        }).join("") + "</ul>"
+      : '<p class="mono-sm">已修条目没有再发现缺字段。</p>';
+    verifyPanel.className = "panel " + cls;
+    verifyPanel.innerHTML = '<div class="section-head"><h3>修复后复检</h3><span class="hint">' +
+      esc(data.message || "") + '</span></div>' +
+      '<div class="mono-sm">已修 ' + (data.fixed || 0) + ' / ' + (data.total || 0) +
+      ' 条 · 未修 ' + (data.unfixed || 0) + ' 条 · 复检缺字段 ' + (data.missing_total || 0) + ' 项</div>' + body;
+    verifyPanel.hidden = false;
+  }
+
   function tick() {
     if (!btnUndo || btnUndo.hidden) return;
     var expires = btnUndo.getAttribute("data-expires");
@@ -2251,6 +2285,8 @@ if (manualCsvBtn) {
       btnAll.hidden = !(state.unfixed > 0);
       btnAll.textContent = "一键修复全部";
     }
+    if (btnVerify) btnVerify.hidden = !(state.fixed > 0);
+    refreshSelection();
     var undo = state.undo || {};
     if (btnUndo) {
       btnUndo.hidden = !undo.available;
@@ -2328,6 +2364,26 @@ if (manualCsvBtn) {
   }
 
   if (btnAll) btnAll.addEventListener("click", function () { openPreview(null); });
+  if (btnSelected) btnSelected.addEventListener("click", function () {
+    var indexes = selectedPositions();
+    if (indexes.length) openPreview(indexes);
+  });
+  if (btnVerify) btnVerify.addEventListener("click", function () {
+    btnVerify.disabled = true;
+    api("/repair/verify").then(renderVerify).catch(function (err) {
+      if (verifyPanel) {
+        verifyPanel.hidden = false;
+        verifyPanel.className = "panel warn-panel";
+        verifyPanel.textContent = err.message || "复检失败";
+      }
+    }).then(function () { btnVerify.disabled = false; });
+  });
+  document.addEventListener("change", function (e) {
+    if (e.target && e.target.classList && e.target.classList.contains("ref-select")) {
+      setTimeout(refreshSelection, 0);
+    }
+  });
+  refreshSelection();
   if (closeBtn) closeBtn.addEventListener("click", closePreview);
   if (cancelBtn) cancelBtn.addEventListener("click", closePreview);
   if (modal) {

@@ -124,3 +124,18 @@ def test_preview_rejects_bad_index(client):
 
 def test_repair_state_404_when_report_missing(client):
     assert client.get("/api/report/nope/repair/state").status_code == 404
+
+
+def test_verify_reports_remaining_missing_after_batch_repair(client):
+    preview = client.get("/api/report/jobrepair/repair/preview?indexes=1,2").json()
+    applied = client.post(
+        "/api/report/jobrepair/repair/apply",
+        json={"patch_id": preview["patch_id"], "indexes": [1, 2]},
+    ).json()
+    assert applied["applied"] == 2
+    data = client.get("/api/report/jobrepair/repair/verify").json()
+    assert data["fixed"] == 2
+    assert data["unfixed"] == 0
+    assert isinstance(data["missing_total"], int)
+    assert isinstance(data["entries_with_missing"], list)
+    assert "复检" in data["message"]

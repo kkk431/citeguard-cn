@@ -1502,3 +1502,11 @@ body.theme-light .judge-off{background:#fff7e8;border-color:#e4c27a;color:#18242
 .wb-active span{color:var(--ink-2)}
 .wb-active a{margin-left:auto;color:var(--accent);font-weight:600}
 body.theme-light .wb-active{background:#edf9f4;border-color:#a9dfca;color:#182421}
+
+
+/* D1: batch repair selection + recheck */
+.ref-select-wrap{display:inline-flex;align-items:center;justify-content:center;margin-right:8px;align-self:flex-start;padding-top:4px;cursor:pointer}
+.ref-select-wrap input{width:16px;height:16px;accent-color:var(--accent);cursor:pointer}
+.repair-verify-list{margin:8px 0 0;padding-left:20px;font-size:13px;color:var(--ink-2);line-height:1.7}
+#repair-verify.ok-panel{border-color:color-mix(in srgb,var(--accent) 45%,var(--line))}
+#repair-verify.warn-panel{border-color:color-mix(in srgb,#c8102e 28%,var(--line))}
