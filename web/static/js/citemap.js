@@ -22,6 +22,13 @@
     detail: document.getElementById("ctm-detail"),
     detailEmpty: document.getElementById("ctm-detail-empty"),
     detailBody: document.getElementById("ctm-detail-body"),
+    fulltextToggle: document.getElementById("ctm-fulltext-toggle"),
+    filterNote: document.getElementById("ctm-filter-note"),
+    listEmpty: document.getElementById("ctm-list-empty"),
+    claimFocus: document.getElementById("ctm-claim-focus"),
+    claimFocusList: document.getElementById("ctm-claim-focus-list"),
+    focusStatus: document.getElementById("ctm-focus-status"),
+    focusClear: document.getElementById("ctm-focus-clear"),
     verifyToggle: document.getElementById("ctm-verify-toggle"),
     verifyCount: document.getElementById("ctm-verify-count"),
     generateForm: document.getElementById("ctm-generate-form"),
@@ -70,12 +77,32 @@
 
   function autoLabel() {
     const layer = state.payload && state.payload.auto_meta ? state.payload.auto_meta.layer : "";
-    if (layer.indexOf("extractions_fulltext") === 0) return "全文证据";
-    return layer === "extractions_atomic" ? "原子证据" : "机器候选";
+    if (layer.indexOf("extractions_fulltext") === 0) return "机器全文候选";
+    return layer === "extractions_atomic" ? "机器原子候选" : "机器候选";
   }
 
+  const DEFAULT_DETAIL_EMPTY =
+    "从左侧选择一篇论文，或在「单断言焦点」里选一条断言。机器候选不是人工证据；未发现证据不等于断言为假。";
+
   function isFulltextEvidence(ev) {
-    return !!(ev && ev.fulltext);
+    if (!ev) return false;
+    if (ev.fulltext === true || ev.verified === true) return true;
+    const locator = String(ev.locator || "");
+    const extractor = String(ev.extracted_by || "");
+    return locator.indexOf("Full text") === 0 || extractor.indexOf("fulltext:") === 0;
+  }
+
+  function isAutoEvidence(ev) {
+    return String(ev && ev.extracted_by ? ev.extracted_by : "").toLowerCase().indexOf("auto") === 0;
+  }
+
+  function isHumanEvidence(ev) {
+    return Boolean(ev) && !isMachineEvidence(ev) && !isAutoEvidence(ev);
+  }
+
+  function filterFulltext(items) {
+    if (!state.fulltextOnly) return items;
+    return items.filter(isFulltextEvidence);
   }
 
   const state = {
@@ -84,6 +111,8 @@
     payload: null,
     selectedPaperId: "",
     verifyMode: false,
+    fulltextOnly: false,
+    focusClaimId: "",
     requestId: 0
   };
 
@@ -123,10 +152,25 @@
   }
 
   function showEmpty(message) {
-    if (els.emptyMsg) els.emptyMsg.textContent = message || "暂无数据。";
+    if (els.emptyMsg) {
+      els.emptyMsg.textContent = message ||
+        "暂无可展示的数据。空态表示当前没有数据，不代表断言为假；机器候选未人审，不当作证据。";
+    }
     setView("empty");
     setBusy(false);
     setStatus("暂无数据");
+  }
+
+  function showDetailEmpty(message) {
+    if (els.detailBody) els.detailBody.hidden = true;
+    if (els.detailEmpty) {
+      els.detailEmpty.textContent = message || DEFAULT_DETAIL_EMPTY;
+      els.detailEmpty.hidden = false;
+    }
+  }
+
+  function resetDetailEmpty() {
+    if (els.detailEmpty) els.detailEmpty.textContent = DEFAULT_DETAIL_EMPTY;
   }
 
   function readTopicFromUrl() {
@@ -238,6 +282,9 @@
     state.topicId = "";
     state.payload = null;
     state.selectedPaperId = "";
+    state.focusClaimId = "";
+    state.fulltextOnly = false;
+    updateFulltextToggle();
     setView("loading");
     setBusy(true);
     setStatus("正在加载主题…");
@@ -297,12 +344,50 @@
     });
   }
 
+  function updateFulltextToggle() {
+    if (!els.fulltextToggle) return;
+    els.fulltextToggle.setAttribute("aria-pressed", state.fulltextOnly ? "true" : "false");
+    els.fulltextToggle.classList.toggle("is-active", state.fulltextOnly);
+  }
+
+  function updateFilterNote(visibleCount, total) {
+    if (!els.filterNote) return;
+    if (!state.fulltextOnly) {
+      els.filterNote.hidden = true;
+      els.filterNote.textContent = "";
+      return;
+    }
+    els.filterNote.hidden = false;
+    els.filterNote.textContent = visibleCount
+      ? "仅全文证据：当前 " + visibleCount + "/" + total + " 篇论文有全文证据；其余论文已隐藏。机器全文证据仍未人审，不是人工金标。"
+      : "仅全文证据：当前主题没有可展示的全文证据。这是证据覆盖不足，不等于断言为假；取消筛选可查看摘要级人工示例。";
+  }
+
+  function paperHasFulltext(paperId) {
+    return filterFulltext(evidenceForPaper(paperId)).length > 0
+      || filterFulltext(autoUniqueForPaper(paperId)).length > 0;
+  }
+
+  function visiblePapers(papers) {
+    let visible = papers;
+    if (state.verifyMode) {
+      visible = visible.filter(function (paper) { return cellsForPaper(paper.paper_id).length > 0; });
+    }
+    if (state.fulltextOnly) {
+      visible = visible.filter(function (paper) { return paperHasFulltext(paper.paper_id); });
+    }
+    return visible;
+  }
+
   async function selectTopic(topicId, options) {
     const opts = options || {};
     const seq = state.requestId + 1;
     state.requestId = seq;
     state.topicId = topicId;
     state.payload = null;
+    state.focusClaimId = "";
+    state.fulltextOnly = false;
+    updateFulltextToggle();
     app.dataset.topic = topicId;
     syncTopicButtons();
     setView("loading");
@@ -364,11 +449,166 @@
       els.paperCount.textContent = "共 " + papers.length + " 篇 · 点击查看证据";
     }
 
+    updateFulltextToggle();
+    renderClaimFocus();
     renderPaperList(papers);
-    const keep = papers.some(function (paper) { return paper.paper_id === state.selectedPaperId; })
+    const visible = visiblePapers(papers);
+    const keep = visible.some(function (paper) { return paper.paper_id === state.selectedPaperId; })
       ? state.selectedPaperId
-      : (papers[0] && papers[0].paper_id) || "";
-    selectPaper(keep, false);
+      : (visible[0] && visible[0].paper_id) || "";
+    if (state.focusClaimId) {
+      renderFocusDetail(state.focusClaimId);
+    } else if (!visible.length) {
+      showDetailEmpty("当前筛选下没有论文。这是筛选结果，不是数据缺失，也不表示断言为假；取消「仅全文证据」可查看摘要级人工示例。");
+    } else {
+      resetDetailEmpty();
+      selectPaper(keep, false);
+    }
+  }
+
+  function isMachineClaim(claim) {
+    return /_m\d+$/.test(String(claim && claim.claim_id ? claim.claim_id : ""));
+  }
+
+  function renderClaimFocus() {
+    if (!els.claimFocusList) return;
+    const claims = (state.payload && Array.isArray(state.payload.claims) ? state.payload.claims : [])
+      .filter(function (claim) { return !isMachineClaim(claim); });
+    els.claimFocusList.replaceChildren();
+    if (els.focusStatus) {
+      els.focusStatus.textContent = state.focusClaimId
+        ? "焦点：" + state.focusClaimId.toUpperCase()
+        : "全部断言";
+    }
+    if (els.focusClear) els.focusClear.hidden = !state.focusClaimId;
+    if (!claims.length) {
+      els.claimFocusList.append(make("p", "ctm-muted", "当前主题还没有登记断言。"));
+      return;
+    }
+    claims.forEach(function (claim) {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "ctm-claim-focus-btn";
+      button.dataset.claimId = claim.claim_id;
+      button.setAttribute("aria-pressed", state.focusClaimId === claim.claim_id ? "true" : "false");
+      if (state.focusClaimId === claim.claim_id) button.classList.add("is-active");
+      button.append(make("span", "ctm-claim-focus-id", String(claim.claim_id || "").toUpperCase()));
+      button.append(make("span", "ctm-claim-focus-text", claim.text || "未登记断言文本"));
+      els.claimFocusList.append(button);
+    });
+  }
+
+  function setFocusClaim(claimId) {
+    state.focusClaimId = claimId && claimId !== state.focusClaimId ? claimId : "";
+    renderClaimFocus();
+    const papers = state.payload && Array.isArray(state.payload.papers) ? state.payload.papers : [];
+    renderPaperList(papers);
+    if (state.focusClaimId) {
+      renderFocusDetail(state.focusClaimId);
+      return;
+    }
+    const current = papers.find(function (paper) { return paper.paper_id === state.selectedPaperId; });
+    const visible = visiblePapers(papers);
+    if (current) {
+      selectPaper(current.paper_id, false);
+    } else if (visible.length) {
+      selectPaper(visible[0].paper_id, false);
+    } else {
+      showDetailEmpty();
+    }
+  }
+
+  function paperTitle(paperId) {
+    const papers = state.payload && Array.isArray(state.payload.papers) ? state.payload.papers : [];
+    const paper = papers.find(function (item) { return item.paper_id === paperId; });
+    return (paper && paper.title) || paperId || "未知论文";
+  }
+
+  function focusEvidenceForClaim(claimId) {
+    const all = state.payload && Array.isArray(state.payload.evidence) ? state.payload.evidence : [];
+    const human = filterFulltext(all.filter(function (ev) {
+      return ev && ev.claim_id === claimId && !isMachineEvidence(ev) && !isAutoEvidence(ev);
+    }));
+    const machine = filterFulltext(all.filter(function (ev) {
+      return ev && ev.claim_id === claimId && isMachineEvidence(ev);
+    }));
+    const auto = filterFulltext(autoUniqueForTopic().filter(function (ev) {
+      return ev && ev.claim_id === claimId;
+    }));
+    return { human: human, machine: machine, auto: auto };
+  }
+
+  function cellsForClaim(claimId) {
+    if (state.fulltextOnly) return [];
+    const cells = state.payload && Array.isArray(state.payload.verification_cells)
+      ? state.payload.verification_cells
+      : [];
+    return cells.filter(function (cell) { return cell && cell.claim_id === claimId && !cell.evidence_id; });
+  }
+
+  function renderFocusDetail(claimId) {
+    const claim = claimById(claimId);
+    if (!claim) {
+      state.focusClaimId = "";
+      renderClaimFocus();
+      selectPaper(state.selectedPaperId, false);
+      return;
+    }
+    const body = els.detailBody;
+    body.replaceChildren();
+    body.hidden = false;
+    if (els.detailEmpty) els.detailEmpty.hidden = true;
+
+    const evidence = focusEvidenceForClaim(claimId);
+    const cells = cellsForClaim(claimId);
+    const groups = Object.create(null);
+    const order = [];
+    function slot(paperId) {
+      const id = String(paperId || "");
+      if (!groups[id]) {
+        groups[id] = { paperId: id, human: [], machine: [], auto: [], cells: [] };
+        order.push(id);
+      }
+      return groups[id];
+    }
+    evidence.human.forEach(function (ev) { slot(ev.paper_id).human.push(ev); });
+    evidence.machine.forEach(function (ev) { slot(ev.paper_id).machine.push(ev); });
+    evidence.auto.forEach(function (ev) { slot(ev.paper_id).auto.push(ev); });
+    cells.forEach(function (cell) { slot(cell.paper_id).cells.push(cell); });
+
+    const total = evidence.human.length + evidence.machine.length + evidence.auto.length;
+    const head = make("header", "ctm-focus-head");
+    head.append(make("span", "ctm-claim-label", "单断言焦点 · " + String(claim.claim_id).toUpperCase()));
+    head.append(make("h2", "ctm-focus-title", claim.text || "未登记断言文本"));
+    if (claim.direction) {
+      head.append(make("p", "ctm-focus-meta", "断言方向：" + (DIRECTION_LABELS[claim.direction] || claim.direction)));
+    }
+    head.append(make("p", "ctm-focus-meta",
+      "人工证据 " + evidence.human.length + " 条 · 机器候选 " + (evidence.machine.length + evidence.auto.length) +
+      " 条" + (state.fulltextOnly ? " · 仅全文" : "") + " · 机器候选不是证据。"));
+    body.append(head);
+
+    if (!order.length) {
+      body.append(make("p", "ctm-detail-empty-note",
+        state.fulltextOnly
+          ? "仅全文证据：该断言没有全文证据。这是覆盖不足，不等于断言为假；取消筛选可查看摘要级人工示例。"
+          : "该断言目前没有人工证据或机器候选。未发现证据不等于断言为假。"));
+      body.append(renderGaps([claimId]));
+      return;
+    }
+
+    order.forEach(function (paperId) {
+      const group = groups[paperId];
+      const section = make("section", "ctm-focus-paper");
+      const title = make("h3", "ctm-focus-paper-title", paperTitle(paperId));
+      section.append(title);
+      group.human.forEach(function (ev) { section.append(renderEvidence(ev, null, null, false)); });
+      group.machine.forEach(function (ev) { section.append(renderEvidence(ev, null, null, false)); });
+      group.auto.forEach(function (ev) { section.append(renderAutoEvidence(ev, null, null)); });
+      group.cells.forEach(function (cell) { section.append(renderNoEvidenceCell(cell, claim)); });
+      body.append(section);
+    });
+    body.append(renderGaps([claimId]));
   }
 
   function numberOr(value, fallback) {
@@ -456,7 +696,10 @@
     const counts = payload.counts && typeof payload.counts === "object" ? payload.counts : {};
 
     addStat("篇论文", numberOr(counts.papers, papers.length));
-    addStat("条断言", numberOr(counts.claims, claims.length));
+    const curatedClaims = claims.filter(function (claim) { return !isMachineClaim(claim); });
+    const machineClaims = claims.filter(isMachineClaim);
+    addStat("条人工断言", curatedClaims.length);
+    if (machineClaims.length) addStat("条机器断言", machineClaims.length);
     const humanEvidence = evidence.filter(function (ev) { return !isMachineEvidence(ev); });
     const machineEvidence = evidence.filter(isMachineEvidence);
     const autoUniq = autoUniqueForTopic();
@@ -499,9 +742,9 @@
 
   function renderPaperList(papers) {
     els.paperList.replaceChildren();
-    const visible = state.verifyMode
-      ? papers.filter(function (paper) { return cellsForPaper(paper.paper_id).length > 0; })
-      : papers;
+    const visible = visiblePapers(papers);
+    if (els.listEmpty) els.listEmpty.hidden = visible.length > 0;
+    updateFilterNote(visible.length, papers.length);
     visible.forEach(function (paper) {
       const item = make("li", "ctm-paper-item");
       item.dataset.paperId = paper.paper_id || "";
@@ -576,12 +819,20 @@
   function selectPaper(paperId, scroll) {
     const papers = state.payload && Array.isArray(state.payload.papers) ? state.payload.papers : [];
     if (!papers.length) {
-      if (els.detailBody) els.detailBody.hidden = true;
-      if (els.detailEmpty) els.detailEmpty.hidden = false;
+      showDetailEmpty();
+      return;
+    }
+    const visible = visiblePapers(papers);
+    if (!visible.length) {
+      showDetailEmpty("当前筛选下没有论文。这是筛选结果，不是数据缺失，也不表示断言为假；取消「仅全文证据」可查看摘要级人工示例。");
+      return;
+    }
+    if (state.focusClaimId) {
+      renderFocusDetail(state.focusClaimId);
       return;
     }
 
-    const paper = papers.find(function (item) { return item.paper_id === paperId; }) || papers[0];
+    const paper = visible.find(function (item) { return item.paper_id === paperId; }) || visible[0];
     state.selectedPaperId = paper.paper_id || "";
     let selectedItem = null;
 
@@ -601,6 +852,7 @@
       }
     }
 
+    resetDetailEmpty();
     renderDetail(paper);
     if (els.detailEmpty) els.detailEmpty.hidden = true;
     if (els.detailBody) els.detailBody.hidden = false;
@@ -628,10 +880,10 @@
     state.detailPaper = paper.paper_id;
     body.replaceChildren();
 
-    const allEvidence = evidenceForPaper(paper.paper_id);
+    const allEvidence = filterFulltext(evidenceForPaper(paper.paper_id));
     const evidence = allEvidence.filter(function (ev) { return !isMachineEvidence(ev); });
     const machineBase = allEvidence.filter(isMachineEvidence);
-    const autoAll = autoUniqueForPaper(paper.paper_id).concat(machineBase);
+    const autoAll = filterFulltext(autoUniqueForPaper(paper.paper_id)).concat(machineBase);
     const merged = autoDuplicatesForPaper(paper.paper_id).length;
     const head = make("header", "ctm-detail-head");
     const titleRow = make("div", "ctm-detail-title-row");
@@ -704,7 +956,10 @@
 
     const groups = claimGroupsForPaper(paper, evidence, autoAll);
     if (!groups.length) {
-      body.append(make("p", "ctm-detail-empty-note", "该论文暂无证据或抽样核对格。"));
+      body.append(make("p", "ctm-detail-empty-note",
+        state.fulltextOnly
+          ? "仅全文证据：这篇论文没有可展示的全文证据。这是覆盖不足，不等于断言为假；取消筛选可查看摘要级人工示例。"
+          : "该论文暂无证据或抽样核对格。未发现证据不等于断言为假。"));
     } else {
       const section = make("section", "ctm-claim-section");
       const sectionHead = make("div", "ctm-claim-section-head");
@@ -738,7 +993,9 @@
     claims.forEach(function (claim) { slot(claim.claim_id).claim = claim; });
     evidence.forEach(function (ev) { slot(ev.claim_id).humans.push(ev); });
     auto.forEach(function (ev) { slot(ev.claim_id).autos.push(ev); });
-    cellsForPaper(paper.paper_id).forEach(function (cell) { slot(cell.claim_id).cells.push(cell); });
+    if (!state.fulltextOnly) {
+      cellsForPaper(paper.paper_id).forEach(function (cell) { slot(cell.claim_id).cells.push(cell); });
+    }
     return order.map(function (id, idx) {
       const group = map[id];
       group.claimId = id;
@@ -808,11 +1065,12 @@
 
   function renderEvidence(ev, claim, cell, showClaim) {
     const card = make("article", "ctm-evidence");
+    card.dataset.layer = isMachineEvidence(ev) ? "machine" : "human";
     const top = make("div", "ctm-evidence-top");
     const stance = normalizeStance(ev.stance);
     top.append(makeTag(STANCE_LABELS[stance], "ctm-stance ctm-stance--" + stance));
 
-    if (ev.extracted_by === "human") {
+    if (isHumanEvidence(ev)) {
       top.append(makeTag("人工示例", "ctm-extractor"));
     }
     top.append(makeTag(
@@ -878,14 +1136,15 @@
 
   function renderAutoEvidence(ev, claim, cell) {
     const card = make("article", "ctm-evidence ctm-evidence--auto");
+    card.dataset.layer = "machine";
     const top = make("div", "ctm-evidence-top");
     const stance = normalizeStance(ev.stance);
     top.append(makeTag(STANCE_LABELS[stance], "ctm-stance ctm-stance--" + stance));
     const autoTag = isFulltextEvidence(ev)
-      ? "全文证据 · 逐字引用 · 未人审"
+      ? "机器全文候选 · 逐字引用 · 未人审"
       : (ev.atomic
-        ? "原子证据 · 仅摘要 · 未人审"
-        : (isMachineEvidence(ev) ? "论文自述结论 · 仅摘要 · 未人审" : autoLabel() + " · 仅摘要 · 未人审"));
+        ? "机器原子候选 · 仅摘要 · 未人审"
+        : (isMachineEvidence(ev) ? "机器候选 · 论文自述结论 · 未人审" : autoLabel() + " · 仅摘要 · 未人审"));
     top.append(makeTag(autoTag, "ctm-extractor ctm-extractor--auto"));
     if (cell) top.append(makeTag("抽样格", "ctm-cell-tag"));
     top.append(renderConfidence(ev.confidence));
@@ -915,15 +1174,18 @@
     if (ev.method) facts.push("方法：" + ev.method);
     if (ev.sample) facts.push("样本：" + ev.sample);
     if (facts.length) card.append(make("p", "ctm-muted", facts.join(" · ")));
+    card.append(make("p", "ctm-evidence-note",
+      "机器候选不是人工证据，不能单独作为断言成立的依据；引用逐字来自摘要或全文片段。"));
     if (cell) card.append(renderVerifyRow(cell));
     return card;
   }
 
   function renderNoEvidenceCell(cell, claim) {
     const card = make("article", "ctm-evidence ctm-evidence--auto ctm-evidence--empty");
+    card.dataset.layer = "none";
     const top = make("div", "ctm-evidence-top");
-    top.append(makeTag("未发现证据", "ctm-stance ctm-stance--neutral"));
-    top.append(makeTag("抽样格", "ctm-cell-tag"));
+    top.append(makeTag("未发现证据 · ≠ 断言为假", "ctm-stance ctm-stance--neutral"));
+    top.append(makeTag("机器未命中 · 未人审", "ctm-cell-tag"));
     card.append(top);
     if (claim) {
       const claimBox = make("div", "ctm-claim");
@@ -931,7 +1193,8 @@
       claimBox.append(make("p", "ctm-claim-text", claim.text || ""));
       card.append(claimBox);
     }
-    card.append(make("p", "ctm-muted", "机器没有从摘要中找到逐字支持/反驳句。请核对是否确实无证据。"));
+    card.append(make("p", "ctm-muted",
+      "机器没有从摘要中找到逐字支持/反驳句。未发现证据不等于断言为假，也不等于已经证伪。"));
     card.append(renderVerifyRow(cell));
     return card;
   }
@@ -976,8 +1239,12 @@
       updateVerifyCount();
       const papers = state.payload && Array.isArray(state.payload.papers) ? state.payload.papers : [];
       renderPaperList(papers);
-      const current = papers.find(function (paper) { return paper.paper_id === state.selectedPaperId; });
-      if (current) renderDetail(current);
+      if (state.focusClaimId) {
+        renderFocusDetail(state.focusClaimId);
+      } else {
+        const current = papers.find(function (paper) { return paper.paper_id === state.selectedPaperId; });
+        if (current) renderDetail(current);
+      }
     } catch (err) {
       button.disabled = false;
       setStatus(err && err.message ? err.message : "核对保存失败。", "warn");
@@ -1101,7 +1368,31 @@
     if (!button || !els.paperList.contains(button)) return;
     const item = button.closest(".ctm-paper-item");
     if (!item) return;
+    if (state.focusClaimId) {
+      state.focusClaimId = "";
+      renderClaimFocus();
+    }
     selectPaper(item.dataset.paperId, true);
+  }
+
+  function onFulltextToggle() {
+    state.fulltextOnly = !state.fulltextOnly;
+    updateFulltextToggle();
+    const papers = state.payload && Array.isArray(state.payload.papers) ? state.payload.papers : [];
+    renderPaperList(papers);
+    if (state.focusClaimId) {
+      renderFocusDetail(state.focusClaimId);
+    } else {
+      selectPaper(state.selectedPaperId, false);
+    }
+  }
+
+  function onFocusClick(event) {
+    const target = event.target;
+    if (!target || typeof target.closest !== "function") return;
+    const button = target.closest(".ctm-claim-focus-btn");
+    if (!button || !els.claimFocusList.contains(button)) return;
+    setFocusClaim(button.dataset.claimId || "");
   }
 
   function onPopState() {
@@ -1181,6 +1472,9 @@
   if (els.generateForm) els.generateForm.addEventListener("submit", onGenerate);
   els.paperList.addEventListener("click", onPaperClick);
   if (els.verifyToggle) els.verifyToggle.addEventListener("click", onVerifyToggle);
+  if (els.fulltextToggle) els.fulltextToggle.addEventListener("click", onFulltextToggle);
+  if (els.claimFocusList) els.claimFocusList.addEventListener("click", onFocusClick);
+  if (els.focusClear) els.focusClear.addEventListener("click", function () { setFocusClaim(""); });
   if (els.detailBody) {
     els.detailBody.addEventListener("click", function (event) {
       const target = event.target;

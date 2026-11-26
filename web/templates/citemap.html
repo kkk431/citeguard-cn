@@ -53,8 +53,22 @@
   </section>
 
   <section class="wrap ctm-body">
-    <div class="ctm-guide panel">
-      <h2>怎么读这张地图</h2>
+    <div class="ctm-guide panel" id="ctm-guide">
+      <h2>三步读这张地图</h2>
+      <div class="ctm-steps" id="ctm-steps" aria-label="三步使用指南">
+        <a class="ctm-step" href="#ctm-topic-switch">
+          <span class="ctm-step-num" aria-hidden="true">1</span>
+          <span class="ctm-step-body"><strong>选主题</strong><span>先选一个固定主题；动态主题的证据层会单独标注。</span></span>
+        </a>
+        <a class="ctm-step" href="#ctm-claim-focus">
+          <span class="ctm-step-num" aria-hidden="true">2</span>
+          <span class="ctm-step-body"><strong>看断言</strong><span>在「单断言焦点」里点一条断言，跨论文看谁支持或反驳。</span></span>
+        </a>
+        <a class="ctm-step" href="#ctm-detail">
+          <span class="ctm-step-num" aria-hidden="true">3</span>
+          <span class="ctm-step-body"><strong>打开证据</strong><span>展开逐字引文、定位、方法与样本；机器候选会单独标出。</span></span>
+        </a>
+      </div>
       <div class="ctm-guide-grid">
         <div>
           <h3>立场是相对断言而言</h3>
@@ -71,6 +85,14 @@
       </div>
     </div>
 
+    <div class="ctm-legend" id="ctm-legend" role="note" aria-label="证据图例">
+      <span class="ctm-legend-title">证据图例</span>
+      <span class="ctm-legend-key ctm-legend-key--human"><i aria-hidden="true"></i>人工证据 <small>摘要逐字摘录 · 带立场</small></span>
+      <span class="ctm-legend-key ctm-legend-key--machine"><i aria-hidden="true"></i>机器候选 <small>自动抽取 · 未人审 · 不是证据</small></span>
+      <span class="ctm-legend-key ctm-legend-key--none"><i aria-hidden="true"></i>未发现证据 <small>机器未命中 ≠ 断言为假</small></span>
+      <span class="ctm-legend-key ctm-legend-key--fulltext"><i aria-hidden="true"></i>全文证据 <small>开放全文中逐句命中 · 仍属机器层</small></span>
+    </div>
+
     <section class="ctm-app" id="citemap-app" data-topic="{{ initial_topic }}" aria-busy="true" aria-label="CiteMap 主题浏览器">
       <div class="ctm-toolbar">
         <div class="ctm-topic-switch" id="ctm-topic-switch" role="group" aria-label="选择主题">
@@ -81,9 +103,11 @@
         </div>
         <button type="button" class="btn btn-ghost" id="ctm-verify-toggle" aria-pressed="false">核对模式（105 格）</button>
         <button type="button" class="btn btn-ghost" id="ctm-graph-toggle" aria-pressed="false">证据图</button>
+        <button type="button" class="btn btn-ghost ctm-fulltext-toggle" id="ctm-fulltext-toggle" aria-pressed="false">仅全文证据</button>
         <span class="ctm-verify-count" id="ctm-verify-count" role="status" aria-live="polite"></span>
         <span class="ctm-status" id="ctm-status" role="status" aria-live="polite">正在加载主题…</span>
       </div>
+      <p class="ctm-filter-note" id="ctm-filter-note" role="status" aria-live="polite" hidden></p>
 
       <section class="ctm-graph-panel" id="ctm-graph-panel" hidden aria-label="论文、断言与证据的关系图">
         <div class="ctm-graph-head">
@@ -129,7 +153,7 @@
 
       <div class="ctm-empty" id="ctm-empty" hidden>
         <h2>暂无可展示的数据</h2>
-        <p id="ctm-empty-msg">该主题还没有登记论文或证据。</p>
+        <p id="ctm-empty-msg">该主题还没有登记论文或证据。空态表示当前没有可展示的数据，不代表断言为假；机器候选未人审，不当作证据。</p>
       </div>
 
       <div class="ctm-layout" id="ctm-layout" hidden>
@@ -148,11 +172,21 @@
             <span class="hint" id="ctm-paper-count"></span>
           </div>
           <ol class="ctm-paper-list" id="ctm-paper-list"></ol>
+          <p class="ctm-list-empty" id="ctm-list-empty" hidden>当前筛选下没有论文。这是筛选结果，不是数据缺失，也不表示断言为假；取消「仅全文证据」可查看摘要级人工示例。</p>
         </aside>
 
         <section class="ctm-detail" id="ctm-detail" aria-label="选中论文的证据">
+          <div class="ctm-claim-focus" id="ctm-claim-focus" aria-label="单断言焦点">
+            <div class="ctm-claim-focus-head">
+              <span class="ctm-overline">单断言焦点</span>
+              <span class="ctm-claim-focus-status" id="ctm-focus-status" role="status" aria-live="polite">全部断言</span>
+              <button type="button" class="btn btn-ghost ctm-focus-clear" id="ctm-focus-clear" hidden>查看全部断言</button>
+            </div>
+            <div class="ctm-claim-focus-list" id="ctm-claim-focus-list"></div>
+            <p class="ctm-claim-focus-note">点一条断言，跨论文查看支持 / 反驳证据；机器候选与人工证据分开标注。</p>
+          </div>
           <div class="ctm-detail-empty" id="ctm-detail-empty">
-            从左侧选择一篇论文，查看它支持 / 反驳的断言、方法、样本与相关证据缺口。
+            从左侧选择一篇论文，或在「单断言焦点」里选一条断言。机器候选不是人工证据；未发现证据不等于断言为假。
           </div>
           <div class="ctm-detail-body" id="ctm-detail-body" hidden></div>
         </section>

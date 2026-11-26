@@ -1,0 +1,123 @@
+{
+  "url": "http://127.0.0.1:8033/citemap?topic=ai_education",
+  "tool": "playwright + msedge headless",
+  "generated_at": "2026-11-26",
+  "viewports": [
+    {
+      "width": 1440,
+      "height": 900,
+      "screenshot": "D:\\ai+ky\\citeguard\\docs\\evidence\\shots\\opt-E2-citemap-1440.png",
+      "screenshot_focus": "D:\\ai+ky\\citeguard\\docs\\evidence\\shots\\opt-E2-citemap-focus-1440.png",
+      "metrics": {
+        "title": "CiteMap · 证据地图 · 引证卫士 CiteGuard",
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "bodyScrollWidth": 1440,
+        "paperCount": 15,
+        "claimButtons": 4,
+        "legendKeys": 4,
+        "steps": 3,
+        "guideVisible": true,
+        "legendTop": "sticky",
+        "topicSwitchHeight": 84,
+        "stats": [
+          "篇论文",
+          "条人工断言",
+          "条机器断言",
+          "条人工示例",
+          "条全文证据",
+          "条论文自述",
+          "已合并重合",
+          "个证据缺口",
+          "全库 DOI 校验",
+          "抽样核对"
+        ]
+      },
+      "focus": {
+        "status": "焦点：EDU-C1",
+        "clearHidden": false,
+        "humanCards": 4,
+        "machineCards": 4,
+        "noneCards": 2,
+        "focusHead": true
+      },
+      "filtered": {
+        "pressed": "true",
+        "note": "仅全文证据：当前 6/15 篇论文有全文证据；其余论文已隐藏。机器全文证据仍未人审，不是人工金标。",
+        "noteHidden": false,
+        "papers": 6,
+        "humanCards": 0,
+        "machineCards": 4,
+        "layers": [
+          "machine",
+          "machine",
+          "machine",
+          "machine"
+        ]
+      },
+      "console_errors": []
+    },
+    {
+      "width": 1280,
+      "height": 800,
+      "screenshot": "D:\\ai+ky\\citeguard\\docs\\evidence\\shots\\opt-E2-citemap-1280.png",
+      "screenshot_focus": "D:\\ai+ky\\citeguard\\docs\\evidence\\shots\\opt-E2-citemap-focus-1280.png",
+      "metrics": {
+        "title": "CiteMap · 证据地图 · 引证卫士 CiteGuard",
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "scrollWidth": 1280,
+        "clientWidth": 1280,
+        "bodyScrollWidth": 1280,
+        "paperCount": 15,
+        "claimButtons": 4,
+        "legendKeys": 4,
+        "steps": 3,
+        "guideVisible": true,
+        "legendTop": "sticky",
+        "topicSwitchHeight": 84,
+        "stats": [
+          "篇论文",
+          "条人工断言",
+          "条机器断言",
+          "条人工示例",
+          "条全文证据",
+          "条论文自述",
+          "已合并重合",
+          "个证据缺口",
+          "全库 DOI 校验",
+          "抽样核对"
+        ]
+      },
+      "focus": {
+        "status": "焦点：EDU-C1",
+        "clearHidden": false,
+        "humanCards": 4,
+        "machineCards": 4,
+        "noneCards": 2,
+        "focusHead": true
+      },
+      "filtered": {
+        "pressed": "true",
+        "note": "仅全文证据：当前 6/15 篇论文有全文证据；其余论文已隐藏。机器全文证据仍未人审，不是人工金标。",
+        "noteHidden": false,
+        "papers": 6,
+        "humanCards": 0,
+        "machineCards": 4,
+        "layers": [
+          "machine",
+          "machine",
+          "machine",
+          "machine"
+        ]
+      },
+      "console_errors": []
+    }
+  ]
+}
