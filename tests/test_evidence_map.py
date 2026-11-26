@@ -187,7 +187,12 @@ def test_manifest_round_trip(topic: str, corpus: em.CorpusManifest) -> None:
 def test_data_directory_contains_no_pdf_files() -> None:
     payloads = [path for path in DATA_DIR.rglob("*") if path.is_file()]
     assert payloads, "data/evidence_map must not be empty"
-    assert {path.suffix for path in payloads} <= {".json", ".md"}
+    # CSV is allowed only for the human-review sheet under expansion/; the
+    # canonical corpus payloads stay JSON/Markdown and never include PDFs.
+    assert {path.suffix for path in payloads} <= {".json", ".md", ".csv"}
+    for path in payloads:
+        if path.suffix == ".csv":
+            assert "expansion" in path.parts, f"CSV outside expansion/: {path}"
     assert not list(DATA_DIR.rglob("*.pdf"))
 
 

@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.0",
+  "experiment": "opt_e3_citemap_expand_2026-11-27",
+  "generated_at": "2026-11-27",
+  "topic_id": "ai_education",
+  "mode": "existing-topic",
+  "candidate_count": 9,
+  "candidate_ids": [
+    "cand-ai_education-001",
+    "cand-ai_education-002",
+    "cand-ai_education-003",
+    "cand-ai_education-004",
+    "cand-ai_education-005",
+    "cand-ai_education-006",
+    "cand-ai_education-007",
+    "cand-ai_education-008",
+    "cand-ai_education-009"
+  ],
+  "claims": [
+    "exp-ai_education-c001",
+    "exp-ai_education-c002",
+    "exp-ai_education-c003",
+    "exp-ai_education-c004",
+    "exp-ai_education-c005",
+    "exp-ai_education-c006",
+    "exp-ai_education-c007",
+    "exp-ai_education-c008",
+    "exp-ai_education-c009"
+  ],
+  "papers": [
+    "edu-001",
+    "edu-002",
+    "edu-003",
+    "edu-004",
+    "edu-005",
+    "edu-008",
+    "edu-009",
+    "edu-012",
+    "edu-015"
+  ],
+  "sources": [
+    "existing-topic-abstract"
+  ],
+  "machine": true,
+  "needs_human": true,
+  "human_layer_written": false,
+  "candidates_path": "D:\\ai+ky\\citeguard\\data\\evidence_map\\expansion\\ai_education_candidates.json",
+  "review_csv": "D:\\ai+ky\\citeguard\\data\\evidence_map\\expansion\\ai_education_review.csv",
+  "boundaries": [
+    "machine=true / needs_human=true；候选不是证据",
+    "未写入 evidence / auto_evidence 人工层",
+    "不能据此宣称准确率；需人工逐条确认 claim、quote、locator 与 stance"
+  ],
+  "skipped": {
+    "no_abstract": 1,
+    "duplicate": 1,
+    "no_sentence": 4
+  }
+}
