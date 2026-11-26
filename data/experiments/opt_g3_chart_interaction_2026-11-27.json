@@ -1,0 +1,87 @@
+{
+  "task": "t38-G3",
+  "title": "图表与地图交互：hover / 图例筛选 / 缩放 / 105 节点",
+  "generated_at": "2026-11-27T01:05:00+08:00",
+  "app_version": "1.7.48",
+  "server": "python -m uvicorn web.app:app --host 127.0.0.1 --port 8017",
+  "browser": {
+    "engine": "Chromium via Playwright 1.64 (channel=msedge)",
+    "mode": "headless",
+    "viewport": ["1440x900", "1280x800"]
+  },
+  "report_charts": {
+    "url": "/report/05304bf55ea7",
+    "note": "三个图表位于「检查明细 → 图表」抽屉内，截图前已打开该标签页。",
+    "charts": [
+      {"id": "rchart-status", "type": "bar", "categories": 5, "dataZoom": 1, "hint": "悬停高亮 · 点击图例筛选 · Ctrl+滚轮缩放 · 双击重置"},
+      {"id": "rchart-support", "type": "bar", "categories": 5, "dataZoom": 1, "hint": "悬停高亮 · 点击图例筛选 · Ctrl+滚轮缩放 · 双击重置"},
+      {"id": "rchart-compliance", "type": "bar", "categories": 3, "dataZoom": 1, "hint": "悬停高亮 · 点击图例筛选 · Ctrl+滚轮缩放 · 双击重置"}
+    ],
+    "emphasis": {"disabled": false, "focus": "series", "label": {"show": true}},
+    "legend": {"selectedMode": "multiple", "silent": false},
+    "zoom_after_ctrl_wheel": {"1440": {"start": 4.96, "end": 95.87}, "1280": {"start": 4.96, "end": 95.87}},
+    "zoom_after_dblclick": {"1440": {"start": 0, "end": 100}, "1280": {"start": 0, "end": 100}},
+    "screenshots": [
+      "docs/evidence/shots/opt-G3-report-charts-1.7.48-1440.png",
+      "docs/evidence/shots/opt-G3-report-charts-1.7.48-1280.png"
+    ]
+  },
+  "citemap_graph": {
+    "url": "/citemap?topic=ai_education",
+    "note": "真实主题图 29 节点 / 36 条边；105 节点是同一布局与画笔的显式合成基准，不是线上数据。",
+    "real_graph": {"nodes": 29, "edges": 36, "render_ms": {"1440": 3.3, "1280": 2.5}},
+    "hover": {
+      "hot_nodes": 8,
+      "hot_edges": 7,
+      "status_1440": "「生成式 AI 工具…」连接 7 条关系（悬停仅高亮，点击打开详情）"
+    },
+    "legend_filter": {"abstract_edges": 15, "hidden": 15, "aria_pressed": "false", "restored": true},
+    "zoom": {
+      "after_button_plus": {"scale": 1.22, "label": "122%", "transform": "translate(-136.40 -81.40) scale(1.220)"},
+      "after_dblclick": {"scale": 1, "label": "100%"}
+    },
+    "benchmark_105_synthetic": {
+      "synthetic": true,
+      "method": "buildSyntheticGraph(105) → 离屏 SVG paint(interactive=false)，仅计 DOM 构建与绘制，不含网络请求",
+      "nodes": 105,
+      "edges": 116,
+      "render_ms": {"1440": 3.2, "1280": 3.9}
+    },
+    "screenshots": [
+      "docs/evidence/shots/opt-G3-citemap-graph-1.7.48-1440.png",
+      "docs/evidence/shots/opt-G3-citemap-graph-1.7.48-1280.png",
+      "docs/evidence/shots/opt-G3-citemap-hover-1.7.48-1440.png",
+      "docs/evidence/shots/opt-G3-citemap-hover-1.7.48-1280.png"
+    ]
+  },
+  "console": {
+    "script_errors": 0,
+    "failed_requests": 0,
+    "pre_existing_404": {
+      "url": "/static/css/report_diff.css?v=1.7.48",
+      "detail": "report.html 第 5 行引用了该样式，但仓库 web/static/css/ 中不存在此文件；G3 改动前即如此，与图表/地图脚本无关。",
+      "owner": "报告模板/队友改动范围，未在本次任务中修改"
+    }
+  },
+  "layout": {"page_horizontal_overflow": {"1440": 0, "1280": 0}},
+  "tests": {
+    "command": "python -m pytest tests/test_charts_interaction.py -q",
+    "result": "8 passed in 1.84s",
+    "web_tests": "python -m pytest tests/test_web.py -q → 92 passed in 10.67s",
+    "full_suite": "python -m pytest tests -q --deselect tests/test_evidence_map.py::test_data_directory_contains_no_pdf_files → 1128 passed, 10 skipped, 1 deselected in 110.68s；未 deselect 时该测试因队友新增 data/evidence_map/expansion/ai_education_review.csv 失败，与 G3 无关"
+  },
+  "changed_files": [
+    "web/static/js/charts.js",
+    "web/static/js/citemap_graph.js",
+    "web/static/css/citemap_graph.css",
+    "tests/test_charts_interaction.py",
+    "docs/optimization/g3_chart_interaction.md",
+    "data/experiments/opt_g3_chart_interaction_2026-11-27.json",
+    "docs/evidence/shots/opt-G3-report-charts-1.7.48-1440.png",
+    "docs/evidence/shots/opt-G3-report-charts-1.7.48-1280.png",
+    "docs/evidence/shots/opt-G3-citemap-graph-1.7.48-1440.png",
+    "docs/evidence/shots/opt-G3-citemap-graph-1.7.48-1280.png",
+    "docs/evidence/shots/opt-G3-citemap-hover-1.7.48-1440.png",
+    "docs/evidence/shots/opt-G3-citemap-hover-1.7.48-1280.png"
+  ]
+}

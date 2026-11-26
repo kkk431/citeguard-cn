@@ -85,10 +85,106 @@
   var charts = new Map();
   var observer = null;
 
+  // Every chart gets the same interaction defaults: a contained tooltip,
+  // series focus on hover, and (for long category axes) Ctrl+wheel zoom.
+  // Charts keep their own option builders; this only fills in absent keys.
+  function interactions(option) {
+    option.tooltip = option.tooltip || {};
+    if (option.tooltip.confine === undefined) option.tooltip.confine = true;
+    if (option.tooltip.enterable === undefined) option.tooltip.enterable = false;
+    var series = option.series || [];
+    series.forEach(function (entry) {
+      if (!entry || entry.type === "gauge") return;
+      entry.emphasis = entry.emphasis || {};
+      if (entry.emphasis.disabled === undefined) entry.emphasis.disabled = false;
+      if (entry.emphasis.focus === undefined) {
+        entry.emphasis.focus = entry.type === "pie" ? "self" : "series";
+      }
+      if (entry.type === "pie" && entry.emphasis.scale === undefined) entry.emphasis.scale = true;
+      if (entry.blur === undefined && entry.type !== "pie") {
+        entry.blur = { itemStyle: { opacity: 0.35 }, lineStyle: { opacity: 0.15 } };
+      }
+    });
+    if (option.legend) {
+      if (option.legend.selectedMode === undefined) option.legend.selectedMode = "multiple";
+      if (option.legend.silent === undefined) option.legend.silent = false;
+    }
+    var xAxis = option.xAxis || {};
+    var yAxis = option.yAxis || {};
+    var categories = 0;
+    var zoomAxis = null;
+    if (xAxis.type === "category" && Array.isArray(xAxis.data)) {
+      categories = xAxis.data.length;
+      zoomAxis = "xAxisIndex";
+    }
+    if (yAxis.type === "category" && Array.isArray(yAxis.data)) {
+      if (yAxis.data.length > categories) {
+        categories = yAxis.data.length;
+        zoomAxis = "yAxisIndex";
+      }
+    }
+    // Zoom is enabled for any cartesian chart with a category axis. The
+    // report charts start small, but the same builder is reused for longer
+    // lists; without dataZoom a long category axis would clip silently.
+    if (!option.dataZoom && categories > 1 && zoomAxis) {
+      var zoom = {
+        type: "inside",
+        filterMode: "none",
+        zoomOnMouseWheel: "ctrl",
+        moveOnMouseMove: false,
+        start: 0,
+        end: 100
+      };
+      zoom[zoomAxis] = 0;
+      option.dataZoom = [zoom];
+    }
+    return option;
+  }
+
+  function hasZoom(option) {
+    return !!(option.dataZoom && option.dataZoom.length);
+  }
+
+  function hintText(option) {
+    var parts = ["悬停高亮"];
+    if (option.legend && option.legend.show !== false) parts.push("点击图例筛选");
+    if (hasZoom(option)) parts.push("Ctrl+滚轮缩放");
+    parts.push("双击重置");
+    return parts.join(" · ");
+  }
+
+  function ensureHint(el, option) {
+    var card = el.closest(".chart-card") || el.parentElement;
+    if (!card) return;
+    var hint = card.querySelector(".cg-chart-hint");
+    if (!hint) {
+      hint = document.createElement("p");
+      hint.className = "cg-chart-hint";
+      hint.setAttribute("aria-hidden", "true");
+      hint.style.cssText = "margin:6px 2px 0;color:var(--muted,#7c8f8a);font:11px/1.5 'Microsoft YaHei','Segoe UI',sans-serif;opacity:.82";
+      card.appendChild(hint);
+    }
+    hint.textContent = hintText(option);
+    hint.dataset.zoom = hasZoom(option) ? "1" : "0";
+  }
+
+  function resetZoom(chart, option) {
+    if (!chart || !option || !hasZoom(option)) return;
+    chart.dispatchAction({ type: "dataZoom", start: 0, end: 100 });
+  }
+
+  function bindInteractions(el, chart, option) {
+    if (chart.__cgBound) return;
+    chart.__cgBound = true;
+    chart.on("dblclick", function () { resetZoom(chart, option); });
+    el.addEventListener("dblclick", function () { resetZoom(chart, option); });
+    if (hasZoom(option)) el.setAttribute("title", "Ctrl+滚轮缩放，双击重置；悬停查看数值");
+  }
+
   function draw(el) {
     var builder = builds.get(el);
     if (!builder) return;
-    var option = builder(tokens());
+    var option = interactions(builder(tokens()));
     var old = charts.get(el);
     if (!option || !option.series || !option.series.length) {
       if (old) { old.dispose(); charts.delete(el); }
@@ -99,6 +195,8 @@
     var chart = old || window.echarts.init(el, null, { renderer: "canvas" });
     chart.setOption(option, true);
     charts.set(el, chart);
+    ensureHint(el, option);
+    bindInteractions(el, chart, option);
   }
 
   function mount(el, builder) {
