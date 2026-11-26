@@ -1,3 +1,11 @@
+## [1.7.40] - 2026-11-26
+
+### Added
+- B3: `/support` and `/batch` now show an explicit "judge unavailable" notice instead of only a silently disabled button; the report keeps `not_checked` and never fabricates a support verdict when no judge is configured.
+
+### Tests
+- 1062 pytest passed; `verify_artifacts` 137/137.
+
 ## [1.7.39] - 2026-11-26
 
 ### Added

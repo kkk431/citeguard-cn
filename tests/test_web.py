@@ -1263,3 +1263,19 @@ def test_history_exposes_live_job_state_and_api_progress(client):
     row = next(item for item in payload["jobs"] if item["id"] == job["id"])
     assert row["progress"] == 37
     assert row["stage"] == "核验中"
+
+def test_support_page_explains_unavailable_judge(client, monkeypatch):
+    from citeguard import support
+    monkeypatch.setattr(support, "judge_available", lambda: False)
+    resp = client.get("/support")
+    assert resp.status_code == 200
+    assert "判定模型未配置或不可用" in resp.text
+    assert "不会伪造结论" in resp.text
+
+
+def test_batch_page_explains_unavailable_judge(client, monkeypatch):
+    from citeguard import support
+    monkeypatch.setattr(support, "judge_available", lambda: False)
+    resp = client.get("/batch")
+    assert resp.status_code == 200
+    assert "判定模型未配置或不可用" in resp.text

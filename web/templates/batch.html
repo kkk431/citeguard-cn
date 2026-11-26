@@ -43,6 +43,13 @@
   </p>
 </section>
 
+{% if not judge_ok %}
+<div class="judge-off" role="status">
+  <b>判定模型未配置或不可用</b>
+  <span>当前只能查看说明，不能执行判定。配置 <code>DEEPSEEK_API_KEY</code> 或本地 judge 端点后刷新页面；报告仍会保留“未检测”，不会伪造结论。</span>
+</div>
+{% endif %}
+
 <section class="wrap section">
   <div class="bt-grid">
     <form class="panel bt-panel" id="bt-form">

@@ -1479,3 +1479,14 @@ body.theme-light .lib-gap-chip{background:#fff2d6;color:#8a5a00;border-color:#e6
   background: rgba(255, 189, 95, .08);
   color: var(--muted);
 }
+
+/* B3: judge unavailable must be visible, not a silently disabled button. */
+.judge-off{
+  display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap;
+  margin:0 0 16px;padding:12px 16px;border-radius:12px;
+  border:1px solid rgba(255,189,95,.45);background:rgba(255,189,95,.10);
+  color:var(--ink);font-size:14.5px;line-height:1.7;
+}
+.judge-off b{color:var(--gold)}
+.judge-off code{font-family:var(--mono);font-size:13px;color:var(--accent-2)}
+body.theme-light .judge-off{background:#fff7e8;border-color:#e4c27a;color:#182421}

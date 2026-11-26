@@ -1,0 +1,37 @@
+{
+  "item": "B3 judge unavailable degradation",
+  "date": "2026-11-26",
+  "version": "1.7.39",
+  "server": "http://127.0.0.1:8014 (no DEEPSEEK_API_KEY, no CITEGUARD_JUDGE_BASE_URL)",
+  "api": {
+    "path": "/api/support/check",
+    "status": 503,
+    "code": "judge_unavailable",
+    "error": "判定模型不可用，请检查 CITEGUARD_JUDGE_BASE_URL / API key"
+  },
+  "analysis_job": "a0028b409a97",
+  "report_stats": {
+    "judge_available": false,
+    "judged": 0,
+    "not_checked": 15,
+    "candidates": 2,
+    "cap": 10,
+    "support_counts": {
+      "support": 0,
+      "partial": 0,
+      "contradict": 0,
+      "no_evidence": 0,
+      "not_checked": 15
+    },
+    "next_action": "view_report"
+  },
+  "screenshots": [
+    "docs/evidence/shots/opt-B3-judge-unavailable-1.7.40-1440.png",
+    "docs/evidence/shots/opt-B3-batch-judge-unavailable-1.7.40-1440.png"
+  ],
+  "tests": [
+    "tests/test_web.py::test_support_page_explains_unavailable_judge",
+    "tests/test_web.py::test_batch_page_explains_unavailable_judge"
+  ],
+  "note": "本地无判官时按钮禁用并显示原因；报告保留未检测，不生成假结论。"
+}
