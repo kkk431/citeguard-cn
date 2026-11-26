@@ -1,0 +1,42 @@
+{
+  "timestamp": "2026-11-26T14-58-03Z",
+  "ok": true,
+  "version": "1.7.47",
+  "steps": [
+    {
+      "name": "pytest",
+      "command": "C:\\Users\\hejiaxuan\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -m pytest tests -q",
+      "exit_code": 0,
+      "duration_seconds": 95.18,
+      "tail": "... [ 19%]\n................................................ss..ss..ss.............. [ 26%]\n........................ss.............................................. [ 33%]\n..................ss.................................................... [ 39%]\n........................................................................ [ 46%]\n........................................................................ [ 53%]\n........................................................................ [ 59%]\n........................................................................ [ 66%]\n........................................................................ [ 73%]\n........................................................................ [ 79%]\n........................................................................ [ 86%]\n........................................................................ [ 92%]\n........................................................................ [ 99%]\n....                                                                     [100%]\n=========================== short test summary info ===========================\nSKIPPED [2] tests\\test_evidence_map.py:256: baseline topics have no auto layer\nSKIPPED [2] tests\\test_evidence_map.py:266: baseline topics have no auto layer\nSKIPPED [2] tests\\test_evidence_map.py:276: baseline topics have no auto layer\nSKIPPED [2] tests\\test_evidence_map.py:418: new extension topics are not in the 2026-11-14 DOI verification file\nSKIPPED [2] tests\\test_evidence_map.py:634: topic has no method+sample pair\n1074 passed, 10 skipped in 87.48s (0:01:27)"
+    },
+    {
+      "name": "verify_artifacts",
+      "command": "C:\\Users\\hejiaxuan\\AppData\\Local\\Programs\\Python\\Python313\\python.exe scripts/verify_artifacts.py",
+      "exit_code": 0,
+      "duration_seconds": 1.68,
+      "tail": "\n  PASS  docs/ppt_numbers.md still states '38/40' (one-pager figure check synthetic)\n  PASS  docs/ppt_numbers.md still states '9/10' (one-pager figure check real)\n  PASS  README.md still states '0.730 / 0.727' (ChartCheck 200-sample 8B binary metrics)\n  PASS  README.md still states '0.670 / 0.644' (ChartCheck 200-sample 7B binary metrics)\n  PASS  README.md still states '0.795 / 0.794' (ChartCheck 200-sample 8B v3 binary metrics)\n  PASS  THIRD_PARTY_NOTICES.md still states '0.795' (ChartCheck 200-sample 8B v3 binary accuracy)\n  PASS  docs/ppt_numbers.md still states '0.795 / 0.794' (one-pager ChartCheck 200 8B v3)\n  PASS  THIRD_PARTY_NOTICES.md still states '0.730' (ChartCheck 200-sample 8B binary accuracy)\n  PASS  docs/ppt_numbers.md still states '0.730 / 0.727' (one-pager ChartCheck 200 8B)\n  PASS  README.md still states '4/4 篇抽取成功' (multi-paper compare success count)\n  PASS  README.md still states '总耗时 **8.0 秒**' (multi-paper compare measured runtime)\n  PASS  README.md still states '112,724' (discovery OpenAlex Chinese matched count)\n  PASS  README.md still states '1,141,987' (discovery bilingual expansion matched count)\n  PASS  docs/discover.md still states '112,724' (discovery doc matched count)\n  PASS  docs/discover.md still states '1,141,987' (discovery doc expansion matched count)\n  PASS  docs/experiments.md still states '1,141,987' (experiments discovery matched count)\n  PASS  docs/compare.md still states '总耗时 8.0 秒' (compare doc runtime matches evidence)\n  PASS  docs/ppt_numbers.md still states '4/4 篇成功' (one-pager compare success count)\n\n[OK] all 137 checks passed"
+    },
+    {
+      "name": "audit_evidence",
+      "command": "C:\\Users\\hejiaxuan\\AppData\\Local\\Programs\\Python\\Python313\\python.exe scripts/audit_evidence.py",
+      "exit_code": 0,
+      "duration_seconds": 0.83,
+      "tail": "paths checked: 259\nmissing: 0\nshots registered: 134; unregistered: 0"
+    },
+    {
+      "name": "licenses",
+      "command": "C:\\Users\\hejiaxuan\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -m pytest tests/test_licenses.py -q",
+      "exit_code": 0,
+      "duration_seconds": 11.47,
+      "tail": "....                                                                     [100%]\n4 passed in 3.87s"
+    },
+    {
+      "name": "e2e_smoke",
+      "command": "C:\\Users\\hejiaxuan\\AppData\\Local\\Programs\\Python\\Python313\\python.exe scripts/e2e_smoke.py --base http://127.0.0.1:8013 --pdf data/real_corpus/hanspub_152575.pdf",
+      "exit_code": 0,
+      "duration_seconds": 6.01,
+      "tail": "{\"job\": \"05304bf55ea7\", \"version\": \"1.7.47\", \"passed\": 14}\nfailed: []\nPASS health {'version': '1.7.47'}\nPASS job_done {'job': '05304bf55ea7', 'status': 'done'}\nPASS report_references {'references': 15}\nPASS report_citations {'citations': 18}\nPASS report_captions {'caption_labels': 10}\nPASS report_cited_in {'refs_with_cited_in': 15}\nPASS annotated_pdf {'bytes': 1667177, 'x_annotated': '7', 'x_citations': '17'}\nPASS export_ris {'bytes': 8900}\nPASS export_enw {'bytes': 4612}\nPASS export_bibtex {'bytes': 5720}\nPASS export_csl {'bytes': 10178}\nPASS export_refs {'bytes': 3594}\nPASS evidence_bundle {'files': 10, 'sample': ['report.annotated.pdf', 'report.bib', 'report.csl.json', 'report.enw', 'report.html', 'report.json', 'report.md', 'report.refs.txt']}\nPASS diff_self {'status': 200}"
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+$ C:\Users\hejiaxuan\AppData\Local\Programs\Python\Python313\python.exe -m pytest tests -q
+exit=0
+... [ 19%]
+................................................ss..ss..ss.............. [ 26%]
+........................ss.............................................. [ 33%]
+..................ss.................................................... [ 39%]
+........................................................................ [ 46%]
+........................................................................ [ 53%]
+........................................................................ [ 59%]
+........................................................................ [ 66%]
+........................................................................ [ 73%]
+........................................................................ [ 79%]
+........................................................................ [ 86%]
+........................................................................ [ 92%]
+........................................................................ [ 99%]
+....                                                                     [100%]
+=========================== short test summary info ===========================
+SKIPPED [2] tests\test_evidence_map.py:256: baseline topics have no auto layer
+SKIPPED [2] tests\test_evidence_map.py:266: baseline topics have no auto layer
+SKIPPED [2] tests\test_evidence_map.py:276: baseline topics have no auto layer
+SKIPPED [2] tests\test_evidence_map.py:418: new extension topics are not in the 2026-11-14 DOI verification file
+SKIPPED [2] tests\test_evidence_map.py:634: topic has no method+sample pair
+1074 passed, 10 skipped in 87.48s (0:01:27)
+
+$ C:\Users\hejiaxuan\AppData\Local\Programs\Python\Python313\python.exe scripts/verify_artifacts.py
+exit=0
+
+  PASS  docs/ppt_numbers.md still states '38/40' (one-pager figure check synthetic)
+  PASS  docs/ppt_numbers.md still states '9/10' (one-pager figure check real)
+  PASS  README.md still states '0.730 / 0.727' (ChartCheck 200-sample 8B binary metrics)
+  PASS  README.md still states '0.670 / 0.644' (ChartCheck 200-sample 7B binary metrics)
+  PASS  README.md still states '0.795 / 0.794' (ChartCheck 200-sample 8B v3 binary metrics)
+  PASS  THIRD_PARTY_NOTICES.md still states '0.795' (ChartCheck 200-sample 8B v3 binary accuracy)
+  PASS  docs/ppt_numbers.md still states '0.795 / 0.794' (one-pager ChartCheck 200 8B v3)
+  PASS  THIRD_PARTY_NOTICES.md still states '0.730' (ChartCheck 200-sample 8B binary accuracy)
+  PASS  docs/ppt_numbers.md still states '0.730 / 0.727' (one-pager ChartCheck 200 8B)
+  PASS  README.md still states '4/4 篇抽取成功' (multi-paper compare success count)
+  PASS  README.md still states '总耗时 **8.0 秒**' (multi-paper compare measured runtime)
+  PASS  README.md still states '112,724' (discovery OpenAlex Chinese matched count)
+  PASS  README.md still states '1,141,987' (discovery bilingual expansion matched count)
+  PASS  docs/discover.md still states '112,724' (discovery doc matched count)
+  PASS  docs/discover.md still states '1,141,987' (discovery doc expansion matched count)
+  PASS  docs/experiments.md still states '1,141,987' (experiments discovery matched count)
+  PASS  docs/compare.md still states '总耗时 8.0 秒' (compare doc runtime matches evidence)
+  PASS  docs/ppt_numbers.md still states '4/4 篇成功' (one-pager compare success count)
+
+[OK] all 137 checks passed
+
+$ C:\Users\hejiaxuan\AppData\Local\Programs\Python\Python313\python.exe scripts/audit_evidence.py
+exit=0
+paths checked: 259
+missing: 0
+shots registered: 134; unregistered: 0
+
+$ C:\Users\hejiaxuan\AppData\Local\Programs\Python\Python313\python.exe -m pytest tests/test_licenses.py -q
+exit=0
+....                                                                     [100%]
+4 passed in 3.87s
+
+$ C:\Users\hejiaxuan\AppData\Local\Programs\Python\Python313\python.exe scripts/e2e_smoke.py --base http://127.0.0.1:8013 --pdf data/real_corpus/hanspub_152575.pdf
+exit=0
+{"job": "05304bf55ea7", "version": "1.7.47", "passed": 14}
+failed: []
+PASS health {'version': '1.7.47'}
+PASS job_done {'job': '05304bf55ea7', 'status': 'done'}
+PASS report_references {'references': 15}
+PASS report_citations {'citations': 18}
+PASS report_captions {'caption_labels': 10}
+PASS report_cited_in {'refs_with_cited_in': 15}
+PASS annotated_pdf {'bytes': 1667177, 'x_annotated': '7', 'x_citations': '17'}
+PASS export_ris {'bytes': 8900}
+PASS export_enw {'bytes': 4612}
+PASS export_bibtex {'bytes': 5720}
+PASS export_csl {'bytes': 10178}
+PASS export_refs {'bytes': 3594}
+PASS evidence_bundle {'files': 10, 'sample': ['report.annotated.pdf', 'report.bib', 'report.csl.json', 'report.enw', 'report.html', 'report.json', 'report.md', 'report.refs.txt']}
+PASS diff_self {'status': 200}

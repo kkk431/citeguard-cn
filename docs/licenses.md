@@ -86,3 +86,5 @@ PYTHONPATH=src python -m pytest tests -q
 
 ## Optional Chinese title matching
 - `opencc-python-reimplemented` (Apache-2.0) — optional Traditional → Simplified normalization for CJK titles; enabled automatically when installed; not part of the core Docker image.
+
+- H1（1.7.47）：未新增第三方依赖；请求 ID/计数仅用 Python 标准库（uuid/collections）。

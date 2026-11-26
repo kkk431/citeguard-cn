@@ -17,6 +17,8 @@ import sys
 import tempfile
 import threading
 import time
+import uuid
+from collections import Counter
 from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Optional
@@ -104,7 +106,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.7.46", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.7.47", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 
@@ -179,6 +181,34 @@ async def _guard(request: Request, call_next):
     response = await call_next(request)
     if expected and request.query_params.get("token") == expected:
         response.set_cookie("cg_token", expected, httponly=True, samesite="lax", max_age=86400)
+    return response
+
+
+_OBS_STARTED = time.time()
+_REQUEST_TOTAL = 0
+_STATUS_COUNTS: Counter[int] = Counter()
+_OBS_LOCK = threading.Lock()
+
+
+@app.middleware("http")
+async def _observe(request: Request, call_next):
+    """Request id, latency header and in-process status counters (no bodies logged)."""
+    global _REQUEST_TOTAL
+    rid = request.headers.get("X-Request-ID") or uuid.uuid4().hex[:12]
+    started = time.perf_counter()
+    try:
+        response = await call_next(request)
+    except Exception:
+        with _OBS_LOCK:
+            _REQUEST_TOTAL += 1
+            _STATUS_COUNTS[500] += 1
+        raise
+    elapsed_ms = int((time.perf_counter() - started) * 1000)
+    response.headers["X-Request-ID"] = rid
+    response.headers["X-Response-Time-ms"] = str(elapsed_ms)
+    with _OBS_LOCK:
+        _REQUEST_TOTAL += 1
+        _STATUS_COUNTS[response.status_code] += 1
     return response
 
 
@@ -3525,9 +3555,27 @@ async def api_models_test(request: Request):
 
 @app.get("/api/health")
 def health():
+    with _OBS_LOCK:
+        total = _REQUEST_TOTAL + 1  # include this request
     return {
         "ok": True,
         "version": app.version,
         "offline": config.OFFLINE,
         "supported": sorted(ALLOWED_SUFFIXES),
+        "uptime_seconds": int(time.time() - _OBS_STARTED),
+        "requests_total": total,
+    }
+
+
+@app.get("/api/metrics")
+def metrics():
+    with _OBS_LOCK:
+        total = _REQUEST_TOTAL + 1  # include this request
+        statuses = {str(k): v for k, v in sorted(_STATUS_COUNTS.items())}
+    return {
+        "ok": True,
+        "version": app.version,
+        "uptime_seconds": int(time.time() - _OBS_STARTED),
+        "requests_total": total,
+        "by_status": statuses,
     }

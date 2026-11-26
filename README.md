@@ -1,6 +1,6 @@
 # 引证卫士 CiteGuard-CN
 
-> **v1.7.46** · 2026-11-26 · Apache-2.0
+> **v1.7.47** · 2026-11-26 · Apache-2.0
 
 [![ci](https://github.com/kkk431/citeguard-cn/actions/workflows/ci.yml/badge.svg)](https://github.com/kkk431/citeguard-cn/actions/workflows/ci.yml)
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
@@ -445,7 +445,7 @@ PYTHONPATH=src python3 scripts/enrich_library_abstracts.py
 
 ## 复现与发布
 
-- 版本：**v1.7.46**；变更见 `CHANGELOG.md`，发布说明见 `docs/release_notes_v1.0.md`
+- 版本：**v1.7.47**；变更见 `CHANGELOG.md`，发布说明见 `docs/release_notes_v1.0.md`
 - 单元测试：`PYTHONPATH=src python -m pytest tests -q`（1071 项）
 - 主评测复现：`PYTHONPATH=src python scripts/reproduce_all.py`；每个对外数字的 JSON/命令/样本量见 `docs/evidence_index.md`
 - 文档站：`pip install -r requirements-docs.txt && mkdocs serve`

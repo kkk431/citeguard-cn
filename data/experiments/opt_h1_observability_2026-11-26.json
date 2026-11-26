@@ -1,0 +1,42 @@
+{
+  "date": "2026-11-26T15:00:47.661741+00:00",
+  "health_status": 200,
+  "health_request_id": "h1-evidence-health",
+  "health_latency_ms": "1",
+  "health": {
+    "ok": true,
+    "version": "1.7.47",
+    "offline": false,
+    "supported": [
+      ".doc",
+      ".docx",
+      ".md",
+      ".pdf",
+      ".txt"
+    ],
+    "uptime_seconds": 294,
+    "requests_total": 17
+  },
+  "metrics_status": 200,
+  "metrics_request_id": "h1-evidence-metrics",
+  "metrics": {
+    "ok": true,
+    "version": "1.7.47",
+    "uptime_seconds": 294,
+    "requests_total": 18,
+    "by_status": {
+      "200": 16,
+      "202": 1
+    }
+  },
+  "screens": [
+    {
+      "width": 1440,
+      "text": "{\"ok\":true,\"version\":\"1.7.47\",\"uptime_seconds\":295,\"requests_total\":19,\"by_status\":{\"200\":17,\"202\":1}}"
+    },
+    {
+      "width": 1280,
+      "text": "{\"ok\":true,\"version\":\"1.7.47\",\"uptime_seconds\":296,\"requests_total\":21,\"by_status\":{\"200\":19,\"202\":1}}"
+    }
+  ]
+}

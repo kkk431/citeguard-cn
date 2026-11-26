@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 259,
+  "paths_checked": 265,
   "missing": [],
   "rows": [
     {
@@ -1144,6 +1144,36 @@
       "exists": true
     },
     {
+      "evidence": "E121",
+      "path": "docs/observability.md",
+      "exists": true
+    },
+    {
+      "evidence": "E121",
+      "path": "docs/evidence/shots/opt-H1-metrics-1.7.47-1440.png",
+      "exists": true
+    },
+    {
+      "evidence": "E121",
+      "path": "docs/evidence/shots/opt-H1-metrics-1.7.47-1280.png",
+      "exists": true
+    },
+    {
+      "evidence": "E121",
+      "path": "data/experiments/opt_h1_regression_2026-11-26T14-58-03Z.json",
+      "exists": true
+    },
+    {
+      "evidence": "E121",
+      "path": "data/experiments/opt_tests_2026-11-26T14-58-03Z.txt",
+      "exists": true
+    },
+    {
+      "evidence": "E121",
+      "path": "data/experiments/opt_h1_observability_2026-11-26.json",
+      "exists": true
+    },
+    {
       "evidence": "E120",
       "path": "docs/optimization/f1_repair_suggestions.md",
       "exists": true
@@ -1189,6 +1219,6 @@
       "exists": true
     }
   ],
-  "shots_registered": 134,
+  "shots_registered": 136,
   "shots_unregistered": []
 }

@@ -1,3 +1,12 @@
+## [1.7.47] - 2026-11-26
+
+### Added
+- 请求可观测：`X-Request-ID`、`X-Response-Time-ms`、`/api/metrics`，health 增加 uptime/requests_total；不记录请求体/URL/凭据。
+- `scripts/regression_check.py`：pytest/verify/audit/licenses/可选 e2e 一键回归，写 JSON+日志。
+
+### Verified
+- 1074 tests；H1 回归 JSON/日志；许可无新增依赖。
+
 ## [1.7.46] - 2026-11-26
 
 ### Added

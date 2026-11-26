@@ -13,7 +13,7 @@
 | P1 | F1 | 解析与 GB/T 修复建议 | ✅ 1.7.46 |
 | P1 | G1 | 前端入口/阅读器/键盘/状态 | ✅ 1.7.41 |
 | P1 | G5 | 状态与错误：不露 HTTP，给下一步 | ✅ 1.7.42 |
-| P2 | H1 | 可观测性/许可/回归 | 待做 |
+| P2 | H1 | 可观测性/许可/回归 | ✅ 1.7.47 |
 
 ## A2 验收
 
@@ -73,3 +73,11 @@
 - [x] 失败三动作：重试、用内置示例、去支持度速查；错误为中文人话，不露 raw JSON/HTTP。
 - 证据：`data/experiments/opt_e1_live_ux_2026-11-26.json`、`opt-E1-live-guide-1.7.45-1440/1280.png`、`opt-E1-live-failure-actions-1.7.45-1440/1280.png`；E119。
 - 测试：1071 passed（页面支持矩阵/失败动作/中文错误助手）。
+
+
+## H1 验收
+
+- [x] 请求 ID/延迟头；`/api/metrics`；health uptime/requests_total；不记录请求体/URL/凭据。
+- [x] `scripts/regression_check.py` 跑 pytest/verify/audit/licenses/可选 e2e，5 步全 0。
+- [x] 许可无新增依赖；无新第三方组件。
+- 证据：`data/experiments/opt_h1_regression_2026-11-26T14-58-03Z.json`、`opt_tests_2026-11-26T14-58-03Z.txt`、`opt_h1_observability_2026-11-26.json`；E121。
