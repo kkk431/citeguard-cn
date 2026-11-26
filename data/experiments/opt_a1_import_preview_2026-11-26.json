@@ -1,0 +1,52 @@
+{
+  "imported": 2,
+  "would_add": 2,
+  "duplicates": 0,
+  "missing": {
+    "doi": 1,
+    "year": 1,
+    "venue": 0,
+    "pages": 1,
+    "abstract": 1
+  },
+  "formats": {
+    "local:ris": 2
+  },
+  "samples": [
+    {
+      "title": "中文引文核验工作台的导入预览研究",
+      "authors": [
+        "张三",
+        "李四"
+      ],
+      "year": 2024,
+      "venue": "情报学报",
+      "doi": "10.1234/a1-preview-1",
+      "source": "local:ris",
+      "missing": [],
+      "duplicate": false
+    },
+    {
+      "title": "缺少字段的中文题录测试",
+      "authors": [
+        "王五"
+      ],
+      "year": null,
+      "venue": "图书馆论坛",
+      "doi": "",
+      "source": "local:ris",
+      "missing": [
+        "doi",
+        "year",
+        "pages",
+        "abstract"
+      ],
+      "duplicate": false
+    }
+  ],
+  "before": 28,
+  "count_after": 30,
+  "library_count_before": 28,
+  "library_count_after": 28,
+  "dry_run_unchanged": true
+}

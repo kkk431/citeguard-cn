@@ -25,7 +25,14 @@
   const tagEntryTitle = document.getElementById("tag-entry-title");
   const dupesModal = document.getElementById("library-dupes-modal");
   const dupesBody = document.getElementById("dupes-body");
+  const previewEl = document.getElementById("library-preview");
+  const previewSummary = document.getElementById("library-preview-summary");
+  const previewStats = document.getElementById("library-preview-stats");
+  const previewGaps = document.getElementById("library-preview-gaps");
+  const previewSamples = document.getElementById("library-preview-samples");
+  const previewNote = document.getElementById("library-preview-note");
   let tagTarget = null;
+  let previewRun = 0;
 
   let entries = [];
   let missing = 0;
@@ -59,6 +66,122 @@
     const data = await resp.json().catch(function () { return {}; });
     if (!resp.ok) throw new Error(data.detail || "HTTP " + resp.status);
     return data;
+  }
+
+  function addPreviewStat(label, value) {
+    const span = document.createElement("span");
+    const b = document.createElement("b");
+    b.textContent = String(value);
+    const em = document.createElement("em");
+    em.textContent = label;
+    span.append(b, em);
+    previewStats.appendChild(span);
+  }
+
+  function renderPreview(parts, failures) {
+    if (!previewEl) return;
+    const first = parts[0] || {};
+    const last = parts[parts.length - 1] || {};
+    const parsed = parts.reduce(function (sum, p) { return sum + (p.imported || 0); }, 0);
+    const wouldAdd = parts.reduce(function (sum, p) { return sum + (p.would_add || 0); }, 0);
+    const duplicates = parts.reduce(function (sum, p) { return sum + (p.duplicates || 0); }, 0);
+    const missing = { doi: 0, year: 0, venue: 0, pages: 0, abstract: 0 };
+    parts.forEach(function (p) {
+      Object.keys(missing).forEach(function (key) {
+        missing[key] += (p.missing && p.missing[key]) || 0;
+      });
+    });
+    const formats = {};
+    parts.forEach(function (p) {
+      Object.keys(p.formats || {}).forEach(function (key) {
+        formats[key] = (formats[key] || 0) + p.formats[key];
+      });
+    });
+    const formatText = Object.keys(formats).map(function (key) {
+      return key + " " + formats[key] + " 条";
+    }).join(" · ");
+    const before = first.before || 0;
+    const after = last.count_after || before + wouldAdd;
+
+    previewSummary.textContent =
+      parts.length + " 个文件 · 解析 " + parsed + " 条 · 可新增 " + wouldAdd +
+      " 条 · 重复 " + duplicates + " 条" + (failures ? " · " + failures + " 个文件无法预览" : "");
+    previewStats.textContent = "";
+    addPreviewStat("可新增", wouldAdd);
+    addPreviewStat("重复跳过", duplicates);
+    addPreviewStat("缺 DOI", missing.doi);
+    addPreviewStat("缺年份", missing.year);
+    addPreviewStat("缺摘要", missing.abstract);
+    previewGaps.textContent = formatText
+      ? "识别格式：" + formatText + "。库内 " + before + " → 导入后 " + after + " 条。"
+      : "没有识别出格式。";
+    previewSamples.textContent = "";
+    parts.forEach(function (p) {
+      (p.samples || []).forEach(function (sample) {
+        if (previewSamples.children.length >= 4) return;
+        const li = document.createElement("li");
+        const title = document.createElement("b");
+        title.textContent = sample.title || "(无题名)";
+        const meta = document.createElement("span");
+        const bits = [];
+        if (sample.authors && sample.authors.length) bits.push(sample.authors.slice(0, 2).join("、"));
+        if (sample.year) bits.push(String(sample.year));
+        if (sample.venue) bits.push(sample.venue);
+        meta.textContent = bits.join(" · ") || "元数据很少";
+        li.append(title, meta);
+        if (sample.duplicate) {
+          const tag = document.createElement("i");
+          tag.className = "is-dup";
+          tag.textContent = "库内已有";
+          li.appendChild(tag);
+        }
+        (sample.missing || []).forEach(function (field) {
+          const tag = document.createElement("i");
+          tag.textContent = "缺 " + field;
+          li.appendChild(tag);
+        });
+        previewSamples.appendChild(li);
+      });
+    });
+    previewNote.textContent = failures
+      ? "有文件无法预览；仍可继续导入，失败文件会在导入结果里单独计数。"
+      : "预览不会写入题录库。确认后点「导入并合并」，同名或同 DOI 的条目会自动跳过。";
+    previewEl.hidden = false;
+  }
+
+  async function previewSelection() {
+    if (!previewEl) return;
+    const list = files();
+    if (!list.length) {
+      previewEl.hidden = true;
+      return;
+    }
+    const run = ++previewRun;
+    previewEl.hidden = false;
+    previewSummary.textContent = "正在解析预览…";
+    previewStats.textContent = "";
+    previewGaps.textContent = "";
+    previewSamples.textContent = "";
+    previewNote.textContent = "只解析，不写入。";
+    const parts = [];
+    let failures = 0;
+    for (let i = 0; i < list.length; i++) {
+      try {
+        const fd = new FormData();
+        fd.append("file", list[i]);
+        const data = await window.CiteGuard.postForm("/api/library/import/preview", fd);
+        parts.push(data);
+      } catch (err) {
+        failures += 1;
+      }
+    }
+    if (run !== previewRun) return;
+    if (!parts.length) {
+      previewSummary.textContent = "无法预览：" + (failures ? "文件格式不支持或内容无法解析" : "未知错误");
+      previewNote.textContent = "可以直接点「导入并合并」；若失败，把导出格式换成 RIS / BibTeX / EndNote 再试。";
+      return;
+    }
+    renderPreview(parts, failures);
   }
 
   async function loadEntries() {
@@ -226,7 +349,10 @@
     }
   }
 
-  input.addEventListener("change", setName);
+  input.addEventListener("change", function () {
+    setName();
+    previewSelection();
+  });
   ["dragenter", "dragover"].forEach(function (evt) {
     dropzone.addEventListener(evt, function (e) {
       e.preventDefault();
@@ -246,6 +372,7 @@
       Array.from(dropped).forEach(function (f) { dt.items.add(f); });
       input.files = dt.files;
       setName();
+      previewSelection();
     }
   });
 
@@ -280,6 +407,7 @@
     if (failed) msg += "；" + failed + " 个文件失败";
     if (noAbstract) msg += "；" + noAbstract + " 条没有摘要（可点「自动补摘要」）";
     window.CiteGuard.toast(msg);
+    if (previewEl) previewEl.hidden = true;
     await loadEntries();
   });
 

@@ -1,3 +1,15 @@
+## [1.7.37] - 2026-11-26
+
+### Added
+- 题录库导入前预览：`POST /api/library/import/preview` 只解析、不写库；前端在选择/拖入文件后显示可新增、重复、缺 DOI/年份/摘要与前 4 条样例，多文件汇总；确认后再导入，现有去重规则不变。
+- 真实端到端：`a1_preview_demo.ris` 解析 2 条、可新增 2 条、库内 28→30；预览前后库计数不变。
+
+### Tests
+- `pytest tests -q`：**1056 passed, 10 skipped**；`verify_artifacts` 137/137；`audit_evidence` 220 路径 / 0 缺失 / 106 截图。
+
+### Evidence
+- `docs/evidence/shots/opt-A1-library-import-preview-1.7.36-1440.png`、`...-1280.png`；E111。
+
 ## [1.7.36] - 2026-11-18
 
 ### Fixed

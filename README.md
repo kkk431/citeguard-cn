@@ -1,6 +1,6 @@
 # 引证卫士 CiteGuard-CN
 
-> **v1.7.36** · 2026-11-18 · Apache-2.0
+> **v1.7.37** · 2026-11-18 · Apache-2.0
 
 [![ci](https://github.com/kkk431/citeguard-cn/actions/workflows/ci.yml/badge.svg)](https://github.com/kkk431/citeguard-cn/actions/workflows/ci.yml)
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
@@ -143,6 +143,8 @@ no_evidence    [  0,   0,   0,  20 ]
 报告页新增「引用链风险」：只对已匹配且带 DOI 的条目，每篇最多抽样 12 条参考文献，检查是否引用了 OpenAlex 标记为撤稿的文献；只查一层，界面单独显示“抽样覆盖”，不把没覆盖到的部分说成干净。接口为 `GET/POST /api/report/{id}/citation-chain`，结果缓存为 `report.chain.json`，实现与边界见 [docs/citation_chain.md](docs/citation_chain.md)。
 
 **题录库标签与去重**：题录可加最多 8 个标签；按 DOI 或「题名+年份」发现重复，确认后合并（非空字段补齐、标签取并集），不自动删除。
+
+**导入前预览**：选择题录文件后先解析、不写库，直接显示「可新增 / 重复跳过 / 缺 DOI / 缺年份 / 缺摘要」和前几条样例；确认后再「导入并合并」，同名或同 DOI 自动跳过。多文件汇总预览，避免导完才发现格式不对或字段缺失。
 
 **支持度模型矩阵**：8 种同口径配置（Qwen3-1.7B LoRA / 4B LoRA / 8B / 14B / 14B 4-bit / 基座）在 ClaimSupport-CN test 60 上的 macro-F1、bootstrap 95% CI 与错误清单；4B 满分明确标注为构造模板饱和。[`docs/model_matrix.md`](docs/model_matrix.md)
 
@@ -443,15 +445,15 @@ PYTHONPATH=src python3 scripts/enrich_library_abstracts.py
 
 ## 复现与发布
 
-- 版本：**v1.7.36**；变更见 `CHANGELOG.md`，发布说明见 `docs/release_notes_v1.0.md`
-- 单元测试：`PYTHONPATH=src python -m pytest tests -q`（1055 项）
+- 版本：**v1.7.37**；变更见 `CHANGELOG.md`，发布说明见 `docs/release_notes_v1.0.md`
+- 单元测试：`PYTHONPATH=src python -m pytest tests -q`（1056 项）
 - 主评测复现：`PYTHONPATH=src python scripts/reproduce_all.py`；每个对外数字的 JSON/命令/样本量见 `docs/evidence_index.md`
 - 文档站：`pip install -r requirements-docs.txt && mkdocs serve`
 - 数据集包：`dist/CiteGuard-CN_ClaimSupport-CN-300_v1.0.zip`（CC-BY-4.0，构造标签）
 - HuggingFace 数据集：<https://huggingface.co/datasets/dfdafs/claimsupport-cn-300>（300 条，构造标签，非人审）
 - HuggingFace 适配器：<https://huggingface.co/dfdafs/citeguard-support-lora-qwen3-1.7b>（Qwen3-1.7B LoRA，Apache-2.0）
 - HuggingFace 适配器（4B）：<https://huggingface.co/dfdafs/citeguard-support-lora-qwen3-4b>（Qwen3-4B LoRA，Apache-2.0；构造测试集饱和，见模型卡）
-- Docker：`docker compose -f docker/docker-compose.yml up --build`；`citeguard-cn:1.7.36` 已构建并通过 `/api/health`（本机 2026-11-19）
+- Docker：`docker compose -f docker/docker-compose.yml up --build`；`citeguard-cn:1.7.37` 已构建并通过 `/api/health`（本机 2026-11-19）
 
 ## 参考与致谢
 

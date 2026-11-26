@@ -1,0 +1,22 @@
+[
+  {
+    "width": 1440,
+    "height": 1000,
+    "summary": "1 个文件 · 解析 2 条 · 可新增 2 条 · 重复 0 条",
+    "stats": "2\n可新增\n0\n重复跳过\n1\n缺 DOI\n1\n缺年份\n1\n缺摘要",
+    "gaps": "识别格式：local:ris 2 条。库内 28 → 导入后 30 条。",
+    "horizontal_overflow": false,
+    "console_errors": [],
+    "screenshot": "docs\\evidence\\shots\\opt-A1-library-import-preview-1.7.36-1440.png"
+  },
+  {
+    "width": 1280,
+    "height": 900,
+    "summary": "1 个文件 · 解析 2 条 · 可新增 2 条 · 重复 0 条",
+    "stats": "2\n可新增\n0\n重复跳过\n1\n缺 DOI\n1\n缺年份\n1\n缺摘要",
+    "gaps": "识别格式：local:ris 2 条。库内 28 → 导入后 30 条。",
+    "horizontal_overflow": false,
+    "console_errors": [],
+    "screenshot": "docs\\evidence\\shots\\opt-A1-library-import-preview-1.7.36-1280.png"
+  }
+]

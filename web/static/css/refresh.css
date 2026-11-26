@@ -1441,3 +1441,20 @@ body.theme-light .drawer-panel{color:var(--ink)}
 .chain-summary { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 8px; font-size: 13px; }
 .chain-summary b { font-size: 18px; margin-right: 4px; }
 
+
+/* Library import preview (A1): show the shape of the import before writing. */
+.lib-preview{margin-top:14px;padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:var(--surface-2)}
+.lib-preview[hidden]{display:none}
+.lib-preview-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.lib-preview-head b{font-size:15px;color:var(--ink)}
+.lib-preview-stats{display:flex;flex-wrap:wrap;gap:8px}
+.lib-preview-stats span{display:inline-flex;align-items:baseline;gap:6px;padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface)}
+.lib-preview-stats b{font:600 18px/1 Orbitron,ui-monospace,monospace;color:var(--accent)}
+.lib-preview-stats em{font-style:normal;font-size:12px;color:var(--muted)}
+.lib-preview-gaps{margin-top:10px;font-size:13px;line-height:1.6;color:var(--muted)}
+.lib-preview-samples{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:6px}
+.lib-preview-samples li{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:7px 9px;border-radius:10px;background:var(--surface);border:1px solid var(--line)}
+.lib-preview-samples b{font-size:13px;font-weight:600;color:var(--ink)}
+.lib-preview-samples span{font-size:12px;color:var(--muted)}
+.lib-preview-samples i{font-style:normal;font-size:11px;padding:2px 6px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+.lib-preview-samples i.is-dup{border-color:color-mix(in srgb,var(--gold) 55%,transparent);color:var(--gold)}

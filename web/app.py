@@ -102,7 +102,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.7.36", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.7.37", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 
@@ -308,11 +308,14 @@ def library_page(request: Request):
     )
 
 
-@app.post("/api/library/import")
-def library_import(file: UploadFile = File(...)):
+_LIBRARY_SUFFIXES = {".ris", ".bib", ".json", ".csl", ".txt", ".enw"}
+
+
+def _read_library_upload(file: UploadFile) -> tuple[str, list[LibraryEntry]]:
+    """Decode one uploaded library file and parse it, without touching the stored library."""
     filename = file.filename or "library.ris"
     suffix = Path(filename).suffix.lower()
-    if suffix not in {".ris", ".bib", ".json", ".csl", ".txt", ".enw"}:
+    if suffix not in _LIBRARY_SUFFIXES:
         raise HTTPException(status_code=400, detail="仅支持 RIS / BibTeX / EndNote / CSL-JSON / 纯文本题录")
     raw = file.file.read(MAX_UPLOAD_BYTES + 1)
     if len(raw) > MAX_UPLOAD_BYTES:
@@ -329,6 +332,79 @@ def library_import(file: UploadFile = File(...)):
     entries = parse_library_text(text, filename)
     if not entries:
         raise HTTPException(status_code=400, detail="没有解析到任何题录，请检查导出格式")
+    return filename, entries
+
+
+def _library_preview(entries: list[LibraryEntry], library: Library) -> dict:
+    """Explain what an import would do before the user commits it."""
+    from citeguard.metadata_verify import norm_title
+
+    seen = {norm_title(e.title) for e in library.entries}
+    seen_dois = {(e.doi or "").strip().lower() for e in library.entries if (e.doi or "").strip()}
+    would_add = 0
+    duplicates = 0
+    missing = {"doi": 0, "year": 0, "venue": 0, "pages": 0, "abstract": 0}
+    formats: dict[str, int] = {}
+    samples: list[dict] = []
+    for entry in entries:
+        key = norm_title(entry.title)
+        doi = (entry.doi or "").strip().lower()
+        is_duplicate = bool(doi and doi in seen_dois) or bool(key and key in seen)
+        if is_duplicate:
+            duplicates += 1
+        else:
+            would_add += 1
+            if key:
+                seen.add(key)
+            if doi:
+                seen_dois.add(doi)
+        for field in ("doi", "year", "venue", "pages", "abstract"):
+            value = getattr(entry, field, None)
+            if not (str(value).strip() if value is not None else ""):
+                missing[field] += 1
+        formats[entry.source or "未知"] = formats.get(entry.source or "未知", 0) + 1
+        if len(samples) < 4:
+            absent = [
+                field
+                for field in ("doi", "year", "venue", "pages", "abstract")
+                if not (str(getattr(entry, field, None)).strip() if getattr(entry, field, None) is not None else "")
+            ]
+            samples.append(
+                {
+                    "title": entry.title,
+                    "authors": entry.authors,
+                    "year": entry.year,
+                    "venue": entry.venue,
+                    "doi": entry.doi,
+                    "source": entry.source,
+                    "missing": absent,
+                    "duplicate": is_duplicate,
+                }
+            )
+    return {
+        "imported": len(entries),
+        "would_add": would_add,
+        "duplicates": duplicates,
+        "missing": missing,
+        "formats": formats,
+        "samples": samples,
+    }
+
+
+@app.post("/api/library/import/preview")
+def library_import_preview(file: UploadFile = File(...)):
+    """Dry-run an import: parse, dedupe and show gaps without writing the library."""
+    _filename, entries = _read_library_upload(file)
+    library = Library.load(config.LIBRARY_FILE)
+    result = _library_preview(entries, library)
+    result["before"] = len(library)
+    result["count_after"] = len(library) + result["would_add"]
+    return result
+
+
+@app.post("/api/library/import")
+def library_import(file: UploadFile = File(...)):
+    _filename, entries = _read_library_upload(file)
     library = Library.load(config.LIBRARY_FILE)
     before = len(library)
     library.add(entries)

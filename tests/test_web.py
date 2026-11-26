@@ -588,6 +588,46 @@ def test_library_add_accepts_manual_entry(client):
     assert listing["entries"][0]["title"] == payload["title"]
 
 
+def test_library_import_preview_is_dry_run_and_reports_duplicates(client):
+    text = "\n".join([
+        "TY  - JOUR",
+        "TI  - 导入预览测试一",
+        "AU  - 张三",
+        "PY  - 2020",
+        "JO  - 情报学报",
+        "ER  - ",
+        "TY  - JOUR",
+        "TI  - 导入预览测试二",
+        "AU  - 李四",
+        "PY  - 2021",
+        "JO  - 图书情报工作",
+        "DO  - 10.1234/preview",
+        "ER  - ",
+    ])
+    files = {"file": ("preview.ris", text.encode("utf-8"), "application/x-research-info-systems")}
+    first = client.post("/api/library/import/preview", files=files)
+    assert first.status_code == 200, first.text
+    body = first.json()
+    assert body["imported"] == 2
+    assert body["would_add"] == 2
+    assert body["duplicates"] == 0
+    assert body["before"] == 0
+    assert body["count_after"] == 2
+    assert body["missing"]["doi"] == 1
+    assert client.get("/api/library").json()["count"] == 0
+
+    imported = client.post("/api/library/import", files=files)
+    assert imported.status_code == 200, imported.text
+    assert imported.json()["added"] == 2
+
+    again = client.post("/api/library/import/preview", files=files)
+    assert again.status_code == 200, again.text
+    repeat = again.json()
+    assert repeat["would_add"] == 0
+    assert repeat["duplicates"] == 2
+    assert repeat["count_after"] == 2
+
+
 def test_library_bulk_accepts_multiple_lines(client):
     text = "\n".join(
         [

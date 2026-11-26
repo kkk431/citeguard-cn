@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 216,
+  "paths_checked": 220,
   "missing": [],
   "rows": [
     {
@@ -972,8 +972,28 @@
       "evidence": "E109",
       "path": "docs/evidence/shots/phase-70-live-page-probe-1.7.35.png",
       "exists": true
+    },
+    {
+      "evidence": "E111",
+      "path": "docs/evidence/shots/opt-A1-library-import-preview-1.7.36-1440.png",
+      "exists": true
+    },
+    {
+      "evidence": "E111",
+      "path": "docs/evidence/shots/opt-A1-library-import-preview-1.7.36-1280.png",
+      "exists": true
+    },
+    {
+      "evidence": "E111",
+      "path": "data/experiments/opt_a1_import_preview_2026-11-26.json",
+      "exists": true
+    },
+    {
+      "evidence": "E111",
+      "path": "data/experiments/opt_a1_import_preview_ui_2026-11-26.json",
+      "exists": true
     }
   ],
-  "shots_registered": 104,
+  "shots_registered": 106,
   "shots_unregistered": []
 }
