@@ -81,7 +81,7 @@
 - `web/static/css/report_diff.css`：diff 与导出说明的布局、焦点、响应式、打印隐藏。
 - `tests/test_report_diff_ui.py`：6 个 D3/D4 契约测试。
 - `tests/test_exporters.py`：新增 3 个范围/未知范围测试。
-- `data/experiments/opt_d3d4_diff_export.json`：真实浏览器 16 项检查、截图、console error 记录。
+- `data/experiments/opt_d3d4_diff_export.json`：真实浏览器 16 项检查、截图、console error 记录。CSV 证据写“54 data rows / 55 incl header”，不是 55 条问题。
 - 真实报告：`c674df27a57e`（当前 54 条）对比 `d73ae2dcd2e9`（15 条）；结果为已解决 0、仍存在 0、新增 15、状态变化 0、支持度变化 4。
 
 ## 真实浏览器证据

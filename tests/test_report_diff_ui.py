@@ -49,6 +49,15 @@ def test_report_template_wires_diff_styles_and_export_scope():
     assert "未映射" in html
 
 
+def test_diff_run_is_disabled_until_versions_finish_loading():
+    js = _read(REPORT_JS)
+    start = js.index("picker.classList.toggle")
+    block = js[start:start + 1600]
+
+    assert "runBtn.disabled = true;" in block
+    assert "runBtn.disabled = false;" in block
+
+
 def test_report_js_renders_field_level_diff_and_resolved_counts():
     js = _read(REPORT_JS)
 

@@ -2571,6 +2571,7 @@ if (manualCsvBtn) {
     picker.classList.toggle("hidden");
     if (picker.classList.contains("hidden")) return;
     select.innerHTML = '<option value="">\u52a0\u8f7d\u4e2d\u2026</option>';
+    runBtn.disabled = true;
     try {
       const res = await fetch("/api/jobs?limit=40");
       const data = await res.json();
@@ -2582,6 +2583,7 @@ if (manualCsvBtn) {
       select.innerHTML = jobs.map(function (j) {
         return '<option value="' + escAttr(j.id) + '">' + esc((j.name || j.id) + " \u00b7 " + (j.created_at || "")) + "</option>";
       }).join("");
+      runBtn.disabled = false;
     } catch (e) {
       select.innerHTML = '<option value="">\u52a0\u8f7d\u5931\u8d25\uff0c\u8bf7\u91cd\u8bd5</option>';
     }

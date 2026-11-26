@@ -1,0 +1,420 @@
+{
+ "task": "t41",
+ "title": "Wave2 独立验收：A3 / G3 / E3 / D3+D4",
+ "verifier": "authority",
+ "contract": "逐项独立验收，不复用各任务自报数字；只写 verify_wave2.md 与本 JSON",
+ "generated_at": "2026-11-27T01:45:00+08:00",
+ "repo": {
+  "path": "D:\\ai+ky\\citeguard",
+  "head": "3c5a433",
+  "commits": {
+   "A3": {
+    "sha": "4aa9572",
+    "subject": "feat(library): add a read-only library dashboard (A3)",
+    "author": "kkk431",
+    "files": "14 files changed, 1576 insertions(+), 3 deletions(-)"
+   },
+   "G3": {
+    "sha": "61c0a0d",
+    "subject": "feat(ui): add chart and evidence-map interactions (G3)",
+    "author": "kkk431",
+    "files": "14 files changed, 1057 insertions(+), 63 deletions(-)"
+   },
+   "E3": {
+    "sha": "2a56966",
+    "subject": "feat(citemap): add semi-automatic expansion with human confirmation (E3)",
+    "author": "kkk431",
+    "files": "9 files changed, 1572 insertions(+), 1 deletion(-)"
+   },
+   "D3D4": {
+    "sha": "3c5a433",
+    "subject": "feat(report): add diff visualization and scoped exports (D3/D4)",
+    "author": "kkk431",
+    "files": "14 files changed, 1076 insertions(+), 67 deletions(-)"
+   }
+  }
+ },
+ "environment": {
+  "app": "http://127.0.0.1:8013",
+  "browser": "Microsoft Edge 158.0.4370.33 (Playwright channel=msedge)",
+  "viewports": [
+   [
+    1440,
+    900
+   ],
+   [
+    1280,
+    800
+   ]
+  ],
+  "jobs": {
+   "diff": "c674df27a57e",
+   "old": "d73ae2dcd2e9",
+   "charts": "05304bf55ea7"
+  },
+  "os": "Windows"
+ },
+ "gates": {
+  "pytest": {
+   "command": "python -m pytest tests -q",
+   "passed": 1129,
+   "skipped": 10,
+   "seconds": 95.35,
+   "exit_code": 0,
+   "note": "基线 1095 passed；新增用例来自 A3/G3/E3/D3D4"
+  },
+  "verify_artifacts": {
+   "command": "python scripts/verify_artifacts.py",
+   "checks": 137,
+   "failed": 0,
+   "exit_code": 0,
+   "output": "[OK] all 137 checks passed"
+  },
+  "audit_evidence": {
+   "command": "python scripts/audit_evidence.py",
+   "paths": 304,
+   "missing": 0,
+   "registered": 163,
+   "unregistered": 0,
+   "exit_code": 0
+  },
+  "item_tests": {
+   "command": "pytest tests/test_library_stats.py tests/test_charts_interaction.py tests/test_citemap_expand.py tests/test_exporters.py tests/test_report_diff_ui.py -q",
+   "passed": 43,
+   "per_file": {
+    "test_library_stats.py": 8,
+    "test_charts_interaction.py": 8,
+    "test_citemap_expand.py": 8,
+    "test_exporters.py": 13,
+    "test_report_diff_ui.py": 6
+   }
+  },
+  "page_probe": {
+   "script": "D:\\Temp\\t41_pages.py",
+   "checks": 54,
+   "passed": 54,
+   "failed": 0,
+   "console_errors": 0,
+   "failed_requests": 0
+  },
+  "health": {
+   "url": "http://127.0.0.1:8013/api/health",
+   "status": 200
+  }
+ },
+ "items": [
+  {
+   "id": "A3",
+   "task_id": "t37",
+   "commit": "4aa9572",
+   "verdict": "pass",
+   "deliverables": [
+    "src/citeguard/library_stats.py",
+    "tests/test_library_stats.py",
+    "data/experiments/opt_a3_library_dashboard_2026-11-27.json",
+    "data/experiments/opt_a3_library_dashboard_ui_2026-11-27.json",
+    "docs/optimization/a3_library_dashboard.md",
+    "docs/evidence/shots/opt-A3-library-dashboard-1.7.48-1440.png",
+    "docs/evidence/shots/opt-A3-library-dashboard-1.7.48-1280.png"
+   ],
+   "independent_checks": {
+    "cli_reproduction": "PYTHONPATH=src python -m citeguard.library_stats --library data/library/library.json --reports-glob 'data/jobs/*/report.json'",
+    "cli_summary": "library=28 complete=9/28 sources=4 years=13 duplicates=0 coverage=43.4%",
+    "json_diff": {
+     "flat_keys": 82,
+     "differences": 0,
+     "excluded": [
+      "generated_at"
+     ]
+    },
+    "numbers": {
+     "items": 28,
+     "complete": 9,
+     "complete_ratio": 0.321,
+     "with_doi": 22,
+     "with_year": 26,
+     "with_venue": 28,
+     "with_abstract": 14,
+     "sources": {
+      "local:ris": 20,
+      "local:endnote": 5,
+      "manual-bulk": 2,
+      "manual": 1
+     },
+     "years": {
+      "min": 2011,
+      "max": 2026,
+      "median": 2021,
+      "missing": 2,
+      "unique": 13
+     },
+     "venues_unique": 23,
+     "duplicate_groups": 0,
+     "languages": {
+      "zh": 17,
+      "en": 11
+     },
+     "tags": {
+      "unique": 0,
+      "tagged": 0,
+      "untagged": 28
+     },
+     "coverage": {
+      "reports": 6,
+      "references": 129,
+      "hits": 56,
+      "ratio": 0.434
+     }
+    },
+    "tests": {
+     "file": "tests/test_library_stats.py",
+     "passed": 8
+    }
+   },
+   "boundary_checks": [
+    "tags.note 与文档 §3 一致：标签由用户维护，统计不做语义分类",
+    "覆盖率为历史快照，6 份报告不是抽样（5 份同一论文）",
+    "重复组保守（共享 DOI 或 norm_title+year），只读不联网",
+    "无入馆趋势（LibraryEntry 无 created_at），不拿 year 冒充"
+   ],
+   "notes": "web/app.py 与 library.html/js 页面接入由队长并入同一提交（A3 文档 §6 标注「队长接入」）。"
+  },
+  {
+   "id": "G3",
+   "task_id": "t38",
+   "commit": "61c0a0d",
+   "verdict": "pass",
+   "deliverables": [
+    "web/static/js/charts.js",
+    "web/static/js/citemap_graph.js",
+    "web/static/css/citemap_graph.css",
+    "tests/test_charts_interaction.py",
+    "data/experiments/opt_g3_chart_interaction_2026-11-27.json",
+    "docs/optimization/g3_chart_interaction.md",
+    "docs/evidence/shots/opt-G3-*"
+   ],
+   "independent_checks": {
+    "probe_values": {
+     "citemap_no_overflow": 0,
+     "graph_nodes": 29,
+     "graph_edges": 36,
+     "hover": {
+      "nodes": 8,
+      "edges": 7,
+      "pt": [
+       522,
+       247
+      ],
+      "at": "text|ctm-node-text"
+     },
+     "legend_filter": {
+      "before": "true",
+      "after": "false",
+      "hidden_edges": 15,
+      "visible_levels": "fulltext,none"
+     },
+     "zoom_button": {
+      "label": "122%",
+      "data_zoom": "122"
+     },
+     "dblclick_reset": "100%",
+     "synthetic_105_benchmark": {
+      "synthetic": true,
+      "nodes": 105,
+      "edges": 116,
+      "render_ms": 3.2
+     },
+     "charts": [
+      "rchart-status",
+      "rchart-support",
+      "rchart-compliance"
+     ],
+     "chart_instance": {
+      "instance": true,
+      "start": 0,
+      "end": 100,
+      "dataZoom": 1
+     },
+     "chart_hover_tooltip": "未收录/无法核验\n0 条 · 0.0%",
+     "chart_ctrl_wheel_zoom": {
+      "before": [
+       0,
+       100
+      ],
+      "after": [
+       4.963747908533186,
+       95.87283881762409
+      ]
+     },
+     "chart_dblclick_reset": [
+      0,
+      100
+     ],
+     "chart_page_no_overflow": 0
+    },
+    "tests": {
+     "test_charts_interaction.py": 8,
+     "test_web.py": 92
+    }
+   },
+   "boundary_checks": [
+    "105 节点为合成离屏基准（JSON synthetic:true），不是线上数据，已如实标注",
+    "缩放只改变视口变换，图例只隐藏连线，不改数据与判定",
+    "1280 下地图舞台保持 min-width:1080px 的舞台内滚动，页面级溢出 0（历史行为）",
+    "图表需打开「检查明细 → 图表」才初始化（现有页面结构）"
+   ],
+   "notes": "真实图为 29 节点 / 36 边；悬停 8 节点 + 7 边；图例隐藏 15/15 摘要边。"
+  },
+  {
+   "id": "E3",
+   "task_id": "t39",
+   "commit": "2a56966",
+   "verdict": "pass",
+   "deliverables": [
+    "scripts/citemap_expand.py",
+    "tests/test_citemap_expand.py",
+    "data/evidence_map/expansion/ai_education_candidates.json",
+    "data/evidence_map/expansion/ai_education_review.csv",
+    "data/experiments/opt_e3_citemap_expand_2026-11-27.json",
+    "docs/optimization/e3_citemap_expand.md"
+   ],
+   "independent_checks": {
+    "rerun": "python scripts/citemap_expand.py --topic ai_education --limit 15 --min-candidates 5 --output-dir $TEMP/t41_e3 --summary $TEMP/t41_e3.json",
+    "candidates": 9,
+    "skipped": {
+     "no_abstract": 1,
+     "duplicate": 1,
+     "no_sentence": 4
+    },
+    "machine_only": true,
+    "needs_human": true,
+    "status": "pending",
+    "human_layer_written": false,
+    "human_layer_sha256_unchanged": true,
+    "promote_without_flag": {
+     "human_layer_written": false,
+     "patch_only": true,
+     "human_layer_sha256_unchanged": true
+    },
+    "review_csv": {
+     "rows": 9,
+     "decision": "",
+     "note": "",
+     "reviewer": ""
+    }
+   },
+   "boundary_checks": [
+    "候选全部 machine=true / needs_human=true / status=pending，位于独立 expansion/ 目录",
+    "不写 evidence / auto_evidence，不宣称准确率，locator 只到 Abstract",
+    "promote 只有显式 --write-human-layer 才追加人工层；本次未触发"
+   ],
+   "notes": "promote 默认写 patch 到 expansion/promotions/（不写人工层）；本次验收产生的 patch 已清理。"
+  },
+  {
+   "id": "D3D4",
+   "task_id": "t40",
+   "commit": "3c5a433",
+   "verdict": "pass",
+   "deliverables": [
+    "src/citeguard/annotate.py",
+    "src/citeguard/exporters.py",
+    "web/static/js/report.js",
+    "web/templates/report.html",
+    "web/static/css/report_diff.css",
+    "tests/test_exporters.py",
+    "tests/test_report_diff_ui.py",
+    "data/experiments/opt_d3d4_diff_export.json",
+    "docs/optimization/d3d4_repair_diff_export.md",
+    "docs/evidence/shots/opt-D3D4-*"
+   ],
+   "independent_checks": {
+    "diff_renders": 15,
+    "diff_summary": "已解决 0 | 仍存在 0 | 新增 15 | 状态变化 0 | 支持度变化 4",
+    "diff_against": "against=d73ae2dcd2e9",
+    "enter_expands": {
+     "open": true,
+     "old_new_tokens": 3
+    },
+    "export_scopes": [
+     "problems",
+     "fixed",
+     "all"
+    ],
+    "problems_csv": {
+     "file": "citeguard-c674df27a57e-problems.csv",
+     "lines": 55,
+     "refs": 54
+    },
+    "problems_no_fabricated_rows": {
+     "csv_rows": 54,
+     "unique_titles": 53,
+     "report_refs": 54
+    },
+    "all_csv": {
+     "file": "citeguard-c674df27a57e-all.csv",
+     "rows": 54
+    },
+    "fixed_empty_blocks_download": {
+     "downloaded": false,
+     "toast": "当前范围「仅已修条目」没有可导出的条目。 请切换范围；若选择“仅已修”，请先在条目详情里应用修复。\n×"
+    },
+    "annotated_help": "批注 PDF：在原文页边标出问题条目的状态、字段问题与引文位置；包含报告已有字段，不重新联网。找不到页码的条目不猜页，会计入未映射。",
+    "report_no_overflow": 0,
+    "tests": {
+     "test_exporters.py": 13,
+     "test_report_diff_ui.py": 6
+    }
+   },
+   "boundary_checks": [
+    "导出范围在浏览器侧过滤（EXPORT_SCOPES=all/problems/fixed），未新增后端参数",
+    "CSV 54 条数据行，标题集合全部来自报告引用（无伪造行）；表头单独一行",
+    "diff 只比较已保存字段，不重新抓取、不猜未映射页码",
+    "fixed 范围为空时阻止下载并提示，不生成空文件"
+   ],
+   "notes": "JSON rows=55 为表头+54 数据行（见 F2）；空差异报告对没有真实样本，空态仅静态测试。"
+  }
+ ],
+ "findings": [
+  {
+   "id": "F1",
+   "severity": "low",
+   "item": "A3",
+   "problem": "t37 自报「未改 web/app.py、模板/JS/CSS」，但提交 4aa9572 含 web/app.py +14、library.js +171、library.html +11、refresh.css +10；A3 文档 §6 把 web/app.py 标为队长接入，实为队长将页面接入并入同一提交，自报与提交口径不一致。",
+   "requiredFix": "后续把数据层与队长接入分 commit，或在自报中写明页面接入由队长在同一提交完成。",
+   "files": [
+    "docs/optimization/a3_library_dashboard.md",
+    "web/app.py"
+   ]
+  },
+  {
+   "id": "F2",
+   "severity": "low",
+   "item": "D3D4",
+   "problem": "证据 JSON 的 rows=55 实为表头 + 54 条数据行，易被读成 55 条引用；文档复述同一数字。",
+   "requiredFix": "JSON 中区分 header 与 data_rows（或写 lines=55），文档同步。",
+   "files": [
+    "data/experiments/opt_d3d4_diff_export.json",
+    "docs/optimization/d3d4_repair_diff_export.md"
+   ]
+  },
+  {
+   "id": "F3",
+   "severity": "low",
+   "item": "D3D4",
+   "problem": "报告页「对比历史报告」版本下拉异步加载且无 loading/禁用态；加载完成前点击会静默按默认版本对比（本次 1280 首次读到空 value，摘要为「支持度变化 2」而非 4）。",
+   "requiredFix": "下拉填充前禁用「对比」或按钮显示加载态，避免静默回退到默认版本。",
+   "files": [
+    "web/static/js/report.js",
+    "web/templates/report.html"
+   ]
+  }
+ ],
+ "summary": {
+  "items": 4,
+  "pass": 4,
+  "fail": 0,
+  "findings": 3,
+  "verdict": "pass",
+  "note": "四项交付均通过独立验收；3 条 low finding 不阻断，建议后续修复。"
+ }
+}

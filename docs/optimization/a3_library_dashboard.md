@@ -2,6 +2,8 @@
 
 把题录库从「列表 + 覆盖缺口」升级为可解释的仪表盘数据：来源构成、年份分布、期刊/会议 Top、重复组、字段完整度、报告覆盖率、标签分布。本任务只做**数据层**，页面与 API 由队长接；不修改 `web/app.py`、模板、JS、CSS。
 
+> 口径说明（t41 F1）：雷达自报“未改 web”指数据层交付时点；随后队长把 API/UI 接入并入同一提交 `4aa9572`，所以该提交实际含 `web/app.py`、`library.js`、`library.html`、`refresh.css`。不是数据层越界。
+
 ## 1. 字段契约
 
 入口：`citeguard.library_stats.summarize(library, reports=None, *, top_venues=8, generated_at=None)`，返回可 `json.dumps` 的 dict。`reports` 可传已解析的报告 dict 列表，也可传 `report.json` 路径列表。

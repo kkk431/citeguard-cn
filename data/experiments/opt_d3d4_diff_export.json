@@ -59,7 +59,7 @@
     {
       "name": "client-side CSV downloads with problem scope",
       "ok": true,
-      "evidence": "citeguard-c674df27a57e-problems.csv rows=55"
+      "evidence": "citeguard-c674df27a57e-problems.csv rows=54 data rows (55 incl header)"
     },
     {
       "name": "CSV filename carries job and scope",
@@ -74,7 +74,7 @@
     {
       "name": "all scope exports every reference",
       "ok": true,
-      "evidence": "rows=55"
+      "evidence": "rows=54 data rows (55 incl header)"
     },
     {
       "name": "no console errors",

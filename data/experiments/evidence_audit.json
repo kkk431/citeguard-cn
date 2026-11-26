@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 283,
+  "paths_checked": 304,
   "missing": [],
   "rows": [
     {
@@ -1307,8 +1307,113 @@
       "evidence": "E125",
       "path": "data/experiments/opt_b2_cache_2026-11-27.json",
       "exists": true
+    },
+    {
+      "evidence": "E129",
+      "path": "docs/optimization/d3d4_repair_diff_export.md",
+      "exists": true
+    },
+    {
+      "evidence": "E129",
+      "path": "docs/evidence/shots/opt-D3D4-diff-1440.png",
+      "exists": true
+    },
+    {
+      "evidence": "E129",
+      "path": "docs/evidence/shots/opt-D3D4-diff-1280.png",
+      "exists": true
+    },
+    {
+      "evidence": "E129",
+      "path": "docs/evidence/shots/opt-D3D4-export-1440.png",
+      "exists": true
+    },
+    {
+      "evidence": "E129",
+      "path": "data/experiments/opt_d3d4_diff_export.json",
+      "exists": true
+    },
+    {
+      "evidence": "E128",
+      "path": "docs/optimization/e3_citemap_expand.md",
+      "exists": true
+    },
+    {
+      "evidence": "E128",
+      "path": "data/evidence_map/expansion/ai_education_candidates.json",
+      "exists": true
+    },
+    {
+      "evidence": "E128",
+      "path": "data/evidence_map/expansion/ai_education_review.csv",
+      "exists": true
+    },
+    {
+      "evidence": "E128",
+      "path": "data/experiments/opt_e3_citemap_expand_2026-11-27.json",
+      "exists": true
+    },
+    {
+      "evidence": "E127",
+      "path": "docs/optimization/g3_chart_interaction.md",
+      "exists": true
+    },
+    {
+      "evidence": "E127",
+      "path": "docs/evidence/shots/opt-G3-report-charts-1.7.48-1440.png",
+      "exists": true
+    },
+    {
+      "evidence": "E127",
+      "path": "docs/evidence/shots/opt-G3-report-charts-1.7.48-1280.png",
+      "exists": true
+    },
+    {
+      "evidence": "E127",
+      "path": "docs/evidence/shots/opt-G3-citemap-graph-1.7.48-1440.png",
+      "exists": true
+    },
+    {
+      "evidence": "E127",
+      "path": "docs/evidence/shots/opt-G3-citemap-graph-1.7.48-1280.png",
+      "exists": true
+    },
+    {
+      "evidence": "E127",
+      "path": "docs/evidence/shots/opt-G3-citemap-hover-1.7.48-1440.png",
+      "exists": true
+    },
+    {
+      "evidence": "E127",
+      "path": "docs/evidence/shots/opt-G3-citemap-hover-1.7.48-1280.png",
+      "exists": true
+    },
+    {
+      "evidence": "E127",
+      "path": "data/experiments/opt_g3_chart_interaction_2026-11-27.json",
+      "exists": true
+    },
+    {
+      "evidence": "E126",
+      "path": "docs/evidence/shots/opt-A3-library-dashboard-1.7.48-1440.png",
+      "exists": true
+    },
+    {
+      "evidence": "E126",
+      "path": "docs/evidence/shots/opt-A3-library-dashboard-1.7.48-1280.png",
+      "exists": true
+    },
+    {
+      "evidence": "E126",
+      "path": "data/experiments/opt_a3_library_dashboard_2026-11-27.json",
+      "exists": true
+    },
+    {
+      "evidence": "E126",
+      "path": "data/experiments/opt_a3_library_dashboard_ui_2026-11-27.json",
+      "exists": true
     }
   ],
-  "shots_registered": 152,
+  "shots_registered": 163,
   "shots_unregistered": []
 }
