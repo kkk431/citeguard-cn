@@ -6,6 +6,7 @@ place means the CLI and the web UI cannot drift apart.
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 import time
@@ -179,6 +180,23 @@ def _judge_run_config() -> dict:
 ANALYSIS_CACHE_VERSION = "analyze_text-v1"
 
 
+def _library_cache_fingerprint(library=None) -> str:
+    """Hash the library state that changes local verification verdicts."""
+    try:
+        if library is not None and hasattr(library, "to_dict"):
+            payload = json.dumps(library.to_dict(), ensure_ascii=False, sort_keys=True, default=str)
+        elif library is not None and hasattr(library, "entries"):
+            payload = json.dumps([e.to_dict() for e in library.entries], ensure_ascii=False, sort_keys=True, default=str)
+        else:
+            path = Path(config.LIBRARY_FILE)
+            if not path.exists():
+                return "missing"
+            payload = path.read_bytes().decode("utf-8", "replace")
+    except Exception as exc:
+        return "unreadable:" + type(exc).__name__
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()[:16]
+
+
 def analysis_cache_versions() -> dict:
     """Versions that make two analysis results non-interchangeable."""
     from .support import judge_endpoint
@@ -202,8 +220,9 @@ def analysis_cache_versions() -> dict:
 def analyze_file_cached(file_path: str, *, options: dict | None = None, cache=None) -> dict:
     """Analyze one file through the B2 content-addressed result cache.
 
-    The cache key covers the file's SHA-256, the analysis options and the
-    prompt/audit/judge versions, so changing any of them forces a fresh run.
+    The cache key covers the file's SHA-256, the analysis options, the
+    prompt/audit/judge versions and the local-library fingerprint, so changing
+    any of them forces a fresh run.
     A cached report is returned with ``cache.status='hit'``; callers must not
     present that as a cold-start measurement.
     """
@@ -213,6 +232,7 @@ def analyze_file_cached(file_path: str, *, options: dict | None = None, cache=No
     options = dict(options or {})
     key_options = {k: v for k, v in options.items() if k != "library"}
     versions = analysis_cache_versions()
+    versions["library"] = _library_cache_fingerprint(options.get("library"))
     key = result_cache_key(sha256_file(path), key_options, versions)
     cache = cache if cache is not None else ResultCache()
     enabled = result_cache_enabled()

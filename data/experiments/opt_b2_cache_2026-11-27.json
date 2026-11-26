@@ -1,0 +1,34 @@
+{
+  "generated_at": "2026-11-26T16:15:19.056680+00:00",
+  "item": "B2",
+  "cache_key": {
+    "file_sha256": true,
+    "options": true,
+    "versions": [
+      "analysis",
+      "prompt",
+      "audit",
+      "judge_base",
+      "judge_model",
+      "judge_available",
+      "offline"
+    ],
+    "library_fingerprint": true,
+    "schema": true
+  },
+  "verification": {
+    "cold_ms": 6614.1,
+    "hot_ms": 98.1,
+    "speedup": 67.4,
+    "files": 3,
+    "retry_failed_only": true,
+    "failure_not_cached": true,
+    "library_change_invalidates": true
+  },
+  "boundaries": [
+    "未接入 web 任务路径，当前为 CLI/BatchRunner 能力",
+    "热缓存不是冷启动性能；冷启动约 2.2s/篇（CPU 离线）",
+    "缓存命中不代表内容新鲜，库/模型/提示词版本变化会换键"
+  ],
+  "tests": "tests/test_b2_cache.py 10 passed"
+}

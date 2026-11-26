@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 265,
+  "paths_checked": 283,
   "missing": [],
   "rows": [
     {
@@ -1217,8 +1217,98 @@
       "evidence": "E119",
       "path": "data/experiments/opt_e1_live_ux_2026-11-26.json",
       "exists": true
+    },
+    {
+      "evidence": "E122",
+      "path": "docs/evidence/shots/opt-E2-citemap-1440.png",
+      "exists": true
+    },
+    {
+      "evidence": "E122",
+      "path": "docs/evidence/shots/opt-E2-citemap-1280.png",
+      "exists": true
+    },
+    {
+      "evidence": "E122",
+      "path": "docs/evidence/shots/opt-E2-citemap-focus-1440.png",
+      "exists": true
+    },
+    {
+      "evidence": "E122",
+      "path": "docs/evidence/shots/opt-E2-citemap-focus-1280.png",
+      "exists": true
+    },
+    {
+      "evidence": "E123",
+      "path": "docs/evidence/shots/opt-G2-report-1440.png",
+      "exists": true
+    },
+    {
+      "evidence": "E123",
+      "path": "docs/evidence/shots/opt-G2-report-1280.png",
+      "exists": true
+    },
+    {
+      "evidence": "E123",
+      "path": "docs/evidence/shots/opt-G2-filter-1440.png",
+      "exists": true
+    },
+    {
+      "evidence": "E123",
+      "path": "docs/evidence/shots/opt-G2-refs-1440.png",
+      "exists": true
+    },
+    {
+      "evidence": "E123",
+      "path": "docs/evidence/shots/opt-G2-jump-1440.png",
+      "exists": true
+    },
+    {
+      "evidence": "E123",
+      "path": "docs/evidence/shots/opt-G2-zoom-1440.png",
+      "exists": true
+    },
+    {
+      "evidence": "E124",
+      "path": "docs/evidence/shots/opt-G4-workspace-palette-1.7.47-1440.png",
+      "exists": true
+    },
+    {
+      "evidence": "E124",
+      "path": "docs/evidence/shots/opt-G4-workspace-palette-1.7.47-1280.png",
+      "exists": true
+    },
+    {
+      "evidence": "E124",
+      "path": "docs/evidence/shots/opt-G4-workspace-toast-1.7.47-1440.png",
+      "exists": true
+    },
+    {
+      "evidence": "E124",
+      "path": "docs/evidence/shots/opt-G4-workspace-toast-1.7.47-1280.png",
+      "exists": true
+    },
+    {
+      "evidence": "E124",
+      "path": "docs/evidence/shots/opt-G4-reduced-motion-1.7.47-1440.png",
+      "exists": true
+    },
+    {
+      "evidence": "E124",
+      "path": "docs/evidence/shots/opt-G4-reduced-motion-1.7.47-1280.png",
+      "exists": true
+    },
+    {
+      "evidence": "E125",
+      "path": "docs/optimization/b2_cache.md",
+      "exists": true
+    },
+    {
+      "evidence": "E125",
+      "path": "data/experiments/opt_b2_cache_2026-11-27.json",
+      "exists": true
     }
   ],
-  "shots_registered": 136,
+  "shots_registered": 152,
   "shots_unregistered": []
 }

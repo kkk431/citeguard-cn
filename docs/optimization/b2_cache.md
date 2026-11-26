@@ -97,3 +97,10 @@ python -m pytest tests -q
 - 本文件 `docs/optimization/b2_cache.md`（新增）。
 
 未改：`web/app.py`、`web/templates`、静态资源、`support.py`、`metadata_verify.py`。
+
+## 复审修正：库指纹（2026-11-27）
+
+- 问题：原缓存键只包含文件、选项和 prompt/audit/judge/schema 版本，**不含本地题录库**；而分析会读取本地库，库变更后可能命中旧报告。
+- 修正：`pipeline._library_cache_fingerprint()` 把库文件内容（或传入 Library 的完整 `to_dict()`）哈希后写入 `versions["library"]`；库变化即换键，旧缓存不会命中。
+- 测试：`tests/test_b2_cache.py::test_library_fingerprint_changes_the_cache_key` 验证库从 missing 变为空库后第二次调用为 miss、键不同。
+- 边界：未接 web；热缓存 98.1 ms 不是冷启动；失败不缓存。

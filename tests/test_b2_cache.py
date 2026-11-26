@@ -212,3 +212,27 @@ def test_analyze_file_cached_second_call_is_a_cache_hit(tmp_path, monkeypatch):
     assert second["cache"]["status"] == "hit"
     assert second["cache"]["key"] == first["cache"]["key"]
     assert [r["raw"] for r in second["references"]] == [r["raw"] for r in first["references"]]
+
+
+def test_library_fingerprint_changes_the_cache_key(tmp_path, monkeypatch):
+    monkeypatch.setenv("CITEGUARD_RESULT_CACHE_DIR", str(tmp_path / "result-cache"))
+    monkeypatch.setenv("CITEGUARD_TEXT_CACHE_DIR", str(tmp_path / "text-cache"))
+    monkeypatch.setattr(pipeline.config, "LIBRARY_FILE", tmp_path / "library.json")
+    text = (
+        "本文讨论引用核验。近年来相关研究很多[1]。\n\n参考文献\n"
+        "[1] 张三, 李四. 一种引用核验方法. 计算机学报, 2024, 47(1): 1-10.\n"
+    )
+    source = _write(tmp_path / "paper.txt", text)
+    options = {"support_max": 0, "online": False, "figures": False}
+
+    first = pipeline.analyze_file_cached(source, options=options)
+    assert first["cache"]["status"] == "miss"
+    assert first["cache"]["versions"]["library"] == "missing"
+
+    (tmp_path / "library.json").write_text(
+        '{"version": 2, "count": 0, "entries": []}', encoding="utf-8"
+    )
+    second = pipeline.analyze_file_cached(source, options=options)
+    assert second["cache"]["status"] == "miss", "library change must invalidate the cache"
+    assert second["cache"]["key"] != first["cache"]["key"]
+    assert second["cache"]["versions"]["library"] != "missing"

@@ -1,0 +1,585 @@
+{
+ "meta": {
+  "task": "t36 independent verification of Wave1 (B2 / E2 / G2 / G4)",
+  "verifier": "authority",
+  "generated_at": "2026-11-26T23:53:00+08:00",
+  "repo_head": "69f312e",
+  "repo_root": "D:/ai+ky/citeguard",
+  "app_url": "http://127.0.0.1:8013",
+  "browser": "Microsoft Edge 158.0.4370.33 (Playwright channel=msedge)",
+  "platform": "win32",
+  "python": "3.13.14",
+  "write_scope": [
+   "docs/optimization/verify_wave1.md",
+   "data/experiments/opt_verify_wave1_2026-11-26.json"
+  ],
+  "method": "read commits and docs, re-run the repo gates, independently reproduce the B2 benchmark in an isolated work dir, and drive the real pages with an independent Playwright/Edge probe at 1440x900, 1280x800 and reduced-motion",
+  "no_product_changes": true
+ },
+ "commands": [
+  {
+   "name": "full test suite",
+   "command": "python -m pytest tests -q",
+   "exit_code": 0,
+   "result": "1094 passed, 10 skipped in 102.72s"
+  },
+  {
+   "name": "artifact verifier",
+   "command": "python scripts/verify_artifacts.py",
+   "exit_code": 0,
+   "result": "[OK] all 137 checks passed"
+  },
+  {
+   "name": "evidence audit",
+   "command": "python scripts/audit_evidence.py",
+   "exit_code": 0,
+   "result": "paths checked: 265 / missing: 0 / shots registered: 136; unregistered: 16"
+  },
+  {
+   "name": "frontend audit",
+   "command": "python scripts/audit_frontend.py http://127.0.0.1:8013",
+   "exit_code": 0,
+   "result": "58/58 checks passed; includes report_j_enter_esc, report_slash, palette_opens_ctrl_k; console errors 0; no overflow at 1280"
+  },
+  {
+   "name": "end-to-end smoke",
+   "command": "python scripts/e2e_smoke.py --base http://127.0.0.1:8013 --pdf data/real_corpus/hanspub_152575.pdf --out %TEMP%/t36_e2e.json",
+   "exit_code": 0,
+   "result": {
+    "passed": 14,
+    "failed": [],
+    "job": "4c2e857565fa",
+    "checks": 14
+   }
+  },
+  {
+   "name": "B2 independent benchmark (isolated work dir)",
+   "command": "B2_BENCH_WORK=%TEMP%/t36_b2bench python tests/b2_cache_bench.py --json %TEMP%/t36_b2bench.json",
+   "exit_code": 0,
+   "result": {
+    "cold_ms": 6614.1,
+    "hot_ms": 98.1,
+    "speedup_hot_vs_cold": 67.4,
+    "retry_calls": [
+     "hanspub_152573.pdf"
+    ],
+    "retry_only_failed": true,
+    "retry_first_ms": 49.2,
+    "retry_rerun_ms": 34.6
+   }
+  },
+  {
+   "name": "targeted tests",
+   "command": "python -m pytest tests/test_b2_cache.py tests/test_citemap_e2.py tests/test_web.py -q",
+   "exit_code": 0,
+   "result": "test_b2_cache.py 9 passed; test_citemap_e2.py 4 passed; test_web.py 91 passed"
+  },
+  {
+   "name": "independent page probe",
+   "command": "python %TEMP%/t36_pages.py",
+   "exit_code": 0,
+   "result": {
+    "checks": 82,
+    "passed": 82,
+    "failed": 0
+   }
+  }
+ ],
+ "items": {
+  "B2": {
+   "verdict": "pass",
+   "commit": "de6d351",
+   "deliverables": [
+    "src/citeguard/jobs.py",
+    "src/citeguard/pipeline.py",
+    "tests/test_b2_cache.py",
+    "tests/b2_cache_bench.py",
+    "docs/optimization/b2_cache.md",
+    "data/experiments/opt_b2_cache_2026-11-26.json"
+   ],
+   "scope_compliance": {
+    "files_changed": 6,
+    "frontend_touched": false,
+    "web_app_py_touched": false,
+    "src_other_modules_touched": false
+   },
+   "tests": {
+    "tests/test_b2_cache.py": "9 passed"
+   },
+   "contract_checks": {
+    "cache_key_covers_versions": true,
+    "versions": {
+     "analysis": "analyze_text-v1",
+     "prompt": "10-fe9d721c",
+     "audit": "on:auto",
+     "judge_base": "https://api.deepseek.com/v1",
+     "judge_model": "deepseek-chat",
+     "judge_available": false,
+     "offline": false
+    },
+    "failures_not_cached": true,
+    "retry_only_failed": true,
+    "retry_item_forces_single": true,
+    "hot_not_reported_as_cold_start": true
+   },
+   "independent_reproduction": {
+    "cold_ms": 6614.1,
+    "cold_per_item_ms": {
+     "hanspub_152572.pdf": 2690,
+     "hanspub_152573.pdf": 2255,
+     "hanspub_152574.pdf": 1609
+    },
+    "cold_sources": {
+     "hanspub_152572.pdf": "processed",
+     "hanspub_152573.pdf": "processed",
+     "hanspub_152574.pdf": "processed"
+    },
+    "hot_ms": 98.1,
+    "hot_per_item_ms": {
+     "hanspub_152572.pdf": 19,
+     "hanspub_152573.pdf": 20,
+     "hanspub_152574.pdf": 20
+    },
+    "hot_sources": {
+     "hanspub_152572.pdf": "cache",
+     "hanspub_152573.pdf": "cache",
+     "hanspub_152574.pdf": "cache"
+    },
+    "hot_speedup_vs_cold": 67.4,
+    "t32_reported_speedup": 64.44,
+    "retry": {
+     "calls": [
+      "hanspub_152573.pdf"
+     ],
+     "only_failed": true,
+     "attempts": {
+      "hanspub_152572.pdf": 1,
+      "hanspub_152573.pdf": 2,
+      "hanspub_152574.pdf": 1
+     },
+     "final_stats": {
+      "total": 3,
+      "done": 3,
+      "error": 0,
+      "pending": 0,
+      "cache_hits": 0,
+      "processed": 3,
+      "reused": 0
+     },
+     "first_ms": 49.2,
+     "rerun_ms": 34.6
+    },
+    "single_retry": {
+     "label": "one row action retries exactly one item",
+     "target": "hanspub_152574.pdf",
+     "calls_after": [
+      "hanspub_152574.pdf"
+     ],
+     "only_target": true,
+     "attempts": {
+      "hanspub_152572.pdf": 1,
+      "hanspub_152573.pdf": 1,
+      "hanspub_152574.pdf": 2
+     },
+     "final_statuses": {
+      "hanspub_152572.pdf": "done",
+      "hanspub_152573.pdf": "done",
+      "hanspub_152574.pdf": "done"
+     }
+    },
+    "bench_versions": {
+     "analysis": "analyze_text-v1",
+     "prompt": "10-fe9d721c",
+     "audit": "on:auto",
+     "judge_base": "https://api.deepseek.com/v1",
+     "judge_model": "deepseek-chat",
+     "judge_available": false,
+     "offline": false
+    }
+   },
+   "evidence": [
+    "data/experiments/opt_b2_cache_2026-11-26.json",
+    "docs/optimization/b2_cache.md"
+   ],
+   "boundaries": [
+    "cold/hot timing is machine-specific and only for this machine (CPU, no GPU)",
+    "offline analysis: no online verification and no support judge; parse+rule verdicts only",
+    "the retry failure is injected once to test recovery, not a real network incident",
+    "hot numbers must not be reported as cold-start performance"
+   ],
+   "findings": [
+    "F2"
+   ]
+  },
+  "E2": {
+   "verdict": "pass",
+   "commit": "5dfe3c2",
+   "deliverables": [
+    "web/static/js/citemap.js",
+    "web/templates/citemap.html",
+    "web/static/css/citemap.css",
+    "tests/test_citemap_e2.py",
+    "docs/optimization/e2_citemap_usage.md",
+    "data/experiments/opt_e2_citemap_usage.json",
+    "4 screenshots (1440x2171, 1280x2199)"
+   ],
+   "scope_compliance": {
+    "files_changed": 10,
+    "web_app_py_touched": false,
+    "src_citeguard_touched": false
+   },
+   "tests": {
+    "tests/test_citemap_e2.py": "4 passed"
+   },
+   "independent_probe": {
+    "url": "/citemap?topic=ai_education",
+    "viewports": [
+     "1440x900",
+     "1280x800"
+    ],
+    "checks": {
+     "no_horizontal_overflow": {
+      "sw": 1440,
+      "cw": 1440,
+      "overflowPx": 0
+     },
+     "e2_guide_steps": {
+      "steps": 3,
+      "legend": 5,
+      "papers": "共 15 篇 · 点击查看证据",
+      "claims": 4,
+      "guide": true,
+      "noteHidden": true
+     },
+     "e2_legend": 5,
+     "e2_papers_15": "共 15 篇 · 点击查看证据",
+     "e2_claim_buttons": 4,
+     "e2_claim_focus": {
+      "status": "焦点：EDU-C1",
+      "human": 4,
+      "machine": 4,
+      "none": 2
+     },
+     "e2_fulltext_filter": {
+      "papers": "共 15 篇 · 点击查看证据",
+      "items": 6,
+      "note": "仅全文证据：当前 6/15 篇论文有全文证据；其余论文已隐藏。机器全文证据仍未人审，不是人工金标。",
+      "noteHidden": false,
+      "human": 0,
+      "machine": 4,
+      "pressed": "true"
+     }
+    },
+    "overflow_px": {
+     "1440x900": 0,
+     "1280x800": 0
+    },
+    "console_errors": [
+     [],
+     [],
+     []
+    ],
+    "failed_requests": [
+     [],
+     [],
+     []
+    ]
+   },
+   "evidence": [
+    "data/experiments/opt_e2_citemap_usage.json",
+    "docs/optimization/e2_citemap_usage.md"
+   ],
+   "boundaries": [
+    "machine candidates are not human evidence",
+    "'not found' does not mean 'does not exist'",
+    "no mobile screenshots",
+    "topic switch changes the queue, not the verdict"
+   ],
+   "findings": [
+    "F1"
+   ]
+  },
+  "G2": {
+   "verdict": "pass",
+   "commit": "69f312e",
+   "deliverables": [
+    "web/static/js/report.js",
+    "web/templates/report.html",
+    "web/static/css/report_reader.css (new)",
+    "data/experiments/opt_g2_reader.json",
+    "docs/optimization/g2_reader.md",
+    "6 screenshots (1440x900 x5, 1280x800 x1)"
+   ],
+   "scope_compliance": {
+    "files_changed": 11,
+    "web_app_py_touched": false,
+    "src_citeguard_touched": false
+   },
+   "tests": {
+    "tests/test_web.py": "91 passed",
+    "g2_contract_tests": [
+     "test_report_reader_ships_minimap_and_severity_filter",
+     "test_report_reader_zoom_and_existing_controls_are_preserved"
+    ]
+   },
+   "independent_probe": {
+    "url": "/report/4c2e857565fa",
+    "viewports": [
+     "1440x900",
+     "1280x800"
+    ],
+    "checks": {
+     "no_horizontal_overflow": {
+      "sw": 1440,
+      "cw": 1440,
+      "overflowPx": 0
+     },
+     "g2_minimap_renders": {
+      "cells": 15,
+      "rows": 4,
+      "sevOptions": 4,
+      "minimap": true,
+      "jump": true,
+      "zoom": true
+     },
+     "g2_severity_control": 4,
+     "g2_jump_controls": {
+      "cells": 15,
+      "rows": 4,
+      "sevOptions": 4,
+      "minimap": true,
+      "jump": true,
+      "zoom": true
+     },
+     "g2_severity_filters": {
+      "rows": 3,
+      "cells": 3,
+      "sev": "medium"
+     },
+     "g2_page_jump_paginates": {
+      "progress": "第 2 / 4 页 · 5–8 / 15 条"
+     },
+     "g2_page_viewer_opens": {
+      "open": true,
+      "title": "第 2 页 · 页内证据",
+      "img": true,
+      "quote": "正文引注句：变了消费者的购物体验与交互方式[1]"
+     },
+     "g2_zoom_150": {
+      "label": "150%",
+      "width": "150%"
+     },
+     "g2_item_jump_marks": {
+      "drawer": true,
+      "active": true,
+      "cards": 4,
+      "viewer": false
+     },
+     "g2_keyboard_j": {
+      "active": 1
+     }
+    },
+    "console_errors": [
+     [],
+     [],
+     []
+    ],
+    "failed_requests": [
+     [],
+     [],
+     []
+    ]
+   },
+   "evidence": [
+    "data/experiments/opt_g2_reader.json",
+    "docs/optimization/g2_reader.md"
+   ],
+   "boundaries": [
+    "minimap draws the current filtered set only",
+    "severity is reading priority, not evidence quality",
+    "page jump paginates the reference list; in-page evidence opens from a citation page button",
+    "zoom 50%-250%"
+   ],
+   "findings": [
+    "F1"
+   ]
+  },
+  "G4": {
+   "verdict": "pass",
+   "commit": "068cff7",
+   "deliverables": [
+    "web/templates/base.html",
+    "web/static/js/app.js",
+    "web/static/css/refresh.css",
+    "tests/test_web.py (+159)",
+    "docs/optimization/g4_micro_interactions.md",
+    "data/experiments/opt_g4_micro_interactions_2026-11-26.json",
+    "6 screenshots (1440x900 x3, 1280x800 x3)"
+   ],
+   "scope_compliance": {
+    "files_changed": 12,
+    "web_app_py_touched": false,
+    "src_citeguard_touched": false
+   },
+   "tests": {
+    "tests/test_web.py": "91 passed",
+    "g4_contract_tests": [
+     "test_base_ships_g4_motion_palette_and_toast_hooks",
+     "test_app_js_exposes_unified_microinteraction_contract",
+     "test_refresh_css_defines_g4_tokens_and_reduced_motion",
+     "test_palette_keeps_original_commands_after_grouping",
+     "test_g4_assets_do_not_add_remote_dependencies"
+    ]
+   },
+   "independent_probe": {
+    "url": "/workspace",
+    "viewports": [
+     "1440x900",
+     "1280x800",
+     "1440x900 reduced-motion"
+    ],
+    "checks": {
+     "no_horizontal_overflow": {
+      "sw": 1440,
+      "cw": 1440,
+      "overflowPx": 0
+     },
+     "g4_hooks_present": null,
+     "palette_opens_ctrl_k": {
+      "hidden": false,
+      "expanded": null,
+      "options": 16,
+      "count": "16 个入口",
+      "active": "palette-input",
+      "bodyOverflow": "hidden"
+     },
+     "palette_locks_scroll": "hidden",
+     "palette_filters": {
+      "count": "1 个入口",
+      "options": 1
+     },
+     "palette_restores_focus": {
+      "hidden": true,
+      "focus": "palette-open"
+     },
+     "toast_renders": {
+      "shown": true,
+      "role": "status",
+      "text": "t36 probe toast×",
+      "close": false
+     },
+     "toast_closes": {
+      "hidden": false,
+      "opacity": 0
+     },
+     "skeleton_renders_and_clears": {
+      "rows": 4,
+      "after": 0
+     },
+     "motion_attribute": "full"
+    },
+    "console_errors": [
+     [],
+     [],
+     []
+    ],
+    "failed_requests": [
+     [],
+     [],
+     []
+    ]
+   },
+   "evidence": [
+    "data/experiments/opt_g4_micro_interactions_2026-11-26.json",
+    "docs/optimization/g4_micro_interactions.md"
+   ],
+   "boundaries": [
+    "micro-interactions do not change business verdicts",
+    "animations honour prefers-reduced-motion",
+    "no mobile layout"
+   ],
+   "findings": [
+    "F1"
+   ]
+  }
+ },
+ "findings": [
+  {
+   "id": "F1",
+   "severity": "low",
+   "items": [
+    "E2",
+    "G2",
+    "G4"
+   ],
+   "title": "16 Wave1 screenshots are not registered in the evidence index",
+   "detail": "audit_evidence.py reports shots registered 136, unregistered 16; the 16 are exactly the Wave1 screenshots (E2 4 + G2 6 + G4 6). Files exist and paths resolve (missing: 0); docs/evidence_index.md was not updated.",
+   "evidence": [
+    "python scripts/audit_evidence.py -> unregistered: 16",
+    "docs/evidence_index.md"
+   ],
+   "responsible": "lead / evidence index (file outside this verification's write scope)",
+   "recommendation": "register the 16 screenshot paths in docs/evidence_index.md and re-run audit_evidence.py",
+   "blocking": false
+  },
+  {
+   "id": "F2",
+   "severity": "medium",
+   "items": [
+    "B2"
+   ],
+   "title": "Result-cache key excludes the local library option while analysis uses it",
+   "detail": "src/citeguard/pipeline.py:214 builds key_options without 'library', but the analysis consumes the library at pipeline.py:232,319,324,358-359 (local_library_verdict, library_entries, library_hits). Same file + options + versions with a changed local library can therefore return a stale report with outdated local-library verdicts. docs/optimization/b2_cache.md does not state this boundary. B2 is not wired into the web yet, so Wave1 acceptance is unaffected.",
+   "evidence": [
+    "src/citeguard/pipeline.py:214",
+    "src/citeguard/pipeline.py:232",
+    "src/citeguard/pipeline.py:319",
+    "src/citeguard/pipeline.py:324",
+    "src/citeguard/pipeline.py:358-359",
+    "docs/optimization/b2_cache.md"
+   ],
+   "responsible": "B2 owner",
+   "recommendation": "include a library fingerprint (size+mtime+sha of LIBRARY_FILE) in the cache key, or document that library changes require invalidate(), before wiring the cache into the web",
+   "blocking": false
+  },
+  {
+   "id": "F3",
+   "severity": "info",
+   "items": [
+    "B2"
+   ],
+   "title": "hot-vs-cold speedup is not cold-start performance",
+   "detail": "t32 reports 64.44x; the independent bench reproduces 67.4x (6614.1 ms -> 98.1 ms on 3 different PDFs). Cold start is still ~2.2 s/document on CPU offline, which the doc states explicitly.",
+   "evidence": [
+    "docs/optimization/b2_cache.md",
+    "%TEMP%/t36_b2bench.json"
+   ],
+   "responsible": "B2 owner",
+   "recommendation": "keep quoting cold and hot separately in all external material",
+   "blocking": false
+  }
+ ],
+ "summary": {
+  "verdicts": {
+   "B2": "pass",
+   "E2": "pass",
+   "G2": "pass",
+   "G4": "pass"
+  },
+  "pass": 4,
+  "fail": 0,
+  "overall": "pass",
+  "findings_count": {
+   "medium": 1,
+   "low": 1,
+   "info": 1
+  },
+  "blocking_findings": 0,
+  "probe": {
+   "checks": 82,
+   "passed": 82,
+   "failed": 0
+  },
+  "notes": "All four Wave1 items met their stated scope, test, evidence and boundary requirements. F2 is a correctness/documentation risk for B2 before it is wired into the web; F1 is an evidence-index bookkeeping gap; neither blocks this wave."
+ }
+}
