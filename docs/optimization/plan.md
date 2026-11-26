@@ -33,3 +33,5 @@
 - 历史页：queued/running 时每 3 秒刷新状态与百分比，显示后台继续提示；终态自动刷新出报告/重跑入口。
 - 证据：`docs/evidence/shots/opt-B1-history-live-1.7.39-1440.png`、`...-1280.png`、`data/experiments/opt_b1_resume_2026-11-26.json`。
 - 边界：服务重启后运行线程不会自动续跑，仍需要点击“重新运行”；B1 保证“可判断/可重跑/退出页面不丢”，不是进程级续跑。
+
+- [x] B3 模型不可用降级：`/support` 与 `/batch` 显示未配置判官的原因条、按钮禁用；无判官时报告保留 `not_checked`，不伪造结论。证据 `data/experiments/opt_b3_judge_down_2026-11-26.json`、截图 `opt-B3-*.png`。
