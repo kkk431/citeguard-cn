@@ -10,7 +10,11 @@
   <p class="hint" style="margin-top:8px">库内 {{ count }} 条 · {{ with_abstract }} 条带摘要 · {{ sources|length }} 种来源格式</p>
   {% if count %}
   <div class="panel" style="margin-top:16px">
-    <div class="section-head"><h2>覆盖构成</h2><span class="hint">这批题录里有多少字段可直接参与比对</span></div>
+    <div class="section-head">
+      <h2>覆盖构成</h2>
+      <span class="hint">这批题录里有多少字段可直接参与比对</span>
+      <button type="button" class="btn btn-ghost" id="library-gaps-btn" style="margin-left:auto">待补清单</button>
+    </div>
     <div class="stats stats-4">
       <div class="stat"><b>{{ coverage.doi_pct }}%</b><span>带 DOI（{{ coverage.doi }}/{{ count }}）</span></div>
       <div class="stat"><b>{{ coverage.abstract_pct }}%</b><span>带摘要（{{ with_abstract }}/{{ count }}）</span></div>
@@ -153,6 +157,17 @@
     <div class="lib-modal-head"><h2 id="dupes-modal-title">可能的重复题录</h2><button type="button" class="icon-btn" data-close="dupes" aria-label="关闭">×</button></div>
     <div id="dupes-body"></div>
     <div class="lib-modal-foot"><button type="button" class="btn btn-ghost" data-close="dupes">关闭</button></div>
+  </div>
+</div>
+<div class="lib-modal" id="library-gaps-modal" hidden>
+  <div class="lib-modal-backdrop" data-close="gaps"></div>
+  <div class="lib-modal-card wide" role="dialog" aria-modal="true" aria-labelledby="gaps-modal-title">
+    <div class="lib-modal-head"><h2 id="gaps-modal-title">待补清单</h2><button type="button" class="icon-btn" data-close="gaps" aria-label="关闭">×</button></div>
+    <div id="gaps-body"></div>
+    <div class="lib-modal-foot">
+      <a class="btn btn-ghost" id="gaps-download" href="/api/library/gaps.csv">下载 CSV</a>
+      <button type="button" class="btn btn-ghost" data-close="gaps">关闭</button>
+    </div>
   </div>
 </div>
 {% endblock %}

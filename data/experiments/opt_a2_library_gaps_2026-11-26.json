@@ -1,0 +1,85 @@
+{
+  "generated_at": "2026-11-26",
+  "source": "/api/library/gaps + real local library",
+  "summary": {
+    "total": 28,
+    "complete": 9,
+    "complete_pct": 32.1,
+    "missing": {
+      "doi": 6,
+      "year": 2,
+      "venue": 0,
+      "pages": 6,
+      "abstract": 14
+    },
+    "by_language": {
+      "zh": {
+        "total": 17,
+        "complete": 9,
+        "missing": {
+          "doi": 4,
+          "year": 2,
+          "venue": 0,
+          "pages": 5,
+          "abstract": 4
+        }
+      },
+      "en": {
+        "total": 11,
+        "complete": 0,
+        "missing": {
+          "doi": 2,
+          "year": 0,
+          "venue": 0,
+          "pages": 1,
+          "abstract": 10
+        }
+      },
+      "unknown": {
+        "total": 0,
+        "complete": 0,
+        "missing": {
+          "doi": 0,
+          "year": 0,
+          "venue": 0,
+          "pages": 0,
+          "abstract": 0
+        }
+      }
+    },
+    "sample_total": 19,
+    "csv_url": "/api/library/gaps.csv"
+  },
+  "ui": [
+    {
+      "width": 1440,
+      "height": 1000,
+      "summary": "共 28 条；字段完整 9 条（32.1%），待补 19 条。",
+      "language_table": "语言\t条目\t完整\t缺 DOI\t缺年份\t缺摘要\n中文\t17\t9\t4\t2\t4\n英文\t11\t0\t2\t0\t10",
+      "sample_rows": 12,
+      "csv": {
+        "status": 200,
+        "type": "text/csv; charset=utf-8",
+        "text": "序号,题名,作者,年份,期刊/会议,DOI,语言,缺失字段\r\n1,我国雾-霾成因及其治理的思考,YuanQin YANG、JianNong QUAN、Yaqia"
+      },
+      "horizontal_overflow": false,
+      "console_errors": [],
+      "screenshot": "docs\\evidence\\shots\\opt-A2-library-gaps-1.7.37-1440.png"
+    },
+    {
+      "width": 1280,
+      "height": 900,
+      "summary": "共 28 条；字段完整 9 条（32.1%），待补 19 条。",
+      "language_table": "语言\t条目\t完整\t缺 DOI\t缺年份\t缺摘要\n中文\t17\t9\t4\t2\t4\n英文\t11\t0\t2\t0\t10",
+      "sample_rows": 12,
+      "csv": {
+        "status": 200,
+        "type": "text/csv; charset=utf-8",
+        "text": "序号,题名,作者,年份,期刊/会议,DOI,语言,缺失字段\r\n1,我国雾-霾成因及其治理的思考,YuanQin YANG、JianNong QUAN、Yaqia"
+      },
+      "horizontal_overflow": false,
+      "console_errors": [],
+      "screenshot": "docs\\evidence\\shots\\opt-A2-library-gaps-1.7.37-1280.png"
+    }
+  ]
+}

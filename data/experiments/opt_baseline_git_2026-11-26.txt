@@ -1,0 +1,27 @@
+﻿ M data/experiments/e2e_smoke.json
+ M data/experiments/frontend_audit.json
+?? data/experiments/a3b_scripts/enrich_gpu_json.py
+?? data/experiments/a3b_scripts/longcite_build_llamacpp.sh
+?? data/experiments/a3b_scripts/longcite_inspect_build.sh
+?? data/experiments/a3b_scripts/longcite_launch_run.sh
+?? data/experiments/a3b_scripts/longcite_probe.sh
+?? data/experiments/a3b_scripts/longcite_probe2.sh
+?? data/experiments/a3b_scripts/longcite_run_gpu.sh
+?? data/experiments/a3b_scripts/longcite_start_server.sh
+?? data/experiments/a3b_scripts/replay_t29_check.py
+?? data/experiments/longcite_spike_lead.json
+?? data/experiments/opt_baseline_git_2026-11-26.txt
+?? docs/autonomous_optimization_master_prompt.md
+?? docs/optimization_master_prompt.md
+?? scripts/build_evidence_pdf.py
+?? scripts/build_video_product.py
+?? scripts/build_video_product_dynamic.py
+?? scripts/build_video_product_final.py
+?? scripts/build_video_product_timelapse.py
+?? scripts/build_video_v2.py
+?? scripts/capture_deck10_fresh.py
+?? scripts/capture_ppt_open_assets.py
+?? scripts/record_video_v2.py
+?? scripts/tts_rebuild.py
+?? scripts/video_v2_plan.json
+64bca7b docs: fix Hugging Face model links and record Docker 1.7.36 verification

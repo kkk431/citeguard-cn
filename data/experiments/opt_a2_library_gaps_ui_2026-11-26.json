@@ -1,0 +1,32 @@
+[
+  {
+    "width": 1440,
+    "height": 1000,
+    "summary": "共 28 条；字段完整 9 条（32.1%），待补 19 条。",
+    "language_table": "语言\t条目\t完整\t缺 DOI\t缺年份\t缺摘要\n中文\t17\t9\t4\t2\t4\n英文\t11\t0\t2\t0\t10",
+    "sample_rows": 12,
+    "csv": {
+      "status": 200,
+      "type": "text/csv; charset=utf-8",
+      "text": "序号,题名,作者,年份,期刊/会议,DOI,语言,缺失字段\r\n1,我国雾-霾成因及其治理的思考,YuanQin YANG、JianNong QUAN、Yaqia"
+    },
+    "horizontal_overflow": false,
+    "console_errors": [],
+    "screenshot": "docs\\evidence\\shots\\opt-A2-library-gaps-1.7.38-1440.png"
+  },
+  {
+    "width": 1280,
+    "height": 900,
+    "summary": "共 28 条；字段完整 9 条（32.1%），待补 19 条。",
+    "language_table": "语言\t条目\t完整\t缺 DOI\t缺年份\t缺摘要\n中文\t17\t9\t4\t2\t4\n英文\t11\t0\t2\t0\t10",
+    "sample_rows": 12,
+    "csv": {
+      "status": 200,
+      "type": "text/csv; charset=utf-8",
+      "text": "序号,题名,作者,年份,期刊/会议,DOI,语言,缺失字段\r\n1,我国雾-霾成因及其治理的思考,YuanQin YANG、JianNong QUAN、Yaqia"
+    },
+    "horizontal_overflow": false,
+    "console_errors": [],
+    "screenshot": "docs\\evidence\\shots\\opt-A2-library-gaps-1.7.38-1280.png"
+  }
+]

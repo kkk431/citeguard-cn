@@ -25,6 +25,9 @@
   const tagEntryTitle = document.getElementById("tag-entry-title");
   const dupesModal = document.getElementById("library-dupes-modal");
   const dupesBody = document.getElementById("dupes-body");
+  const gapsBtn = document.getElementById("library-gaps-btn");
+  const gapsModal = document.getElementById("library-gaps-modal");
+  const gapsBody = document.getElementById("gaps-body");
   const previewEl = document.getElementById("library-preview");
   const previewSummary = document.getElementById("library-preview-summary");
   const previewStats = document.getElementById("library-preview-stats");
@@ -618,9 +621,83 @@
     if (tagInput) tagInput.focus();
   }
 
+  function gapLabel(field) {
+    return ({ doi: "缺 DOI", year: "缺年份", venue: "缺期刊/会议", pages: "缺页码", abstract: "缺摘要" })[field] || field;
+  }
+
+  function appendGapChips(container, missingFields) {
+    missingFields.forEach(function (field) {
+      const chip = document.createElement("span");
+      chip.className = "lib-gap-chip";
+      chip.textContent = gapLabel(field);
+      container.appendChild(chip);
+    });
+  }
+
+  async function openGaps() {
+    if (!gapsModal || !gapsBody) return;
+    gapsBody.textContent = "正在统计…";
+    gapsModal.hidden = false;
+    try {
+      const data = await window.CiteGuard.getJSON("/api/library/gaps");
+      gapsBody.textContent = "";
+      const summary = document.createElement("p");
+      summary.className = "hint";
+      summary.textContent = "共 " + data.total + " 条；字段完整 " + data.complete + " 条（" + data.complete_pct + "%），待补 " + (data.total - data.complete) + " 条。";
+      gapsBody.appendChild(summary);
+
+      const table = document.createElement("table");
+      table.className = "lib-gap-table";
+      const head = table.insertRow();
+      ["语言", "条目", "完整", "缺 DOI", "缺年份", "缺摘要"].forEach(function (text) {
+        const th = document.createElement("th");
+        th.textContent = text;
+        head.appendChild(th);
+      });
+      [["zh", "中文"], ["en", "英文"], ["unknown", "未识别"]].forEach(function (pair) {
+        const bucket = data.by_language[pair[0]] || { total: 0, complete: 0, missing: {} };
+        if (!bucket.total) return;
+        const row = table.insertRow();
+        [pair[1], bucket.total, bucket.complete, bucket.missing.doi || 0, bucket.missing.year || 0, bucket.missing.abstract || 0].forEach(function (value) {
+          const cell = row.insertCell();
+          cell.textContent = value;
+        });
+      });
+      gapsBody.appendChild(table);
+
+      const title = document.createElement("p");
+      title.className = "hint";
+      title.style.margin = "14px 0 6px";
+      title.textContent = data.sample_total ? "优先补这些（显示 " + data.samples.length + " / " + data.sample_total + " 条；完整清单可下载 CSV）" : "所有条目的字段都完整。";
+      gapsBody.appendChild(title);
+      data.samples.forEach(function (item) {
+        const row = document.createElement("div");
+        row.className = "lib-gap-row";
+        const main = document.createElement("div");
+        main.className = "lib-gap-main";
+        const name = document.createElement("b");
+        name.textContent = item.title || "（无题名）";
+        main.appendChild(name);
+        const meta = document.createElement("p");
+        meta.className = "hint";
+        meta.textContent = [item.authors, item.year, item.venue, item.doi].filter(Boolean).join(" · ") || "无作者/年份/来源/DOI";
+        main.appendChild(meta);
+        row.appendChild(main);
+        const chips = document.createElement("div");
+        chips.className = "lib-gap-chips";
+        appendGapChips(chips, item.missing);
+        row.appendChild(chips);
+        gapsBody.appendChild(row);
+      });
+    } catch (err) {
+      gapsBody.textContent = "统计失败：" + err.message;
+    }
+  }
+
   function closeLibModal(kind) {
     if (kind === "tag" && tagModal) tagModal.hidden = true;
     if (kind === "dupes" && dupesModal) dupesModal.hidden = true;
+    if (kind === "gaps" && gapsModal) gapsModal.hidden = true;
   }
 
   async function saveTags() {
@@ -708,6 +785,7 @@
 
 
   if (dupesBtn) dupesBtn.addEventListener("click", checkDuplicates);
+  if (gapsBtn) gapsBtn.addEventListener("click", openGaps);
   if (tagSave) tagSave.addEventListener("click", saveTags);
   if (tagInput) {
     tagInput.addEventListener("keydown", function (e) {
@@ -719,7 +797,7 @@
     el.addEventListener("click", function () { closeLibModal(el.getAttribute("data-close")); });
   });
   document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") { closeLibModal("tag"); closeLibModal("dupes"); }
+    if (e.key === "Escape") { closeLibModal("tag"); closeLibModal("dupes"); closeLibModal("gaps"); }
   });
 
 })();

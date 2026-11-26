@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 220,
+  "paths_checked": 224,
   "missing": [],
   "rows": [
     {
@@ -969,18 +969,38 @@
       "exists": true
     },
     {
+      "evidence": "E112",
+      "path": "docs/evidence/shots/opt-A2-library-gaps-1.7.38-1440.png",
+      "exists": true
+    },
+    {
+      "evidence": "E112",
+      "path": "docs/evidence/shots/opt-A2-library-gaps-1.7.38-1280.png",
+      "exists": true
+    },
+    {
+      "evidence": "E112",
+      "path": "data/experiments/opt_a2_library_gaps_2026-11-26.json",
+      "exists": true
+    },
+    {
+      "evidence": "E112",
+      "path": "data/experiments/opt_a2_library_gaps_ui_2026-11-26.json",
+      "exists": true
+    },
+    {
       "evidence": "E109",
       "path": "docs/evidence/shots/phase-70-live-page-probe-1.7.35.png",
       "exists": true
     },
     {
       "evidence": "E111",
-      "path": "docs/evidence/shots/opt-A1-library-import-preview-1.7.36-1440.png",
+      "path": "docs/evidence/shots/opt-A1-library-import-preview-1.7.37-1440.png",
       "exists": true
     },
     {
       "evidence": "E111",
-      "path": "docs/evidence/shots/opt-A1-library-import-preview-1.7.36-1280.png",
+      "path": "docs/evidence/shots/opt-A1-library-import-preview-1.7.37-1280.png",
       "exists": true
     },
     {
@@ -994,6 +1014,6 @@
       "exists": true
     }
   ],
-  "shots_registered": 106,
+  "shots_registered": 108,
   "shots_unregistered": []
 }

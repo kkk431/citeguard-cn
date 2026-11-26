@@ -1132,10 +1132,13 @@ def test_library_duplicates_api_groups_and_merges(client):
 
 
 def test_library_page_exposes_tags_and_merge(client):
+    client.post("/api/library/add", json={"title": "页面测试条目", "authors": "张三", "year": "2024"})
     html = client.get("/library").text
     assert 'id="library-dupes-btn"' in html
     assert 'id="library-tag-modal"' in html
-    assert "标签" in html
+    assert 'id="library-gaps-btn"' in html
+    assert 'id="library-gaps-modal"' in html
+    assert "待补清单" in html
 
 def test_live_check_endpoint_returns_contract(plain_client, monkeypatch):
     from citeguard import live_check as live_mod

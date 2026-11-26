@@ -1,3 +1,18 @@
+## [1.7.38] - 2026-11-26
+
+### Added
+- 题录库覆盖缺口看板：`GET /api/library/gaps` 按语言统计条目/完整/缺 DOI/缺年份/缺摘要，并列出优先补的样例；题录库「待补清单」模态显示。
+- `GET /api/library/gaps.csv` 导出全部条目的缺失字段（UTF-8 BOM），便于在 Excel 里逐条补 DOI、年份、页码、摘要。
+- 实测库内 28 条：完整 9 条（32.1%）；中文 17 条（缺 DOI 4、缺年份 2、缺摘要 4），英文 11 条（缺 DOI 2、缺摘要 10）。
+
+### Tests
+- `pytest tests -q`：**1058 passed, 10 skipped**；`verify_artifacts` 137/137。
+- 新增 `tests/test_library_gaps.py`（按语言/缺字段统计、CSV 全量导出、空库不崩）。
+
+### Evidence
+- `docs/evidence/shots/opt-A2-library-gaps-1.7.38-1440.png`、`...-1280.png`；E112。
+- `data/experiments/opt_a2_library_gaps_2026-11-26.json`、`opt_a2_library_gaps_ui_2026-11-26.json`。
+
 ## [1.7.37] - 2026-11-26
 
 ### Added
@@ -8,7 +23,7 @@
 - `pytest tests -q`：**1056 passed, 10 skipped**；`verify_artifacts` 137/137；`audit_evidence` 220 路径 / 0 缺失 / 106 截图。
 
 ### Evidence
-- `docs/evidence/shots/opt-A1-library-import-preview-1.7.36-1440.png`、`...-1280.png`；E111。
+- `docs/evidence/shots/opt-A1-library-import-preview-1.7.37-1440.png`、`...-1280.png`；E111。
 
 ## [1.7.36] - 2026-11-18
 

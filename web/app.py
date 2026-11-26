@@ -6,6 +6,8 @@ Run (from the citeguard/ directory):
 from __future__ import annotations
 
 import asyncio
+import csv
+import io
 import os
 import json
 from concurrent.futures import ThreadPoolExecutor
@@ -372,7 +374,7 @@ def _library_preview(entries: list[LibraryEntry], library: Library) -> dict:
             samples.append(
                 {
                     "title": entry.title,
-                    "authors": entry.authors,
+                    "authors": _authors_text(entry.authors),
                     "year": entry.year,
                     "venue": entry.venue,
                     "doi": entry.doi,
@@ -389,6 +391,101 @@ def _library_preview(entries: list[LibraryEntry], library: Library) -> dict:
         "formats": formats,
         "samples": samples,
     }
+
+
+_GAP_FIELDS = ("doi", "year", "venue", "pages", "abstract")
+_CJK_RE = re.compile(r"[\u4e00-\u9fff]")
+
+
+def _entry_missing_fields(entry) -> list[str]:
+    missing = []
+    for field in _GAP_FIELDS:
+        value = getattr(entry, field, None)
+        if not (str(value).strip() if value is not None else ""):
+            missing.append(field)
+    return missing
+
+
+def _entry_language(entry) -> str:
+    title = str(getattr(entry, "title", "") or "")
+    if _CJK_RE.search(title):
+        return "zh"
+    if re.search(r"[A-Za-z]", title):
+        return "en"
+    return "unknown"
+
+
+def _authors_text(value) -> str:
+    if isinstance(value, (list, tuple)):
+        return "、".join(str(part).strip() for part in value if str(part).strip())
+    return str(value or "").strip()
+
+
+def _library_gaps_payload(library) -> dict:
+    total = len(library.entries)
+    missing = {field: 0 for field in _GAP_FIELDS}
+    by_language = {
+        key: {"total": 0, "complete": 0, "missing": {field: 0 for field in _GAP_FIELDS}}
+        for key in ("zh", "en", "unknown")
+    }
+    samples = []
+    for position, entry in enumerate(library.entries):
+        absent = _entry_missing_fields(entry)
+        for field in absent:
+            missing[field] += 1
+        language = _entry_language(entry)
+        bucket = by_language[language]
+        bucket["total"] += 1
+        if not absent:
+            bucket["complete"] += 1
+        for field in absent:
+            bucket["missing"][field] += 1
+        if absent:
+            samples.append(
+                {
+                    "index": position,
+                    "title": entry.title,
+                    "authors": _authors_text(entry.authors),
+                    "year": entry.year,
+                    "venue": entry.venue,
+                    "doi": entry.doi,
+                    "language": language,
+                    "missing": absent,
+                }
+            )
+    samples.sort(key=lambda item: (-len(item["missing"]), item["index"]))
+    complete = sum(1 for entry in library.entries if not _entry_missing_fields(entry))
+    return {
+        "total": total,
+        "complete": complete,
+        "complete_pct": round(complete * 100.0 / total, 1) if total else 0.0,
+        "missing": missing,
+        "by_language": by_language,
+        "samples": samples[:12],
+        "sample_total": len(samples),
+        "csv_url": "/api/library/gaps.csv",
+    }
+
+
+def _library_gaps_csv(library) -> str:
+    buffer = io.StringIO()
+    writer = csv.writer(buffer)
+    writer.writerow(["序号", "题名", "作者", "年份", "期刊/会议", "DOI", "语言", "缺失字段"])
+    for position, entry in enumerate(library.entries):
+        absent = _entry_missing_fields(entry)
+        writer.writerow(
+            [
+                position + 1,
+                entry.title or "",
+                _authors_text(entry.authors),
+                entry.year or "",
+                entry.venue or "",
+                entry.doi or "",
+                _entry_language(entry),
+                ",".join(absent) if absent else "完整",
+            ]
+        )
+    return buffer.getvalue()
 
 
 @app.post("/api/library/import/preview")
@@ -421,6 +518,25 @@ def library_import(file: UploadFile = File(...)):
         "imported_no_abstract": imported_no_abstract,
         "format_guess": entries[0].source if entries else "",
     }
+
+
+@app.get("/api/library/gaps")
+def library_gaps():
+    """Coverage gaps by field and language, with a sample to fix first."""
+    library = Library.load(config.LIBRARY_FILE)
+    return _library_gaps_payload(library)
+
+
+@app.get("/api/library/gaps.csv")
+def library_gaps_csv():
+    """Download every library entry with its missing metadata fields."""
+    library = Library.load(config.LIBRARY_FILE)
+    body = "\ufeff" + _library_gaps_csv(library)
+    return Response(
+        content=body.encode("utf-8"),
+        media_type="text/csv; charset=utf-8",
+        headers={"Content-Disposition": 'attachment; filename="library-gaps.csv"'},
+    )
 
 
 @app.post("/api/library/demo")
