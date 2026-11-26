@@ -1,6 +1,6 @@
 # 引证卫士 CiteGuard-CN
 
-> **v1.7.49** · 2026-11-26 · Apache-2.0
+> **v1.7.49** · 2026-11-27 · Apache-2.0
 
 [![ci](https://github.com/kkk431/citeguard-cn/actions/workflows/ci.yml/badge.svg)](https://github.com/kkk431/citeguard-cn/actions/workflows/ci.yml)
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
@@ -453,7 +453,7 @@ PYTHONPATH=src python3 scripts/enrich_library_abstracts.py
 - HuggingFace 数据集：<https://huggingface.co/datasets/dfdafs/claimsupport-cn-300>（300 条，构造标签，非人审）
 - HuggingFace 适配器：<https://huggingface.co/dfdafs/citeguard-support-lora-qwen3-1.7b>（Qwen3-1.7B LoRA，Apache-2.0）
 - HuggingFace 适配器（4B）：<https://huggingface.co/dfdafs/citeguard-support-lora-qwen3-4b>（Qwen3-4B LoRA，Apache-2.0；构造测试集饱和，见模型卡）
-- Docker：`docker compose -f docker/docker-compose.yml up --build`；`citeguard-cn:1.7.36` 已构建并通过 `/api/health`；1.7.38/1.7.40 使用同一 Dockerfile 构建
+- Docker：`docker compose -f docker/docker-compose.yml up --build`；`citeguard-cn:1.7.36` 已构建并通过 `/api/health`（1.7.37–1.7.49 未重新构建镜像，只保证同一 Dockerfile 可构建）
 
 ## 参考与致谢
 
