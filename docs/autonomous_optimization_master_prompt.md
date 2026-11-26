@@ -1,6 +1,6 @@
 # CiteGuard-CN 全自动优化 + 比赛材料同步主提示词
 
-> 用途：交给一个新的执行代理，从 v1.7.36 基线开始，自主完成产品优化，并在每次改动后自动判断、更新受影响的比赛材料。允许开子代理。除破坏性操作、外部付费、凭据外，不要停下来问“要不要做”。
+> 用途：交给一个新的执行代理，从 v1.7.38 基线开始，自主完成产品优化，并在每次改动后自动判断、更新受影响的比赛材料。允许开子代理。除破坏性操作、外部付费、凭据外，不要停下来问“要不要做”。
 
 ---
 
@@ -13,10 +13,11 @@
 
 ## 0. 当前基线
 
-- 版本：v1.7.36（以 `web/app.py` 为准）。
-- 测试：`pytest tests -q` 约 1055 passed；`scripts/verify_artifacts.py` 137/137；`scripts/audit_frontend.py` 58/58；`scripts/e2e_smoke.py` 14/14。
-- 现有材料：技术报告 15 页、资源清单 2 页、佐证材料 18 页、答辩 PPT、4:27 演示视频、提交目录 `dist/submission/`、提交 zip、GitHub 仓库与 HF 成果。
-- 已知材料问题：提交说明写“佐证 17 页”实际 18 页；资源清单目前独立成目录，报告附录 A 写“随报告提交的 PDF”；PPT/视频存在版本/页数差异（用户明确不改内容）；远程旧部署目录不存在，无公网在线演示。
+- 版本：v1.7.38（以 `web/app.py` 为准）。
+- 测试：`pytest tests -q` 1058 passed, 10 skipped；`scripts/verify_artifacts.py` 137/137；`scripts/audit_frontend.py` 58/58；`scripts/e2e_smoke.py` 14/14。
+- 已完成：A1 题录库导入前预览（1.7.37）、A2 覆盖缺口看板 + 待补 CSV（1.7.38）。
+- 现有材料：技术报告 15 页 / v1.7.38、资源清单 2 页、佐证材料 18 页、答辩 PPT 11 页、4:27 演示视频、提交目录 `dist/submission/`、GitHub 仓库与 HF 成果。
+- 已知材料问题：PPT 停在 v1.7.35、视频 v1.7.36（用户明确不改内容）；资源清单独立成目录，报告附录 A 写“随报告提交的 PDF”，两者口径需保持；远程旧部署目录不存在，无公网在线演示。
 - 已知产品现状：核心链路可用；Live/CiteMap/引用链有条件；LongCite/AlignScore 未接入；这是真实边界，不许包装成“通用准确率”。
 
 ## 1. 硬约束
@@ -30,9 +31,9 @@
 
 ## 2. 自主执行原则
 
-1. 先读：`README.md`、`CHANGELOG.md`、`docs/optimization_master_prompt.md`、`docs/plan_national.md`、`docs/evidence_index.md`、`docs/deployment.md`、当前测试与页面。
+1. 先读：`README.md`、`CHANGELOG.md`、`docs/autonomous_optimization_master_prompt.md`、`docs/optimization/plan.md`、`docs/materials_audit.md`、`docs/plan_national.md`、`docs/evidence_index.md`、`docs/deployment.md`、当前测试与页面。
 2. 先跑基线：pytest、verify_artifacts、audit_frontend、e2e_smoke；记录版本与 worktree 状态。
-3. 建 `docs/optimization/plan.md`：把 A–H 清单拆成可验收条目、负责人、写作用域、证据路径。
+3. 核对 `docs/optimization/plan.md` 与 `docs/materials_audit.md`：确认已完成 A1/A2，把剩余 A–H 拆成可验收条目、负责人、写作用域、证据路径。
 4. 一个改动一个验证：每项必须有测试 + 真实截图/数据 + 复现命令；没有验证不算完成。
 5. 每完成一项，立即执行“材料影响判断”（见 §4），不要等到最后一次性补材料。
 6. 每波独立 commit + push，确认 CI；不要一次提交几十个文件。
@@ -42,8 +43,8 @@
 ## 3. 产品优化清单
 
 ### A. 覆盖与数据
-A1 中文题录库导入向导（CNKI/万方/RIS/EndNote，字段映射/去重/失败行提示）
-A2 候选补录 + 人工确认（缺 DOI/卷期页码，不自动写入不确定字段）
+A1 ✅ 题录库导入前预览（1.7.37）
+A2 ✅ 覆盖缺口看板 + 待补 CSV（1.7.38）
 A3 题录库仪表盘（来源/年份/期刊/重复/覆盖率/标签）
 A4 判错反馈队列（不自动训练）
 
@@ -136,7 +137,7 @@ H4 许可与依赖（核心不引入 AGPL）
 
 ## 7. 执行顺序
 
-**第一波（P0）**：A1 → B1 → B3 → G1 → G5；随后 B2、A2、A3。
+**第一波（P0）**：A1 ✅ → A2 ✅ → B1 → B3 → G1 → G5；随后 B2、A3。
 **第二波（P1）**：C1 → D1 → E1 → E2 → G2 → G3。
 **第三波（P2）**：F1 → E3 → D3/D4 → G4 → H1/H2。
 **贯穿**：G6、H3、H4 每波结束检查；每波结束更新材料。
@@ -152,7 +153,7 @@ H4 许可与依赖（核心不引入 AGPL）
 - CiteMap 能只看全文证据、能聚焦一条断言；
 - 全站无 HTTP 状态码直出；
 - 1280/1440/1920 无横向溢出；
-- 1055+ tests、前端审计、e2e 不破。
+- 1058+ tests、前端审计、e2e 不破。
 
 材料：
 - 作品名称≤20 字、简介≤300 字；
@@ -171,4 +172,4 @@ H4 许可与依赖（核心不引入 AGPL）
 - 明确已知例外：PPT/视频不改、视频无开放成果镜头、无公网演示、资源型项未做。
 - 不写“已完成”除非验收命令通过；不写“效果提升”除非有真实对照。
 
-现在开始。先跑基线、建 `docs/optimization/plan.md` 和 `docs/materials_audit.md` 初稿，然后从第一波开始；每完成一项立即判断材料影响，不要停。
+现在开始。先跑基线并核对 `docs/optimization/plan.md` 与 `docs/materials_audit.md`，从 B1 继续；每完成一项立即判断材料影响并同步，不要停。
