@@ -1,0 +1,14 @@
+{
+  "version": "1.7.40",
+  "job": "d73ae2dcd2e9",
+  "active_banner": true,
+  "draft_restored": {
+    "support_max": "80",
+    "figure": true,
+    "text_prefix": "这是一段用于验证刷新不丢的草稿。\n第二行。"
+  },
+  "screenshots": [
+    "docs/evidence/shots/opt-G1-workspace-active-1.7.41-1440.png",
+    "docs/evidence/shots/opt-G1-draft-restored-1.7.41-1440.png"
+  ]
+}

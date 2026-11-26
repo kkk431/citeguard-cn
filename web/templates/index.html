@@ -8,6 +8,14 @@
 ] %}
 {% set section_tab = 'paper' %}
 {% include "_section_tabs.html" %}
+{% set active_jobs = recent | selectattr("status", "in", ["queued", "running"]) | list %}
+{% if active_jobs %}
+<div class="wb-active" role="status">
+  <b>有任务正在运行</b>
+  <span>{{ active_jobs[0].filename or active_jobs[0].name or ("任务 " ~ active_jobs[0].id) }} · 刷新/离开页面不会中断。</span>
+  <a href="/history">查看进度</a>
+</div>
+{% endif %}
 <section class="workbench">
   <header class="wb-head">
     <div>

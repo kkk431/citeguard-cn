@@ -1,3 +1,10 @@
+## [1.7.41] - 2026-11-26
+
+### Added
+- G1: the workspace shows an in-flight task banner with a link to `/history`, and restores a local draft of pasted text, support cap and figure-check on refresh; the draft is cleared after a successful submit.
+
+### Tests
+- 1063 pytest passed; `verify_artifacts` 137/137.
 ## [1.7.40] - 2026-11-26
 
 ### Added

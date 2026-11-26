@@ -1490,3 +1490,15 @@ body.theme-light .lib-gap-chip{background:#fff2d6;color:#8a5a00;border-color:#e6
 .judge-off b{color:var(--gold)}
 .judge-off code{font-family:var(--mono);font-size:13px;color:var(--accent-2)}
 body.theme-light .judge-off{background:#fff7e8;border-color:#e4c27a;color:#182421}
+
+/* G1: make an in-flight task visible at the primary entry, not only /history. */
+.wb-active{
+  display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;
+  margin:14px 0 0;padding:11px 15px;border-radius:12px;
+  border:1px solid rgba(92,240,192,.35);background:rgba(92,240,192,.08);
+  color:var(--ink);font-size:14.5px;
+}
+.wb-active b{color:var(--accent)}
+.wb-active span{color:var(--ink-2)}
+.wb-active a{margin-left:auto;color:var(--accent);font-weight:600}
+body.theme-light .wb-active{background:#edf9f4;border-color:#a9dfca;color:#182421}

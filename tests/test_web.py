@@ -1279,3 +1279,13 @@ def test_batch_page_explains_unavailable_judge(client, monkeypatch):
     resp = client.get("/batch")
     assert resp.status_code == 200
     assert "判定模型未配置或不可用" in resp.text
+
+def test_workspace_shows_active_job_banner(client):
+    from citeguard import jobs
+    job = jobs.manager.create("live.pdf")
+    jobs.manager.update(job["id"], status="running", progress=20, stage="解析")
+    resp = client.get("/workspace")
+    assert resp.status_code == 200
+    assert 'class="wb-active"' in resp.text
+    assert "有任务正在运行" in resp.text
+    assert "/history" in resp.text

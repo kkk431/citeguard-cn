@@ -14,6 +14,32 @@
 
   let selectedFiles = [];
 
+  // G1: a refresh must not throw away a long paste or the chosen options.
+  const DRAFT_KEY = "citeguard.workspace.draft.v1";
+  function restoreDraft() {
+    try {
+      const d = JSON.parse(localStorage.getItem(DRAFT_KEY) || "null");
+      if (!d) return;
+      if (paste && d.text && !paste.value) paste.value = d.text;
+      const sm = document.getElementById("support-max");
+      if (sm && d.supportMax) sm.value = d.supportMax;
+      const fg = document.getElementById("figure-check");
+      if (fg && typeof d.figure === "boolean") fg.checked = d.figure;
+    } catch (_) {}
+  }
+  function saveDraft() {
+    try {
+      localStorage.setItem(DRAFT_KEY, JSON.stringify({
+        text: paste ? paste.value : "",
+        supportMax: supportMaxValue(),
+        figure: figureCheckValue() === "1",
+      }));
+    } catch (_) {}
+  }
+  function clearDraft() {
+    try { localStorage.removeItem(DRAFT_KEY); } catch (_) {}
+  }
+
   function setFiles(files) {
     selectedFiles = Array.from(files || []);
     if (dzFile) {
@@ -70,6 +96,13 @@
       sampleBtn.disabled = false;
     }
   });
+
+  restoreDraft();
+  if (paste) paste.addEventListener("input", saveDraft);
+  const _smEl = document.getElementById("support-max");
+  if (_smEl) _smEl.addEventListener("change", saveDraft);
+  const _fgEl = document.getElementById("figure-check");
+  if (_fgEl) _fgEl.addEventListener("change", saveDraft);
 
   function supportMaxValue() {
     const el = document.getElementById("support-max");
@@ -382,6 +415,7 @@
       fd.append("support_max", supportMaxValue());
       fd.append("figures", figureCheckValue());
       const data = await window.CiteGuard.postForm("/api/analyze", fd);
+      clearDraft();
       window.location.href = "/report/" + data.job_id;
     } catch (err) {
       window.CiteGuard.toast("提交失败：" + err.message);

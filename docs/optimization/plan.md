@@ -35,3 +35,5 @@
 - 边界：服务重启后运行线程不会自动续跑，仍需要点击“重新运行”；B1 保证“可判断/可重跑/退出页面不丢”，不是进程级续跑。
 
 - [x] B3 模型不可用降级：`/support` 与 `/batch` 显示未配置判官的原因条、按钮禁用；无判官时报告保留 `not_checked`，不伪造结论。证据 `data/experiments/opt_b3_judge_down_2026-11-26.json`、截图 `opt-B3-*.png`。
+
+- [x] G1 入口与任务路径：工作台显示运行中任务横幅；粘贴文本/支持度/图表勾选写入 localStorage，刷新恢复，提交后清空。证据 `data/experiments/opt_g1_entry_state_2026-11-26.json`、截图 `opt-G1-*.png`。
