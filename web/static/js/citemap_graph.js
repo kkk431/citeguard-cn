@@ -91,7 +91,7 @@
     }
     if (!response.ok) {
       const message = data && (data.error || data.detail);
-      throw new Error(typeof message === "string" ? message : "图数据加载失败（HTTP " + response.status + "）。");
+      throw new Error(typeof message === "string" ? message : window.humanHttpError(response.status, null, "图数据加载失败，请稍后重试。"));
     }
     if (!data) throw new Error("图数据为空或无法解析。");
     return data;

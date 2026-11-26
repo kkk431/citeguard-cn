@@ -175,7 +175,7 @@
         body: JSON.stringify({ items: items }),
       });
       const data = await res.json().catch(function () { return {}; });
-      if (!res.ok) throw new Error(data.detail || data.error || ("HTTP " + res.status));
+      if (!res.ok) throw new Error(window.humanHttpError(res.status, data.detail || data.error, "批量判定没有完成，请稍后重试"));
       const out = (data.items || []).map(function (it, i) {
         return {
           index: i,

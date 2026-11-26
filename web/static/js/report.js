@@ -1398,7 +1398,7 @@
     if (pre) pre.textContent = "加载中…";
     try {
       const res = await fetch("/api/report/" + encodeURIComponent(jobId) + "/page/" + page);
-      if (!res.ok) throw new Error("HTTP " + res.status);
+      if (!res.ok) throw new Error(window.humanHttpError(res.status, null, "报告操作没有完成，请稍后重试"));
       const data = await res.json();
       if (img) img.src = data.image;
       if (pre) pre.innerHTML = escPageText(data.text || "（这一页没有可提取的文字层，请看左侧页图）", quote);
@@ -1433,7 +1433,7 @@
     if (list) list.innerHTML = '<div class="inline-note">加载中…</div>';
     try {
       const res = await fetch("/api/report/" + encodeURIComponent(jobId) + "/fixed");
-      if (!res.ok) throw new Error("HTTP " + res.status);
+      if (!res.ok) throw new Error(window.humanHttpError(res.status, null, "报告操作没有完成，请稍后重试"));
       const data = await res.json();
       const items = (data.items || []).filter((it) => it.after);
       fixText = items.map((it) => "[" + it.index + "] " + it.after).join("\n");
@@ -1708,7 +1708,7 @@
           { headers: { Accept: "application/json" } }
         );
         const data = await res.json();
-        if (!res.ok) throw new Error(data.detail || "HTTP " + res.status);
+        if (!res.ok) throw new Error(window.humanHttpError(res.status, data.detail, "报告操作没有完成，请稍后重试"));
         const items = data.candidates || [];
         if (!items.length) {
           list.innerHTML = '<div class="inline-note">没有找到可推荐的候选。可以换一句更具体的引用句再试。</div>';
@@ -1771,7 +1771,7 @@
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ index: item.index, state: nextState }),
       });
-      if (!res.ok) throw new Error("HTTP " + res.status);
+      if (!res.ok) throw new Error(window.humanHttpError(res.status, null, "报告操作没有完成，请稍后重试"));
       const data = await res.json();
       window.__triage = data.items || {};
       updateTriageCounts();

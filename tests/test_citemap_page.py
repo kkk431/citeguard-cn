@@ -263,7 +263,8 @@ def test_js_handles_loading_empty_error_and_retry() -> None:
     assert 'els.retry.addEventListener("click", init)' in source
     assert "aria-busy" in source
     assert "无法连接 CiteMap 接口" in source
-    assert "HTTP " in source
+    assert "HTTP " not in source
+    assert "humanHttpError" in source
 
 
 def test_css_uses_theme_variables_and_single_column_breakpoint() -> None:

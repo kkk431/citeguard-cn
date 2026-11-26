@@ -56,7 +56,7 @@
   async function postJSON(url) {
     const resp = await fetch(url, { method: "POST", headers: { Accept: "application/json" } });
     const data = await resp.json().catch(function () { return {}; });
-    if (!resp.ok) throw new Error(data.detail || "HTTP " + resp.status);
+    if (!resp.ok) throw new Error(window.humanHttpError(resp.status, data.detail, "题录库操作没有完成，请稍后重试"));
     return data;
   }
 
@@ -67,7 +67,7 @@
       body: JSON.stringify(body),
     });
     const data = await resp.json().catch(function () { return {}; });
-    if (!resp.ok) throw new Error(data.detail || "HTTP " + resp.status);
+    if (!resp.ok) throw new Error(window.humanHttpError(resp.status, data.detail, "题录库操作没有完成，请稍后重试"));
     return data;
   }
 
@@ -315,7 +315,7 @@
     try {
       const resp = await fetch("/api/library/" + entry.index, { method: "DELETE" });
       const data = await resp.json().catch(function () { return {}; });
-      if (!resp.ok) throw new Error(data.detail || "HTTP " + resp.status);
+      if (!resp.ok) throw new Error(window.humanHttpError(resp.status, data.detail, "题录库操作没有完成，请稍后重试"));
       window.CiteGuard.toast("已删除：" + (entry.title || "").slice(0, 40));
       await loadEntries();
     } catch (err) {
@@ -439,7 +439,7 @@
     if (!window.confirm("确定清空本地题录库？该操作不可撤销。")) return;
     try {
       const resp = await fetch("/api/library/clear", { method: "POST" });
-      if (!resp.ok) throw new Error("HTTP " + resp.status);
+      if (!resp.ok) throw new Error(window.humanHttpError(resp.status, null, "题录库操作没有完成，请稍后重试"));
       window.CiteGuard.toast("已清空题录库");
       window.location.reload();
     } catch (err) {

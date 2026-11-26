@@ -275,7 +275,7 @@
     fetch("/api/aggregate?ids=" + encodeURIComponent(ids), { headers: { Accept: "application/json" } })
       .then(function (resp) {
         return resp.json().then(function (body) {
-          if (!resp.ok) throw new Error(body.detail || ("HTTP " + resp.status));
+          if (!resp.ok) throw new Error(window.humanHttpError(resp.status, body.detail, "对比提交失败，请检查输入后重试"));
           return body;
         });
       })

@@ -15,14 +15,14 @@
 
   async function getJSON(url) {
     const resp = await fetch(url, { headers: { Accept: "application/json" } });
-    if (!resp.ok) throw new Error("HTTP " + resp.status);
+    if (!resp.ok) throw new Error(window.humanHttpError(resp.status, null, "请求没有完成，请稍后重试"));
     return resp.json();
   }
 
   async function postForm(url, formData) {
     const resp = await fetch(url, { method: "POST", body: formData });
     const data = await resp.json().catch(function () { return {}; });
-    if (!resp.ok) throw new Error(data.detail || "HTTP " + resp.status);
+    if (!resp.ok) throw new Error(window.humanHttpError(resp.status, data.detail, "请求没有完成，请稍后重试"));
     return data;
   }
 

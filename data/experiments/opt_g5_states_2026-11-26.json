@@ -1,0 +1,22 @@
+{
+  "date": "2026-11-26",
+  "base": "http://127.0.0.1:8013",
+  "injected": {
+    "detail": "HTTP 503 上游判官暂时不可用，请稍后重试"
+  },
+  "rows": [
+    {
+      "viewport": "1440x1000",
+      "shot": "docs\\evidence\\shots\\opt-G5-human-error-1.7.42-1440.png",
+      "error_text": "核验失败：上游判官暂时不可用，请稍后重试",
+      "result_text": "核验失败：上游判官暂时不可用，请稍后重试"
+    },
+    {
+      "viewport": "1280x900",
+      "shot": "docs\\evidence\\shots\\opt-G5-human-error-1.7.42-1280.png",
+      "error_text": "核验失败：上游判官暂时不可用，请稍后重试",
+      "result_text": "核验失败：上游判官暂时不可用，请稍后重试"
+    }
+  ],
+  "assertion": "no raw HTTP in visible result"
+}

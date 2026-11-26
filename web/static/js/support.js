@@ -58,7 +58,7 @@
         body: JSON.stringify({ claim, evidence }),
       });
       const data = await resp.json().catch(() => ({}));
-      if (!resp.ok) throw new Error(data.detail || data.message || ("HTTP " + resp.status));
+      if (!resp.ok) throw new Error(window.humanHttpError(resp.status, data.detail || data.message, "判定没有完成，请稍后重试"));
       render(data);
     } catch (e) {
       empty.hidden = false; body.hidden = true;

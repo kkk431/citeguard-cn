@@ -191,7 +191,7 @@
     if (out.resp.status === 503) {
       return "图表核验服务暂时不可用，请稍后再试。";
     }
-    return "HTTP " + out.resp.status;
+    return window.humanHttpError(out.resp.status, null, "图表核验没有完成，请稍后重试");
   }
 
   form.addEventListener("submit", async function (e) {

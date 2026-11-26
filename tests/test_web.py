@@ -1289,3 +1289,16 @@ def test_workspace_shows_active_job_banner(client):
     assert 'class="wb-active"' in resp.text
     assert "有任务正在运行" in resp.text
     assert "/history" in resp.text
+
+
+def test_js_never_exposes_raw_http_status():
+    from pathlib import Path
+    js_dir = Path(__file__).resolve().parents[1] / "web" / "static" / "js"
+    offenders = [f.name for f in js_dir.glob("*.js") if "HTTP " in f.read_text(encoding="utf-8")]
+    assert offenders == []
+
+
+def test_base_loads_human_error_helper(client):
+    resp = client.get("/workspace")
+    assert resp.status_code == 200
+    assert "/static/js/errors.js" in resp.text

@@ -47,7 +47,7 @@
       return resp.json().then(function (body) { return { ok: resp.ok, status: resp.status, body: body }; });
     }).then(function (r) {
       if (!r.ok || r.body.ok === false) {
-        throw new Error(r.body.error || ("HTTP " + r.status));
+        throw new Error(window.humanHttpError(r.status, r.body.error, "核验没有完成，请稍后重试"));
       }
       var data = r.body;
       var label = data.label || "insufficient";

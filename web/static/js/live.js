@@ -133,7 +133,7 @@
       502: "上游文献服务暂时不可用；请稍后重试。",
       503: "服务暂不可用（可能处于离线模式或未配置判定模型）。"
     };
-    return defaults[status] || "请求失败（HTTP " + status + "）。";
+    return defaults[status] || window.humanHttpError(status, null, "页面读取失败，请检查链接后重试。");
   }
 
   function candidateUrl(candidate) {

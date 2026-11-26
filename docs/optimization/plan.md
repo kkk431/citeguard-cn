@@ -11,7 +11,8 @@
 | P1 | D1 | 修复闭环的批量与复检 | 待做 |
 | P1 | E1 | Live/CiteMap 使用层降噪 | 待做 |
 | P1 | F1 | 解析与 GB/T 修复建议 | 待做 |
-| P1 | G1 | 前端入口/阅读器/键盘/状态 | 待做 |
+| P1 | G1 | 前端入口/阅读器/键盘/状态 | ✅ 1.7.41 |
+| P1 | G5 | 状态与错误：不露 HTTP，给下一步 | ✅ 1.7.42 |
 | P2 | H1 | 可观测性/许可/回归 | 待做 |
 
 ## A2 验收
@@ -37,3 +38,11 @@
 - [x] B3 模型不可用降级：`/support` 与 `/batch` 显示未配置判官的原因条、按钮禁用；无判官时报告保留 `not_checked`，不伪造结论。证据 `data/experiments/opt_b3_judge_down_2026-11-26.json`、截图 `opt-B3-*.png`。
 
 - [x] G1 入口与任务路径：工作台显示运行中任务横幅；粘贴文本/支持度/图表勾选写入 localStorage，刷新恢复，提交后清空。证据 `data/experiments/opt_g1_entry_state_2026-11-26.json`、截图 `opt-G1-*.png`。
+
+
+## G5 验收
+
+- [x] 前端统一 `humanHttpError`，不出现 `HTTP 5xx`；注入 503 显示“核验失败：上游判官暂时不可用，请稍后重试”，输入保留。
+- [x] loading/empty/unsupported 状态保留说明；不为错误编造结果。
+- 证据：`data/experiments/opt_g5_states_2026-11-26.json`、`docs/evidence/shots/opt-G5-human-error-1.7.42-1440.png`、`...1280.png`、`opt-G5-human-error-panel-1.7.42-1440.png`；E116。
+- 测试：1065 passed；`tests/test_web.py` 两项静态检查 + Playwright 真实 503。

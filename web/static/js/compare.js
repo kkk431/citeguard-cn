@@ -169,7 +169,7 @@
       const data = await resp.json().catch(function () { return {}; });
       if (!resp.ok || !data.job_id) {
         hideProgress();
-        showProgress("提交失败：" + (data.detail || data.error || ("HTTP " + resp.status)));
+        showProgress("提交失败：" + window.humanHttpError(resp.status, data.detail || data.error, "请检查输入后重试"));
         btn.disabled = false;
         return;
       }

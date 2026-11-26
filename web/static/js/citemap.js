@@ -196,9 +196,9 @@
     if (data && typeof data.error === "string" && data.error.trim()) return data.error;
     if (data && data.error && typeof data.error.message === "string") return data.error.message;
     if (data && typeof data.detail === "string" && data.detail.trim()) return data.detail;
-    if (status === 404) return "未找到该主题（HTTP 404）。";
-    if (status === 500) return "CiteMap 数据校验失败（HTTP 500），请检查服务端日志。";
-    return "CiteMap 接口请求失败（HTTP " + status + "）。";
+    if (status === 404) return "未找到该主题，请先选择一个主题。";
+    if (status === 500) return "CiteMap 数据校验失败，请稍后重试。";
+    return window.humanHttpError(status, null, "CiteMap 数据加载失败，请稍后重试。");
   }
 
   async function fetchJSON(url) {
