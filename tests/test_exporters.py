@@ -2,7 +2,14 @@
 
 from __future__ import annotations
 
-from citeguard.exporters import ref_to_enw, ref_to_ris, refs_from_parsed, refs_to_enw, refs_to_ris
+from citeguard.exporters import (
+    ref_to_enw,
+    ref_to_ris,
+    refs_from_parsed,
+    refs_to_enw,
+    refs_to_ris,
+    select_report_items,
+)
 from citeguard.reference_parser import Reference
 
 
@@ -113,3 +120,48 @@ def test_csl_json_shape():
     assert data[0]["author"][0]["literal"] == "张三"
     assert data[0]["issued"] == {"date-parts": [[2024]]}
     assert data[0]["DOI"] == "10.1/x"
+
+
+def _report_item(ref: Reference, *, status: str = "Exact", support: str = "", repair: str = "", issue: str = "") -> dict:
+    item = {
+        "index": ref.index,
+        "raw": ref.raw,
+        "parsed": ref.to_dict(),
+        "verify": {"status": status},
+        "support": {"label": support},
+        "compliance": {"issues": []},
+    }
+    if issue:
+        item["compliance"]["issues"].append({"level": "error", "field": "doi", "message": issue})
+    if repair:
+        item["repair"] = {"state": repair}
+    return item
+
+
+def test_select_report_items_filters_problems_and_fixed_scope():
+    clean = _report_item(_journal())
+    unverified = _report_item(_journal(), status="Unverified")
+    contradicted = _report_item(_journal(), support="contradict")
+    fixed = _report_item(_journal(), status="Minor", repair="fixed")
+    items = [clean, unverified, contradicted, fixed]
+
+    assert select_report_items(items, "all") == items
+    assert select_report_items(items, "problems") == [unverified, contradicted, fixed]
+    assert select_report_items(items, "fixed") == [fixed]
+
+
+def test_refs_from_parsed_scope_keeps_only_exportable_matches():
+    clean = _report_item(_journal())
+    problem = _report_item(_journal(), status="Unverified")
+    fixed = _report_item(_journal(), status="Minor", repair="fixed")
+
+    assert len(refs_from_parsed([clean, problem, fixed], "problems")) == 2
+    assert len(refs_from_parsed([clean, problem, fixed], "fixed")) == 1
+    assert refs_from_parsed([clean, problem, fixed], "all")[0].title == "中文引文核验方法"
+
+
+def test_select_report_items_rejects_unknown_scope():
+    import pytest
+
+    with pytest.raises(ValueError, match="未知导出范围"):
+        select_report_items([], "needs-review")

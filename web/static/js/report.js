@@ -2291,19 +2291,101 @@
   }
 })();
 
-/* Export the references that still need human checking (Unverified/Unknown). */
+/* Export a selected slice of the saved report as CSV. */
 function csvCell(value) {
   const text = String(value == null ? "" : value).replace(/"/g, '""');
   return '"' + text + '"';
 }
 
+const EXPORT_SCOPE_LABELS = {
+  all: "全部条目",
+  problems: "仅问题条目",
+  fixed: "仅已修条目",
+};
+
+function exportScope() {
+  const select = document.getElementById("export-scope");
+  const value = select ? select.value : "problems";
+  return EXPORT_SCOPE_LABELS[value] ? value : "problems";
+}
+
+function isProblemItem(item) {
+  if (!item) return false;
+  const v = item.verify || {};
+  const support = (item.support || {}).label || "";
+  const issues = (item.compliance || {}).issues || [];
+  const hasIssue = issues.some(function (issue) {
+    const level = String((issue && issue.level) || "").toLowerCase();
+    return level === "error" || level === "warning";
+  });
+  return (v.status || "Unknown") !== "Exact" || ["contradict", "partial", "no_evidence"].indexOf(support) >= 0 || hasIssue;
+}
+
+function triageFor(item) {
+  const entry = (window.__triage || {})[String((item && item.index) || "")];
+  return entry && entry.state ? entry.state : "";
+}
+
+function isFixedItem(item) {
+  if (!item) return false;
+  if (item.repair && item.repair.state === "fixed") return true;
+  return triageFor(item) === "fixed";
+}
+
+function problemFields(item) {
+  const issues = (item && item.compliance && item.compliance.issues) || [];
+  const fields = [];
+  issues.forEach(function (issue) {
+    const level = String((issue && issue.level) || "").toLowerCase();
+    const field = (issue && issue.field) || "";
+    if ((level === "error" || level === "warning") && field && fields.indexOf(field) < 0) fields.push(field);
+  });
+  return fields.join("；");
+}
+
+function exportFailure(message, nextStep) {
+  const tail = nextStep || "请检查浏览器是否允许下载，或改用「复制参考文献表」/「打印 / 存 PDF」。";
+  const full = message + " " + tail;
+  if (window.CiteGuard && typeof window.CiteGuard.toast === "function") {
+    window.CiteGuard.toast(full);
+  } else {
+    console.warn(full);
+  }
+}
+
+function downloadTextFile(text, filename) {
+  const blob = new Blob([text], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
 function manualCsv() {
   const data = window.__reportData || {};
-  const rows = [["序号", "状态", "题名", "作者", "年份", "期刊/来源", "引文原文", "人工检索"]];
-  (data.references || []).forEach(function (item) {
+  const scope = exportScope();
+  const refs = (data.references || []).filter(function (item) {
+    if (scope === "problems") return isProblemItem(item);
+    if (scope === "fixed") return isFixedItem(item);
+    return true;
+  });
+  if (!refs.length) {
+    exportFailure(
+      "当前范围「" + EXPORT_SCOPE_LABELS[scope] + "」没有可导出的条目。",
+      "请切换范围；若选择“仅已修”，请先在条目详情里应用修复。"
+    );
+    return;
+  }
+  const rows = [["序号", "状态", "支持度", "题名", "作者", "年份", "期刊/来源", "问题字段", "核验说明", "修复状态", "引文原文", "人工检索"]];
+  refs.forEach(function (item) {
     const v = item.verify || {};
-    if (v.status !== "Unverified" && v.status !== "Unknown") return;
     const p = item.parsed || {};
+    const support = (item.support || {}).label || "";
+    const repair = (item.repair && item.repair.state) || triageFor(item) || "";
     const title = p.title || "";
     const links = [
       "https://kns.cnki.net/kns8s/defaultresult/index?kw=" + encodeURIComponent(title),
@@ -2312,20 +2394,28 @@ function manualCsv() {
       "https://xueshu.baidu.com/s?wd=" + encodeURIComponent(title),
     ].join(" ");
     rows.push([
-      item.index || "", v.status || "", title, (p.authors || []).join("; "),
-      p.year || "", p.venue || "", item.raw || "", links,
+      item.index || "",
+      v.status || "",
+      support,
+      title,
+      (p.authors || []).join("; "),
+      p.year || "",
+      p.venue || "",
+      problemFields(item),
+      v.reason || (item.support || {}).reason || "",
+      repair,
+      item.raw || "",
+      links,
     ]);
   });
   const csv = "\ufeff" + rows.map(function (row) { return row.map(csvCell).join(","); }).join("\r\n");
-  const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "manual-check.csv";
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  URL.revokeObjectURL(url);
+  const root = document.getElementById("report-root");
+  const job = (root && root.dataset.jobId) || "report";
+  try {
+    downloadTextFile(csv, "citeguard-" + job + "-" + scope + ".csv");
+  } catch (err) {
+    exportFailure("CSV 导出失败：" + (err && err.message ? err.message : "未知错误"));
+  }
 }
 
 const manualCsvBtn = document.getElementById("manual-csv");
@@ -2346,55 +2436,135 @@ if (manualCsvBtn) {
   const currentJobId = (rootEl && rootEl.dataset.jobId) || "";
 
   const KIND = {
+    resolved: "\u5df2\u89e3\u51b3",
     fixed: "\u5df2\u89e3\u51b3",
     new: "\u65b0\u589e",
     still: "\u4ecd\u5b58\u5728",
     status: "\u72b6\u6001\u53d8\u5316",
     support: "\u652f\u6301\u5ea6\u53d8\u5316",
+    unchanged: "\u65e0\u53ef\u89c1\u53d8\u5316",
   };
 
   function esc(s) {
     return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   }
 
-  function issueList(items) {
-    if (!items || !items.length) return "";
-    return '<ul class="diff-issues">' + items.map(function (x) {
-      return "<li>" + esc(x.field || "") + "\uff1a" + esc(x.message || "") + "</li>";
-    }).join("") + "</ul>";
+  function escAttr(s) {
+    return esc(s).replace(/"/g, "&quot;");
+  }
+
+  function fmt(value) {
+    return value === null || value === undefined || value === "" ? "\u2014" : String(value);
+  }
+
+  function count(value) {
+    const n = Number(value);
+    return Number.isFinite(n) ? n : 0;
+  }
+
+  function fieldRow(label, oldValue, newValue) {
+    const before = fmt(oldValue);
+    const after = fmt(newValue);
+    if (before === after) return "";
+    return '<div class="diff-field"><dt>' + esc(label) + "</dt><dd>" +
+      '<span class="diff-old">' + esc(before) + "</span>" +
+      '<span class="diff-arrow" aria-hidden="true">\u2192</span>' +
+      '<span class="diff-new">' + esc(after) + "</span>" +
+      "</dd></div>";
+  }
+
+  function issueGroup(title, cls, issues) {
+    if (!issues || !issues.length) return "";
+    const rows = issues.map(function (issue) {
+      const level = String((issue && issue.level) || "").toLowerCase();
+      return '<li class="diff-issue ' + esc(level) + '">' +
+        '<span class="diff-field-name">' + esc((issue && issue.field) || "\u2014") + "</span>" +
+        '<span class="diff-issue-level">' + esc(level || "\u2014") + "</span>" +
+        '<span class="diff-issue-message">' + esc((issue && issue.message) || "") + "</span>" +
+        "</li>";
+    }).join("");
+    return '<section class="diff-issue-group ' + cls + '"><h4>' + esc(title) + "</h4><ul>" + rows + "</ul></section>";
+  }
+
+  function renderItem(item) {
+    const kind = item.kind || "unchanged";
+    const kindClass = kind === "fixed" ? "resolved" : kind;
+    const status = item.status || {};
+    const support = item.support || {};
+    const compliance = item.compliance || {};
+    const oldStatus = fmt(status.old);
+    const newStatus = fmt(status.new);
+    const statusLine = oldStatus === newStatus ? "" :
+      '<span class="diff-status mono-sm">' + esc(oldStatus) + ' <span aria-hidden="true">\u2192</span> ' + esc(newStatus) + "</span>";
+    const fields = [
+      fieldRow("\u72b6\u6001", status.old, status.new),
+      fieldRow("\u652f\u6301\u5ea6", support.old, support.new),
+      fieldRow("\u5408\u89c4\u5206", compliance.old, compliance.new),
+    ].join("");
+    const body = (fields ? '<dl class="diff-fields">' + fields + "</dl>" : "") +
+      issueGroup("\u5df2\u89e3\u51b3\u7684\u65e7\u95ee\u9898", "resolved", item.fixed) +
+      issueGroup("\u65b0\u589e\u95ee\u9898", "new", item.new) +
+      issueGroup("\u4ecd\u5b58\u5728\u7684\u95ee\u9898", "still", item.still);
+    return '<details class="diff-item diff-kind-' + esc(kindClass) + '">' +
+      '<summary class="diff-item-head">' +
+        '<span class="diff-kind ' + esc(kindClass) + '">' + esc(KIND[kind] || KIND.unchanged) + "</span>" +
+        '<b class="diff-title">' + esc(item.title || ("#" + item.index)) + "</b>" +
+        statusLine +
+      "</summary>" +
+      '<div class="diff-item-body">' + (body || '<p class="diff-note">\u8fd9\u6761\u6ca1\u6709\u5b57\u6bb5\u7ea7\u5dee\u5f02\u3002</p>') + "</div>" +
+      "</details>";
+  }
+
+  function openDiffPane() {
+    if (window.__openChecks) window.__openChecks("diff");
+  }
+
+  function showError(message) {
+    result.innerHTML = '<div class="diff-empty diff-error" role="alert">' +
+      "<b>\u5bf9\u6bd4\u5931\u8d25</b><p>" + esc(message) + "</p>" +
+      '<p class="diff-note">\u4e0b\u4e00\u6b65\uff1a\u786e\u8ba4\u65e7\u62a5\u544a\u4ecd\u5b58\u5728\u4e14\u53ef\u8bfb\u53d6\uff1b\u5982\u679c\u521a\u91cd\u65b0\u5206\u6790\uff0c\u8bf7\u5237\u65b0\u9875\u9762\u540e\u91cd\u8bd5\u3002</p></div>';
+    openDiffPane();
   }
 
   function render(d) {
     const s = d.summary || {};
-    const items = d.items || [];
+    const allItems = Array.isArray(d.items) ? d.items : [];
+    const items = allItems.filter(function (item) { return (item.kind || "unchanged") !== "unchanged"; });
     if (!items.length) {
-      result.innerHTML = '<div class="diff-empty">\u4e24\u4efd\u62a5\u544a\u6ca1\u6709\u53ef\u89c1\u5dee\u5f02\u3002</div>';
-      if (window.__openChecks) window.__openChecks("diff");
+      result.innerHTML = '<div class="diff-empty" role="status">' +
+        "<b>\u4e24\u4efd\u62a5\u544a\u6ca1\u6709\u53ef\u89c1\u5dee\u5f02</b>" +
+        "<p>\u72b6\u6001\u3001\u652f\u6301\u5ea6\u3001\u5408\u89c4\u5206\u4e0e\u95ee\u9898\u5217\u8868\u90fd\u76f8\u540c\u3002</p>" +
+        '<p class="diff-note">\u5dee\u5f02\u53ea\u6bd4\u8f83\u5df2\u4fdd\u5b58\u7684\u62a5\u544a\u5b57\u6bb5\uff0c\u4e0d\u4f1a\u91cd\u65b0\u8054\u7f51\u6838\u9a8c\uff1b\u5982\u679c\u521a\u4fee\u6539\u4e86\u5f15\u6587\uff0c\u8bf7\u5728\u5de5\u4f5c\u53f0\u91cd\u65b0\u5206\u6790\u751f\u6210\u65b0\u62a5\u544a\u540e\u518d\u5bf9\u6bd4\u3002</p></div>';
+      openDiffPane();
       return;
     }
-    let html = '<div class="diff-summary">' +
-      '<span class="diff-chip">\u5df2\u89e3\u51b3 <b>' + (s.fixed || 0) + "</b></span>" +
-      '<span class="diff-chip">\u4ecd\u5b58\u5728 <b>' + (s.still || 0) + "</b></span>" +
-      '<span class="diff-chip">\u65b0\u589e <b>' + (s.new || 0) + "</b></span>" +
-      '<span class="diff-chip">\u72b6\u6001\u53d8\u5316 <b>' + (s.status_changed || 0) + "</b></span>" +
-      '<span class="diff-chip">\u652f\u6301\u5ea6\u53d8\u5316 <b>' + (s.support_changed || 0) + "</b></span>" +
+    const resolved = count(s.resolved != null ? s.resolved : s.fixed);
+    const still = count(s.still);
+    const added = count(s.new);
+    const statusChanged = count(s.status_changed);
+    const supportChanged = count(s.support_changed);
+    let html = '<div class="diff-summary" role="status">' +
+      '<span class="diff-chip diff-chip-resolved">\u5df2\u89e3\u51b3 <b>' + resolved + "</b></span>" +
+      '<span class="diff-chip diff-chip-still">\u4ecd\u5b58\u5728 <b>' + still + "</b></span>" +
+      '<span class="diff-chip diff-chip-new">\u65b0\u589e <b>' + added + "</b></span>" +
+      '<span class="diff-chip">\u72b6\u6001\u53d8\u5316 <b>' + statusChanged + "</b></span>" +
+      '<span class="diff-chip">\u652f\u6301\u5ea6\u53d8\u5316 <b>' + supportChanged + "</b></span>" +
       "</div>";
-    html += '<div class="diff-items">' + items.map(function (it) {
-      const kind = it.kind || "unchanged";
-      const st = it.status || {};
-      const sup = it.support || {};
-      let body = "";
-      if (it.fixed && it.fixed.length) body += "<div class=\"diff-block\"><i>\u5df2\u89e3\u51b3</i>" + issueList(it.fixed) + "</div>";
-      if (it.new && it.new.length) body += "<div class=\"diff-block\"><i>\u65b0\u589e</i>" + issueList(it.new) + "</div>";
-      if (it.still && it.still.length) body += "<div class=\"diff-block\"><i>\u4ecd\u5b58\u5728</i>" + issueList(it.still) + "</div>";
-      return '<article class="diff-item"><header><span class="diff-kind ' + kind + '">' +
-        esc(KIND[kind] || kind) + "</span><b>" + esc(it.title || ("#" + it.index)) + "</b>" +
-        '<span class="diff-status">' + esc(st.old || "") + " \u2192 " + esc(st.new || "") + "</span></header>" +
-        (sup.old && sup.old !== sup.new ? '<p class="diff-sup">\u652f\u6301\u5ea6\uff1a' + esc(sup.old) + " \u2192 " + esc(sup.new) + "</p>" : "") +
-        body + "</article>";
-    }).join("") + "</div>";
+    html += '<div class="diff-meta mono-sm">\u65e7\u62a5\u544a ' + count(s.old_total) + " \u6761 \u00b7 \u65b0\u62a5\u544a " +
+      count(s.new_total) + " \u6761 \u00b7 \u672c\u6b21\u53ef\u89c1\u53d8\u5316 " + count(s.changed != null ? s.changed : items.length) + " \u6761</div>";
+    if (d.note) html += '<p class="diff-note">' + esc(d.note) + "</p>";
+    html += '<p class="diff-keyhint">\u7528 Tab \u9009\u62e9\u5dee\u5f02\u6761\u76ee\uff0cEnter \u5c55\u5f00\uff1bEsc \u5173\u95ed\u68c0\u67e5\u660e\u7ec6\u3002</p>';
+    html += '<div class="diff-items">' + items.map(renderItem).join("") + "</div>";
     result.innerHTML = html;
-    if (window.__openChecks) window.__openChecks("diff");
+    openDiffPane();
+    const first = result.querySelector(".diff-item summary");
+    if (first) {
+      try {
+        first.focus({ preventScroll: true });
+      } catch (err) {
+        first.focus();
+      }
+    }
   }
 
   btn.addEventListener("click", async function () {
@@ -2410,17 +2580,25 @@ if (manualCsvBtn) {
         return;
       }
       select.innerHTML = jobs.map(function (j) {
-        return '<option value="' + esc(j.id) + '">' + esc((j.name || j.id) + " \u00b7 " + (j.created_at || "")) + "</option>";
+        return '<option value="' + escAttr(j.id) + '">' + esc((j.name || j.id) + " \u00b7 " + (j.created_at || "")) + "</option>";
       }).join("");
     } catch (e) {
-      select.innerHTML = '<option value="">\u52a0\u8f7d\u5931\u8d25</option>';
+      select.innerHTML = '<option value="">\u52a0\u8f7d\u5931\u8d25\uff0c\u8bf7\u91cd\u8bd5</option>';
     }
   });
 
   runBtn.addEventListener("click", async function () {
     const against = select.value;
-    if (!against) return;
-    result.innerHTML = '<div class="diff-empty">\u6b63\u5728\u5bf9\u6bd4\u2026</div>';
+    if (!against) {
+      showError("\u8bf7\u5148\u9009\u62e9\u4e00\u4efd\u65e7\u62a5\u544a\u3002");
+      return;
+    }
+    const label = runBtn.textContent;
+    runBtn.disabled = true;
+    runBtn.textContent = "\u5bf9\u6bd4\u4e2d\u2026";
+    result.setAttribute("aria-busy", "true");
+    result.innerHTML = '<div class="diff-empty" role="status">\u6b63\u5728\u5bf9\u6bd4\u2026</div>';
+    openDiffPane();
     try {
       const res = await fetch("/api/report/" + encodeURIComponent(currentJobId) + "/diff?against=" + encodeURIComponent(against));
       if (!res.ok) {
@@ -2429,7 +2607,11 @@ if (manualCsvBtn) {
       }
       render(await res.json());
     } catch (e) {
-      result.innerHTML = '<div class="diff-empty">\u5bf9\u6bd4\u5931\u8d25\uff1a' + esc(e.message) + "</div>";
+      showError(e && e.message ? e.message : "\u672a\u77e5\u9519\u8bef");
+    } finally {
+      runBtn.disabled = false;
+      runBtn.textContent = label;
+      result.removeAttribute("aria-busy");
     }
   });
 })();

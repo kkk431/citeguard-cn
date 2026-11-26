@@ -104,6 +104,50 @@ def _annotate_citations(writer: PdfWriter, report: dict, page_count: int, *, per
     return annotated, unmapped
 
 
+def needs_annotation(ref: dict) -> bool:
+    """Whether a reference deserves a margin note.
+
+    Exact entries without a negative support signal and without an error are
+    left alone; everything else is worth pinning to its page.  Keeping this
+    predicate here gives the PDF writer and the report UI one shared rule.
+    """
+
+    verify = ref.get("verify") or {}
+    status = verify.get("status") or "Unknown"
+    support = ((ref.get("support") or {}).get("label")) or ""
+    issues = (ref.get("compliance") or {}).get("issues") or []
+    has_error = any(str((issue or {}).get("level") or "").lower() == "error" for issue in issues)
+    return not (status == "Exact" and support not in {"contradict", "partial"} and not has_error)
+
+
+def annotation_candidates(report: dict) -> list[dict]:
+    """References that :func:`annotate_pdf` will try to place on a page."""
+
+    return [ref for ref in (report.get("references") or []) if isinstance(ref, dict) and needs_annotation(ref)]
+
+
+def annotation_plan(report: dict) -> dict:
+    """Describe what the annotated PDF contains without opening the PDF.
+
+    Returns the number/indexes of references that qualify and the number of
+    in-text citations available for left-margin notes.  Page placement is not
+    known until the PDF text is extracted, so this is intentionally a plan,
+    not a promise that every note will be mapped.
+    """
+
+    refs = annotation_candidates(report)
+    citations = ((report.get("citations") or {}).get("items")) or []
+    return {
+        "references": len(refs),
+        "indexes": [ref.get("index") for ref in refs],
+        "citations": len(citations),
+        "note": (
+            "批注 PDF 只在问题条目所在页的页边写状态、字段问题与引文位置；"
+            "找不到页码的条目不猜页，计为未映射。"
+        ),
+    }
+
+
 def annotate_pdf(input_pdf: str | Path, report: dict, output_pdf: str | Path) -> dict:
     """Write a copy of ``input_pdf`` with margin notes for problem references."""
     reader = PdfReader(str(input_pdf))
@@ -120,14 +164,7 @@ def annotate_pdf(input_pdf: str | Path, report: dict, output_pdf: str | Path) ->
 
     annotated = 0
     unmapped = 0
-    for ref in report.get("references") or []:
-        verify = ref.get("verify") or {}
-        status = verify.get("status") or "Unknown"
-        support = (ref.get("support") or {}).get("label")
-        issues = (ref.get("compliance") or {}).get("issues") or []
-        has_error = any((i.get("level") or "").lower() == "error" for i in issues)
-        if status == "Exact" and support not in {"contradict", "partial"} and not has_error:
-            continue
+    for ref in annotation_candidates(report):
         page_no = locate_page(page_texts, ref)
         if page_no is None:
             unmapped += 1

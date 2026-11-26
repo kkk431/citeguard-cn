@@ -1,0 +1,94 @@
+{
+  "ok": true,
+  "checks": [
+    {
+      "name": "D3 CSS loaded",
+      "ok": true,
+      "evidence": "/static/css/report_diff.css?v=1.7.48"
+    },
+    {
+      "name": "diff result is an aria-live region",
+      "ok": true,
+      "evidence": ""
+    },
+    {
+      "name": "real diff renders 15 items",
+      "ok": true,
+      "evidence": "15"
+    },
+    {
+      "name": "diff summary has resolved/still/new counts",
+      "ok": true,
+      "evidence": "已解决 0\n仍存在 0\n新增 15\n状态变化 0\n支持度变化 4"
+    },
+    {
+      "name": "first diff item receives keyboard focus",
+      "ok": true,
+      "evidence": ""
+    },
+    {
+      "name": "Enter expands field-level old/new",
+      "ok": true,
+      "evidence": "2"
+    },
+    {
+      "name": "diff exposes old and new values",
+      "ok": true,
+      "evidence": ""
+    },
+    {
+      "name": "no horizontal overflow at 1440",
+      "ok": true,
+      "evidence": "{\"doc\": 1440, \"body\": 1440, \"vw\": 1440}"
+    },
+    {
+      "name": "no horizontal overflow at 1280",
+      "ok": true,
+      "evidence": "{\"doc\": 1280, \"body\": 1280, \"vw\": 1280}"
+    },
+    {
+      "name": "export scope selector offers problems/fixed/all",
+      "ok": true,
+      "evidence": "3"
+    },
+    {
+      "name": "annotated PDF explains contents and unmapped pages",
+      "ok": true,
+      "evidence": "批注 PDF：在原文页边标出问题条目的状态、字段问题与引文位置；包含报告已有字段，不重新联网。找不到页码的条目不猜页，会计入未映射。"
+    },
+    {
+      "name": "client-side CSV downloads with problem scope",
+      "ok": true,
+      "evidence": "citeguard-c674df27a57e-problems.csv rows=55"
+    },
+    {
+      "name": "CSV filename carries job and scope",
+      "ok": true,
+      "evidence": "citeguard-c674df27a57e-problems.csv"
+    },
+    {
+      "name": "empty fixed scope gives a next step (no fake CSV)",
+      "ok": true,
+      "evidence": "当前范围「仅已修条目」没有可导出的条目。 请切换范围；若选择“仅已修”，请先在条目详情里应用修复。\n×"
+    },
+    {
+      "name": "all scope exports every reference",
+      "ok": true,
+      "evidence": "rows=55"
+    },
+    {
+      "name": "no console errors",
+      "ok": true,
+      "evidence": ""
+    }
+  ],
+  "console_errors": [],
+  "browser": "156.0.8078.4",
+  "job": "c674df27a57e",
+  "against": "d73ae2dcd2e9",
+  "screenshots": [
+    "docs/evidence/shots/opt-D3D4-diff-1440.png",
+    "docs/evidence/shots/opt-D3D4-diff-1280.png",
+    "docs/evidence/shots/opt-D3D4-export-1440.png"
+  ]
+}

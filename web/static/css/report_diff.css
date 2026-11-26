@@ -1,0 +1,341 @@
+/* D3/D4: readable report diffs, focused exports, and honest failure guidance. */
+
+.diff-help {
+  margin: 4px 0 0;
+  max-width: 78ch;
+  line-height: 1.55;
+}
+
+#diff-result {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.diff-summary {
+  gap: 8px;
+  margin: 8px 0 10px;
+}
+
+.diff-chip {
+  line-height: 1.35;
+}
+
+.diff-chip-resolved {
+  border-color: #2b6d5c;
+}
+
+.diff-chip-still {
+  border-color: #7a6231;
+}
+
+.diff-chip-new {
+  border-color: #7b4231;
+}
+
+.diff-meta {
+  color: var(--muted);
+  font-size: 12.5px;
+  margin: 0 0 8px;
+}
+
+.diff-keyhint {
+  color: var(--muted);
+  font-size: 12px;
+  margin: 0 0 12px;
+}
+
+.diff-note {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 12.5px;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.diff-items {
+  gap: 10px;
+}
+
+.diff-item {
+  padding: 0;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.diff-item > summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 12px 14px;
+  min-width: 0;
+  color: inherit;
+}
+
+.diff-item > summary::-webkit-details-marker {
+  display: none;
+}
+
+.diff-item > summary:focus-visible {
+  outline: 2px solid var(--accent, #4fd1c5);
+  outline-offset: -2px;
+}
+
+.diff-item[open] > summary {
+  border-bottom: 1px solid var(--line, #1e3b3a);
+}
+
+.diff-item-head .diff-kind {
+  flex: 0 0 auto;
+}
+
+.diff-title {
+  min-width: 0;
+  flex: 1 1 260px;
+  overflow-wrap: anywhere;
+  font-weight: 600;
+}
+
+.diff-status {
+  margin-left: auto;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.diff-item-body {
+  padding: 10px 14px 13px;
+  min-width: 0;
+}
+
+.diff-fields {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  margin: 0 0 8px;
+}
+
+.diff-field {
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr);
+  gap: 10px;
+  align-items: baseline;
+  padding: 6px 0;
+  border-top: 1px dashed var(--line, #1e3b3a);
+  min-width: 0;
+}
+
+.diff-field:first-child {
+  border-top: 0;
+}
+
+.diff-field dt {
+  color: var(--muted);
+  font-size: 12.5px;
+}
+
+.diff-field dd {
+  margin: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.diff-old,
+.diff-new {
+  overflow-wrap: anywhere;
+}
+
+.diff-old {
+  color: var(--muted);
+}
+
+.diff-new {
+  color: var(--text, #e8f7f2);
+}
+
+.diff-arrow {
+  color: var(--muted);
+  margin: 0 7px;
+}
+
+.diff-kind.resolved {
+  color: #7ff0cf;
+  border-color: #2b6d5c;
+}
+
+.diff-kind.new {
+  color: #ff9d7d;
+  border-color: #7b4231;
+}
+
+.diff-kind.still {
+  color: #ffd27a;
+  border-color: #7a6231;
+}
+
+.diff-kind.status,
+.diff-kind.support {
+  color: #9fd0ff;
+  border-color: #355d84;
+}
+
+.diff-issue-group {
+  margin-top: 10px;
+  min-width: 0;
+}
+
+.diff-issue-group h4 {
+  margin: 0 0 4px;
+  font-size: 12.5px;
+  color: var(--text, #e8f7f2);
+}
+
+.diff-issue-group.resolved h4 {
+  color: #7ff0cf;
+}
+
+.diff-issue-group.new h4 {
+  color: #ff9d7d;
+}
+
+.diff-issue-group.still h4 {
+  color: #ffd27a;
+}
+
+.diff-issue-group ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.diff-issue {
+  display: grid;
+  grid-template-columns: minmax(92px, 120px) auto minmax(0, 1fr);
+  gap: 8px;
+  align-items: baseline;
+  padding: 4px 0;
+  border-top: 1px dashed var(--line, #1e3b3a);
+  font-size: 12.5px;
+  min-width: 0;
+}
+
+.diff-issue:first-child {
+  border-top: 0;
+}
+
+.diff-field-name,
+.diff-issue-level {
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+.diff-issue-level {
+  text-transform: lowercase;
+}
+
+.diff-issue-message {
+  overflow-wrap: anywhere;
+}
+
+.diff-empty {
+  padding: 18px;
+  color: var(--muted);
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+.diff-empty b {
+  display: block;
+  color: var(--text, #e8f7f2);
+  margin-bottom: 6px;
+}
+
+.diff-empty p {
+  margin: 6px 0 0;
+  overflow-wrap: anywhere;
+}
+
+.diff-error {
+  border: 1px solid #7b4231;
+  border-radius: 10px;
+  background: rgba(123, 66, 49, 0.12);
+}
+
+/* Export menu: explain the scope and what each download contains. */
+.export-block {
+  display: grid;
+  gap: 6px;
+  padding: 8px 10px;
+  border: 1px solid var(--line, #1e3b3a);
+  border-radius: 9px;
+  margin: 4px 0;
+  min-width: 0;
+}
+
+.export-label {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.export-scope-select {
+  width: 100%;
+  min-width: 0;
+}
+
+.export-help {
+  margin: 2px 0 0;
+  color: var(--muted);
+  font-size: 11.5px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.export-troubleshoot {
+  border-top: 1px dashed var(--line, #1e3b3a);
+  padding-top: 7px;
+}
+
+@media (max-width: 900px) {
+  .diff-status {
+    margin-left: 0;
+    flex-basis: 100%;
+  }
+
+  .diff-field {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2px;
+  }
+
+  .diff-issue {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2px;
+  }
+}
+
+@media (max-width: 640px) {
+  .diff-item > summary {
+    padding: 10px 11px;
+  }
+
+  .diff-item-body {
+    padding: 8px 11px 12px;
+  }
+
+  .diff-title {
+    flex-basis: 100%;
+  }
+}
+
+@media print {
+  .diff-help,
+  .diff-keyhint,
+  .export-block,
+  .export-help {
+    display: none;
+  }
+
+  .diff-item {
+    break-inside: avoid;
+  }
+}

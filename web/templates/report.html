@@ -2,6 +2,7 @@
 {% block title %}报告 · 引证卫士 CiteGuard{% endblock %}
 {% block content %}
 <link rel="stylesheet" href="/static/css/report_reader.css?v={{ request.app.version }}">
+<link rel="stylesheet" href="/static/css/report_diff.css?v={{ request.app.version }}">
 <div class="wrap report-shell" id="report-root" data-job-id="{{ job.id }}" data-ready="{{ '1' if report else '0' }}">
   <aside class="report-rail">
     <div class="rail-card">
@@ -56,7 +57,16 @@
           <div class="export-menu-body">
             <button class="btn btn-ghost btn-sm" type="button" id="copy-suggestions">复制修改建议</button>
             <button class="btn btn-ghost btn-sm" type="button" id="copy-refs">复制参考文献表</button>
-            <button class="btn btn-ghost btn-sm" type="button" id="manual-csv">导出待人工核对 CSV</button>
+            <div class="export-block">
+              <label class="export-label" for="export-scope">CSV 范围</label>
+              <select class="select export-scope-select" id="export-scope">
+                <option value="problems">仅问题条目（默认）</option>
+                <option value="fixed">仅已修条目</option>
+                <option value="all">全部条目</option>
+              </select>
+              <p class="export-help" id="export-scope-help">“问题条目”=非 Exact、支持度存疑或存在合规问题；“已修”=本次已应用修复或标记已修。CSV 在浏览器内筛选，不上传报告。</p>
+            </div>
+            <button class="btn btn-ghost btn-sm" type="button" id="manual-csv">导出所选范围 CSV</button>
             <a class="btn btn-ghost btn-sm" href="/api/report/{{ job.id }}/export?format=refs">导出参考文献表</a>
             <button class="btn btn-ghost btn-sm" type="button" id="btn-fix-preview">预览可修复条目</button>
             <a class="btn btn-ghost btn-sm" href="/api/report/{{ job.id }}/fixed.txt">下载修订参考文献（TXT）</a>
@@ -70,7 +80,9 @@
             <a class="btn btn-ghost btn-sm" href="/api/report/{{ job.id }}/export?format=md">导出 Markdown</a>
             <a class="btn btn-ghost btn-sm" href="/api/report/{{ job.id }}/export?format=json">导出 JSON</a>
             <a class="btn btn-ghost btn-sm" href="/api/report/{{ job.id }}/bundle">下载证据包（ZIP）</a>
-            <a class="btn btn-ghost btn-sm" href="/api/report/{{ job.id }}/annotated" target="_blank" rel="noopener">下载批注 PDF</a>
+            <a class="btn btn-ghost btn-sm" href="/api/report/{{ job.id }}/annotated" target="_blank" rel="noopener" id="download-annotated" aria-describedby="annotated-help">下载批注 PDF</a>
+            <p class="export-help" id="annotated-help">批注 PDF：在原文页边标出问题条目的状态、字段问题与引文位置；包含报告已有字段，不重新联网。找不到页码的条目不猜页，会计入未映射。</p>
+            <p class="export-help export-troubleshoot" id="export-troubleshoot">导出失败：查看页面提示；仍失败可改用「打印 / 存 PDF」或「复制参考文献表」，不会伪造缺失文件。</p>
           </div>
         </details>
         {% endif %}
@@ -112,12 +124,13 @@
           </div>
           <div class="diff-bar">
             <button class="btn ghost sm" type="button" id="open-checks">检查明细</button>
-            <button class="btn ghost sm" type="button" id="btn-diff">对比历史报告</button>
+            <button class="btn ghost sm" type="button" id="btn-diff" aria-controls="diff-result">对比历史报告</button>
             <div class="diff-picker hidden" id="diff-picker">
               <select class="select" id="diff-against" aria-label="选择旧报告"></select>
-              <button class="btn sm" type="button" id="btn-diff-run">开始对比</button>
+              <button class="btn sm" type="button" id="btn-diff-run" aria-controls="diff-result">开始对比</button>
             </div>
           </div>
+          <p class="inline-note diff-help" id="diff-help">对比只读取两份已保存的报告，不重新联网；可看到状态迁移、支持度、合规分与问题字段的 old → new。用 Tab 选择条目、Enter 展开。</p>
         </div>
       </div>
       <div class="refs-pane hidden" id="refs-pane">
@@ -296,7 +309,7 @@
         <div class="chart-grid" id="report-charts"></div>
       </section>
       <section class="checks-pane" data-checks-pane="diff">
-        <div id="diff-result"></div>
+        <div id="diff-result" role="region" aria-live="polite" aria-label="复检差异结果"></div>
       </section>
     </div>
   </aside>

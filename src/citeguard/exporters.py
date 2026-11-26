@@ -316,11 +316,65 @@ def refs_to_csl(refs: Iterable[Reference]) -> str:
     return json.dumps([ref_to_csl(ref, i) for i, ref in enumerate(refs)], ensure_ascii=False, indent=2)
 
 
-def refs_from_parsed(items: Iterable[dict]) -> list[Reference]:
-    """Rebuild :class:`Reference` objects from a saved report's ``parsed`` dicts."""
+EXPORT_SCOPES = ("all", "problems", "fixed")
+
+
+def is_problem_reference(item: dict) -> bool:
+    """Whether a saved report entry still needs attention.
+
+    This is the same reading rule used by the report page: a non-``Exact``
+    verification status, a possibly negative support label, or an error /
+    warning compliance issue.  It is deliberately conservative -- an
+    ``Exact`` entry without any issue is not a "problem".
+    """
+
+    if not isinstance(item, dict):
+        return False
+    verify = item.get("verify") or {}
+    status = str(verify.get("status") or "Unknown")
+    support = ((item.get("support") or {}).get("label")) or ""
+    issues = (item.get("compliance") or {}).get("issues") or []
+    has_issue = any(str((issue or {}).get("level") or "").lower() in {"error", "warning"} for issue in issues)
+    return status != "Exact" or support in {"contradict", "partial", "no_evidence"} or has_issue
+
+
+def is_fixed_reference(item: dict) -> bool:
+    """Whether a saved report entry carries an applied repair record."""
+
+    if not isinstance(item, dict):
+        return False
+    repair = item.get("repair") or {}
+    return isinstance(repair, dict) and repair.get("state") == "fixed"
+
+
+def select_report_items(items: Iterable[dict], scope: str = "all") -> list[dict]:
+    """Select saved report entries for an export scope.
+
+    ``scope`` is one of :data:`EXPORT_SCOPES`; unknown values raise
+    :class:`ValueError` so the web layer can return a useful 400 instead of
+    silently exporting the wrong rows.
+    """
+
+    if scope not in EXPORT_SCOPES:
+        raise ValueError(f"未知导出范围: {scope}")
+    rows = [item for item in (items or []) if isinstance(item, dict)]
+    if scope == "problems":
+        return [item for item in rows if is_problem_reference(item)]
+    if scope == "fixed":
+        return [item for item in rows if is_fixed_reference(item)]
+    return rows
+
+
+def refs_from_parsed(items: Iterable[dict], scope: str = "all") -> list[Reference]:
+    """Rebuild :class:`Reference` objects from a saved report's ``parsed`` dicts.
+
+    ``scope`` is optional and backwards compatible; the default exports every
+    parseable entry.
+    """
+
     out: list[Reference] = []
-    for item in items or []:
-        parsed = (item or {}).get("parsed") if isinstance(item, dict) else None
+    for item in select_report_items(items, scope):
+        parsed = item.get("parsed")
         if not isinstance(parsed, dict):
             continue
         known = {f for f in Reference.__dataclass_fields__}  # type: ignore[attr-defined]
