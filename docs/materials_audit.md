@@ -8,7 +8,7 @@
 | 资源清单 | v1.7.36 / 2 页 | 无新增第三方依赖；readability/Europe PMC/Qwen3-VL/4B 已在册 | 可保持 |
 | 佐证材料 | v1.7.36 / 18 页 | 质量优化证据追加到佐证需要下一次统一重建 | 后续阶段更新 |
 | 提交目录 | 8 文件 | 报告 v1.7.49、提交说明 v1.7.49；zip 27,353,748 B / sha `f96d7acd6378a0c712edf19555a1069a745ab3c68749f77082171ab7801bc023` | 已更新 |
-| GitHub | main `396c8af` / tag v1.7.49 | release latest v1.7.49（https://github.com/kkk431/citeguard-cn/releases/tag/v1.7.49，页面指向 `396c8af`）；CI #415 success（`396c8af`）、#414 failed（旧 `35d82a0` SBOM 未刷新，已修） | 已更新 |
+| GitHub | main `396c8af` / tag v1.7.49 | release latest v1.7.49（https://github.com/kkk431/citeguard-cn/releases/tag/v1.7.49，页面指向 `396c8af`）；CI #415 success（`396c8af`）、#416 success（`f1087ee`）、#414 failed（旧 `35d82a0` SBOM 未刷新，已修） | 已更新 |
 | 平台字段 | 名称/简介已定 | 报告/佐证更新后字段不变 | 待确认 |
 | PPT/视频 | v1.7.35 / v1.7.36 | 用户明确不改内容 | 保持 |
 
