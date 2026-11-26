@@ -1,0 +1,111 @@
+{
+  "generated_at": "2026-11-26T17:04:01.116286+00:00",
+  "endpoint": "/api/library/dashboard",
+  "library": {
+    "total": 28,
+    "path": "D:\\ai+ky\\citeguard\\data\\library\\library.json",
+    "with_doi": 22,
+    "with_year": 26,
+    "with_venue": 28,
+    "with_abstract": 14
+  },
+  "completeness": {
+    "total": 28,
+    "complete": 9,
+    "pct": 32.1,
+    "missing_fields": {
+      "doi": 6,
+      "year": 2,
+      "venue": 0,
+      "pages": 6,
+      "abstract": 14
+    }
+  },
+  "sources": {
+    "total": 28,
+    "rows": [
+      {
+        "source": "local:ris",
+        "total": 20,
+        "pct": 71.4,
+        "complete": 6,
+        "missing_fields": {
+          "doi": 2,
+          "year": 0,
+          "venue": 0,
+          "pages": 3,
+          "abstract": 12
+        }
+      },
+      {
+        "source": "local:endnote",
+        "total": 5,
+        "pct": 17.9,
+        "complete": 3,
+        "missing_fields": {
+          "doi": 2,
+          "year": 2,
+          "venue": 0,
+          "pages": 0,
+          "abstract": 0
+        }
+      },
+      {
+        "source": "manual-bulk",
+        "total": 2,
+        "pct": 7.1,
+        "complete": 0,
+        "missing_fields": {
+          "doi": 2,
+          "year": 0,
+          "venue": 0,
+          "pages": 2,
+          "abstract": 2
+        }
+      },
+      {
+        "source": "manual",
+        "total": 1,
+        "pct": 3.6,
+        "complete": 0,
+        "missing_fields": {
+          "doi": 0,
+          "year": 0,
+          "venue": 0,
+          "pages": 1,
+          "abstract": 0
+        }
+      }
+    ]
+  },
+  "years": {
+    "min": 2011,
+    "max": 2026,
+    "median": 2021.0,
+    "missing": 2,
+    "with_year": 26
+  },
+  "venues_unique": 23,
+  "duplicates": {
+    "groups": [],
+    "group_count": 0,
+    "entries_in_groups": 0
+  },
+  "coverage": {
+    "reports_provided": true,
+    "reports": 6,
+    "references": 129,
+    "library_hits": 56,
+    "pct": 43.4
+  },
+  "screenshots": [
+    "docs/evidence/shots/opt-A3-library-dashboard-1.7.48-1440.png",
+    "docs/evidence/shots/opt-A3-library-dashboard-1.7.48-1280.png"
+  ],
+  "viewports": [
+    1440,
+    1280
+  ],
+  "console_errors": [],
+  "note": "真实库 28 条；截图元素为仪表盘弹窗；不是全页截图"
+}

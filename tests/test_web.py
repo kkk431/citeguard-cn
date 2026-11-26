@@ -1138,7 +1138,22 @@ def test_library_page_exposes_tags_and_merge(client):
     assert 'id="library-tag-modal"' in html
     assert 'id="library-gaps-btn"' in html
     assert 'id="library-gaps-modal"' in html
+    assert 'id="library-dashboard-btn"' in html
+    assert 'id="library-dashboard-modal"' in html
     assert "待补清单" in html
+
+
+def test_library_dashboard_api_returns_snapshot(client):
+    client.post("/api/library/demo")
+    resp = client.get("/api/library/dashboard")
+    assert resp.status_code == 200
+    data = resp.json()
+    assert data["library"]["total"] >= 10
+    assert data["completeness"]["overall"]["total"] == data["library"]["total"]
+    assert "sources" in data and "years" in data and "venues" in data
+    assert "coverage" in data and "notes" in data
+    assert "pct" in data["completeness"]["overall"]
+
 
 def test_live_page_has_support_matrix_steps_and_failure_actions(client):
     html = client.get("/live").text

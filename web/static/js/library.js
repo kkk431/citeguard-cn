@@ -28,6 +28,9 @@
   const gapsBtn = document.getElementById("library-gaps-btn");
   const gapsModal = document.getElementById("library-gaps-modal");
   const gapsBody = document.getElementById("gaps-body");
+  const dashBtn = document.getElementById("library-dashboard-btn");
+  const dashModal = document.getElementById("library-dashboard-modal");
+  const dashBody = document.getElementById("dashboard-body");
   const previewEl = document.getElementById("library-preview");
   const previewSummary = document.getElementById("library-preview-summary");
   const previewStats = document.getElementById("library-preview-stats");
@@ -694,10 +697,175 @@
     }
   }
 
+  async function openDashboard() {
+    if (!dashModal || !dashBody) return;
+    dashBody.textContent = "正在统计…";
+    dashModal.hidden = false;
+    try {
+      const data = await window.CiteGuard.getJSON("/api/library/dashboard");
+      dashBody.textContent = "";
+
+      const lib = data.library || {};
+      const overall = (data.completeness || {}).overall || {};
+      const coverage = data.coverage || {};
+      const dup = data.duplicates || {};
+      const stats = document.createElement("div");
+      stats.className = "lib-dash-stats";
+      [
+        [String(lib.total || 0), "库内条目"],
+        [String(overall.complete || 0) + "/" + String(lib.total || 0), "字段完整"],
+        [String(overall.pct || 0) + "%", "完整度"],
+        [String(dup.group_count || 0), "重复组"],
+        [coverage.reports ? String(coverage.pct) + "%" : "—", "报告命中率"],
+      ].forEach(function (pair) {
+        const card = document.createElement("div");
+        card.className = "lib-dash-stat";
+        const b = document.createElement("b");
+        b.textContent = pair[0];
+        const span = document.createElement("span");
+        span.textContent = pair[1];
+        card.append(b, span);
+        stats.appendChild(card);
+      });
+      dashBody.appendChild(stats);
+
+      const note = document.createElement("p");
+      note.className = "hint";
+      note.textContent =
+        "语言由题名推断；标签由你维护；完整度只统计 doi/year/venue/pages/abstract，缺字段不是错误。";
+      dashBody.appendChild(note);
+
+      function addSection(title, hint) {
+        const wrap = document.createElement("div");
+        wrap.className = "lib-dash-section";
+        const h = document.createElement("h3");
+        h.textContent = title;
+        wrap.appendChild(h);
+        if (hint) {
+          const p = document.createElement("p");
+          p.className = "hint";
+          p.textContent = hint;
+          wrap.appendChild(p);
+        }
+        dashBody.appendChild(wrap);
+        return wrap;
+      }
+
+      function addTable(parent, headers, rows) {
+        if (!rows.length) {
+          const p = document.createElement("p");
+          p.className = "hint";
+          p.textContent = "暂无数据";
+          parent.appendChild(p);
+          return;
+        }
+        const table = document.createElement("table");
+        table.className = "lib-gap-table";
+        const thead = document.createElement("thead");
+        const htr = document.createElement("tr");
+        headers.forEach(function (text) {
+          const th = document.createElement("th");
+          th.textContent = text;
+          htr.appendChild(th);
+        });
+        thead.appendChild(htr);
+        table.appendChild(thead);
+        const tbody = document.createElement("tbody");
+        rows.forEach(function (cells) {
+          const tr = document.createElement("tr");
+          cells.forEach(function (text) {
+            const td = document.createElement("td");
+            td.textContent = String(text);
+            tr.appendChild(td);
+          });
+          tbody.appendChild(tr);
+        });
+        table.appendChild(tbody);
+        parent.appendChild(table);
+      }
+
+      const sources = (data.sources || {}).rows || [];
+      const sourceBox = addSection("来源分布", "RIS / EndNote / 手输，全部留在这台机器。");
+      addTable(
+        sourceBox,
+        ["来源", "条目", "占比", "完整"],
+        sources.map(function (row) {
+          return [row.source, row.total, String(row.pct) + "%", row.complete];
+        })
+      );
+
+      const years = data.years || {};
+      const venues = data.venues || {};
+      const shapeBox = addSection("年份与期刊", "只做描述，不推断趋势。");
+      addTable(
+        shapeBox,
+        ["维度", "值"],
+        [
+          ["年份范围", years.with_year ? String(years.min) + "–" + String(years.max) : "—"],
+          ["年份中位数", years.median == null ? "—" : String(years.median)],
+          ["缺年份", years.missing == null ? "—" : years.missing],
+          ["不同期刊/会议", venues.unique == null ? "—" : venues.unique],
+        ]
+      );
+      const topVenues = (venues.top || []).slice(0, 6);
+      if (topVenues.length) {
+        addTable(
+          shapeBox,
+          ["期刊/会议", "条目"],
+          topVenues.map(function (row) {
+            return [row.venue, row.count];
+          })
+        );
+      }
+
+      const byLang = ((data.completeness || {}).by_language) || [];
+      const langBox = addSection("按语言", "中文/英文由题名推断，不是语言识别。");
+      addTable(
+        langBox,
+        ["语言", "条目", "完整"],
+        byLang.map(function (row) {
+          return [row.key, row.total, row.complete];
+        })
+      );
+
+      const reports = coverage.by_report || [];
+      const coverBox = addSection("报告命中本地库", coverage.note || "");
+      if (coverage.reports_provided) {
+        addTable(
+          coverBox,
+          ["任务", "参考文献", "命中", "命中率"],
+          reports.slice(0, 8).map(function (row) {
+            return [row.job_id, row.references, row.library_hits, String(row.pct) + "%"];
+          })
+        );
+      } else {
+        const p = document.createElement("p");
+        p.className = "hint";
+        p.textContent = "尚未传入分析报告，命中率不可用。";
+        coverBox.appendChild(p);
+      }
+
+      const notes = data.notes || [];
+      if (notes.length) {
+        const list = document.createElement("ul");
+        list.className = "hint";
+        notes.forEach(function (text) {
+          const li = document.createElement("li");
+          li.textContent = text;
+          list.appendChild(li);
+        });
+        dashBody.appendChild(list);
+      }
+    } catch (err) {
+      dashBody.textContent = "统计失败：" + err.message;
+    }
+  }
+
   function closeLibModal(kind) {
     if (kind === "tag" && tagModal) tagModal.hidden = true;
     if (kind === "dupes" && dupesModal) dupesModal.hidden = true;
     if (kind === "gaps" && gapsModal) gapsModal.hidden = true;
+    if (kind === "dashboard" && dashModal) dashModal.hidden = true;
   }
 
   async function saveTags() {
@@ -786,6 +954,7 @@
 
   if (dupesBtn) dupesBtn.addEventListener("click", checkDuplicates);
   if (gapsBtn) gapsBtn.addEventListener("click", openGaps);
+  if (dashBtn) dashBtn.addEventListener("click", openDashboard);
   if (tagSave) tagSave.addEventListener("click", saveTags);
   if (tagInput) {
     tagInput.addEventListener("keydown", function (e) {
@@ -797,7 +966,7 @@
     el.addEventListener("click", function () { closeLibModal(el.getAttribute("data-close")); });
   });
   document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") { closeLibModal("tag"); closeLibModal("dupes"); closeLibModal("gaps"); }
+    if (e.key === "Escape") { closeLibModal("tag"); closeLibModal("dupes"); closeLibModal("gaps"); closeLibModal("dashboard"); }
   });
 
 })();

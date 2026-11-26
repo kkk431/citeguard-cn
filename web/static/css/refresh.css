@@ -1,4 +1,4 @@
-﻿/* ============================================================
+/* ============================================================
    CiteGuard-CN · 2026 前端重构层
    在 app.css 之后加载：暗色“取证控制台”主题 + 新的导航/卡片/动效。
    保留原 DOM 与表单 id，只改视觉与交互层。
@@ -1469,6 +1469,14 @@ body.theme-light .drawer-panel{color:var(--ink)}
 .lib-gap-chips{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;flex:0 0 auto}
 .lib-gap-chip{display:inline-flex;align-items:center;padding:3px 9px;border-radius:999px;background:rgba(255,184,77,.12);border:1px solid rgba(255,184,77,.35);color:#ffbd5f;font-size:12px;white-space:nowrap}
 body.theme-light .lib-gap-chip{background:#fff2d6;color:#8a5a00;border-color:#e6bf7a}
+/* A3: library dashboard snapshot (read-only). */
+.lib-dash-stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin:4px 0 8px}
+.lib-dash-stat{display:flex;flex-direction:column;gap:4px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.lib-dash-stat b{font:600 24px/1 Orbitron,ui-monospace,monospace;color:var(--accent)}
+.lib-dash-stat span{font-size:12px;color:var(--muted)}
+.lib-dash-section{margin-top:14px}
+.lib-dash-section h3{margin:0 0 4px;font-size:14px;font-weight:600;color:var(--ink)}
+@media(max-width:760px){.lib-dash-stats{grid-template-columns:repeat(3,minmax(0,1fr))}}
 
 /* B1: background jobs stay visible on the history page. */
 #history-live {

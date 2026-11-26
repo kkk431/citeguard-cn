@@ -40,6 +40,7 @@ from citeguard import discover  # noqa: E402
 from citeguard import evidence_map  # noqa: E402
 from citeguard import figure_check  # noqa: E402
 from citeguard import fix as fix_mod  # noqa: E402
+from citeguard import library_stats  # noqa: E402
 from citeguard import triage  # noqa: E402
 from citeguard.abstract_enrich import MAX_ENRICH_PER_REQUEST, enrich_missing  # noqa: E402
 from citeguard.jobs import manager  # noqa: E402
@@ -567,6 +568,19 @@ def library_gaps_csv():
         media_type="text/csv; charset=utf-8",
         headers={"Content-Disposition": 'attachment; filename="library-gaps.csv"'},
     )
+
+
+@app.get("/api/library/dashboard")
+def library_dashboard():
+    """Read-only snapshot for the library dashboard (A3).
+
+    Reports are passed by path so the module can compute coverage without the
+    web layer having to parse every report itself.  Unreadable reports are
+    skipped by ``library_stats`` instead of failing the page.
+    """
+    library = Library.load(config.LIBRARY_FILE)
+    report_paths = sorted(str(path) for path in (config.DATA_DIR / "jobs").glob("*/report.json"))
+    return library_stats.summarize(library, report_paths)
 
 
 @app.post("/api/library/demo")

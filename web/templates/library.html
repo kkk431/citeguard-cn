@@ -13,7 +13,8 @@
     <div class="section-head">
       <h2>覆盖构成</h2>
       <span class="hint">这批题录里有多少字段可直接参与比对</span>
-      <button type="button" class="btn btn-ghost" id="library-gaps-btn" style="margin-left:auto">待补清单</button>
+      <button type="button" class="btn btn-ghost" id="library-dashboard-btn" style="margin-left:auto">库仪表盘</button>
+      <button type="button" class="btn btn-ghost" id="library-gaps-btn">待补清单</button>
     </div>
     <div class="stats stats-4">
       <div class="stat"><b>{{ coverage.doi_pct }}%</b><span>带 DOI（{{ coverage.doi }}/{{ count }}）</span></div>
@@ -168,6 +169,14 @@
       <a class="btn btn-ghost" id="gaps-download" href="/api/library/gaps.csv">下载 CSV</a>
       <button type="button" class="btn btn-ghost" data-close="gaps">关闭</button>
     </div>
+  </div>
+</div>
+<div class="lib-modal" id="library-dashboard-modal" hidden>
+  <div class="lib-modal-backdrop" data-close="dashboard"></div>
+  <div class="lib-modal-card wide" role="dialog" aria-modal="true" aria-labelledby="dashboard-modal-title">
+    <div class="lib-modal-head"><h2 id="dashboard-modal-title">题录库仪表盘</h2><button type="button" class="icon-btn" data-close="dashboard" aria-label="关闭">×</button></div>
+    <div id="dashboard-body"></div>
+    <div class="lib-modal-foot"><button type="button" class="btn btn-ghost" data-close="dashboard">关闭</button></div>
   </div>
 </div>
 {% endblock %}

@@ -1,0 +1,448 @@
+{
+  "schema": 1,
+  "generated_at": "2026-11-27T00:44:09",
+  "library": {
+    "total": 28,
+    "path": "data\\library\\library.json",
+    "with_doi": 22,
+    "with_year": 26,
+    "with_venue": 28,
+    "with_abstract": 14
+  },
+  "sources": {
+    "total": 28,
+    "rows": [
+      {
+        "source": "local:ris",
+        "total": 20,
+        "pct": 71.4,
+        "complete": 6,
+        "missing_fields": {
+          "doi": 2,
+          "year": 0,
+          "venue": 0,
+          "pages": 3,
+          "abstract": 12
+        }
+      },
+      {
+        "source": "local:endnote",
+        "total": 5,
+        "pct": 17.9,
+        "complete": 3,
+        "missing_fields": {
+          "doi": 2,
+          "year": 2,
+          "venue": 0,
+          "pages": 0,
+          "abstract": 0
+        }
+      },
+      {
+        "source": "manual-bulk",
+        "total": 2,
+        "pct": 7.1,
+        "complete": 0,
+        "missing_fields": {
+          "doi": 2,
+          "year": 0,
+          "venue": 0,
+          "pages": 2,
+          "abstract": 2
+        }
+      },
+      {
+        "source": "manual",
+        "total": 1,
+        "pct": 3.6,
+        "complete": 0,
+        "missing_fields": {
+          "doi": 0,
+          "year": 0,
+          "venue": 0,
+          "pages": 1,
+          "abstract": 0
+        }
+      }
+    ]
+  },
+  "years": {
+    "total": 28,
+    "with_year": 26,
+    "missing": 2,
+    "min": 2011,
+    "max": 2026,
+    "median": 2021.0,
+    "by_year": [
+      {
+        "year": "2011",
+        "count": 1,
+        "pct": 3.6
+      },
+      {
+        "year": "2013",
+        "count": 1,
+        "pct": 3.6
+      },
+      {
+        "year": "2014",
+        "count": 1,
+        "pct": 3.6
+      },
+      {
+        "year": "2016",
+        "count": 2,
+        "pct": 7.1
+      },
+      {
+        "year": "2017",
+        "count": 2,
+        "pct": 7.1
+      },
+      {
+        "year": "2018",
+        "count": 1,
+        "pct": 3.6
+      },
+      {
+        "year": "2019",
+        "count": 1,
+        "pct": 3.6
+      },
+      {
+        "year": "2020",
+        "count": 4,
+        "pct": 14.3
+      },
+      {
+        "year": "2022",
+        "count": 1,
+        "pct": 3.6
+      },
+      {
+        "year": "2023",
+        "count": 4,
+        "pct": 14.3
+      },
+      {
+        "year": "2024",
+        "count": 2,
+        "pct": 7.1
+      },
+      {
+        "year": "2025",
+        "count": 3,
+        "pct": 10.7
+      },
+      {
+        "year": "2026",
+        "count": 3,
+        "pct": 10.7
+      }
+    ]
+  },
+  "venues": {
+    "unique": 23,
+    "missing": 0,
+    "top": [
+      {
+        "venue": "Chinese Science Bulletin (Chinese Version)",
+        "count": 2,
+        "pct": 7.1
+      },
+      {
+        "venue": "International Forum of Allergy & Rhinology",
+        "count": 2,
+        "pct": 7.1
+      },
+      {
+        "venue": "亚洲临床医学杂志",
+        "count": 2,
+        "pct": 7.1
+      },
+      {
+        "venue": "传播与版权",
+        "count": 2,
+        "pct": 7.1
+      },
+      {
+        "venue": "动物学研究",
+        "count": 2,
+        "pct": 7.1
+      },
+      {
+        "venue": "Applied Sciences, 13, Article No. 3051",
+        "count": 1,
+        "pct": 3.6
+      },
+      {
+        "venue": "DOAJ (DOAJ: Directory of Open Access Journals)",
+        "count": 1,
+        "pct": 3.6
+      },
+      {
+        "venue": "Electronic Commerce Research, 24, 2953-2989",
+        "count": 1,
+        "pct": 3.6
+      }
+    ]
+  },
+  "duplicates": {
+    "groups": [],
+    "group_count": 0,
+    "entries_in_groups": 0
+  },
+  "completeness": {
+    "required_fields": [
+      "doi",
+      "year",
+      "venue",
+      "pages",
+      "abstract"
+    ],
+    "rule": "完整 = doi/year/venue/pages/abstract 均非空；缺失字段不是错误",
+    "overall": {
+      "total": 28,
+      "complete": 9,
+      "pct": 32.1,
+      "missing_fields": {
+        "doi": 6,
+        "year": 2,
+        "venue": 0,
+        "pages": 6,
+        "abstract": 14
+      }
+    },
+    "fields": {
+      "title": {
+        "present": 28,
+        "pct": 100.0
+      },
+      "authors": {
+        "present": 28,
+        "pct": 100.0
+      },
+      "venue": {
+        "present": 28,
+        "pct": 100.0
+      },
+      "year": {
+        "present": 26,
+        "pct": 92.9
+      },
+      "volume": {
+        "present": 7,
+        "pct": 25.0
+      },
+      "issue": {
+        "present": 10,
+        "pct": 35.7
+      },
+      "pages": {
+        "present": 22,
+        "pct": 78.6
+      },
+      "doi": {
+        "present": 22,
+        "pct": 78.6
+      },
+      "url": {
+        "present": 15,
+        "pct": 53.6
+      },
+      "abstract": {
+        "present": 14,
+        "pct": 50.0
+      },
+      "doc_type": {
+        "present": 0,
+        "pct": 0.0
+      },
+      "source": {
+        "present": 28,
+        "pct": 100.0
+      },
+      "tags": {
+        "present": 0,
+        "pct": 0.0
+      }
+    },
+    "by_source": [
+      {
+        "key": "local:ris",
+        "total": 20,
+        "complete": 6,
+        "missing_fields": {
+          "doi": 2,
+          "year": 0,
+          "venue": 0,
+          "pages": 3,
+          "abstract": 12
+        }
+      },
+      {
+        "key": "local:endnote",
+        "total": 5,
+        "complete": 3,
+        "missing_fields": {
+          "doi": 2,
+          "year": 2,
+          "venue": 0,
+          "pages": 0,
+          "abstract": 0
+        }
+      },
+      {
+        "key": "manual-bulk",
+        "total": 2,
+        "complete": 0,
+        "missing_fields": {
+          "doi": 2,
+          "year": 0,
+          "venue": 0,
+          "pages": 2,
+          "abstract": 2
+        }
+      },
+      {
+        "key": "manual",
+        "total": 1,
+        "complete": 0,
+        "missing_fields": {
+          "doi": 0,
+          "year": 0,
+          "venue": 0,
+          "pages": 1,
+          "abstract": 0
+        }
+      }
+    ],
+    "by_language": [
+      {
+        "key": "zh",
+        "total": 17,
+        "complete": 9,
+        "missing_fields": {
+          "doi": 4,
+          "year": 2,
+          "venue": 0,
+          "pages": 5,
+          "abstract": 4
+        }
+      },
+      {
+        "key": "en",
+        "total": 11,
+        "complete": 0,
+        "missing_fields": {
+          "doi": 2,
+          "year": 0,
+          "venue": 0,
+          "pages": 1,
+          "abstract": 10
+        }
+      }
+    ],
+    "by_tag": [
+      {
+        "key": "untagged",
+        "total": 28,
+        "complete": 9,
+        "missing_fields": {
+          "doi": 6,
+          "year": 2,
+          "venue": 0,
+          "pages": 6,
+          "abstract": 14
+        }
+      }
+    ]
+  },
+  "tags": {
+    "unique": 0,
+    "tagged": 0,
+    "untagged": 28,
+    "total": 28,
+    "rows": [],
+    "note": "标签由用户维护，不是自动语义分类"
+  },
+  "coverage": {
+    "reports_provided": true,
+    "reports": 6,
+    "skipped": [],
+    "references": 129,
+    "library_hits": 56,
+    "pct": 43.4,
+    "by_report": [
+      {
+        "job_id": "05304bf55ea7",
+        "generated_at": "2026-11-26T22:59:54",
+        "month": "2026-11",
+        "references": 15,
+        "library_hits": 11,
+        "pct": 73.3
+      },
+      {
+        "job_id": "4c2e857565fa",
+        "generated_at": "2026-11-26T23:56:17",
+        "month": "2026-11",
+        "references": 15,
+        "library_hits": 11,
+        "pct": 73.3
+      },
+      {
+        "job_id": "a0028b409a97",
+        "generated_at": "2026-11-26T20:11:48",
+        "month": "2026-11",
+        "references": 15,
+        "library_hits": 11,
+        "pct": 73.3
+      },
+      {
+        "job_id": "c674df27a57e",
+        "generated_at": "2026-11-26T19:46:47",
+        "month": "2026-11",
+        "references": 54,
+        "library_hits": 1,
+        "pct": 1.9
+      },
+      {
+        "job_id": "d73ae2dcd2e9",
+        "generated_at": "2026-11-26T20:36:39",
+        "month": "2026-11",
+        "references": 15,
+        "library_hits": 11,
+        "pct": 73.3
+      },
+      {
+        "job_id": "96511af51c97",
+        "generated_at": "2026-11-12T20:11:46",
+        "month": "2026-11",
+        "references": 15,
+        "library_hits": 11,
+        "pct": 73.3
+      }
+    ],
+    "trend": [
+      {
+        "month": "2026-11",
+        "reports": 6,
+        "references": 129,
+        "library_hits": 56,
+        "pct": 43.4
+      }
+    ],
+    "time_axis": "分析报告 generated_at（不是条目入馆时间）",
+    "entries": {
+      "entries_with_created_at": 0,
+      "months": [],
+      "note": "条目没有 created_at 字段；本库不提供入馆趋势"
+    },
+    "note": "覆盖率 = 参考文献中命中本地题录库（verify.doi_status=local 或 verify.sources 含 local）的条数 / 全部参考文献"
+  },
+  "notes": [
+    "缺失字段只影响完整度统计，不代表条目有错误",
+    "标签由用户维护，不是自动语义分类",
+    "语言由题名是否含 CJK 字符推断（zh/en/unknown），不使用语言识别模型"
+  ]
+}
