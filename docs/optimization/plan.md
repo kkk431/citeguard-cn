@@ -6,7 +6,7 @@
 | --- | --- | --- | --- |
 | P0 | A1 | 题录库导入前预览（干跑、重复、缺字段） | ✅ 1.7.37 |
 | P0 | A2 | 覆盖缺口看板（按语言、缺字段、下载待补 CSV） | ✅ 1.7.38 |
-| P0 | B1 | 长任务进度/断点恢复体验 | 待做 |
+| P0 | B1 | 长任务进度/断点恢复体验 | ✅ 1.7.39 |
 | P0 | C1 | 图表预检的错误/降级状态 | 待做 |
 | P1 | D1 | 修复闭环的批量与复检 | 待做 |
 | P1 | E1 | Live/CiteMap 使用层降噪 | 待做 |
@@ -27,3 +27,9 @@
 - 测试日志：`data/experiments/opt_tests_<date>_*.txt`
 - 截图：`docs/evidence/shots/opt-<wave>-<item>-<version>-<viewport>.png`
 - 每项同步 `docs/evidence_index.md`、报告、资源清单、提交目录；不改 PPT/视频内容。
+
+## B1 验收
+- API：`GET /api/jobs/{id}` 返回 `report_ready/retryable/next_action`；中断且有 `input.txt` → `retry`，完成有报告 → `view_report`，无原文 → `reupload`。
+- 历史页：queued/running 时每 3 秒刷新状态与百分比，显示后台继续提示；终态自动刷新出报告/重跑入口。
+- 证据：`docs/evidence/shots/opt-B1-history-live-1.7.39-1440.png`、`...-1280.png`、`data/experiments/opt_b1_resume_2026-11-26.json`。
+- 边界：服务重启后运行线程不会自动续跑，仍需要点击“重新运行”；B1 保证“可判断/可重跑/退出页面不丢”，不是进程级续跑。

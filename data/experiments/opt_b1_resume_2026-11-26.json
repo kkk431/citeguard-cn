@@ -1,0 +1,19 @@
+{
+  "feature": "B1 long-job progress and resume",
+  "version": "1.7.39",
+  "job_id": "c674df27a57e",
+  "job_status": "running",
+  "progress": 20,
+  "next_action": "wait",
+  "retryable": true,
+  "screenshots": [
+    "docs\\evidence\\shots\\opt-B1-history-live-1.7.39-1440.png",
+    "docs\\evidence\\shots\\opt-B1-history-live-1.7.39-1280.png"
+  ],
+  "captured_after_seconds": 8.18,
+  "note": "真实任务运行中截取；离开页面任务仍在后台继续。",
+  "job_final_status": "done",
+  "job_final_progress": 100,
+  "job_final_next_action": "view_report",
+  "job_final_report_ready": true
+}

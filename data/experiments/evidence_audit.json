@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 224,
+  "paths_checked": 227,
   "missing": [],
   "rows": [
     {
@@ -1012,8 +1012,23 @@
       "evidence": "E111",
       "path": "data/experiments/opt_a1_import_preview_ui_2026-11-26.json",
       "exists": true
+    },
+    {
+      "evidence": "E113",
+      "path": "docs/evidence/shots/opt-B1-history-live-1.7.39-1440.png",
+      "exists": true
+    },
+    {
+      "evidence": "E113",
+      "path": "docs/evidence/shots/opt-B1-history-live-1.7.39-1280.png",
+      "exists": true
+    },
+    {
+      "evidence": "E113",
+      "path": "data/experiments/opt_b1_resume_2026-11-26.json",
+      "exists": true
     }
   ],
-  "shots_registered": 108,
+  "shots_registered": 110,
   "shots_unregistered": []
 }

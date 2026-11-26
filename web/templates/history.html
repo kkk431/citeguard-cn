@@ -45,22 +45,23 @@
     <button class="ghost" type="button" id="aggregate-run" disabled>聚合健康画像</button>
     <span class="muted" id="sel-hint">已选 0 份 · 对比用前 2 份</span>
   </div>
+  <p class="muted" id="history-live" role="status" aria-live="polite" hidden>有任务在后台运行；离开此页不会中断，回来后可继续查看进度。</p>
   <table class="table">
     <thead><tr><th></th><th>创建时间</th><th>文件</th><th>状态</th><th>进度</th><th>操作</th></tr></thead>
     <tbody id="history-body">
     {% for job in jobs %}
-      <tr>
+      <tr data-job-id="{{ job.id }}" data-job-status="{{ job.status }}" data-job-progress="{{ job.progress }}">
         <td>{% if job.has_report %}<input type="checkbox" class="cmp" value="{{ job.id }}" aria-label="选择 {{ job.filename or job.id }}">{% endif %}</td>
         <td class="mono">{{ (job.created_at or "")[:16] | replace("T", " ") }}</td>
         <td>{{ job.filename or '—' }}{% if job.runs and job.runs > 1 %}<span class="muted"> · {{ job.runs }} 次</span>{% endif %}</td>
-        <td>
+        <td class="job-status">
           {% if job.status == 'done' %}<span class="pill ok">完成</span>
           {% elif job.status == 'error' %}<span class="pill bad">失败</span>
           {% elif job.status == 'interrupted' %}<span class="pill warn">已中断</span>
           {% elif job.status == 'running' %}<span class="pill warn">运行中</span>
           {% else %}<span class="pill">{{ job.status }}</span>{% endif %}
         </td>
-        <td>{{ job.progress }}%</td>
+        <td class="job-progress">{{ job.progress }}%</td>
         <td>
           {% if job.has_report %}<a href="/report/{{ job.id }}">查看报告</a>{% else %}<span class="muted">—</span>{% endif %}
           {% if job.retryable and job.status != 'done' %}<button class="ghost retry" type="button" data-job="{{ job.id }}">重新运行</button>{% endif %}
@@ -244,6 +245,78 @@ document.addEventListener('DOMContentLoaded', function () {
   var pager = window.CGList.create({ mount: mount, pageSize: 20, param: 'page', onChange: paint });
   pager.setTotal(rows.length);
   paint(pager.page, pager.size);
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+  var body = document.getElementById('history-body');
+  var live = document.getElementById('history-live');
+  if (!body || !live) return;
+  var rows = Array.prototype.slice.call(body.querySelectorAll('tr[data-job-id]'));
+  var busy = false;
+  var reloading = false;
+
+  function statusText(status) {
+    if (status === 'done') return '完成';
+    if (status === 'error') return '失败';
+    if (status === 'interrupted') return '已中断';
+    if (status === 'running') return '运行中';
+    if (status === 'queued') return '排队中';
+    return status || '—';
+  }
+  function statusClass(status) {
+    if (status === 'done') return 'pill ok';
+    if (status === 'error') return 'pill bad';
+    if (status === 'interrupted' || status === 'running' || status === 'queued') return 'pill warn';
+    return 'pill';
+  }
+
+  function anyActive() {
+    return rows.some(function (row) {
+      var s = row.getAttribute('data-job-status');
+      return s === 'queued' || s === 'running';
+    });
+  }
+
+  function poll() {
+    if (!anyActive()) { live.hidden = true; return; }
+    live.hidden = false;
+    fetch('/api/jobs?limit=60', { cache: 'no-store' })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        var byId = {};
+        (data.jobs || []).forEach(function (job) { byId[job.id] = job; });
+        var terminal = false;
+        rows.forEach(function (row) {
+          var job = byId[row.getAttribute('data-job-id')];
+          if (!job) return;
+          var old = row.getAttribute('data-job-status');
+          row.setAttribute('data-job-status', job.status || '');
+          row.setAttribute('data-job-progress', job.progress || 0);
+          var statusCell = row.querySelector('.job-status');
+          var progressCell = row.querySelector('.job-progress');
+          if (statusCell) {
+            statusCell.innerHTML = '';
+            var pill = document.createElement('span');
+            pill.className = statusClass(job.status);
+            pill.textContent = statusText(job.status);
+            statusCell.appendChild(pill);
+          }
+          if (progressCell) progressCell.textContent = (job.progress || 0) + '%';
+          if ((old === 'queued' || old === 'running') && job.status !== old && job.status !== 'queued' && job.status !== 'running') {
+            terminal = true;
+          }
+        });
+        if (terminal && !reloading) {
+          reloading = true;
+          setTimeout(function () { window.location.reload(); }, 700);
+          return;
+        }
+        setTimeout(poll, 3000);
+      })
+      .catch(function () { setTimeout(poll, 5000); });
+  }
+
+  if (anyActive()) poll();
 });
 </script>
 {% endblock %}

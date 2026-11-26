@@ -1469,3 +1469,13 @@ body.theme-light .drawer-panel{color:var(--ink)}
 .lib-gap-chips{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;flex:0 0 auto}
 .lib-gap-chip{display:inline-flex;align-items:center;padding:3px 9px;border-radius:999px;background:rgba(255,184,77,.12);border:1px solid rgba(255,184,77,.35);color:#ffbd5f;font-size:12px;white-space:nowrap}
 body.theme-light .lib-gap-chip{background:#fff2d6;color:#8a5a00;border-color:#e6bf7a}
+
+/* B1: background jobs stay visible on the history page. */
+#history-live {
+  margin: 0 0 12px;
+  padding: 10px 14px;
+  border: 1px solid rgba(255, 189, 95, .42);
+  border-radius: 10px;
+  background: rgba(255, 189, 95, .08);
+  color: var(--muted);
+}

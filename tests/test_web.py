@@ -1222,3 +1222,44 @@ def test_live_prewarm_requires_a_page_and_returns_cache_hint(plain_client, monke
     assert body["ok"] is True
     assert body["references"] == 12
     assert body["page_work"] is True
+
+def test_job_status_exposes_resume_action(client):
+    import web.app as webapp
+    from citeguard import config
+
+    job = webapp.manager.create("paper.pdf")
+    webapp.manager.update(job["id"], status="interrupted", progress=42, stage="服务重启")
+    out_dir = config.DATA_DIR / "jobs" / job["id"]
+    out_dir.mkdir(parents=True, exist_ok=True)
+    (out_dir / "input.txt").write_text("保留的正文", encoding="utf-8")
+
+    payload = client.get(f"/api/jobs/{job['id']}").json()
+    assert payload["progress"] == 42
+    assert payload["retryable"] is True
+    assert payload["report_ready"] is False
+    assert payload["next_action"] == "retry"
+
+    (out_dir / "report.json").write_text("{}", encoding="utf-8")
+    webapp.manager.update(job["id"], status="done", progress=100)
+    payload = client.get(f"/api/jobs/{job['id']}").json()
+    assert payload["report_ready"] is True
+    assert payload["retryable"] is False
+    assert payload["next_action"] == "view_report"
+
+
+def test_history_exposes_live_job_state_and_api_progress(client):
+    import web.app as webapp
+
+    job = webapp.manager.create("live.pdf")
+    webapp.manager.update(job["id"], status="running", progress=37, stage="核验中")
+
+    history = client.get("/history")
+    assert history.status_code == 200
+    assert f'data-job-id="{job["id"]}"' in history.text
+    assert 'id="history-live"' in history.text
+    assert 'class="job-progress"' in history.text
+
+    payload = client.get("/api/jobs").json()
+    row = next(item for item in payload["jobs"] if item["id"] == job["id"])
+    assert row["progress"] == 37
+    assert row["stage"] == "核验中"

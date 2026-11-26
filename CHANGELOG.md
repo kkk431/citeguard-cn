@@ -1,3 +1,18 @@
+## [1.7.39] - 2026-11-26
+
+### Added
+- 长任务断点恢复契约：`GET /api/jobs/{job_id}` 增加 `report_ready`、`retryable`、`next_action`（wait / view_report / retry / reupload），服务重启后中断任务可直接判断下一步。
+- 历史页实时进度：`/api/jobs` 返回 `progress/stage/filename`；有 queued/running 任务时每 3 秒刷新状态与百分比，并显示“离开页面不会中断”提示；任务进入终态后自动刷新出报告/重跑入口。
+- 真实覆盖：服务重启留下的 interrupted 任务只要保留 `input.txt` 即 retryable；没有保留原文时明确 `reupload`，不再只显示“已中断”。
+
+### Tests
+- `pytest tests -q`：**1060 passed, 10 skipped**；`verify_artifacts` 137/137。
+- 新增 `tests/test_web.py` 两例：job status 的 retry/view_report 分支；历史页 data 属性与 `/api/jobs` progress/stage。
+
+### Evidence
+- `docs/evidence/shots/opt-B1-history-live-1.7.39-1440.png`
+- `data/experiments/opt_b1_resume_2026-11-26.json`
+
 ## [1.7.38] - 2026-11-26
 
 ### Added

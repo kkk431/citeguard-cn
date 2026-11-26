@@ -104,7 +104,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.7.37", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.7.39", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 
@@ -963,12 +963,33 @@ def analyze(
     return JSONResponse({"job_id": job["id"]}, status_code=202)
 
 
+def _job_resume_state(job: dict) -> dict:
+    """Describe what the user can do next with a job, including after a restart."""
+    out_dir = config.DATA_DIR / "jobs" / str(job.get("id") or "")
+    report_ready = (out_dir / "report.json").exists()
+    retryable = (out_dir / "input.txt").exists()
+    status = str(job.get("status") or "")
+    if status in {"queued", "running"}:
+        next_action = "wait"
+    elif report_ready:
+        next_action = "view_report"
+    elif retryable:
+        next_action = "retry"
+    else:
+        next_action = "reupload"
+    return {
+        "report_ready": report_ready,
+        "retryable": retryable and status != "done",
+        "next_action": next_action,
+    }
+
+
 @app.get("/api/jobs/{job_id}")
 def job_status(job_id: str):
     job = manager.get(job_id)
     if not job:
         raise HTTPException(status_code=404, detail="job not found")
-    return job
+    return {**job, **_job_resume_state(job)}
 
 
 @app.get("/api/jobs/{job_id}/events")
@@ -1870,6 +1891,9 @@ def api_jobs(limit: int = 30):
             "name": job.get("name") or job.get("input_name") or "",
             "created_at": job.get("created_at") or job.get("created") or "",
             "status": job.get("status") or "",
+            "progress": int(job.get("progress") or 0),
+            "stage": job.get("stage") or "",
+            "filename": job.get("filename") or "",
             "has_report": _report_path(job.get("id") or "").exists(),
         })
     return {"jobs": out}
