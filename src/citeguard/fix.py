@@ -34,6 +34,49 @@ _MISSING_LABELS = {
 }
 
 
+
+_SUGGESTION_TEXT = {
+    "作者": ("作者缺失或不完整", "对照原文补全作者；不要从其他文献猜。"),
+    "题名": ("题名缺失", "对照原文补题名；题名是核验的第一锚点。"),
+    "来源": ("期刊/会议名缺失", "对照原文补来源；不要用缩写代替全称。"),
+    "年份": ("年份缺失", "对照原文补年份；预印本/会议版差异在文内说明。"),
+    "DOI": ("未检出 DOI", "到 Crossref 或期刊页补；系统不会猜 DOI。"),
+}
+_FIX_TEXT = {
+    "补文献类型码": ("缺文献类型码", "在题名后补 [J]/[M]/[C]/[D]/[EB/OL] 等。"),
+    "年份不再放在括号里": ("年份格式", "年份移出括号，按 GB/T 放到条目末尾。"),
+    "作者分隔符统一为逗号": ("作者分隔符", "作者之间用逗号，最后两位用「, 和」/「, and」。"),
+    "去掉重复句点": ("标点", "合并连续句点。"),
+    "DOI 统一为「DOI: …」": ("DOI 格式", "统一写成 DOI: 10.xxxx/xxxx。"),
+    "去掉首尾空白": ("空白", "去掉条目首尾空白。"),
+    "补结尾句点": ("标点", "条目末尾补句点。"),
+}
+
+
+def _suggestions(parsed: SimpleNamespace, missing: list[str], fixes: list[str]) -> list[dict]:
+    """Actionable, non-fabricated repair suggestions for one entry."""
+    out: list[dict] = []
+    seen: set[str] = set()
+    for label in missing:
+        info = _SUGGESTION_TEXT.get(label)
+        if info and label not in seen:
+            seen.add(label)
+            out.append({"field": label, "problem": info[0], "action": info[1]})
+    if not getattr(parsed, "doi", "") and "DOI" not in seen:
+        seen.add("DOI")
+        out.append({"field": "DOI", "problem": _SUGGESTION_TEXT["DOI"][0], "action": _SUGGESTION_TEXT["DOI"][1]})
+    for fix in fixes:
+        info = _FIX_TEXT.get(fix)
+        if not info:
+            continue
+        field = info[0]
+        if field in seen:
+            continue
+        seen.add(field)
+        out.append({"field": field, "problem": info[0], "action": info[1]})
+    return out[:5]
+
+
 def _parsed(ref: dict) -> SimpleNamespace:
     data = ref.get("parsed") or {}
     return SimpleNamespace(**{k: v for k, v in data.items() if not k.startswith("_")})
@@ -113,6 +156,7 @@ def fix_entry(index: int, ref: dict) -> dict:
         "after": after,
         "fixes": _issues(before, after, parsed),
         "missing": missing,
+        "suggestions": _suggestions(parsed, missing, _issues(before, after, parsed)),
         "safe": safe,
         "changed": bool(after) and after != before,
     }
@@ -308,6 +352,7 @@ def build_patch(report: dict, indexes: list[int] | None = None) -> dict:
                 "after": item["after"],
                 "fixes": list(item["fixes"]),
                 "missing": list(item["missing"]),
+                "suggestions": list(item.get("suggestions") or []),
                 "safe": bool(item["safe"]),
                 "diff": _diff_segments(item["before"], item["after"]) if changed else [],
             }

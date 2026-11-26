@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-26",
+  "job": "d73ae2dcd2e9",
+  "rows": [
+    {
+      "width": 1440,
+      "has_suggestions": true,
+      "has_doi_action": true,
+      "text": "修复预览\n共 15 条 · 可修 2 条 · 已修 0 条\n×\n\n只重排已解析字段，不补全缺失字段，不改写正文；应用后可在 30 分钟内撤销。\n\n[1]\n将修复\n[1] Dat Van, N. (2025) Bibliometric Examination of Artificial Intelligence within the Framework of E-Commerce Technology from 1996 to 2024[J]. Journal of Logistics, Informatics and Service Science, 2025, 12,: 138-150. https://www.aasmr.org/liss/Vol.12/No.2/Vol.12.No.2.09.pdf.\n补文献类型码\n年份不再放在括号里\n补结尾句点\n修复建议\nDOI：到 Crossref"
+    },
+    {
+      "width": 1280,
+      "has_suggestions": true,
+      "has_doi_action": true,
+      "text": "修复预览\n共 15 条 · 可修 2 条 · 已修 0 条\n×\n\n只重排已解析字段，不补全缺失字段，不改写正文；应用后可在 30 分钟内撤销。\n\n[1]\n将修复\n[1] Dat Van, N. (2025) Bibliometric Examination of Artificial Intelligence within the Framework of E-Commerce Technology from 1996 to 2024[J]. Journal of Logistics, Informatics and Service Science, 2025, 12,: 138-150. https://www.aasmr.org/liss/Vol.12/No.2/Vol.12.No.2.09.pdf.\n补文献类型码\n年份不再放在括号里\n补结尾句点\n修复建议\nDOI：到 Crossref"
+    }
+  ],
+  "assertion": "repair preview shows actionable suggestions, no fabricated values"
+}

@@ -2327,12 +2327,17 @@ if (manualCsvBtn) {
       listEl.innerHTML = (data.entries || []).map(function (entry) {
         var tags = (entry.fixes || []).map(function (f) { return "<span>" + esc(f) + "</span>"; }).join("");
         (entry.missing || []).forEach(function (m) { tags += '<span style="color:#a3423c">缺：' + esc(m) + "</span>"; });
+        var suggestions = (entry.suggestions || []).slice(0, 4).map(function (s) {
+          return '<li><b>' + esc(s.field || "") + '</b>：' + esc(s.action || "") + '</li>';
+        }).join("");
+        if (suggestions) suggestions = '<div class="repair-suggestions"><div class="repair-suggestions-head">修复建议</div><ul>' + suggestions + '</ul></div>';
         var unchanged = !entry.changed || entry.already_fixed;
         return '<div class="repair-item' + (unchanged ? " unchanged" : "") + '">' +
           '<div class="repair-item-head"><b>[' + (entry.index || "") + "]</b>" +
           '<span>' + (entry.already_fixed ? "已修复" : (entry.changed ? "将修复" : "无需修改")) + "</span></div>" +
           '<div class="repair-diff">' + (entry.changed ? diffHtml(entry.diff) : esc(entry.before || "")) + "</div>" +
           (tags ? '<div class="repair-item-tags">' + tags + "</div>" : "") +
+          suggestions +
           "</div>";
       }).join("");
     }

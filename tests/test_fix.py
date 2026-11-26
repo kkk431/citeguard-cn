@@ -72,6 +72,13 @@ def test_fix_entry_is_not_safe_without_title_or_authors():
     assert "作者" in no_authors["missing"]
 
 
+def test_fix_entry_returns_actionable_non_fabricated_suggestions():
+    item = fix_entry(1, _ref(venue="", year=""))
+    fields = {s["field"] for s in item["suggestions"]}
+    assert {"来源", "年份", "DOI"}.issubset(fields)
+    assert all(s["action"] and s["problem"] for s in item["suggestions"])
+
+
 def test_fix_report_counts_changed_and_safe_entries():
     report = {
         "references": [

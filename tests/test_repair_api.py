@@ -67,6 +67,7 @@ def test_preview_apply_and_undo_roundtrip(client, tmp_path, monkeypatch):
     preview = client.get("/api/report/jobrepair/repair/preview").json()
     assert preview["summary"]["total"] == 2
     assert preview["summary"]["to_apply"] >= 1
+    assert any(entry.get("suggestions") for entry in preview["entries"])
     patch_id = preview["patch_id"]
 
     applied = client.post(
