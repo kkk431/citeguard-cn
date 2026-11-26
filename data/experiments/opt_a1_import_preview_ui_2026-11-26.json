@@ -7,7 +7,7 @@
     "gaps": "识别格式：local:ris 2 条。库内 28 → 导入后 30 条。",
     "horizontal_overflow": false,
     "console_errors": [],
-    "screenshot": "docs\\evidence\\shots\\opt-A1-library-import-preview-1.7.36-1440.png"
+    "screenshot": "docs\\evidence\\shots\\opt-A1-library-import-preview-1.7.37-1440.png"
   },
   {
     "width": 1280,
@@ -17,6 +17,6 @@
     "gaps": "识别格式：local:ris 2 条。库内 28 → 导入后 30 条。",
     "horizontal_overflow": false,
     "console_errors": [],
-    "screenshot": "docs\\evidence\\shots\\opt-A1-library-import-preview-1.7.36-1280.png"
+    "screenshot": "docs\\evidence\\shots\\opt-A1-library-import-preview-1.7.37-1280.png"
   }
 ]

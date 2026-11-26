@@ -39,7 +39,7 @@ def main() -> None:
             overflow = page.evaluate(
                 "() => document.documentElement.scrollWidth > document.documentElement.clientWidth"
             )
-            path = SHOTS / f"opt-A1-library-import-preview-1.7.36-{width}.png"
+            path = SHOTS / f"opt-A1-library-import-preview-1.7.37-{width}.png"
             page.screenshot(path=str(path), full_page=False)
             results.append(
                 {
