@@ -1302,3 +1302,22 @@ def test_base_loads_human_error_helper(client):
     resp = client.get("/workspace")
     assert resp.status_code == 200
     assert "/static/js/errors.js" in resp.text
+
+
+def test_figure_status_and_degrade_ui(client):
+    resp = client.get("/api/figure/status")
+    assert resp.status_code == 200
+    data = resp.json()
+    assert set(["available", "model", "timeout_seconds", "fallback"]).issubset(data)
+    assert "http" not in (" ".join(str(x) for x in data.values())).lower()
+    page = client.get("/figure")
+    assert page.status_code == 200
+    assert 'id="figure-service-status"' in page.text
+
+
+def test_figure_js_offers_retry_without_raw_status():
+    from pathlib import Path
+    src = (Path(__file__).resolve().parents[1] / "web" / "static" / "js" / "figure.js").read_text(encoding="utf-8")
+    assert "figure-retry" in src
+    assert "retryHtml" in src
+    assert "HTTP " not in src

@@ -15,12 +15,14 @@
   <p class="lede" style="max-width:74ch">
     把图表截图和结论交给视觉模型，逐一核对坐标轴、图例、数值与趋势，给出「支持 / 矛盾 / 信息不足」三档判断；也可以只传 PDF，让系统自动定位图页。
   </p>
-  {% if not vl_available %}
-  <div class="lib-banner" style="margin-top:14px">
-    当前部署没有配置视觉模型，暂不能提交；部署方式见
-    <a href="https://github.com/kkk431/citeguard-cn/blob/main/docs/figure_check.md" target="_blank" rel="noopener">图表核验文档</a>。
+  <div id="figure-service-status" class="lib-banner" data-available="{{ '1' if vl_available else '0' }}" style="margin-top:14px">
+    {% if vl_available %}
+    视觉模型已就绪：{{ vl_model_label }}。只判断结论与图表是否一致，不判断原始数据真假；模型或网络失败会明确提示，不伪造结果。
+    {% else %}
+    当前部署没有配置视觉模型，图表结论不能核验；PDF 自动定位仍可用。配置方式见
+    <a href="https://github.com/kkk431/citeguard-cn/blob/main/docs/figure_check.md" target="_blank" rel="noopener">图表核验文档</a>，或联系部署者检查视觉服务后刷新。
+    {% endif %}
   </div>
-  {% endif %}
 </section>
 
 <section class="wrap section">

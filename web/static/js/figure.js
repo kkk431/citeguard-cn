@@ -14,12 +14,19 @@
   const btn = document.getElementById("figure-check-btn");
   const hint = document.getElementById("figure-hint");
   const result = document.getElementById("figure-result");
+  if (result) result.addEventListener("click", function (e) {
+    if (e.target && e.target.closest("#figure-retry")) form.requestSubmit();
+  });
 
   const LABELS = {
     supported: { text: "结论与图表一致", cls: "ok" },
     contradicted: { text: "结论与图表矛盾", cls: "bad" },
     insufficient: { text: "图表信息不足", cls: "unknown" },
   };
+
+  function retryHtml() {
+    return '<div class="fig-actions"><button type="button" class="btn btn-ghost" id="figure-retry">重新核验</button></div>';
+  }
 
   function setHint(text) {
     if (hint) hint.textContent = text || "";
@@ -176,7 +183,7 @@
 
   function errorText(out) {
     const data = out.data || {};
-    if (data.error) return String(data.error);
+    if (data.error) return window.humanHttpError(out.resp.status, data.error, "图表核验没有完成，请稍后重试");
     if (data.detail) {
       if (Array.isArray(data.detail)) {
         return data.detail.map(function (x) { return x.msg || String(x); }).join("；");
@@ -253,10 +260,10 @@
           if (!out.resp.ok || !out.data.ok) {
             if (out.data.items && out.data.items.length) {
               blocks.push(head + '<div class="fig-error">核验未完成：' +
-                escapeHtml(errorText(out)) + "</div>" + itemsHtml(out.data) + "</div>");
+                escapeHtml(errorText(out)) + "</div>" + itemsHtml(out.data) + retryHtml() + "</div>");
             } else {
               blocks.push(head + '<div class="fig-error">核验失败：' +
-                escapeHtml(errorText(out)) + "</div></div>");
+                escapeHtml(errorText(out)) + "</div>" + retryHtml() + "</div>");
             }
             continue;
           }
@@ -271,9 +278,9 @@
       if (!out.resp.ok || !out.data.ok) {
         setHint("");
         if (out.data.items && out.data.items.length) {
-          result.innerHTML = "<div class=\"fig-error\">核验未完成：" + escapeHtml(errorText(out)) + "</div>" + itemsHtml(out.data);
+          result.innerHTML = "<div class=\"fig-error\">核验未完成：" + escapeHtml(errorText(out)) + "</div>" + itemsHtml(out.data) + retryHtml();
         } else {
-          result.innerHTML = "<div class=\"fig-error\">核验失败：" + escapeHtml(errorText(out)) + "</div>";
+          result.innerHTML = "<div class=\"fig-error\">核验失败：" + escapeHtml(errorText(out)) + "</div>" + retryHtml();
         }
         result.classList.remove("hidden");
         return;
@@ -283,7 +290,7 @@
       result.classList.remove("hidden");
     } catch (err) {
       setHint("");
-      result.innerHTML = "<div class=\"fig-error\">请求失败：" + escapeHtml(err.message || String(err)) + "</div>";
+      result.innerHTML = "<div class=\"fig-error\">请求失败：" + escapeHtml(err.message || String(err)) + "</div>" + retryHtml();
       result.classList.remove("hidden");
     } finally {
       btn.disabled = false;

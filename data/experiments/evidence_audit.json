@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 237,
+  "paths_checked": 243,
   "missing": [],
   "rows": [
     {
@@ -1077,8 +1077,38 @@
       "evidence": "E116",
       "path": "data/experiments/opt_g5_states_2026-11-26.json",
       "exists": true
+    },
+    {
+      "evidence": "E117",
+      "path": "docs/evidence/shots/opt-C1-figure-ready-1.7.43-1440.png",
+      "exists": true
+    },
+    {
+      "evidence": "E117",
+      "path": "docs/evidence/shots/opt-C1-figure-ready-1.7.43-1280.png",
+      "exists": true
+    },
+    {
+      "evidence": "E117",
+      "path": "docs/evidence/shots/opt-C1-figure-retry-1.7.43-1440.png",
+      "exists": true
+    },
+    {
+      "evidence": "E117",
+      "path": "docs/evidence/shots/opt-C1-figure-retry-panel-1.7.43-1440.png",
+      "exists": true
+    },
+    {
+      "evidence": "E117",
+      "path": "docs/evidence/shots/opt-C1-figure-retry-1.7.43-1280.png",
+      "exists": true
+    },
+    {
+      "evidence": "E117",
+      "path": "data/experiments/opt_c1_figure_states_2026-11-26.json",
+      "exists": true
     }
   ],
-  "shots_registered": 117,
+  "shots_registered": 122,
   "shots_unregistered": []
 }

@@ -1,0 +1,23 @@
+{
+  "date": "2026-11-26",
+  "base": "http://127.0.0.1:8013",
+  "injected": {
+    "ok": false,
+    "error": "HTTP 502 视觉模型暂时不可用，请稍后重试"
+  },
+  "rows": [
+    {
+      "viewport": "1440x1000",
+      "status": "视觉模型已就绪：Qwen3-VL-8B。只判断结论与图表是否一致，不判断原始数据真假；模型或网络失败会明确提示，不伪造结果。",
+      "error_text": "核验失败：视觉模型暂时不可用，请稍后重试\n重新核验",
+      "claim_kept": "图中 2025 年的发文量最高，为 195 篇。"
+    },
+    {
+      "viewport": "1280x900",
+      "status": "视觉模型已就绪：Qwen3-VL-8B。只判断结论与图表是否一致，不判断原始数据真假；模型或网络失败会明确提示，不伪造结果。",
+      "error_text": "核验失败：视觉模型暂时不可用，请稍后重试\n重新核验",
+      "claim_kept": "图中 2025 年的发文量最高，为 195 篇。"
+    }
+  ],
+  "assertion": "status visible; input kept; retry offered; no raw HTTP"
+}

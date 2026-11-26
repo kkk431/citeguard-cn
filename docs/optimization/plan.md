@@ -7,7 +7,7 @@
 | P0 | A1 | 题录库导入前预览（干跑、重复、缺字段） | ✅ 1.7.37 |
 | P0 | A2 | 覆盖缺口看板（按语言、缺字段、下载待补 CSV） | ✅ 1.7.38 |
 | P0 | B1 | 长任务进度/断点恢复体验 | ✅ 1.7.39 |
-| P0 | C1 | 图表预检的错误/降级状态 | 待做 |
+| P0 | C1 | 图表预检的错误/降级状态 | ✅ 1.7.43 |
 | P1 | D1 | 修复闭环的批量与复检 | 待做 |
 | P1 | E1 | Live/CiteMap 使用层降噪 | 待做 |
 | P1 | F1 | 解析与 GB/T 修复建议 | 待做 |
@@ -46,3 +46,12 @@
 - [x] loading/empty/unsupported 状态保留说明；不为错误编造结果。
 - 证据：`data/experiments/opt_g5_states_2026-11-26.json`、`docs/evidence/shots/opt-G5-human-error-1.7.42-1440.png`、`...1280.png`、`opt-G5-human-error-panel-1.7.42-1440.png`；E116。
 - 测试：1065 passed；`tests/test_web.py` 两项静态检查 + Playwright 真实 503。
+
+
+## C1 验收
+
+- [x] `/api/figure/status` 返回 `available/model/timeout_seconds/fallback`，不暴露 endpoint/API key。
+- [x] 图表页始终显示服务状态：就绪时说明模型与“只判一致性”；未配置时禁用提交并给配置路径。
+- [x] 视觉服务失败时显示人话原因 + “重新核验”，保留结论与文件；不伪造结论。
+- 证据：`data/experiments/opt_c1_figure_states_2026-11-26.json`、`docs/evidence/shots/opt-C1-figure-ready-1.7.43-1440.png`、`opt-C1-figure-retry-1.7.43-1440.png`、1280 版本；E117。
+- 测试：1067 passed。

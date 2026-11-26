@@ -104,7 +104,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.7.42", lifespan=lifespan)
+app = FastAPI(title="引证卫士 CiteGuard-CN", version="1.7.43", lifespan=lifespan)
 app.state.offline = config.OFFLINE
 app.mount("/static", StaticFiles(directory=str(BASE / "static")), name="static")
 
@@ -2688,6 +2688,17 @@ def figure_page(request: Request):
             "vl_model_label": label,
         },
     )
+
+
+@app.get("/api/figure/status")
+def figure_status():
+    available = figure_check.available()
+    return {
+        "available": available,
+        "model": (config.VL_MODEL or "").strip() if available else "",
+        "timeout_seconds": config.VL_TIMEOUT,
+        "fallback": "上传 PDF 仍可自动定位图页；未配置视觉模型时不会伪造判定。",
+    }
 
 
 _FIGURE_SERVICE_CODES = {"unreachable", "http_error", "timeout"}
