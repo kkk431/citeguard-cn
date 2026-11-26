@@ -30,6 +30,31 @@
     </div>
   </section>
 
+
+  <section class="wrap live-onboarding" aria-label="Live 使用引导">
+    <ol class="live-steps">
+      <li><span class="live-step-num">1</span><div><b>贴一句</b><small>从网页或论文里复制一句断言，最多 500 字。</small></div></li>
+      <li><span class="live-step-num">2</span><div><b>补页面（可选）</b><small>arXiv / PMC / Wikipedia 可先检查页面引用；不填也能检索摘要。</small></div></li>
+      <li><span class="live-step-num">3</span><div><b>看证据</b><small>只看四档和逐字证据句；无证据不等于这句话是假的。</small></div></li>
+    </ol>
+    <div class="live-support">
+      <div class="live-support-head">
+        <strong>页面支持</strong>
+        <span>只读公开 HTML；不读全文、不判真伪</span>
+      </div>
+      <div class="live-support-chips">
+        <span class="live-site is-ok">arXiv <em>可用</em></span>
+        <span class="live-site is-ok">PMC <em>可用</em></span>
+        <span class="live-site is-limited">Wikipedia <em>有限</em></span>
+        <span class="live-site is-no">Nature / Springer / MDPI <em>不支持</em></span>
+      </div>
+      <details>
+        <summary>为什么有些页面读不了？</summary>
+        <p>出版商页面有 Bot 墙，服务端拿不到公开 HTML；中文出版商页面未验证。遇到不支持的页面，直接贴句子做摘要检索，或去「支持度速查」贴摘要。</p>
+      </details>
+    </div>
+  </section>
+
   <section class="wrap live-workbench">
     <div class="live-input panel">
       <div class="live-field-head">
@@ -111,7 +136,11 @@
       <div class="live-error" id="live-error" role="alert" hidden>
         <h2>这次没有查成</h2>
         <p id="live-error-msg">接口暂时不可用，请稍后重试。</p>
-        <button id="live-retry" type="button" class="btn">重试</button>
+        <div class="live-error-actions">
+          <button id="live-retry" type="button" class="btn">重试</button>
+          <button id="live-fallback-example" type="button" class="btn ghost">用内置示例</button>
+          <a class="btn ghost" href="/support">去支持度速查</a>
+        </div>
       </div>
 
       <div class="live-output" id="live-output" hidden>

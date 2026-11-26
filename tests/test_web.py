@@ -1140,6 +1140,24 @@ def test_library_page_exposes_tags_and_merge(client):
     assert 'id="library-gaps-modal"' in html
     assert "待补清单" in html
 
+def test_live_page_has_support_matrix_steps_and_failure_actions(client):
+    html = client.get("/live").text
+    assert 'class="live-steps"' in html
+    assert "arXiv" in html and "PMC" in html and "Wikipedia" in html
+    assert 'id="live-fallback-example"' in html
+    assert "去支持度速查" in html
+    assert "不计" not in html  # no fake accuracy copy
+
+
+def test_live_error_helpers_keep_chinese_and_nested_detail():
+    from pathlib import Path
+    errors = Path("web/static/js/errors.js").read_text(encoding="utf-8")
+    live = Path("web/static/js/live.js").read_text(encoding="utf-8")
+    assert "请求内容不完整" in errors
+    assert "璇" not in errors
+    assert "message.message || message.error || message.detail" in live
+
+
 def test_live_check_endpoint_returns_contract(plain_client, monkeypatch):
     from citeguard import live_check as live_mod
 

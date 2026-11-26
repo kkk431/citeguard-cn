@@ -1,0 +1,14 @@
+{
+  "date": "2026-11-26",
+  "rows": [
+    {
+      "width": 1440,
+      "error": "这次没有查成\n\n上游判官暂时不可用\n\n重试\n用内置示例\n去支持度速查"
+    },
+    {
+      "width": 1280,
+      "error": "这次没有查成\n\n上游判官暂时不可用\n\n重试\n用内置示例\n去支持度速查"
+    }
+  ],
+  "assertion": "support matrix + 3-step guide + 3 failure actions"
+}

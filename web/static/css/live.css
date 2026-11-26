@@ -765,3 +765,56 @@
   font-family: var(--mono);
   font-size: 0.78rem;
 }
+
+
+.live-onboarding {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(320px, .85fr);
+  gap: 14px;
+  margin-top: 4px;
+}
+
+.live-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 12px 14px;
+  list-style: none;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.live-steps li { display: flex; gap: 9px; align-items: flex-start; }
+.live-step-num {
+  flex: 0 0 24px; width: 24px; height: 24px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: #04110d; background: var(--accent); font-weight: 800; font-size: .82rem;
+}
+.live-steps b { display: block; font-size: .9rem; color: var(--ink); }
+.live-steps small { display: block; margin-top: 2px; font-size: .76rem; line-height: 1.45; color: var(--ink-2); }
+.live-support {
+  padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface-2);
+}
+.live-support-head { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
+.live-support-head strong { font-size: .92rem; color: var(--ink); }
+.live-support-head span { font-size: .72rem; color: var(--ink-2); }
+.live-support-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.live-site {
+  display: inline-flex; gap: 6px; align-items: center; padding: 4px 8px;
+  border-radius: 999px; border: 1px solid var(--line); font-size: .76rem; color: var(--ink);
+}
+.live-site em { font-style: normal; font-size: .68rem; opacity: .8; }
+.live-site.is-ok { border-color: rgba(72, 226, 181, .45); background: rgba(72, 226, 181, .10); }
+.live-site.is-limited { border-color: rgba(255, 184, 77, .45); background: rgba(255, 184, 77, .10); }
+.live-site.is-no { border-color: rgba(255, 138, 138, .45); background: rgba(255, 138, 138, .10); }
+.live-support details { margin-top: 8px; font-size: .76rem; color: var(--ink-2); }
+.live-support summary { cursor: pointer; }
+.live-support p { margin: 6px 0 0; line-height: 1.55; }
+.live-error-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+
+@media (max-width: 1100px) {
+  .live-onboarding { grid-template-columns: 1fr; }
+  .live-steps { grid-template-columns: 1fr; }
+}

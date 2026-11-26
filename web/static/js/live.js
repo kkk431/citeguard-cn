@@ -22,6 +22,7 @@
     error: document.getElementById("live-error"),
     errorMsg: document.getElementById("live-error-msg"),
     retry: document.getElementById("live-retry"),
+  fallbackExample: document.getElementById("live-fallback-example"),
     output: document.getElementById("live-output"),
     label: document.getElementById("live-label"),
     confidenceText: document.getElementById("live-confidence-text"),
@@ -116,11 +117,8 @@
       }).filter(Boolean).join("；");
     }
     if (message && typeof message === "object") {
-      try {
-        message = JSON.stringify(message);
-      } catch (_err) {
-        message = "";
-      }
+      message = message.message || message.error || message.detail || "";
+      if (message && typeof message === "object") message = message.message || "";
     }
     if (typeof message === "string" && message.trim()) return message.trim();
 
@@ -491,6 +489,13 @@
       els.claim.focus();
     }
   });
+  if (els.fallbackExample) {
+    els.fallbackExample.addEventListener("click", function () {
+      const example = document.querySelector(".live-example");
+      if (example) example.click();
+      runCheck();
+    });
+  }
 
   document.querySelectorAll(".live-example").forEach(function (button) {
     button.addEventListener("click", function () {

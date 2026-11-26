@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 250,
+  "paths_checked": 255,
   "missing": [],
   "rows": [
     {
@@ -1142,8 +1142,33 @@
       "evidence": "E118",
       "path": "data/experiments/opt_d1_batch_repair_2026-11-26.json",
       "exists": true
+    },
+    {
+      "evidence": "E119",
+      "path": "docs/evidence/shots/opt-E1-live-guide-1.7.45-1440.png",
+      "exists": true
+    },
+    {
+      "evidence": "E119",
+      "path": "docs/evidence/shots/opt-E1-live-guide-1.7.45-1280.png",
+      "exists": true
+    },
+    {
+      "evidence": "E119",
+      "path": "docs/evidence/shots/opt-E1-live-failure-actions-1.7.45-1440.png",
+      "exists": true
+    },
+    {
+      "evidence": "E119",
+      "path": "docs/evidence/shots/opt-E1-live-failure-actions-1.7.45-1280.png",
+      "exists": true
+    },
+    {
+      "evidence": "E119",
+      "path": "data/experiments/opt_e1_live_ux_2026-11-26.json",
+      "exists": true
     }
   ],
-  "shots_registered": 128,
+  "shots_registered": 132,
   "shots_unregistered": []
 }

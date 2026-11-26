@@ -9,7 +9,7 @@
 | P0 | B1 | 长任务进度/断点恢复体验 | ✅ 1.7.39 |
 | P0 | C1 | 图表预检的错误/降级状态 | ✅ 1.7.43 |
 | P1 | D1 | 修复闭环的批量与复检 | ✅ 1.7.44 |
-| P1 | E1 | Live/CiteMap 使用层降噪 | 待做 |
+| P1 | E1 | Live/CiteMap 使用层降噪 | ✅ 1.7.45 |
 | P1 | F1 | 解析与 GB/T 修复建议 | 待做 |
 | P1 | G1 | 前端入口/阅读器/键盘/状态 | ✅ 1.7.41 |
 | P1 | G5 | 状态与错误：不露 HTTP，给下一步 | ✅ 1.7.42 |
@@ -64,3 +64,12 @@
 - [x] `GET /api/report/{id}/repair/verify` 逐条复检已修文本，缺字段明示；不把“修过”写成“正确”。
 - 证据：`data/experiments/opt_d1_batch_repair_2026-11-26.json`、`opt-D1-batch-select/preview/verify-1.7.44-1440/1280.png`；E118。
 - 测试：1069 passed（含 verify endpoint/UI 契约）。
+
+
+## E1 验收
+
+- [x] Live 页有 3 步引导：贴一句 → 补页面（可选）→ 看证据。
+- [x] 页面支持矩阵可见：arXiv/PMC 可用、Wikipedia 有限、Nature/Springer/MDPI 不支持；点开解释原因。
+- [x] 失败三动作：重试、用内置示例、去支持度速查；错误为中文人话，不露 raw JSON/HTTP。
+- 证据：`data/experiments/opt_e1_live_ux_2026-11-26.json`、`opt-E1-live-guide-1.7.45-1440/1280.png`、`opt-E1-live-failure-actions-1.7.45-1440/1280.png`；E119。
+- 测试：1071 passed（页面支持矩阵/失败动作/中文错误助手）。

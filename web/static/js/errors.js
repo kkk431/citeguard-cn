@@ -2,7 +2,7 @@
 (function () {
   var MAP = {
     400: "请求内容不完整，请检查输入后重试",
-    401: "没有权限，请检查 API key 或登录状态",
+    401: "没有权限，请检查访问令牌或登录状态",
     403: "没有权限访问这项内容",
     404: "没有找到对应内容，请返回上一步",
     409: "状态已经变化，请刷新页面后重试",
@@ -17,6 +17,7 @@
   window.humanHttpError = function (status, detail, fallback) {
     if (detail && typeof detail === "object") {
       detail = detail.message || detail.error || detail.detail || "";
+      if (detail && typeof detail === "object") detail = detail.message || "";
     }
     var text = String(detail == null ? "" : detail)
       .replace(/HTTP\s*\d{3}/gi, "")
