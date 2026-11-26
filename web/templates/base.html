@@ -43,6 +43,8 @@
 
   <a class="skip" href="#main">跳到正文</a>
 
+  <div class="cg-nav-progress" id="cg-nav-progress" hidden aria-hidden="true"><i></i></div>
+
   <aside class="rail" id="rail">
     <a class="rail-brand" href="/workspace">
       <span class="rail-mark">引</span>
@@ -77,7 +79,7 @@
       </div>
       <div class="shell-actions">
         <button id="theme-toggle" type="button" aria-label="切换主题">☀</button>
-        <button class="palette-btn" id="palette-open" type="button">
+        <button class="palette-btn" id="palette-open" type="button" aria-haspopup="dialog" aria-controls="palette">
           <span>搜索或跳转</span><kbd>Ctrl K</kbd>
         </button>
       </div>
@@ -97,16 +99,19 @@
     <div class="palette-scrim" data-close></div>
     <div class="palette-box" role="dialog" aria-modal="true" aria-label="命令面板">
       <div class="palette-head">
-        <span class="palette-glyph">⌕</span>
-        <input id="palette-input" type="text" placeholder="跳到页面、开始一次体检…" autocomplete="off">
-        <kbd>Esc</kbd>
+        <span class="palette-glyph" aria-hidden="true">⌕</span>
+        <input id="palette-input" type="text" role="combobox" aria-autocomplete="list"
+               aria-controls="palette-list" aria-expanded="false" aria-label="搜索页面或动作"
+               placeholder="跳到页面、开始一次体检…" autocomplete="off">
+        <span class="palette-count" id="palette-count" aria-live="polite"></span>
+        <button type="button" class="palette-close" id="palette-close" aria-label="关闭命令面板">×</button>
       </div>
-      <div class="palette-list" id="palette-list"></div>
-      <div class="palette-foot">↑ ↓ 选择 · ↵ 打开 · Esc 关闭</div>
+      <div class="palette-list" id="palette-list" role="listbox" aria-label="页面与动作"></div>
+      <div class="palette-foot">↑ ↓ 选择 · ↵ 打开 · Esc 关闭 · Ctrl K 随时唤起</div>
     </div>
   </div>
 
-  <div id="toast" class="toast" aria-live="polite"></div>
+  <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
   <script src="/static/js/errors.js?v={{ request.app.version }}"></script>
   <script src="/static/js/app.js?v={{ request.app.version }}"></script>
   <script src="/static/js/pager.js?v={{ request.app.version }}"></script>

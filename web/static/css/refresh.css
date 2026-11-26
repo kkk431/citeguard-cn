@@ -1516,3 +1516,111 @@ body.theme-light .wb-active{background:#edf9f4;border-color:#a9dfca;color:#18242
 .repair-suggestions ul { margin: 4px 0 0; padding-left: 16px; color: var(--ink-2); font-size: 12px; line-height: 1.55; }
 .repair-suggestions li + li { margin-top: 2px; }
 .theme-light .repair-suggestions { background: #f4faf7; }
+
+/* ==========================================================================
+   G4 · 统一微交互层（过渡 / 骨架 / 抽屉 / toast / 命令面板 / 减少动效）
+   仅样式与前端交互，不改变业务状态；所有动画都可在「减少动效」下关闭。
+   ========================================================================== */
+:root{
+  --cg-motion-fast:140ms;
+  --cg-motion-base:220ms;
+  --cg-motion-slow:320ms;
+  --cg-ease:cubic-bezier(.2,.72,.2,1);
+  --cg-ring:0 0 0 3px rgba(60,230,180,.22);
+}
+
+/* ---- 页面进入与导航进度 ------------------------------------------------ */
+body.cg-ready main{animation:cg-page-in var(--cg-motion-slow) var(--cg-ease) both}
+body.cg-ready .shell-top{animation:cg-top-in var(--cg-motion-base) var(--cg-ease) both}
+@keyframes cg-page-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes cg-top-in{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+
+.cg-nav-progress{position:fixed;left:0;right:0;top:0;height:2px;z-index:400;pointer-events:none;background:transparent;overflow:hidden}
+.cg-nav-progress[hidden]{display:none}
+.cg-nav-progress i{display:block;height:100%;width:0;border-radius:0 2px 2px 0;
+  background:linear-gradient(90deg,var(--accent),#8ff5dd);box-shadow:0 0 10px rgba(60,230,180,.7)}
+.cg-nav-progress.on i{animation:cg-nav-run 1.1s var(--cg-ease) forwards}
+@keyframes cg-nav-run{0%{width:0;opacity:1}55%{width:72%;opacity:1}100%{width:92%;opacity:.7}}
+
+/* ---- 骨架屏 ------------------------------------------------------------ */
+.cg-skel{display:flex;flex-direction:column;gap:9px;width:100%;padding:4px 0}
+.cg-skel-line{display:block;height:11px;border-radius:7px;
+  background:linear-gradient(100deg,rgba(120,225,200,.07) 20%,rgba(120,225,200,.20) 38%,rgba(120,225,200,.07) 56%);
+  background-size:220% 100%;animation:cg-shimmer 1.35s linear infinite}
+.cg-skel-title{height:17px;width:46%;border-radius:8px}
+.cg-skel-short{width:58%}
+.cg-skel-line:nth-child(2){width:94%}
+.cg-skel-line:nth-child(3){width:86%}
+.cg-skel-line:nth-child(4){width:90%}
+.cg-skel-line:nth-child(5){width:78%}
+@keyframes cg-shimmer{from{background-position:140% 0}to{background-position:-60% 0}}
+body.theme-light .cg-skel-line{background:linear-gradient(100deg,rgba(8,120,95,.06) 20%,rgba(8,120,95,.16) 38%,rgba(8,120,95,.06) 56%);
+  background-size:220% 100%}
+.cg-skel-host{min-height:72px}
+
+/* ---- toast：图标 / 语义色 / 关闭按钮 / 队列 ---------------------------- */
+.toast{display:flex;align-items:center;gap:10px;max-width:min(520px,calc(100vw - 32px));
+  padding:11px 12px 11px 14px;border-radius:14px;line-height:1.5;text-align:left;
+  transition:opacity var(--cg-motion-base) var(--cg-ease),transform var(--cg-motion-base) var(--cg-ease);
+  transform:translate(-50%,12px);pointer-events:none;z-index:300}
+.toast.show{transform:translate(-50%,0);pointer-events:auto}
+.toast-ico{flex:none;display:grid;place-items:center;width:18px;height:18px;border-radius:50%;
+  font-size:11px;font-weight:800;border:1px solid currentColor}
+.toast-ico::before{content:"i";font-family:var(--mono)}
+.toast--success .toast-ico::before{content:"✓"}
+.toast--error .toast-ico::before{content:"!"}
+.toast--success{border-color:rgba(60,230,180,.55)}
+.toast--error{border-color:rgba(255,120,120,.55);background:rgba(30,8,12,.97)}
+.toast--error .toast-ico{color:#ff9a9a}
+.toast--success .toast-ico{color:var(--accent)}
+.toast--info .toast-ico{color:var(--ink-2)}
+.toast-msg{min-width:0;overflow-wrap:anywhere}
+.toast-x{flex:none;border:0;background:transparent;color:var(--muted);font-size:16px;line-height:1;
+  padding:2px 4px;border-radius:6px;cursor:pointer}
+.toast-x:hover{color:var(--ink);background:rgba(255,255,255,.08)}
+.toast-x:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+
+/* ---- 命令面板：分组 / 计数 / 关闭 / 动效 ------------------------------- */
+.palette-count{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.04em;white-space:nowrap}
+.palette-close{border:0;background:transparent;color:var(--muted);font-size:19px;line-height:1;
+  width:28px;height:28px;border-radius:7px;cursor:pointer;flex:none}
+.palette-close:hover{color:var(--ink);background:rgba(255,255,255,.08)}
+.palette-close:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.palette-group-label{padding:9px 12px 4px;font-family:var(--mono);font-size:9px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--muted);user-select:none}
+.palette-item{transition:background var(--cg-motion-fast),color var(--cg-motion-fast)}
+.palette:not([hidden]) .palette-box{animation:cg-pal-in var(--cg-motion-base) var(--cg-ease) both}
+.palette:not([hidden]) .palette-scrim{animation:cg-fade-in var(--cg-motion-base) var(--cg-ease) both}
+@keyframes cg-pal-in{from{opacity:0;transform:translateY(-7px) scale(.995)}to{opacity:1;transform:none}}
+@keyframes cg-fade-in{from{opacity:0}to{opacity:1}}
+
+/* ---- 抽屉 / 弹层：统一时长与起始态（不改变原开关逻辑） ------------------ */
+.ref-drawer{transition:transform var(--cg-motion-base) var(--cg-ease)}
+@starting-style{.ref-drawer.open{transform:translateX(101%)}}
+.drawer:not([hidden]) .drawer-panel{animation:cg-drawer-in var(--cg-motion-base) var(--cg-ease) both}
+@keyframes cg-drawer-in{from{opacity:.35;transform:translateX(28px)}to{opacity:1;transform:none}}
+.checks-drawer:not([hidden]) .checks-panel{animation:cg-drawer-in var(--cg-motion-base) var(--cg-ease) both}
+.lib-modal:not([hidden]) .lib-modal-card{animation:cg-pop-in var(--cg-motion-base) var(--cg-ease) both}
+.repair-modal:not([hidden]) .repair-panel{animation:cg-pop-in var(--cg-motion-base) var(--cg-ease) both}
+@keyframes cg-pop-in{from{opacity:0;transform:translateY(8px) scale(.992)}to{opacity:1;transform:none}}
+.cg-overlay-open{overflow:hidden;padding-right:var(--cg-scrollbar,0px)}
+.cg-overlay-open .rail{transition:none}
+.drawer-close,.icon-btn,.palette-close{transition:background var(--cg-motion-fast),color var(--cg-motion-fast)}
+
+/* ---- 键盘焦点统一 ------------------------------------------------------ */
+:where(a,button,input,textarea,select,[tabindex]):focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.palette-item:focus-visible{outline-offset:-2px}
+
+/* ---- 减少动效：脚本设置 data-motion，系统偏好另行兜底 ------------------- */
+html[data-motion="reduced"] *,html[data-motion="reduced"] *::before,html[data-motion="reduced"] *::after{
+  animation:none!important;transition:none!important;scroll-behavior:auto!important}
+html[data-motion="reduced"] .cg-skel-line{background:none;background-color:rgba(120,225,200,.12)}
+html[data-motion="reduced"] .cg-nav-progress{display:none}
+html[data-motion="reduced"] .toast{transform:translate(-50%,0)}
+@media (prefers-reduced-motion:reduce){
+  .cg-nav-progress{display:none}
+  .cg-skel-line{animation:none;background:none;background-color:rgba(120,225,200,.12)}
+  .palette:not([hidden]) .palette-box,.palette:not([hidden]) .palette-scrim,
+  .drawer:not([hidden]) .drawer-panel,.checks-drawer:not([hidden]) .checks-panel,
+  .lib-modal:not([hidden]) .lib-modal-card,.repair-modal:not([hidden]) .repair-panel{animation:none}
+}

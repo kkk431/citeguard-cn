@@ -1352,3 +1352,162 @@ def test_report_has_batch_repair_and_verify_controls():
     assert "selectedPositions" in script
     assert "renderVerify" in script
     assert "/repair/verify" in script
+
+
+# ---- G4: unified micro-interactions -----------------------------------------
+
+def test_base_ships_g4_motion_palette_and_toast_hooks(client):
+    resp = client.get("/workspace")
+    assert resp.status_code == 200
+    html = resp.text
+    assert 'id="cg-nav-progress"' in html
+    assert 'class="cg-nav-progress"' in html
+    assert 'id="palette-close"' in html
+    assert 'id="palette-count"' in html
+    assert 'role="combobox"' in html
+    assert 'aria-haspopup="dialog"' in html
+    assert 'aria-activedescendant' not in html  # set only while the palette is open
+    assert 'aria-atomic="true"' in html
+    assert html.count("/static/js/app.js") == 1
+
+
+def test_app_js_exposes_unified_microinteraction_contract():
+    from pathlib import Path
+    script = (Path(__file__).resolve().parents[1] / "web" / "static" / "js" / "app.js").read_text(encoding="utf-8")
+    for token in [
+        "prefers-reduced-motion",
+        'setAttribute("data-motion"',
+        "skeletonHTML",
+        "clearSkeleton",
+        "cg-overlay-open",
+        "palette-group-label",
+        "aria-activedescendant",
+        "palette-close",
+        "toast--error",
+        "citeguard.palette.recent.v1",
+        "e.target === paletteClose",
+    ]:
+        assert token in script, token
+    # Figure.js still calls window.showToast, and every page still calls CiteGuard.toast(message).
+    assert "window.showToast = toast" in script
+    assert "function toast(message, options)" in script
+    assert "toast.hide = dismissToast" in script
+
+
+def test_refresh_css_defines_g4_tokens_and_reduced_motion():
+    from pathlib import Path
+    css = (Path(__file__).resolve().parents[1] / "web" / "static" / "css" / "refresh.css").read_text(encoding="utf-8")
+    for token in [
+        "--cg-motion-fast",
+        "--cg-motion-base",
+        "cg-skel",
+        "cg-page-in",
+        "cg-nav-progress",
+        "@starting-style",
+        'html[data-motion="reduced"]',
+        "@media (prefers-reduced-motion:reduce)",
+        ".cg-overlay-open",
+    ]:
+        assert token in css, token
+
+
+def test_palette_keeps_original_commands_after_grouping():
+    from pathlib import Path
+    script = (Path(__file__).resolve().parents[1] / "web" / "static" / "js" / "app.js").read_text(encoding="utf-8")
+    for label in [
+        "工作台",
+        "报告",
+        "题录库",
+        "快速判定一句话",
+        "批量判定",
+        "多篇对比",
+        "文献发现",
+        "CiteMap 证据地图",
+        "批量聚合",
+        "评测",
+        "模型",
+        "GitHub 仓库",
+    ]:
+        assert label in script, label
+    assert 'url: "/workspace#upload-card"' in script
+    assert 'url: "/workspace?sample=1"' in script
+
+
+def test_g4_assets_do_not_add_remote_dependencies(client):
+    from pathlib import Path
+    root = Path(__file__).resolve().parents[1]
+    html = client.get("/workspace").text
+    assert "cdn." not in html.lower()
+    assert "unpkg.com" not in html
+    script = (root / "web" / "static" / "js" / "app.js").read_text(encoding="utf-8")
+    assert "import " not in script
+    assert "require(" not in script
+
+
+# ---- G2: report reader minimap / severity / jump / zoom --------------------
+
+def test_report_reader_ships_minimap_and_severity_filter():
+    from pathlib import Path
+    root = Path(__file__).resolve().parents[1]
+    template = (root / "web" / "templates" / "report.html").read_text(encoding="utf-8")
+    script = (root / "web" / "static" / "js" / "report.js").read_text(encoding="utf-8")
+    for token in [
+        "/static/css/report_reader.css",
+        'id="severity-filter"',
+        'id="ref-minimap-track"',
+        'id="ref-minimap-legend"',
+        'id="ref-progress-text"',
+        'id="reader-progress-bar"',
+        'id="page-jump"',
+        'id="item-jump"',
+    ]:
+        assert token in template, token
+    for token in [
+        "severityOf",
+        "renderReaderNav",
+        "state.severity",
+        "visibleItems",
+        "ref-minimap-cell",
+        "jumpToItemPos",
+        "jumpToRef",
+        "jumpToPage",
+        'e.key === "j" || e.key === "k"',
+    ]:
+        assert token in script, token
+    css = (root / "web" / "static" / "css" / "report_reader.css").read_text(encoding="utf-8")
+    assert ".ref-minimap-cell.rm-high" in css
+    assert ".reader-jumps" in css
+
+
+def test_report_reader_zoom_and_existing_controls_are_preserved():
+    from pathlib import Path
+    root = Path(__file__).resolve().parents[1]
+    template = (root / "web" / "templates" / "report.html").read_text(encoding="utf-8")
+    script = (root / "web" / "static" / "js" / "report.js").read_text(encoding="utf-8")
+    for token in [
+        'id="page-viewer-zoom-in"',
+        'id="page-viewer-zoom-out"',
+        'id="page-viewer-zoom-reset"',
+        'id="page-viewer-zoom"',
+        'id="evidence-drawer"',
+        'id="ref-pager"',
+        'class="export-menu"',
+        'id="triage-filter"',
+        'id="btn-repair-all"',
+    ]:
+        assert token in template, token
+    for token in [
+        "setPageZoom",
+        "pageZoom",
+        "bindPageViewerZoom",
+        "moveReaderSelection",
+        "openPageViewer",
+        "openRefDrawer",
+        "openEvidence",
+        "renderPager",
+        "CiteGuard.toast",
+    ]:
+        assert token in script, token
+    css = (root / "web" / "static" / "css" / "report_reader.css").read_text(encoding="utf-8")
+    for token in [".pv-zoom-btn", ".pv-zoom-value", ".page-viewer-zoom"]:
+        assert token in css, token

@@ -1,0 +1,349 @@
+{
+  "task": "t35 G4 micro-interactions",
+  "version": "1.7.47",
+  "date": "2026-11-26",
+  "base_url": "http://127.0.0.1:8017",
+  "widths": [
+    {
+      "viewport": "1440x900",
+      "workspace": {
+        "title": "工作台 · 引证卫士",
+        "motion": "full",
+        "bodyClasses": "cg-boot cg-ready",
+        "scrollWidth": 1440,
+        "innerWidth": 1440,
+        "overflowPx": 0,
+        "mainAnimation": "cg-page-in",
+        "navProgressPresent": true,
+        "palettePresent": true,
+        "toastPresent": true
+      },
+      "library": {
+        "title": "本地题录库 · 引证卫士 CiteGuard",
+        "motion": "full",
+        "bodyClasses": "cg-boot cg-ready",
+        "scrollWidth": 1440,
+        "innerWidth": 1440,
+        "overflowPx": 0,
+        "mainAnimation": "cg-page-in",
+        "navProgressPresent": true,
+        "palettePresent": true,
+        "toastPresent": true
+      },
+      "palette": {
+        "opened": {
+          "hidden": false,
+          "expanded": "true",
+          "activedescendant": "palette-opt-0",
+          "focusInPalette": true,
+          "activeElement": "palette-input",
+          "count": "16 个入口",
+          "groups": [
+            "页面",
+            "动作",
+            "链接"
+          ],
+          "options": 16,
+          "scrollLocked": true,
+          "bodyOverflow": "hidden"
+        },
+        "filtered": {
+          "hidden": false,
+          "expanded": "true",
+          "activedescendant": "palette-opt-0",
+          "focusInPalette": true,
+          "activeElement": "palette-input",
+          "count": "1 个入口",
+          "groups": [
+            "页面"
+          ],
+          "options": 1,
+          "scrollLocked": true,
+          "bodyOverflow": "hidden"
+        },
+        "after_arrow": {
+          "hidden": false,
+          "expanded": "true",
+          "activedescendant": "palette-opt-0",
+          "focusInPalette": true,
+          "activeElement": "palette-input",
+          "count": "1 个入口",
+          "groups": [
+            "页面"
+          ],
+          "options": 1,
+          "scrollLocked": true,
+          "bodyOverflow": "hidden"
+        },
+        "closed": {
+          "hidden": true,
+          "expanded": "false",
+          "activedescendant": null,
+          "focusInPalette": false,
+          "activeElement": "",
+          "count": "1 个入口",
+          "groups": [
+            "页面"
+          ],
+          "options": 1,
+          "scrollLocked": false,
+          "bodyOverflow": "hidden auto"
+        },
+        "second_open": {
+          "hidden": false,
+          "expanded": "true",
+          "activedescendant": "palette-opt-0",
+          "focusInPalette": true,
+          "activeElement": "palette-input",
+          "count": "16 个入口",
+          "groups": [
+            "页面",
+            "动作",
+            "链接"
+          ],
+          "options": 16,
+          "scrollLocked": true,
+          "bodyOverflow": "hidden"
+        }
+      },
+      "toast": {
+        "shown": {
+          "shown": true,
+          "role": "status",
+          "text": "已复制候选证据 · 2 条",
+          "opacity": "1",
+          "pointerEvents": "auto",
+          "hasClose": true
+        },
+        "closed": {
+          "shown": false,
+          "role": "status",
+          "text": "已复制候选证据 · 2 条",
+          "opacity": "0.000433263",
+          "pointerEvents": "none",
+          "hasClose": true
+        }
+      },
+      "skeleton": {
+        "lines": 4,
+        "busy": "true",
+        "after": 0
+      },
+      "reduced_motion": {
+        "motion": "reduced",
+        "mainAnimation": "none",
+        "paletteAnimation": "none",
+        "skeletonAnimation": "none"
+      },
+      "screenshots": [
+        "docs/evidence/shots/opt-G4-workspace-palette-1.7.47-1440.png",
+        "docs/evidence/shots/opt-G4-workspace-toast-1.7.47-1440.png",
+        "docs/evidence/shots/opt-G4-reduced-motion-1.7.47-1440.png"
+      ]
+    },
+    {
+      "viewport": "1280x800",
+      "workspace": {
+        "title": "工作台 · 引证卫士",
+        "motion": "full",
+        "bodyClasses": "cg-boot cg-ready",
+        "scrollWidth": 1280,
+        "innerWidth": 1280,
+        "overflowPx": 0,
+        "mainAnimation": "cg-page-in",
+        "navProgressPresent": true,
+        "palettePresent": true,
+        "toastPresent": true
+      },
+      "library": {
+        "title": "本地题录库 · 引证卫士 CiteGuard",
+        "motion": "full",
+        "bodyClasses": "cg-boot cg-ready",
+        "scrollWidth": 1280,
+        "innerWidth": 1280,
+        "overflowPx": 0,
+        "mainAnimation": "cg-page-in",
+        "navProgressPresent": true,
+        "palettePresent": true,
+        "toastPresent": true
+      },
+      "palette": {
+        "opened": {
+          "hidden": false,
+          "expanded": "true",
+          "activedescendant": "palette-opt-0",
+          "focusInPalette": true,
+          "activeElement": "palette-input",
+          "count": "16 个入口",
+          "groups": [
+            "页面",
+            "动作",
+            "链接"
+          ],
+          "options": 16,
+          "scrollLocked": true,
+          "bodyOverflow": "hidden"
+        },
+        "filtered": {
+          "hidden": false,
+          "expanded": "true",
+          "activedescendant": "palette-opt-0",
+          "focusInPalette": true,
+          "activeElement": "palette-input",
+          "count": "1 个入口",
+          "groups": [
+            "页面"
+          ],
+          "options": 1,
+          "scrollLocked": true,
+          "bodyOverflow": "hidden"
+        },
+        "after_arrow": {
+          "hidden": false,
+          "expanded": "true",
+          "activedescendant": "palette-opt-0",
+          "focusInPalette": true,
+          "activeElement": "palette-input",
+          "count": "1 个入口",
+          "groups": [
+            "页面"
+          ],
+          "options": 1,
+          "scrollLocked": true,
+          "bodyOverflow": "hidden"
+        },
+        "closed": {
+          "hidden": true,
+          "expanded": "false",
+          "activedescendant": null,
+          "focusInPalette": false,
+          "activeElement": "",
+          "count": "1 个入口",
+          "groups": [
+            "页面"
+          ],
+          "options": 1,
+          "scrollLocked": false,
+          "bodyOverflow": "hidden auto"
+        },
+        "second_open": {
+          "hidden": false,
+          "expanded": "true",
+          "activedescendant": "palette-opt-0",
+          "focusInPalette": true,
+          "activeElement": "palette-input",
+          "count": "16 个入口",
+          "groups": [
+            "页面",
+            "动作",
+            "链接"
+          ],
+          "options": 16,
+          "scrollLocked": true,
+          "bodyOverflow": "hidden"
+        }
+      },
+      "toast": {
+        "shown": {
+          "shown": true,
+          "role": "status",
+          "text": "已复制候选证据 · 2 条",
+          "opacity": "1",
+          "pointerEvents": "auto",
+          "hasClose": true
+        },
+        "closed": {
+          "shown": false,
+          "role": "status",
+          "text": "已复制候选证据 · 2 条",
+          "opacity": "0",
+          "pointerEvents": "none",
+          "hasClose": true
+        }
+      },
+      "skeleton": {
+        "lines": 4,
+        "busy": "true",
+        "after": 0
+      },
+      "reduced_motion": {
+        "motion": "reduced",
+        "mainAnimation": "none",
+        "paletteAnimation": "none",
+        "skeletonAnimation": "none"
+      },
+      "screenshots": [
+        "docs/evidence/shots/opt-G4-workspace-palette-1.7.47-1280.png",
+        "docs/evidence/shots/opt-G4-workspace-toast-1.7.47-1280.png",
+        "docs/evidence/shots/opt-G4-reduced-motion-1.7.47-1280.png"
+      ]
+    }
+  ],
+  "screenshots": [
+    "docs/evidence/shots/opt-G4-workspace-palette-1.7.47-1440.png",
+    "docs/evidence/shots/opt-G4-workspace-toast-1.7.47-1440.png",
+    "docs/evidence/shots/opt-G4-reduced-motion-1.7.47-1440.png",
+    "docs/evidence/shots/opt-G4-workspace-palette-1.7.47-1280.png",
+    "docs/evidence/shots/opt-G4-workspace-toast-1.7.47-1280.png",
+    "docs/evidence/shots/opt-G4-reduced-motion-1.7.47-1280.png"
+  ],
+  "checks": {
+    "no_horizontal_overflow": true,
+    "no_console_errors": true,
+    "palette_opens_and_locks_scroll": true,
+    "palette_groups_rendered": true,
+    "palette_filters": true,
+    "palette_restores_focus": true,
+    "toast_renders_and_closes": true,
+    "skeleton_renders_and_clears": true,
+    "reduced_motion_disables_animations": true
+  },
+  "console_errors": [],
+  "failed_requests": [],
+  "thresholds": {
+    "overflow_px_max": 0,
+    "console_errors_max": 0,
+    "palette_must_open": true,
+    "palette_must_restore_focus": true,
+    "reduced_motion_must_disable_animations": true
+  },
+  "all_passed": true,
+  "tests": {
+    "web": "python -m pytest tests/test_web.py -q -> 89 passed",
+    "full": "python -m pytest tests -q -> 1094 passed, 10 skipped",
+    "g4_contract": [
+      "test_base_ships_g4_motion_palette_and_toast_hooks",
+      "test_app_js_exposes_unified_microinteraction_contract",
+      "test_refresh_css_defines_g4_tokens_and_reduced_motion",
+      "test_palette_keeps_original_commands_after_grouping",
+      "test_g4_assets_do_not_add_remote_dependencies"
+    ]
+  },
+  "implementation": {
+    "files": [
+      "web/templates/base.html",
+      "web/static/js/app.js",
+      "web/static/css/refresh.css",
+      "tests/test_web.py",
+      "docs/optimization/g4_micro_interactions.md"
+    ],
+    "components": [
+      "page transition + top progress bar",
+      "skeleton API + declarative [data-skeleton] + drawer empty-state skeleton",
+      "overlay scroll lock for drawers/modals",
+      "toast queue with success/error/info variants and close button",
+      "command palette groups + recent entries + combobox/listbox keyboard model",
+      "prefers-reduced-motion via media query and html[data-motion]"
+    ],
+    "unchanged": [
+      "web/app.py",
+      "web/static/js/report.js",
+      "web/static/js/citemap.js"
+    ]
+  },
+  "notes": [
+    "Real Chromium run uses Microsoft Edge (channel=msedge) because the Playwright browser cache is empty.",
+    "Only Chromium 1440x900 and 1280x800 viewports were captured; other browsers and mobile are not claimed.",
+    "The screenshots are static PNG captures; DOM states, console errors and failed requests are recorded per width in this file."
+  ]
+}
