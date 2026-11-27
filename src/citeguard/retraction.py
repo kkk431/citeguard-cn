@@ -65,15 +65,16 @@ def _short_openalex_id(value: str) -> str:
     return value.rsplit("/", 1)[-1] if value else ""
 
 
-def check_chain(doi: str, max_refs: int = 20) -> dict:
+def check_chain(doi: str, max_refs: int = 20, *, max_hops: int = 1, hop2_limit: int = 3) -> dict:
     """Check whether a cited work references an already-retracted work.
 
-    This is intentionally one hop, not a transitive closure: a two-hop scan
-    multiplies OpenAlex gaps and false negatives. ``coverage`` therefore says
-    how many of the work's references OpenAlex actually returned, so a clean
-    result is never presented as "the whole chain is clean".
+    The default is one hop.  ``max_hops=2`` additionally checks the references
+    of up to ``hop2_limit`` clean direct references, bounded so a chain query
+    cannot explode.  ``coverage`` still says how many direct references
+    OpenAlex returned; a clean result is never presented as "the whole chain is
+    clean".
 
-    Returns ``{status, checked, coverage, retracted, title, detail}`` where
+    Returns ``{status, checked, coverage, retracted, second_degree, ...}`` where
     status is ``indirect`` / ``clean`` / ``no_references`` / ``error``.
     """
     doi = normalise_doi(doi)
@@ -113,7 +114,7 @@ def check_chain(doi: str, max_refs: int = 20) -> dict:
     url = (
         "https://api.openalex.org/works"
         f"?filter=openalex_id:{filt}"
-        "&select=id,doi,title,is_retracted&per-page=50"
+        "&select=id,doi,title,is_retracted,referenced_works&per-page=50"
     )
     batch = _cached_json(url)
     if batch is None:
@@ -135,17 +136,52 @@ def check_chain(doi: str, max_refs: int = 20) -> dict:
         for item in results
         if item.get("is_retracted")
     ]
+    second_degree: list[dict] = []
+    second_sampled = 0
+    if max_hops >= 2:
+        sources = [
+            item for item in results
+            if not item.get("is_retracted") and (item.get("referenced_works") or [])
+        ][: max(1, hop2_limit)]
+        second_ids: list[str] = []
+        for item in sources:
+            for ref in item.get("referenced_works") or []:
+                ref_id = _short_openalex_id(ref)
+                if ref_id.startswith("W") and ref_id not in second_ids:
+                    second_ids.append(ref_id)
+        second_ids = second_ids[:20]
+        second_sampled = len(second_ids)
+        if second_ids:
+            second_batch = _cached_json(
+                "https://api.openalex.org/works"
+                f"?filter=openalex_id:{'|'.join(second_ids)}"
+                "&select=id,doi,title,is_retracted&per-page=50"
+            )
+            for item in (second_batch or {}).get("results") or []:
+                if item.get("is_retracted"):
+                    second_degree.append({
+                        "id": _short_openalex_id(item.get("id") or ""),
+                        "doi": item.get("doi") or "",
+                        "title": (item.get("title") or item.get("display_name") or "").strip(),
+                    })
     return {
-        "status": "indirect" if retracted else "clean",
+        "status": "indirect" if (retracted or second_degree) else "clean",
         "sampled": len(sample),
         "checked": len(results),
         "coverage": round(len(results) / len(sample), 3) if sample else 0.0,
         "retracted": retracted,
+        "second_degree": second_degree,
+        "second_sampled": second_sampled,
+        "max_hops": max_hops,
         "title": title,
         "detail": (
             f"抽样的 {len(results)} 条引用文献中，{len(retracted)} 条被撤稿"
             if retracted
-            else "本次抽样的引用文献中未发现撤稿"
+            else (
+                f"直接引用未发现撤稿；2 跳抽样 {second_sampled} 条中 {len(second_degree)} 条被撤稿"
+                if second_degree
+                else "本次抽样未发现撤稿"
+            )
         ),
     }
 

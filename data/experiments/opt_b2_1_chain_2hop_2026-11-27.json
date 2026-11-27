@@ -1,0 +1,17 @@
+{
+  "item": "B2.1 citation chain two hops",
+  "date": "2026-11-27",
+  "implementation": "src/citeguard/retraction.py::check_chain(max_hops=2, hop2_limit=3)",
+  "default_unchanged": "max_hops=1",
+  "unit_tests": {
+    "file": "tests/test_retraction.py",
+    "passed": 11,
+    "two_hop_case": "direct W1/W2 clean -> W9 retracted at second hop; second_sampled=2; second_degree=[W9]"
+  },
+  "real_smoke": [
+    {"doi": "10.1080/14653240600855905", "max_hops": 2, "status": "error", "checked": 0, "detail": "引用列表查询失败"},
+    {"doi": "10.1038/nature14539", "max_hops": 2, "status": "error", "checked": 0, "detail": "引用列表查询失败"}
+  ],
+  "coverage": null,
+  "caveat": "No real two-hop coverage number: OpenAlex reference batch returned failure. Unit fixture is synthetic and is not an accuracy claim. Product default remains one hop."
+}

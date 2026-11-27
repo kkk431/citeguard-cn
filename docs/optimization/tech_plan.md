@@ -33,7 +33,7 @@ CiteMap 证据图已接「只看高置信机器候选（≥0.9）」，真实关
 
 | 项 | 验收 | 证据 |
 | --- | --- | --- |
-| 2.1 引用链 2 跳 | 覆盖、误报、时间前后 | `data/experiments/opt_b2_chain_*.json` |
+| 2.1 引用链 2 跳 | 实现 + 单测；真实 2 跳覆盖 blocked（OpenAlex 引用批次失败） | `data/experiments/opt_b2_1_chain_2hop_2026-11-27.json`（🟡 默认仍 1 跳） |
 | 2.2 版式感知解析 | 529 clean 1.0 不回退；新盲测 | `data/experiments/opt_b2_parse_*.json` |
 | 2.3 工程可靠性 | 队列/DB、幂等、断点、并发 | `data/experiments/opt_b2_ops_*.json` |
 | 2.4 安全/隐私 | token/限流/SSRF/日志脱敏 | `data/experiments/opt_b2_security_*.json` |

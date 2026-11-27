@@ -149,3 +149,23 @@ def test_pipeline_only_checks_matched_references_with_doi(monkeypatch):
     assert calls == ["10.1/a"]
     assert report["retractions"]["checked"] == 1
     assert "retraction" not in report["references"][1]
+
+
+def test_chain_two_hop_finds_retraction_one_layer_down(monkeypatch):
+    def fake(url):
+        if "/works/doi:" in url:
+            return {"title": "Citing paper", "referenced_works": ["W1", "W2"]}
+        if "W9%7CW10" in url or "W9|W10" in url:
+            return {"results": [{"id": "W9", "title": "Retracted downstream", "is_retracted": True}]}
+        return {"results": [
+            {"id": "W1", "title": "Clean middle", "is_retracted": False, "referenced_works": ["W9"]},
+            {"id": "W2", "title": "Clean middle 2", "is_retracted": False, "referenced_works": ["W10"]},
+        ]}
+
+    monkeypatch.setattr(retraction, "_cached_json", fake)
+    result = retraction.check_chain("10.1/twohop", max_refs=5, max_hops=2, hop2_limit=2)
+    assert result["status"] == "indirect"
+    assert result["retracted"] == []
+    assert result["second_sampled"] == 2
+    assert result["second_degree"][0]["id"] == "W9"
+    assert result["max_hops"] == 2
