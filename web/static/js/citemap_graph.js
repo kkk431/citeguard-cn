@@ -34,6 +34,7 @@
     renderMs: 0,
     view: { scale: 1, x: 0, y: 0 },
     filters: { fulltext: true, abstract: true, none: true },
+    gateHigh: false,
     pan: null,
     toolsReady: false,
     legendReady: false
@@ -177,6 +178,7 @@
     // strongest level instead of drawing two lines for the same relationship.
     (Array.isArray(payload.auto_evidence) ? payload.auto_evidence : []).forEach(function (ev) {
       if (!ev || !ev.claim_id || !ev.paper_id) return;
+      if (state.gateHigh && Number(ev.confidence || 0) < 0.9) return;
       const level = ev.fulltext ? "fulltext" : "abstract";
       addEdge(ev.claim_id, ev.paper_id, level, ev, null);
     });
@@ -915,6 +917,14 @@
       else setOpen(false);
     }
   });
+
+  const gateHigh = document.getElementById("ctm-gate-high");
+  if (gateHigh) {
+    gateHigh.addEventListener("change", function () {
+      state.gateHigh = !!gateHigh.checked;
+      if (state.payload) render();
+    });
+  }
 
   document.addEventListener("ctm:topic", function (event) {
     const detailData = event.detail || {};

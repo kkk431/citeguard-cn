@@ -1644,3 +1644,7 @@ body.theme-light .ctm-cell-tag { color: #075e72; }
     padding: 12px;
   }
 }
+
+.ctm-gate-high{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--muted,#6b7a78);cursor:pointer;white-space:nowrap}
+.ctm-gate-high input{accent-color:#0e5c8c;width:14px;height:14px}
+.ctm-gate-high:hover{color:#0e5c8c}

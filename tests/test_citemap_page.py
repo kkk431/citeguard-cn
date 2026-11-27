@@ -45,6 +45,7 @@ CORE_IDS = [
     "ctm-verify-toggle",
     "ctm-verify-count",
     "ctm-graph-toggle",
+    "ctm-gate-high",
     "ctm-graph-panel",
     "ctm-graph-svg",
     "ctm-graph-detail",
@@ -170,6 +171,8 @@ def test_static_files_exist() -> None:
 def test_graph_view_contract() -> None:
     html = _render(current_topic="medical_imaging")
     assert 'id="ctm-graph-toggle"' in html
+    assert 'id="ctm-gate-high"' in html
+    assert "高置信机器候选" in html
     assert "证据图" in html
     assert "全文逐字证据" in html
     assert "摘要级证据" in html
