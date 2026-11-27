@@ -1,33 +1,30 @@
-"""The CiteMap evidence gate must stay reproducible and honest.
-
-These are small assertions on the committed experiment outputs, not a
-replacement for re-running the judge.
-"""
-from __future__ import annotations
-
-import json
-from pathlib import Path
-
-ROOT = Path(__file__).resolve().parents[1]
+from citeguard.citemap_gate import HIGH, REVIEW, evaluate, gate, summarize
 
 
-def load(name: str) -> dict:
-    return json.loads((ROOT / "data" / "experiments" / name).read_text(encoding="utf-8"))
+def test_gate_threshold_is_inclusive():
+    assert gate(0.9) == HIGH
+    assert gate(0.899) == REVIEW
+    assert gate(None) == REVIEW
 
 
-def test_gate_reports_no_full_claim_support() -> None:
-    data = load("citemap_gate_v3.json")
-    summary = data["summary"]
-    assert summary["evidence_cells"] == 31
-    assert summary["human_correct"] == 8
-    assert summary["kept"] == 0
-    assert summary["dropped_human_correct"] == 8
-    assert data["cells"] and all("verdict" in cell for cell in data["cells"])
+def test_summarize_counts_high_and_review():
+    out = summarize([{"confidence": 0.95}, {"confidence": 0.4}, {"confidence": 0.9}])
+    assert out["total"] == 3
+    assert out["high_confidence"] == 2
+    assert out["needs_review"] == 1
+    assert out["high_ratio"] == 0.6667
 
 
-def test_loose_gate_precision_and_recall() -> None:
-    summary = load("citemap_gate_v2.json")["summary"]
-    assert summary["kept"] == 11
-    assert summary["kept_correct"] == 7
-    assert summary["precision_kept"] == 0.6364
-    assert summary["recall_kept"] == 0.875
+def test_evaluate_reports_precision_recall_f1():
+    rows = [
+        {"confidence": 0.95, "majority": "correct"},
+        {"confidence": 0.92, "majority": "issue"},
+        {"confidence": 0.4, "majority": "correct"},
+        {"confidence": 0.2, "majority": "issue"},
+    ]
+    m = evaluate(rows, threshold=0.9)
+    assert m.shown == 2
+    assert m.correct == 1
+    assert m.precision == 0.5
+    assert m.recall == 0.5
+    assert m.f1 == 0.5
