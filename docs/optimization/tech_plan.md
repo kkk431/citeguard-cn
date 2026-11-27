@@ -19,11 +19,12 @@
 precision 0.7143 / recall 0.625 / F1 0.6667；只能作为“高置信候选”筛选，不能当作全面机器证据精度。
 CiteMap 证据图已接「只看高置信机器候选（≥0.9）」，真实关系 36→35；E132。
 1.2 保守共识：101 个已解析格中，机器证据 31 格只有 **5** 格 3/3 接受、12 格拒绝、14 格 2:1 争议；可接受边 5 条，不把机器置信当人工接受。
+1.1 语义回放：31 条机器证据，直接 judge F1 .6667；断言拆解 .6364，负结果，不接产品。
 1.3 Live 抽取前移已验证：6 页夹具 451/451 映射、30/30 来源定位；产品入口 `/api/live/page`，只做定位、不判真伪。
 
 | 项 | 验收 | 证据 |
 | --- | --- | --- |
-| 1.1 断言拆解 + 全文证据对齐 | 子断言、证据跨度、full/partial/contradict/insufficient；span P/R | `data/experiments/opt_b1_1_alignment_lexical_2026-11-27.json`（脚手架/负基线 ✅；语义 judge 评测 blocked） |
+| 1.1 断言拆解 + 全文证据对齐 | 子断言、证据跨度、full/partial/contradict/insufficient；span P/R | `data/experiments/opt_b1_1_alignment_lexical_2026-11-27.json`、`opt_b1_1_alignment_semantic_2026-11-27.json`（✅ 负结果：语义 F1 .6364 < 直接 .6667，不接产品） |
 | 1.2 人机证据图共识 | 3/3 才 accepted；2:1 contested；机器候选不能自升 | `data/experiments/opt_b1_2_consensus_2026-11-27.json` ✅（机器证据接受 5/31） |
 | 1.3 Live 页面抽取前移 | 6 页夹具 451/451 映射、30/30 来源定位；产品 `/api/live/page` | `data/experiments/opt_b1_3_live_extraction_2026-11-27.json` ✅（已有能力，边界已写） |
 | 1.4 CiteMap 机器精度 | 105 格机器完整支持 precision | `data/experiments/opt_b1_4_citemap_gate_2026-11-27.json` ✅（阈值 0.9：P .7143/R .625） |

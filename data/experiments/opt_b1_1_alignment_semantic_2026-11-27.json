@@ -1,0 +1,428 @@
+{
+  "source_key": "data/experiments/citemap_audit_105/key.csv",
+  "source_merged": "data/experiments/citemap_audit_105/merged.csv",
+  "rows": 31,
+  "human_correct": 8,
+  "direct": {
+    "tp": 7,
+    "fp": 6,
+    "fn": 1,
+    "precision": 0.5385,
+    "recall": 0.875,
+    "f1": 0.6667
+  },
+  "alignment": {
+    "tp": 7,
+    "fp": 7,
+    "fn": 1,
+    "precision": 0.5,
+    "recall": 0.875,
+    "f1": 0.6364
+  },
+  "items": [
+    {
+      "cell_id": "full-ai_education-edu-001-edu-c1",
+      "claim_id": "edu-c1",
+      "human_majority": "issue",
+      "direct_label": "no_evidence",
+      "direct_positive": false,
+      "alignment_label": "insufficient",
+      "alignment_positive": false,
+      "subclaims": [
+        "no_evidence"
+      ],
+      "coverage": 1.0
+    },
+    {
+      "cell_id": "full-ai_education-edu-002-edu-c1",
+      "claim_id": "edu-c1",
+      "human_majority": "correct",
+      "direct_label": "partial",
+      "direct_positive": true,
+      "alignment_label": "partial",
+      "alignment_positive": true,
+      "subclaims": [
+        "partial"
+      ],
+      "coverage": 1.0
+    },
+    {
+      "cell_id": "full-ai_education-edu-005-edu-c1",
+      "claim_id": "edu-c1",
+      "human_majority": "issue",
+      "direct_label": "partial",
+      "direct_positive": true,
+      "alignment_label": "partial",
+      "alignment_positive": true,
+      "subclaims": [
+        "partial"
+      ],
+      "coverage": 1.0
+    },
+    {
+      "cell_id": "full-ai_education-edu-005-edu-c4",
+      "claim_id": "edu-c4",
+      "human_majority": "issue",
+      "direct_label": "partial",
+      "direct_positive": true,
+      "alignment_label": "partial",
+      "alignment_positive": true,
+      "subclaims": [
+        "partial"
+      ],
+      "coverage": 1.0
+    },
+    {
+      "cell_id": "full-ai_education-edu-006-edu-c2",
+      "claim_id": "edu-c2",
+      "human_majority": "issue",
+      "direct_label": "partial",
+      "direct_positive": true,
+      "alignment_label": "partial",
+      "alignment_positive": true,
+      "subclaims": [
+        "partial"
+      ],
+      "coverage": 1.0
+    },
+    {
+      "cell_id": "full-ai_education-edu-007-edu-c1",
+      "claim_id": "edu-c1",
+      "human_majority": "issue",
+      "direct_label": "no_evidence",
+      "direct_positive": false,
+      "alignment_label": "insufficient",
+      "alignment_positive": false,
+      "subclaims": [
+        "no_evidence"
+      ],
+      "coverage": 1.0
+    },
+    {
+      "cell_id": "full-ai_education-edu-007-edu-c3",
+      "claim_id": "edu-c3",
+      "human_majority": "correct",
+      "direct_label": "no_evidence",
+      "direct_positive": false,
+      "alignment_label": "insufficient",
+      "alignment_positive": false,
+      "subclaims": [
+        "no_evidence"
+      ],
+      "coverage": 1.0
+    },
+    {
+      "cell_id": "full-ai_education-edu-008-edu-c3",
+      "claim_id": "edu-c3",
+      "human_majority": "issue",
+      "direct_label": "no_evidence",
+      "direct_positive": false,
+      "alignment_label": "insufficient",
+      "alignment_positive": false,
+      "subclaims": [
+        "no_evidence"
+      ],
+      "coverage": 1.0
+    },
+    {
+      "cell_id": "full-ai_education-edu-009-edu-c4",
+      "claim_id": "edu-c4",
+      "human_majority": "issue",
+      "direct_label": "no_evidence",
+      "direct_positive": false,
+      "alignment_label": "insufficient",
+      "alignment_positive": false,
+      "subclaims": [
+        "no_evidence"
+      ],
+      "coverage": 1.0
+    },
+    {
+      "cell_id": "full-ai_education-edu-010-edu-c4",
+      "claim_id": "edu-c4",
+      "human_majority": "correct",
+      "direct_label": "partial",
+      "direct_positive": true,
+      "alignment_label": "partial",
+      "alignment_positive": true,
+      "subclaims": [
+        "partial"
+      ],
+      "coverage": 1.0
+    },
+    {
+      "cell_id": "full-ai_education-edu-011-edu-c2",
+      "claim_id": "edu-c2",
+      "human_majority": "issue",
+      "direct_label": "no_evidence",
+      "direct_positive": false,
+      "alignment_label": "insufficient",
+      "alignment_positive": false,
+      "subclaims": [
+        "no_evidence"
+      ],
+      "coverage": 1.0
+    },
+    {
+      "cell_id": "full-ai_education-edu-011-edu-c3",
+      "claim_id": "edu-c3",
+      "human_majority": "issue",
+      "direct_label": "no_evidence",
+      "direct_positive": false,
+      "alignment_label": "insufficient",
+      "alignment_positive": false,
+      "subclaims": [
+        "no_evidence"
+      ],
+      "coverage": 1.0
+    },
+    {
+      "cell_id": "full-ai_education-edu-012-edu-c1",
+      "claim_id": "edu-c1",
+      "human_majority": "issue",
+      "direct_label": "partial",
+      "direct_positive": true,
+      "alignment_label": "partial",
+      "alignment_positive": true,
+      "subclaims": [
+        "partial"
+      ],
+      "coverage": 1.0
+    },
+    {
+      "cell_id": "full-ai_education-edu-012-edu-c3",
+      "claim_id": "edu-c3",
+      "human_majority": "issue",
+      "direct_label": "no_evidence",
+      "direct_positive": false,
+      "alignment_label": "insufficient",
+      "alignment_positive": false,
+      "subclaims": [
+        "no_evidence"
+      ],
+      "coverage": 1.0
+    },
+    {
+      "cell_id": "full-ai_education-edu-013-edu-c3",
+      "claim_id": "edu-c3",
+      "human_majority": "issue",
+      "direct_label": "no_evidence",
+      "direct_positive": false,
+      "alignment_label": "insufficient",
+      "alignment_positive": false,
+      "subclaims": [
+        "no_evidence"
+      ],
+      "coverage": 1.0
+    },
+    {
+      "cell_id": "full-medical_imaging-med-001-med-c1",
+      "claim_id": "med-c1",
+      "human_majority": "issue",
+      "direct_label": "no_evidence",
+      "direct_positive": false,
+      "alignment_label": "insufficient",
+      "alignment_positive": false,
+      "subclaims": [
+        "no_evidence"
+      ],
+      "coverage": 1.0
+    },
+    {
+      "cell_id": "full-medical_imaging-med-002-med-c1",
+      "claim_id": "med-c1",
+      "human_majority": "correct",
+      "direct_label": "partial",
+      "direct_positive": true,
+      "alignment_label": "partial",
+      "alignment_positive": true,
+      "subclaims": [
+        "partial"
+      ],
+      "coverage": 1.0
+    },
+    {
+      "cell_id": "full-medical_imaging-med-003-med-c1",
+      "claim_id": "med-c1",
+      "human_majority": "correct",
+      "direct_label": "partial",
+      "direct_positive": true,
+      "alignment_label": "partial",
+      "alignment_positive": true,
+      "subclaims": [
+        "partial"
+      ],
+      "coverage": 1.0
+    },
+    {
+      "cell_id": "full-medical_imaging-med-004-med-c1",
+      "claim_id": "med-c1",
+      "human_majority": "issue",
+      "direct_label": "partial",
+      "direct_positive": true,
+      "alignment_label": "partial",
+      "alignment_positive": true,
+      "subclaims": [
+        "partial"
+      ],
+      "coverage": 1.0
+    },
+    {
+      "cell_id": "full-medical_imaging-med-005-med-c1",
+      "claim_id": "med-c1",
+      "human_majority": "issue",
+      "direct_label": "no_evidence",
+      "direct_positive": false,
+      "alignment_label": "partial",
+      "alignment_positive": true,
+      "subclaims": [
+        "partial"
+      ],
+      "coverage": 1.0
+    },
+    {
+      "cell_id": "full-medical_imaging-med-006-med-c1",
+      "claim_id": "med-c1",
+      "human_majority": "issue",
+      "direct_label": "no_evidence",
+      "direct_positive": false,
+      "alignment_label": "insufficient",
+      "alignment_positive": false,
+      "subclaims": [
+        "no_evidence"
+      ],
+      "coverage": 1.0
+    },
+    {
+      "cell_id": "full-medical_imaging-med-007-med-c1",
+      "claim_id": "med-c1",
+      "human_majority": "correct",
+      "direct_label": "partial",
+      "direct_positive": true,
+      "alignment_label": "partial",
+      "alignment_positive": true,
+      "subclaims": [
+        "partial"
+      ],
+      "coverage": 1.0
+    },
+    {
+      "cell_id": "full-medical_imaging-med-008-med-c1",
+      "claim_id": "med-c1",
+      "human_majority": "issue",
+      "direct_label": "partial",
+      "direct_positive": true,
+      "alignment_label": "partial",
+      "alignment_positive": true,
+      "subclaims": [
+        "partial"
+      ],
+      "coverage": 1.0
+    },
+    {
+      "cell_id": "full-medical_imaging-med-010-med-c1",
+      "claim_id": "med-c1",
+      "human_majority": "issue",
+      "direct_label": "no_evidence",
+      "direct_positive": false,
+      "alignment_label": "insufficient",
+      "alignment_positive": false,
+      "subclaims": [
+        "no_evidence"
+      ],
+      "coverage": 1.0
+    },
+    {
+      "cell_id": "full-medical_imaging-med-011-med-c2",
+      "claim_id": "med-c2",
+      "human_majority": "correct",
+      "direct_label": "partial",
+      "direct_positive": true,
+      "alignment_label": "partial",
+      "alignment_positive": true,
+      "subclaims": [
+        "partial"
+      ],
+      "coverage": 1.0
+    },
+    {
+      "cell_id": "full-medical_imaging-med-011-med-c3",
+      "claim_id": "med-c3",
+      "human_majority": "issue",
+      "direct_label": "no_evidence",
+      "direct_positive": false,
+      "alignment_label": "insufficient",
+      "alignment_positive": false,
+      "subclaims": [
+        "no_evidence"
+      ],
+      "coverage": 1.0
+    },
+    {
+      "cell_id": "full-medical_imaging-med-012-med-c1",
+      "claim_id": "med-c1",
+      "human_majority": "issue",
+      "direct_label": "no_evidence",
+      "direct_positive": false,
+      "alignment_label": "insufficient",
+      "alignment_positive": false,
+      "subclaims": [
+        "no_evidence"
+      ],
+      "coverage": 1.0
+    },
+    {
+      "cell_id": "full-medical_imaging-med-013-med-c1",
+      "claim_id": "med-c1",
+      "human_majority": "correct",
+      "direct_label": "partial",
+      "direct_positive": true,
+      "alignment_label": "partial",
+      "alignment_positive": true,
+      "subclaims": [
+        "partial"
+      ],
+      "coverage": 1.0
+    },
+    {
+      "cell_id": "full-medical_imaging-med-014-med-c3",
+      "claim_id": "med-c3",
+      "human_majority": "issue",
+      "direct_label": "no_evidence",
+      "direct_positive": false,
+      "alignment_label": "insufficient",
+      "alignment_positive": false,
+      "subclaims": [
+        "no_evidence"
+      ],
+      "coverage": 1.0
+    },
+    {
+      "cell_id": "full-medical_imaging-med-015-med-c1",
+      "claim_id": "med-c1",
+      "human_majority": "issue",
+      "direct_label": "no_evidence",
+      "direct_positive": false,
+      "alignment_label": "insufficient",
+      "alignment_positive": false,
+      "subclaims": [
+        "no_evidence"
+      ],
+      "coverage": 1.0
+    },
+    {
+      "cell_id": "full-medical_imaging-med-015-med-c2",
+      "claim_id": "med-c2",
+      "human_majority": "issue",
+      "direct_label": "no_evidence",
+      "direct_positive": false,
+      "alignment_label": "insufficient",
+      "alignment_positive": false,
+      "subclaims": [
+        "no_evidence"
+      ],
+      "coverage": 1.0
+    }
+  ],
+  "caveat": "Human majority labels judge whether the machine quote is acceptable, not whether the compound claim is fully supported; binary mapping is a proxy."
+}

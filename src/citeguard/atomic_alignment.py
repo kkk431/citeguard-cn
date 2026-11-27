@@ -19,6 +19,7 @@ Judge = Callable[[str, str], dict | None]
 
 _TOKEN_RE = re.compile(r"[A-Za-z][A-Za-z0-9_\-]{1,}|[\u4e00-\u9fff]+")
 _SENT_RE = re.compile(r"(?<=[。！？!?；;])\s*|(?<=\.)\s+")
+_CJK_RE = re.compile(r"[\u4e00-\u9fff]")
 _NEGATIONS = ("不", "未", "没有", "并非", "不能", "无法", "not ", "no ", "never", "without")
 
 
@@ -111,6 +112,12 @@ def align_subclaim(
     """
     ranked = rank_sentences(subclaim, evidence_text, top_k=top_k)
     candidates = [s for _, _, s in ranked]
+    if not candidates and (evidence_text or "").strip() and (_CJK_RE.search(subclaim) is None) != (_CJK_RE.search(evidence_text) is None):
+        # A cross-language evidence snippet has no lexical overlap with the
+        # claim.  The snippet itself is still the candidate; retrieval must not
+        # turn a valid judgeable pair into "no candidates".
+        candidates = [(evidence_text or "").strip()]
+        ranked = [(0.0, 0, candidates[0])]
     if not candidates:
         return SubClaimAlignment(subclaim=subclaim, candidates=[], reason="没有召回到候选句")
 

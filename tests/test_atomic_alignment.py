@@ -62,3 +62,14 @@ def test_partial_when_one_subclaim_has_no_candidate():
     out = align_claim("本文提出注意力机制。实验在翻译任务上提升明显。", evidence, judge=judge)
     assert out.label in {"partial", "insufficient"}
     assert out.coverage < 1.0
+
+
+def test_single_cross_language_snippet_is_still_judgeable():
+    from citeguard.atomic_alignment import align_subclaim
+
+    def judge(claim, evidence):
+        return {"label": "support", "confidence": 0.9, "quote": evidence}
+
+    out = align_subclaim("生成式 AI 提升学习收益", "Generative AI improves learning outcomes.", judge=judge)
+    assert out.label == "support"
+    assert out.candidates == ["Generative AI improves learning outcomes."]
