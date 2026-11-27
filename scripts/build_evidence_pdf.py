@@ -36,10 +36,10 @@ DARK = "0A2E52"
 TITLE = "引证卫士 CiteGuard-CN"
 TEAM = "大肥鱼的忠实信徒们"
 TEAM_ID = "AIC-2026-67377639"
-VERSION = "v1.7.50"
+VERSION = "v1.7.51"
 DATE = "2026-11-27"
 REPO = "https://github.com/kkk431/citeguard-cn"
-RELEASE = "https://github.com/kkk431/citeguard-cn/releases/tag/v1.7.50"
+RELEASE = "https://github.com/kkk431/citeguard-cn/releases/tag/v1.7.51"
 HF_DATASET = "https://huggingface.co/datasets/dfdafs/claimsupport-cn-300"
 HF_17B = "https://huggingface.co/dfdafs/citeguard-support-lora-qwen3-1.7b"
 HF_4B = "https://huggingface.co/dfdafs/citeguard-support-lora-qwen3-4b"
@@ -663,17 +663,36 @@ _p(
 )
 doc.add_page_break()
 
+# ---------------- 9.4 Batch 0 ----------------
+_h1("9.4", "Batch 0 技术基线（v1.7.51）")
+_p(
+    "Batch 0 不做新模型、不买数据；先把可复算的基线固定下来，再用同一口径判断新方法是否值得保留。",
+    9.2,
+)
+_table(
+    ["项", "结果", "边界"],
+    [
+        ["评测 harness", "五组冻结结果 5/5 门禁；100 盲标 κ 0.98116 / acc 0.99 / F1 0.987707；409 真实 Major 0", "读既有结果，不重跑模型"],
+        ["常数多数类基线", "macro-F1 0.1454（support）", "仅作下限参照"],
+        ["成本感知级联", "同一 60 条回放：1.7B F1 0.9721；14B F1 0.9588；级联 routed 0、F1 0.9721", "无实测增益，不设默认路径"],
+        ["版本感知实体消解", "Attention/BERT/ResNet 预印本+正式版、同 DOI、同名不同作者、无匹配 6/6", "known-work fixture，不是随机样本"],
+    ],
+    (3.0, 9.6, 5.0),
+)
+_p("证据：data/experiments/opt_b0_*.json；截图 docs/evidence/shots/opt-B0-bench-1.7.51-1440.png；测试 1148 passed。", 8.2, False, GRAY)
+doc.add_page_break()
+
 # ---------------- 9 records ----------------
 _h1("10", "提交记录、维护与结论")
 _h2("10.1 当前提交物")
 _table(
     ["材料", "版本/规格"],
     [
-        ["技术报告", "v1.7.50 · 15 页 · 1,702,624 B"],
+        ["技术报告", "v1.7.51 · 15 页 · 1,703,665 B"],
         ["资源清单", "v1.7.36 · 2 页 · 144,779 B（随报告附件）"],
         ["答辩 PPT", "11 页 · v1.7.35（用户明确暂不更新）"],
         ["演示视频", "4:27 · v1.7.36 · 22,219,835 B（纯产品）"],
-        ["源代码", "GitHub main · tag v1.7.50 · Apache-2.0"],
+        ["源代码", "GitHub main · tag v1.7.51 · Apache-2.0"],
         ["发布页", RELEASE],
     ],
     (4.6, 13.0),
@@ -727,6 +746,6 @@ _p(
 )
 
 # save docx
-docx_path = OUT / "CiteGuard-CN_佐证材料_v1.7.50_2026-11-27.docx"
+docx_path = OUT / "CiteGuard-CN_佐证材料_v1.7.51_2026-11-27.docx"
 doc.save(docx_path)
 print("DOCX", docx_path, docx_path.stat().st_size)

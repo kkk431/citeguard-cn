@@ -44,7 +44,17 @@
 
 - 报告：`dist/CiteGuard-CN_技术报告_v1.7.51_2026-11-27.pdf` 15 页 / 1,703,665 B；正文 1.7.51 / 1148 tests / Batch 0 段；Docker 仍写最近验证 1.7.50（未重建 1.7.51）。
 - 提交目录：报告换 1.7.51；资源清单 1.7.50、佐证 1.7.50 为已知例外（Batch 0 无新依赖/未追加佐证）。
-- 提交 zip：`dist/CiteGuard-CN_AIC-2026-67377639_v1.7.51.zip` 27,612,244 B / sha `76ec045a77607b97b39a037aa3aea05f7930754f00e69d81370172be23bbfe55`。
+- 提交 zip：`dist/CiteGuard-CN_AIC-2026-67377639_v1.7.51.zip` 27,623,020 B / sha `2fa6816900915e4c93234dd52dd5eed51bbf3742b187c5353097e33f829ca76b`。
 - 证据：E131；`evidence_audit` 314 路径 / 168 截图 / 0 missing / 0 unregistered；verify 137/137；licenses 4/4。
 - Git：待提交/推送/tag v1.7.51/release latest。
 - 已知例外：PPT v1.7.35、视频 v1.7.36、佐证 PDF v1.7.50、资源清单 v1.7.50、Docker 1.7.50；无公网演示。
+
+### 2026-11-27 · v1.7.51 发布
+
+- Git：commit `56db7ee`，tag `v1.7.51` 指向 `56db7ee`；CI #422 success（1m15s）。
+- GitHub Release：`v1.7.51 — Batch 0 technical baseline` 已创建并设为 Latest。
+- 报告：`CiteGuard-CN_技术报告_v1.7.51_2026-11-27.pdf` 15 页 / 1,703,665 B；提交目录 01 已替换。
+- 提交 zip：`CiteGuard-CN_AIC-2026-67377639_v1.7.51.zip` 27,623,020 B / sha `2fa6816900915e4c93234dd52dd5eed51bbf3742b187c5353097e33f829ca76b`。
+- 资源清单仍 v1.7.50（Batch 0 无新增依赖）；佐证 PDF 已重建 v1.7.51 / 21 页 / 2,514,087 B，已追加 Batch 0。
+- 证据：E131；314 路径 / 168 截图 / 0 missing / 0 unregistered；tests 1148。
+- 已知例外：Docker 最近验证 1.7.50；PPT v1.7.35、视频 v1.7.36；无公网演示。
