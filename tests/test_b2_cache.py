@@ -236,3 +236,27 @@ def test_library_fingerprint_changes_the_cache_key(tmp_path, monkeypatch):
     assert second["cache"]["status"] == "miss", "library change must invalidate the cache"
     assert second["cache"]["key"] != first["cache"]["key"]
     assert second["cache"]["versions"]["library"] != "missing"
+
+def test_run_job_reuses_the_result_cache_for_web_uploads(tmp_path, monkeypatch, isolated_project):
+    """The web path must share B2's cache, not just the CLI/batch path."""
+    monkeypatch.setenv("CITEGUARD_RESULT_CACHE_DIR", str(tmp_path / "result-cache"))
+    monkeypatch.setenv("CITEGUARD_TEXT_CACHE_DIR", str(tmp_path / "text-cache"))
+    text = (
+        "本文讨论引用核验。近年来相关研究很多[1]。\n\n参考文献\n"
+        "[1] 张三, 李四. 一种引用核验方法. 计算机学报, 2024, 47(1): 1-10.\n"
+    )
+    first_path = _write(tmp_path / "first.txt", text)
+    second_path = _write(tmp_path / "second.txt", text)
+
+    first_job = jobs.manager.create(filename="first.txt")
+    first = pipeline.run_job(first_job["id"], file_path=str(first_path), support_max=0)
+    assert first["cache"]["status"] == "miss"
+
+    second_job = jobs.manager.create(filename="second.txt")
+    second = pipeline.run_job(second_job["id"], file_path=str(second_path), support_max=0)
+    assert second["cache"]["status"] == "hit"
+    assert second["cache"]["key"] == first["cache"]["key"]
+    assert [r["raw"] for r in second["references"]] == [r["raw"] for r in first["references"]]
+    assert second["input"] == "second.txt"
+    assert second["job_id"] == second_job["id"]
+

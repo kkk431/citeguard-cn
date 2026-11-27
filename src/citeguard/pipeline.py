@@ -6,6 +6,7 @@ place means the CLI and the web UI cannot drift apart.
 """
 from __future__ import annotations
 
+import copy
 import hashlib
 import json
 import re
@@ -217,6 +218,25 @@ def analysis_cache_versions() -> dict:
     }
 
 
+def analysis_cache_identity(file_path: str, *, options: dict | None = None, cache=None) -> dict:
+    """Return the cache handle for one file without running the analysis."""
+    from .jobs import ResultCache, result_cache_enabled, result_cache_key, sha256_file
+
+    path = Path(file_path)
+    options = dict(options or {})
+    key_options = {k: v for k, v in options.items() if k != "library"}
+    versions = analysis_cache_versions()
+    versions["library"] = _library_cache_fingerprint(options.get("library"))
+    key = result_cache_key(sha256_file(path), key_options, versions)
+    return {
+        "cache": cache if cache is not None else ResultCache(),
+        "enabled": result_cache_enabled(),
+        "key": key,
+        "versions": versions,
+        "options": key_options,
+    }
+
+
 def analyze_file_cached(file_path: str, *, options: dict | None = None, cache=None) -> dict:
     """Analyze one file through the B2 content-addressed result cache.
 
@@ -226,16 +246,13 @@ def analyze_file_cached(file_path: str, *, options: dict | None = None, cache=No
     A cached report is returned with ``cache.status='hit'``; callers must not
     present that as a cold-start measurement.
     """
-    from .jobs import ResultCache, result_cache_enabled, result_cache_key, sha256_file
-
     path = Path(file_path)
     options = dict(options or {})
-    key_options = {k: v for k, v in options.items() if k != "library"}
-    versions = analysis_cache_versions()
-    versions["library"] = _library_cache_fingerprint(options.get("library"))
-    key = result_cache_key(sha256_file(path), key_options, versions)
-    cache = cache if cache is not None else ResultCache()
-    enabled = result_cache_enabled()
+    identity = analysis_cache_identity(str(path), options=options, cache=cache)
+    cache = identity["cache"]
+    enabled = identity["enabled"]
+    key = identity["key"]
+    versions = identity["versions"]
     if enabled:
         hit = cache.load(key)
         if hit is not None:
@@ -259,7 +276,7 @@ def analyze_file_cached(file_path: str, *, options: dict | None = None, cache=No
     if enabled:
         stored = dict(report)
         stored.pop("cache", None)
-        cache.store(key, stored, {"file": path.name, "options": key_options, "versions": versions})
+        cache.store(key, stored, {"file": path.name, "options": identity["options"], "versions": versions})
     return report
 
 
@@ -775,7 +792,35 @@ def run_job(
     figures: bool = False,
 ) -> dict:
     """Run the analysis for a web job and write report.json/html/md to disk."""
+    if library is None:
+        from .local_library import Library
+
+        library = Library.load(config.LIBRARY_FILE)
+
+    job_meta = manager.get(job_id) or {}
+    uploaded_name = job_meta.get("filename") or ""
+    if not file_path or uploaded_name == "pasted-text.txt":
+        source_name = "粘贴文本"
+    else:
+        source_name = uploaded_name or Path(file_path).name
+    cache_identity = None
+    cache_hit = None
     if file_path:
+        cache_identity = analysis_cache_identity(
+            file_path,
+            options={
+                "support_max": support_max,
+                "online": True,
+                "use_arxiv": True,
+                "library": library,
+                "figures": bool(figures),
+                "max_refs": 0,
+            },
+        )
+        if cache_identity["enabled"]:
+            cache_hit = cache_identity["cache"].load(cache_identity["key"])
+
+    if file_path and cache_hit is None:
         manager.update(job_id, progress=4, stage="读取文件")
 
         def _page(done: int, total: int) -> None:
@@ -788,6 +833,19 @@ def run_job(
             progress=10,
             stage=f"抽取完成：{input_meta.get('pages', 0)} 页 / {input_meta.get('chars', 0)} 字",
         )
+    elif cache_hit is not None:
+        report = copy.deepcopy(cache_hit["report"])
+        report["cache"] = {
+            "status": "hit",
+            "key": cache_identity["key"],
+            "versions": cache_identity["versions"],
+        }
+        if isinstance(report.get("input"), dict):
+            report["input"]["name"] = source_name
+        else:
+            report["input"] = source_name
+        input_meta = report.get("input_meta") or {}
+        manager.update(job_id, progress=60, stage="命中分析缓存，正在生成报告")
     else:
         input_meta = {
             "method": "text",
@@ -798,42 +856,57 @@ def run_job(
             "warnings": [],
         }
 
-    if library is None:
-        from .local_library import Library
-
-        library = Library.load(config.LIBRARY_FILE)
-
-    source_name = Path(file_path).name if file_path else "粘贴文本"
     out_dir = config.DATA_DIR / "jobs" / job_id
     out_dir.mkdir(parents=True, exist_ok=True)
-    # Keep the extracted text only until the job succeeds: it makes a crashed or
-    # interrupted run retryable without asking the user to upload again, and is
-    # deleted together with options.json as soon as a report exists.
-    try:
-        (out_dir / "input.txt").write_text(text or "", encoding="utf-8")
-        (out_dir / "options.json").write_text(
-            json.dumps(
-                {"support_max": support_max, "source_name": source_name, "figures": bool(figures)},
-                ensure_ascii=False,
-            ),
-            encoding="utf-8",
-        )
-    except Exception:
-        pass
+    if cache_hit is None:
+        # Keep the extracted text only until the job succeeds: it makes a crashed or
+        # interrupted run retryable without asking the user to upload again, and is
+        # deleted together with options.json as soon as a report exists.
+        try:
+            (out_dir / "input.txt").write_text(text or "", encoding="utf-8")
+            (out_dir / "options.json").write_text(
+                json.dumps(
+                    {"support_max": support_max, "source_name": source_name, "figures": bool(figures)},
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+        except Exception:
+            pass
 
     def progress(pct: int, stage: str) -> None:
         manager.update(job_id, progress=pct, stage=stage)
 
-    report = analyze_text(
-        text or "",
-        source_name,
-        support_max=support_max,
-        progress=progress,
-        library=library,
-        input_meta=input_meta,
-        figure_checks=figures,
-        pdf_path=file_path,
-    )
+    if cache_hit is None:
+        report = analyze_text(
+            text or "",
+            source_name,
+            support_max=support_max,
+            progress=progress,
+            library=library,
+            input_meta=input_meta,
+            figure_checks=figures,
+            pdf_path=file_path,
+        )
+        if cache_identity is not None:
+            status = "miss" if cache_identity["enabled"] else "disabled"
+            report["cache"] = {
+                "status": status,
+                "key": cache_identity["key"],
+                "versions": cache_identity["versions"],
+            }
+            if cache_identity["enabled"]:
+                stored = copy.deepcopy(report)
+                stored.pop("cache", None)
+                cache_identity["cache"].store(
+                    cache_identity["key"],
+                    stored,
+                    {
+                        "file": Path(file_path).name if file_path else source_name,
+                        "options": cache_identity["options"],
+                        "versions": cache_identity["versions"],
+                    },
+                )
     report["job_id"] = job_id
 
     # Build the annotated PDF while the uploaded file is still on disk: the
@@ -870,3 +943,4 @@ def run_job(
         except Exception:
             pass
     return report
+

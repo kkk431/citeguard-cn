@@ -104,3 +104,11 @@ python -m pytest tests -q
 - 修正：`pipeline._library_cache_fingerprint()` 把库文件内容（或传入 Library 的完整 `to_dict()`）哈希后写入 `versions["library"]`；库变化即换键，旧缓存不会命中。
 - 测试：`tests/test_b2_cache.py::test_library_fingerprint_changes_the_cache_key` 验证库从 missing 变为空库后第二次调用为 miss、键不同。
 - 边界：未接 web；热缓存 98.1 ms 不是冷启动；失败不缓存。
+
+
+## 8 Web 分析入口接入（1.7.50）
+
+- `pipeline.run_job` 先按文件字节、options、prompt/audit/judge 版本与**本地题录库指纹**算键；命中时深拷贝缓存报告、把 `input` 改为当前上传文件名、进度置 60，跳过抽取与核验；未命中走原流程并回写缓存。
+- 端到端实测（`scripts/measure_b2_web.py`，POST `/api/analyze`，support_max=0）：冷 **4.638 s / cache miss**，热 **2.063 s / cache hit**，同 key `6b03ab1dd6f582cbd207959a1809cec5`；数据 `data/experiments/opt_b2_web_2026-11-27.json`。
+- 测试：`tests/test_b2_cache.py::test_run_job_reuses_the_result_cache_for_web_uploads`；全套 1131 passed。
+- 边界：热缓存不是冷启动；库、提示词、判官模型任一变化即换键；失败不缓存。

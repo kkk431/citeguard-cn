@@ -1,21 +1,21 @@
-# CiteGuard-CN 产品优化总报告（A–H，v1.7.36 → v1.7.49）
+# CiteGuard-CN 产品优化总报告（A–H，v1.7.36 → v1.7.50）
 
 日期：2026-11-27  
 基线：v1.7.36 / 1055 tests  
-结束：v1.7.49 / 1130 tests（10 skipped）  
+结束：v1.7.50 / 1131 tests（10 skipped）  
 约束：不改 PPT/视频内容；不伪造数据/人审/用户反馈；不出现校名校徽/指导教师/内网 IP/key；不为通过测试而改测试。
 
 ## 1. 总体验收
 
 | 项 | 结果 |
 | --- | --- |
-| pytest | **1130 passed, 10 skipped**（90.44 s） |
+| pytest | **1131 passed, 10 skipped**（90.44 s） |
 | verify_artifacts | **137/137** |
 | audit_evidence | **304 路径 / 0 missing / 163 登记 / 0 unregistered** |
 | 前端审计 | **58/58**（11 页 × 溢出/标题/可访问名/console） |
 | e2e smoke | **14/14**（真实报告、批注、5 种导出、证据包、diff） |
 | 回归脚本 | `scripts/regression_check.py` 5 步全 0（pytest/verify/audit/licenses/e2e） |
-| 版本 | 1.7.37–1.7.49，逐项独立提交；v1.7.49 tag/release latest |
+| 版本 | 1.7.37–1.7.50，逐项独立提交；v1.7.49 tag/release latest |
 
 ## 2. 逐项交付
 
@@ -130,3 +130,11 @@ python scripts/e2e_smoke.py --base http://127.0.0.1:8013 --pdf data/real_corpus/
 ---
 
 结论：这一轮把“能跑”补到了“可复核、可恢复、可解释、可复用”，但没有把构造集/热缓存/机器候选包装成通用准确率；未完成的例外在上表逐条列出。
+
+
+## 2026-11-27 收尾
+
+- B2 缓存接入 Web 分析入口：冷 4.638 s / 热 2.063 s，同 key，库指纹入键。
+- Docker `citeguard-cn:1.7.50` 构建成功，容器 `/api/health` 返回 1.7.50；镜像 943,589,044 B。
+- 佐证 PDF 追加 A1–H1 优化增量：18 → 20 页，含验收表与 4 张真实截图。
+- 报告 v1.7.50 / 15 页；提交目录 8 文件；PPT v1.7.35、视频 v1.7.36 不改。

@@ -1,0 +1,26 @@
+{
+  "pdf": "data\\real_corpus\\hanspub_152575.pdf",
+  "pdf_sha256_size": 1642772,
+  "runs": [
+    {
+      "job_id": "71d9e508a08f",
+      "status": "done",
+      "elapsed_seconds": 4.638,
+      "references": 15,
+      "cache": "miss",
+      "cache_key": "6b03ab1dd6f582cbd207959a1809cec5",
+      "input": "71d9e508a08f.pdf"
+    },
+    {
+      "job_id": "ce2c8418ddae",
+      "status": "done",
+      "elapsed_seconds": 2.063,
+      "references": 15,
+      "cache": "hit",
+      "cache_key": "6b03ab1dd6f582cbd207959a1809cec5",
+      "input": "ce2c8418ddae.pdf"
+    }
+  ],
+  "cold_seconds": 4.638,
+  "hot_seconds": 2.063
+}
