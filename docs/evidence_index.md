@@ -209,6 +209,6 @@
 
 | E134 | 断言级对齐语义回放（B1.1，v1.7.51） | `src/citeguard/atomic_alignment.py`、`tests/test_atomic_alignment.py`、`scripts/eval_b1_1_alignment_semantic.py`、`docs/optimization/b1_1_alignment.md` | 31 条机器证据（人工 8 correct / 23 issue）：直接 judge P .5385/R .875/F1 **.6667**；断言拆解 P .5000/R .875/F1 **.6364**；负结果，不接产品默认路径 | `data/experiments/opt_b1_1_alignment_semantic_2026-11-27.json` |
 
-| E135 | 引用链 2 跳（B2.1，v1.7.52） | `src/citeguard/retraction.py`、`tests/test_retraction.py`、`docs/optimization/b2_1_chain_2hop.md` | `check_chain(max_hops=2,hop2_limit=3)`：直接引用后查最多 3 条中继的参考文献；单测 W1/W2→W9 撤稿通过，retraction 11 passed；真实 smoke 两 DOI 均 `error/引用列表查询失败`，**无真实覆盖率**，产品默认仍 1 跳 | `data/experiments/opt_b2_1_chain_2hop_2026-11-27.json` |
+| E135 | 引用链 2 跳（B2.1，v1.7.52） | `src/citeguard/retraction.py`、`tests/test_retraction.py`、`docs/optimization/b2_1_chain_2hop.md` | `check_chain(max_hops=2,hop2_limit=3)`：直接引用后查最多 3 条中继的参考文献；单测 W1/W2→W9 撤稿通过，retraction 11 passed；固定 8 DOI 样例：3 完成、5 个 OpenAlex 限流 error；唯一撤稿来自直接引用，2 跳无新增正例；**无真实 2 跳覆盖率/召回**，产品默认仍 1 跳 | `data/experiments/opt_b2_1_chain_2hop_2026-11-27.json` |
 
 | E136 | Batch 2.2/2.3/2.4 既有能力基线（v1.7.52） | `docs/optimization/b2_2_3_4_baseline.md`、`src/citeguard/pdf_extract.py`、`web/app.py` | 2.2 22 篇/529 条 clean 1.0（基线，非新算法）；2.3 SQLite/任务持久化/B2 缓存/请求指标，1162 tests + 回归 5/5；2.4 token 默认空、限流 120、host allowlist、日志不记 body；不把旧能力写成新方法 | `data/experiments/opt_b2_2_3_4_baseline_2026-11-27.json` |

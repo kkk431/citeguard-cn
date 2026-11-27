@@ -1,0 +1,110 @@
+{
+  "date": "2026-11-27",
+  "method": "check_chain(max_refs=8, max_hops=2, hop2_limit=2)",
+  "sample_size": 8,
+  "rows": [
+    {
+      "doi": "10.1038/nature14539",
+      "status": "clean",
+      "sampled": 8,
+      "checked": 8,
+      "coverage": 1.0,
+      "second_sampled": 5,
+      "second_degree": [],
+      "direct_retracted": [],
+      "detail": "本次抽样未发现撤稿",
+      "elapsed_s": 1.61
+    },
+    {
+      "doi": "10.1080/14653240600855905",
+      "status": "indirect",
+      "sampled": 8,
+      "checked": 8,
+      "coverage": 1.0,
+      "second_sampled": 20,
+      "second_degree": [],
+      "direct_retracted": [
+        {
+          "id": "W2158048826",
+          "doi": "https://doi.org/10.1038/nature00870",
+          "title": "RETRACTED ARTICLE: Pluripotency of mesenchymal stem cells derived from adult marrow"
+        }
+      ],
+      "detail": "抽样的 8 条引用文献中，1 条被撤稿",
+      "elapsed_s": 0.07
+    },
+    {
+      "doi": "10.48550/arXiv.1810.04805",
+      "status": "clean",
+      "sampled": 8,
+      "checked": 8,
+      "coverage": 1.0,
+      "second_sampled": 20,
+      "second_degree": [],
+      "direct_retracted": [],
+      "detail": "本次抽样未发现撤稿",
+      "elapsed_s": 4.93
+    },
+    {
+      "doi": "10.48550/arXiv.2205.14135",
+      "status": "error",
+      "sampled": null,
+      "checked": 0,
+      "coverage": 0.0,
+      "second_sampled": null,
+      "second_degree": [],
+      "direct_retracted": [],
+      "detail": "OpenAlex 不可用",
+      "elapsed_s": 0.0
+    },
+    {
+      "doi": "10.48550/arXiv.2312.00752",
+      "status": "error",
+      "sampled": null,
+      "checked": 0,
+      "coverage": 0.0,
+      "second_sampled": null,
+      "second_degree": [],
+      "direct_retracted": [],
+      "detail": "OpenAlex 不可用",
+      "elapsed_s": 0.0
+    },
+    {
+      "doi": "10.1145/3292500.3330701",
+      "status": "error",
+      "sampled": null,
+      "checked": 0,
+      "coverage": 0.0,
+      "second_sampled": null,
+      "second_degree": [],
+      "direct_retracted": [],
+      "detail": "OpenAlex 不可用",
+      "elapsed_s": 0.0
+    },
+    {
+      "doi": "10.1109/CVPR.2016.90",
+      "status": "error",
+      "sampled": null,
+      "checked": 0,
+      "coverage": 0.0,
+      "second_sampled": null,
+      "second_degree": [],
+      "direct_retracted": [],
+      "detail": "OpenAlex 不可用",
+      "elapsed_s": 0.0
+    },
+    {
+      "doi": "10.18653/v1/P19-1424",
+      "status": "error",
+      "sampled": null,
+      "checked": 0,
+      "coverage": 0.0,
+      "second_sampled": null,
+      "second_degree": [],
+      "direct_retracted": [],
+      "detail": "OpenAlex 不可用",
+      "elapsed_s": 0.0
+    }
+  ],
+  "note": "Fixed small DOI sample; not a representative benchmark. A clean row is a sample result, not a clean whole chain."
+}

@@ -8,10 +8,15 @@
     "passed": 11,
     "two_hop_case": "direct W1/W2 clean -> W9 retracted at second hop; second_sampled=2; second_degree=[W9]"
   },
-  "real_smoke": [
-    {"doi": "10.1080/14653240600855905", "max_hops": 2, "status": "error", "checked": 0, "detail": "引用列表查询失败"},
-    {"doi": "10.1038/nature14539", "max_hops": 2, "status": "error", "checked": 0, "detail": "引用列表查询失败"}
-  ],
+  "real_sample": {
+    "file": "data/experiments/opt_b2_1_chain_2hop_real_2026-11-27.json",
+    "sample_size": 8,
+    "completed": 3,
+    "errors": 5,
+    "error_reason": "OpenAlex unavailable/rate-limited during the run",
+    "direct_retracted": 1,
+    "second_degree_retracted": 0
+  },
   "coverage": null,
-  "caveat": "No real two-hop coverage number: OpenAlex reference batch returned failure. Unit fixture is synthetic and is not an accuracy claim. Product default remains one hop."
+  "conclusion": "No measured incremental value from two hops on the real sample; keep optional, product default one hop. Unit fixture is synthetic and is not an accuracy claim."
 }
