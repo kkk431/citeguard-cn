@@ -1,0 +1,132 @@
+{
+  "schema": "b1_4_lexical_baseline_v1",
+  "topic": "ai_education",
+  "n": 10,
+  "max_score": 0.0497,
+  "mean_score": 0.017,
+  "median_score": 0.0125,
+  "insufficient": 10,
+  "verdict": "lexical baseline cannot align cross-language claim/evidence; judge or embedding required",
+  "rows": [
+    {
+      "claim_id": "edu-c1",
+      "evidence_id": "edu-e01",
+      "claim_chars": 54,
+      "evidence_chars": 230,
+      "quote_lang": "en",
+      "sentences": 1,
+      "max_lexical_score": 0.0,
+      "alignment_label": "insufficient",
+      "coverage": 0.0,
+      "subclaims": 1
+    },
+    {
+      "claim_id": "edu-c1",
+      "evidence_id": "edu-e02",
+      "claim_chars": 54,
+      "evidence_chars": 301,
+      "quote_lang": "en",
+      "sentences": 2,
+      "max_lexical_score": 0.025,
+      "alignment_label": "insufficient",
+      "coverage": 0.0,
+      "subclaims": 1
+    },
+    {
+      "claim_id": "edu-c2",
+      "evidence_id": "edu-e03",
+      "claim_chars": 40,
+      "evidence_chars": 237,
+      "quote_lang": "en",
+      "sentences": 1,
+      "max_lexical_score": 0.0,
+      "alignment_label": "insufficient",
+      "coverage": 0.0,
+      "subclaims": 1
+    },
+    {
+      "claim_id": "edu-c3",
+      "evidence_id": "edu-e04",
+      "claim_chars": 26,
+      "evidence_chars": 244,
+      "quote_lang": "en",
+      "sentences": 1,
+      "max_lexical_score": 0.0497,
+      "alignment_label": "insufficient",
+      "coverage": 0.0,
+      "subclaims": 1
+    },
+    {
+      "claim_id": "edu-c4",
+      "evidence_id": "edu-e05",
+      "claim_chars": 37,
+      "evidence_chars": 395,
+      "quote_lang": "en",
+      "sentences": 1,
+      "max_lexical_score": 0.0272,
+      "alignment_label": "insufficient",
+      "coverage": 0.0,
+      "subclaims": 1
+    },
+    {
+      "claim_id": "edu-c1",
+      "evidence_id": "edu-e06",
+      "claim_chars": 54,
+      "evidence_chars": 172,
+      "quote_lang": "en",
+      "sentences": 1,
+      "max_lexical_score": 0.0,
+      "alignment_label": "insufficient",
+      "coverage": 0.0,
+      "subclaims": 1
+    },
+    {
+      "claim_id": "edu-c1",
+      "evidence_id": "edu-e07",
+      "claim_chars": 54,
+      "evidence_chars": 172,
+      "quote_lang": "en",
+      "sentences": 1,
+      "max_lexical_score": 0.025,
+      "alignment_label": "insufficient",
+      "coverage": 0.0,
+      "subclaims": 1
+    },
+    {
+      "claim_id": "edu-c2",
+      "evidence_id": "edu-e08",
+      "claim_chars": 40,
+      "evidence_chars": 140,
+      "quote_lang": "en",
+      "sentences": 1,
+      "max_lexical_score": 0.0,
+      "alignment_label": "insufficient",
+      "coverage": 0.0,
+      "subclaims": 1
+    },
+    {
+      "claim_id": "edu-c4",
+      "evidence_id": "edu-e09",
+      "claim_chars": 37,
+      "evidence_chars": 102,
+      "quote_lang": "en",
+      "sentences": 1,
+      "max_lexical_score": 0.0,
+      "alignment_label": "insufficient",
+      "coverage": 0.0,
+      "subclaims": 1
+    },
+    {
+      "claim_id": "edu-c3",
+      "evidence_id": "edu-e10",
+      "claim_chars": 26,
+      "evidence_chars": 364,
+      "quote_lang": "en",
+      "sentences": 1,
+      "max_lexical_score": 0.0432,
+      "alignment_label": "insufficient",
+      "coverage": 0.0,
+      "subclaims": 1
+    }
+  ]
+}

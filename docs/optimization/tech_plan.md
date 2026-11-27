@@ -13,9 +13,12 @@
 
 ## Batch 1：断言级证据
 
+状态：1.1 已有词面基线审计，跨语言 10/10 insufficient（最高词面覆盖 0.0497）；
+`/api/support/check` 当前 503，语义 judge 不可用；无外部资源/embedding，按负结果记录，待 judge 恢复后再评。
+
 | 项 | 验收 | 证据 |
 | --- | --- | --- |
-| 1.1 断言拆解 + 全文证据对齐 | 子断言、证据跨度、full/partial/contradict/insufficient；span P/R | `data/experiments/opt_b1_evidence_*.json` |
+| 1.1 断言拆解 + 全文证据对齐 | 子断言、证据跨度、full/partial/contradict/insufficient；span P/R | `data/experiments/opt_b1_1_alignment_lexical_2026-11-27.json` |
 | 1.2 人机证据图共识 | claim–paper–evidence 三分图；人工 accept 才升级 | `data/experiments/opt_b1_graph_*.json` |
 | 1.3 Live 页面抽取前移 | 扩展侧/服务端兜底；中文页；页面→[n] 映射 | `data/experiments/opt_b1_live_*.json` |
 | 1.4 CiteMap 机器精度 | 105 格机器完整支持 precision | `data/experiments/opt_b1_citemap_*.json` |
