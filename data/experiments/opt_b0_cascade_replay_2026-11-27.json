@@ -1,0 +1,30 @@
+{
+  "generated_at": "2026-11-27",
+  "kind": "recorded_replay_not_a_new_model_run",
+  "n": 60,
+  "primary": {
+    "model": "qwen3-1.7b-lora",
+    "accuracy": 0.9667,
+    "macro_f1": 0.9721
+  },
+  "escalation": {
+    "model": "qwen3-14b-4bit",
+    "accuracy": 0.95,
+    "macro_f1": 0.9588
+  },
+  "oracle_escalation_all": {
+    "accuracy": 0.95,
+    "macro_f1": 0.9588
+  },
+  "cascade": {
+    "accuracy": 0.9667,
+    "macro_f1": 0.9721,
+    "routed": 0,
+    "route_reasons": {}
+  },
+  "config": {
+    "confidence_threshold": 0.8,
+    "max_primary_evidence_chars": 1200
+  },
+  "conclusion": "no measured gain"
+}

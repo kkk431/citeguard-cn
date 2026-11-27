@@ -72,6 +72,10 @@ class VerifyResult:
     # 2+ is cross-source agreement and is surfaced in the report.
     source_agreement: int = 0
     retracted: bool = False
+    # Version-aware resolution (preprint/published/conflict). Empty when no
+    # candidates were available; callers must treat it as evidence, not a
+    # forced verdict.
+    version: dict = field(default_factory=dict)
 
     def to_dict(self) -> dict:
         d = asdict(self)
@@ -1535,6 +1539,17 @@ def _unreliable_title(ref: Reference) -> str | None:
     return None
 
 
+def _version_dict(ref: Reference, candidates: list[Candidate]) -> dict:
+    """Best-effort version resolution; never let it break verification."""
+    try:
+        from .version_resolution import resolve_versions
+
+        return resolve_versions(ref, candidates).to_dict()
+    except Exception as exc:  # noqa: BLE001 - version annotation is optional
+        _LOGGER.debug("version resolution skipped: %s", exc)
+        return {}
+
+
 def _verify_reference(
     ref: Reference,
     use_arxiv: bool = True,
@@ -1747,6 +1762,7 @@ def _verify_reference(
             notes=notes,
             sources=doi_sources,
             source_agreement=len(agree),
+            version=_version_dict(ref, doi_cands),
         )
 
     # 2) No DOI: title search.
@@ -1833,6 +1849,7 @@ def _verify_reference(
         notes=notes,
         sources=sources,
         source_agreement=len(agree),
+        version=_version_dict(ref, candidates),
     )
 
 

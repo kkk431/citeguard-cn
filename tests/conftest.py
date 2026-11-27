@@ -48,6 +48,16 @@ def isolated_local_library(tmp_path, monkeypatch):
 
 
 @pytest.fixture(autouse=True)
+def reset_metadata_source_health():
+    """Source circuit breakers are process-global; never leak them between tests."""
+    from citeguard import metadata_verify
+
+    metadata_verify.reset_source_health()
+    yield
+    metadata_verify.reset_source_health()
+
+
+@pytest.fixture(autouse=True)
 def isolated_jobs_dir(tmp_path, monkeypatch):
     """Never let a test write into or clean the developer's real data/jobs."""
     from citeguard import jobs

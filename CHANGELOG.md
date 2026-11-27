@@ -1,3 +1,14 @@
+## [1.7.51] - 2026-11-27
+
+### Added
+- Batch 0 技术基线：`tech_eval_harness.py` 冻结 100 盲标、409 真实引用、529 解析、105 格 CiteMap、25/30 全文五组结果，输出 scorecard 与 5/5 门禁。
+- 成本感知级联策略 `model_cascade.py`：低置信/长证据/数字冲突才升级；回放显示当前 60 条 test 上 routed 0、无 F1 收益，故不设默认路径。
+- 版本感知实体消解 `version_resolution.py`：DOI/arXiv 归一、预印本/正式版版本族、第一作者冲突、provenance；接入 `VerifyResult.version`，6 个 known-work 用例 6/6。
+
+### Verified
+- 1148 tests / 10 skipped；verify 137/137；证据索引 314 路径 / 168 截图 / 0 unregistered。
+- 级联回放与版本 fixture 均为负结果/已知作品，不冒充随机样本或新模型运行。
+
 ## [1.7.50] - 2026-11-27
 
 - B2 结果缓存接入 Web 分析入口：同一文件、同一选项、同一提示词/判官/本地库版本命中缓存，页面任务直接复用报告；缓存未命中仍需完整跑一遍。

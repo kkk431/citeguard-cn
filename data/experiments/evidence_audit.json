@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 310,
+  "paths_checked": 314,
   "missing": [],
   "rows": [
     {
@@ -1334,6 +1334,26 @@
       "exists": true
     },
     {
+      "evidence": "E131",
+      "path": "docs/evidence/shots/opt-B0-bench-1.7.51-1440.png",
+      "exists": true
+    },
+    {
+      "evidence": "E131",
+      "path": "data/experiments/opt_b0_harness_2026-11-27.json",
+      "exists": true
+    },
+    {
+      "evidence": "E131",
+      "path": "data/experiments/opt_b0_cascade_replay_2026-11-27.json",
+      "exists": true
+    },
+    {
+      "evidence": "E131",
+      "path": "data/experiments/opt_b0_version_cases_2026-11-27.json",
+      "exists": true
+    },
+    {
       "evidence": "E128",
       "path": "docs/optimization/e3_citemap_expand.md",
       "exists": true
@@ -1444,6 +1464,6 @@
       "exists": true
     }
   ],
-  "shots_registered": 167,
+  "shots_registered": 168,
   "shots_unregistered": []
 }

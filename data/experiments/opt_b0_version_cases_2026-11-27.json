@@ -1,0 +1,171 @@
+{
+  "schema": "citeguard.version_resolution_cases.v1",
+  "kind": "known_work_fixture_not_random_sample",
+  "n": 6,
+  "passed": 6,
+  "results": [
+    {
+      "id": "attention-2017",
+      "title": "Attention Is All You Need",
+      "expected_status": "version_family",
+      "actual_status": "version_family",
+      "cited_year_supported": true,
+      "conflicts": [],
+      "notes": [
+        "同一作品存在多个版本/来源（preprint、published）；引文年份可由其中一个版本支持"
+      ],
+      "chosen": "",
+      "provenance": [
+        {
+          "source": "arxiv",
+          "identity": "arxiv:1706.03762",
+          "kind": "preprint",
+          "doi": "",
+          "year": 2017,
+          "venue": "",
+          "url": "https://arxiv.org/abs/1706.03762"
+        },
+        {
+          "source": "openalex",
+          "identity": "doi:10.5555/3295222",
+          "kind": "published",
+          "doi": "10.5555/3295222",
+          "year": 2017,
+          "venue": "NeurIPS",
+          "url": ""
+        }
+      ],
+      "pass": true
+    },
+    {
+      "id": "bert-2018",
+      "title": "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+      "expected_status": "version_family",
+      "actual_status": "version_family",
+      "cited_year_supported": true,
+      "conflicts": [],
+      "notes": [
+        "同一作品存在多个版本/来源（preprint、published）；引文年份可由其中一个版本支持"
+      ],
+      "chosen": "",
+      "provenance": [
+        {
+          "source": "arxiv",
+          "identity": "arxiv:1810.04805",
+          "kind": "preprint",
+          "doi": "",
+          "year": 2018,
+          "venue": "",
+          "url": "https://arxiv.org/abs/1810.04805"
+        },
+        {
+          "source": "crossref",
+          "identity": "doi:10.18653/v1/n19-1423",
+          "kind": "published",
+          "doi": "10.18653/v1/N19-1423",
+          "year": 2019,
+          "venue": "NAACL",
+          "url": ""
+        }
+      ],
+      "pass": true
+    },
+    {
+      "id": "resnet-2015",
+      "title": "Deep Residual Learning for Image Recognition",
+      "expected_status": "version_family",
+      "actual_status": "version_family",
+      "cited_year_supported": true,
+      "conflicts": [],
+      "notes": [
+        "同一作品存在多个版本/来源（preprint、published）；引文年份可由其中一个版本支持"
+      ],
+      "chosen": "",
+      "provenance": [
+        {
+          "source": "arxiv",
+          "identity": "arxiv:1512.03385",
+          "kind": "preprint",
+          "doi": "",
+          "year": 2015,
+          "venue": "",
+          "url": "https://arxiv.org/abs/1512.03385"
+        },
+        {
+          "source": "crossref",
+          "identity": "doi:10.1109/cvpr.2016.90",
+          "kind": "published",
+          "doi": "10.1109/CVPR.2016.90",
+          "year": 2016,
+          "venue": "CVPR",
+          "url": ""
+        }
+      ],
+      "pass": true
+    },
+    {
+      "id": "same-doi-two-indexes",
+      "title": "Attention Is All You Need",
+      "expected_status": "same_version",
+      "actual_status": "same_version",
+      "cited_year_supported": true,
+      "conflicts": [],
+      "notes": [
+        "题名/作者一致，未发现多版本证据"
+      ],
+      "chosen": "10.5555/3295222",
+      "provenance": [
+        {
+          "source": "openalex",
+          "identity": "doi:10.5555/3295222",
+          "kind": "published",
+          "doi": "10.5555/3295222",
+          "year": 2017,
+          "venue": "NeurIPS",
+          "url": ""
+        }
+      ],
+      "pass": true
+    },
+    {
+      "id": "different-author-same-title",
+      "title": "Attention Is All You Need",
+      "expected_status": "conflict",
+      "actual_status": "conflict",
+      "cited_year_supported": true,
+      "conflicts": [
+        "authors"
+      ],
+      "notes": [
+        "题名一致但第一作者不一致，可能是书评/同名作品；不得当作同一版本"
+      ],
+      "chosen": "10.1000/wrong",
+      "provenance": [
+        {
+          "source": "crossref",
+          "identity": "doi:10.1000/wrong",
+          "kind": "published",
+          "doi": "10.1000/wrong",
+          "year": 2017,
+          "venue": "Other",
+          "url": ""
+        }
+      ],
+      "pass": true
+    },
+    {
+      "id": "no-close-match",
+      "title": "Attention Is All You Need",
+      "expected_status": "insufficient",
+      "actual_status": "insufficient",
+      "cited_year_supported": false,
+      "conflicts": [],
+      "notes": [
+        "没有题名相似度 ≥0.90 的候选，无法判断版本"
+      ],
+      "chosen": null,
+      "provenance": [],
+      "pass": true
+    }
+  ]
+}
