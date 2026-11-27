@@ -8,7 +8,7 @@
 | 资源清单 | v1.7.50 / 2 页 / 144,778 B | 无新增第三方依赖；readability/Europe PMC/Qwen3-VL/4B 已在册 | 可保持 |
 | 佐证材料 | v1.7.50 / 20 页 / 2,503,525 B | 已追加 A1–H1 优化增量（验收表+4 张真实截图） | 已更新 |
 | 提交目录 | 8 文件 | 报告/资源清单/佐证均 v1.7.50；zip 27,611,303 B / sha `31f25160d32a94f153034894260b30060a8a7d0b999e957c56205c4447d9f093` | 已更新 |
-| GitHub | main `396c8af` / tag v1.7.49 | release latest v1.7.49（https://github.com/kkk431/citeguard-cn/releases/tag/v1.7.49，页面指向 `396c8af`）；CI #415 success（`396c8af`）、#416 success（`f1087ee`）、#414 failed（旧 `35d82a0` SBOM 未刷新，已修） | 已更新 |
+| GitHub | main `9318c6f` / tag v1.7.50 | release latest v1.7.50（https://github.com/kkk431/citeguard-cn/releases/tag/v1.7.50，页面指向 `9318c6f`）；CI `9318c6f` success（GitHub Actions 0318c6f） | 已更新 |
 | 平台字段 | 名称/简介已定 | 报告/佐证更新后字段不变 | 待确认 |
 | PPT/视频 | v1.7.35 / v1.7.36 | 用户明确不改内容 | 保持 |
 
@@ -36,3 +36,6 @@
 - 2026-11-27：B2 缓存接入 Web 分析入口（冷 4.638 s / 热 2.063 s）；Docker `citeguard-cn:1.7.50` 构建并通过 health；镜像 943,589,044 B。
 - 2026-11-27：技术报告重建 v1.7.50/15 页/1,702,624 B；资源清单 v1.7.50/2 页/144,778 B；佐证 v1.7.50/20 页/2,503,525 B；提交 zip 27,611,303 B / sha `31f25160…`。
 - 已知不变：PPT v1.7.35、视频 v1.7.36（用户指定不改）；无公网演示。
+
+- 2026-11-27：B2 Web 缓存提交 `9318c6f`；tag/release `v1.7.50` 已指向 `9318c6f` 并设为 Latest；CI success。
+- 2026-11-27：技术报告 15 页/1,702,624 B；资源清单 2 页/144,778 B；佐证 20 页/2,503,525 B；提交 zip 27,611,303 B / sha `31f25160…`。
