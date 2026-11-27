@@ -74,4 +74,5 @@
 - 提交目录：01 换 v1.7.53；提交说明 v1.7.53；资源清单 v1.7.50、佐证 v1.7.51、PPT v1.7.35、视频 v1.7.36 为已知例外。
 - 提交 zip：`dist/CiteGuard-CN_AIC-2026-67377639_v1.7.53.zip` 27,624,935 B / sha `58ae986ceb405d29acabe02c0c6897328a22d8f2a9522ac315fb2d58b7b33f41`。
 - 技术基线：2.1 两跳实现但真实样例无新增正例；2.2/2.3/2.4 为既有能力证据化，不包装成新方法。
-- 待办：Git commit/tag v1.7.53/release latest；CI 确认；佐证 PDF 未追加 Batch 2。
+- Git：commit `9991c83`；tag v1.7.53 指向 `9991c83`；GitHub release `v1.7.53 — Batch 2 technical baseline` 已设为 Latest；CI 待确认。
+- 已知例外：佐证 PDF 仍 v1.7.51/21 页（未追加 Batch 2）、资源清单 v1.7.50、Docker 1.7.50、PPT/v1.7.35、视频/v1.7.36。
