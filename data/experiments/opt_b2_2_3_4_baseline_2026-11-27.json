@@ -1,0 +1,30 @@
+{
+  "date": "2026-11-27",
+  "items": {
+    "2.2_layout_parse": {
+      "status": "existing_baseline_no_new_algorithm",
+      "corpus_papers": 22,
+      "references": 529,
+      "clean": 1.0,
+      "blind_test_5": "3/3 papers >=95% title health",
+      "source": "data/experiments/parse_real.json"
+    },
+    "2.3_engineering_reliability": {
+      "status": "existing_capabilities_verified",
+      "tests": "1162 passed / 10 skipped",
+      "verify": "137/137",
+      "regression_steps": "5/5 exit 0, e2e 14/14",
+      "components": ["SQLite history", "job JSON persistence/resume", "B2 result cache", "request metrics"]
+    },
+    "2.4_security_privacy": {
+      "status": "existing_capabilities_verified",
+      "access_token_default": "",
+      "rate_limit_per_min": 120,
+      "ssrf": "host allowlist + per-hop redirect check",
+      "logs": "method/path/status/latency/request-id, no body/query/credentials",
+      "licenses": "core requirements has no PyMuPDF/fitz; optional PyMuPDF AGPL opt-in",
+      "tests": ["H3 3/3", "tests/test_live_page.py 27", "tests/test_observability.py 2"]
+    }
+  },
+  "caveat": "2.2 is a baseline, not a new parsing method. 2.3/2.4 record existing controls; no new algorithm invented."
+}
