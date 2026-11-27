@@ -75,4 +75,5 @@
 - 提交 zip：`dist/CiteGuard-CN_AIC-2026-67377639_v1.7.53.zip` 27,624,935 B / sha `58ae986ceb405d29acabe02c0c6897328a22d8f2a9522ac315fb2d58b7b33f41`。
 - 技术基线：2.1 两跳实现但真实样例无新增正例；2.2/2.3/2.4 为既有能力证据化，不包装成新方法。
 - Git：commit `9991c83`；tag v1.7.53 指向 `9991c83`；GitHub release `v1.7.53 — Batch 2 technical baseline` 已设为 Latest；CI 待确认。
-- 已知例外：佐证 PDF 仍 v1.7.51/21 页（未追加 Batch 2）、资源清单 v1.7.50、Docker 1.7.50、PPT/v1.7.35、视频/v1.7.36。
+- Docker：`citeguard-cn:1.7.53` 构建成功（949 MB），容器 `/api/health` 返回 `{"ok":true,"version":"1.7.53"}`；报告正文仍写“最近验证 1.7.50”（不虚报）。
+- 已知例外：佐证 PDF 仍 v1.7.51/21 页（未追加 Batch 2）、资源清单 v1.7.50、PPT/v1.7.35、视频/v1.7.36。
