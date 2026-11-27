@@ -1,0 +1,55 @@
+{
+  "source": "data/experiments/citemap_audit_105/merged.csv",
+  "rows": 101,
+  "summary": {
+    "cells": 101,
+    "machine_evidence": 31,
+    "no_evidence": 70,
+    "accepted": 70,
+    "contested": 18,
+    "rejected": 13,
+    "pending": 0,
+    "machine_accepted": 5,
+    "machine_rejected": 12
+  },
+  "machine_evidence_accepted": 5,
+  "machine_evidence_rejected": 12,
+  "machine_evidence_contested": 14,
+  "accepted_machine_edges": [
+    {
+      "cell_id": "full-ai_education-edu-010-edu-c4",
+      "claim_id": "edu-c4",
+      "paper_id": "edu-010"
+    },
+    {
+      "cell_id": "full-medical_imaging-med-003-med-c1",
+      "claim_id": "med-c1",
+      "paper_id": "med-003"
+    },
+    {
+      "cell_id": "full-medical_imaging-med-007-med-c1",
+      "claim_id": "med-c1",
+      "paper_id": "med-007"
+    },
+    {
+      "cell_id": "full-medical_imaging-med-011-med-c2",
+      "claim_id": "med-c2",
+      "paper_id": "med-011"
+    },
+    {
+      "cell_id": "full-medical_imaging-med-013-med-c1",
+      "claim_id": "med-c1",
+      "paper_id": "med-013"
+    }
+  ],
+  "by_kind_status": {
+    "无机器证据|accepted": 65,
+    "无机器证据|contested": 4,
+    "无机器证据|rejected": 1,
+    "机器证据|accepted": 5,
+    "机器证据|contested": 14,
+    "机器证据|rejected": 12
+  },
+  "rule": "accepted only if all three reviewers say correct; 2:1 is contested; machine confidence cannot self-promote",
+  "caveat": "101 resolved rows of the 105-cell grid; not a new product accuracy number"
+}

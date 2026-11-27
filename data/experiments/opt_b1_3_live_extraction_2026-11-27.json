@@ -1,0 +1,28 @@
+{
+  "item": "B1.3 Live 页面抽取前移",
+  "date": "2026-11-27",
+  "source": "data/experiments/live_spike.json",
+  "method": "6 pages (arXiv/PMC/Wikipedia), readability + body fallback + anchor/text marker merge",
+  "summary": {
+    "pages_requested": 6,
+    "pages_ok": 6,
+    "pages_from_cache": 1,
+    "reference_count": 252,
+    "markers_total": 451,
+    "markers_mapped": 451,
+    "mapped_ratio": 1.0,
+    "reference_sentences": 317,
+    "mapped_sources": 246,
+    "claims_total": 30,
+    "claims_marker_mapped": 30,
+    "claims_source_located": 30
+  },
+  "product": {
+    "endpoint": "POST /api/live/page",
+    "hosts": ["arxiv.org", "wikipedia.org", "pmc.ncbi.nlm.nih.gov", "www.ncbi.nlm.nih.gov"],
+    "returns": ["reference_count", "markers_total", "markers_mapped", "mapped_ratio", "mapped_sources", "reference_sentences", "sample"],
+    "boundary": "只做定位，不判真伪；出版商页面/中文真页未验证"
+  },
+  "status": "validated existing capability",
+  "caveat": "6 pages is a small fixture; 100% mapping is on those pages only"
+}
