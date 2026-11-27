@@ -1,6 +1,6 @@
 {
   "index": "docs/evidence_index.md",
-  "paths_checked": 314,
+  "paths_checked": 324,
   "missing": [],
   "rows": [
     {
@@ -1462,8 +1462,58 @@
       "evidence": "E130",
       "path": "data/experiments/opt_g6_h3_h4_2026-11-27.json",
       "exists": true
+    },
+    {
+      "evidence": "E132",
+      "path": "docs/optimization/b1_4_citemap_gate.md",
+      "exists": true
+    },
+    {
+      "evidence": "E132",
+      "path": "docs/evidence/shots/opt-B1.4-citemap-gate-1.7.51-1440.png",
+      "exists": true
+    },
+    {
+      "evidence": "E132",
+      "path": "docs/evidence/shots/opt-B1.4-citemap-gate-1.7.51-1280.png",
+      "exists": true
+    },
+    {
+      "evidence": "E132",
+      "path": "data/experiments/opt_b1_4_citemap_gate_2026-11-27.json",
+      "exists": true
+    },
+    {
+      "evidence": "E133",
+      "path": "docs/optimization/b1_2_consensus.md",
+      "exists": true
+    },
+    {
+      "evidence": "E133",
+      "path": "docs/optimization/b1_3_live_extraction.md",
+      "exists": true
+    },
+    {
+      "evidence": "E133",
+      "path": "data/experiments/opt_b1_2_consensus_2026-11-27.json",
+      "exists": true
+    },
+    {
+      "evidence": "E133",
+      "path": "data/experiments/opt_b1_3_live_extraction_2026-11-27.json",
+      "exists": true
+    },
+    {
+      "evidence": "E134",
+      "path": "docs/optimization/b1_1_alignment.md",
+      "exists": true
+    },
+    {
+      "evidence": "E134",
+      "path": "data/experiments/opt_b1_1_alignment_semantic_2026-11-27.json",
+      "exists": true
     }
   ],
-  "shots_registered": 168,
+  "shots_registered": 170,
   "shots_unregistered": []
 }
