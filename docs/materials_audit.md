@@ -66,5 +66,5 @@
 - 提交目录：01 换 v1.7.52；提交说明 v1.7.52；资源清单 v1.7.50、佐证 v1.7.51、PPT v1.7.35、视频 v1.7.36 为已知例外。
 - 提交 zip：`dist/CiteGuard-CN_AIC-2026-67377639_v1.7.52.zip` 27,623,831 B / sha `5a559d9b05bc2e57697aa3a71c116fcea7e760a1763f9f85d01c01827053c9dd`。
 - 证据：tests 1161；verify 137/137；evidence_audit 324 路径 / 170 截图 / 0 missing / 0 unregistered；E133/E134。
-- Git：待提交/推送/tag v1.7.52/release latest；CI 待确认。
+- Git：commit `5e5ee46`；tag v1.7.52 指向 `5e5ee46`；GitHub release latest `v1.7.52 — Batch 1 technical baseline` 已创建；CI #429 success（1m13s）。
 - 已知例外：PPT v1.7.35、视频 v1.7.36、佐证 PDF v1.7.51/21 页（Batch 1 未追加）、资源清单 v1.7.50、Docker 1.7.50；无公网演示。
